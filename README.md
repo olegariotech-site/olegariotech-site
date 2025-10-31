@@ -1,16 +1,20 @@
-## Hi there 👋
+# OLEGARIO TECH — Site
+Por **Alexandre Olegario**.
 
-<!--
-**olegariotech-site/olegariotech-site** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Estrutura
+- `index.html` — página única (Hero, E-books, Depoimentos, CTA fixo, FAQ, WhatsApp).
+- `logo.jpg`, `capa-vendas.jpg`, `capa-calistenia.jpg`, `og-image.jpg`, `favicon.ico`.
 
-Here are some ideas to get you started:
+## Editar textos/imagens
+1. Abra `index.html` num editor (VS Code recomendado).
+2. Troque textos nas seções (procure por: Hero, E-books, Depo, FAQ).
+3. Substitua imagens mantendo o mesmo nome do arquivo.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Publicar (GitHub + Netlify)
+- Suba os arquivos neste repositório e clique em **Commit changes**.
+- O Netlify publica automaticamente.
+
+## Links
+- Vendas (Kiwify): https://pay.kiwify.com.br/rmmRvfc
+- Calistenia: https://pay.kiwify.com.br/lt9RRvy
+- WhatsApp: +55 11 91245-9144
