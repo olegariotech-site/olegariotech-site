@@ -1,412 +1,211 @@
-<!doctype html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
+>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OLEGARIO TECH — Performance e Tecnologia</title>
-
-  <!-- Open Graph / Preview -->
+  <title>OLEGARIO TECH — Métodos que Geram Resultado Real</title>
+  <meta name="description" content="Métodos práticos para vender mais e treinar melhor. Testados no chão de loja e na vida real. Zero desculpas — só performance.">
+  <meta name="author" content="Alexandre Olegario" />
   <meta property="og:title" content="OLEGARIO TECH — Performance e Tecnologia">
-  <meta property="og:description" content="Métodos práticos para vender mais e treinar melhor. Zero desculpas — só performance.">
-  <meta property="og:image" content="Logo Translucido.png">
+  <meta property="og:description" content="Métodos práticos para vender mais e treinar melhor.">
+  <meta property="og:image" content="ativos/img/Logo Translucido.png">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://olegariotech.netlify.app/">
-  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="ativos/img/Logo Translucido.png" />
 
-  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    :root { --brand:#fbbf24; } /* amber-400 */
-
-    /* efeitos de entrada */
-    .fade-up { opacity:0; transform: translateY(10px); transition: .5s ease; }
-    .fade-up.show { opacity:1; transform: translateY(0); }
-
-    /* CTA fixo no rodapé */
-    .cta-fixed-wrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none}
-    .cta-fixed{pointer-events:auto; backdrop-filter: blur(6px); background:rgba(17,17,17,.85); border-top:1px solid #262626}
-
-    /* FAB Whats sem sobrepor CTA */
-    .fab-whats{position:fixed; right:20px; bottom:88px; z-index:60;}
-    @media (min-width: 768px){ .fab-whats{bottom:84px;} }
-
-    /* Botão Premium com leve "pulse" */
-    .btn-primary{
-      background: var(--brand);
-      color: #111827; /* neutral-900 */
-      border-radius: 0.75rem; /* xl */
-      padding: .75rem 1.25rem;
-      font-weight: 700;
-      display:inline-flex;align-items:center;justify-content:center;
-      box-shadow: 0 0 0 0 rgba(251,191,36,0.0);
-      transition: transform .15s ease, box-shadow .3s ease, background .15s ease, color .15s ease;
-      will-change: transform, box-shadow;
+    html { scroll-behavior: smooth; }
+    .gradient-bg { background: radial-gradient(circle at top right, rgba(255,200,10,0.15), transparent 60%); }
+    .fade-up { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .pulse {
+      animation: pulse 2s infinite;
     }
-    .btn-primary:hover{
-      background: #fcd34d; /* amber-300 */
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(251,191,36,.25);
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
-    .pulse{ animation: pulse-soft 2.4s ease-in-out infinite; }
-    @keyframes pulse-soft{
-      0%   { transform: translateY(0) scale(1); box-shadow: 0 0 0 0 rgba(251,191,36,0.0); }
-      50%  { transform: translateY(-1px) scale(1.015); box-shadow: 0 10px 28px rgba(251,191,36,.22); }
-      100% { transform: translateY(0) scale(1); box-shadow: 0 0 0 0 rgba(251,191,36,0.0); }
+    #ctaFixed { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 40; background: rgba(15,15,15,0.95); border-top: 1px solid rgba(255,193,7,0.3); }
+    #whatsappFloat {
+      position: fixed; bottom: 90px; right: 20px; z-index: 50;
+      background-color: #25D366; color: white; border-radius: 50%;
+      width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-    .btn-primary:hover{ animation-play-state: paused; }
-    @media (prefers-reduced-motion: reduce){ .pulse{ animation: none; } }
-
-    /* FAQ setinha quando abre/fecha */
-    .faq-btn .chev { transition: transform .25s ease; }
-    .faq-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+    #whatsappFloat:hover { background-color: #1ebe5d; }
+    #topBtn {
+      position: fixed; bottom: 160px; right: 20px; background: rgba(255,255,255,0.1);
+      color: #FFC107; border: 1px solid #FFC107; border-radius: 50%; width: 50px; height: 50px;
+      display: none; align-items: center; justify-content: center; font-size: 20px; z-index: 50;
+    }
+    #topBtn:hover { background-color: #FFC107; color: black; }
   </style>
 </head>
-<body class="bg-black text-neutral-200 antialiased">
 
-  <!-- Header -->
-  <header class="border-b border-neutral-900">
-    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="Logo Translucido.png" alt="Olegario Tech" class="h-9 w-9 rounded-md object-cover">
-        <div class="text-sm leading-tight">
-          <p class="font-bold tracking-wide">OLEGARIO TECH</p>
-          <p class="text-neutral-400">por Alexandre Olegario</p>
-        </div>
-      </div>
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#metodos" class="hover:text-white text-neutral-300">Métodos</a>
-        <a href="#depoimentos" class="hover:text-white text-neutral-300">Depoimentos</a>
-        <a href="#faq" class="hover:text-white text-neutral-300">FAQ</a>
-      </nav>
+<body class="bg-neutral-950 text-neutral-100 font-sans leading-relaxed">
+
+  <!-- HEADER -->
+  <header class="container mx-auto px-6 py-4 flex justify-between items-center border-b border-neutral-800">
+    <div class="flex items-center gap-3">
+      <img src="ativos/img/Logo Translucido.png" alt="OLEGARIO TECH logo" class="w-8 h-8 rounded-full">
+      <span class="text-sm font-semibold text-neutral-300">OLEGARIO TECH<br><span class="text-xs text-neutral-500">por Alexandre Olegario</span></span>
     </div>
+    <nav class="flex gap-6 text-sm">
+      <a href="#metodos" class="hover:text-amber-400">Métodos</a>
+      <a href="#resultados" class="hover:text-amber-400">Resultados</a>
+      <a href="#sobre" class="hover:text-amber-400">Sobre</a>
+    </nav>
   </header>
 
-  <!-- Hero -->
-  <section class="py-12 md:py-16 border-b border-neutral-900" style="background: radial-gradient(80% 120% at 50% 0%, rgba(251,191,36,.12) 0%, rgba(10,10,10,1) 60%);">
-    <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+  <!-- HERO -->
+  <section class="gradient-bg py-16 md:py-24">
+    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
       <div>
-        <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight">
-          OLEGARIO TECH —<br>
-          <span class="text-[color:var(--brand)]">Performance</span> e <span class="text-white/90">Tecnologia.</span>
-        </h1>
-        <p class="mt-4 text-neutral-300 max-w-xl">Métodos práticos para vender mais e treinar melhor. Testados no chão de loja e na vida real.</p>
-        <div class="mt-6 flex flex-col sm:flex-row gap-3">
-          <a href="#metodos" class="btn-primary">Ver métodos</a>
-          <a href="https://wa.me/5511912459144" class="px-6 py-3 rounded-xl font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900">Falar com Alexandre</a>
+        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">OLEGARIO TECH — <span class="text-amber-400">Performance</span> e <span class="text-amber-400">Tecnologia</span>.</h1>
+        <p class="mt-4 text-neutral-400">Métodos práticos para vender mais e treinar melhor. Testados no chão de loja e na vida real.</p>
+        <div class="flex gap-3 mt-6">
+          <a href="#metodos" class="bg-amber-400 text-black font-semibold py-2 px-4 rounded hover:bg-amber-300">Ver métodos</a>
+          <a href="https://wa.me/5519974059590" target="_blank" class="border border-amber-400 text-amber-400 font-semibold py-2 px-4 rounded hover:bg-amber-400 hover:text-black">Falar com Alexandre</a>
         </div>
       </div>
-      <div class="rounded-2xl overflow-hidden">
-        <img src="Logo Translucido.png" alt="Olegario Tech" class="w-full h-full object-cover opacity-95">
+      <div class="flex justify-center">
+        <img src="ativos/img/Logo Translucido.png" alt="Logo Alexandre Olegario" class="w-64 md:w-80">
       </div>
     </div>
   </section>
 
-  <!-- Métodos -->
-  <section id="metodos" class="py-14 border-b border-neutral-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">Métodos em destaque</h2>
-
-      <div class="mt-8 grid md:grid-cols-2 gap-8">
-        <!-- Método Vendas -->
-        <article class="rounded-2xl border border-neutral-900 overflow-hidden bg-neutral-950">
-          <img src="O Manual de Prospecção.jpeg" alt="Método de Fechamento — Destrave suas Vendas" class="w-full object-cover">
-          <div class="p-6">
-            <h3 class="text-xl md:text-2xl font-semibold text-white">Destrave suas Vendas: do Contato ao Fechamento</h3>
-            <p class="mt-2 text-neutral-300">Roteiros de abordagem, objeções e follow-up para aumentar taxa de fechamento no 0 km / seminovos.</p>
-            <ul class="mt-4 text-neutral-300 text-sm list-disc pl-5 space-y-1">
-              <li>SPIN na prática + respostas prontas</li>
-              <li>Cadência de follow-up 7 dias (modelos)</li>
-              <li>Checklists e KPIs essenciais</li>
-            </ul>
-            <div class="mt-5 flex gap-3">
-              <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=card_metodos&utm_campaign=vendas" class="btn-primary pulse">Quero vender mais</a>
-              <a href="https://wa.me/5511912459144?text=Ol%C3%A1%2C+tenho+d%C3%BAvidas+sobre+o+M%C3%A9todo+de+Vendas" class="px-5 py-3 rounded-xl font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900">Tirar dúvidas</a>
-            </div>
+  <!-- MÉTODOS -->
+  <section id="metodos" class="py-16 bg-neutral-950">
+    <div class="container mx-auto px-6 fade-up">
+      <h2 class="text-2xl font-bold mb-8">Métodos em destaque</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <article class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:border-amber-400 transition">
+          <img src="ativos/img/capa-vendas.jpg" alt="Método de Vendas" class="rounded mb-4">
+          <h3 class="text-xl font-semibold mb-2">Método Destrave suas Vendas — do Contato ao Fechamento</h3>
+          <p class="text-neutral-400 text-sm mb-4">Roteiros, objeções e follow-up para elevar suas vendas no 0 km e seminovos.</p>
+          <ul class="text-sm text-neutral-500 mb-4 list-disc ml-4">
+            <li>SPIN Selling + respostas assertivas</li>
+            <li>Cadência de follow-up 7 dias</li>
+            <li>Checklists e KPIs essenciais</li>
+          </ul>
+          <div class="flex gap-3">
+            <a href="https://pay.kiwify.com.br/rmmRvfc" class="bg-amber-400 text-black font-semibold py-2 px-3 rounded hover:bg-amber-300">Quero vender mais</a>
+            <a href="https://wa.me/5519974059590" class="border border-amber-400 text-amber-400 font-semibold py-2 px-3 rounded hover:bg-amber-400 hover:text-black">Dúvidas?</a>
           </div>
         </article>
 
-        <!-- Método Calistenia -->
-        <article class="rounded-2xl border border-neutral-900 overflow-hidden bg-neutral-950">
-          <img src="Capa Calistenia.jpeg" alt="Método Calistenia Total — 30 min/dia" class="w-full object-cover">
-          <div class="p-6">
-            <h3 class="text-xl md:text-2xl font-semibold text-white">Treino em Casa: 30 min/dia — Calistenia Total</h3>
-            <p class="mt-2 text-neutral-300">Programa de 8 semanas, 100% em casa. Força, mobilidade e disciplina — zero equipamentos.</p>
-            <ul class="mt-4 text-neutral-300 text-sm list-disc pl-5 space-y-1">
-              <li>Plano progressivo (iniciante ao intermediário)</li>
-              <li>Sequências prontas + guia de alimentação simples</li>
-              <li>Quadro semanal + check de hábitos</li>
-            </ul>
-            <div class="mt-5 flex gap-3">
-              <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=card_metodos&utm_campaign=calistenia" class="btn-primary pulse">Quero treinar melhor</a>
-              <a href="https://wa.me/5511912459144?text=Ol%C3%A1%2C+tenho+d%C3%BAvidas+sobre+o+M%C3%A9todo+de+Treino" class="px-5 py-3 rounded-xl font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900">Tirar dúvidas</a>
-            </div>
+        <article class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:border-amber-400 transition">
+          <img src="ativos/img/capa-calistenia.jpg" alt="Método Calistenia" class="rounded mb-4">
+          <h3 class="text-xl font-semibold mb-2">Método Treino em Casa — 30 Minutos por Dia</h3>
+          <p class="text-neutral-400 text-sm mb-4">Programa de 8 semanas, 100% em casa. Força, mobilidade e disciplina — zero equipamentos.</p>
+          <ul class="text-sm text-neutral-500 mb-4 list-disc ml-4">
+            <li>Plano progressivo (iniciante ao intermediário)</li>
+            <li>Sequências prontas + guia alimentar simples</li>
+            <li>Quadro semanal + controle de hábitos</li>
+          </ul>
+          <div class="flex gap-3">
+            <a href="https://pay.kiwify.com.br/lt9RRvy" class="bg-amber-400 text-black font-semibold py-2 px-3 rounded hover:bg-amber-300">Quero treinar melhor</a>
+            <a href="https://wa.me/5519974059590" class="border border-amber-400 text-amber-400 font-semibold py-2 px-3 rounded hover:bg-amber-400 hover:text-black">Dúvidas?</a>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Resultados em Números -->
-  <section id="metricas" class="py-12 border-b border-neutral-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">Resultados em números</h2>
-      <p class="mt-2 text-neutral-400">Autoridade construída na prática — método, constância e resultado.</p>
-
-      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="text-center rounded-2xl border border-neutral-900 p-6 bg-neutral-950">
-          <div class="text-4xl md:text-5xl font-black text-amber-300">30+</div>
-          <div class="mt-2 text-sm text-neutral-400 uppercase tracking-wide">Anos de experiência</div>
+  <!-- RESULTADOS -->
+  <section id="resultados" class="py-16 bg-neutral-900 border-t border-neutral-800 fade-up">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold mb-2 text-amber-400">Resultados em Números</h2>
+      <p class="text-neutral-400 mb-10">Autoridade construída na prática — método, constância e resultado.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl py-8">
+          <div class="text-3xl font-extrabold text-amber-400">30+</div>
+          <div class="text-sm text-neutral-400 mt-2">ANOS DE EXPERIÊNCIA</div>
         </div>
-        <div class="text-center rounded-2xl border border-neutral-900 p-6 bg-neutral-950">
-          <div class="text-4xl md:text-5xl font-black text-amber-300">2.700+</div>
-          <div class="mt-2 text-sm text-neutral-400 uppercase tracking-wide">Clientes impactados</div>
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl py-8">
+          <div class="text-3xl font-extrabold text-amber-400">2.700+</div>
+          <div class="text-sm text-neutral-400 mt-2">CLIENTES IMPACTADOS</div>
         </div>
-        <div class="text-center rounded-2xl border border-neutral-900 p-6 bg-neutral-950">
-          <div class="text-4xl md:text-5xl font-black text-amber-300">1.000+</div>
-          <div class="mt-2 text-sm text-neutral-400 uppercase tracking-wide">Aplicações dos métodos</div>
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl py-8">
+          <div class="text-3xl font-extrabold text-amber-400">1.000+</div>
+          <div class="text-sm text-neutral-400 mt-2">APLICAÇÕES DOS MÉTODOS</div>
         </div>
-        <div class="text-center rounded-2xl border border-neutral-900 p-6 bg-neutral-950">
-          <div class="text-4xl md:text-5xl font-black text-amber-300">7 dias</div>
-          <div class="mt-2 text-sm text-neutral-400 uppercase tracking-wide">Para ver os primeiros sinais</div>
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl py-8">
+          <div class="text-3xl font-extrabold text-amber-400">7 dias</div>
+          <div class="text-sm text-neutral-400 mt-2">PARA VER RESULTADOS</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Depoimentos -->
-  <section id="depoimentos" class="py-14 border-b border-neutral-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">Quem já aplicou, aprovou</h2>
+  <!-- MANIFESTO -->
+  <section class="py-16 bg-neutral-950 border-t border-neutral-800 fade-up">
+    <div class="container mx-auto px-6 text-center max-w-3xl">
+      <h2 class="text-2xl font-bold mb-4 text-amber-400">Manifesto OLEGARIO TECH</h2>
+      <p class="text-neutral-300 leading-relaxed">
+        Na OLEGARIO TECH, acreditamos que conhecimento só vale quando vira ação. 
+        Unimos técnica, tecnologia e propósito pra gerar resultado real. 
+        Zero desculpas — só performance.
+      </p>
+    </div>
+  </section>
 
-      <div class="mt-6 grid md:grid-cols-3 gap-4">
-        <!-- 5 VENDAS -->
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Apliquei o roteiro de follow-up e fechei 3 carros em 6 dias.”<br><span class="text-neutral-400 text-sm">— Marcelo, Consultor</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“O script de proposta elevou meu ticket. Cliente sente segurança.”<br><span class="text-neutral-400 text-sm">— Camila, Vendas</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Agora tenho rotina: prospecção de manhã, fechamento à tarde.”<br><span class="text-neutral-400 text-sm">— Rodrigo, Gerente</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Passei a registrar tudo. Subiu minha taxa de retorno no Whats.”<br><span class="text-neutral-400 text-sm">— Priscila, Consultora</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Objeções de preço? Resolvi com o mapa do método.”<br><span class="text-neutral-400 text-sm">— Eduardo, Vendedor</span></blockquote>
-
-        <!-- 5 TREINO (2 em inglês) -->
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Voltei a treinar sem academia: 30 min/dia e já dormindo melhor.”<br><span class="text-neutral-400 text-sm">— Larissa, Designer</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Sem desculpas: mobilidade + força, joelho agradeceu.”<br><span class="text-neutral-400 text-sm">— Vinícius, Empreendedor</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Fiquei mais disposto pro trabalho. O quadro semanal ajuda.”<br><span class="text-neutral-400 text-sm">— Bruna, Professora</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“Simple and effective. The progressions kept me consistent.”<br><span class="text-neutral-400 text-sm">— Michael, Sales (USA)</span></blockquote>
-        <blockquote class="rounded-xl border border-neutral-800 p-5 bg-neutral-950 text-neutral-300">“No gym needed. 20–30 minutes and I feel stronger.”<br><span class="text-neutral-400 text-sm">— Ashley, Marketer (USA)</span></blockquote>
+  <!-- SOBRE -->
+  <section id="sobre" class="py-16 bg-neutral-950 border-t border-neutral-800 fade-up">
+    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+      <div class="flex justify-center">
+        <img src="ativos/img/alexandre-olegario.jpg" alt="Alexandre Olegario" class="rounded-xl shadow-lg border border-neutral-800 w-72 md:w-96">
       </div>
-    </div>
-  </section>
-
-  <!-- Manifesto -->
-  <section id="manifesto" class="py-14 border-b border-neutral-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">Manifesto OLEGARIO TECH</h2>
-      <p class="mt-4 text-neutral-300 max-w-3xl leading-relaxed">
-        Na <span class="font-semibold text-amber-300">OLEGARIO TECH</span>, acreditamos que conhecimento só vale quando vira ação.
-        Unimos técnica, tecnologia e propósito pra gerar resultado real. Aqui não há atalhos nem desculpas:
-        só constância, método e resultado.
-      </p>
-      <p class="mt-3 text-neutral-300 max-w-3xl leading-relaxed">
-        Método é rotina. Rotina é disciplina. Disciplina entrega resultado. Se dá para simplificar e executar hoje,
-        a gente simplifica e executa hoje. <span class="font-semibold text-neutral-100">Zero desculpas — só performance.</span>
-      </p>
-    </div>
-  </section>
-
-  <!-- Autor -->
-  <section id="autor" class="py-14 border-b border-neutral-900">
-    <div class="container mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
       <div>
-        <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">Quem é Alexandre Olegario</h2>
-        <p class="mt-4 text-neutral-300 leading-relaxed">
-          Fundador da <span class="font-semibold text-amber-300">OLEGARIO TECH</span> e criador dos métodos
-          <span class="font-semibold text-neutral-100">Destrave suas Vendas</span> e
-          <span class="font-semibold text-neutral-100">Treino em Casa: Calistenia 30’</span>.
+        <h2 class="text-2xl font-bold mb-4">Quem é Alexandre Olegario</h2>
+        <p class="text-neutral-300 leading-relaxed">
+          Alexandre Olegario é especialista em vendas e performance, com mais de 30 anos de experiência no mercado automotivo e digital. 
+          Fundador da OLEGARIO TECH, une técnica, propósito e prática diária — transformando conhecimento em resultado. 
+          Mentor, gestor e criador de métodos aplicáveis para quem busca evolução real.
         </p>
-        <p class="mt-3 text-neutral-300 leading-relaxed">
-          São mais de <span class="font-semibold text-neutral-100">30 anos de experiência</span> em vendas e performance,
-          combinando o que aprendeu no chão de loja com método, disciplina e tecnologia. 
-          O foco é simples: transformar conhecimento em resultado — um vendedor mais preparado, uma pessoa mais forte.
-        </p>
-
-        <div class="mt-6 flex gap-3">
-          <a href="#metodos" class="btn-primary">Conhecer os métodos</a>
-          <a href="https://wa.me/5511912459144" class="px-5 py-3 rounded-xl font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900">Falar com Alexandre</a>
-        </div>
-      </div>
-      <div class="rounded-2xl overflow-hidden bg-neutral-900 p-6">
-        <img src="Logo Translucido.png" alt="Olegario Tech" class="rounded-xl opacity-90">
       </div>
     </div>
   </section>
 
-  <!-- FAQ (conteúdo dos dois métodos) -->
-  <section id="faq" class="py-16 border-b border-neutral-900">
-    <div class="container mx-auto px-4 max-w-3xl">
-      <h2 class="text-2xl md:text-3xl font-bold text-neutral-100">FAQ — O que tem em cada método?</h2>
-
-      <!-- VENDAS -->
-      <div class="mt-8">
-        <h3 class="text-xl md:text-2xl font-semibold text-amber-300">Método de Vendas — Destrave suas Vendas</h3>
-        <div class="mt-4 space-y-3">
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">O que exatamente eu recebo?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              <ul class="list-disc pl-5 space-y-2">
-                <li>Roteiro de prospecção (presencial/Whats/telefone)</li>
-                <li>SPIN na prática + mapa de objeções e respostas</li>
-                <li>Cadência de follow-up 7 dias (mensagens prontas)</li>
-                <li>Checklists de proposta, test-drive e fechamento</li>
-                <li>Modelo simples de CRM (planilha)</li>
-                <li>KPIs de execução e rotina diária (40–60 min)</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">Funciona para 0 km, seminovos e serviços?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              Sim. A estrutura (abordagem → diagnóstico → proposta → follow-up → fechamento) serve para 0 km, seminovos, F&I e serviços.
-            </div>
-          </div>
-
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">Em quanto tempo vejo resultado?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              Aplicando o follow-up e o roteiro de proposta, muitos relatam fechamento <strong>na primeira semana</strong>. Volume + execução = resultado.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CALISTENIA -->
-      <div class="mt-12">
-        <h3 class="text-xl md:text-2xl font-semibold text-amber-300">Método Treino em Casa — Calistenia 30’</h3>
-        <div class="mt-4 space-y-3">
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">O que vem dentro do método?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              <ul class="list-disc pl-5 space-y-2">
-                <li>Plano de 8 semanas (30 min/dia) com progressões</li>
-                <li>Sequências de aquecimento, mobilidade, força e core</li>
-                <li>3 níveis (iniciante, intermediário, volta ao jogo)</li>
-                <li>Zero equipamentos (elástico e barra são opcionais)</li>
-                <li>Quadro semanal + check de hábitos</li>
-                <li>Guia rápido de alimentação prática</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">Sou iniciante / estou parado — consigo?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              Sim. As progressões começam leves e sobem com segurança. Em caso de dor crônica, procure orientação médica.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ACESSO -->
-      <div class="mt-12">
-        <h3 class="text-xl md:text-2xl font-semibold text-amber-300">Acesso, formato e suporte</h3>
-        <div class="mt-4 space-y-3">
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">Como recebo e acesso?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              Acesso liberado automaticamente por e-mail via Kiwify logo após a compra. Funciona no celular, tablet e computador.
-            </div>
-          </div>
-
-          <div class="faq-item rounded-xl border border-neutral-800 overflow-hidden">
-            <button class="faq-btn w-full flex items-center justify-between px-5 py-4 text-left text-neutral-100 hover:bg-neutral-900/60 transition" aria-expanded="false">
-              <span class="font-medium">Tem suporte?</span>
-              <svg class="chev h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 11.94 1.17l-4.2 3.33a.75.75 0 01-.94 0l-4.2-3.33a.75.75 0 01-.02-1.06z"/></svg>
-            </button>
-            <div class="faq-panel px-5 pb-5 pt-0 hidden text-neutral-300">
-              Sim. Me chama no WhatsApp que eu te ajudo a aplicar. Nosso foco é <strong>resultado real</strong>.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p class="mt-6 text-sm text-neutral-400">Dica: toque nos títulos para abrir/fechar. 👆</p>
-    </div>
-  </section>
-
-  <!-- CTA Premium -->
-  <section id="cta-final" class="py-14 border-t border-neutral-900" style="background: radial-gradient(80% 120% at 50% 0%, rgba(251,191,36,.18) 0%, rgba(10,10,10,1) 60%);">
-    <div class="container mx-auto px-4 text-center text-neutral-100">
-      <h3 class="text-2xl md:text-3xl font-bold">🚀 Pronto pra sair da teoria e partir pra ação?</h3>
-      <p class="mt-3 text-neutral-300">Transforme conhecimento em resultado — comece agora.</p>
-      <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-3">
-        <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=cta_final&utm_campaign=vendas" class="btn-primary pulse">Quero vender mais</a>
-        <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=cta_final&utm_campaign=calistenia" class="px-6 py-3 rounded-xl font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900">Quero treinar melhor</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Fixo rodapé -->
-  <div id="ctaFixed" class="cta-fixed-wrap">
-    <div class="cta-fixed">
-      <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center gap-3 md:gap-4 justify-between text-neutral-100">
-        <p class="text-sm md:text-base">🚀 <span class="font-semibold">Pronto pra sair da teoria e partir pra ação?</span> Transforme conhecimento em resultado — comece agora.</p>
-        <div class="flex items-center gap-2 w-full md:w-auto">
-          <a href="https://pay.kiwif y.com.br/rmmRvfc?utm_source=site&utm_medium=cta_fixed&utm_campaign=vendas" class="btn-primary pulse text-sm">Quero vender mais</a>
-          <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=cta_fixed&utm_campaign=calistenia" class="px-4 py-2 rounded-lg font-semibold border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 text-sm">Quero treinar melhor</a>
-        </div>
+  <!-- CTA FIXO -->
+  <div id="ctaFixed" class="hidden md:block py-3">
+    <div class="container mx-auto px-6 flex justify-between items-center text-sm">
+      <p class="text-neutral-300">🚀 Pronto pra sair da teoria e partir pra ação?</p>
+      <div class="flex gap-2">
+        <a href="https://pay.kiwify.com.br/rmmRvfc" class="bg-amber-400 text-black font-semibold px-4 py-2 rounded hover:bg-amber-300">Vender mais</a>
+        <a href="https://pay.kiwify.com.br/lt9RRvy" class="border border-amber-400 text-amber-400 font-semibold px-4 py-2 rounded hover:bg-amber-400 hover:text-black">Treinar melhor</a>
       </div>
     </div>
   </div>
 
-  <!-- WhatsApp FAB -->
-  <a class="fab-whats" href="https://wa.me/5511912459144" aria-label="WhatsApp">
-    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" style="height:56px;width:56px;background:#25D366;border-radius:50%;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+  <!-- WHATSAPP E VOLTAR AO TOPO -->
+  <a id="whatsappFloat" href="https://wa.me/5519974059590?text=Cheguei+pelo+site+OLEGARIO+TECH,+quero+saber+mais+sobre+os+métodos" target="_blank" class="pulse">
+    💬
   </a>
+  <div id="topBtn">↑</div>
 
-  <!-- Scripts -->
+  <!-- FOOTER -->
+  <footer class="py-6 border-t border-neutral-800 text-center text-sm text-neutral-500">
+    © 2025 OLEGARIO TECH — Desenvolvido por Alexandre Olegario.
+  </footer>
+
   <script>
-    // Animação de entrada
-    const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('show')), {threshold:.1});
-    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+    // fade-up animation
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
 
-    // FAQ (um aberto por vez)
-    document.querySelectorAll('.faq-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        document.querySelectorAll('.faq-btn').forEach(b=>b.setAttribute('aria-expanded','false'));
-        document.querySelectorAll('.faq-panel').forEach(p=>p.classList.add('hidden'));
-        btn.setAttribute('aria-expanded', String(!expanded));
-        const panel = btn.parentElement.querySelector('.faq-panel');
-        if (!expanded) panel.classList.remove('hidden');
-      });
-    });
-
-    // CTA fixo aparece após rolar
-    const ctaFixed = document.getElementById('ctaFixed');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      ctaFixed.style.transform = y > 220 ? 'translateY(0)' : 'translateY(100%)';
-      ctaFixed.style.transition = 'transform .35s ease';
-    });
-    ctaFixed.style.transform = 'translateY(100%)';
+    // botão topo
+    const topBtn = document.getElementById('topBtn');
+    window.onscroll = () => {
+      if (document.documentElement.scrollTop > 400) topBtn.style.display = "flex";
+      else topBtn.style.display = "none";
+    };
+    topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   </script>
+
 </body>
 </html>
