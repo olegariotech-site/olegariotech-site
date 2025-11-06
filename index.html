@@ -10,7 +10,7 @@
   <meta property="og:title" content="OLEGARIO TECH — Performance e Tecnologia" />
   <meta property="og:description" content="Conhecimento que vira ação. Vendas & Calistenia — zero desculpas, só performance." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="logo.jpg" />
+<meta property="og:image" content="logo.jpg" />
 
   <link rel="icon" href="/favicon.ico" />
 
@@ -20,7 +20,7 @@
   <style>
     html{scroll-behavior:smooth}
     .hero-grad{
-      background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.22) 0%, rgba(17,17,17,1) 55%);
+      background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.22 ) 0%, rgba(17,17,17,1) 55%);
     }
     .fade-up{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .fade-up.show{opacity:1;transform:translateY(0)}
@@ -38,7 +38,7 @@
   <header class="border-b border-neutral-900/70 bg-neutral-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2">
-        <img src="logo.jpg" alt="OLEGARIO TECH" class="w-7 h-7 object-contain opacity-90">
+<img src="logo.jpg" alt="OLEGARIO TECH" class="w-7 h-7 object-contain opacity-90">
         <div class="text-[11px] leading-tight opacity-80">
           <div class="font-semibold tracking-wide">OLEGARIO TECH</div>
           <div class="opacity-60">por Alexandre Olegario</div>
@@ -59,7 +59,8 @@
     <div class="max-w-6xl mx-auto px-4 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
       <div class="fade-up show">
         <h1 class="text-4xl md:text-5xl font-black leading-tight">
-          OLEGARIO TECH —<br>
+          OLEGARIO TECH —  
+
           <span class="text-amber-400">Performance</span> e <span class="text-neutral-300">Tecnologia</span>.
         </h1>
         <p class="mt-4 text-neutral-300 max-w-xl">
@@ -71,7 +72,7 @@
         </div>
       </div>
       <div class="fade-up show">
-        <img src="logo.jpg" alt="OLEGARIO TECH — logotipo" class="w-full max-w-md md:ml-auto drop-shadow-[0_10px_40px_rgba(245,158,11,.15)]">
+<img src="logo.jpg" alt="OLEGARIO TECH — logotipo" class="w-full max-w-md md:ml-auto drop-shadow-[0_10px_40px_rgba(245,158,11,.15)]">
       </div>
     </div>
   </section>
@@ -112,7 +113,7 @@
           <h3 class="text-lg md:text-xl font-semibold">Treino em Casa: 30 min/dia — Calistenia Total</h3>
           <p class="text-neutral-300 text-sm mt-1">Programa de 8 semanas, 100% em casa. Força, mobilidade e disciplina — zero equipamentos.</p>
           <ul class="mt-4 text-sm space-y-2 text-neutral-300">
-            <li>• Plano progressivo (iniciante ao intermediário)</li>
+            <li>• Plano progressivo (iniciante ao intermediário )</li>
             <li>• Sequências prontas + guia de alimentação simples</li>
             <li>• Quadro semanal + check de hábitos</li>
           </ul>
@@ -162,7 +163,7 @@
       <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20">“Objeções mapeadas = conversão subiu sem pressão.”<div class="mt-2 text-sm opacity-70">— Priscila, Consultora</div></blockquote>
       <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20">“Finalmente um método de vendas simples e prático que funciona.”<div class="mt-2 text-sm opacity-70">— André, Executivo</div></blockquote>
 
-      <!-- 5 Treino (2 em EN-US) -->
+      <!-- 5 Treino (2 em EN-US ) -->
       <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20">“Sem academia e sem desculpas: 30 min por dia e voltei a treinar.”<div class="mt-2 text-sm opacity-70">— Henrique, Empreendedor</div></blockquote>
       <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20">“A mobilidade melhorou muito e parei de sentir dor ao dirigir.”<div class="mt-2 text-sm opacity-70">— Nara, Vendas</div></blockquote>
       <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20">“Discipline and clarity. Simple plan that I actually follow.”<div class="mt-2 text-sm opacity-70">— Jessica, USA</div></blockquote>
@@ -305,7 +306,7 @@
 
   <script>
     // revelar fade-up ao entrar na viewport
-    const io = new IntersectionObserver((entries)=>{
+    const io = new IntersectionObserver((entries )=>{
       entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') })
     },{threshold:.18});
     document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
