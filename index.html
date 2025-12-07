@@ -24,12 +24,36 @@
     }
     .fade-up{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .fade-up.show{opacity:1;transform:translateY(0)}
+    
+    /* Padding para evitar que elementos fixos cubram o conteúdo */
+    body {
+      padding-bottom: 140px;
+    }
+    
     /* CTA fixo no rodapé */
     .cta-fixed-wrap{position:fixed;left:0;right:0;bottom:18px;z-index:40;pointer-events:none}
     .cta-fixed{max-width:1200px;margin:0 auto;pointer-events:auto}
+    
     /* FAB WhatsApp sem sobrepor CTA */
     .fab-whats{position:fixed;right:18px;bottom:96px;z-index:50}
-    @media (min-width:768px){ .fab-whats{bottom:96px} }
+    
+    /* Ajustes para dispositivos móveis (até 768px) */
+    @media (max-width:767px) {
+      body {
+        padding-bottom: 160px;
+      }
+      .fab-whats{bottom:90px;right:12px;font-size:0.875rem;padding:0.5rem 0.75rem}
+      .cta-fixed-wrap{bottom:12px}
+      .cta-fixed{padding:0.5rem}
+    }
+    
+    /* Ajustes para tablets e desktops */
+    @media (min-width:768px) {
+      body {
+        padding-bottom: 120px;
+      }
+      .fab-whats{bottom:96px}
+    }
   </style>
 </head>
 <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-amber-400/20 selection:text-amber-200">
