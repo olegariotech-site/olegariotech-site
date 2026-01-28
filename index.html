@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>OLEGARIO TECH® — Performance e Tecnologia</title>
-  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Testados na vida real. Zero desculpas — só performance.">
+  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor — e o Lucidez Prática (Ansiedade e Procrastinação) em pré-venda. Zero desculpas — só performance.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
-  <meta property="og:description" content="Conhecimento que vira ação. Finanças pessoais, Vendas e Treino em casa — zero desculpas, só performance." />
+  <meta property="og:description" content="Conhecimento que vira ação. Finanças pessoais, Vendas, Treino e Lucidez Prática (Ansiedade e Procrastinação) — sem misticismo, só método." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/og-image.jpg" />
+  <meta property="og:image" content="Ativos/IMG/capa-lucidez-pratica-3d.png" />
 
   <link rel="icon" href="/favicon.ico" />
 
@@ -19,43 +19,31 @@
 
   <style>
     html{scroll-behavior:smooth}
+
     .hero-grad{
       background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.22 ) 0%, rgba(17,17,17,1) 55%);
     }
+
+    .lucidez-grad{
+      background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.18) 0%, rgba(10,10,10,1) 62%);
+    }
+
     .fade-up{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
     .fade-up.show{opacity:1;transform:translateY(0)}
-    
-    /* Padding para evitar que elementos fixos cubram o conteúdo */
-    body {
-      padding-bottom: 140px;
-    }
-    
-    /* CTA fixo no rodapé */
-    .cta-fixed-wrap{position:fixed;left:0;right:0;bottom:18px;z-index:40;pointer-events:none}
-    .cta-fixed{max-width:1200px;margin:0 auto;pointer-events:auto}
-    
-    /* FAB WhatsApp sem sobrepor CTA */
-    .fab-whats{position:fixed;right:18px;bottom:96px;z-index:50}
-    
-    /* Ajustes para dispositivos móveis (até 768px) */
-    @media (max-width:767px) {
-      body {
-        padding-bottom: 160px;
-      }
-      .fab-whats{bottom:90px;right:12px;font-size:0.875rem;padding:0.5rem 0.75rem}
-      .cta-fixed-wrap{bottom:12px}
-      .cta-fixed{padding:0.5rem}
-    }
-    
-    /* Ajustes para tablets e desktops */
-    @media (min-width:768px) {
-      body {
-        padding-bottom: 120px;
-      }
-      .fab-whats{bottom:96px}
+
+    /* Folga para não cobrir conteúdo com FAB */
+    body { padding-bottom: 110px; }
+
+    /* FAB WhatsApp */
+    .fab-whats{position:fixed;right:18px;bottom:18px;z-index:50}
+
+    @media (max-width:767px){
+      body { padding-bottom: 130px; }
+      .fab-whats{right:12px;bottom:12px}
     }
   </style>
 </head>
+
 <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-amber-400/20 selection:text-amber-200">
 
   <!-- Header -->
@@ -69,6 +57,7 @@
         </div>
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#lucidez" class="hover:text-amber-300">Lucidez Prática</a>
         <a href="#dinheiro" class="hover:text-amber-300">Dinheiro que Sobra</a>
         <a href="#metodos" class="hover:text-amber-300">Métodos</a>
         <a href="#resultados" class="hover:text-amber-300">Resultados</a>
@@ -79,30 +68,132 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="top" class="hero-grad border-b border-neutral-900">
-    <div class="max-w-6xl mx-auto px-4 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+  <!-- Announcement Bar (Lucidez Prática) -->
+  <div class="w-full bg-neutral-950/85 backdrop-blur border-b border-neutral-900/70">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+      <p class="text-sm text-neutral-200">
+        🚀 <span class="font-semibold">LUCIDEZ PRÁTICA</span> — Pré-venda em breve •
+        <span class="text-amber-300 font-semibold">Lista VIP com 20% OFF na abertura</span>
+      </p>
+      <a
+        href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
+        class="inline-flex items-center justify-center rounded-xl bg-amber-400 px-4 py-2 text-sm font-extrabold text-neutral-900 hover:bg-amber-300 transition"
+      >
+        QUERO O AVISO + 20% OFF
+      </a>
+    </div>
+  </div>
+
+  <!-- Hero (Lucidez Prática) -->
+  <section id="top" class="lucidez-grad border-b border-neutral-900">
+    <div class="max-w-6xl mx-auto px-4 py-14 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+
       <div class="fade-up show">
-        <h1 class="text-4xl md:text-5xl font-black leading-tight">
-          OLEGARIO TECH —  
-          <span class="text-amber-400">Performance</span> e <span class="text-neutral-300">Tecnologia</span>.
-        </h1>
-        <p class="mt-4 text-neutral-300 max-w-xl">
-          Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Testados no chão de loja e na vida real.
+        <p class="inline-flex items-center rounded-full bg-amber-400/10 border border-amber-400/40 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber-300 uppercase">
+          Novo · Pré-venda em breve
         </p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#dinheiro" class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[320px]">
-            Conhecer Método Dinheiro que Sobra
+
+        <h1 class="mt-4 text-4xl md:text-5xl font-black leading-tight">
+          Ansiedade e procrastinação:
+          <span class="text-amber-400">você não precisa de motivação.</span>
+          Precisa de método.
+        </h1>
+
+        <p class="mt-4 text-neutral-300 max-w-xl">
+          Protocolo prático de clareza e ação diária — com filosofia aplicada (Nietzsche &amp; Spinoza),
+          sem misticismo. Zero desculpas — só performance.
+        </p>
+
+        <ul class="mt-6 text-sm text-neutral-300 space-y-2">
+          <li>✅ Ritual de 10 minutos pra destravar o dia</li>
+          <li>✅ Plano de 30 dias (passo a passo)</li>
+          <li>✅ Ferramentas pra sair do looping mental e agir</li>
+        </ul>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
+            class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[360px]"
+          >
+            ENTRAR NA LISTA VIP (20% OFF)
           </a>
-          <a href="#metodos" class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px] max-w-[320px]">
-            Ver todos os métodos
+
+          <a
+            href="#lucidez-o-que-recebo"
+            class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px] max-w-[360px]"
+          >
+            VER O QUE EU RECEBO
           </a>
         </div>
+
+        <p class="mt-2 text-xs text-neutral-400">
+          Aviso no WhatsApp Oficial • Link oficial Kiwify na abertura • Compra segura.
+        </p>
       </div>
-      <div class="fade-up show">
-        <img src="assets/img/logo.jpg" alt="OLEGARIO TECH — logotipo" class="w-full max-w-md md:ml-auto drop-shadow-[0_10px_40px_rgba(245,158,11,.15)]">
+
+      <div id="lucidez" class="fade-up show flex justify-center md:justify-end">
+        <img
+          src="Ativos/IMG/capa-lucidez-pratica-3d.png"
+          alt="Capa do Lucidez Prática — Ansiedade e Procrastinação (Nietzsche & Spinoza)"
+          class="w-full max-w-xs md:max-w-sm drop-shadow-[0_20px_60px_rgba(0,0,0,.65)] object-contain rounded-2xl border border-neutral-800"
+          loading="lazy"
+        >
       </div>
     </div>
+  </section>
+
+  <!-- O que você recebe (Lucidez) -->
+  <section id="lucidez-o-que-recebo" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
+    <h2 class="text-2xl md:text-3xl font-bold">O que você recebe no Lucidez Prática</h2>
+    <p class="mt-3 text-neutral-300 text-sm md:text-base">
+      Método direto pra sair do looping mental e voltar a agir — filosofia aplicada (Nietzsche &amp; Spinoza), sem misticismo.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-4 mt-8">
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Guia principal (PDF)</h3>
+        <p class="mt-2 text-sm text-neutral-300">O passo a passo completo: clareza + execução no dia a dia.</p>
+      </div>
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Protocolo de 10 minutos</h3>
+        <p class="mt-2 text-sm text-neutral-300">Pra destravar o dia mesmo quando a mente tá barulhenta.</p>
+      </div>
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Plano de 30 dias</h3>
+        <p class="mt-2 text-sm text-neutral-300">Rotina guiada: você segue e executa. Menos pensar, mais fazer.</p>
+      </div>
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Checklist diário</h3>
+        <p class="mt-2 text-sm text-neutral-300">Ação mínima viável pra manter consistência sem depender de motivação.</p>
+      </div>
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Ferramentas anti-procrastinação</h3>
+        <p class="mt-2 text-sm text-neutral-300">Corta a negociação interna e te coloca em movimento.</p>
+      </div>
+      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
+        <h3 class="font-semibold">Filosofia aplicada</h3>
+        <p class="mt-2 text-sm text-neutral-300">Nietzsche pra te acordar. Spinoza pra te dar clareza. Aplicado ao cotidiano.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-lg font-bold">Como funciona</h3>
+        <p class="mt-2 text-sm text-neutral-300">
+          1) Entra na Lista VIP • 2) Recebe o aviso + link oficial Kiwify • 3) Garante 20% OFF na abertura
+        </p>
+      </div>
+      <a
+        href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
+        class="inline-flex items-center justify-center px-8 py-4 text-base font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px]"
+      >
+        ENTRAR NA LISTA VIP (20% OFF)
+      </a>
+    </div>
+
+    <p class="mt-3 text-xs text-neutral-500">
+      Conteúdo educativo. Não substitui acompanhamento profissional.
+    </p>
   </section>
 
   <!-- Destaque: Dinheiro que Sobra -->
@@ -110,13 +201,13 @@
     <div class="grid md:grid-cols-2 gap-10 items-center">
       <div>
         <span class="inline-flex items-center rounded-full bg-amber-400/10 border border-amber-400/40 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber-300 uppercase">
-          Novidade · Plano prático de finanças pessoais
+          Plano prático de finanças pessoais
         </span>
         <h2 class="mt-3 text-2xl md:text-3xl font-bold leading-snug">
           DINHEIRO QUE SOBRA — O Guia Prático pra Quem Vive no Aperto
         </h2>
         <p class="mt-3 text-neutral-300 text-sm md:text-base">
-          Um plano simples pra fazer o salário durar até o fim do mês — e ainda sobrar, mesmo ganhando pouco. 
+          Um plano simples pra fazer o salário durar até o fim do mês — e ainda sobrar, mesmo ganhando pouco.
           Sem economês, sem ilusão: organização prática de contas, dívidas e score pra você respirar de novo.
         </p>
         <ul class="mt-4 text-sm text-neutral-300 space-y-2">
@@ -126,21 +217,24 @@
           <li>✅ Mapa de 30 dias e plano de 1 ano pra sair do modo sobrevivência e ir pra estabilidade.</li>
           <li>✅ Orientações claras sobre nome, Serasa e score — sem “truque milagroso”.</li>
         </ul>
+
         <div class="mt-6">
           <a href="https://pay.kiwify.com.br/xPzKLoK"
-             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]">
-            Quero Meu Plano Pra Sair Do Aperto
+             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]">
+            COMPRAR AGORA (KIWIFY)
           </a>
         </div>
         <p class="mt-2 text-xs text-neutral-400">
           Acesso imediato em PDF pela área de membros da Kiwify após a confirmação do pagamento.
         </p>
       </div>
+
       <div class="flex justify-center">
         <img
           src="assets/img/dinheiro-que-sobra-capa.png"
           alt="Capa do e-book Dinheiro que Sobra — O Guia Prático pra Quem Vive no Aperto"
           class="w-full max-w-xs md:max-w-sm drop-shadow-[0_20px_60px_rgba(0,0,0,.6)] object-contain"
+          loading="lazy"
         >
       </div>
     </div>
@@ -154,7 +248,7 @@
       <!-- Método Vendas -->
       <article class="border border-neutral-900 rounded-2xl bg-neutral-900/20 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/10">
         <div class="relative">
-          <img src="assets/img/capa-vendas.jpg" alt="Método de Vendas — Destrave suas Vendas" class="w-full h-[260px] object-contain">
+          <img src="assets/img/capa-vendas.jpg" alt="Método de Vendas — Destrave suas Vendas" class="w-full h-[260px] object-contain" loading="lazy">
         </div>
         <div class="p-5">
           <h3 class="text-lg md:text-xl font-semibold">Destrave suas Vendas: do Contato ao Fechamento</h3>
@@ -166,9 +260,9 @@
           </ul>
           <div class="mt-6">
             <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=card&utm_campaign=vendas"
-               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
+               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
                aria-label="Método de Vendas: do primeiro contato ao fechamento">
-              Quero Vender Mais
+              COMPRAR AGORA (KIWIFY)
             </a>
           </div>
         </div>
@@ -177,7 +271,7 @@
       <!-- Método Calistenia -->
       <article class="border border-neutral-900 rounded-2xl bg-neutral-900/20 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/10">
         <div class="relative">
-          <img src="assets/img/capa-calistenia.jpg" alt="Método Calistenia — Treino em Casa" class="w-full h-[260px] object-contain">
+          <img src="assets/img/capa-calistenia.jpg" alt="Método Calistenia — Treino em Casa" class="w-full h-[260px] object-contain" loading="lazy">
         </div>
         <div class="p-5">
           <h3 class="text-lg md:text-xl font-semibold">Treino em Casa: 30 min/dia — Calistenia Total</h3>
@@ -189,9 +283,9 @@
           </ul>
           <div class="mt-6">
             <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=card&utm_campaign=calistenia"
-               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
+               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
                aria-label="Método Calistenia: treino em casa, 30 minutos por dia, zero equipamentos">
-              Treinar Em Casa Agora
+              COMPRAR AGORA (KIWIFY)
             </a>
           </div>
         </div>
@@ -205,7 +299,7 @@
     <p class="text-neutral-300 mt-1">Autoridade construída na prática — método, constância e resultado.</p>
     <div class="grid md:grid-cols-4 gap-6 mt-8">
       <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
-        <div class="text-3xl font-extrabold text-amber-400">30+</div>
+        <div class="text-3xl font-extrabold text-amber-400">20+</div>
         <div class="text-xs mt-1 opacity-70">ANOS DE EXPERIÊNCIA</div>
       </div>
       <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
@@ -293,22 +387,57 @@
     <p class="text-neutral-300 mt-1">Clique nas perguntas para abrir o conteúdo 👇</p>
 
     <div class="mt-6 space-y-6">
+
+      <!-- BLOCO: Lucidez -->
+      <div>
+        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Lucidez Prática (Ansiedade e Procrastinação)</h4>
+        <div class="mt-3 space-y-3">
+
+          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
+            <summary class="cursor-pointer font-semibold flex items-center justify-between">
+              O que eu recebo no Lucidez Prática?
+              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
+            </summary>
+            <div class="mt-3 text-neutral-300 text-sm space-y-2">
+              <p>• Guia principal (PDF) com o método completo.</p>
+              <p>• Protocolo de 10 minutos pra destravar o dia.</p>
+              <p>• Plano de 30 dias (passo a passo) + checklist diário.</p>
+              <p>• Ferramentas anti-procrastinação e filosofia aplicada (Nietzsche &amp; Spinoza).</p>
+              <p class="text-xs text-neutral-500">Conteúdo educativo. Não substitui acompanhamento profissional.</p>
+            </div>
+          </details>
+
+          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
+            <summary class="cursor-pointer font-semibold flex items-center justify-between">
+              Como funciona a Lista VIP e os 20% OFF?
+              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
+            </summary>
+            <div class="mt-3 text-neutral-300 text-sm space-y-2">
+              <p>Você entra na Lista VIP pelo WhatsApp.</p>
+              <p>Quando a pré-venda abrir, eu envio o link oficial da Kiwify e a condição de lançamento (20% OFF) pra quem entrou na lista.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+
       <!-- BLOCO: Finanças -->
       <div>
         <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Método Dinheiro que Sobra</h4>
         <div class="mt-3 space-y-3">
+
           <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
             <summary class="cursor-pointer font-semibold flex items-center justify-between">
               O que eu recebo no Método Dinheiro que Sobra?
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Um diagnóstico simples pra você entender pra onde seu dinheiro está sumindo.</p>
-              <p>• O método das micro-sobras pra fazer sobrar R$ 5, R$ 10 por dia sem sofrimento.</p>
-              <p>• Passo a passo pra organizar contas fixas, variáveis e gastos invisíveis.</p>
-              <p>• Roteiro de negociação de dívidas pra conversar com banco/financeira sem humilhação.</p>
-              <p>• Mapa de 30 dias e plano de 1 ano pra sair do aperto e caminhar pra estabilidade.</p>
-              <p>• Orientações sobre nome, Serasa e score, sem promessa milagrosa.</p>
+              <p>• Diagnóstico simples pra entender pra onde o dinheiro está indo.</p>
+              <p>• Método das micro-sobras (R$ 5 / R$ 10 por dia) sem sofrimento.</p>
+              <p>• Passo a passo pra contas fixas, variáveis e gastos invisíveis.</p>
+              <p>• Roteiro de negociação de dívidas sem humilhação.</p>
+              <p>• Mapa de 30 dias + plano de 1 ano.</p>
+              <p>• Nome, Serasa e score sem promessa milagrosa.</p>
             </div>
           </details>
 
@@ -318,8 +447,7 @@
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm">
-              Sim. O foco é justamente quem vive apertado, com renda apertada ou variável.  
-              As ferramentas são simples e pensadas pra realidade de quem não tem sobra todo mês.
+              Sim. O foco é justamente quem vive apertado, com renda fixa baixa ou variável.
             </div>
           </details>
 
@@ -329,11 +457,10 @@
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm">
-              Sim. Tem um trecho específico sobre nome, Serasa e score:  
-              o que realmente pesa, como organizar as dívidas e o que é mito.  
-              Nada de “truque secreto”: só o que você controla na prática.
+              Sim. O que realmente pesa, como organizar dívidas e o que é mito — sem truque secreto.
             </div>
           </details>
+
         </div>
       </div>
 
@@ -347,22 +474,21 @@
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Roteiro de abordagem (1ª, 2ª e 3ª interação) e qualificação SPIN.</p>
-              <p>• Respostas prontas para 20+ objeções comuns.</p>
-              <p>• Cadência de follow-up de 7 dias (WhatsApp/ligação/e-mail) com modelos.</p>
+              <p>• Roteiro de abordagem + qualificação SPIN.</p>
+              <p>• Respostas prontas para objeções.</p>
+              <p>• Cadência de follow-up de 7 dias + modelos.</p>
               <p>• Checklist de visita, teste-drive e fechamento.</p>
-              <p>• KPIs essenciais e quadro semanal simples de acompanhamento.</p>
+              <p>• KPIs essenciais e quadro semanal simples.</p>
             </div>
           </details>
 
           <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
             <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Esse método de Vendas funciona pra quem está começando?
+              Funciona pra quem está começando?
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm">
-              Funciona. O material é prático, direto e guiado por exemplos — dá pra aplicar em 1 dia, 
-              mesmo pra quem nunca teve um processo estruturado de vendas.
+              Funciona. É prático e guiado por exemplos — dá pra aplicar em 1 dia.
             </div>
           </details>
         </div>
@@ -378,10 +504,10 @@
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Programa de 8 semanas com progressão (iniciante ao intermediário).</p>
-              <p>• Sequências de treino prontas + aquecimento e mobilidade.</p>
+              <p>• Programa de 8 semanas com progressão.</p>
+              <p>• Sequências prontas + aquecimento e mobilidade.</p>
               <p>• Guia simples de alimentação e sono.</p>
-              <p>• Planilhas semanais prontas — tempo, repetições e evolução.</p>
+              <p>• Planilhas semanais — tempo, repetições e evolução.</p>
               <p>• Zero equipamentos — 100% em casa.</p>
             </div>
           </details>
@@ -408,12 +534,12 @@
               <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
             </summary>
             <div class="mt-3 text-neutral-300 text-sm">
-              Você recebe o acesso por e-mail imediatamente após a confirmação do pagamento pela Kiwify.  
-              Lá dentro fica a área de membros com os materiais e o download dos e-books.
+              Você recebe o acesso por e-mail após a confirmação do pagamento pela Kiwify.
             </div>
           </details>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -430,82 +556,53 @@
 
         <h3 class="text-xl md:text-2xl font-bold mt-8">Quem é Alexandre Olegario</h3>
         <p class="mt-3 text-neutral-300">
-          Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais. 
+          Especialista em vendas e performance, 20+ anos em vendas automotivas e projetos digitais.
           Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia em método simples, direto e aplicável.
           Mentor, gestor e autor. Foco: <em>resultado real</em>.
         </p>
       </div>
       <div class="order-1 md:order-2 flex justify-center">
-        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" class="rounded-2xl border border-neutral-800 shadow-2xl w-72 md:w-96">
+        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" class="rounded-2xl border border-neutral-800 shadow-2xl w-72 md:w-96" loading="lazy">
       </div>
     </div>
   </section>
 
-  <!-- CTA Premium (rodapé) -->
+  <!-- CTA Final (limpo, sem barra fixa) -->
   <section class="py-14 border-t border-neutral-900" style="background: radial-gradient(80% 120% at 50% 0%, rgba(251,191,36,.18) 0%, rgba(10,10,10,1) 60%);">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <h3 class="text-2xl md:text-3xl font-bold">🚀 Pronto pra sair da teoria e partir pra ação?</h3>
-      <p class="mt-2 text-neutral-300">Escolha por onde começar: dinheiro organizado, vendas destravadas ou treino em dia.</p>
+      <p class="mt-2 text-neutral-300">Escolha por onde começar: Lucidez (pré-venda), dinheiro organizado, vendas destravadas ou treino em dia.</p>
+
       <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-3 flex-wrap">
-        <div class="text-center">
-          <a href="https://pay.kiwify.com.br/xPzKLoK"
-             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[320px]">
-            Quero meu plano de dinheiro que sobra
-          </a>
-          <p class="text-xs mt-1 opacity-70">E-book prático pra sair do aperto e começar a organizar o mês.</p>
-        </div>
-        <div class="text-center">
-          <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=cta_final&utm_campaign=vendas"
-             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[320px]"
-             aria-label="Método de Vendas: do primeiro contato ao fechamento">
-            Quero Vender Mais
-          </a>
-          <p class="text-xs mt-1 opacity-70">Do primeiro contato ao fechamento, passo a passo testado no chão de loja.</p>
-        </div>
-        <div class="text-center">
-          <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=cta_final&utm_campaign=calistenia"
-             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px] max-w-[320px]"
-             aria-label="Método Calistenia: treino em casa, 30 minutos por dia, zero equipamentos">
-            Treinar em Casa Agora
-          </a>
-          <p class="text-xs mt-1 opacity-70">Calistenia total: 30 min por dia, zero equipamentos, evolução segura.</p>
-        </div>
+        <a
+          href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
+          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px]"
+        >
+          LISTA VIP LUCIDEZ (20% OFF)
+        </a>
+
+        <a
+          href="https://pay.kiwify.com.br/xPzKLoK"
+          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-neutral-100 text-neutral-900 hover:bg-neutral-200 min-h-[52px] min-w-[240px]"
+        >
+          COMPRAR DINHEIRO QUE SOBRA
+        </a>
+
+        <a
+          href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=cta_final&utm_campaign=vendas"
+          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px]"
+        >
+          COMPRAR VENDAS
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- CTA fixo discreto -->
-  <div class="cta-fixed-wrap">
-    <div class="cta-fixed mx-4 md:mx-6">
-      <div class="rounded-xl bg-neutral-900/80 border border-neutral-800 px-4 py-3 flex flex-col md:flex-row items-center gap-3 justify-between">
-        <p class="text-sm md:text-base">
-          🚀 <span class="font-semibold">Pronto pra sair da teoria e partir pra ação?</span>
-          Dinheiro, Vendas e Treino Organizados — Comece por onde mais dói hoje.
-        </p>
-        <div class="flex items-center gap-2 flex-wrap justify-end">
-          <a href="https://pay.kiwify.com.br/xPzKLoK"
-             class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-lg bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[44px] min-w-[160px]">
-            Quero Dinheiro Que Sobra
-          </a>
-          <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=cta_fixed&utm_campaign=vendas"
-             class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-lg bg-neutral-100 text-neutral-900 hover:bg-neutral-200 min-h-[44px] min-w-[160px]"
-             aria-label="Método de Vendas: do primeiro contato ao fechamento">
-            Quero Vender Mais
-          </a>
-          <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=cta_fixed&utm_campaign=calistenia"
-             class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-lg border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[44px] min-w-[160px]"
-             aria-label="Método Calistenia: treino em casa, 30 minutos por dia, zero equipamentos">
-            Quero Treinar Em Casa
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAB WhatsApp -->
-  <a class="fab-whats inline-flex items-center gap-2 bg-emerald-500 text-white font-semibold shadow-lg rounded-full px-4 py-3 hover:bg-emerald-400"
-     href="https://wa.me/5519974059590?text=Oi%20Alexandre!%20Cheguei%20pelo%20site.%20Qual%20m%C3%A9todo%20voc%C3%AA%20recomenda%20pra%20come%C3%A7ar%3F">
-    <span>WhatsApp</span>
+  <!-- WhatsApp flutuante (ÚNICO) -->
+  <a class="fab-whats inline-flex items-center gap-2 bg-emerald-500 text-white font-extrabold shadow-lg rounded-full px-4 py-3 hover:bg-emerald-400"
+     href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20tirar%20uma%20d%C3%BAvida%20e%20receber%20o%20link%20oficial%20da%20Kiwify."
+     aria-label="WhatsApp Oficial Olegario Tech">
+    <span>WhatsApp Oficial</span>
   </a>
 
   <footer class="py-8 text-center text-xs text-neutral-400 border-t border-neutral-900">
@@ -513,11 +610,11 @@
   </footer>
 
   <script>
-    // revelar fade-up ao entrar na viewport
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') })
     },{threshold:.18});
     document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
   </script>
+
 </body>
 </html>
