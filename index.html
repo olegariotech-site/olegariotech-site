@@ -343,7 +343,7 @@
     }
 
     .price-tag .new-price {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
     }
 
@@ -520,23 +520,38 @@
 
     .product-price {
       margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .product-price .old {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--text-secondary);
       text-decoration: line-through;
-      margin-right: 12px;
     }
 
     .product-price .current {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--accent);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--urgent);
     }
 
     .product-card.featured .product-price .current {
       color: #2997ff;
+    }
+
+    .savings {
+      font-size: 13px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(52, 199, 89, 0.1);
+      padding: 6px 12px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-top: 8px;
     }
 
     .product-features {
@@ -1002,11 +1017,12 @@
       .section-header h2 { font-size: 32px; }
       .social-bar { flex-direction: column; padding: 12px 20px; }
       .price-tag { right: 10px; top: 10px; padding: 12px 16px; }
-      .price-tag .new-price { font-size: 20px; }
+      .price-tag .new-price { font-size: 24px; }
       .cta-section h3 { font-size: 32px; }
       .countdown { gap: 10px; }
       .countdown-item { padding: 12px 16px; min-width: 60px; }
       .countdown-item .number { font-size: 24px; }
+      .product-price .current { font-size: 32px; }
     }
   </style>
 </head>
@@ -1015,7 +1031,7 @@
 
   <!-- Alert Bar - Urgência -->
   <div class="alert-bar">
-    🔥 ÚLTIMAS VAGAS NA LISTA VIP: 20% OFF ACABA EM BREVE — GARANTA SUA VAGA AGORA
+    🔥 PROMOÇÃO POR TEMPO LIMITADO: ATÉ 69% OFF EM TODOS OS MÉTODOS
   </div>
 
   <!-- Navigation -->
@@ -1037,7 +1053,7 @@
 
   <!-- Hero Section -->
   <section class="hero" id="top">
-    <div class="hero-badge">Pré-venda aberta por tempo limitado</div>
+    <div class="hero-badge">Promoção relâmpago: 69% OFF</div>
     <h1>
       Ansiedade e Procrastinação:<br>
       <span class="highlight">você não precisa de motivação.</span><br>
@@ -1055,21 +1071,21 @@
       <span>|</span>
       <span><strong>97%</strong> de aprovação</span>
       <span>|</span>
-      <span>Mais vendido da categoria</span>
+      <span>De <strong>R$ 97</strong> por <strong>R$ 29,90</strong></span>
     </div>
 
     <div class="hero-cta">
-      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-primary btn-urgent">
-        QUERO ENTRAR NA LISTA VIP — 20% OFF →
+      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20aproveitar%20a%20promo%C3%A7%C3%A3o%20do%20LUCIDEZ%20PR%C3%81TICA%20por%20R%24%2029%2C90" class="btn-primary btn-urgent">
+        COMPRAR AGORA POR R$ 29,90 →
       </a>
       <span class="guarantee-text">7 dias de garantia incondicional</span>
     </div>
 
     <div class="hero-image">
       <div class="price-tag">
-        <div class="old-price">De R$ 197</div>
-        <div class="new-price">R$ 97</div>
-        <div class="discount">20% OFF</div>
+        <div class="old-price">De R$ 97</div>
+        <div class="new-price">R$ 29,90</div>
+        <div class="discount">69% OFF</div>
       </div>
       <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
     </div>
@@ -1101,11 +1117,11 @@
   <section id="lucidez">
     <div class="section-header">
       <h2>Escolha sua transformação.</h2>
-      <p>Métodos validados por mais de 2.700 pessoas. Resultado real ou dinheiro de volta.</p>
+      <p>Preços promocionais por tempo limitado. Garanta já o seu método.</p>
     </div>
     
     <div class="products-grid">
-      <!-- Produto Destaque -->
+      <!-- Produto Destaque: Lucidez Prática -->
       <div class="product-card featured fade-in">
         <span class="badge">MAIS VENDIDO</span>
         <div class="product-image">
@@ -1123,21 +1139,22 @@
         </ul>
 
         <div class="product-price">
-          <span class="old">R$ 197</span>
-          <span class="current">R$ 97</span>
+          <span class="old">R$ 97,00</span>
+          <span class="current">R$ 29,90</span>
         </div>
+        <span class="savings">💰 Você economiza R$ 67,10</span>
 
-        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP" class="btn-primary btn-urgent">
-          GARANTIR MINHA VAGA COM 20% OFF →
+        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20comprar%20o%20LUCIDEZ%20PR%C3%81TICA%20por%20R%24%2029%2C90" class="btn-primary btn-urgent" style="margin-top: 20px;">
+          COMPRAR AGORA POR R$ 29,90 →
         </a>
         <div class="stock-warning">
-          ⚡ Apenas 37 vagas restantes na Lista VIP
+          ⚡ Promoção válida por tempo limitado
         </div>
       </div>
 
-      <!-- Dinheiro que Sobra -->
+      <!-- Dinheiro que Sobra: R$ 29,90 → R$ 19,90 -->
       <div class="product-card fade-in">
-        <span class="badge badge-success">+1.200 vendidos</span>
+        <span class="badge" style="background: var(--urgent);">33% OFF</span>
         <div class="product-image">
           <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
         </div>
@@ -1145,18 +1162,20 @@
         <p>Organização financeira para quem vive no aperto. Método das micro-sobras para fazer sobrar dinheiro todo mês.</p>
         
         <div class="product-price">
-          <span class="current" style="font-size: 28px;">R$ 47</span>
+          <span class="old">R$ 29,90</span>
+          <span class="current">R$ 19,90</span>
         </div>
+        <span class="savings">Economize R$ 10,00</span>
 
-        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-primary">Comprar agora →</a>
-        <div class="stock-warning" style="color: var(--success);">
+        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-primary" style="margin-top: 16px;">Comprar agora →</a>
+        <div class="stock-warning" style="color: var(--success); margin-top: 12px;">
           ✓ Acesso imediato
         </div>
       </div>
 
-      <!-- Manual de Vendas -->
+      <!-- Manual de Vendas: R$ 49,90 → R$ 19,90 -->
       <div class="product-card fade-in">
-        <span class="badge badge-success">+890 vendidos</span>
+        <span class="badge" style="background: var(--urgent);">60% OFF</span>
         <div class="product-image">
           <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
         </div>
@@ -1164,15 +1183,20 @@
         <p>Do contato ao fechamento. SPIN Selling, roteiros de follow-up e técnicas para bater metas todo mês.</p>
         
         <div class="product-price">
-          <span class="current" style="font-size: 28px;">R$ 67</span>
+          <span class="old">R$ 49,90</span>
+          <span class="current">R$ 19,90</span>
         </div>
+        <span class="savings">Economize R$ 30,00</span>
 
-        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-primary">Comprar agora →</a>
+        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-primary" style="margin-top: 16px;">Comprar agora →</a>
+        <div class="stock-warning" style="color: var(--success); margin-top: 12px;">
+          ✓ Acesso imediato
+        </div>
       </div>
 
-      <!-- Calistenia -->
+      <!-- Calistenia: R$ 39,90 → R$ 14,99 -->
       <div class="product-card fade-in">
-        <span class="badge badge-success">+650 vendidos</span>
+        <span class="badge" style="background: var(--urgent);">62% OFF</span>
         <div class="product-image">
           <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total">
         </div>
@@ -1180,10 +1204,15 @@
         <p>Treino em casa em 30 minutos. Programa de 8 semanas, do iniciante ao avançado, zero equipamentos.</p>
         
         <div class="product-price">
-          <span class="current" style="font-size: 28px;">R$ 57</span>
+          <span class="old">R$ 39,90</span>
+          <span class="current">R$ 14,99</span>
         </div>
+        <span class="savings">Economize R$ 24,91</span>
 
-        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-primary">Comprar agora →</a>
+        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-primary" style="margin-top: 16px;">Comprar agora →</a>
+        <div class="stock-warning" style="color: var(--success); margin-top: 12px;">
+          ✓ Acesso imediato
+        </div>
       </div>
     </div>
   </section>
@@ -1369,8 +1398,8 @@
 
   <!-- Urgency Section -->
   <section class="urgency-section">
-    <h3>⏰ Oferta por tempo limitado</h3>
-    <p>As vagas na Lista VIP com 20% OFF estão acabando</p>
+    <h3>⏰ Promoção por tempo limitado</h3>
+    <p>Os preços promocionais podem voltar ao normal a qualquer momento</p>
     
     <div class="countdown">
       <div class="countdown-item">
@@ -1387,8 +1416,8 @@
       </div>
     </div>
 
-    <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP" class="btn-white">
-      QUERO GARANTIR MEU 20% OFF AGORA →
+    <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20aproveitar%20a%20promo%C3%A7%C3%A3o" class="btn-white">
+      GARANTIR MEU DESCONTO AGORA →
     </a>
   </section>
 
