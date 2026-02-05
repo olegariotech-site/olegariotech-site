@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>OLEGARIO TECH® — Performance e Tecnologia</title>
-  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor — e o Lucidez Prática (Ansiedade e Procrastinação) em pré-venda. Zero desculpas — só performance.">
+  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Zero desculpas — só performance.">
 
-    <!-- Open Graph / Facebook / WhatsApp -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://olegariotech.com.br/" />
   <meta property="og:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
@@ -16,623 +16,1083 @@
   <meta property="og:image:height" content="630" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://olegariotech.com.br/" />
-  <meta property="twitter:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
-  <meta property="twitter:description" content="Conhecimento que vira ação. Finanças pessoais, Vendas, Treino e Lucidez Prática — sem misticismo, só método." />
-  <meta property="twitter:image" content="https://olegariotech.com.br/assets/img/og-image.jpg" />
-
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
   <meta name="twitter:description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor." />
   <meta name="twitter:image" content="https://olegariotech.com.br/assets/img/og-image.jpg" />
 
-  <link rel="icon" href="/favicon.ico" />
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/img/favicon.ico" />
+  
+  <!-- Google Fonts - Inter (Apple-style) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    html{scroll-behavior:smooth}
-
-    .hero-grad{
-      background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.22 ) 0%, rgba(17,17,17,1) 55%);
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f7;
+      --bg-dark: #000000;
+      --text-primary: #1d1d1f;
+      --text-secondary: #86868b;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --border: #d2d2d7;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .lucidez-grad{
-      background: radial-gradient(90% 120% at 15% 10%, rgba(245,158,11,.18) 0%, rgba(10,10,10,1) 62%);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .fade-up{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
-    .fade-up.show{opacity:1;transform:translateY(0)}
+    html {
+      scroll-behavior: smooth;
+    }
 
-    /* Folga para não cobrir conteúdo com FAB */
-    body { padding-bottom: 110px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: -0.022em;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    /* FAB WhatsApp */
-    .fab-whats{position:fixed;right:18px;bottom:18px;z-index:50}
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 52px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      z-index: 9999;
+      transition: all 0.3s var(--transition);
+    }
 
-    @media (max-width:767px){
-      body { padding-bottom: 130px; }
-      .fab-whats{right:12px;bottom:12px}
+    .nav-content {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 0 22px;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+
+    .logo:hover {
+      opacity: 1;
+    }
+
+    .logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      font-weight: 400;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 20px 80px;
+      background: var(--bg-primary);
+      position: relative;
+    }
+
+    .hero-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) forwards;
+    }
+
+    .hero h1 {
+      font-size: 80px;
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 24px;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) 0.1s forwards;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(180deg, var(--accent) 0%, #00c7be 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 28px;
+      line-height: 1.4;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 40px;
+      font-weight: 400;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) 0.2s forwards;
+    }
+
+    .hero-features {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 40px;
+      font-size: 17px;
+      color: var(--text-secondary);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) 0.3s forwards;
+    }
+
+    .hero-features span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) 0.4s forwards;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 980px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 500;
+      transition: all 0.3s var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-secondary {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 14px 28px;
+      border-radius: 980px;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-secondary);
+    }
+
+    .hero-image {
+      margin-top: 80px;
+      width: 100%;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1.2s var(--transition) 0.6s forwards;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 28px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 160px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-header h2 {
+      font-size: 56px;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.005em;
+      margin-bottom: 20px;
+    }
+
+    .section-header p {
+      font-size: 21px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--bg-secondary);
+      border-radius: 28px;
+      padding: 60px 40px;
+      text-align: center;
+      transition: transform 0.5s var(--transition), box-shadow 0.5s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card.featured {
+      background: var(--bg-dark);
+      color: white;
+      grid-column: span 2;
+    }
+
+    .product-card.featured h3,
+    .product-card.featured p {
+      color: white;
+    }
+
+    .product-image {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 32px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .product-card h3 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: -0.021em;
+    }
+
+    .product-card p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 24px;
+      max-width: 400px;
+    }
+
+    .product-features {
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 24px;
+    }
+
+    .product-features li {
+      list-style: none;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .product-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .product-card.featured .product-features li::before {
+      color: #2997ff;
+    }
+
+    /* Features Section */
+    .features {
+      background: var(--bg-secondary);
+      margin: 0;
+      max-width: 100%;
+      padding: 160px 20px;
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .feature-item {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .feature-item .number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+    }
+
+    .feature-item .label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: var(--bg-dark);
+      color: white;
+      margin: 0;
+      max-width: 100%;
+      padding: 160px 20px;
+    }
+
+    .testimonials .section-header h2,
+    .testimonials .section-header p {
+      color: white;
+    }
+
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-category {
+      margin-bottom: 60px;
+    }
+
+    .testimonial-category h4 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .testimonial-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .testimonial-card p {
+      font-size: 19px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      font-weight: 400;
+    }
+
+    .testimonial-author {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
+    .testimonial-role {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* FAQ Section */
+    .faq {
+      max-width: 800px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 30px 0;
+    }
+
+    .faq-question {
+      font-size: 21px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.3s;
+      list-style: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question:hover {
+      color: var(--accent);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s var(--transition), padding 0.5s;
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    details[open] .faq-answer {
+      max-height: 500px;
+      padding-top: 20px;
+    }
+
+    details[open] .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-icon {
+      transition: transform 0.3s;
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    /* About Section */
+    .about-section {
+      background: var(--bg-secondary);
+      margin: 0;
+      max-width: 100%;
+      padding: 160px 20px;
+    }
+
+    .about-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.021em;
+    }
+
+    .about-text p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 28px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--bg-dark);
+      color: white;
+      text-align: center;
+      padding: 120px 20px;
+    }
+
+    .cta-section h3 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.015em;
+    }
+
+    .cta-section p {
+      font-size: 21px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--bg-dark);
+      padding: 14px 28px;
+      border-radius: 980px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 500;
+      transition: all 0.3s var(--transition);
+    }
+
+    .btn-white:hover {
+      transform: scale(1.02);
+      background: var(--bg-secondary);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 980px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* WhatsApp FAB */
+    .fab-whats {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 50;
+      background: #25d366;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+      border-radius: 50px;
+      padding: 14px 24px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s var(--transition);
+      font-size: 14px;
+    }
+
+    .fab-whats:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 30px rgba(37, 211, 102, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-secondary);
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 56px;
+      }
+      
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-card.featured {
+        grid-column: span 1;
+      }
+      
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .testimonial-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .about-image {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 40px;
+      }
+      
+      .hero-subtitle {
+        font-size: 21px;
+      }
+      
+      .hero-features {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .section-header h2 {
+        font-size: 40px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .cta-section h3 {
+        font-size: 32px;
+      }
     }
   </style>
 </head>
 
-<body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-amber-400/20 selection:text-amber-200">
+<body>
 
-  <!-- Header -->
-  <header class="border-b border-neutral-900/70 bg-neutral-950/80 backdrop-blur">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-2">
-        <img src="assets/img/logo.jpg" alt="OLEGARIO TECH" class="w-7 h-7 object-contain opacity-90">
-        <div class="text-[11px] leading-tight opacity-80">
-          <div class="font-semibold tracking-wide">OLEGARIO TECH</div>
-          <div class="opacity-60">por Alexandre Olegario</div>
-        </div>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-content">
+      <a href="#top" class="logo">
+        <img src="assets/img/logo.jpg" alt="OLEGARIO TECH">
+        <span>OLEGARIO TECH</span>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#lucidez" class="hover:text-amber-300">Lucidez Prática</a>
-        <a href="#dinheiro" class="hover:text-amber-300">Dinheiro que Sobra</a>
-        <a href="#metodos" class="hover:text-amber-300">Métodos</a>
-        <a href="#resultados" class="hover:text-amber-300">Resultados</a>
-        <a href="#depo" class="hover:text-amber-300">Depoimentos</a>
-        <a href="#faq" class="hover:text-amber-300">FAQ</a>
-        <a href="#sobre" class="hover:text-amber-300">Sobre</a>
-      </nav>
+      <ul class="nav-links">
+        <li><a href="#lucidez">Lucidez Prática</a></li>
+        <li><a href="#dinheiro">Dinheiro que Sobra</a></li>
+        <li><a href="#metodos">Métodos</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#depo">Depoimentos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+      </ul>
     </div>
-  </header>
+  </nav>
 
-  <!-- Announcement Bar (Lucidez Prática) -->
-  <div class="w-full bg-neutral-950/85 backdrop-blur border-b border-neutral-900/70">
-    <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-      <p class="text-sm text-neutral-200">
-        🚀 <span class="font-semibold">LUCIDEZ PRÁTICA</span> — Pré-venda em breve •
-        <span class="text-amber-300 font-semibold">Lista VIP com 20% OFF na abertura</span>
-      </p>
-      <a
-        href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
-        class="inline-flex items-center justify-center rounded-xl bg-amber-400 px-4 py-2 text-sm font-extrabold text-neutral-900 hover:bg-amber-300 transition"
-      >
-        QUERO O AVISO + 20% OFF
-      </a>
-    </div>
-  </div>
-
-  <!-- Hero (Lucidez Prática) -->
-  <section id="top" class="lucidez-grad border-b border-neutral-900">
-    <div class="max-w-6xl mx-auto px-4 py-14 md:py-16 grid md:grid-cols-2 gap-10 items-center">
-
-      <div class="fade-up show">
-        <p class="inline-flex items-center rounded-full bg-amber-400/10 border border-amber-400/40 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber-300 uppercase">
-          Novo · Pré-venda em breve
-        </p>
-
-        <h1 class="mt-4 text-4xl md:text-5xl font-black leading-tight">
-          Ansiedade e Procrastinação:
-          <span class="text-amber-400">você não precisa de motivação.</span>
-          Precisa de método.
-        </h1>
-
-        <p class="mt-4 text-neutral-300 max-w-xl">
-          Protocolo prático de clareza e ação diária — com filosofia aplicada (Nietzsche &amp; Spinoza),
-          sem misticismo. Zero desculpas — só performance.
-        </p>
-
-        <ul class="mt-6 text-sm text-neutral-300 space-y-2">
-          <li>✅ Ritual de 10 minutos pra destravar o dia</li>
-          <li>✅ Plano de 30 dias (passo a passo)</li>
-          <li>✅ Ferramentas pra sair do looping mental e agir</li>
-        </ul>
-
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a
-            href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
-            class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[360px]"
-          >
-            ENTRAR NA LISTA VIP (20% OFF)
-          </a>
-
-          <a
-            href="#lucidez-o-que-recebo"
-            class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-semibold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px] max-w-[360px]"
-          >
-            VER O QUE EU RECEBO
-          </a>
-        </div>
-
-        <p class="mt-2 text-xs text-neutral-400">
-          Aviso no WhatsApp Oficial • Link oficial Kiwify na abertura • Compra segura.
-        </p>
-      </div>
-
-      <div id="lucidez" class="fade-up show flex justify-center md:justify-end">
-        <img
-          src="assets/img/capa-lucidez-pratica-3d.png"
-          alt="Capa do Lucidez Prática — Ansiedade e Procrastinação (Nietzsche & Spinoza)"
-          class="w-full max-w-xs md:max-w-sm drop-shadow-[0_20px_60px_rgba(0,0,0,.65)] object-contain rounded-2xl border border-neutral-800"
-          loading="lazy"
-        >
-      </div>
-    </div>
-  </section>
-
-  <!-- O que você recebe (Lucidez) -->
-  <section id="lucidez-o-que-recebo" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <h2 class="text-2xl md:text-3xl font-bold">O que você recebe no Lucidez Prática</h2>
-    <p class="mt-3 text-neutral-300 text-sm md:text-base">
-      Método direto pra sair do looping mental e voltar a agir — filosofia aplicada (Nietzsche &amp; Spinoza), sem misticismo.
+  <!-- Hero Section -->
+  <section class="hero" id="top">
+    <div class="hero-badge">Novo · Pré-venda em breve</div>
+    <h1>
+      Ansiedade e Procrastinação:<br>
+      <span class="highlight">você não precisa de motivação.</span><br>
+      Precisa de método.
+    </h1>
+    <p class="hero-subtitle">
+      Protocolo prático de clareza e ação diária — com filosofia aplicada (Nietzsche & Spinoza), 
+      sem misticismo. Zero desculpas — só performance.
     </p>
-
-    <div class="grid md:grid-cols-3 gap-4 mt-8">
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Guia principal (PDF)</h3>
-        <p class="mt-2 text-sm text-neutral-300">O passo a passo completo: clareza + execução no dia a dia.</p>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Protocolo de 10 minutos</h3>
-        <p class="mt-2 text-sm text-neutral-300">Pra destravar o dia mesmo quando a mente tá barulhenta.</p>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Plano de 30 dias</h3>
-        <p class="mt-2 text-sm text-neutral-300">Rotina guiada: você segue e executa. Menos pensar, mais fazer.</p>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Checklist diário</h3>
-        <p class="mt-2 text-sm text-neutral-300">Ação mínima viável pra manter consistência sem depender de motivação.</p>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Ferramentas anti-procrastinação</h3>
-        <p class="mt-2 text-sm text-neutral-300">Corta a negociação interna e te coloca em movimento.</p>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-5">
-        <h3 class="font-semibold">Filosofia aplicada</h3>
-        <p class="mt-2 text-sm text-neutral-300">Nietzsche pra te acordar. Spinoza pra te dar clareza. Aplicado ao cotidiano.</p>
-      </div>
+    <div class="hero-features">
+      <span>✓ Ritual de 10 minutos</span>
+      <span>✓ Plano de 30 dias</span>
+      <span>✓ Ferramentas anti-procrastinação</span>
     </div>
-
-    <div class="mt-10 rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-lg font-bold">Como funciona</h3>
-        <p class="mt-2 text-sm text-neutral-300">
-          1) Entra na Lista VIP • 2) Recebe o aviso + link oficial Kiwify • 3) Garante 20% OFF na abertura
-        </p>
-      </div>
-      <a
-        href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
-        class="inline-flex items-center justify-center px-8 py-4 text-base font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px]"
-      >
-        ENTRAR NA LISTA VIP (20% OFF)
+    <div class="hero-cta">
+      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura." class="btn-primary">
+        Lista VIP — 20% OFF →
       </a>
+      <a href="#lucidez" class="btn-secondary">Ver o que recebe ></a>
     </div>
-
-    <p class="mt-3 text-xs text-neutral-500">
-      Conteúdo educativo. Não substitui acompanhamento profissional.
-    </p>
+    <div class="hero-image">
+      <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática — Ansiedade e Procrastinação">
+    </div>
   </section>
 
-  <!-- Destaque: Dinheiro que Sobra -->
-  <section id="dinheiro" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <span class="inline-flex items-center rounded-full bg-amber-400/10 border border-amber-400/40 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber-300 uppercase">
-          Plano prático de finanças pessoais
-        </span>
-        <h2 class="mt-3 text-2xl md:text-3xl font-bold leading-snug">
-          DINHEIRO QUE SOBRA: O Guia Prático pra Quem Vive no Aperto
-        </h2>
-        <p class="mt-3 text-neutral-300 text-sm md:text-base">
-          Um plano simples pra fazer o salário durar até o fim do mês e ainda sobrar, mesmo ganhando pouco.
-          Sem economês, sem ilusão: organização prática de contas, dívidas e score pra você respirar de novo.
-        </p>
-        <ul class="mt-4 text-sm text-neutral-300 space-y-2">
-          <li>✅ Diagnóstico simples pra entender pra onde seu dinheiro está sumindo.</li>
-          <li>✅ Método das micro-sobras: como fazer sobrar R$ 15,00, R$ 40,00 por dia de forma constante.</li>
-          <li>✅ Roteiro pra negociar dívidas sem humilhação e sem enrolação.</li>
-          <li>✅ Mapa de 30 dias e plano de 1 ano pra sair do modo sobrevivência e ir pra estabilidade.</li>
-          <li>✅ Orientações claras sobre nome, Serasa e score sem “truque milagroso”.</li>
+  <!-- Products Section -->
+  <section id="lucidez">
+    <div class="section-header">
+      <h2>O que você recebe.</h2>
+      <p>Método direto pra sair do looping mental e voltar a agir.</p>
+    </div>
+    
+    <div class="products-grid">
+      <div class="product-card featured fade-in">
+        <div class="product-image">
+          <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
+        </div>
+        <h3>Lucidez Prática</h3>
+        <p>Protocolo completo de 10 minutos para destravar o dia, plano de 30 dias guiado, 
+        checklist diário e filosofia aplicada de Nietzsche & Spinoza.</p>
+        <ul class="product-features">
+          <li>Guia principal (PDF)</li>
+          <li>Protocolo de 10 minutos</li>
+          <li>Plano de 30 dias + checklist</li>
+          <li>Ferramentas anti-procrastinação</li>
+          <li>Filosofia aplicada</li>
         </ul>
-
-        <div class="mt-6">
-          <a href="https://pay.kiwify.com.br/xPzKLoK"
-             class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]">
-            COMPRAR AGORA (Kiwify)
-          </a>
-        </div>
-        <p class="mt-2 text-xs text-neutral-400">
-          Acesso imediato em PDF pela área de membros da Kiwify após a confirmação do pagamento.
-        </p>
+        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-primary">
+          Entrar na Lista VIP →
+        </a>
       </div>
 
-      <div class="flex justify-center">
-        <img
-          src="assets/img/dinheiro-que-sobra-capa.png"
-          alt="Capa do e-book Dinheiro que Sobra — O Guia Prático pra Quem Vive no Aperto"
-          class="w-full max-w-xs md:max-w-sm drop-shadow-[0_20px_60px_rgba(0,0,0,.6)] object-contain"
-          loading="lazy"
-        >
+      <div class="product-card fade-in">
+        <div class="product-image">
+          <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
+        </div>
+        <h3>Dinheiro que Sobra</h3>
+        <p>Plano prático de finanças pessoais para quem vive no aperto. 
+        Método das micro-sobras e roteiro de negociação de dívidas.</p>
+        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
+      </div>
+
+      <div class="product-card fade-in">
+        <div class="product-image">
+          <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
+        </div>
+        <h3>Manual de Vendas</h3>
+        <p>Do contato ao fechamento. SPIN Selling, roteiros de follow-up e técnicas de prospecção.</p>
+        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
+      </div>
+
+      <div class="product-card fade-in">
+        <div class="product-image">
+          <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total">
+        </div>
+        <h3>Calistenia Total</h3>
+        <p>Treino em casa em 30 minutos. Programa de 8 semanas, do iniciante ao avançado.</p>
+        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
       </div>
     </div>
   </section>
 
-  <!-- Métodos -->
-  <section id="metodos" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <h2 class="text-2xl md:text-3xl font-bold">Outros métodos em destaque</h2>
+  <!-- Results Section -->
+  <section class="features" id="resultados">
+    <div class="section-header">
+      <h2>Resultados em números.</h2>
+      <p>Autoridade construída na prática — método, constância e resultado.</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-item fade-in">
+        <div class="number">20+</div>
+        <div class="label">Anos de Experiência</div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="number">2.700+</div>
+        <div class="label">Clientes Impactados</div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="number">1.000+</div>
+        <div class="label">Aplicações dos Métodos</div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="number">7 dias</div>
+        <div class="label">Para Primeiros Sinais</div>
+      </div>
+    </div>
+  </section>
 
-    <div class="grid md:grid-cols-2 gap-8 mt-8">
-      <!-- Método Vendas -->
-      <article class="border border-neutral-900 rounded-2xl bg-neutral-900/20 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/10">
-        <div class="relative">
-          <img src="assets/img/capa-vendas.jpg" alt="Método de Vendas — Destrave suas Vendas" class="w-full h-[260px] object-contain" loading="lazy">
-        </div>
-        <div class="p-5">
-          <h3 class="text-lg md:text-xl font-semibold">Destrave suas Vendas: do Contato ao Fechamento</h3>
-          <p class="text-neutral-300 text-sm mt-1">Guia direto pra quem quer vender com método e parar de depender da sorte.</p>
-          <ul class="mt-4 text-sm space-y-2 text-neutral-300">
-            <li>✅ Prospecção Inteligente — técnicas pra gerar novos contatos todos os dias.</li>
-            <li>✅ SPIN Selling na prática — perguntas prontas pra qualificar rápido.</li>
-            <li>✅ Roteiros de Apresentação Persuasiva — como apresentar gerando desejo real.</li>
-          </ul>
-          <div class="mt-6">
-            <a href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=card&utm_campaign=vendas"
-               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
-               aria-label="Método de Vendas: do primeiro contato ao fechamento">
-              COMPRAR AGORA (Kiwify)
-            </a>
+  <!-- Testimonials -->
+  <section class="testimonials" id="depo">
+    <div class="section-header">
+      <h2>Quem já aplicou, aprovou.</h2>
+      <p>Histórias reais de transformação.</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-category fade-in">
+        <h4>Dinheiro que Sobra</h4>
+        <div class="testimonial-row">
+          <div class="testimonial-card">
+            <p>"Eu vivia estourando o limite. Com o e-book, pela primeira vez o salário chegou ao fim do mês."</p>
+            <div class="testimonial-author">Maria A.</div>
+            <div class="testimonial-role">Dona de casa</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"Segui o passo a passo e consegui negociar duas dívidas. Hoje não fujo mais do app do banco."</p>
+            <div class="testimonial-author">Paulo H.</div>
+            <div class="testimonial-role">Operador de produção</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"A gente só brigava por dinheiro. Depois do e-book sentamos, fizemos o plano e parou a confusão."</p>
+            <div class="testimonial-author">Rodrigo & Juliana</div>
+            <div class="testimonial-role">Casal com 2 filhos</div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <!-- Método Calistenia -->
-      <article class="border border-neutral-900 rounded-2xl bg-neutral-900/20 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/10">
-        <div class="relative">
-          <img src="assets/img/capa-calistenia.jpg" alt="Método Calistenia — Treino em Casa" class="w-full h-[260px] object-contain" loading="lazy">
-        </div>
-        <div class="p-5">
-          <h3 class="text-lg md:text-xl font-semibold">Treino em Casa: 30 min/dia — Calistenia Total</h3>
-          <p class="text-neutral-300 text-sm mt-1">Transforme seu corpo e mente em 8 semanas — sem academia, só com o peso do corpo.</p>
-          <ul class="mt-4 text-sm space-y-2 text-neutral-300">
-            <li>✅ Treinos Progressivos (Etapas 1 a 3) — do iniciante ao avançado</li>
-            <li>✅ Exercícios explicados passo a passo — força, mobilidade e resistência</li>
-            <li>✅ Planilhas semanais prontas — tempo, repetições e evolução</li>
-          </ul>
-          <div class="mt-6">
-            <a href="https://pay.kiwify.com.br/lt9RRvy?utm_source=site&utm_medium=card&utm_campaign=calistenia"
-               class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px] max-w-[340px]"
-               aria-label="Método Calistenia: treino em casa, 30 minutos por dia, zero equipamentos">
-              COMPRAR AGORA (Kiwify)
-            </a>
+      <div class="testimonial-category fade-in">
+        <h4>Método de Vendas</h4>
+        <div class="testimonial-row">
+          <div class="testimonial-card">
+            <p>"Apliquei o roteiro de follow-up e fechei 3 carros em 6 dias."</p>
+            <div class="testimonial-author">Marcelo</div>
+            <div class="testimonial-role">Consultor de vendas</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"O script de proposta aumentou meu ticket. O cliente sente mais segurança."</p>
+            <div class="testimonial-author">Camila</div>
+            <div class="testimonial-role">Vendas</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"Agora tenho rotina: prospecção de manhã, fechamento à tarde. Parei de viver apagando incêndio."</p>
+            <div class="testimonial-author">Rodrigo</div>
+            <div class="testimonial-role">Gerente</div>
           </div>
         </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- Resultados -->
-  <section id="resultados" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <h3 class="text-2xl font-bold">Resultados em números</h3>
-    <p class="text-neutral-300 mt-1">Autoridade construída na prática — método, constância e resultado.</p>
-    <div class="grid md:grid-cols-4 gap-6 mt-8">
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
-        <div class="text-3xl font-extrabold text-amber-400">20+</div>
-        <div class="text-xs mt-1 opacity-70">ANOS DE EXPERIÊNCIA</div>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
-        <div class="text-3xl font-extrabold text-amber-400">2.700+</div>
-        <div class="text-xs mt-1 opacity-70">CLIENTES IMPACTADOS</div>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
-        <div class="text-3xl font-extrabold text-amber-400">1.000+</div>
-        <div class="text-xs mt-1 opacity-70">APLICAÇÕES DOS MÉTODOS</div>
-      </div>
-      <div class="rounded-2xl border border-neutral-900 bg-neutral-900/20 p-6 text-center">
-        <div class="text-3xl font-extrabold text-amber-400">7 dias</div>
-        <div class="text-xs mt-1 opacity-70">PARA VER OS PRIMEIROS SINAIS</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Depoimentos -->
-  <section id="depo" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <h3 class="text-2xl font-bold">Quem já aplicou, aprovou</h3>
-
-    <div class="mt-6 space-y-8">
-      <!-- Finanças -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Dinheiro que Sobra</h4>
-        <div class="mt-3 grid md:grid-cols-3 gap-4">
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “Eu vivia estourando o limite. Com o e-book, pela primeira vez o salário chegou ao fim do mês.”
-            <div class="mt-2 text-xs opacity-70">— Maria A., dona de casa</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “Segui o passo a passo e consegui negociar duas dívidas. Hoje não fujo mais do app do banco.”
-            <div class="mt-2 text-xs opacity-70">— Paulo H., operador de produção</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “A gente só brigava por dinheiro. Depois do e-book sentamos, fizemos o plano e parou a confusão.”
-            <div class="mt-2 text-xs opacity-70">— Rodrigo &amp; Juliana, casal com 2 filhos</div>
-          </blockquote>
-        </div>
       </div>
 
-      <!-- Vendas -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Método de Vendas</h4>
-        <div class="mt-3 grid md:grid-cols-3 gap-4">
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “Apliquei o roteiro de follow-up e fechei 3 carros em 6 dias.”
-            <div class="mt-2 text-xs opacity-70">— Marcelo, consultor de vendas</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “O script de proposta aumentou meu ticket. O cliente sente mais segurança.”
-            <div class="mt-2 text-xs opacity-70">— Camila, vendas</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “Agora tenho rotina: prospecção de manhã, fechamento à tarde. Parei de viver apagando incêndio.”
-            <div class="mt-2 text-xs opacity-70">— Rodrigo, gerente</div>
-          </blockquote>
-        </div>
-      </div>
-
-      <!-- Treino -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Treino em Casa — Calistenia</h4>
-        <div class="mt-3 grid md:grid-cols-3 gap-4">
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “Sem academia e sem desculpas: 30 min por dia e voltei a treinar.”
-            <div class="mt-2 text-xs opacity-70">— Henrique, empreendedor</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “A mobilidade melhorou muito e parei de sentir dor ao dirigir.”
-            <div class="mt-2 text-xs opacity-70">— Nara, vendas</div>
-          </blockquote>
-          <blockquote class="border border-neutral-900 rounded-2xl p-5 bg-neutral-900/20 text-sm">
-            “30 minutos diários virou hábito — energia lá em cima e cabeça mais leve.”
-            <div class="mt-2 text-xs opacity-70">— Edu, autônomo</div>
-          </blockquote>
+      <div class="testimonial-category fade-in">
+        <h4>Calistenia</h4>
+        <div class="testimonial-row">
+          <div class="testimonial-card">
+            <p>"Sem academia e sem desculpas: 30 min por dia e voltei a treinar."</p>
+            <div class="testimonial-author">Henrique</div>
+            <div class="testimonial-role">Empreendedor</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"A mobilidade melhorou muito e parei de sentir dor ao dirigir."</p>
+            <div class="testimonial-author">Nara</div>
+            <div class="testimonial-role">Vendas</div>
+          </div>
+          <div class="testimonial-card">
+            <p>"30 minutos diários virou hábito — energia lá em cima e cabeça mais leve."</p>
+            <div class="testimonial-author">Edu</div>
+            <div class="testimonial-role">Autônomo</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <h3 class="text-2xl font-bold">FAQ — Perguntas Frequentes</h3>
-    <p class="text-neutral-300 mt-1">Clique nas perguntas para abrir o conteúdo 👇</p>
-
-    <div class="mt-6 space-y-6">
-
-      <!-- BLOCO: Lucidez -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Lucidez Prática (Ansiedade e Procrastinação)</h4>
-        <div class="mt-3 space-y-3">
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              O que eu recebo no Lucidez Prática?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Guia principal (PDF) com o método completo.</p>
-              <p>• Protocolo de 10 minutos pra destravar o dia.</p>
-              <p>• Plano de 30 dias (passo a passo) + checklist diário.</p>
-              <p>• Ferramentas anti-procrastinação e filosofia aplicada (Nietzsche &amp; Spinoza).</p>
-              <p class="text-xs text-neutral-500">Conteúdo educativo. Não substitui acompanhamento profissional.</p>
-            </div>
-          </details>
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Como funciona a Lista VIP e os 20% OFF?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>Você entra na Lista VIP pelo WhatsApp.</p>
-              <p>Quando a pré-venda abrir, eu envio o link oficial da Kiwify e a condição de lançamento (20% OFF) pra quem entrou na lista.</p>
-            </div>
-          </details>
-
+  <!-- FAQ Section -->
+  <section id="faq" class="faq">
+    <div class="section-header">
+      <h2>Perguntas frequentes.</h2>
+      <p>Tudo que você precisa saber.</p>
+    </div>
+    
+    <div class="faq-list">
+      <details class="faq-item fade-in">
+        <summary class="faq-question">
+          <span>O que eu recebo no Lucidez Prática?</span>
+          <span class="faq-icon">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>• Guia principal (PDF) com o método completo</p>
+          <p>• Protocolo de 10 minutos pra destravar o dia</p>
+          <p>• Plano de 30 dias (passo a passo) + checklist diário</p>
+          <p>• Ferramentas anti-procrastinação e filosofia aplicada (Nietzsche & Spinoza)</p>
+          <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
+            Conteúdo educativo. Não substitui acompanhamento profissional.
+          </p>
         </div>
-      </div>
+      </details>
 
-      <!-- BLOCO: Finanças -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Método Dinheiro que Sobra</h4>
-        <div class="mt-3 space-y-3">
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              O que eu recebo no Método Dinheiro que Sobra?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Diagnóstico simples pra entender pra onde o dinheiro está indo.</p>
-              <p>• Método das micro-sobras (R$ 5 / R$ 10 por dia) sem sofrimento.</p>
-              <p>• Passo a passo pra contas fixas, variáveis e gastos invisíveis.</p>
-              <p>• Roteiro de negociação de dívidas sem humilhação.</p>
-              <p>• Mapa de 30 dias + plano de 1 ano.</p>
-              <p>• Nome, Serasa e score sem promessa milagrosa.</p>
-            </div>
-          </details>
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Esse guia serve pra quem ganha pouco ou é autônomo?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm">
-              Sim. O foco é justamente quem vive apertado, com renda fixa baixa ou variável.
-            </div>
-          </details>
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Fala mesmo de Serasa e score?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm">
-              Sim. O que realmente pesa, como organizar dívidas e o que é mito — sem truque secreto.
-            </div>
-          </details>
-
+      <details class="faq-item fade-in">
+        <summary class="faq-question">
+          <span>Como funciona a Lista VIP e os 20% OFF?</span>
+          <span class="faq-icon">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>Você entra na Lista VIP pelo WhatsApp. Quando a pré-venda abrir, envio o link oficial da Kiwify 
+          com a condição de lançamento (20% OFF) exclusiva pra quem entrou na lista.</p>
         </div>
-      </div>
+      </details>
 
-      <!-- BLOCO: Vendas -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Método de Vendas</h4>
-        <div class="mt-3 space-y-3">
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              O que vem no método de Vendas (Destrave suas Vendas)?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Roteiro de abordagem + qualificação SPIN.</p>
-              <p>• Respostas prontas para objeções.</p>
-              <p>• Cadência de follow-up de 7 dias + modelos.</p>
-              <p>• Checklist de visita, teste-drive e fechamento.</p>
-              <p>• KPIs essenciais e quadro semanal simples.</p>
-            </div>
-          </details>
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Funciona pra quem está começando?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm">
-              Funciona. É prático e guiado por exemplos — dá pra aplicar em 1 dia.
-            </div>
-          </details>
+      <details class="faq-item fade-in">
+        <summary class="faq-question">
+          <span>O que vem no Dinheiro que Sobra?</span>
+          <span class="faq-icon">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>• Diagnóstico simples pra entender pra onde o dinheiro está indo</p>
+          <p>• Método das micro-sobras (R$ 5 / R$ 10 por dia) sem sofrimento</p>
+          <p>• Passo a passo pra contas fixas, variáveis e gastos invisíveis</p>
+          <p>• Roteiro de negociação de dívidas sem humilhação</p>
+          <p>• Mapa de 30 dias + plano de 1 ano</p>
+          <p>• Nome, Serasa e score sem promessa milagrosa</p>
         </div>
-      </div>
+      </details>
 
-      <!-- BLOCO: Calistenia -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Treino em Casa — Calistenia</h4>
-        <div class="mt-3 space-y-3">
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              O que vem no método de Calistenia (Treino em Casa 30 min/dia)?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm space-y-2">
-              <p>• Programa de 8 semanas com progressão.</p>
-              <p>• Sequências prontas + aquecimento e mobilidade.</p>
-              <p>• Guia simples de alimentação e sono.</p>
-              <p>• Planilhas semanais — tempo, repetições e evolução.</p>
-              <p>• Zero equipamentos — 100% em casa.</p>
-            </div>
-          </details>
-
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Preciso de equipamentos ou academia?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm">
-              Não. O plano é pensado para ser feito em casa com o peso do corpo.
-            </div>
-          </details>
+      <details class="faq-item fade-in">
+        <summary class="faq-question">
+          <span>Como recebo depois da compra?</span>
+          <span class="faq-icon">▼</span>
+        </summary>
+        <div class="faq-answer">
+          <p>Você recebe o acesso por e-mail após a confirmação do pagamento pela Kiwify. 
+          O conteúdo é 100% digital e disponível 24/7 na área de membros.</p>
         </div>
-      </div>
-
-      <!-- BLOCO: Entrega -->
-      <div>
-        <h4 class="text-sm font-semibold tracking-wide text-amber-300 uppercase">Entrega e acesso</h4>
-        <div class="mt-3 space-y-3">
-          <details class="group border border-neutral-900 rounded-xl bg-neutral-900/20 p-4">
-            <summary class="cursor-pointer font-semibold flex items-center justify-between">
-              Como recebo depois da compra?
-              <span class="text-amber-300 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="mt-3 text-neutral-300 text-sm">
-              Você recebe o acesso por e-mail após a confirmação do pagamento pela Kiwify.
-            </div>
-          </details>
-        </div>
-      </div>
-
+      </details>
     </div>
   </section>
 
-  <!-- Manifesto + Quem é -->
-  <section id="sobre" class="max-w-6xl mx-auto px-4 py-14 border-b border-neutral-900">
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-      <div class="order-2 md:order-1">
-        <h3 class="text-xl md:text-2xl font-bold">Manifesto OLEGARIO TECH</h3>
-        <p class="mt-3 text-neutral-300">
-          Na OLEGARIO TECH, acreditamos que conhecimento só vale quando vira ação.
-          Unimos técnica, tecnologia e propósito pra gerar resultado real.
-          <span class="text-amber-300 font-semibold"> Zero desculpas — só performance.</span>
-        </p>
-
-        <h3 class="text-xl md:text-2xl font-bold mt-8">Quem é Alexandre Olegario</h3>
-        <p class="mt-3 text-neutral-300">
-          Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais.
-          Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia em método simples, direto e aplicável.
-          Mentor, gestor e autor. Foco: <em>resultado real</em>.
-        </p>
+  <!-- About Section -->
+  <section class="about-section" id="sobre">
+    <div class="about-content">
+      <div class="about-text fade-in">
+        <h3>Manifesto OLEGARIO TECH</h3>
+        <p>Acreditamos que conhecimento só vale quando vira ação. Unimos técnica, tecnologia e propósito 
+        pra gerar resultado real. <strong style="color: var(--accent);">Zero desculpas — só performance.</strong></p>
+        
+        <h3>Quem é Alexandre Olegario</h3>
+        <p>Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais. 
+        Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia 
+        em método simples, direto e aplicável. Mentor, gestor e autor. Foco: <em>resultado real</em>.</p>
       </div>
-      <div class="order-1 md:order-2 flex justify-center">
-        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" class="rounded-2xl border border-neutral-800 shadow-2xl w-72 md:w-96" loading="lazy">
+      <div class="about-image fade-in">
+        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
       </div>
     </div>
   </section>
 
-  <!-- CTA Final (limpo, sem barra fixa) -->
-  <section class="py-14 border-t border-neutral-900" style="background: radial-gradient(80% 120% at 50% 0%, rgba(251,191,36,.18) 0%, rgba(10,10,10,1) 60%);">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h3 class="text-2xl md:text-3xl font-bold">🚀 Pronto pra sair da teoria e partir pra ação?</h3>
-      <p class="mt-2 text-neutral-300">Escolha por onde começar: Lucidez (pré-venda), dinheiro organizado, vendas destravadas ou treino em dia.</p>
-
-      <div class="mt-6 flex flex-col md:flex-row items-center justify-center gap-3 flex-wrap">
-        <a
-          href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura.%20Me%20avisa%20quando%20liberar%20o%20link%20oficial%20da%20Kiwify."
-          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-amber-400 text-neutral-900 hover:bg-amber-300 min-h-[52px] min-w-[240px]"
-        >
-          LISTA VIP LUCIDEZ (20% OFF)
-        </a>
-
-        <a
-          href="https://pay.kiwify.com.br/xPzKLoK"
-          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl bg-neutral-100 text-neutral-900 hover:bg-neutral-200 min-h-[52px] min-w-[240px]"
-        >
-          COMPRAR DINHEIRO QUE SOBRA
-        </a>
-
-        <a
-          href="https://pay.kiwify.com.br/rmmRvfc?utm_source=site&utm_medium=cta_final&utm_campaign=vendas"
-          class="inline-flex items-center justify-center px-8 py-4 text-base md:text-lg font-extrabold whitespace-nowrap rounded-xl border border-amber-400 text-amber-300 hover:bg-amber-400 hover:text-neutral-900 min-h-[52px] min-w-[240px]"
-        >
-          COMPRAR VENDAS
-        </a>
-      </div>
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h3>Pronto pra sair da teoria<br>e partir pra ação?</h3>
+    <p>Escolha por onde começar: Lucidez (pré-venda), dinheiro organizado,<br>vendas destravadas ou treino em dia.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-white">
+        Lista VIP Lucidez — 20% OFF
+      </a>
+      <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-outline">Dinheiro que Sobra</a>
+      <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-outline">Manual de Vendas</a>
+      <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-outline">Calistenia</a>
     </div>
   </section>
 
-  <!-- WhatsApp flutuante (ÚNICO) -->
-  <a class="fab-whats inline-flex items-center gap-2 bg-emerald-500 text-white font-extrabold shadow-lg rounded-full px-4 py-3 hover:bg-emerald-400"
-     href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20tirar%20uma%20d%C3%BAvida%20e%20receber%20o%20link%20oficial%20da%20Kiwify."
-     aria-label="WhatsApp Oficial Olegario Tech">
+  <!-- WhatsApp FAB -->
+  <a class="fab-whats" href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20tirar%20uma%20d%C3%BAvida">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
     <span>WhatsApp Oficial</span>
   </a>
 
-  <footer class="py-8 text-center text-xs text-neutral-400 border-t border-neutral-900">
-    © OLEGARIO TECH — Conhecimento que vira ação.
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 OLEGARIO TECH — Conhecimento que vira ação.</p>
   </footer>
 
   <script>
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') })
-    },{threshold:.18});
-    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+      } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+      }
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 
 </body>
