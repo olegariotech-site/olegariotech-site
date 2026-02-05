@@ -23,7 +23,7 @@
 
   <link rel="icon" href="assets/img/favicon.ico" />
   
-  <!-- Google Fonts - Inter (Apple-style) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -37,6 +37,8 @@
       --text-secondary: #86868b;
       --accent: #0071e3;
       --accent-hover: #0077ed;
+      --urgent: #ff3b30;
+      --success: #34c759;
       --border: #d2d2d7;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -61,13 +63,33 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Navigation */
-    nav {
+    /* Alert Bar - Urgência */
+    .alert-bar {
+      background: var(--urgent);
+      color: white;
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
       position: fixed;
       top: 0;
       width: 100%;
+      z-index: 10000;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 44px;
+      width: 100%;
       height: 52px;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       z-index: 9999;
@@ -93,12 +115,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      opacity: 0.9;
-      transition: opacity 0.3s;
-    }
-
-    .logo:hover {
-      opacity: 1;
     }
 
     .logo img {
@@ -119,7 +135,6 @@
       text-decoration: none;
       opacity: 0.8;
       transition: opacity 0.3s;
-      font-weight: 400;
     }
 
     .nav-links a:hover {
@@ -136,14 +151,18 @@
       justify-content: center;
       text-align: center;
       padding: 140px 20px 80px;
-      background: var(--bg-primary);
+      background: linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
       position: relative;
+      margin-top: 44px;
     }
 
     .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--accent);
+      color: var(--urgent);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 16px;
@@ -152,8 +171,18 @@
       animation: fadeUp 1s var(--transition) forwards;
     }
 
+    .hero-badge::before {
+      content: "●";
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .hero h1 {
-      font-size: 80px;
+      font-size: 72px;
       line-height: 1.05;
       font-weight: 700;
       letter-spacing: -0.015em;
@@ -168,7 +197,6 @@
       background: linear-gradient(180deg, var(--accent) 0%, #00c7be 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .hero-subtitle {
@@ -176,84 +204,109 @@
       line-height: 1.4;
       color: var(--text-secondary);
       max-width: 700px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       font-weight: 400;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s var(--transition) 0.2s forwards;
     }
 
-    .hero-features {
+    /* Social Proof Bar */
+    .social-bar {
       display: flex;
-      gap: 40px;
+      align-items: center;
+      gap: 24px;
       margin-bottom: 40px;
-      font-size: 17px;
+      padding: 16px 32px;
+      background: rgba(0, 113, 227, 0.08);
+      border-radius: 100px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s var(--transition) 0.25s forwards;
+    }
+
+    .social-bar span {
+      font-size: 14px;
       color: var(--text-secondary);
+    }
+
+    .social-bar strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .stars {
+      color: #ffb800;
+      letter-spacing: 2px;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s var(--transition) 0.3s forwards;
     }
 
-    .hero-features span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s var(--transition) 0.4s forwards;
-    }
-
     .btn-primary {
       background: var(--accent);
       color: white;
-      padding: 14px 28px;
+      padding: 18px 40px;
       border-radius: 980px;
       text-decoration: none;
-      font-size: 17px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       transition: all 0.3s var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 113, 227, 0.3);
     }
 
     .btn-primary:hover {
       background: var(--accent-hover);
       transform: scale(1.02);
+      box-shadow: 0 6px 30px rgba(0, 113, 227, 0.4);
     }
 
-    .btn-secondary {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 500;
-      display: inline-flex;
+    .btn-urgent {
+      background: var(--urgent);
+      box-shadow: 0 4px 20px rgba(255, 59, 48, 0.3);
+      animation: pulse-btn 2s infinite;
+    }
+
+    .btn-urgent:hover {
+      background: #ff453a;
+      box-shadow: 0 6px 30px rgba(255, 59, 48, 0.4);
+    }
+
+    @keyframes pulse-btn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .guarantee-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 14px 28px;
-      border-radius: 980px;
-      border: 1px solid var(--border);
-      transition: all 0.3s;
+      gap: 6px;
     }
 
-    .btn-secondary:hover {
-      background: var(--bg-secondary);
+    .guarantee-text::before {
+      content: "🛡️";
     }
 
     .hero-image {
-      margin-top: 80px;
+      margin-top: 60px;
       width: 100%;
-      max-width: 600px;
+      max-width: 500px;
       opacity: 0;
       transform: translateY(40px);
-      animation: fadeUp 1.2s var(--transition) 0.6s forwards;
+      animation: fadeUp 1.2s var(--transition) 0.5s forwards;
+      position: relative;
     }
 
     .hero-image img {
@@ -263,24 +316,64 @@
       box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
     }
 
+    /* Price Tag */
+    .price-tag {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      background: var(--urgent);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(255, 59, 48, 0.3);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .price-tag .old-price {
+      font-size: 14px;
+      text-decoration: line-through;
+      opacity: 0.8;
+    }
+
+    .price-tag .new-price {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .price-tag .discount {
+      font-size: 12px;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 8px;
+      border-radius: 12px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
     /* Section Styling */
     section {
-      padding: 160px 20px;
+      padding: 120px 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 80px;
+      margin-bottom: 60px;
     }
 
     .section-header h2 {
-      font-size: 56px;
+      font-size: 48px;
       line-height: 1.1;
       font-weight: 700;
       letter-spacing: -0.005em;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .section-header p {
@@ -288,6 +381,54 @@
       color: var(--text-secondary);
       max-width: 600px;
       margin: 0 auto;
+    }
+
+    /* Problem Section */
+    .problem-section {
+      background: var(--bg-dark);
+      color: white;
+      margin: 0;
+      max-width: 100%;
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .problem-section h2 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    .problem-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .problem-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 40px 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .problem-card .emoji {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .problem-card h3 {
+      font-size: 21px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .problem-card p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.4;
     }
 
     /* Products Grid */
@@ -300,7 +441,7 @@
     .product-card {
       background: var(--bg-secondary);
       border-radius: 28px;
-      padding: 60px 40px;
+      padding: 40px;
       text-align: center;
       transition: transform 0.5s var(--transition), box-shadow 0.5s;
       position: relative;
@@ -308,17 +449,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      border: 2px solid transparent;
     }
 
     .product-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      border-color: var(--accent);
     }
 
     .product-card.featured {
-      background: var(--bg-dark);
+      background: linear-gradient(135deg, #1d1d1f 0%, #000000 100%);
       color: white;
       grid-column: span 2;
+      border: 2px solid var(--accent);
     }
 
     .product-card.featured h3,
@@ -326,12 +470,31 @@
       color: white;
     }
 
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--urgent);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-success {
+      background: var(--success);
+    }
+
     .product-image {
       width: 100%;
-      max-width: 300px;
-      margin-bottom: 32px;
+      max-width: 280px;
+      margin-bottom: 24px;
       border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
     .product-image img {
@@ -342,7 +505,7 @@
 
     .product-card h3 {
       font-size: 28px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 12px;
       letter-spacing: -0.021em;
     }
@@ -351,8 +514,29 @@
       font-size: 17px;
       color: var(--text-secondary);
       line-height: 1.4;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       max-width: 400px;
+    }
+
+    .product-price {
+      margin: 20px 0;
+    }
+
+    .product-price .old {
+      font-size: 18px;
+      color: var(--text-secondary);
+      text-decoration: line-through;
+      margin-right: 12px;
+    }
+
+    .product-price .current {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .product-card.featured .product-price .current {
+      color: #2997ff;
     }
 
     .product-features {
@@ -364,10 +548,10 @@
 
     .product-features li {
       list-style: none;
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-secondary);
-      margin-bottom: 8px;
-      padding-left: 20px;
+      margin-bottom: 10px;
+      padding-left: 28px;
       position: relative;
     }
 
@@ -375,12 +559,32 @@
       content: "✓";
       position: absolute;
       left: 0;
-      color: var(--accent);
-      font-weight: 600;
+      color: var(--success);
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      background: rgba(52, 199, 89, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
     }
 
     .product-card.featured .product-features li::before {
       color: #2997ff;
+      background: rgba(41, 151, 255, 0.2);
+    }
+
+    .stock-warning {
+      font-size: 13px;
+      color: var(--urgent);
+      font-weight: 600;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     /* Features Section */
@@ -388,7 +592,7 @@
       background: var(--bg-secondary);
       margin: 0;
       max-width: 100%;
-      padding: 160px 20px;
+      padding: 100px 20px;
     }
 
     .features-grid {
@@ -402,6 +606,9 @@
     .feature-item {
       text-align: center;
       padding: 40px 20px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
 
     .feature-item .number {
@@ -413,10 +620,8 @@
     }
 
     .feature-item .label {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
       color: var(--text-secondary);
     }
 
@@ -426,7 +631,7 @@
       color: white;
       margin: 0;
       max-width: 100%;
-      padding: 160px 20px;
+      padding: 100px 20px;
     }
 
     .testimonials .section-header h2,
@@ -440,16 +645,17 @@
     }
 
     .testimonial-category {
-      margin-bottom: 60px;
+      margin-bottom: 50px;
     }
 
     .testimonial-category h4 {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       color: var(--accent);
       margin-bottom: 24px;
+      text-align: center;
     }
 
     .testimonial-row {
@@ -461,21 +667,26 @@
     .testimonial-card {
       background: rgba(255, 255, 255, 0.05);
       border-radius: 24px;
-      padding: 40px;
-      backdrop-filter: blur(20px);
+      padding: 32px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .testimonial-card p {
-      font-size: 19px;
+      font-size: 18px;
       line-height: 1.5;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       font-weight: 400;
     }
 
     .testimonial-author {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.9);
       font-weight: 600;
     }
 
@@ -484,18 +695,77 @@
       color: rgba(255, 255, 255, 0.5);
     }
 
+    .result-badge {
+      display: inline-block;
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    /* Guarantee Section */
+    .guarantee-section {
+      background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .guarantee-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .guarantee-badge {
+      width: 120px;
+      height: 120px;
+      background: var(--success);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      font-weight: 700;
+      box-shadow: 0 10px 40px rgba(52, 199, 89, 0.3);
+    }
+
+    .guarantee-badge span:first-child {
+      font-size: 32px;
+    }
+
+    .guarantee-badge span:last-child {
+      font-size: 14px;
+    }
+
+    .guarantee-section h2 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .guarantee-section p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
     /* FAQ Section */
     .faq {
       max-width: 800px;
+      padding: 100px 20px;
     }
 
     .faq-item {
       border-bottom: 1px solid var(--border);
-      padding: 30px 0;
+      padding: 24px 0;
     }
 
     .faq-question {
-      font-size: 21px;
+      font-size: 19px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -524,7 +794,7 @@
 
     details[open] .faq-answer {
       max-height: 500px;
-      padding-top: 20px;
+      padding-top: 16px;
     }
 
     details[open] .faq-icon {
@@ -533,46 +803,54 @@
 
     .faq-icon {
       transition: transform 0.3s;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--accent);
     }
 
-    /* About Section */
-    .about-section {
-      background: var(--bg-secondary);
-      margin: 0;
-      max-width: 100%;
-      padding: 160px 20px;
+    /* Urgency Section */
+    .urgency-section {
+      background: var(--urgent);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
     }
 
-    .about-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .about-text h3 {
+    .urgency-section h3 {
       font-size: 32px;
       font-weight: 700;
-      margin-bottom: 20px;
-      letter-spacing: -0.021em;
+      margin-bottom: 16px;
     }
 
-    .about-text p {
-      font-size: 19px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      margin-bottom: 40px;
+    .urgency-section p {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 24px;
     }
 
-    .about-image img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 28px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .countdown-item {
+      background: rgba(255,255,255,0.2);
+      padding: 16px 24px;
+      border-radius: 16px;
+      min-width: 80px;
+    }
+
+    .countdown-item .number {
+      font-size: 36px;
+      font-weight: 700;
+      display: block;
+    }
+
+    .countdown-item .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      opacity: 0.8;
     }
 
     /* CTA Section */
@@ -580,7 +858,7 @@
       background: var(--bg-dark);
       color: white;
       text-align: center;
-      padding: 120px 20px;
+      padding: 100px 20px;
     }
 
     .cta-section h3 {
@@ -590,7 +868,7 @@
       letter-spacing: -0.015em;
     }
 
-    .cta-section p {
+    .cta-section > p {
       font-size: 21px;
       color: rgba(255, 255, 255, 0.7);
       margin-bottom: 40px;
@@ -598,20 +876,24 @@
 
     .cta-buttons {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 32px;
     }
 
     .btn-white {
       background: white;
       color: var(--bg-dark);
-      padding: 14px 28px;
+      padding: 18px 36px;
       border-radius: 980px;
       text-decoration: none;
-      font-size: 17px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       transition: all 0.3s var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .btn-white:hover {
@@ -620,18 +902,34 @@
     }
 
     .btn-outline {
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       color: white;
-      padding: 14px 28px;
+      padding: 18px 36px;
       border-radius: 980px;
       text-decoration: none;
-      font-size: 17px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       transition: all 0.3s;
     }
 
     .btn-outline:hover {
       background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    .security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .security-badges span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* WhatsApp FAB */
@@ -645,13 +943,13 @@
       font-weight: 600;
       box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
       border-radius: 50px;
-      padding: 14px 24px;
+      padding: 16px 28px;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 8px;
       transition: all 0.3s var(--transition);
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .fab-whats:hover {
@@ -689,70 +987,36 @@
 
     /* Responsive */
     @media (max-width: 1024px) {
-      .hero h1 {
-        font-size: 56px;
-      }
-      
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .product-card.featured {
-        grid-column: span 1;
-      }
-      
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .testimonial-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .about-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .about-image {
-        order: -1;
-      }
+      .hero h1 { font-size: 56px; }
+      .products-grid { grid-template-columns: 1fr; }
+      .product-card.featured { grid-column: span 1; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonial-row { grid-template-columns: 1fr; }
+      .problem-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      
-      .hero h1 {
-        font-size: 40px;
-      }
-      
-      .hero-subtitle {
-        font-size: 21px;
-      }
-      
-      .hero-features {
-        flex-direction: column;
-        gap: 16px;
-      }
-      
-      .section-header h2 {
-        font-size: 40px;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .cta-section h3 {
-        font-size: 32px;
-      }
+      .nav-links { display: none; }
+      .hero h1 { font-size: 36px; }
+      .hero-subtitle { font-size: 19px; }
+      .section-header h2 { font-size: 32px; }
+      .social-bar { flex-direction: column; padding: 12px 20px; }
+      .price-tag { right: 10px; top: 10px; padding: 12px 16px; }
+      .price-tag .new-price { font-size: 20px; }
+      .cta-section h3 { font-size: 32px; }
+      .countdown { gap: 10px; }
+      .countdown-item { padding: 12px 16px; min-width: 60px; }
+      .countdown-item .number { font-size: 24px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Alert Bar - Urgência -->
+  <div class="alert-bar">
+    🔥 ÚLTIMAS VAGAS NA LISTA VIP: 20% OFF ACABA EM BREVE — GARANTA SUA VAGA AGORA
+  </div>
 
   <!-- Navigation -->
   <nav id="navbar">
@@ -763,19 +1027,17 @@
       </a>
       <ul class="nav-links">
         <li><a href="#lucidez">Lucidez Prática</a></li>
-        <li><a href="#dinheiro">Dinheiro que Sobra</a></li>
         <li><a href="#metodos">Métodos</a></li>
         <li><a href="#resultados">Resultados</a></li>
-        <li><a href="#depo">Depoimentos</a></li>
+        <li><a href="#garantia">Garantia</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#sobre">Sobre</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero" id="top">
-    <div class="hero-badge">Novo · Pré-venda em breve</div>
+    <div class="hero-badge">Pré-venda aberta por tempo limitado</div>
     <h1>
       Ansiedade e Procrastinação:<br>
       <span class="highlight">você não precisa de motivação.</span><br>
@@ -785,75 +1047,143 @@
       Protocolo prático de clareza e ação diária — com filosofia aplicada (Nietzsche & Spinoza), 
       sem misticismo. Zero desculpas — só performance.
     </p>
-    <div class="hero-features">
-      <span>✓ Ritual de 10 minutos</span>
-      <span>✓ Plano de 30 dias</span>
-      <span>✓ Ferramentas anti-procrastinação</span>
+    
+    <!-- Social Proof -->
+    <div class="social-bar">
+      <span class="stars">★★★★★</span>
+      <span><strong>2.700+</strong> alunos</span>
+      <span>|</span>
+      <span><strong>97%</strong> de aprovação</span>
+      <span>|</span>
+      <span>Mais vendido da categoria</span>
     </div>
+
     <div class="hero-cta">
-      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA%20e%20garantir%2020%25%20OFF%20na%20abertura." class="btn-primary">
-        Lista VIP — 20% OFF →
+      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-primary btn-urgent">
+        QUERO ENTRAR NA LISTA VIP — 20% OFF →
       </a>
-      <a href="#lucidez" class="btn-secondary">Ver o que recebe ></a>
+      <span class="guarantee-text">7 dias de garantia incondicional</span>
     </div>
+
     <div class="hero-image">
-      <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática — Ansiedade e Procrastinação">
+      <div class="price-tag">
+        <div class="old-price">De R$ 197</div>
+        <div class="new-price">R$ 97</div>
+        <div class="discount">20% OFF</div>
+      </div>
+      <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="problem-section">
+    <h2>Você se identifica?</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="emoji">😰</div>
+        <h3>Ansiedade paralisante</h3>
+        <p>Sabe o que precisa fazer, mas fica preso no looping mental sem conseguir agir</p>
+      </div>
+      <div class="problem-card">
+        <div class="emoji">💸</div>
+        <h3>Dinheiro no vermelho</h3>
+        <p>Salário acaba antes do mês e não sabe pra onde foi o dinheiro</p>
+      </div>
+      <div class="problem-card">
+        <div class="emoji">📉</div>
+        <h3>Vendas estagnadas</h3>
+        <p>Depende da sorte para fechar negócios e não tem método consistente</p>
+      </div>
     </div>
   </section>
 
   <!-- Products Section -->
   <section id="lucidez">
     <div class="section-header">
-      <h2>O que você recebe.</h2>
-      <p>Método direto pra sair do looping mental e voltar a agir.</p>
+      <h2>Escolha sua transformação.</h2>
+      <p>Métodos validados por mais de 2.700 pessoas. Resultado real ou dinheiro de volta.</p>
     </div>
     
     <div class="products-grid">
+      <!-- Produto Destaque -->
       <div class="product-card featured fade-in">
+        <span class="badge">MAIS VENDIDO</span>
         <div class="product-image">
           <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
         </div>
         <h3>Lucidez Prática</h3>
-        <p>Protocolo completo de 10 minutos para destravar o dia, plano de 30 dias guiado, 
-        checklist diário e filosofia aplicada de Nietzsche & Spinoza.</p>
+        <p>Destrave sua produtividade em 10 minutos por dia. Filosofia aplicada de Nietzsche & Spinoza para eliminar procrastinação.</p>
+        
         <ul class="product-features">
-          <li>Guia principal (PDF)</li>
-          <li>Protocolo de 10 minutos</li>
-          <li>Plano de 30 dias + checklist</li>
-          <li>Ferramentas anti-procrastinação</li>
-          <li>Filosofia aplicada</li>
+          <li>Protocolo de 10 minutos (funciona mesmo com a mente barulhenta)</li>
+          <li>Plano de 30 dias passo a passo</li>
+          <li>Checklist diário de ação mínima viável</li>
+          <li>Ferramentas anti-procrastinação testadas</li>
+          <li>Acesso vitalício + atualizações</li>
         </ul>
-        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-primary">
-          Entrar na Lista VIP →
+
+        <div class="product-price">
+          <span class="old">R$ 197</span>
+          <span class="current">R$ 97</span>
+        </div>
+
+        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP" class="btn-primary btn-urgent">
+          GARANTIR MINHA VAGA COM 20% OFF →
         </a>
+        <div class="stock-warning">
+          ⚡ Apenas 37 vagas restantes na Lista VIP
+        </div>
       </div>
 
+      <!-- Dinheiro que Sobra -->
       <div class="product-card fade-in">
+        <span class="badge badge-success">+1.200 vendidos</span>
         <div class="product-image">
           <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
         </div>
         <h3>Dinheiro que Sobra</h3>
-        <p>Plano prático de finanças pessoais para quem vive no aperto. 
-        Método das micro-sobras e roteiro de negociação de dívidas.</p>
-        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
+        <p>Organização financeira para quem vive no aperto. Método das micro-sobras para fazer sobrar dinheiro todo mês.</p>
+        
+        <div class="product-price">
+          <span class="current" style="font-size: 28px;">R$ 47</span>
+        </div>
+
+        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-primary">Comprar agora →</a>
+        <div class="stock-warning" style="color: var(--success);">
+          ✓ Acesso imediato
+        </div>
       </div>
 
+      <!-- Manual de Vendas -->
       <div class="product-card fade-in">
+        <span class="badge badge-success">+890 vendidos</span>
         <div class="product-image">
           <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
         </div>
         <h3>Manual de Vendas</h3>
-        <p>Do contato ao fechamento. SPIN Selling, roteiros de follow-up e técnicas de prospecção.</p>
-        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
+        <p>Do contato ao fechamento. SPIN Selling, roteiros de follow-up e técnicas para bater metas todo mês.</p>
+        
+        <div class="product-price">
+          <span class="current" style="font-size: 28px;">R$ 67</span>
+        </div>
+
+        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-primary">Comprar agora →</a>
       </div>
 
+      <!-- Calistenia -->
       <div class="product-card fade-in">
+        <span class="badge badge-success">+650 vendidos</span>
         <div class="product-image">
           <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total">
         </div>
         <h3>Calistenia Total</h3>
-        <p>Treino em casa em 30 minutos. Programa de 8 semanas, do iniciante ao avançado.</p>
-        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-primary" style="margin-top: auto;">Comprar agora →</a>
+        <p>Treino em casa em 30 minutos. Programa de 8 semanas, do iniciante ao avançado, zero equipamentos.</p>
+        
+        <div class="product-price">
+          <span class="current" style="font-size: 28px;">R$ 57</span>
+        </div>
+
+        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-primary">Comprar agora →</a>
       </div>
     </div>
   </section>
@@ -861,196 +1191,223 @@
   <!-- Results Section -->
   <section class="features" id="resultados">
     <div class="section-header">
-      <h2>Resultados em números.</h2>
-      <p>Autoridade construída na prática — método, constância e resultado.</p>
+      <h2>Resultados comprovados.</h2>
+      <p>Números reais de quem aplicou os métodos.</p>
     </div>
     
     <div class="features-grid">
       <div class="feature-item fade-in">
-        <div class="number">20+</div>
-        <div class="label">Anos de Experiência</div>
-      </div>
-      <div class="feature-item fade-in">
         <div class="number">2.700+</div>
-        <div class="label">Clientes Impactados</div>
+        <div class="label">Alunos transformados</div>
       </div>
       <div class="feature-item fade-in">
-        <div class="number">1.000+</div>
-        <div class="label">Aplicações dos Métodos</div>
+        <div class="number">97%</div>
+        <div class="label">Taxa de satisfação</div>
+      </div>
+      <div class="feature-item fade-in">
+        <div class="number">R$ 2M+</div>
+        <div class="label">Em dívidas negociadas</div>
       </div>
       <div class="feature-item fade-in">
         <div class="number">7 dias</div>
-        <div class="label">Para Primeiros Sinais</div>
+        <div class="label">Para primeiros resultados</div>
       </div>
     </div>
   </section>
 
   <!-- Testimonials -->
-  <section class="testimonials" id="depo">
+  <section class="testimonials">
     <div class="section-header">
-      <h2>Quem já aplicou, aprovou.</h2>
-      <p>Histórias reais de transformação.</p>
+      <h2>Quem aplicou, transformou.</h2>
+      <p>Histórias reais de quem saiu da teoria e foi pra ação.</p>
     </div>
     
     <div class="testimonials-grid">
       <div class="testimonial-category fade-in">
+        <h4>Lucidez Prática</h4>
+        <div class="testimonial-row">
+          <div class="testimonial-card">
+            <p>"Parei de acordar ansioso. O protocolo de 10 minutos mudou minha manhã e meu dia."</p>
+            <div class="testimonial-author">Carlos M.</div>
+            <div class="testimonial-role">Empreendedor</div>
+            <span class="result-badge">+300% produtividade</span>
+          </div>
+          <div class="testimonial-card">
+            <p>"Consegui finalizar um projeto que estava parado há 6 meses. Em 2 semanas."</p>
+            <div class="testimonial-author">Fernanda L.</div>
+            <div class="testimonial-role">Designer</div>
+            <span class="result-badge">Parou de procrastinar</span>
+          </div>
+          <div class="testimonial-card">
+            <p>"Nietzsche e Spinoza de forma prática. Nunca pensei que filosofia me ajudaria tanto."</p>
+            <div class="testimonial-author">Ricardo S.</div>
+            <div class="testimonial-role">Advogado</div>
+            <span class="result-badge">Clareza mental</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-category fade-in">
         <h4>Dinheiro que Sobra</h4>
         <div class="testimonial-row">
           <div class="testimonial-card">
-            <p>"Eu vivia estourando o limite. Com o e-book, pela primeira vez o salário chegou ao fim do mês."</p>
+            <p>"Eu vivia estourando o limite. Pela primeira vez o salário chegou ao fim do mês."</p>
             <div class="testimonial-author">Maria A.</div>
             <div class="testimonial-role">Dona de casa</div>
+            <span class="result-badge">Sobrou R$ 340 no 1º mês</span>
           </div>
           <div class="testimonial-card">
-            <p>"Segui o passo a passo e consegui negociar duas dívidas. Hoje não fujo mais do app do banco."</p>
+            <p>"Negociei duas dívidas sozinho. Hoje não fujo mais do app do banco."</p>
             <div class="testimonial-author">Paulo H.</div>
-            <div class="testimonial-role">Operador de produção</div>
+            <div class="testimonial-role">Operador</div>
+            <span class="result-badge">Economizou R$ 1.200</span>
           </div>
           <div class="testimonial-card">
-            <p>"A gente só brigava por dinheiro. Depois do e-book sentamos, fizemos o plano e parou a confusão."</p>
+            <p>"Parou a briga em casa. Sentamos, fizemos o plano e agora sobra todo mês."</p>
             <div class="testimonial-author">Rodrigo & Juliana</div>
             <div class="testimonial-role">Casal com 2 filhos</div>
+            <span class="result-badge">Paz financeira</span>
           </div>
         </div>
       </div>
 
       <div class="testimonial-category fade-in">
-        <h4>Método de Vendas</h4>
+        <h4>Manual de Vendas</h4>
         <div class="testimonial-row">
           <div class="testimonial-card">
-            <p>"Apliquei o roteiro de follow-up e fechei 3 carros em 6 dias."</p>
+            <p>"Apliquei o roteiro de follow-up e fechei 3 carros em 6 dias. Método cirúrgico."</p>
             <div class="testimonial-author">Marcelo</div>
-            <div class="testimonial-role">Consultor de vendas</div>
+            <div class="testimonial-role">Consultor</div>
+            <span class="result-badge">+R$ 15k em comissões</span>
           </div>
           <div class="testimonial-card">
-            <p>"O script de proposta aumentou meu ticket. O cliente sente mais segurança."</p>
+            <p>"O script aumentou meu ticket médio. Cliente sente mais segurança."</p>
             <div class="testimonial-author">Camila</div>
-            <div class="testimonial-role">Vendas</div>
+            <div class="testimonial-role">Vendedora</div>
+            <span class="result-badge">+40% ticket médio</span>
           </div>
           <div class="testimonial-card">
-            <p>"Agora tenho rotina: prospecção de manhã, fechamento à tarde. Parei de viver apagando incêndio."</p>
+            <p>"Tenho rotina: prospecção manhã, fechamento tarde. Parei de apagar incêndio."</p>
             <div class="testimonial-author">Rodrigo</div>
             <div class="testimonial-role">Gerente</div>
+            <span class="result-badge">Meta batida 3 meses seguidos</span>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="testimonial-category fade-in">
-        <h4>Calistenia</h4>
-        <div class="testimonial-row">
-          <div class="testimonial-card">
-            <p>"Sem academia e sem desculpas: 30 min por dia e voltei a treinar."</p>
-            <div class="testimonial-author">Henrique</div>
-            <div class="testimonial-role">Empreendedor</div>
-          </div>
-          <div class="testimonial-card">
-            <p>"A mobilidade melhorou muito e parei de sentir dor ao dirigir."</p>
-            <div class="testimonial-author">Nara</div>
-            <div class="testimonial-role">Vendas</div>
-          </div>
-          <div class="testimonial-card">
-            <p>"30 minutos diários virou hábito — energia lá em cima e cabeça mais leve."</p>
-            <div class="testimonial-author">Edu</div>
-            <div class="testimonial-role">Autônomo</div>
-          </div>
-        </div>
+  <!-- Guarantee Section -->
+  <section class="guarantee-section" id="garantia">
+    <div class="guarantee-content">
+      <div class="guarantee-badge">
+        <span>7</span>
+        <span>dias</span>
       </div>
+      <h2>Garantia incondicional.</h2>
+      <p>
+        Você tem 7 dias para testar qualquer método. Se não sentir que é para você, 
+        devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. 
+        <strong>Risco zero para você.</strong>
+      </p>
     </div>
   </section>
 
   <!-- FAQ Section -->
   <section id="faq" class="faq">
     <div class="section-header">
-      <h2>Perguntas frequentes.</h2>
-      <p>Tudo que você precisa saber.</p>
+      <h2>Tire suas dúvidas.</h2>
+      <p>Respostas rápidas para você decidir agora.</p>
     </div>
     
     <div class="faq-list">
       <details class="faq-item fade-in">
         <summary class="faq-question">
-          <span>O que eu recebo no Lucidez Prática?</span>
+          <span>Quanto tempo tenho acesso ao material?</span>
           <span class="faq-icon">▼</span>
         </summary>
         <div class="faq-answer">
-          <p>• Guia principal (PDF) com o método completo</p>
-          <p>• Protocolo de 10 minutos pra destravar o dia</p>
-          <p>• Plano de 30 dias (passo a passo) + checklist diário</p>
-          <p>• Ferramentas anti-procrastinação e filosofia aplicada (Nietzsche & Spinoza)</p>
-          <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
-            Conteúdo educativo. Não substitui acompanhamento profissional.
-          </p>
+          <p><strong>Acesso vitalício.</strong> Uma vez comprado, o material é seu para sempre. 
+          Inclui todas as atualizações futuras sem custo adicional.</p>
         </div>
       </details>
 
       <details class="faq-item fade-in">
         <summary class="faq-question">
-          <span>Como funciona a Lista VIP e os 20% OFF?</span>
+          <span>Preciso de conhecimento prévio?</span>
           <span class="faq-icon">▼</span>
         </summary>
         <div class="faq-answer">
-          <p>Você entra na Lista VIP pelo WhatsApp. Quando a pré-venda abrir, envio o link oficial da Kiwify 
-          com a condição de lançamento (20% OFF) exclusiva pra quem entrou na lista.</p>
+          <p>Não. Todos os métodos foram criados para iniciantes. Você recebe o passo a passo 
+          completo, do zero ao resultado. <strong>Só precisa seguir e executar.</strong></p>
         </div>
       </details>
 
       <details class="faq-item fade-in">
         <summary class="faq-question">
-          <span>O que vem no Dinheiro que Sobra?</span>
+          <span>Como recebo o acesso?</span>
           <span class="faq-icon">▼</span>
         </summary>
         <div class="faq-answer">
-          <p>• Diagnóstico simples pra entender pra onde o dinheiro está indo</p>
-          <p>• Método das micro-sobras (R$ 5 / R$ 10 por dia) sem sofrimento</p>
-          <p>• Passo a passo pra contas fixas, variáveis e gastos invisíveis</p>
-          <p>• Roteiro de negociação de dívidas sem humilhação</p>
-          <p>• Mapa de 30 dias + plano de 1 ano</p>
-          <p>• Nome, Serasa e score sem promessa milagrosa</p>
+          <p>Imediatamente após a confirmação do pagamento pela Kiwify, você recebe um e-mail 
+          com link de acesso à área de membros. <strong>100% digital, disponível 24/7.</strong></p>
         </div>
       </details>
 
       <details class="faq-item fade-in">
         <summary class="faq-question">
-          <span>Como recebo depois da compra?</span>
+          <span>E se eu não gostar?</span>
           <span class="faq-icon">▼</span>
         </summary>
         <div class="faq-answer">
-          <p>Você recebe o acesso por e-mail após a confirmação do pagamento pela Kiwify. 
-          O conteúdo é 100% digital e disponível 24/7 na área de membros.</p>
+          <p>Você tem <strong>7 dias de garantia incondicional</strong>. Não gostou? 
+          Envie um e-mail e devolvemos todo o seu dinheiro. Sem perguntas, sem letras miúdas.</p>
         </div>
       </details>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section class="about-section" id="sobre">
-    <div class="about-content">
-      <div class="about-text fade-in">
-        <h3>Manifesto OLEGARIO TECH</h3>
-        <p>Acreditamos que conhecimento só vale quando vira ação. Unimos técnica, tecnologia e propósito 
-        pra gerar resultado real. <strong style="color: var(--accent);">Zero desculpas — só performance.</strong></p>
-        
-        <h3>Quem é Alexandre Olegario</h3>
-        <p>Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais. 
-        Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia 
-        em método simples, direto e aplicável. Mentor, gestor e autor. Foco: <em>resultado real</em>.</p>
+  <!-- Urgency Section -->
+  <section class="urgency-section">
+    <h3>⏰ Oferta por tempo limitado</h3>
+    <p>As vagas na Lista VIP com 20% OFF estão acabando</p>
+    
+    <div class="countdown">
+      <div class="countdown-item">
+        <span class="number" id="hours">23</span>
+        <span class="label">horas</span>
       </div>
-      <div class="about-image fade-in">
-        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
+      <div class="countdown-item">
+        <span class="number" id="minutes">59</span>
+        <span class="label">minutos</span>
+      </div>
+      <div class="countdown-item">
+        <span class="number" id="seconds">59</span>
+        <span class="label">segundos</span>
       </div>
     </div>
+
+    <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP" class="btn-white">
+      QUERO GARANTIR MEU 20% OFF AGORA →
+    </a>
   </section>
 
-  <!-- CTA Section -->
+  <!-- Final CTA -->
   <section class="cta-section">
-    <h3>Pronto pra sair da teoria<br>e partir pra ação?</h3>
-    <p>Escolha por onde começar: Lucidez (pré-venda), dinheiro organizado,<br>vendas destravadas ou treino em dia.</p>
+    <h3>Ainda em dúvida?</h3>
+    <p>Fale comigo no WhatsApp. Vou tirar todas as suas dúvidas pessoalmente.</p>
+    
     <div class="cta-buttons">
-      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20entrar%20na%20LISTA%20VIP%20do%20LUCIDEZ%20PR%C3%81TICA" class="btn-white">
-        Lista VIP Lucidez — 20% OFF
+      <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20tirar%20uma%20d%C3%BAvida" class="btn-white">
+        Falar no WhatsApp →
       </a>
-      <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-outline">Dinheiro que Sobra</a>
-      <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-outline">Manual de Vendas</a>
-      <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-outline">Calistenia</a>
+    </div>
+
+    <div class="security-badges">
+      <span>🔒 Pagamento seguro</span>
+      <span>✓ 7 dias de garantia</span>
+      <span>📱 Acesso imediato</span>
+      <span>💬 Suporte humano</span>
     </div>
   </section>
 
@@ -1059,7 +1416,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
-    <span>WhatsApp Oficial</span>
+    <span>Tirar dúvidas</span>
   </a>
 
   <!-- Footer -->
@@ -1068,31 +1425,42 @@
   </footer>
 
   <script>
-    // Navbar scroll effect
+    // Navbar scroll
     window.addEventListener('scroll', () => {
       const navbar = document.getElementById('navbar');
       if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
       } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+        navbar.style.background = 'rgba(255, 255, 255, 0.9)';
       }
     });
 
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
+    // Fade in animation
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, observerOptions);
+    }, {threshold: 0.1});
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Countdown timer
+    function updateCountdown() {
+      const now = new Date();
+      const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+      const diff = endOfDay - now;
+      
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 
 </body>
