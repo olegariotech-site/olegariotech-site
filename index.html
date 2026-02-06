@@ -721,6 +721,85 @@
       margin-top: 12px;
     }
 
+    /* About Section - NOVO */
+    .about-section {
+      background: var(--bg-secondary);
+      margin: 0;
+      max-width: 100%;
+      padding: 120px 20px;
+    }
+
+    .about-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.021em;
+      color: var(--text-primary);
+    }
+
+    .about-text p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    .about-text .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .about-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 28px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+    }
+
+    .author-credentials {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .credential-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    .credential-item::before {
+      content: "✓";
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
     /* Guarantee Section */
     .guarantee-section {
       background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
@@ -1008,6 +1087,8 @@
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .testimonial-row { grid-template-columns: 1fr; }
       .problem-grid { grid-template-columns: 1fr; }
+      .about-content { grid-template-columns: 1fr; gap: 40px; }
+      .about-image { order: -1; }
     }
 
     @media (max-width: 768px) {
@@ -1023,6 +1104,7 @@
       .countdown-item { padding: 12px 16px; min-width: 60px; }
       .countdown-item .number { font-size: 24px; }
       .product-price .current { font-size: 32px; }
+      .about-text h3 { font-size: 28px; }
     }
   </style>
 </head>
@@ -1044,6 +1126,7 @@
       <ul class="nav-links">
         <li><a href="#lucidez">Lucidez Prática</a></li>
         <li><a href="#metodos">Métodos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
         <li><a href="#resultados">Resultados</a></li>
         <li><a href="#garantia">Garantia</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -1213,6 +1296,37 @@
         <div class="stock-warning" style="color: var(--success); margin-top: 12px;">
           ✓ Acesso imediato
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section - NOVO -->
+  <section class="about-section" id="sobre">
+    <div class="about-content">
+      <div class="about-text fade-in">
+        <h3>Manifesto OLEGARIO TECH</h3>
+        <p>
+          Na OLEGARIO TECH, acreditamos que <strong>conhecimento só vale quando vira ação.</strong> 
+          Unimos técnica, tecnologia e propósito pra gerar resultado real. 
+          <span class="highlight">Zero desculpas — só performance.</span>
+        </p>
+        
+        <h3>Quem é Alexandre Olegario</h3>
+        <p>
+          Especialista em vendas e performance, <strong>30+ anos em vendas automotivas</strong> e projetos digitais. 
+          Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia 
+          em método simples, direto e aplicável. Mentor, gestor e autor. Foco: <em>resultado real</em>.
+        </p>
+
+        <div class="author-credentials">
+          <div class="credential-item">30+ anos de experiência em vendas</div>
+          <div class="credential-item">2.700+ alunos transformados</div>
+          <div class="credential-item">Métodos validados na prática</div>
+          <div class="credential-item">Especialista em performance comportamental</div>
+        </div>
+      </div>
+      <div class="about-image fade-in">
+        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario - Fundador OLEGARIO TECH">
       </div>
     </div>
   </section>
@@ -1428,7 +1542,7 @@
     
     <div class="cta-buttons">
       <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20tirar%20uma%20d%C3%BAvida" class="btn-white">
-        Falar no WhatsApp →
+        Falar com Alexandre →
       </a>
     </div>
 
@@ -1445,7 +1559,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
-    <span>Tirar dúvidas</span>
+    <span>Falar com Alexandre</span>
   </a>
 
   <!-- Footer -->
