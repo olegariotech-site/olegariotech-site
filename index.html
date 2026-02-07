@@ -383,7 +383,7 @@
       margin: 0 auto;
     }
 
-    /* Problem Section */
+    /* Problem Section - ATUALIZADO */
     .problem-section {
       background: var(--bg-dark);
       color: white;
@@ -396,22 +396,42 @@
     .problem-section h2 {
       font-size: 40px;
       font-weight: 700;
-      margin-bottom: 40px;
+      margin-bottom: 16px;
+    }
+
+    .problem-section > p {
+      font-size: 19px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 50px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .problem-grid {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
 
     .problem-card {
       background: rgba(255,255,255,0.05);
       border-radius: 24px;
-      padding: 40px 30px;
+      padding: 32px 24px;
       border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .problem-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
     }
 
     .problem-card .emoji {
@@ -420,15 +440,54 @@
     }
 
     .problem-card h3 {
-      font-size: 21px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 700;
       margin-bottom: 12px;
     }
 
     .problem-card p {
-      font-size: 17px;
+      font-size: 15px;
       color: rgba(255,255,255,0.7);
-      line-height: 1.4;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .problem-price {
+      margin: 16px 0;
+    }
+
+    .problem-price .old {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: line-through;
+      margin-right: 8px;
+    }
+
+    .problem-price .current {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .btn-problem {
+      background: white;
+      color: var(--bg-dark);
+      padding: 12px 24px;
+      border-radius: 980px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .btn-problem:hover {
+      transform: scale(1.05);
+      background: var(--bg-secondary);
     }
 
     /* Products Grid */
@@ -721,7 +780,7 @@
       margin-top: 12px;
     }
 
-    /* About Section - NOVO */
+    /* About Section */
     .about-section {
       background: var(--bg-secondary);
       margin: 0;
@@ -1086,7 +1145,7 @@
       .product-card.featured { grid-column: span 1; }
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .testimonial-row { grid-template-columns: 1fr; }
-      .problem-grid { grid-template-columns: 1fr; }
+      .problem-grid { grid-template-columns: repeat(2, 1fr); }
       .about-content { grid-template-columns: 1fr; gap: 40px; }
       .about-image { order: -1; }
     }
@@ -1105,6 +1164,8 @@
       .countdown-item .number { font-size: 24px; }
       .product-price .current { font-size: 32px; }
       .about-text h3 { font-size: 28px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .problem-section h2 { font-size: 32px; }
     }
   </style>
 </head>
@@ -1174,24 +1235,66 @@
     </div>
   </section>
 
-  <!-- Problem Section -->
+  <!-- Problem Section - ATUALIZADO COM 4 CARDS E BOTÕES -->
   <section class="problem-section">
-    <h2>Você se identifica?</h2>
+    <h2>Qual é o seu desafio?</h2>
+    <p>Escolha abaixo a solução ideal para você. Todos com preço promocional por tempo limitado.</p>
+    
     <div class="problem-grid">
+      <!-- Card 1: Lucidez Prática -->
       <div class="problem-card">
         <div class="emoji">😰</div>
         <h3>Ansiedade paralisante</h3>
         <p>Sabe o que precisa fazer, mas fica preso no looping mental sem conseguir agir</p>
+        <div class="problem-price">
+          <span class="old">R$ 97</span>
+          <span class="current">R$ 29,90</span>
+        </div>
+        <a href="https://wa.me/5511912459144?text=Oi%2C%20vim%20do%20site%20Olegario%20Tech.%20Quero%20comprar%20o%20LUCIDEZ%20PR%C3%81TICA%20por%20R%24%2029%2C90" class="btn-problem">
+          Comprar Lucidez →
+        </a>
       </div>
+
+      <!-- Card 2: Dinheiro que Sobra -->
       <div class="problem-card">
         <div class="emoji">💸</div>
         <h3>Dinheiro no vermelho</h3>
         <p>Salário acaba antes do mês e não sabe pra onde foi o dinheiro</p>
+        <div class="problem-price">
+          <span class="old">R$ 29,90</span>
+          <span class="current">R$ 19,90</span>
+        </div>
+        <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn-problem">
+          Comprar Finanças →
+        </a>
       </div>
+
+      <!-- Card 3: Manual de Vendas -->
       <div class="problem-card">
         <div class="emoji">📉</div>
         <h3>Vendas estagnadas</h3>
         <p>Depende da sorte para fechar negócios e não tem método consistente</p>
+        <div class="problem-price">
+          <span class="old">R$ 49,90</span>
+          <span class="current">R$ 19,90</span>
+        </div>
+        <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn-problem">
+          Comprar Vendas →
+        </a>
+      </div>
+
+      <!-- Card 4: Calistenia Total - NOVO -->
+      <div class="problem-card">
+        <div class="emoji">😴</div>
+        <h3>Falta de energia</h3>
+        <p>Cansado, sem disposição e sem tempo para academia. Precisa se mover mais</p>
+        <div class="problem-price">
+          <span class="old">R$ 39,90</span>
+          <span class="current">R$ 14,99</span>
+        </div>
+        <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn-problem">
+          Comprar Treino →
+        </a>
       </div>
     </div>
   </section>
@@ -1199,8 +1302,8 @@
   <!-- Products Section -->
   <section id="lucidez">
     <div class="section-header">
-      <h2>Escolha sua transformação.</h2>
-      <p>Preços promocionais por tempo limitado. Garanta já o seu método.</p>
+      <h2>Conheça todos os métodos.</h2>
+      <p>Detalhes completos de cada programa. Todos com garantia de 7 dias.</p>
     </div>
     
     <div class="products-grid">
@@ -1235,7 +1338,7 @@
         </div>
       </div>
 
-      <!-- Dinheiro que Sobra: R$ 29,90 → R$ 19,90 -->
+      <!-- Dinheiro que Sobra -->
       <div class="product-card fade-in">
         <span class="badge" style="background: var(--urgent);">33% OFF</span>
         <div class="product-image">
@@ -1256,7 +1359,7 @@
         </div>
       </div>
 
-      <!-- Manual de Vendas: R$ 49,90 → R$ 19,90 -->
+      <!-- Manual de Vendas -->
       <div class="product-card fade-in">
         <span class="badge" style="background: var(--urgent);">60% OFF</span>
         <div class="product-image">
@@ -1277,7 +1380,7 @@
         </div>
       </div>
 
-      <!-- Calistenia: R$ 39,90 → R$ 14,99 -->
+      <!-- Calistenia -->
       <div class="product-card fade-in">
         <span class="badge" style="background: var(--urgent);">62% OFF</span>
         <div class="product-image">
@@ -1300,7 +1403,7 @@
     </div>
   </section>
 
-  <!-- About Section - NOVO -->
+  <!-- About Section -->
   <section class="about-section" id="sobre">
     <div class="about-content">
       <div class="about-text fade-in">
