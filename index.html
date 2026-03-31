@@ -1,1661 +1,1232 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OLEGARIO TECH® — Performance e Tecnologia</title>
-  <meta name="description" content="Métodos práticos para clareza mental, vendas, finanças e treino. Zero Desculpas — Só Performance." />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://olegariotech.com.br/" />
-  <meta property="og:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
-  <meta property="og:description" content="Conhecimento que vira ação. Métodos práticos para clareza mental, vendas, finanças e treino." />
-  <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image.jpg" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="OLEGARIO TECH® — Performance e Tecnologia" />
-  <meta name="twitter:description" content="Conhecimento que vira ação. Zero desculpas — só performance." />
-  <meta name="twitter:image" content="https://olegariotech.com.br/assets/img/og-image.jpg" />
-
-  <link rel="icon" href="assets/img/favicon.ico" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OLEGARIO TECH® — Performance e Tecnologia | Espinha Dorsal</title>
+  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Zero Desculpas — Só Performance.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#05070b;
-      --bg-2:#0b1220;
-      --bg-3:#111827;
-      --card:rgba(255,255,255,.06);
-      --card-2:rgba(255,255,255,.08);
-      --line:rgba(255,255,255,.10);
-      --text:#eef4ff;
-      --muted:rgba(238,244,255,.70);
-      --muted-2:rgba(238,244,255,.46);
-      --accent:#74ecff;
-      --accent-2:#5f86ff;
-      --accent-3:#7c49ff;
-      --success:#35d07f;
-      --danger:#ff453a;
-      --wa:#25d366;
-      --radius-xl:34px;
-      --radius-lg:26px;
-      --radius-md:20px;
-      --shadow-xl:0 32px 90px rgba(0,0,0,.42);
-      --shadow-lg:0 20px 50px rgba(0,0,0,.28);
-      --container:min(1240px, calc(100vw - 32px));
-      --ease:cubic-bezier(.22,1,.36,1);
-      --nav-h:74px;
-    }
-
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 14% 14%, rgba(116,236,255,.14), transparent 18%),
-        radial-gradient(circle at 86% 14%, rgba(124,73,255,.14), transparent 22%),
-        radial-gradient(circle at 70% 74%, rgba(95,134,255,.11), transparent 24%),
-        linear-gradient(180deg, #05070b 0%, #09111b 42%, #05070b 100%);
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-      line-height:1.45;
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:-2;
-      opacity:.13;
-      background-image:
-        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size:42px 42px;
-      mask-image:radial-gradient(circle at center, black 34%, transparent 88%);
-    }
-
-    .noise{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      opacity:.05;
-      pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    .top-strip{
-      position:fixed;
-      top:0;
-      left:0;
-      right:0;
-      z-index:60;
-      padding:9px 14px;
-      text-align:center;
-      background:linear-gradient(90deg, rgba(255,69,58,.96), rgba(124,73,255,.90));
-      color:#fff;
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-      animation:pulseBar 2.5s infinite;
-    }
-
-    @keyframes pulseBar{
-      0%,100%{opacity:1}
-      50%{opacity:.88}
-    }
-
-    nav{
-      position:fixed;
-      top:34px;
-      left:0;
-      right:0;
-      height:var(--nav-h);
-      z-index:55;
-      backdrop-filter:blur(16px) saturate(120%);
-      background:linear-gradient(180deg, rgba(5,7,11,.86), rgba(5,7,11,.44));
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-
-    .nav-shell{
-      width:var(--container);
-      height:100%;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-    }
-
-    .brand{
-      display:inline-flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:var(--text);
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:-.04em;
-    }
-
-    .brand img{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      object-fit:cover;
-      box-shadow:0 0 28px rgba(116,236,255,.24);
-    }
-
-    .nav-links{
-      display:flex;
-      list-style:none;
-      gap:20px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      transition:color .25s ease;
-    }
-
-    .nav-links a:hover{color:var(--text)}
-
-    .nav-cta{
-      padding:12px 16px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--text)!important;
-    }
-
-    .hero{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      padding:calc(34px + var(--nav-h) + 56px) 0 56px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .hero::before{
-      content:"";
-      position:absolute;
-      top:5%;
-      right:-80px;
-      width:460px;
-      height:460px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(116,236,255,.18), transparent 64%);
-      filter:blur(8px);
-      animation:floatGlow 8s ease-in-out infinite alternate;
-      pointer-events:none;
-    }
-
-    @keyframes floatGlow{
-      from{transform:translateY(0) translateX(0) scale(1)}
-      to{transform:translateY(16px) translateX(-18px) scale(1.08)}
-    }
-
-    .shell{
-      width:var(--container);
-      margin:0 auto;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.03fr .97fr;
-      gap:24px;
-      align-items:center;
-    }
-
-    .glass{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow-xl);
-      backdrop-filter:blur(10px) saturate(120%);
-    }
-
-    .hero-copy{
-      border-radius:var(--radius-xl);
-      padding:34px;
-      position:relative;
-      overflow:hidden;
-      isolation:isolate;
-    }
-
-    .hero-copy::before{
-      content:"";
-      position:absolute;
-      top:-110px;
-      left:-70px;
-      width:240px;
-      height:240px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(116,236,255,.20), transparent 64%);
-      z-index:-1;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      color:var(--accent);
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.22em;
-      margin-bottom:18px;
-    }
-
-    .eyebrow::before{
-      content:"";
-      width:40px;
-      height:1px;
-      background:currentColor;
-      opacity:.9;
-    }
-
-    h1{
-      font-size:clamp(3.2rem, 6.6vw, 6.8rem);
-      line-height:.92;
-      letter-spacing:-.08em;
-      font-weight:900;
-      max-width:10ch;
-      text-wrap:balance;
-    }
-
-    .highlight{
-      background:linear-gradient(135deg, var(--accent), #fff 44%, var(--accent-3) 94%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
-
-    .hero-sub{
-      margin-top:22px;
-      color:var(--muted);
-      font-size:clamp(1rem, 1.4vw, 1.18rem);
-      max-width:55ch;
-    }
-
-    .proof-row{
-      margin-top:24px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-
-    .proof-chip{
-      padding:12px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--muted);
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .proof-chip strong{color:var(--text)}
-
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-top:24px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:18px 26px;
-      border-radius:999px;
-      text-decoration:none;
-      font-weight:800;
-      letter-spacing:.03em;
-      border:1px solid transparent;
-      transition:transform .25s var(--ease), box-shadow .25s ease, background .25s ease, border-color .25s ease;
-    }
-
-    .btn:hover{transform:translateY(-2px)}
-
-    .btn-primary{
-      background:linear-gradient(135deg, var(--accent), #d6fcff 60%, #fff 100%);
-      color:#041117;
-      box-shadow:0 20px 34px rgba(116,236,255,.20);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .btn-primary::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.42) 44%, transparent 76%);
-      transform:translateX(-120%);
-      animation:shine 3.6s infinite;
-    }
-
-    @keyframes shine{
-      0%,18%{transform:translateX(-120%)}
-      40%,100%{transform:translateX(130%)}
-    }
-
-    .btn-secondary{
-      background:rgba(255,255,255,.06);
-      border-color:rgba(255,255,255,.10);
-      color:var(--text);
-    }
-
-    .btn-whatsapp{
-      background:linear-gradient(135deg, #25d366, #21b85a);
-      color:#fff;
-      box-shadow:0 18px 30px rgba(37,211,102,.18);
-    }
-
-    .hero-stage{
-      border-radius:40px;
-      min-height:640px;
-      padding:24px;
-      position:relative;
-      overflow:hidden;
-      display:grid;
-      align-content:end;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(255,255,255,.16), transparent 16%),
-        radial-gradient(circle at 82% 18%, rgba(124,73,255,.26), transparent 22%),
-        radial-gradient(circle at 58% 52%, rgba(116,236,255,.16), transparent 28%),
-        linear-gradient(145deg, rgba(11,18,32,.92), rgba(5,7,11,.98));
-    }
-
-    .hero-stage::before,
-    .hero-stage::after{
-      content:"";
-      position:absolute;
-      border-radius:50%;
-      filter:blur(10px);
-      opacity:.7;
-      z-index:0;
-    }
-
-    .hero-stage::before{
-      width:220px;
-      height:220px;
-      top:54px;
-      right:18px;
-      background:radial-gradient(circle, rgba(116,236,255,.36), transparent 62%);
-      animation:orb1 8s ease-in-out infinite alternate;
-    }
-
-    .hero-stage::after{
-      width:160px;
-      height:160px;
-      bottom:120px;
-      left:8px;
-      background:radial-gradient(circle, rgba(124,73,255,.34), transparent 62%);
-      animation:orb2 9s ease-in-out infinite alternate;
-    }
-
-    @keyframes orb1{
-      from{transform:translate3d(0,0,0) scale(1)}
-      to{transform:translate3d(-20px,16px,0) scale(1.12)}
-    }
-
-    @keyframes orb2{
-      from{transform:translate3d(0,0,0) scale(1)}
-      to{transform:translate3d(18px,-12px,0) scale(1.14)}
-    }
-
-    .stage-top{
-      position:absolute;
-      top:18px;
-      left:18px;
-      right:18px;
-      z-index:2;
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:center;
-    }
-
-    .stage-chip{
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(3,8,14,.52);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter:blur(12px);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-weight:800;
-    }
-
-    .book-wrap{
-      position:relative;
-      z-index:2;
-      width:min(100%, 520px);
-      margin:0 auto;
-      transform-style:preserve-3d;
-      perspective:1200px;
-      transition:transform .35s ease;
-    }
-
-    .book-wrap::before{
-      content:"";
-      position:absolute;
-      left:8%;
-      right:8%;
-      bottom:-16px;
-      height:56px;
-      background:radial-gradient(circle, rgba(116,236,255,.28), transparent 72%);
-      filter:blur(24px);
-      z-index:-1;
-    }
-
-    .book-wrap img{
-      width:100%;
-      height:auto;
-      display:block;
-      object-fit:contain;
-      filter:drop-shadow(0 26px 64px rgba(0,0,0,.58));
-      animation:bookFloat 6s ease-in-out infinite;
-    }
-
-    @keyframes bookFloat{
-      0%,100%{transform:translateY(0px) rotate(-2deg)}
-      50%{transform:translateY(-12px) rotate(1.2deg)}
-    }
-
-    .price-box{
-      position:absolute;
-      top:74px;
-      right:-6px;
-      z-index:3;
-      padding:16px 18px;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,69,58,.95), rgba(124,73,255,.88));
-      color:#fff;
-      box-shadow:0 16px 40px rgba(0,0,0,.35);
-      animation:priceBounce 3s ease-in-out infinite;
-    }
-
-    @keyframes priceBounce{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-8px)}
-    }
-
-    .price-box .old{
-      font-size:13px;
-      text-decoration:line-through;
-      opacity:.88;
-    }
-
-    .price-box .new{
-      font-size:34px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-.07em;
-      margin-top:4px;
-    }
-
-    .price-box .off{
-      margin-top:6px;
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.18);
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.08em;
-    }
-
-    .quick-benefits{
-      margin-top:18px;
-      display:grid;
-      gap:10px;
-    }
-
-    .quick-benefits div{
-      padding:14px 16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--muted);
-      font-size:14px;
-      font-weight:600;
-    }
-
-    .quick-benefits strong{color:var(--text)}
-
-    section{
-      padding:110px 0;
-      position:relative;
-    }
-
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:20px;
-      margin-bottom:34px;
-    }
-
-    .section-head h2{
-      font-size:clamp(2.2rem, 4.6vw, 4.8rem);
-      line-height:.94;
-      letter-spacing:-.08em;
-      max-width:10ch;
-    }
-
-    .section-head p{
-      color:var(--muted);
-      max-width:46ch;
-      font-size:1rem;
-    }
-
-    .pain-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .pain-card{
-      padding:26px 22px 22px;
-      border-radius:28px;
-      position:relative;
-      overflow:hidden;
-      min-height:100%;
-      display:flex;
-      flex-direction:column;
-      transition:transform .35s var(--ease), border-color .25s ease, background .25s ease;
-    }
-
-    .pain-card:hover{
-      transform:translateY(-7px);
-      border-color:rgba(255,255,255,.16);
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-    }
-
-    .pain-card .emoji{
-      font-size:42px;
-      margin-bottom:14px;
-      filter:drop-shadow(0 0 18px rgba(116,236,255,.18));
-    }
-
-    .pain-card h3{
-      font-size:22px;
-      line-height:1.05;
-      letter-spacing:-.04em;
-      margin-bottom:12px;
-    }
-
-    .pain-card p{
-      color:var(--muted);
-      font-size:15px;
-      margin-bottom:18px;
-      flex-grow:1;
-    }
-
-    .pain-price{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-
-    .pain-price .old{
-      font-size:14px;
-      color:var(--muted-2);
-      text-decoration:line-through;
-    }
-
-    .pain-price .new{
-      font-size:28px;
-      font-weight:900;
-      letter-spacing:-.05em;
-      color:var(--accent);
-    }
-
-    .btn-card{
-      width:100%;
-      padding:15px 18px;
-      margin-top:auto;
-      background:linear-gradient(135deg, var(--accent), #e2fdff);
-      color:#041117;
-      box-shadow:0 16px 30px rgba(116,236,255,.18);
-    }
-
-    .products-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:20px;
-    }
-
-    .product-card{
-      padding:28px;
-      border-radius:30px;
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      transition:transform .35s var(--ease), border-color .25s ease, box-shadow .25s ease;
-    }
-
-    .product-card:hover{
-      transform:translateY(-8px);
-      border-color:rgba(255,255,255,.18);
-      box-shadow:0 32px 70px rgba(0,0,0,.34);
-    }
-
-    .product-card.featured{
-      grid-column:span 2;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(116,236,255,.18), transparent 18%),
-        radial-gradient(circle at 82% 18%, rgba(124,73,255,.22), transparent 22%),
-        linear-gradient(145deg, rgba(12,18,28,.88), rgba(5,8,12,.98));
-    }
-
-    .badge{
-      position:absolute;
-      top:20px;
-      right:20px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(255,69,58,.95), rgba(124,73,255,.86));
-      color:#fff;
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      box-shadow:0 14px 26px rgba(0,0,0,.24);
-    }
-
-    .badge-success{
-      background:linear-gradient(90deg, rgba(53,208,127,.96), rgba(116,236,255,.86));
-      color:#041117;
-    }
-
-    .product-image{
-      position:relative;
-      width:100%;
-      max-width:300px;
-      min-height:240px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:24px;
-      border-radius:24px;
-      overflow:hidden;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(116,236,255,.12), transparent 52%),
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .product-image::before{
-      content:"";
-      position:absolute;
-      left:12%;
-      right:12%;
-      bottom:0;
-      height:34px;
-      background:radial-gradient(circle, rgba(116,236,255,.24), transparent 70%);
-      filter:blur(18px);
-      z-index:0;
-    }
-
-    .product-image img{
-      position:relative;
-      z-index:1;
-      width:100%;
-      max-width:240px;
-      height:auto;
-      display:block;
-      object-fit:contain;
-      filter:drop-shadow(0 20px 40px rgba(0,0,0,.50));
-      transition:transform .4s var(--ease);
-      animation:productFloat 6s ease-in-out infinite;
-    }
-
-    .product-card:hover .product-image img{transform:translateY(-4px) scale(1.02)}
-
-    @keyframes productFloat{
-      0%,100%{transform:translateY(0px) rotate(-1.4deg)}
-      50%{transform:translateY(-8px) rotate(1deg)}
-    }
-
-    .product-card h3{
-      font-size:clamp(1.8rem, 3vw, 2.8rem);
-      line-height:.95;
-      letter-spacing:-.06em;
-      margin-bottom:12px;
-    }
-
-    .product-card p{
-      color:var(--muted);
-      font-size:16px;
-      max-width:42ch;
-      margin-bottom:18px;
-    }
-
-    .product-price{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-bottom:8px;
-    }
-
-    .product-price .old{
-      font-size:18px;
-      color:var(--muted-2);
-      text-decoration:line-through;
-    }
-
-    .product-price .new{
-      font-size:40px;
-      line-height:1;
-      letter-spacing:-.07em;
-      font-weight:900;
-      color:var(--text);
-    }
-
-    .featured .product-price .new{color:var(--accent)}
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      margin-top:8px;
-      font-size:13px;
-      font-weight:700;
-      letter-spacing:.03em;
-    }
-
-    .pill.success{
-      color:#94ffbf;
-      background:rgba(53,208,127,.12);
-      border:1px solid rgba(53,208,127,.18);
-    }
-
-    .pill.accent{
-      color:var(--accent);
-      background:rgba(116,236,255,.10);
-      border:1px solid rgba(116,236,255,.14);
-    }
-
-    .about-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-      align-items:stretch;
-    }
-
-    .about-text,.about-image{
-      border-radius:30px;
-      padding:30px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .about-text h3{
-      font-size:clamp(1.8rem, 3.2vw, 3rem);
-      letter-spacing:-.06em;
-      line-height:.95;
-      margin-bottom:14px;
-    }
-
-    .about-text p{
-      font-size:17px;
-      color:var(--muted);
-      margin-bottom:18px;
-    }
-
-    .about-text .accent{color:var(--accent); font-weight:700}
-
-    .cred-list{
-      display:grid;
-      gap:12px;
-      margin-top:28px;
-    }
-
-    .cred{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      padding:12px 14px;
-      border-radius:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--text);
-      font-size:15px;
-    }
-
-    .cred::before{
-      content:"✓";
-      width:22px;
-      height:22px;
-      flex:0 0 auto;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--success));
-      color:#041117;
-      font-size:12px;
-      font-weight:900;
-      margin-top:1px;
-    }
-
-    .about-image{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:
-        radial-gradient(circle at 50% 30%, rgba(116,236,255,.16), transparent 34%),
-        radial-gradient(circle at 76% 18%, rgba(124,73,255,.16), transparent 22%),
-        linear-gradient(145deg, rgba(10,16,26,.88), rgba(5,8,12,.98));
-    }
-
-    .about-image::before{
-      content:"";
-      position:absolute;
-      left:12%;
-      right:12%;
-      bottom:4%;
-      height:40px;
-      background:radial-gradient(circle, rgba(116,236,255,.20), transparent 72%);
-      filter:blur(24px);
-      z-index:0;
-    }
-
-    .about-image img{
-      position:relative;
-      z-index:1;
-      width:min(100%, 420px);
-      height:auto;
-      display:block;
-      border-radius:28px;
-      object-fit:cover;
-      box-shadow:0 26px 60px rgba(0,0,0,.46);
-      transition:transform .35s var(--ease), box-shadow .35s ease;
-    }
-
-    .about-image:hover img{
-      transform:translateY(-6px) scale(1.01);
-      box-shadow:0 34px 72px rgba(0,0,0,.52);
-    }
-
-    .stats-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .stat{
-      padding:28px 20px;
-      border-radius:24px;
-      text-align:center;
-      transition:transform .32s var(--ease), border-color .25s ease;
-    }
-
-    .stat:hover{
-      transform:translateY(-6px);
-      border-color:rgba(255,255,255,.16);
-    }
-
-    .stat .num{
-      font-size:clamp(2.2rem, 4vw, 3.6rem);
-      line-height:.92;
-      font-weight:900;
-      letter-spacing:-.07em;
-      margin-bottom:8px;
-      color:var(--accent);
-    }
-
-    .stat .label{
-      color:var(--muted);
-      font-size:14px;
-      font-weight:600;
-    }
-
-    .testimonials-grid{
-      display:grid;
-      gap:34px;
-    }
-
-    .testi-group h4{
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.22em;
-      color:var(--accent);
-      margin-bottom:16px;
-    }
-
-    .testi-row{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-    }
-
-    .testi{
-      padding:24px;
-      border-radius:24px;
-      transition:transform .32s var(--ease), border-color .25s ease;
-    }
-
-    .testi:hover{
-      transform:translateY(-6px);
-      border-color:rgba(255,255,255,.16);
-    }
-
-    .testi p{
-      font-size:18px;
-      line-height:1.42;
-      margin-bottom:20px;
-      letter-spacing:-.02em;
-    }
-
-    .testi .author{font-weight:800}
-    .testi .role{color:var(--muted); font-size:14px; margin-top:4px}
-
-    .result-pill{
-      display:inline-flex;
-      margin-top:14px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(53,208,127,.12);
-      border:1px solid rgba(53,208,127,.16);
-      color:#a1ffc8;
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    .faq-wrap{
-      max-width:900px;
-      margin:0 auto;
-      display:grid;
-      gap:14px;
-    }
-
-    .faq-item{
-      border-radius:22px;
-      overflow:hidden;
-    }
-
-    .faq-q{
-      width:100%;
-      padding:22px 24px;
-      background:transparent;
-      border:0;
-      color:var(--text);
-      text-align:left;
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:-.03em;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      cursor:pointer;
-    }
-
-    .faq-a{
-      max-height:0;
-      overflow:hidden;
-      transition:max-height .4s var(--ease), padding .4s var(--ease);
-      color:var(--muted);
-      padding:0 24px;
-      font-size:16px;
-    }
-
-    .faq-item.open .faq-a{
-      max-height:220px;
-      padding:0 24px 22px;
-    }
-
-    .faq-icon{
-      font-size:14px;
-      color:var(--accent);
-      transition:transform .25s ease;
-    }
-
-    .faq-item.open .faq-icon{transform:rotate(180deg)}
-
-    .cta-box{
-      border-radius:34px;
-      padding:34px;
-      display:grid;
-      grid-template-columns:1.04fr .96fr;
-      gap:24px;
-      align-items:center;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(116,236,255,.14), transparent 18%),
-        radial-gradient(circle at 84% 18%, rgba(124,73,255,.20), transparent 22%),
-        linear-gradient(145deg, rgba(10,16,26,.92), rgba(5,8,12,.99));
-    }
-
-    .cta-box h2{
-      font-size:clamp(2.2rem, 4.8vw, 4.8rem);
-      line-height:.94;
-      letter-spacing:-.08em;
-      max-width:8ch;
-      margin-bottom:18px;
-    }
-
-    .cta-box p{
-      color:var(--muted);
-      font-size:1rem;
-      max-width:46ch;
-    }
-
-    .cta-side{
-      display:grid;
-      gap:16px;
-    }
-
-    .cta-panel{
-      padding:20px;
-      border-radius:22px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .cta-panel strong{
-      display:block;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--accent);
-      margin-bottom:8px;
-    }
-
-    .cta-panel span{
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .security{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:20px;
-    }
-
-    .security span{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--muted);
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .fab{
-      position:fixed;
-      right:22px;
-      bottom:22px;
-      z-index:48;
-      text-decoration:none;
-      color:#fff;
-      background:linear-gradient(135deg, #25d366, #21b85a);
-      padding:16px 22px;
-      border-radius:999px;
-      font-size:14px;
-      font-weight:800;
-      letter-spacing:.04em;
-      box-shadow:0 20px 40px rgba(0,0,0,.28);
-      transition:transform .25s var(--ease), box-shadow .25s ease;
-    }
-
-    .fab:hover{
-      transform:translateY(-2px) scale(1.02);
-      box-shadow:0 26px 50px rgba(0,0,0,.34);
-    }
-
-    footer{
-      padding:24px 20px 46px;
-      text-align:center;
-      color:var(--muted-2);
-      font-size:12px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(26px) scale(.985);
-      transition:opacity .9s var(--ease), transform .9s var(--ease);
-    }
-
-    .reveal.visible{
-      opacity:1;
-      transform:translateY(0) scale(1);
-    }
-
-    @media (max-width:1180px){
-      .hero-grid,.about-grid,.cta-box{grid-template-columns:1fr}
-      .pain-grid,.stats-grid{grid-template-columns:repeat(2,1fr)}
-      .products-grid,.testi-row{grid-template-columns:1fr}
-      .product-card.featured{grid-column:span 1}
-      .section-head{flex-direction:column; align-items:flex-start}
-      .hero-stage{min-height:560px}
-      h1{max-width:11ch}
-    }
-
-    @media (max-width:860px){
-      :root{--nav-h:68px}
-      .nav-links{display:none}
-      .top-strip{font-size:11px; letter-spacing:.12em}
-      nav{top:34px}
-      .hero{padding-top:calc(34px + var(--nav-h) + 34px)}
-      .pain-grid,.stats-grid{grid-template-columns:1fr}
-      .hero-copy,.hero-stage,.pain-card,.product-card,.about-text,.about-image,.stat,.testi,.faq-item,.cta-box{border-radius:24px}
-      .price-box{right:8px; top:58px; padding:12px 14px}
-      .price-box .new{font-size:28px}
-      .hero-stage{min-height:500px}
-      .fab{right:14px; bottom:14px}
-    }
-
-    @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation:none!important; transition:none!important; scroll-behavior:auto!important}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0a0e27;
+      --secondary: #1a1f3a;
+      --accent: #00d4ff;
+      --accent-alt: #ff3d00;
+      --text-light: #ffffff;
+      --text-secondary: #b0b8d4;
+      --success: #34c759;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, #0f1428 100%);
+      color: var(--text-light);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== CANVAS BACKGROUND ===== */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* ===== AUDIO PLAYER ===== */
+    .audio-control {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 100;
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid var(--accent);
+      border-radius: 50px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    .audio-control:hover {
+      background: rgba(0, 212, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .audio-control.playing::after {
+      content: "🔊";
+      font-size: 24px;
+      animation: pulse-audio 1s infinite;
+    }
+
+    .audio-control.muted::after {
+      content: "🔇";
+      font-size: 24px;
+    }
+
+    @keyframes pulse-audio {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 80px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      padding: 8px 16px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 50px;
+      animation: fadeInDown 0.8s var(--transition);
+    }
+
+    .hero h1 {
+      font-size: 72px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      max-width: 900px;
+      animation: fadeInUp 1s var(--transition) 0.2s backwards;
+      background: linear-gradient(135deg, var(--accent) 0%, #00ffff 50%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 24px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 40px;
+      line-height: 1.5;
+      animation: fadeInUp 1s var(--transition) 0.4s backwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s var(--transition) 0.6s backwards;
+    }
+
+    .btn-primary {
+      padding: 18px 40px;
+      background: linear-gradient(135deg, var(--accent) 0%, #00ffff 100%);
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 60px rgba(0, 212, 255, 0.5);
+    }
+
+    .btn-secondary {
+      padding: 18px 40px;
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 212, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== SPINE SECTION ===== */
+    .spine-section {
+      min-height: 300vh;
+      position: relative;
+      z-index: 20;
+      padding: 200px 0;
+    }
+
+    .spine-container {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .spine {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-alt) 100%);
+      transform: translateX(-50%);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+    }
+
+    .spine-logo {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--primary);
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .products-orbit {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-item {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 280px;
+      height: 360px;
+      background: rgba(26, 31, 58, 0.8);
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+      transform: translate(-50%, -50%) rotateY(0deg) translateZ(300px);
+      text-decoration: none;
+      color: var(--text-light);
+    }
+
+    .product-item:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, 0.1);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+      transform: translate(-50%, -50%) rotateY(0deg) translateZ(350px) scale(1.05);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .product-title {
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .product-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-alt);
+      text-align: center;
+    }
+
+    .product-old-price {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    /* ===== CONTENT SECTIONS ===== */
+    section {
+      min-height: auto;
+      padding: 120px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 15;
+    }
+
+    .section-title {
+      font-size: 48px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+      padding-bottom: 20px;
+    }
+
+    .faq-question {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.3s;
+    }
+
+    .faq-question:hover {
+      color: #00ffff;
+    }
+
+    .faq-icon {
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s var(--transition);
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 500px;
+      padding-top: 12px;
+    }
+
+    /* ===== MANIFESTO SECTION ===== */
+    .manifesto {
+      background: rgba(0, 212, 255, 0.05);
+      border: 2px solid rgba(0, 212, 255, 0.2);
+      border-radius: 20px;
+      padding: 60px;
+      margin: 60px 0;
+      line-height: 1.8;
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+
+    .manifesto strong {
+      color: var(--accent);
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--accent);
+    }
+
+    .about-text p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+      border: 2px solid rgba(0, 212, 255, 0.2);
+    }
+
+    /* ===== TESTIMONIALS SECTION ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background: rgba(26, 31, 58, 0.6);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.3s var(--transition);
+    }
+
+    .testimonial-card:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--accent);
+      transform: translateY(-8px);
+    }
+
+    .testimonial-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .testimonial-role {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      background: rgba(52, 199, 89, 0.2);
+      color: var(--success);
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ===== URGENCY SECTION ===== */
+    .urgency-section {
+      background: linear-gradient(135deg, rgba(255, 61, 0, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
+      border: 2px solid var(--accent-alt);
+      border-radius: 20px;
+      padding: 60px;
+      text-align: center;
+      margin: 60px 0;
+    }
+
+    .urgency-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--accent-alt);
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      background: rgba(255, 61, 0, 0.1);
+      border: 2px solid var(--accent-alt);
+      border-radius: 12px;
+      padding: 20px 30px;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    .countdown-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent-alt);
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ===== WHATSAPP FAB ===== */
+    .fab-whats {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      z-index: 100;
+      background: #25d366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      text-decoration: none;
+      box-shadow: 0 10px 40px rgba(37, 211, 102, 0.4);
+      transition: all 0.3s var(--transition);
+    }
+
+    .fab-whats:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 60px rgba(37, 211, 102, 0.6);
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-final {
+      text-align: center;
+      padding: 100px 40px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 61, 0, 0.1) 100%);
+      border-radius: 20px;
+      margin: 60px 0;
+    }
+
+    .cta-final h3 {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-final p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: rgba(10, 14, 39, 0.8);
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      padding: 40px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero h1 { font-size: 56px; }
+      .about-content { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      nav { padding: 0 20px; }
+      section { padding: 80px 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .hero-subtitle { font-size: 18px; }
+      .section-title { font-size: 32px; }
+      .nav-links { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .manifesto { padding: 30px; }
+      .about-text h3 { font-size: 28px; }
+      .urgency-section { padding: 30px; }
+      .cta-final h3 { font-size: 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="noise"></div>
 
-  <div class="top-strip">🔥 Últimas horas • preço promocional vai acabar</div>
+  <!-- Canvas Background -->
+  <canvas id="canvas-bg"></canvas>
 
+  <!-- Audio Control -->
+  <div class="audio-control playing" id="audioControl"></div>
+
+  <!-- WhatsApp FAB -->
+  <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Tenho%20dúvidas%20sobre%20os%20cursos" class="fab-whats" title="Falar no WhatsApp">
+    💬
+  </a>
+
+  <!-- Navigation -->
   <nav>
-    <div class="nav-shell">
-      <a href="#top" class="brand">
-        <img src="assets/img/logo.jpg" alt="OLEGARIO TECH">
-        <span>OLEGARIO TECH</span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="#lucidez">Lucidez</a></li>
-        <li><a href="#metodos">Métodos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#resultados">Resultados</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a class="nav-cta" href="https://wa.me/5519974059590" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-      </ul>
-    </div>
+    <a href="#top" class="logo">
+      <div class="logo-icon">OT</div>
+      <span>OLEGARIO TECH</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
   </nav>
 
-  <main>
-    <section class="hero" id="top">
-      <div class="shell hero-grid">
-        <div class="hero-copy glass reveal">
-          <div class="eyebrow">Método / Performance / Resultado</div>
+  <!-- Hero Section -->
+  <section class="hero" id="top">
+    <div class="hero-badge">🚀 Acesso Imediato • Vagas Limitadas</div>
+    <h1>Zero Desculpas.<br>Só Performance.</h1>
+    <p class="hero-subtitle">
+      Métodos práticos para organizar o dinheiro, vender mais e treinar melhor.<br>
+      Sem misticismo. Só lucidez prática.
+    </p>
+    <div class="hero-cta">
+      <a href="#produtos" class="btn-primary">Explorar Produtos →</a>
+      <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Tenho%20dúvidas" class="btn-secondary">Falar com Alexandre</a>
+    </div>
+  </section>
 
-          <h1>
-            Ansiedade e Procrastinação:<br>
-            <span class="highlight">você não precisa de motivação.</span><br>
-            Precisa de método.
-          </h1>
+  <!-- Spine Section with Rotating Products -->
+  <section class="spine-section" id="produtos">
+    <div class="spine-container">
+      <div class="spine"></div>
+      <div class="spine-logo">OT</div>
+      
+      <div class="products-orbit" id="productsOrbit">
+        <!-- Products will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </section>
 
-          <p class="hero-sub">
-            Protocolo prático de clareza e ação diária — com filosofia aplicada, sem misticismo,
-            sem enrolação e sem papinho fofo. Zero desculpas — só performance.
-          </p>
+  <!-- Manifesto Section -->
+  <section id="manifesto">
+    <h2 class="section-title">Manifesto OLEGARIO TECH</h2>
+    
+    <div class="manifesto">
+      <p><strong>Zero Desculpas — Só Performance.</strong></p>
+      
+      <p>Somos uma comunidade de pessoas que entendem uma coisa simples: <strong>conhecimento só vale quando vira ação</strong>.</p>
+      
+      <p>Não vendemos sonhos. Vendemos <strong>métodos testados</strong> que funcionam na vida real. Cada curso, cada protocolo, cada ferramenta que você recebe aqui foi criada por alguém que <strong>colocou na prática</strong> e conseguiu resultados.</p>
+      
+      <p><strong>Em Vendas:</strong> Vendas não é sorte, é técnica. Prosperar exige ação diária — conforto só serve para perder comissão. Quem busca resultado precisa aceitar o desconforto: é nele que o crescimento nasce.</p>
+      
+      <p><strong>Em Calistenia:</strong> Quando a mente acredita, o corpo responde. É a disciplina que faz a diferença entre sonhar e alcançar. A mente decide, o corpo executa. A disciplina é o caminho entre querer e realizar.</p>
+      
+      <p><strong>Em Finanças:</strong> Dinheiro não é tabu. É ferramenta. Organizar o dinheiro é organizar a vida. Você não precisa ser rico para começar — precisa de método.</p>
+      
+      <p><strong>Em Produtividade:</strong> Ansiedade e procrastinação não são fraqueza. São sinais de que você precisa de clareza. Nietzsche dizia: "Você não precisa de motivação, precisa de método." Aqui, você aprende o método.</p>
+      
+      <p><strong>Nossa Promessa:</strong> Cada produto que você compra aqui vem com uma garantia implícita: foi criado por alguém que viveu o problema e encontrou a solução. Não há floreios, não há misticismo. Só prática, só método, só performance.</p>
+      
+      <p style="margin-top: 40px; font-size: 20px; font-weight: 700; color: var(--accent);"><strong>Você não precisa de motivação. Precisa de método. Bem-vindo à OLEGARIO TECH.</strong></p>
+    </div>
+  </section>
 
-          <div class="proof-row">
-            <div class="proof-chip">★★★★★</div>
-            <div class="proof-chip"><strong>2.700+</strong> alunos</div>
-            <div class="proof-chip"><strong>97%</strong> de aprovação</div>
-            <div class="proof-chip">De <strong>R$ 97</strong> por <strong>R$ 29,90</strong></div>
-          </div>
+  <!-- About Section -->
+  <section id="sobre">
+    <h2 class="section-title">Quem é Alexandre Olegario</h2>
+    
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Gerente de Vendas, Mentor e Autor</h3>
+        <p>
+          <strong>11 anos na Fiat. 8 anos na Renault (4 em gestão). Hoje: Gerente de Vendas e vendedor de alta performance no Grupo SIM (Peugeot | Citroën).</strong>
+        </p>
+        <p>
+          Desde os 14 anos trabalhando com vendas — começou na construção civil, evoluiu para representação comercial aos 18, e aos 26 já estava em gestão no ramo automotivo.
+        </p>
+        <p>
+          Criou o <strong>Manual do Fechamento</strong> porque entendeu que vendas não é sorte, é técnica. Criou o <strong>Treino em Casa 30 Minutos</strong> porque pratica calistenia desde a capoeira e sabe que disciplina é o caminho entre querer e realizar.
+        </p>
+        <p>
+          Hoje, além de vender carros de alta performance, cria cursos digitais, mentorias e ferramentas para quem quer crescer sem desculpas.
+        </p>
+        <p>
+          <strong>Objetivo:</strong> Tornar-se gerente comercial de altíssima performance e cuidar da família. Rotina: metas, performance em Excel, foco em 0 km e seminovos.
+        </p>
+      </div>
+      <div class="about-image">
+        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
+      </div>
+    </div>
+  </section>
 
-          <div class="cta-row">
-            <a href="https://pay.kiwify.com.br/FxEtsfU" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar agora — R$ 29,90</a>
-            <a href="#metodos" class="btn btn-secondary">Ver todos os métodos</a>
-            <a href="https://wa.me/5519974059590" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
-          </div>
-
-          <div class="quick-benefits">
-            <div><strong>Acesso imediato:</strong> comprou, recebeu.</div>
-            <div><strong>Método direto:</strong> sem teoria morta e sem viagem.</div>
-            <div><strong>Aplicação prática:</strong> clareza, disciplina e execução.</div>
-          </div>
+  <!-- Testimonials Section -->
+  <section id="depoimentos">
+    <h2 class="section-title">Quem Aplicou, Transformou</h2>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Lucidez Prática me tirou do looping mental. Agora consigo agir mesmo com a mente barulhenta. Mudou minha vida."
         </div>
+        <div class="testimonial-author">Carlos M.</div>
+        <div class="testimonial-role">Vendedor Automotivo</div>
+        <span class="result-badge">+40% em vendas</span>
+      </div>
 
-        <div class="hero-stage glass reveal">
-          <div class="stage-top">
-            <div class="stage-chip">OLEGARIO TECH / Lucidez Prática</div>
-            <div class="stage-chip">01 / Oferta principal</div>
-          </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Dinheiro que Sobra me mostrou pra onde ia meu dinheiro. Hoje economizo R$ 2.000 por mês sem sacrificar nada."
+        </div>
+        <div class="testimonial-author">Fernanda S.</div>
+        <div class="testimonial-role">Empreendedora</div>
+        <span class="result-badge">+R$ 24k/ano economizado</span>
+      </div>
 
-          <div class="book-wrap" id="bookWrap">
-            <div class="price-box">
-              <div class="old">De R$ 97</div>
-              <div class="new">R$ 29,90</div>
-              <div class="off">69% OFF</div>
-            </div>
-            <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
-          </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Manual do Fechamento é a bíblia de vendas que eu procurava. Apliquei a técnica e fechei 3 negócios em uma semana."
+        </div>
+        <div class="testimonial-author">Roberto L.</div>
+        <div class="testimonial-role">Gerente de Vendas</div>
+        <span class="result-badge">+3 vendas/semana</span>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Treino em Casa 30 Minutos virou meu ritual diário. Sem academia, sem desculpas. Resultado em 30 dias."
+        </div>
+        <div class="testimonial-author">Lucas P.</div>
+        <div class="testimonial-role">Profissional de TI</div>
+        <span class="result-badge">-8kg em 30 dias</span>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Ansiedade paralisante era meu problema. Com o protocolo de 10 minutos, consegui sair do looping. Recomendo demais."
+        </div>
+        <div class="testimonial-author">Marina T.</div>
+        <div class="testimonial-role">Psicóloga</div>
+        <span class="result-badge">Produtividade +60%</span>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Não é um curso comum. É um método. Apliquei tudo e minha vida mudou em 90 dias. Muito obrigado, Alexandre."
+        </div>
+        <div class="testimonial-author">João V.</div>
+        <div class="testimonial-role">Empreendedor Digital</div>
+        <span class="result-badge">Renda +R$ 15k/mês</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgency Section -->
+  <section>
+    <div class="urgency-section">
+      <h3 class="urgency-title">⏰ Preço Promocional Por Tempo Limitado</h3>
+      <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 30px;">
+        Os preços voltam ao normal quando o relógio zera. Depois disso, não tem volta.
+      </p>
+      
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-number" id="days">00</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours">00</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes">00</span>
+          <span class="countdown-label">Minutos</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-label">Segundos</span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="lucidez">
-      <div class="shell">
-        <div class="section-head reveal">
-          <h2>Qual problema está te travando hoje?</h2>
-          <p>Você entra pelo problema. A gente te leva para a solução. Simples. Direto. Comercial.</p>
+  <!-- FAQ Section -->
+  <section id="faq">
+    <h2 class="section-title">Tire Suas Dúvidas</h2>
+    
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Como funciona o acesso aos cursos?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="pain-grid">
-          <article class="pain-card glass reveal">
-            <div class="emoji">😰</div>
-            <h3>Ansiedade paralisante</h3>
-            <p>Sabe o que precisa fazer, mas fica preso no looping mental e não executa.</p>
-            <div class="pain-price">
-              <span class="old">R$ 97</span>
-              <span class="new">R$ 29,90</span>
-            </div>
-            <a class="btn btn-card" href="https://pay.kiwify.com.br/FxEtsfU" target="_blank" rel="noopener noreferrer">Quero sair do looping</a>
-          </article>
-
-          <article class="pain-card glass reveal">
-            <div class="emoji">💸</div>
-            <h3>Dinheiro no vermelho</h3>
-            <p>O mês acaba antes do salário e você não consegue fazer sobrar nada.</p>
-            <div class="pain-price">
-              <span class="old">R$ 29,90</span>
-              <span class="new">R$ 19,90</span>
-            </div>
-            <a class="btn btn-card" href="https://pay.kiwify.com.br/xPzKLoK" target="_blank" rel="noopener noreferrer">Quero organizar meu dinheiro</a>
-          </article>
-
-          <article class="pain-card glass reveal">
-            <div class="emoji">📈</div>
-            <h3>Venda sem consistência</h3>
-            <p>Você até vende, mas ainda depende da sorte em vez de um processo claro.</p>
-            <div class="pain-price">
-              <span class="old">R$ 49,90</span>
-              <span class="new">R$ 19,90</span>
-            </div>
-            <a class="btn btn-card" href="https://pay.kiwify.com.br/rmmRvfc" target="_blank" rel="noopener noreferrer">Quero vender mais</a>
-          </article>
-
-          <article class="pain-card glass reveal">
-            <div class="emoji">💪</div>
-            <h3>Treino sem disciplina</h3>
-            <p>Quer melhorar o físico, mas precisa de um caminho simples e executável em casa.</p>
-            <div class="pain-price">
-              <span class="old">R$ 39,90</span>
-              <span class="new">R$ 14,99</span>
-            </div>
-            <a class="btn btn-card" href="https://pay.kiwify.com.br/lt9RRvy" target="_blank" rel="noopener noreferrer">Quero treinar em casa</a>
-          </article>
+        <div class="faq-answer">
+          Após a compra, você recebe um e-mail com o link de acesso imediato. Todos os cursos são digitais e você pode acessar de qualquer dispositivo, a qualquer hora. Acesso vitalício + atualizações futuras incluídas.
         </div>
       </div>
-    </section>
 
-    <section id="metodos">
-      <div class="shell">
-        <div class="section-head reveal">
-          <h2>Métodos que viram ação.</h2>
-          <p>Sem enfeite desnecessário: capa forte, preço claro, proposta objetiva e botão de compra na cara.</p>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Qual é a garantia?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="products-grid">
-          <article class="product-card glass featured reveal">
-            <span class="badge badge-success">Destaque</span>
-            <div class="product-image">
-              <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
-            </div>
-            <h3>Lucidez Prática</h3>
-            <p>Clareza mental, foco e execução diária. Filosofia aplicada para quem cansou de pensar demais e fazer de menos.</p>
-            <div class="product-price">
-              <span class="old">R$ 97</span>
-              <span class="new">R$ 29,90</span>
-            </div>
-            <span class="pill success">Economize R$ 67,10</span>
-            <div class="cta-row" style="margin-top:16px;">
-              <a href="https://pay.kiwify.com.br/FxEtsfU" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar agora</a>
-            </div>
-            <span class="pill accent">⚡ Oferta por tempo limitado</span>
-          </article>
-
-          <article class="product-card glass reveal">
-            <span class="badge">33% OFF</span>
-            <div class="product-image">
-              <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
-            </div>
-            <h3>Dinheiro que Sobra</h3>
-            <p>Organização financeira prática para quem vive no aperto e quer voltar a respirar.</p>
-            <div class="product-price">
-              <span class="old">R$ 29,90</span>
-              <span class="new">R$ 19,90</span>
-            </div>
-            <span class="pill success">Economize R$ 10,00</span>
-            <div class="cta-row" style="margin-top:16px;">
-              <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar agora</a>
-            </div>
-          </article>
-
-          <article class="product-card glass reveal">
-            <span class="badge">60% OFF</span>
-            <div class="product-image">
-              <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
-            </div>
-            <h3>Manual de Vendas</h3>
-            <p>Do contato ao fechamento. Método direto para bater meta todo mês sem depender do acaso.</p>
-            <div class="product-price">
-              <span class="old">R$ 49,90</span>
-              <span class="new">R$ 19,90</span>
-            </div>
-            <span class="pill success">Economize R$ 30,00</span>
-            <div class="cta-row" style="margin-top:16px;">
-              <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar agora</a>
-            </div>
-          </article>
-
-          <article class="product-card glass reveal">
-            <span class="badge">62% OFF</span>
-            <div class="product-image">
-              <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total">
-            </div>
-            <h3>Calistenia Total</h3>
-            <p>Treino em casa em 30 minutos. Estrutura simples para construir constância e melhorar o físico.</p>
-            <div class="product-price">
-              <span class="old">R$ 39,90</span>
-              <span class="new">R$ 14,99</span>
-            </div>
-            <span class="pill success">Economize R$ 24,91</span>
-            <div class="cta-row" style="margin-top:16px;">
-              <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar agora</a>
-            </div>
-          </article>
+        <div class="faq-answer">
+          Garantia de 7 dias. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas. Mas aviso: a maioria das pessoas não pede reembolso porque os resultados falam por si.
         </div>
       </div>
-    </section>
 
-    <section id="sobre">
-      <div class="shell">
-        <div class="section-head reveal">
-          <h2>Quem está por trás.</h2>
-          <p>Antes do digital, veio a prática. Antes da estética, veio o resultado. É isso que dá peso para a marca.</p>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Preciso de experiência prévia?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="about-grid">
-          <div class="about-text glass reveal">
-            <h3>Manifesto OLEGARIO TECH</h3>
-            <p>
-              Na OLEGARIO TECH, acreditamos que <strong>conhecimento só vale quando vira ação.</strong>
-              Unimos técnica, tecnologia e propósito para gerar resultado real.
-              <span class="accent">Zero Desculpas — Só Performance.</span>
-            </p>
-
-            <h3>Alexandre Olegario</h3>
-            <p>
-              Especialista em vendas e performance, com mais de 30 anos de estrada em vendas automotivas e projetos digitais.
-              Fundador da OLEGARIO TECH, mentor, gestor e autor. Foco total em transformar rotina, disciplina e resultado em método aplicável.
-            </p>
-
-            <div class="cred-list">
-              <div class="cred">30+ anos de experiência em vendas</div>
-              <div class="cred">2.700+ alunos impactados</div>
-              <div class="cred">Métodos validados na prática</div>
-              <div class="cred">Performance, clareza e execução</div>
-            </div>
-          </div>
-
-          <div class="about-image glass reveal">
-            <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
-          </div>
+        <div class="faq-answer">
+          Não. Cada curso é feito para iniciantes. Se você tem experiência, vai aprofundar. Se é novo, vai aprender do zero. Todos os métodos são passo a passo.
         </div>
       </div>
-    </section>
 
-    <section id="resultados">
-      <div class="shell">
-        <div class="section-head reveal">
-          <h2>Resultados que dão segurança.</h2>
-          <p>Porque sem prova, site bonito vira enfeite caro. Aqui a ideia é empurrar confiança.</p>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Quanto tempo leva para ver resultados?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="stats-grid">
-          <article class="stat glass reveal">
-            <div class="num">2.700+</div>
-            <div class="label">Alunos transformados</div>
-          </article>
-          <article class="stat glass reveal">
-            <div class="num">97%</div>
-            <div class="label">Aprovação</div>
-          </article>
-          <article class="stat glass reveal">
-            <div class="num">R$ 2M+</div>
-            <div class="label">Em dívidas negociadas</div>
-          </article>
-          <article class="stat glass reveal">
-            <div class="num">7 dias</div>
-            <div class="label">Para primeiros resultados</div>
-          </article>
+        <div class="faq-answer">
+          Depende do seu comprometimento. Mas a maioria das pessoas vê resultados em 30 dias se aplicar diariamente. Alguns veem em uma semana. Tudo depende da ação.
         </div>
       </div>
-    </section>
 
-    <section>
-      <div class="shell">
-        <div class="section-head reveal">
-          <h2>Quem aplicou, sentiu.</h2>
-          <p>Depoimento aqui não é floreio. É alavanca para tirar objeção.</p>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Posso comprar mais de um curso?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="testimonials-grid">
-          <div class="testi-group reveal">
-            <h4>Lucidez Prática</h4>
-            <div class="testi-row">
-              <article class="testi glass">
-                <p>“Parei de acordar ansioso. O protocolo de 10 minutos mudou minha manhã e meu dia.”</p>
-                <div class="author">Carlos M.</div>
-                <div class="role">Empreendedor</div>
-                <span class="result-pill">+300% produtividade</span>
-              </article>
-              <article class="testi glass">
-                <p>“Consegui finalizar um projeto que estava parado há 6 meses. Em 2 semanas.”</p>
-                <div class="author">Fernanda L.</div>
-                <div class="role">Designer</div>
-                <span class="result-pill">Parou de procrastinar</span>
-              </article>
-              <article class="testi glass">
-                <p>“Nunca pensei que filosofia pudesse virar ação prática desse jeito.”</p>
-                <div class="author">Ricardo S.</div>
-                <div class="role">Advogado</div>
-                <span class="result-pill">Clareza mental</span>
-              </article>
-            </div>
-          </div>
-
-          <div class="testi-group reveal">
-            <h4>Vendas</h4>
-            <div class="testi-row">
-              <article class="testi glass">
-                <p>“Saí da venda por impulso e comecei a trabalhar com previsibilidade.”</p>
-                <div class="author">Rodrigo</div>
-                <div class="role">Gerente</div>
-                <span class="result-pill">Meta batida</span>
-              </article>
-              <article class="testi glass">
-                <p>“A clareza do processo me ajudou mais do que qualquer palestra motivacional.”</p>
-                <div class="author">Bruna A.</div>
-                <div class="role">Consultora</div>
-                <span class="result-pill">Mais fechamento</span>
-              </article>
-              <article class="testi glass">
-                <p>“Parei de apagar incêndio e comecei a vender com rotina.”</p>
-                <div class="author">Marcelo T.</div>
-                <div class="role">Comercial</div>
-                <span class="result-pill">Processo estruturado</span>
-              </article>
-            </div>
-          </div>
+        <div class="faq-answer">
+          Sim! E recomendo. Cada curso é independente e complementa os outros. Muita gente compra o combo inteiro e consegue resultados exponenciais.
         </div>
       </div>
-    </section>
 
-    <section id="faq">
-      <div class="shell">
-        <div class="section-head reveal" style="justify-content:center;text-align:center;align-items:center;">
-          <div>
-            <h2 style="max-width:none;">Tira a dúvida e decide.</h2>
-            <p style="max-width:none;margin-top:16px;">FAQ curto. Sem enrolação. Só o que realmente trava compra.</p>
-          </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Como funciona o suporte?</span>
+          <span class="faq-icon">▼</span>
         </div>
-
-        <div class="faq-wrap">
-          <article class="faq-item glass reveal open">
-            <button class="faq-q" type="button">
-              <span>O acesso é imediato?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-a">
-              Sim. Comprou, recebeu acesso na hora pela plataforma.
-            </div>
-          </article>
-
-          <article class="faq-item glass reveal">
-            <button class="faq-q" type="button">
-              <span>Serve para quem nunca estudou filosofia?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-a">
-              Serve. A proposta aqui é aplicação prática, não aula acadêmica.
-            </div>
-          </article>
-
-          <article class="faq-item glass reveal">
-            <button class="faq-q" type="button">
-              <span>Por quanto tempo tenho acesso?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-a">
-              Acesso vitalício. Uma vez comprado, o material é seu.
-            </div>
-          </article>
-
-          <article class="faq-item glass reveal">
-            <button class="faq-q" type="button">
-              <span>Em quanto tempo vejo resultado?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-a">
-              Quem aplica de verdade costuma perceber mudança já nos primeiros dias.
-            </div>
-          </article>
+        <div class="faq-answer">
+          Você tem acesso direto ao WhatsApp do Alexandre para dúvidas. Resposta rápida, orientação prática. Não é um chatbot, é uma pessoa real respondendo.
         </div>
       </div>
-    </section>
 
-    <section>
-      <div class="shell">
-        <div class="cta-box glass reveal">
-          <div>
-            <h2>Chega de pensar. Agora executa.</h2>
-            <p>
-              Compre o método agora ou chame no WhatsApp para estruturar sua presença digital com estética premium e lógica comercial.
-            </p>
-
-            <div class="cta-row">
-              <a href="https://pay.kiwify.com.br/FxEtsfU" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Comprar Lucidez Prática</a>
-              <a href="https://wa.me/5519974059590" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">Pedir orçamento de site</a>
-            </div>
-
-            <div class="security">
-              <span>⚡ Acesso imediato</span>
-              <span>🔒 Compra segura</span>
-              <span>📲 Suporte via WhatsApp</span>
-            </div>
-          </div>
-
-          <div class="cta-side">
-            <div class="cta-panel">
-              <strong>Produto âncora</strong>
-              <span>Lucidez Prática como porta de entrada forte, clara e memorável.</span>
-            </div>
-            <div class="cta-panel">
-              <strong>Serviço</strong>
-              <span>Sites premium para pequenos negócios, páginas de oferta e estrutura digital com autoridade.</span>
-            </div>
-            <div class="cta-panel">
-              <strong>Lógica</strong>
-              <span>Estética de impacto por fora. Malícia comercial por dentro.</span>
-            </div>
-          </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Posso compartilhar a compra com alguém?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Não. Cada compra é para uma pessoa. Mas você pode indicar para amigos — eles ganham desconto e você também. Win-win.
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <a href="https://wa.me/5519974059590" class="fab" target="_blank" rel="noopener noreferrer">WhatsApp direto</a>
+  <!-- Final CTA -->
+  <section>
+    <div class="cta-final">
+      <h3>Pronto para Transformar?</h3>
+      <p>Escolha seu método e comece hoje. Acesso imediato. Sem espera.</p>
+      <a href="#produtos" class="btn-primary" style="margin-top: 30px;">Ver Todos os Produtos →</a>
+    </div>
+  </section>
 
+  <!-- Footer -->
   <footer>
-    © 2026 OLEGARIO TECH — Conhecimento que vira ação.
+    <p>&copy; 2026 OLEGARIO TECH. Todos os direitos reservados. | <a href="#" style="color: var(--accent); text-decoration: none;">Política de Privacidade</a> | <a href="#" style="color: var(--accent); text-decoration: none;">Termos de Uso</a></p>
   </footer>
 
+  <!-- Audio Element -->
+  <audio id="bgAudio" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    const revealEls = document.querySelectorAll('.reveal');
-    const faqItems = document.querySelectorAll('.faq-item');
-    const bookWrap = document.getElementById('bookWrap');
+    // ===== PRODUCTS DATA =====
+    const products = [
+      {
+        title: "Lucidez Prática",
+        image: "assets/img/capa-lucidez-pratica-3d.png",
+        oldPrice: "R$ 97",
+        price: "R$ 29,90",
+        link: "https://pay.kiwify.com.br/FxEtsfU"
+      },
+      {
+        title: "Dinheiro que Sobra",
+        image: "assets/img/dinheiro-que-sobra-capa.png",
+        oldPrice: "R$ 29,90",
+        price: "R$ 19,90",
+        link: "https://pay.kiwify.com.br/xPzKLoK"
+      },
+      {
+        title: "Manual do Fechamento",
+        image: "assets/img/manual-vendas.png",
+        oldPrice: "R$ 49,90",
+        price: "R$ 19,90",
+        link: "https://pay.kiwify.com.br/rmmRvfc"
+      },
+      {
+        title: "Treino em Casa 30min",
+        image: "assets/img/treino-calistenia.png",
+        oldPrice: "R$ 39,90",
+        price: "R$ 14,99",
+        link: "https://pay.kiwify.com.br/lt9RRvy"
+      }
+    ];
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+    // ===== CANVAS BACKGROUND =====
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    const particleCount = 80;
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1;
+        this.color = Math.random() > 0.5 ? 'rgba(0, 212, 255, 0.6)' : 'rgba(255, 61, 0, 0.6)';
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+
+        particles.forEach((p2, j) => {
+          if (i !== j) {
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+              ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 * (1 - distance / 150)})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        });
       });
-    }, { threshold: 0.14 });
 
-    revealEls.forEach((el) => observer.observe(el));
+      requestAnimationFrame(animateParticles);
+    }
 
-    faqItems.forEach((item) => {
-      const btn = item.querySelector('.faq-q');
-      btn.addEventListener('click', () => {
+    animateParticles();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // ===== PRODUCTS ORBIT =====
+    const productsOrbit = document.getElementById('productsOrbit');
+    const radius = 400;
+
+    products.forEach((product, index) => {
+      const angle = (index / products.length) * Math.PI * 2;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      const item = document.createElement('a');
+      item.className = 'product-item';
+      item.href = product.link;
+      item.target = '_blank';
+      item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      item.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" class="product-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22180%22%3E%3Crect fill=%22%231a1f3a%22 width=%22280%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%2300d4ff%22%3E${product.title}%3C/text%3E%3C/svg%3E'">
+        <div class="product-title">${product.title}</div>
+        <div class="product-old-price">${product.oldPrice}</div>
+        <div class="product-price">${product.price}</div>
+      `;
+      productsOrbit.appendChild(item);
+    });
+
+    // ===== SCROLL ANIMATION FOR PRODUCTS =====
+    let scrollProgress = 0;
+
+    window.addEventListener('scroll', () => {
+      const spineSection = document.querySelector('.spine-section');
+      const spineContainer = document.querySelector('.spine-container');
+      
+      const sectionTop = spineSection.offsetTop;
+      const sectionHeight = spineSection.offsetHeight;
+      const windowHeight = window.innerHeight;
+
+      const scrolled = window.scrollY - sectionTop + windowHeight;
+      scrollProgress = Math.max(0, Math.min(1, scrolled / (sectionHeight + windowHeight)));
+
+      const items = document.querySelectorAll('.product-item');
+      items.forEach((item, index) => {
+        const angle = (index / items.length) * Math.PI * 2 + scrollProgress * Math.PI * 4;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      });
+    });
+
+    // ===== FAQ TOGGLE =====
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
         item.classList.toggle('open');
       });
     });
 
-    if (bookWrap) {
-      window.addEventListener('mousemove', (e) => {
-        const rect = bookWrap.getBoundingClientRect();
-        const px = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
-        const py = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
-        bookWrap.style.transform = `rotateY(${px * 10}deg) rotateX(${py * -8}deg) translateZ(0)`;
-      });
+    // ===== COUNTDOWN TIMER (INFINITE LOOP) =====
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const countdownEnd = new Date(now + 24 * 60 * 60 * 1000).getTime(); // 24 hours from now
 
-      bookWrap.addEventListener('mouseleave', () => {
-        bookWrap.style.transform = 'rotateY(0deg) rotateX(0deg)';
-      });
+      const timer = setInterval(() => {
+        const current = new Date().getTime();
+        let distance = countdownEnd - current;
+
+        if (distance < 0) {
+          countdownEnd = new Date(current + 24 * 60 * 60 * 1000);
+          distance = countdownEnd - current;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      }, 1000);
     }
+
+    updateCountdown();
+
+    // ===== AUDIO CONTROL =====
+    const audioControl = document.getElementById('audioControl');
+    const bgAudio = document.getElementById('bgAudio');
+    let isPlaying = true;
+
+    bgAudio.volume = 0.3;
+    bgAudio.play().catch(() => {
+      isPlaying = false;
+      audioControl.classList.remove('playing');
+      audioControl.classList.add('muted');
+    });
+
+    audioControl.addEventListener('click', () => {
+      if (isPlaying) {
+        bgAudio.pause();
+        isPlaying = false;
+        audioControl.classList.remove('playing');
+        audioControl.classList.add('muted');
+      } else {
+        bgAudio.play();
+        isPlaying = true;
+        audioControl.classList.add('playing');
+        audioControl.classList.remove('muted');
+      }
+    });
+
+    // ===== SMOOTH SCROLL =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   </script>
+
 </body>
 </html>
