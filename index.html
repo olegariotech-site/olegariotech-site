@@ -1,1032 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>OLEGARIO TECH® — Creative Digital Performance</title>
-  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Zero Desculpas — Só Performance.">
-  <meta name="theme-color" content="#020204">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLEGARIO TECH</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Favicon -->
-  <link rel="icon" href="assets/img/favicon.ico">
+<style>
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+  background:#05070b;
+  color:#fff;
+  overflow-x:hidden;
+}
 
-  <style>
-    :root {
-      --bg: #020204;
-      --bg-light: #0a0a0f;
-      --accent-cyan: #00d4ff;
-      --accent-purple: #a855f7;
-      --accent-pink: #ec4899;
-      --accent-blue: #3b82f6;
-      --accent-green: #10b981;
-      --accent-orange: #f59e0b;
-      --accent-red: #ef4444;
-      --text: #ffffff;
-      --text-dim: rgba(255,255,255,0.4);
-      --glass: rgba(255,255,255,0.03);
-      --border: rgba(255,255,255,0.08);
-    }
+section{
+  padding:80px 20px;
+  text-align:center;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at center,#0d1724,#05070b);
+}
 
-    html, body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-    }
+.hero img{
+  width:280px;
+  animation:float 4s ease-in-out infinite;
+}
 
-    /* ===== SCROLL CONTAINER ===== */
-    .scroll-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-      z-index: 100;
-    }
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
 
-    .scroll-content {
-      height: 500vh;
-      position: relative;
-    }
+h1{
+  font-size:48px;
+  margin:20px 0;
+}
 
-    /* ===== 3D SCENE ===== */
-    .scene-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      perspective: 1200px;
-      overflow: hidden;
-      z-index: 1;
-    }
+p{
+  color:#aaa;
+  max-width:600px;
+}
 
-    .scene {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      transition: transform 0.1s linear;
-    }
+.btn{
+  margin-top:20px;
+  padding:15px 30px;
+  border-radius:30px;
+  background:#72ebff;
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
+}
 
-    /* ===== BACKGROUND EFFECTS ===== */
-    .bg-gradient {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(ellipse at 30% 20%, rgba(0,212,255,0.08) 0%, transparent 40%),
-        radial-gradient(ellipse at 70% 80%, rgba(168,85,247,0.06) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 50%, rgba(236,72,153,0.03) 0%, transparent 50%);
-      z-index: 0;
-      pointer-events: none;
-    }
+.btn:hover{
+  transform:scale(1.05);
+}
 
-    .noise {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.025;
-      z-index: 2;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
 
-    /* ===== SPINE STRUCTURE ===== */
-    .spine {
-      position: absolute;
-      transform-style: preserve-3d;
-    }
+.card{
+  background:#111;
+  padding:20px;
+  border-radius:20px;
+}
 
-    .spine-segment {
-      position: absolute;
-      width: 4px;
-      height: 60px;
-      background: linear-gradient(180deg, 
-        rgba(0,212,255,0.8) 0%, 
-        rgba(168,85,247,0.6) 50%, 
-        rgba(236,72,153,0.4) 100%);
-      border-radius: 2px;
-      box-shadow: 0 0 20px rgba(0,212,255,0.5);
-      transform-style: preserve-3d;
-    }
+.card img{
+  width:100%;
+}
 
-    /* ===== CENTER LOGO ===== */
-    .center-logo {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      transform: translate(-50%, -50%) translateZ(0);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
+.about{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+}
 
-    .logo-glow {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: pulse-glow 4s ease-in-out infinite;
-    }
+.about img{
+  width:300px;
+  border-radius:20px;
+}
 
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.2); opacity: 0.8; }
-    }
-
-    .logo-icon-center {
-      width: 120px;
-      height: 120px;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-      border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-      font-weight: 800;
-      box-shadow: 
-        0 0 60px rgba(0,212,255,0.5),
-        0 0 120px rgba(168,85,247,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      position: relative;
-      z-index: 2;
-      overflow: hidden;
-    }
-
-    .logo-icon-center img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-    }
-
-    .logo-text {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--text);
-      text-shadow: 0 0 20px rgba(0,212,255,0.5);
-    }
-
-    /* ===== PRODUCT CARDS (FLOATING) ===== */
-    .product-card-3d {
-      position: absolute;
-      width: 320px;
-      height: 420px;
-      transform-style: preserve-3d;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .product-card-3d:hover {
-      transform: scale(1.05) !important;
-    }
-
-    .card-inner {
-      width: 100%;
-      height: 100%;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.5),
-        0 0 0 1px rgba(255,255,255,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-inner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    }
-
-    .card-image {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .card-content {
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 100px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-      width: fit-content;
-    }
-
-    .badge-cyan { background: rgba(0,212,255,0.2); color: var(--accent-cyan); }
-    .badge-green { background: rgba(16,185,129,0.2); color: var(--accent-green); }
-    .badge-orange { background: rgba(245,158,11,0.2); color: var(--accent-orange); }
-    .badge-purple { background: rgba(168,85,247,0.2); color: var(--accent-purple); }
-
-    .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--text-dim);
-      line-height: 1.5;
-      margin-bottom: 12px;
-      flex: 1;
-    }
-
-    .card-price {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .card-old-price {
-      font-size: 14px;
-      color: var(--text-dim);
-      text-decoration: line-through;
-    }
-
-    .card-current-price {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--accent-cyan);
-    }
-
-    .card-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .card-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,212,255,0.3);
-    }
-
-    /* ===== PARTICLES ===== */
-    .particles {
-      position: absolute;
-      transform-style: preserve-3d;
-      pointer-events: none;
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(255,255,255,0.6);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255,255,255,0.8);
-    }
-
-    /* ===== UI OVERLAY ===== */
-    .ui-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1000;
-    }
-
-    /* Navigation */
-    .nav-top {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      background: linear-gradient(180deg, rgba(2,2,4,0.8) 0%, transparent 100%);
-      pointer-events: auto;
-      z-index: 1001;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 2px;
-    }
-
-    .nav-logo-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-    }
-
-    .nav-logo-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    /* Progress Indicator */
-    .scroll-progress {
-      position: fixed;
-      right: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      z-index: 1001;
-    }
-
-    .progress-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--text-dim);
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-
-    .progress-dot.active {
-      background: var(--accent-cyan);
-      box-shadow: 0 0 10px var(--accent-cyan);
-      transform: scale(1.5);
-    }
-
-    /* Instructions */
-    .instructions {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 40px;
-      font-size: 11px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      z-index: 1001;
-    }
-
-    .instruction {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .instruction-icon {
-      width: 24px;
-      height: 24px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-    }
-
-    /* Sound Toggle */
-    .sound-toggle {
-      position: fixed;
-      bottom: 40px;
-      right: 40px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      z-index: 1001;
-      pointer-events: auto;
-    }
-
-    .sound-toggle:hover {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(0,212,255,0.3);
-    }
-
-    .sound-toggle.muted {
-      opacity: 0.5;
-    }
-
-    /* ===== MOBILE FALLBACK ===== */
-    @media (max-width: 768px) {
-      .scene-container {
-        display: none;
-      }
-
-      .scroll-container {
-        position: relative;
-        overflow-y: auto;
-        height: auto;
-      }
-
-      .scroll-content {
-        height: auto;
-      }
-
-      .mobile-content {
-        display: block !important;
-        padding: 100px 20px 40px;
-        min-height: 100vh;
-      }
-
-      .nav-top {
-        padding: 0 20px;
-        height: 60px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .instructions, .scroll-progress, .sound-toggle {
-        display: none;
-      }
-    }
-
-    .mobile-content {
-      display: none;
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-<base target="_blank">
+footer{
+  text-align:center;
+  padding:40px;
+  color:#777;
+}
+</style>
 </head>
 
 <body>
-  <!-- Background -->
-  <div class="bg-gradient"></div>
-  <div class="noise"></div>
 
-  <!-- 3D Scene -->
-  <div class="scene-container" id="sceneContainer">
-    <div class="scene" id="scene">
-      <!-- Spine Structure -->
-      <div class="spine" id="spine"></div>
+<section class="hero">
+  <img src="assets/img/capa-lucidez-pratica-3d.png">
+  <h1>Lucidez Prática</h1>
+  <p>Ansiedade e procrastinação não se resolvem com motivação. Se resolvem com método.</p>
+  <a href="https://pay.kiwify.com.br/FxEtsfU" class="btn">Comprar agora</a>
+</section>
 
-      <!-- Center Logo -->
-      <div class="center-logo" id="centerLogo">
-        <div class="logo-glow"></div>
-        <div class="logo-icon-center">
-          <img src="assets/img/logo.jpg" alt="OT" onerror="this.style.display='none'; this.parentElement.innerText='OT';">
-        </div>
-        <div class="logo-text">OLEGARIO</div>
-      </div>
+<section>
+  <h2>Escolha seu método</h2>
+  <div class="grid">
 
-      <!-- Product Card 1: Lucidez Prática -->
-      <div class="product-card-3d" id="card1" data-link="https://pay.kiwify.com.br/FxEtsfU">
-        <div class="card-inner">
-          <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" class="card-image" loading="lazy">
-          <div class="card-content">
-            <span class="card-badge badge-cyan">MAIS VENDIDO</span>
-            <h3 class="card-title">Lucidez Prática</h3>
-            <p class="card-desc">Destrave sua produtividade em 10 minutos por dia com filosofia aplicada.</p>
-            <div class="card-price">
-              <span class="card-old-price">R$ 97</span>
-              <span class="card-current-price">R$ 29,90</span>
-            </div>
-            <button class="card-btn">Comprar Agora →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 2: Dinheiro que Sobra -->
-      <div class="product-card-3d" id="card2" data-link="https://pay.kiwify.com.br/xPzKLoK">
-        <div class="card-inner">
-          <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" class="card-image" loading="lazy">
-          <div class="card-content">
-            <span class="card-badge badge-green">33% OFF</span>
-            <h3 class="card-title">Dinheiro que Sobra</h3>
-            <p class="card-desc">Organização financeira para quem vive no aperto. Método das micro-sobras.</p>
-            <div class="card-price">
-              <span class="card-old-price">R$ 29,90</span>
-              <span class="card-current-price" style="color: var(--accent-green)">R$ 19,90</span>
-            </div>
-            <button class="card-btn" style="background: linear-gradient(135deg, var(--accent-green), #059669)">Comprar →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 3: Manual de Vendas -->
-      <div class="product-card-3d" id="card3" data-link="https://pay.kiwify.com.br/rmmRvfc">
-        <div class="card-inner">
-          <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas" class="card-image" loading="lazy">
-          <div class="card-content">
-            <span class="card-badge badge-orange">60% OFF</span>
-            <h3 class="card-title">Manual de Vendas</h3>
-            <p class="card-desc">Do contato ao fechamento. SPIN Selling e roteiros de follow-up.</p>
-            <div class="card-price">
-              <span class="card-old-price">R$ 49,90</span>
-              <span class="card-current-price" style="color: var(--accent-orange)">R$ 19,90</span>
-            </div>
-            <button class="card-btn" style="background: linear-gradient(135deg, var(--accent-orange), #d97706)">Comprar →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 4: Calistenia Total -->
-      <div class="product-card-3d" id="card4" data-link="https://pay.kiwify.com.br/lt9RRvy">
-        <div class="card-inner">
-          <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total" class="card-image" loading="lazy">
-          <div class="card-content">
-            <span class="card-badge badge-purple">62% OFF</span>
-            <h3 class="card-title">Calistenia Total</h3>
-            <p class="card-desc">Treino em casa em 30 minutos. Programa de 8 semanas.</p>
-            <div class="card-price">
-              <span class="card-old-price">R$ 39,90</span>
-              <span class="card-current-price" style="color: var(--accent-purple)">R$ 14,99</span>
-            </div>
-            <button class="card-btn" style="background: linear-gradient(135deg, var(--accent-purple), #7c3aed)">Comprar →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Particles -->
-      <div class="particles" id="particles"></div>
+    <div class="card">
+      <img src="assets/img/dinheiro-que-sobra-capa.png">
+      <h3>Finanças</h3>
+      <p>Organize seu dinheiro</p>
+      <a href="https://pay.kiwify.com.br/xPzKLoK" class="btn">Comprar</a>
     </div>
+
+    <div class="card">
+      <img src="assets/img/capa-vendas.jpg">
+      <h3>Vendas</h3>
+      <p>Venda todo mês</p>
+      <a href="https://pay.kiwify.com.br/rmmRvfc" class="btn">Comprar</a>
+    </div>
+
+    <div class="card">
+      <img src="assets/img/capa-calistenia.jpg">
+      <h3>Calistenia</h3>
+      <p>Treine em casa</p>
+      <a href="https://pay.kiwify.com.br/lt9RRvy" class="btn">Comprar</a>
+    </div>
+
   </div>
+</section>
 
-  <!-- Scroll Container -->
-  <div class="scroll-container" id="scrollContainer">
-    <div class="scroll-content"></div>
+<section class="about">
+  <img src="assets/img/alexandre-olegario.jpeg">
+  <div>
+    <h2>Alexandre Olegario</h2>
+    <p>30+ anos em vendas, mentor e criador da Olegario Tech.</p>
   </div>
+</section>
 
-  <!-- UI Overlay -->
-  <div class="ui-overlay">
-    <!-- Navigation -->
-    <nav class="nav-top">
-      <a href="#" class="nav-logo">
-        <div class="nav-logo-icon">
-          <img src="assets/img/logo.jpg" alt="OT" onerror="this.style.display='none'; this.parentElement.style.display='flex'; this.parentElement.style.alignItems='center'; this.parentElement.style.justifyContent='center'; this.parentElement.innerText='OT';">
-        </div>
-        <span>OLEGARIO TECH</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#produtos">Produtos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-      </ul>
-    </nav>
+<footer>
+  © OLEGARIO TECH
+</footer>
 
-    <!-- Progress Dots -->
-    <div class="scroll-progress">
-      <div class="progress-dot active" data-index="0"></div>
-      <div class="progress-dot" data-index="1"></div>
-      <div class="progress-dot" data-index="2"></div>
-      <div class="progress-dot" data-index="3"></div>
-      <div class="progress-dot" data-index="4"></div>
-    </div>
-
-    <!-- Instructions -->
-    <div class="instructions">
-      <div class="instruction">
-        <div class="instruction-icon">↕️</div>
-        <span>Scroll para navegar</span>
-      </div>
-      <div class="instruction">
-        <div class="instruction-icon">↔️</div>
-        <span>Mova o mouse para orbitar</span>
-      </div>
-    </div>
-
-    <!-- Sound Toggle -->
-    <button class="sound-toggle" id="soundToggle" title="Toggle Sound">
-      <span id="soundIcon">🔊</span>
-    </button>
-  </div>
-
-  <!-- Mobile Fallback -->
-  <div class="mobile-content" id="mobileContent">
-    <div style="text-align: center; margin-bottom: 40px; padding-top: 80px;">
-      <div style="width: 100px; height: 100px; margin: 0 auto 20px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));">
-        <img src="assets/img/logo.jpg" alt="OT" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none';">
-      </div>
-      <h1 style="font-size: 32px; margin-bottom: 10px;">OLEGARIO TECH</h1>
-      <p style="color: var(--text-dim);">Creative Digital Performance</p>
-    </div>
-
-    <!-- Mobile Cards -->
-    <div style="display: flex; flex-direction: column; gap: 20px; max-width: 400px; margin: 0 auto;">
-      <!-- Card 1 -->
-      <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;">
-        <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" style="width:100%; height:200px; object-fit: cover;">
-        <div style="padding: 24px;">
-          <span style="display: inline-block; padding: 4px 12px; background: rgba(0,212,255,0.2); color: var(--accent-cyan); border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 12px;">MAIS VENDIDO</span>
-          <h3 style="font-size: 22px; margin-bottom: 8px;">Lucidez Prática</h3>
-          <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 16px;">Destrave sua produtividade em 10 minutos por dia.</p>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <span style="color: var(--text-dim); text-decoration: line-through;">R$ 97</span>
-            <span style="font-size: 28px; font-weight: 800; color: var(--accent-cyan);">R$ 29,90</span>
-          </div>
-          <a href="https://pay.kiwify.com.br/FxEtsfU" target="_blank" rel="noopener noreferrer sponsored" style="display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 600;">COMPRAR AGORA →</a>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;">
-        <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" style="width:100%; height:200px; object-fit: cover;">
-        <div style="padding: 24px;">
-          <span style="display: inline-block; padding: 4px 12px; background: rgba(16,185,129,0.2); color: var(--accent-green); border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 12px;">33% OFF</span>
-          <h3 style="font-size: 22px; margin-bottom: 8px;">Dinheiro que Sobra</h3>
-          <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 16px;">Organização financeira para quem vive no aperto.</p>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <span style="color: var(--text-dim); text-decoration: line-through;">R$ 29,90</span>
-            <span style="font-size: 28px; font-weight: 800; color: var(--accent-green);">R$ 19,90</span>
-          </div>
-          <a href="https://pay.kiwify.com.br/xPzKLoK" target="_blank" rel="noopener noreferrer sponsored" style="display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-green), #059669); color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 600;">COMPRAR →</a>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;">
-        <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas" style="width:100%; height:200px; object-fit: cover;">
-        <div style="padding: 24px;">
-          <span style="display: inline-block; padding: 4px 12px; background: rgba(245,158,11,0.2); color: var(--accent-orange); border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 12px;">60% OFF</span>
-          <h3 style="font-size: 22px; margin-bottom: 8px;">Manual de Vendas</h3>
-          <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 16px;">Do contato ao fechamento. SPIN Selling.</p>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <span style="color: var(--text-dim); text-decoration: line-through;">R$ 49,90</span>
-            <span style="font-size: 28px; font-weight: 800; color: var(--accent-orange);">R$ 19,90</span>
-          </div>
-          <a href="https://pay.kiwify.com.br/rmmRvfc" target="_blank" rel="noopener noreferrer sponsored" style="display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-orange), #d97706); color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 600;">COMPRAR →</a>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;">
-        <img src="assets/img/capa-calistenia.jpg" alt="Calistenia Total" style="width:100%; height:200px; object-fit: cover;">
-        <div style="padding: 24px;">
-          <span style="display: inline-block; padding: 4px 12px; background: rgba(168,85,247,0.2); color: var(--accent-purple); border-radius: 100px; font-size: 11px; font-weight: 700; margin-bottom: 12px;">62% OFF</span>
-          <h3 style="font-size: 22px; margin-bottom: 8px;">Calistenia Total</h3>
-          <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 16px;">Treino em casa em 30 minutos. 8 semanas.</p>
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <span style="color: var(--text-dim); text-decoration: line-through;">R$ 39,90</span>
-            <span style="font-size: 28px; font-weight: 800; color: var(--accent-purple);">R$ 14,99</span>
-          </div>
-          <a href="https://pay.kiwify.com.br/lt9RRvy" target="_blank" rel="noopener noreferrer sponsored" style="display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-purple), #7c3aed); color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: 600;">COMPRAR →</a>
-        </div>
-      </div>
-
-      <!-- About Section Mobile -->
-      <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-top: 20px;">
-        <h3 style="font-size: 24px; margin-bottom: 16px;">Sobre Alexandre Olegario</h3>
-        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" style="width: 100%; max-width: 300px; border-radius: 16px; margin: 0 auto 20px; display: block;">
-        <p style="color: var(--text-dim); line-height: 1.6; margin-bottom: 16px;">Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais.</p>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="display: flex; align-items: center; gap: 8px; color: var(--text-dim); font-size: 14px;">
-            <span style="color: var(--accent-cyan);">✓</span> 30+ anos de experiência
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px; color: var(--text-dim); font-size: 14px;">
-            <span style="color: var(--accent-cyan);">✓</span> 2.700+ alunos transformados
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px; color: var(--text-dim); font-size: 14px;">
-            <span style="color: var(--accent-cyan);">✓</span> Métodos validados na prática
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer style="text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 12px;">
-      © 2024 OLEGARIO TECH — Conhecimento que vira ação.
-    </footer>
-  </div>
-
-  <script>
-    // ===== 3D SPINE NAVIGATION SYSTEM =====
-    const scene = document.getElementById('scene');
-    const scrollContainer = document.getElementById('scrollContainer');
-    const centerLogo = document.getElementById('centerLogo');
-    const cards = [
-      document.getElementById('card1'),
-      document.getElementById('card2'),
-      document.getElementById('card3'),
-      document.getElementById('card4')
-    ];
-
-    let scrollProgress = 0;
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetRotationY = 0;
-    let targetRotationX = 0;
-    let currentRotationY = 0;
-    let currentRotationX = 0;
-    let soundEnabled = true;
-
-    // Audio Context for spatial sound
-    let audioContext;
-
-    function initAudio() {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-
-    function playHoverSound() {
-      if (!soundEnabled || !audioContext) return;
-
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-
-      osc.frequency.value = 440 + Math.random() * 200;
-      osc.type = 'sine';
-      gain.gain.setValueAtTime(0.05, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-
-      osc.start();
-      osc.stop(audioContext.currentTime + 0.3);
-    }
-
-    function playScrollSound() {
-      if (!soundEnabled || !audioContext) return;
-
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-
-      osc.frequency.value = 220 + scrollProgress * 200;
-      osc.type = 'triangle';
-      gain.gain.setValueAtTime(0.02, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-
-      osc.start();
-      osc.stop(audioContext.currentTime + 0.1);
-    }
-
-    // Create spine segments
-    const spine = document.getElementById('spine');
-    const spineCount = 20;
-
-    for (let i = 0; i < spineCount; i++) {
-      const segment = document.createElement('div');
-      segment.className = 'spine-segment';
-      const y = (i - spineCount / 2) * 40;
-      const angle = (i / spineCount) * Math.PI * 4;
-      const radius = 30;
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-
-      segment.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${angle}rad)`;
-      spine.appendChild(segment);
-    }
-
-    // Position cards in helix formation
-    const cardPositions = [
-      { y: -350, angle: 0, radius: 400, scale: 1 },
-      { y: -120, angle: Math.PI / 2, radius: 420, scale: 0.95 },
-      { y: 120, angle: Math.PI, radius: 420, scale: 0.95 },
-      { y: 350, angle: Math.PI * 1.5, radius: 400, scale: 0.9 }
-    ];
-
-    function updateCards() {
-      const scrollOffset = scrollProgress * 800;
-
-      cards.forEach((card, index) => {
-        const pos = cardPositions[index];
-        const dynamicY = pos.y - scrollOffset;
-
-        // Calculate position in 3D space
-        const x = Math.cos(pos.angle + currentRotationY * 0.5) * pos.radius;
-        const z = Math.sin(pos.angle + currentRotationY * 0.5) * pos.radius;
-
-        // Scale based on Z position (perspective)
-        const perspectiveScale = (1000 - z) / 1000 * pos.scale;
-        const finalScale = Math.max(0.5, perspectiveScale);
-
-        // Opacity based on position
-        const opacity = Math.max(0.3, Math.min(1, (600 - Math.abs(dynamicY)) / 600));
-
-        card.style.transform = `translate3d(${x}px, ${dynamicY}px, ${z}px) scale(${finalScale})`;
-        card.style.opacity = opacity;
-
-        // Update card rotation to face camera
-        const cardInner = card.querySelector('.card-inner');
-        cardInner.style.transform = `rotateY(${-currentRotationY * 0.5}rad)`;
-      });
-    }
-
-    function updateLogo() {
-      // Logo grows as you scroll
-      const logoScale = 1 + scrollProgress * 0.5;
-      const logoOpacity = 1 - scrollProgress * 0.5;
-
-      centerLogo.style.transform = `translate(-50%, -50%) scale(${logoScale})`;
-      centerLogo.style.opacity = Math.max(0.2, logoOpacity);
-    }
-
-    function updateSpine() {
-      const scrollOffset = scrollProgress * 200;
-      spine.style.transform = `translateY(${scrollOffset}px) rotateY(${currentRotationY}rad)`;
-    }
-
-    // Scroll handling
-    let lastScroll = 0;
-    scrollContainer.addEventListener('scroll', () => {
-      const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-      scrollProgress = scrollContainer.scrollTop / maxScroll;
-
-      // Play sound on significant scroll
-      if (Math.abs(scrollContainer.scrollTop - lastScroll) > 50) {
-        playScrollSound();
-        lastScroll = scrollContainer.scrollTop;
-      }
-
-      updateProgressDots();
-    });
-
-    // Mouse handling
-    document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-
-      targetRotationY = mouseX * 0.5;
-      targetRotationX = mouseY * 0.2;
-    });
-
-    // Card click handlers
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const link = card.dataset.link;
-        window.open(link, '_blank', 'noopener,noreferrer');
-      });
-
-      card.addEventListener('mouseenter', () => {
-        playHoverSound();
-      });
-    });
-
-    // Sound toggle
-    document.getElementById('soundToggle').addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      document.getElementById('soundToggle').classList.toggle('muted', !soundEnabled);
-      document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
-
-      if (soundEnabled) initAudio();
-    });
-
-    // Initialize audio on first interaction
-    document.addEventListener('click', () => {
-      initAudio();
-    }, { once: true });
-
-    // Animation loop
-    function animate() {
-      // Smooth rotation interpolation
-      currentRotationY += (targetRotationY - currentRotationY) * 0.05;
-      currentRotationX += (targetRotationX - currentRotationX) * 0.05;
-
-      // Apply rotation to scene
-      scene.style.transform = `translate(-50%, -50%) rotateX(${currentRotationX}rad) rotateY(${currentRotationY}rad)`;
-
-      updateCards();
-      updateLogo();
-      updateSpine();
-
-      requestAnimationFrame(animate);
-    }
-
-    function updateProgressDots() {
-      const dots = document.querySelectorAll('.progress-dot');
-      const activeIndex = Math.min(Math.floor(scrollProgress * 5), 4);
-
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === activeIndex);
-      });
-    }
-
-    // Progress dot click handlers
-    document.querySelectorAll('.progress-dot').forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-        scrollContainer.scrollTo({
-          top: (index / 4) * maxScroll,
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Start animation
-    animate();
-
-    // Handle resize
-    window.addEventListener('resize', () => {
-      // Recalculate positions if needed
-    });
-
-    // Lazy load images
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src || img.src;
-            observer.unobserve(img);
-          }
-        });
-      });
-
-      document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-        imageObserver.observe(img);
-      });
-    }
-  </script>
 </body>
 </html>
