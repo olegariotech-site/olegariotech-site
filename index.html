@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>OLEGARIO TECH® — Performance e Tecnologia | Espinha Dorsal</title>
-  <meta name="description" content="Métodos práticos para organizar o dinheiro, vender mais e treinar melhor. Zero Desculpas — Só Performance.">
+  <title>OLEGARIO TECH® — Criação de Sites Profissionais | Gere Mais Contatos</title>
+  <meta name="description" content="Sites profissionais que vendem. Design premium, otimizado para mobile e WhatsApp integrado. Transforme visitantes em clientes.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,7 @@
       --secondary: #1a1f3a;
       --accent: #00d4ff;
       --accent-alt: #ff3d00;
+      --gold: #d4af37;
       --text-light: #ffffff;
       --text-secondary: #b0b8d4;
       --success: #34c759;
@@ -48,46 +49,6 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-    }
-
-    /* ===== AUDIO PLAYER ===== */
-    .audio-control {
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      z-index: 100;
-      background: rgba(0, 212, 255, 0.1);
-      border: 2px solid var(--accent);
-      border-radius: 50px;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s var(--transition);
-      backdrop-filter: blur(10px);
-    }
-
-    .audio-control:hover {
-      background: rgba(0, 212, 255, 0.2);
-      transform: scale(1.1);
-    }
-
-    .audio-control.playing::after {
-      content: "🔊";
-      font-size: 24px;
-      animation: pulse-audio 1s infinite;
-    }
-
-    .audio-control.muted::after {
-      content: "🔇";
-      font-size: 24px;
-    }
-
-    @keyframes pulse-audio {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
     }
 
     /* ===== NAVIGATION ===== */
@@ -155,7 +116,7 @@
 
     /* ===== HERO SECTION ===== */
     .hero {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -173,13 +134,13 @@
       gap: 8px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--accent);
+      color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 20px;
       padding: 8px 16px;
-      background: rgba(0, 212, 255, 0.1);
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
       border-radius: 50px;
       animation: fadeInDown 0.8s var(--transition);
     }
@@ -192,7 +153,7 @@
       margin-bottom: 24px;
       max-width: 900px;
       animation: fadeInUp 1s var(--transition) 0.2s backwards;
-      background: linear-gradient(135deg, var(--accent) 0%, #00ffff 50%, var(--accent-alt) 100%);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 50%, var(--accent-alt) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -213,11 +174,12 @@
       justify-content: center;
       flex-wrap: wrap;
       animation: fadeInUp 1s var(--transition) 0.6s backwards;
+      margin-bottom: 30px;
     }
 
     .btn-primary {
       padding: 16px 36px;
-      background: linear-gradient(135deg, var(--accent) 0%, #00ffff 100%);
+      background: linear-gradient(135deg, var(--gold) 0%, #e5c158 100%);
       color: var(--primary);
       border: none;
       border-radius: 50px;
@@ -225,7 +187,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s var(--transition);
-      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -234,7 +196,7 @@
 
     .btn-primary:hover {
       transform: translateY(-4px);
-      box-shadow: 0 15px 60px rgba(0, 212, 255, 0.5);
+      box-shadow: 0 15px 60px rgba(212, 175, 55, 0.5);
     }
 
     .btn-secondary {
@@ -258,6 +220,13 @@
       transform: translateY(-4px);
     }
 
+    .hero-urgency {
+      font-size: 14px;
+      color: var(--accent-alt);
+      font-weight: 600;
+      animation: fadeInUp 1s var(--transition) 0.8s backwards;
+    }
+
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -275,155 +244,6 @@
       .btn-primary, .btn-secondary { padding: 14px 28px; font-size: 14px; }
     }
 
-    /* ===== SPINE SECTION ===== */
-    .spine-section {
-      min-height: 400vh;
-      position: relative;
-      z-index: 20;
-      padding: 200px 0;
-    }
-
-    .spine-container {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .spine {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 12px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-alt) 100%);
-      transform: translateX(-50%);
-      box-shadow: 0 0 60px rgba(0, 212, 255, 0.8), inset 0 0 20px rgba(255, 61, 0, 0.4);
-      border-radius: 6px;
-    }
-
-    .spine-logo {
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--primary);
-      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .products-orbit {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      perspective: 1200px;
-    }
-
-    .product-item {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 260px;
-      height: 340px;
-      background: rgba(26, 31, 58, 0.85);
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.3s var(--transition);
-      transform: translate(-50%, -50%) rotateY(0deg) translateZ(350px);
-      text-decoration: none;
-      color: var(--text-light);
-      overflow: hidden;
-    }
-
-    .product-item:hover {
-      border-color: var(--accent);
-      background: rgba(0, 212, 255, 0.15);
-      box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
-      transform: translate(-50%, -50%) rotateY(0deg) translateZ(400px) scale(1.08);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px;
-    }
-
-    .product-title {
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 6px;
-      color: var(--accent);
-      line-height: 1.2;
-    }
-
-    .product-price {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent-alt);
-      text-align: center;
-    }
-
-    .product-old-price {
-      font-size: 12px;
-      color: var(--text-secondary);
-      text-decoration: line-through;
-      margin-bottom: 3px;
-    }
-
-    @media (max-width: 1024px) {
-      .spine-section { min-height: 300vh; }
-      .product-item { width: 240px; height: 320px; }
-      .product-image { height: 180px; }
-    }
-
-    @media (max-width: 768px) {
-      .spine-section { min-height: 250vh; padding: 150px 0; }
-      .spine-container { height: 80vh; }
-      .spine { width: 10px; }
-      .spine-logo { width: 70px; height: 70px; font-size: 32px; }
-      .product-item { width: 200px; height: 280px; padding: 12px; }
-      .product-image { height: 150px; margin-bottom: 8px; }
-      .product-title { font-size: 14px; }
-      .product-price { font-size: 18px; }
-    }
-
-    @media (max-width: 480px) {
-      .spine-section { min-height: 220vh; padding: 120px 0; }
-      .spine-container { height: 70vh; }
-      .product-item { width: 180px; height: 260px; padding: 10px; }
-      .product-image { height: 130px; }
-      .product-title { font-size: 13px; }
-      .product-price { font-size: 16px; }
-    }
-
     /* ===== CONTENT SECTIONS ===== */
     section {
       min-height: auto;
@@ -439,85 +259,310 @@
       font-weight: 800;
       text-align: center;
       margin-bottom: 50px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 50%, var(--accent-alt) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    /* ===== MANIFESTO SECTION ===== */
-    .manifesto {
-      background: rgba(0, 212, 255, 0.05);
-      border: 2px solid rgba(0, 212, 255, 0.2);
-      border-radius: 16px;
-      padding: 50px;
-      margin: 50px 0;
-      line-height: 1.8;
-      font-size: 17px;
-      color: var(--text-secondary);
-    }
-
-    .manifesto strong {
-      color: var(--accent);
-    }
-
-    /* ===== ABOUT SECTION ===== */
-    .about-content {
+    /* ===== PROBLEMS SECTION ===== */
+    .problems-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 50px;
     }
 
-    .about-text h3 {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--accent);
+    .problem-card {
+      background: rgba(255, 61, 0, 0.1);
+      border: 2px solid rgba(255, 61, 0, 0.3);
+      border-radius: 14px;
+      padding: 35px;
+      text-align: center;
+      transition: all 0.3s var(--transition);
     }
 
-    .about-text p {
-      font-size: 17px;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin-bottom: 18px;
+    .problem-card:hover {
+      background: rgba(255, 61, 0, 0.2);
+      border-color: var(--accent-alt);
+      transform: translateY(-6px);
     }
 
-    .about-credentials {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 30px;
+    .problem-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
     }
 
-    .credential-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .problem-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-alt);
+      margin-bottom: 12px;
+    }
+
+    .problem-text {
       font-size: 15px;
       color: var(--text-secondary);
+      line-height: 1.6;
     }
 
-    .credential-item::before {
-      content: "✓";
-      width: 24px;
-      height: 24px;
-      background: var(--accent);
-      color: var(--primary);
+    /* ===== BENEFITS SECTION ===== */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .benefit-card {
+      background: rgba(26, 31, 58, 0.6);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+      padding: 28px;
+      transition: all 0.3s var(--transition);
+    }
+
+    .benefit-card:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--accent);
+      transform: translateY(-6px);
+    }
+
+    .benefit-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .benefit-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .benefit-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== PORTFOLIO SECTION ===== */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .portfolio-item {
+      background: rgba(26, 31, 58, 0.6);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.3s var(--transition);
+      cursor: pointer;
+    }
+
+    .portfolio-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+    }
+
+    .portfolio-image {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 61, 0, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .portfolio-content {
+      padding: 25px;
+    }
+
+    .portfolio-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .portfolio-category {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .portfolio-result {
+      font-size: 15px;
+      color: var(--success);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===== PROCESS SECTION ===== */
+    .process-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 50%, var(--accent-alt) 100%);
+      z-index: 0;
+    }
+
+    .process-step {
+      background: rgba(26, 31, 58, 0.6);
+      border: 2px solid rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .process-number {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      flex-shrink: 0;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: -55px auto 15px;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
     }
 
-    .about-image img {
-      width: 100%;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+    .process-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .process-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== PRICING SECTION ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .pricing-card {
+      background: rgba(26, 31, 58, 0.6);
       border: 2px solid rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+      padding: 40px;
+      position: relative;
+      transition: all 0.3s var(--transition);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      transform: scale(1.05);
+    }
+
+    .pricing-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-8px);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -15px;
+      right: 30px;
+      background: var(--gold);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .pricing-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .pricing-price {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+
+    .pricing-period {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 25px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .pricing-features li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .pricing-cta {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold) 0%, #e5c158 100%);
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+    }
+
+    .pricing-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
     }
 
     /* ===== TESTIMONIALS SECTION ===== */
@@ -539,6 +584,12 @@
       background: rgba(0, 212, 255, 0.1);
       border-color: var(--accent);
       transform: translateY(-6px);
+    }
+
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 16px;
+      margin-bottom: 12px;
     }
 
     .testimonial-text {
@@ -570,55 +621,6 @@
       border-radius: 50px;
       font-size: 12px;
       font-weight: 700;
-    }
-
-    /* ===== URGENCY SECTION ===== */
-    .urgency-section {
-      background: linear-gradient(135deg, rgba(255, 61, 0, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
-      border: 2px solid var(--accent-alt);
-      border-radius: 16px;
-      padding: 50px;
-      text-align: center;
-      margin: 50px 0;
-    }
-
-    .urgency-title {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 18px;
-      color: var(--accent-alt);
-    }
-
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 35px 0;
-      flex-wrap: wrap;
-    }
-
-    .countdown-item {
-      background: rgba(255, 61, 0, 0.1);
-      border: 2px solid var(--accent-alt);
-      border-radius: 10px;
-      padding: 18px 24px;
-      min-width: 90px;
-      text-align: center;
-    }
-
-    .countdown-number {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--accent-alt);
-      display: block;
-    }
-
-    .countdown-label {
-      font-size: 11px;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      margin-top: 6px;
-      font-weight: 600;
     }
 
     /* ===== FAQ SECTION ===== */
@@ -672,6 +674,90 @@
       padding-top: 10px;
     }
 
+    /* ===== PRODUCTS SECTION (SECONDARY) ===== */
+    .products-section {
+      background: rgba(0, 212, 255, 0.05);
+      border-top: 2px solid rgba(0, 212, 255, 0.2);
+      margin-top: 100px;
+      padding-top: 100px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+    }
+
+    .product-card {
+      background: rgba(26, 31, 58, 0.6);
+      border: 2px solid rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s var(--transition);
+      text-decoration: none;
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, 0.1);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px;
+    }
+
+    .product-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .product-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent-alt);
+      text-align: center;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-final {
+      text-align: center;
+      padding: 80px 30px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+      border-radius: 16px;
+      margin: 50px 0;
+    }
+
+    .cta-final h3 {
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 50%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-final p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 35px;
+    }
+
     /* ===== WHATSAPP FAB ===== */
     .fab-whats {
       position: fixed;
@@ -695,31 +781,6 @@
     .fab-whats:hover {
       transform: scale(1.1);
       box-shadow: 0 15px 60px rgba(37, 211, 102, 0.6);
-    }
-
-    /* ===== CTA SECTION ===== */
-    .cta-final {
-      text-align: center;
-      padding: 80px 30px;
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 61, 0, 0.1) 100%);
-      border-radius: 16px;
-      margin: 50px 0;
-    }
-
-    .cta-final h3 {
-      font-size: 38px;
-      font-weight: 800;
-      margin-bottom: 18px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .cta-final p {
-      font-size: 18px;
-      color: var(--text-secondary);
-      margin-bottom: 35px;
     }
 
     /* ===== FOOTER ===== */
@@ -746,21 +807,28 @@
     @media (max-width: 1024px) {
       section { padding: 80px 20px; }
       .section-title { font-size: 36px; }
-      .about-content { grid-template-columns: 1fr; gap: 40px; }
+      .problems-grid { grid-template-columns: repeat(2, 1fr); }
+      .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .process-timeline { grid-template-columns: repeat(2, 1fr); }
+      .process-timeline::before { display: none; }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-card.featured { transform: scale(1); }
       .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
-      .manifesto { padding: 35px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
       section { padding: 60px 20px; }
       .section-title { font-size: 28px; margin-bottom: 35px; }
-      .about-content { gap: 30px; }
+      .problems-grid { grid-template-columns: 1fr; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .process-timeline { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
-      .manifesto { padding: 25px; font-size: 15px; }
-      .about-text h3 { font-size: 26px; }
-      .about-text p { font-size: 15px; }
-      .urgency-section { padding: 35px 20px; }
-      .urgency-title { font-size: 26px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 42px; }
+      .hero-subtitle { font-size: 18px; }
       .cta-final { padding: 60px 20px; }
       .cta-final h3 { font-size: 28px; }
       .cta-final p { font-size: 16px; }
@@ -770,10 +838,8 @@
     @media (max-width: 480px) {
       section { padding: 50px 15px; }
       .section-title { font-size: 24px; }
-      .testimonials-grid { gap: 15px; }
-      .countdown { gap: 10px; }
-      .countdown-item { padding: 14px 18px; min-width: 75px; }
-      .countdown-number { font-size: 22px; }
+      .products-grid { grid-template-columns: 1fr; }
+      .process-number { width: 60px; height: 60px; font-size: 24px; margin: -40px auto 15px; }
     }
   </style>
 </head>
@@ -782,11 +848,8 @@
   <!-- Canvas Background -->
   <canvas id="canvas-bg"></canvas>
 
-  <!-- Audio Control -->
-  <div class="audio-control playing" id="audioControl"></div>
-
   <!-- WhatsApp FAB -->
-  <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Tenho%20dúvidas%20sobre%20os%20cursos" class="fab-whats" title="Falar no WhatsApp">
+  <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Gostaria%20de%20saber%20mais%20sobre%20criar%20um%20site%20profissional" class="fab-whats" title="Falar no WhatsApp">
     💬
   </a>
 
@@ -797,233 +860,306 @@
       <span>OLEGARIO TECH</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#produtos">Produtos</a></li>
-      <li><a href="#manifesto">Manifesto</a></li>
-      <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#pricing">Preços</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero" id="top">
-    <div class="hero-badge">🚀 Acesso Imediato • Vagas Limitadas</div>
-    <h1>Zero Desculpas.<br>Só Performance.</h1>
+    <div class="hero-badge">🚀 Vagas Limitadas Este Mês</div>
+    <h1>Seu Site é Seu Melhor Vendedor.<br>Ou Seu Maior Problema.</h1>
     <p class="hero-subtitle">
-      Métodos práticos para organizar o dinheiro, vender mais e treinar melhor.<br>
-      Sem misticismo. Só lucidez prática.
+      Sites que geram contatos reais, não apenas bonitos.<br>
+      Feito pra empresas que querem crescer.
     </p>
     <div class="hero-cta">
-      <a href="#produtos" class="btn-primary">Explorar Produtos →</a>
-      <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Tenho%20dúvidas" class="btn-secondary">Falar com Alexandre</a>
+      <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Gostaria%20de%20agendar%20uma%20consultoria%20gratuita" class="btn-primary">Agendar Consultoria Gratuita →</a>
+      <a href="#portfolio" class="btn-secondary">Ver Portfólio</a>
     </div>
+    <div class="hero-urgency">⏰ Apenas 3 vagas disponíveis para este mês</div>
   </section>
 
-  <!-- Spine Section with Rotating Products -->
-  <section class="spine-section" id="produtos">
-    <div class="spine-container">
-      <div class="spine"></div>
-      <div class="spine-logo">OT</div>
-      
-      <div class="products-orbit" id="productsOrbit">
-        <!-- Products will be inserted here by JavaScript -->
+  <!-- Problems Section -->
+  <section id="servicos">
+    <h2 class="section-title">O Que Pode Estar Errado</h2>
+    
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="problem-icon">❌</div>
+        <div class="problem-title">Site Feio</div>
+        <div class="problem-text">Seu site não passa confiança. Visitantes saem em 3 segundos.</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">📉</div>
+        <div class="problem-title">Não Converte</div>
+        <div class="problem-text">Tem tráfego, mas ninguém vira cliente. Visitante não sabe o que fazer.</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">📱</div>
+        <div class="problem-title">Não Funciona no Celular</div>
+        <div class="problem-text">50% do tráfego vem do celular, mas seu site não funciona lá.</div>
       </div>
     </div>
   </section>
 
-  <!-- Manifesto Section -->
-  <section id="manifesto">
-    <h2 class="section-title">Manifesto OLEGARIO TECH</h2>
+  <!-- Benefits Section -->
+  <section>
+    <h2 class="section-title">O Que Você Vai Ter</h2>
     
-    <div class="manifesto">
-      <p><strong>Na OLEGARIO TECH, acreditamos que conhecimento só vale quando vira ação.</strong> Unimos técnica, tecnologia e propósito pra gerar resultado real. Zero Desculpas — Só Performance.</p>
-      
-      <p>Somos uma comunidade de pessoas que entendem uma coisa simples: <strong>cada método que você aprende aqui foi testado na prática</strong>. Não vendemos sonhos. Vendemos soluções.</p>
-      
-      <p><strong>Em Vendas:</strong> Vendas não é sorte, é técnica. Prosperar exige ação diária — conforto só serve para perder comissão. Quem busca resultado precisa aceitar o desconforto: é nele que o crescimento nasce.</p>
-      
-      <p><strong>Em Calistenia:</strong> Quando a mente acredita, o corpo responde. É a disciplina que faz a diferença entre sonhar e alcançar. A mente decide, o corpo executa. A disciplina é o caminho entre querer e realizar.</p>
-      
-      <p><strong>Em Finanças:</strong> Dinheiro não é tabu. É ferramenta. Organizar o dinheiro é organizar a vida. Você não precisa ser rico para começar — precisa de método.</p>
-      
-      <p><strong>Em Produtividade:</strong> Ansiedade e procrastinação não são fraqueza. São sinais de que você precisa de clareza. Você não precisa de motivação, precisa de método.</p>
-      
-      <p style="margin-top: 35px; font-size: 18px; font-weight: 700; color: var(--accent);"><strong>Nossa Promessa: Cada produto que você compra aqui vem com uma garantia implícita — foi criado por alguém que viveu o problema e encontrou a solução. Não há floreios, não há misticismo. Só prática, só método, só performance.</strong></p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <span class="benefit-icon">✨</span>
+        <div class="benefit-title">Design que Vende</div>
+        <div class="benefit-text">Visual premium que passa confiança e faz visitante virar cliente.</div>
+      </div>
+
+      <div class="benefit-card">
+        <span class="benefit-icon">📱</span>
+        <div class="benefit-title">100% Responsivo</div>
+        <div class="benefit-text">Funciona perfeito em celular, tablet e desktop. Sem exceções.</div>
+      </div>
+
+      <div class="benefit-card">
+        <span class="benefit-icon">💬</span>
+        <div class="benefit-title">WhatsApp Integrado</div>
+        <div class="benefit-text">Botão flutuante que leva direto pro seu WhatsApp. Contato facilitado.</div>
+      </div>
+
+      <div class="benefit-card">
+        <span class="benefit-icon">⚡</span>
+        <div class="benefit-title">Rápido e Seguro</div>
+        <div class="benefit-text">Site que carrega em 1 segundo. SSL incluído. Sem preocupações.</div>
+      </div>
+
+      <div class="benefit-card">
+        <span class="benefit-icon">🔍</span>
+        <div class="benefit-title">SEO Básico</div>
+        <div class="benefit-text">Otimizado para Google. Apareça nos primeiros resultados.</div>
+      </div>
+
+      <div class="benefit-card">
+        <span class="benefit-icon">🛠️</span>
+        <div class="benefit-title">Suporte Técnico</div>
+        <div class="benefit-text">Suporte por 6 meses. Qualquer dúvida, estou aqui pra ajudar.</div>
+      </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="sobre">
-    <h2 class="section-title">Quem é Alexandre Olegario</h2>
+  <!-- Portfolio Section -->
+  <section id="portfolio">
+    <h2 class="section-title">Portfólio de Sites</h2>
     
-    <div class="about-content">
-      <div class="about-text">
-        <h3>Especialista em Vendas e Performance</h3>
-        <p>
-          <strong>30+ anos em vendas automotivas e projetos digitais.</strong>
-        </p>
-        <p>
-          Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia em método simples, direto e aplicável.
-        </p>
-        <p>
-          Mentor, gestor e autor. Foco: Resultado Real.
-        </p>
-        
-        <div class="about-credentials">
-          <div class="credential-item">30+ anos de experiência em vendas</div>
-          <div class="credential-item">2.700+ alunos transformados</div>
-          <div class="credential-item">Métodos validados na prática</div>
-          <div class="credential-item">Especialista em performance comportamental</div>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <div class="portfolio-image">🏪</div>
+        <div class="portfolio-content">
+          <div class="portfolio-title">Loja Premium</div>
+          <div class="portfolio-category">E-commerce</div>
+          <div class="portfolio-result">📈 +300% em vendas</div>
         </div>
       </div>
-      <div class="about-image">
-        <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
+
+      <div class="portfolio-item">
+        <div class="portfolio-image">🏥</div>
+        <div class="portfolio-content">
+          <div class="portfolio-title">Consultório Médico</div>
+          <div class="portfolio-category">Serviços</div>
+          <div class="portfolio-result">📞 +150 agendamentos/mês</div>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-image">🍽️</div>
+        <div class="portfolio-content">
+          <div class="portfolio-title">Restaurante Premium</div>
+          <div class="portfolio-category">Gastronomia</div>
+          <div class="portfolio-result">📱 +500 pedidos/mês</div>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-image">💼</div>
+        <div class="portfolio-content">
+          <div class="portfolio-title">Agência de Marketing</div>
+          <div class="portfolio-category">Serviços B2B</div>
+          <div class="portfolio-result">💰 +R$ 50k em contratos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section>
+    <h2 class="section-title">Como Funciona</h2>
+    
+    <div class="process-timeline">
+      <div class="process-step">
+        <div class="process-number">1</div>
+        <div class="process-title">Consultoria</div>
+        <div class="process-text">Entendo sua necessidade, seu público e seus objetivos.</div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-number">2</div>
+        <div class="process-title">Design</div>
+        <div class="process-text">Crio um visual premium que passa confiança e vende.</div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-number">3</div>
+        <div class="process-title">Desenvolvimento</div>
+        <div class="process-text">Codifico, testo e otimizo. Tudo pronto pro ar.</div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-number">4</div>
+        <div class="process-title">Lançamento</div>
+        <div class="process-text">Site no ar + treinamento. Você pronto pra vender.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing">
+    <h2 class="section-title">Planos e Preços</h2>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">R$ 1.500</div>
+        <div class="pricing-period">Pagamento único</div>
+        <ul class="pricing-features">
+          <li>5 páginas profissionais</li>
+          <li>Design responsivo</li>
+          <li>WhatsApp integrado</li>
+          <li>Domínio profissional (1 ano)</li>
+          <li>SSL incluído</li>
+          <li>Suporte por 3 meses</li>
+        </ul>
+        <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Quero%20contratar%20o%20plano%20Starter" class="pricing-cta">Contratar Agora</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Mais Popular</div>
+        <div class="pricing-name">Professional</div>
+        <div class="pricing-price">R$ 2.500</div>
+        <div class="pricing-period">Pagamento único</div>
+        <ul class="pricing-features">
+          <li>10 páginas profissionais</li>
+          <li>Design customizado</li>
+          <li>WhatsApp integrado</li>
+          <li>Blog incluído</li>
+          <li>Formulários e CRM</li>
+          <li>Domínio profissional (1 ano)</li>
+          <li>SSL incluído</li>
+          <li>Suporte por 6 meses</li>
+        </ul>
+        <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Quero%20contratar%20o%20plano%20Professional" class="pricing-cta">Contratar Agora</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-name">Premium</div>
+        <div class="pricing-price">R$ 4.500</div>
+        <div class="pricing-period">Pagamento único</div>
+        <ul class="pricing-features">
+          <li>Tudo do Professional +</li>
+          <li>E-commerce básico</li>
+          <li>Consultoria estratégica</li>
+          <li>SEO avançado</li>
+          <li>Analytics integrado</li>
+          <li>Domínio profissional (2 anos)</li>
+          <li>Suporte por 12 meses</li>
+          <li>Atualizações grátis</li>
+        </ul>
+        <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Quero%20contratar%20o%20plano%20Premium" class="pricing-cta">Contratar Agora</a>
       </div>
     </div>
   </section>
 
   <!-- Testimonials Section -->
-  <section id="depoimentos">
-    <h2 class="section-title">Quem Aplicou, Transformou</h2>
+  <section>
+    <h2 class="section-title">O Que Clientes Dizem</h2>
     
     <div class="testimonials-grid">
       <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
         <div class="testimonial-text">
-          "Lucidez Prática me tirou do looping mental. Agora consigo agir mesmo com a mente barulhenta. Mudou minha vida."
+          "Meu site antigo não vendia nada. Depois do novo site, triplicou meu faturamento em 3 meses. Recomendo demais!"
         </div>
-        <div class="testimonial-author">Carlos M.</div>
-        <div class="testimonial-role">Vendedor Automotivo</div>
-        <span class="result-badge">+40% em vendas</span>
+        <div class="testimonial-author">Maria Silva</div>
+        <div class="testimonial-role">Dona de Loja</div>
+        <span class="result-badge">+300% em vendas</span>
       </div>
 
       <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
         <div class="testimonial-text">
-          "Dinheiro que Sobra me mostrou pra onde ia meu dinheiro. Hoje economizo R$ 2.000 por mês sem sacrificar nada."
+          "Não sabia por onde começar. Alexandre me orientou em tudo. Site ficou profissional e agora tenho contatos todo dia."
         </div>
-        <div class="testimonial-author">Fernanda S.</div>
-        <div class="testimonial-role">Empreendedora</div>
-        <span class="result-badge">+R$ 24k/ano economizado</span>
+        <div class="testimonial-author">João Santos</div>
+        <div class="testimonial-role">Consultor</div>
+        <span class="result-badge">+150 contatos/mês</span>
       </div>
 
       <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
         <div class="testimonial-text">
-          "Manual do Fechamento é a bíblia de vendas que eu procurava. Apliquei a técnica e fechei 3 negócios em uma semana."
+          "Processo rápido, suporte excelente e resultado acima do esperado. Meu consultório agora tem agenda cheia!"
         </div>
-        <div class="testimonial-author">Roberto L.</div>
-        <div class="testimonial-role">Gerente de Vendas</div>
-        <span class="result-badge">+3 vendas/semana</span>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-text">
-          "Treino em Casa 30 Minutos virou meu ritual diário. Sem academia, sem desculpas. Resultado em 30 dias."
-        </div>
-        <div class="testimonial-author">Lucas P.</div>
-        <div class="testimonial-role">Profissional de TI</div>
-        <span class="result-badge">-8kg em 30 dias</span>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-text">
-          "Ansiedade paralisante era meu problema. Com o protocolo de 10 minutos, consegui sair do looping. Recomendo demais."
-        </div>
-        <div class="testimonial-author">Marina T.</div>
-        <div class="testimonial-role">Psicóloga</div>
-        <span class="result-badge">Produtividade +60%</span>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-text">
-          "Não é um curso comum. É um método. Apliquei tudo e minha vida mudou em 90 dias. Muito obrigado, Alexandre."
-        </div>
-        <div class="testimonial-author">João V.</div>
-        <div class="testimonial-role">Empreendedor Digital</div>
-        <span class="result-badge">Renda +R$ 15k/mês</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Urgency Section -->
-  <section>
-    <div class="urgency-section">
-      <h3 class="urgency-title">⏰ Preço Promocional Por Tempo Limitado</h3>
-      <p style="font-size: 16px; color: var(--text-secondary); margin-bottom: 25px;">
-        Os preços voltam ao normal quando o relógio zera. Depois disso, não tem volta.
-      </p>
-      
-      <div class="countdown" id="countdown">
-        <div class="countdown-item">
-          <span class="countdown-number" id="days">00</span>
-          <span class="countdown-label">Dias</span>
-        </div>
-        <div class="countdown-item">
-          <span class="countdown-number" id="hours">00</span>
-          <span class="countdown-label">Horas</span>
-        </div>
-        <div class="countdown-item">
-          <span class="countdown-number" id="minutes">00</span>
-          <span class="countdown-label">Minutos</span>
-        </div>
-        <div class="countdown-item">
-          <span class="countdown-number" id="seconds">00</span>
-          <span class="countdown-label">Segundos</span>
-        </div>
+        <div class="testimonial-author">Dra. Ana Costa</div>
+        <div class="testimonial-role">Médica</div>
+        <span class="result-badge">Agenda cheia</span>
       </div>
     </div>
   </section>
 
   <!-- FAQ Section -->
   <section id="faq">
-    <h2 class="section-title">Tire Suas Dúvidas</h2>
+    <h2 class="section-title">Dúvidas Frequentes</h2>
     
     <div class="faq-container">
       <div class="faq-item">
         <div class="faq-question">
-          <span>Como funciona o acesso aos cursos?</span>
+          <span>Quanto tempo leva pra ficar pronto?</span>
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Após a compra, você recebe um e-mail com o link de acesso imediato. Todos os cursos são digitais e você pode acessar de qualquer dispositivo, a qualquer hora. Acesso vitalício + atualizações futuras incluídas.
+          Depende da complexidade. Starter: 2-3 semanas. Professional: 3-4 semanas. Premium: 4-5 semanas. Você acompanha tudo.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Qual é a garantia?</span>
+          <span>Posso editar o site depois?</span>
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Garantia de 7 dias. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas. Mas aviso: a maioria das pessoas não pede reembolso porque os resultados falam por si.
+          Sim. Você recebe um painel de controle fácil. Pode editar textos, imagens e cores sem conhecimento técnico. Se precisar de ajuda, estou aqui.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Preciso de experiência prévia?</span>
+          <span>E se não gostar?</span>
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Não. Cada curso é feito para iniciantes. Se você tem experiência, vai aprofundar. Se é novo, vai aprender do zero. Todos os métodos são passo a passo.
+          Garantia de 7 dias. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas. Mas aviso: a maioria das pessoas não pede reembolso.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Quanto tempo leva para ver resultados?</span>
+          <span>Inclui hospedagem e domínio?</span>
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Depende do seu comprometimento. Mas a maioria das pessoas vê resultados em 30 dias se aplicar diariamente. Alguns veem em uma semana. Tudo depende da ação.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>Posso comprar mais de um curso?</span>
-          <span class="faq-icon">▼</span>
-        </div>
-        <div class="faq-answer">
-          Sim! E recomendo. Cada curso é independente e complementa os outros. Muita gente compra o combo inteiro e consegue resultados exponenciais.
+          Sim. Domínio profissional (1-2 anos) + hospedagem incluída. Você não paga nada a mais. Tudo já está no preço.
         </div>
       </div>
 
@@ -1033,28 +1169,72 @@
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Você tem acesso direto ao WhatsApp do Alexandre para dúvidas. Resposta rápida, orientação prática. Não é um chatbot, é uma pessoa real respondendo.
+          Suporte direto pelo WhatsApp. Qualquer dúvida, você me chama. Resposta rápida, orientação prática. Não é um chatbot, é uma pessoa real.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Posso compartilhar a compra com alguém?</span>
+          <span>Preciso ter conhecimento técnico?</span>
           <span class="faq-icon">▼</span>
         </div>
         <div class="faq-answer">
-          Não. Cada compra é para uma pessoa. Mas você pode indicar para amigos — eles ganham desconto e você também. Win-win.
+          Não. Tudo é feito por mim. Você só precisa fornecer o conteúdo (textos, fotos, informações). Eu cuido do resto.
         </div>
       </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Vocês fazem site para qual tipo de negócio?</span>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          Qualquer um. Loja, consultório, agência, prestador de serviço, restaurante, etc. Se você quer vender mais, a gente faz.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section (Secondary) -->
+  <section class="products-section">
+    <h2 class="section-title">Enquanto Espera o Site Ficar Pronto...</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 50px; font-size: 16px;">
+      Aprenda técnicas de vendas, organize suas finanças e melhore sua performance pessoal
+    </p>
+    
+    <div class="products-grid">
+      <a href="https://pay.kiwify.com.br/FxEtsfU" class="product-card" target="_blank">
+        <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" class="product-image">
+        <div class="product-title">Lucidez Prática</div>
+        <div class="product-price">R$ 29,90</div>
+      </a>
+
+      <a href="https://pay.kiwify.com.br/xPzKLoK" class="product-card" target="_blank">
+        <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" class="product-image">
+        <div class="product-title">Dinheiro que Sobra</div>
+        <div class="product-price">R$ 19,90</div>
+      </a>
+
+      <a href="https://pay.kiwify.com.br/rmmRvfc" class="product-card" target="_blank">
+        <img src="assets/img/capa-vendas.jpg" alt="Manual do Fechamento" class="product-image">
+        <div class="product-title">Manual do Fechamento</div>
+        <div class="product-price">R$ 19,90</div>
+      </a>
+
+      <a href="https://pay.kiwify.com.br/lt9RRvy" class="product-card" target="_blank">
+        <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa 30min" class="product-image">
+        <div class="product-title">Treino em Casa 30min</div>
+        <div class="product-price">R$ 14,99</div>
+      </a>
     </div>
   </section>
 
   <!-- Final CTA -->
   <section>
     <div class="cta-final">
-      <h3>Pronto para Transformar?</h3>
-      <p>Escolha seu método e comece hoje. Acesso imediato. Sem espera.</p>
-      <a href="#produtos" class="btn-primary" style="margin-top: 25px;">Ver Todos os Produtos →</a>
+      <h3>Pronto para Transformar Seu Negócio?</h3>
+      <p>Escolha seu plano e comece hoje. Consultoria gratuita incluída.</p>
+      <a href="https://wa.me/5511912459144?text=Oi%20Alexandre!%20Gostaria%20de%20agendar%20uma%20consultoria%20gratuita%20sobre%20meu%20site" class="btn-primary" style="margin-top: 25px;">Agendar Consultoria Agora →</a>
     </div>
   </section>
 
@@ -1063,44 +1243,7 @@
     <p>&copy; 2026 OLEGARIO TECH. Todos os direitos reservados. | <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a></p>
   </footer>
 
-  <!-- Audio Element -->
-  <audio id="bgAudio" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
-
   <script>
-    // ===== PRODUCTS DATA =====
-    const products = [
-      {
-        title: "Lucidez Prática",
-        image: "assets/img/capa-lucidez-pratica-3d.png",
-        oldPrice: "R$ 97",
-        price: "R$ 29,90",
-        link: "https://pay.kiwify.com.br/FxEtsfU"
-      },
-      {
-        title: "Dinheiro que Sobra",
-        image: "assets/img/dinheiro-que-sobra-capa.png",
-        oldPrice: "R$ 29,90",
-        price: "R$ 19,90",
-        link: "https://pay.kiwify.com.br/xPzKLoK"
-      },
-      {
-        title: "Manual do Fechamento",
-        image: "assets/img/capa-vendas.jpg",
-        oldPrice: "R$ 49,90",
-        price: "R$ 19,90",
-        link: "https://pay.kiwify.com.br/rmmRvfc"
-      },
-      {
-        title: "Treino em Casa 30min",
-        image: "assets/img/capa-calistenia.jpg",
-        oldPrice: "R$ 39,90",
-        price: "R$ 14,99",
-        link: "https://pay.kiwify.com.br/lt9RRvy"
-      }
-    ];
-
     // ===== CANVAS BACKGROUND =====
     const canvas = document.getElementById('canvas-bg');
     const ctx = canvas.getContext('2d');
@@ -1118,7 +1261,7 @@
         this.vx = (Math.random() - 0.5) * 0.4;
         this.vy = (Math.random() - 0.5) * 0.4;
         this.radius = Math.random() * 2 + 0.8;
-        this.color = Math.random() > 0.5 ? 'rgba(0, 212, 255, 0.5)' : 'rgba(255, 61, 0, 0.5)';
+        this.color = Math.random() > 0.5 ? 'rgba(0, 212, 255, 0.5)' : 'rgba(212, 175, 55, 0.5)';
       }
 
       update() {
@@ -1176,53 +1319,6 @@
       canvas.height = window.innerHeight;
     });
 
-    // ===== PRODUCTS ORBIT =====
-    const productsOrbit = document.getElementById('productsOrbit');
-    const isMobile = window.innerWidth < 768;
-    const radius = isMobile ? 200 : 400;
-
-    products.forEach((product, index) => {
-      const angle = (index / products.length) * Math.PI * 2;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-
-      const item = document.createElement('a');
-      item.className = 'product-item';
-      item.href = product.link;
-      item.target = '_blank';
-      item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-      item.innerHTML = `
-        <img src="${product.image}" alt="${product.title}" class="product-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22200%22%3E%3Crect fill=%22%231a1f3a%22 width=%22260%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%2300d4ff%22%3E${product.title}%3C/text%3E%3C/svg%3E'">
-        <div class="product-title">${product.title}</div>
-        <div class="product-old-price">${product.oldPrice}</div>
-        <div class="product-price">${product.price}</div>
-      `;
-      productsOrbit.appendChild(item);
-    });
-
-    // ===== SCROLL ANIMATION FOR PRODUCTS =====
-    let scrollProgress = 0;
-
-    window.addEventListener('scroll', () => {
-      const spineSection = document.querySelector('.spine-section');
-      const spineContainer = document.querySelector('.spine-container');
-      
-      const sectionTop = spineSection.offsetTop;
-      const sectionHeight = spineSection.offsetHeight;
-      const windowHeight = window.innerHeight;
-
-      const scrolled = window.scrollY - sectionTop + windowHeight;
-      scrollProgress = Math.max(0, Math.min(1, scrolled / (sectionHeight + windowHeight)));
-
-      const items = document.querySelectorAll('.product-item');
-      items.forEach((item, index) => {
-        const angle = (index / items.length) * Math.PI * 2 + scrollProgress * Math.PI * 4;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-      });
-    });
-
     // ===== FAQ TOGGLE =====
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
@@ -1230,59 +1326,6 @@
       question.addEventListener('click', () => {
         item.classList.toggle('open');
       });
-    });
-
-    // ===== COUNTDOWN TIMER (INFINITE LOOP) =====
-    function updateCountdown() {
-      let countdownEnd = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).getTime();
-
-      const timer = setInterval(() => {
-        const current = new Date().getTime();
-        let distance = countdownEnd - current;
-
-        if (distance < 0) {
-          countdownEnd = new Date(current + 24 * 60 * 60 * 1000).getTime();
-          distance = countdownEnd - current;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('days').textContent = String(days).padStart(2, '0');
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-      }, 1000);
-    }
-
-    updateCountdown();
-
-    // ===== AUDIO CONTROL =====
-    const audioControl = document.getElementById('audioControl');
-    const bgAudio = document.getElementById('bgAudio');
-    let isPlaying = true;
-
-    bgAudio.volume = 0.25;
-    bgAudio.play().catch(() => {
-      isPlaying = false;
-      audioControl.classList.remove('playing');
-      audioControl.classList.add('muted');
-    });
-
-    audioControl.addEventListener('click', () => {
-      if (isPlaying) {
-        bgAudio.pause();
-        isPlaying = false;
-        audioControl.classList.remove('playing');
-        audioControl.classList.add('muted');
-      } else {
-        bgAudio.play();
-        isPlaying = true;
-        audioControl.classList.add('playing');
-        audioControl.classList.remove('muted');
-      }
     });
 
     // ===== SMOOTH SCROLL =====
