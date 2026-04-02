@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="OLEGARIO TECH - Criação de sites profissionais que geram resultados reais. Sites que vendem, não apenas existem.">
-    <meta name="keywords" content="criação de sites, web design, sites profissionais, WhatsApp integrado, e-commerce, consultório, restaurante">
-    <meta property="og:title" content="OLEGARIO TECH - Criação de Sites Profissionais">
-    <meta property="og:description" content="Sites que vendem, não apenas existem. Design premium + WhatsApp integrado + SEO básico.">
+    <meta name="description" content="OLEGARIO TECH - Sites profissionais que vendem. Criação de sites + Cursos de vendas e performance. Seu site é seu melhor vendedor.">
+    <meta name="keywords" content="criação de sites, sites profissionais, cursos de vendas, performance, marketing digital">
+    <meta property="og:title" content="OLEGARIO TECH - Seu Site É Seu Melhor Vendedor">
+    <meta property="og:description" content="Criamos sites profissionais que passam confiança e geram contatos reais. Foco em resultado real.">
     <meta property="og:image" content="assets/img/og-image.jpg">
-    <meta property="og:url" content="https://olegariotech.com.br">
-    <title>OLEGARIO TECH - Criação de Sites Profissionais</title>
+    <title>OLEGARIO TECH - Sites Profissionais que Vendem</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #9D4EDD;
+            --secondary: #3A86FF;
+            --accent: #FFA500;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --gray: #1a1a1a;
         }
 
         html {
@@ -26,702 +33,405 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%);
-            color: #ffffff;
+            background: var(--dark);
+            color: var(--light);
             line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Neural Network Canvas Background */
+        /* CANVAS NEURÔNIOS */
         #neural-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             z-index: 1;
-            opacity: 0.15;
+            opacity: 0.5;
         }
 
-        .content-wrapper {
+        .content {
             position: relative;
             z-index: 2;
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+        /* HEADER */
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
+            padding: 20px 50px;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             border-bottom: 1px solid rgba(157, 78, 221, 0.2);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .nav-links {
+        nav {
             display: flex;
-            gap: 2rem;
-            list-style: none;
+            gap: 30px;
         }
 
-        .nav-links a {
-            color: #ffffff;
+        nav a {
+            color: var(--light);
             text-decoration: none;
             transition: color 0.3s;
-            font-size: 0.9rem;
+            font-size: 14px;
         }
 
-        .nav-links a:hover {
-            color: #9D4EDD;
+        nav a:hover {
+            color: var(--primary);
         }
 
-        .cta-nav {
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .cta-header {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: var(--light);
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        .cta-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
+        .cta-header:hover {
+            transform: scale(1.05);
         }
 
-        /* Hero Section */
+        .whatsapp-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* HERO */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            margin-top: 60px;
+            text-align: center;
+            padding: 100px 50px;
             position: relative;
-            overflow: hidden;
         }
 
         .hero-content {
-            max-width: 900px;
-            text-align: center;
+            max-width: 800px;
             animation: fadeInUp 1s ease-out;
         }
 
-        .hero-tag {
-            color: #9D4EDD;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
         .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff, #9D4EDD);
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--light), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-weight: 600;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 18px;
+            color: #ccc;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .urgency-badge {
+            display: inline-block;
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 16px 40px;
             border: none;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
-            color: white;
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(157, 78, 221, 0.5);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            color: #9D4EDD;
-            border: 2px solid #9D4EDD;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
         }
 
         .btn-secondary:hover {
-            background: rgba(157, 78, 221, 0.1);
+            background: rgba(58, 134, 255, 0.1);
             transform: translateY(-3px);
         }
 
-        .hero-urgency {
-            color: #FFA500;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        /* WhatsApp Icon */
-        .whatsapp-icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-        }
-
-        /* Section Styles */
+        /* SEÇÕES */
         section {
-            padding: 5rem 2rem;
+            padding: 100px 50px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 50px;
             text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #ffffff, #9D4EDD);
+            background: linear-gradient(135deg, var(--light), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Problems Section */
-        .problems {
-            background: rgba(157, 78, 221, 0.05);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .problems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .problem-card {
-            background: rgba(58, 134, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(58, 134, 255, 0.3);
-            transition: all 0.3s;
-        }
-
-        .problem-card:hover {
-            transform: translateY(-5px);
-            border-color: #9D4EDD;
-            background: rgba(157, 78, 221, 0.1);
-        }
-
-        .problem-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #FFA500;
-        }
-
-        /* Solutions Section */
-        .solutions-grid {
+        /* CARDS */
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 30px;
+            margin-bottom: 50px;
         }
 
-        .solution-card {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
-            padding: 2rem;
-            border-radius: 15px;
+        .card {
+            background: rgba(26, 26, 26, 0.8);
             border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 15px;
+            padding: 30px;
             transition: all 0.3s;
-            text-align: center;
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        .solution-card:hover {
+        .card:hover {
             transform: translateY(-10px);
-            border-color: #9D4EDD;
+            border-color: var(--primary);
             box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
         }
 
-        .solution-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--light);
         }
 
-        .solution-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .card p {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.8;
         }
 
-        .solution-card p {
-            color: #b0b0b0;
-            font-size: 0.95rem;
-        }
-
-        /* Portfolio Section */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .portfolio-card {
-            background: rgba(157, 78, 221, 0.05);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(157, 78, 221, 0.2);
-            transition: all 0.3s;
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-10px);
-            border-color: #9D4EDD;
-            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
-        }
-
-        .portfolio-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .portfolio-content {
-            padding: 1.5rem;
-        }
-
-        .portfolio-content h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .portfolio-result {
-            color: #9D4EDD;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        /* Process Section */
-        .process-timeline {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-            position: relative;
-        }
-
-        .process-step {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
-            padding: 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(157, 78, 221, 0.3);
-            text-align: center;
-            position: relative;
-        }
-
-        .process-step::before {
-            content: attr(data-step);
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .process-step h3 {
-            margin-top: 1rem;
-            font-size: 1.1rem;
-        }
-
-        /* Pricing Section */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .pricing-card {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
-            padding: 2.5rem;
-            border-radius: 15px;
-            border: 2px solid rgba(157, 78, 221, 0.3);
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .pricing-card.popular {
-            border-color: #9D4EDD;
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
-        }
-
-        .pricing-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .pricing-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #9D4EDD;
-            margin-bottom: 1rem;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .pricing-features li {
-            padding: 0.5rem 0;
-            color: #b0b0b0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .pricing-features li::before {
-            content: "✓";
-            color: #9D4EDD;
-            font-weight: 700;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin-top: 2rem;
-        }
-
-        .about-image {
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid rgba(157, 78, 221, 0.3);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .about-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #9D4EDD;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .stat {
-            background: rgba(157, 78, 221, 0.1);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(157, 78, 221, 0.2);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #9D4EDD;
-        }
-
-        .stat-label {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Products Section */
+        /* PRODUTOS */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
         }
 
         .product-card {
-            background: rgba(157, 78, 221, 0.05);
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(157, 78, 221, 0.3);
             border-radius: 15px;
             overflow: hidden;
-            border: 1px solid rgba(157, 78, 221, 0.2);
             transition: all 0.3s;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
+            animation: fadeInUp 0.6s ease-out;
         }
 
         .product-card:hover {
             transform: translateY(-10px);
-            border-color: #9D4EDD;
-            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
         }
 
         .product-image {
             width: 100%;
             height: 300px;
             object-fit: contain;
-            padding: 1rem;
-            background: rgba(58, 134, 255, 0.05);
+            background: rgba(157, 78, 221, 0.1);
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .product-image img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .product-info {
+            padding: 20px;
         }
 
-        .product-content {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--light);
         }
 
-        .product-content h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-content p {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            flex-grow: 1;
-            margin-bottom: 1rem;
-        }
-
-        .product-price {
-            color: #9D4EDD;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .product-info p {
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 15px;
         }
 
         .product-btn {
-            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
-            color: white;
-            padding: 0.7rem 1.5rem;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
 
         .product-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(157, 78, 221, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
         }
 
-        /* FAQ Section */
-        .faq-container {
-            max-width: 700px;
-            margin: 2rem auto;
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
-        .faq-item {
-            background: rgba(157, 78, 221, 0.05);
-            border: 1px solid rgba(157, 78, 221, 0.2);
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .faq-question:hover {
-            background: rgba(157, 78, 221, 0.1);
-            color: #9D4EDD;
-        }
-
-        .faq-answer {
-            padding: 0 1.5rem 1.5rem;
-            color: #b0b0b0;
-            display: none;
-        }
-
-        .faq-answer.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .faq-toggle {
-            color: #9D4EDD;
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .faq-toggle.active {
-            transform: rotate(180deg);
-        }
-
-        /* CTA Section */
-        .cta-final {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(58, 134, 255, 0.2));
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
+        .pricing-card {
+            background: rgba(26, 26, 26, 0.8);
             border: 2px solid rgba(157, 78, 221, 0.3);
-            margin: 3rem 0;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
         }
 
-        .cta-final h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        .pricing-card.popular {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
         }
 
-        .cta-final p {
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            margin-bottom: 2rem;
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--light);
         }
 
-        /* Footer */
+        .price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .price-period {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .features {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .features li {
+            list-style: none;
+            padding: 10px 0;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
         footer {
             background: rgba(10, 10, 10, 0.95);
             border-top: 1px solid rgba(157, 78, 221, 0.2);
-            padding: 2rem;
+            padding: 50px;
             text-align: center;
-            color: #b0b0b0;
+            color: #aaa;
+            font-size: 14px;
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            color: #9D4EDD;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section a {
-            color: #b0b0b0;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #9D4EDD;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(157, 78, 221, 0.2);
-            padding-top: 2rem;
-            text-align: center;
-        }
-
-        /* Floating WhatsApp Button */
+        /* WHATSAPP FLUTUANTE */
         .whatsapp-float {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 30px;
+            right: 30px;
             width: 60px;
             height: 60px;
-            background: #25D366;
+            background: linear-gradient(135deg, #25D366, #128C7E);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 999;
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
             transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
             text-decoration: none;
         }
 
@@ -733,10 +443,9 @@
         .whatsapp-float svg {
             width: 30px;
             height: 30px;
-            fill: white;
         }
 
-        /* Animations */
+        /* ANIMAÇÕES */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -748,63 +457,37 @@
             }
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-            }
-            to {
-                opacity: 1;
-                max-height: 500px;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .fade-in {
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
-        }
-
-        /* Responsive */
+        /* RESPONSIVO */
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
             }
 
-            .nav-links {
+            nav {
                 display: none;
             }
 
-            .hero h1 {
-                font-size: 2rem;
+            .hero {
+                padding: 50px 20px;
+                min-height: auto;
             }
 
-            .hero p {
-                font-size: 1rem;
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
             }
 
             .section-title {
-                font-size: 1.8rem;
+                font-size: 32px;
             }
 
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.popular {
-                transform: scale(1);
+            section {
+                padding: 50px 20px;
             }
 
             .hero-buttons {
@@ -816,438 +499,343 @@
                 justify-content: center;
             }
 
-            section {
-                padding: 3rem 1rem;
+            .pricing-card.popular {
+                transform: scale(1);
             }
 
-            .whatsapp-float {
-                bottom: 1rem;
-                right: 1rem;
-                width: 50px;
-                height: 50px;
-            }
-
-            .whatsapp-float svg {
-                width: 25px;
-                height: 25px;
+            #neural-canvas {
+                opacity: 0.2;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Neural Network Canvas -->
     <canvas id="neural-canvas"></canvas>
 
-    <div class="content-wrapper">
-        <!-- Navigation -->
-        <nav>
+    <div class="content">
+        <!-- HEADER -->
+        <header>
             <div class="logo">OT</div>
-            <ul class="nav-links">
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#portfolio">Portfólio</a></li>
-                <li><a href="#planos">Planos</a></li>
-                <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-            <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites." class="cta-nav">
+            <nav>
+                <a href="#servicos">Serviços</a>
+                <a href="#produtos">Produtos</a>
+                <a href="#pricing">Planos</a>
+                <a href="#sobre">Sobre</a>
+            </nav>
+            <a href="https://wa.me/5511912459144?text=Olá%20Alexandre!%20Gostaria%20de%20saber%20mais%20sobre%20criação%20de%20sites." class="cta-header">
                 <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
                 </svg>
-                Orçamento
+                Contrate Agora
             </a>
-        </nav>
+        </header>
 
-        <!-- Hero Section -->
+        <!-- HERO -->
         <section class="hero">
             <div class="hero-content">
-                <div class="hero-tag">Criação de Sites Profissionais</div>
-                <h1>Seu Site é Seu Melhor Vendedor. Ou Seu Maior Problema.</h1>
-                <p>Sites que geram contatos reais, não apenas bonitos. Desenvolvemos plataformas modernas, rápidas e com visual premium para empresas que querem crescer.</p>
+                <div class="urgency-badge">⏰ Vagas limitadas este mês</div>
+                <h1>Seu Site É Seu Melhor Vendedor</h1>
+                <p class="hero-subtitle">Ou seu maior problema.</p>
+                <p>Criamos sites profissionais que passam confiança, valorizam sua marca e geram contatos reais. Foco em resultado, não em bonito.</p>
                 <div class="hero-buttons">
-                    <a href="https://wa.me/5511912459144?text=Olá! Gostaria de agendar uma consultoria gratuita." class="btn btn-primary">
+                    <a href="https://wa.me/5511912459144?text=Olá%20Alexandre!%20Gostaria%20de%20contratar%20um%20site%20profissional." class="btn btn-primary">
                         <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
                         </svg>
-                        Agendar Consultoria
+                        Contrate Agora
                     </a>
-                    <a href="#portfolio" class="btn btn-secondary">Ver Portfólio</a>
+                    <a href="#servicos" class="btn btn-secondary">Conhecer Serviços</a>
                 </div>
-                <div class="hero-urgency">⏰ Vagas limitadas este mês</div>
             </div>
         </section>
 
-        <!-- Problems Section -->
+        <!-- SERVIÇOS -->
         <section id="servicos">
-            <div class="problems">
-                <h2 class="section-title">O Problema Real</h2>
-                <div class="problems-grid">
-                    <div class="problem-card fade-in">
-                        <h3>❌ Site Feio = Sem Credibilidade</h3>
-                        <p>Um site desatualizado ou mal feito afasta clientes antes deles conhecerem seu trabalho.</p>
-                    </div>
-                    <div class="problem-card fade-in">
-                        <h3>❌ Não Converte Visitante</h3>
-                        <p>Muitos sites têm tráfego, mas não transformam visitas em vendas ou contatos.</p>
-                    </div>
-                    <div class="problem-card fade-in">
-                        <h3>❌ Não Funciona no Celular</h3>
-                        <p>50% do tráfego vem de celular. Se não funciona lá, você perde metade dos clientes.</p>
-                    </div>
+            <h2 class="section-title">O Problema Real</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>❌ Site Feio</h3>
+                    <p>Seu site não passa confiança. Visitantes saem sem deixar contato.</p>
+                </div>
+                <div class="card">
+                    <h3>❌ Não Converte</h3>
+                    <p>Tem tráfego, mas ninguém vira cliente. Falta estratégia de vendas.</p>
+                </div>
+                <div class="card">
+                    <h3>❌ Não Funciona no Celular</h3>
+                    <p>50% dos acessos vêm de mobile. Se não funciona lá, você perde vendas.</p>
                 </div>
             </div>
 
-            <h2 class="section-title" style="margin-top: 3rem;">A Solução: Sites que Vendem</h2>
-            <div class="solutions-grid">
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">🎨</div>
-                    <h3>Design que Vende</h3>
-                    <p>Visual premium que passa confiança e diferencia sua marca da concorrência.</p>
+            <h2 class="section-title" style="margin-top: 80px;">A Solução</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>✓ Design que Vende</h3>
+                    <p>Visual premium que transmite confiança e profissionalismo.</p>
                 </div>
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">📱</div>
-                    <h3>100% Responsivo</h3>
-                    <p>Funciona perfeitamente em desktop, tablet e celular. Seus clientes acessam de qualquer lugar.</p>
+                <div class="card">
+                    <h3>✓ 100% Responsivo</h3>
+                    <p>Funciona perfeitamente em desktop, tablet e celular.</p>
                 </div>
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">💬</div>
-                    <h3>WhatsApp Integrado</h3>
-                    <p>Botão flutuante com atendimento direto. Converta visitantes em clientes pelo WhatsApp.</p>
+                <div class="card">
+                    <h3>✓ WhatsApp Integrado</h3>
+                    <p>Botão flutuante para atendimento direto. Aumenta conversão.</p>
                 </div>
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">🔍</div>
-                    <h3>SEO Básico</h3>
-                    <p>Otimizado para aparecer no Google. Seus clientes te encontram quando procuram.</p>
+                <div class="card">
+                    <h3>✓ Rápido e Seguro</h3>
+                    <p>Site otimizado para velocidade. Certificado de segurança incluído.</p>
                 </div>
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">⚡</div>
-                    <h3>Rápido e Seguro</h3>
-                    <p>Carregamento instantâneo e cadeado de segurança (HTTPS) para proteger seus clientes.</p>
+                <div class="card">
+                    <h3>✓ Suporte Técnico</h3>
+                    <p>Suporte incluído por 6 meses. Você não fica sozinho.</p>
                 </div>
-                <div class="solution-card fade-in">
-                    <div class="solution-icon">🛠️</div>
-                    <h3>Suporte Técnico</h3>
-                    <p>Atualizações, correções e suporte inclusos. Seu site sempre funcionando perfeitamente.</p>
+                <div class="card">
+                    <h3>✓ Domínio Profissional</h3>
+                    <p>Seu próprio domínio (ex: seusite.com.br) incluído.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio Section -->
-        <section id="portfolio">
-            <h2 class="section-title">Portfólio: Trabalhos Reais</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-card fade-in">
-                    <img src="assets/img/portfolio-ecommerce.jpg" alt="E-commerce Premium" class="portfolio-image">
-                    <div class="portfolio-content">
-                        <h3>Loja Online Premium</h3>
-                        <p>E-commerce com integração de pagamento e gestão de produtos.</p>
-                        <div class="portfolio-result">+300% em vendas no primeiro trimestre</div>
-                    </div>
+        <!-- PORTFÓLIO -->
+        <section>
+            <h2 class="section-title">Portfólio de Sucesso</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>E-commerce Premium</h3>
+                    <p>Loja online com design moderno e checkout otimizado.</p>
+                    <p style="margin-top: 15px; color: var(--primary); font-weight: 600;">+300% em vendas</p>
                 </div>
-                <div class="portfolio-card fade-in">
-                    <img src="assets/img/portfolio-consultorio.jpg" alt="Consultório" class="portfolio-image">
-                    <div class="portfolio-content">
-                        <h3>Clínica e Consultório</h3>
-                        <p>Site profissional com agendamento online e informações de serviços.</p>
-                        <div class="portfolio-result">+250% em agendamentos</div>
-                    </div>
+                <div class="card">
+                    <h3>Consultório Odontológico</h3>
+                    <p>Site profissional com agendamento online integrado.</p>
+                    <p style="margin-top: 15px; color: var(--primary); font-weight: 600;">+250% em agendamentos</p>
                 </div>
-                <div class="portfolio-card fade-in">
-                    <img src="assets/img/portfolio-restaurante.jpg" alt="Restaurante" class="portfolio-image">
-                    <div class="portfolio-content">
-                        <h3>Restaurante e Bar</h3>
-                        <p>Site com cardápio digital, reservas online e integração com delivery.</p>
-                        <div class="portfolio-result">+180% em reservas online</div>
-                    </div>
+                <div class="card">
+                    <h3>Restaurante & Bar</h3>
+                    <p>Visual atraente com cardápio digital e reservas online.</p>
+                    <p style="margin-top: 15px; color: var(--primary); font-weight: 600;">+180% em reservas</p>
                 </div>
-                <div class="portfolio-card fade-in">
-                    <img src="assets/img/portfolio-agencia.jpg" alt="Agência" class="portfolio-image">
-                    <div class="portfolio-content">
-                        <h3>Empresa de Serviços</h3>
-                        <p>Site corporativo com portfólio, cases e formulário de contato.</p>
-                        <div class="portfolio-result">+400% em leads qualificados</div>
-                    </div>
+                <div class="card">
+                    <h3>Agência de Serviços</h3>
+                    <p>Site corporativo com portfólio e formulário de contato.</p>
+                    <p style="margin-top: 15px; color: var(--primary); font-weight: 600;">+220% em leads</p>
                 </div>
             </div>
         </section>
 
-        <!-- Process Section -->
+        <!-- PROCESSO -->
         <section>
             <h2 class="section-title">Como Funciona</h2>
-            <div class="process-timeline">
-                <div class="process-step fade-in" data-step="1">
-                    <h3>Consultoria Gratuita</h3>
-                    <p>Entendemos suas necessidades, objetivos e público-alvo.</p>
+            <div class="cards-grid">
+                <div class="card" style="text-align: center;">
+                    <h3 style="font-size: 48px; color: var(--primary); margin-bottom: 10px;">1</h3>
+                    <h3>Consultoria</h3>
+                    <p>Entendemos seu negócio, seus objetivos e seu público.</p>
                 </div>
-                <div class="process-step fade-in" data-step="2">
-                    <h3>Design e Planejamento</h3>
-                    <p>Criamos o visual e estrutura do seu site.</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="font-size: 48px; color: var(--primary); margin-bottom: 10px;">2</h3>
+                    <h3>Design</h3>
+                    <p>Criamos o design do seu site focado em conversão.</p>
                 </div>
-                <div class="process-step fade-in" data-step="3">
+                <div class="card" style="text-align: center;">
+                    <h3 style="font-size: 48px; color: var(--primary); margin-bottom: 10px;">3</h3>
                     <h3>Desenvolvimento</h3>
-                    <p>Construímos o site com tecnologia moderna e otimizado.</p>
+                    <p>Construímos seu site com tecnologia de ponta.</p>
                 </div>
-                <div class="process-step fade-in" data-step="4">
+                <div class="card" style="text-align: center;">
+                    <h3 style="font-size: 48px; color: var(--primary); margin-bottom: 10px;">4</h3>
                     <h3>Lançamento</h3>
-                    <p>Site no ar e pronto para gerar resultados.</p>
+                    <p>Seu site sai do forno pronto para vender.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="planos">
+        <!-- PRICING -->
+        <section id="pricing">
             <h2 class="section-title">Planos e Preços</h2>
             <div class="pricing-grid">
-                <div class="pricing-card fade-in">
+                <div class="pricing-card">
                     <h3>Essencial</h3>
-                    <div class="pricing-price">R$ 1.500</div>
-                    <ul class="pricing-features">
+                    <div class="price">R$ 1.500</div>
+                    <div class="price-period">Investimento único</div>
+                    <ul class="features">
+                        <li>Site responsivo (mobile + desktop)</li>
                         <li>Até 5 páginas</li>
-                        <li>Design responsivo</li>
                         <li>WhatsApp integrado</li>
-                        <li>Cadeado de segurança (HTTPS)</li>
-                        <li>Endereço próprio na internet (domínio)</li>
+                        <li>Domínio profissional (1 ano)</li>
+                        <li>Suporte 3 meses</li>
                     </ul>
-                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Essencial." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                    <a href="https://wa.me/5511912459144?text=Gostaria%20de%20contratar%20o%20plano%20Essencial." class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                        </svg>
+                        Solicitar Orçamento
+                    </a>
                 </div>
-                <div class="pricing-card popular fade-in">
-                    <div class="pricing-badge">Mais Popular</div>
-                    <h3>Profissional</h3>
-                    <div class="pricing-price">R$ 3.000</div>
-                    <ul class="pricing-features">
-                        <li>Até 15 páginas</li>
-                        <li>Design responsivo premium</li>
-                        <li>WhatsApp integrado</li>
-                        <li>Cadeado de segurança (HTTPS)</li>
-                        <li>Endereço próprio na internet</li>
-                        <li>Painel com estatísticas de visitas</li>
-                        <li>Otimizado para Google (SEO)</li>
+
+                <div class="pricing-card popular">
+                    <h3>Profissional ⭐</h3>
+                    <div class="price">R$ 2.500</div>
+                    <div class="price-period">Investimento único</div>
+                    <ul class="features">
+                        <li>Tudo do plano Essencial</li>
+                        <li>Até 10 páginas</li>
+                        <li>Blog integrado</li>
+                        <li>Formulário de contato avançado</li>
+                        <li>Suporte 6 meses</li>
+                        <li>Otimização SEO básica</li>
                     </ul>
-                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Profissional." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                    <a href="https://wa.me/5511912459144?text=Gostaria%20de%20contratar%20o%20plano%20Profissional." class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                        </svg>
+                        Solicitar Orçamento
+                    </a>
                 </div>
-                <div class="pricing-card fade-in">
+
+                <div class="pricing-card">
                     <h3>Premium</h3>
-                    <div class="pricing-price">R$ 5.000</div>
-                    <ul class="pricing-features">
-                        <li>Ilimitado de páginas</li>
-                        <li>Design exclusivo e personalizado</li>
-                        <li>WhatsApp integrado com automação</li>
-                        <li>Cadeado de segurança (HTTPS)</li>
-                        <li>Endereço próprio na internet</li>
-                        <li>Painel com estatísticas avançadas</li>
-                        <li>Otimizado para Google (SEO completo)</li>
-                        <li>Consultoria estratégica incluída</li>
-                        <li>Suporte prioritário</li>
+                    <div class="price">R$ 4.500</div>
+                    <div class="price-period">Investimento único</div>
+                    <ul class="features">
+                        <li>Tudo do plano Profissional</li>
+                        <li>Páginas ilimitadas</li>
+                        <li>E-commerce integrado</li>
+                        <li>Agendamento online</li>
+                        <li>Suporte 12 meses</li>
+                        <li>Consultoria de marketing</li>
                     </ul>
-                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Premium." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                    <a href="https://wa.me/5511912459144?text=Gostaria%20de%20contratar%20o%20plano%20Premium." class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                        </svg>
+                        Solicitar Orçamento
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section>
-            <h2 class="section-title">Quem é Alexandre Olegario</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
-                </div>
-                <div class="about-text">
-                    <h3>Especialista em Performance e Resultados</h3>
-                    <p>Com mais de 30 anos de experiência em vendas e gestão, Alexandre Olegario fundou a OLEGARIO TECH para transformar a forma como pequenas e médias empresas vendem online.</p>
-                    <p>Acredita que conhecimento só vale quando vira ação. Seu foco: técnica, tecnologia e propósito para gerar resultado real.</p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <div class="stat-number">30+</div>
-                            <div class="stat-label">Anos de Experiência</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">2.700+</div>
-                            <div class="stat-label">Alunos Transformados</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Métodos Validados</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
+        <!-- PRODUTOS DIGITAIS -->
         <section id="produtos">
-            <h2 class="section-title">Produtos Digitais: Aprenda e Cresça</h2>
-            <p style="text-align: center; color: #b0b0b0; margin-bottom: 2rem;">Enquanto seu site fica pronto, aprenda técnicas de vendas, disciplina pessoal e performance com nossos cursos.</p>
+            <h2 class="section-title">Produtos Digitais</h2>
+            <p style="text-align: center; color: #aaa; margin-bottom: 50px; font-size: 16px;">Enquanto seu site fica pronto, aprenda técnicas de vendas e performance com nossos cursos.</p>
             <div class="products-grid">
-                <div class="product-card fade-in">
-                    <div class="product-image">
-                        <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
-                    </div>
-                    <div class="product-content">
+                <div class="product-card">
+                    <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" class="product-image">
+                    <div class="product-info">
                         <h3>Lucidez Prática</h3>
-                        <p>Filosofia aplicada ao dia a dia. Técnicas para clareza mental e decisões melhores.</p>
-                        <div class="product-price">R$ 97</div>
-                        <a href="https://kiwify.com.br/lucidez-pratica" target="_blank" class="product-btn">Comprar Agora</a>
+                        <p>Método comprovado de performance mental e vendas.</p>
+                        <a href="https://pay.kiwify.com.br/FxEtsfU" class="product-btn" target="_blank">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                            </svg>
+                            Comprar Agora
+                        </a>
                     </div>
                 </div>
-                <div class="product-card fade-in">
-                    <div class="product-image">
-                        <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
-                    </div>
-                    <div class="product-content">
+
+                <div class="product-card">
+                    <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" class="product-image">
+                    <div class="product-info">
                         <h3>Dinheiro que Sobra</h3>
-                        <p>Gestão financeira prática. Como organizar suas finanças e ter dinheiro sobrando.</p>
-                        <div class="product-price">R$ 127</div>
-                        <a href="https://kiwify.com.br/dinheiro-que-sobra" target="_blank" class="product-btn">Comprar Agora</a>
+                        <p>Controle financeiro e gestão de receitas para vendedores.</p>
+                        <a href="https://pay.kiwify.com.br/xPzKLoK" class="product-btn" target="_blank">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                            </svg>
+                            Comprar Agora
+                        </a>
                     </div>
                 </div>
-                <div class="product-card fade-in">
-                    <div class="product-image">
-                        <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
-                    </div>
-                    <div class="product-content">
-                        <h3>Manual de Vendas</h3>
-                        <p>Técnicas comprovadas de vendas. Do zero ao fechamento de contratos.</p>
-                        <div class="product-price">R$ 197</div>
-                        <a href="https://kiwify.com.br/manual-vendas" target="_blank" class="product-btn">Comprar Agora</a>
+
+                <div class="product-card">
+                    <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas" class="product-image">
+                    <div class="product-info">
+                        <h3>Manual de Prospecção ao Fechamento</h3>
+                        <p>Técnicas comprovadas de vendas de alta performance.</p>
+                        <a href="https://pay.kiwify.com.br/rmmRvfc" class="product-btn" target="_blank">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                            </svg>
+                            Comprar Agora
+                        </a>
                     </div>
                 </div>
-                <div class="product-card fade-in">
-                    <div class="product-image">
-                        <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa">
-                    </div>
-                    <div class="product-content">
-                        <h3>Treino em Casa</h3>
-                        <p>Calistenia e exercícios sem equipamento. Transforme seu corpo em 90 dias.</p>
-                        <div class="product-price">R$ 147</div>
-                        <a href="https://kiwify.com.br/treino-casa" target="_blank" class="product-btn">Comprar Agora</a>
+
+                <div class="product-card">
+                    <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa" class="product-image">
+                    <div class="product-info">
+                        <h3>Treino em Casa - Calistenia</h3>
+                        <p>Programa completo de calistenia para performance física.</p>
+                        <a href="https://pay.kiwify.com.br/lt9RRvy" class="product-btn" target="_blank">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                            </svg>
+                            Comprar Agora
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ Section -->
-        <section id="faq">
-            <h2 class="section-title">Perguntas Frequentes</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Quanto tempo leva para ficar pronto?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Depende do plano. Essencial: 7-10 dias. Profissional: 14-21 dias. Premium: 21-30 dias. Isso inclui consultoria, design, desenvolvimento e testes.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Posso editar o site depois?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Sim! Todos os planos incluem suporte técnico. Você pode solicitar atualizações, correções e melhorias. No plano Premium, você tem acesso a um painel para editar conteúdo.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>O site funciona no celular?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>100% responsivo! Todos os nossos sites são desenvolvidos com a filosofia "mobile first". Funciona perfeitamente em qualquer dispositivo.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Vocês fazem SEO?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Sim! Todos os planos incluem otimização básica para Google (SEO). Isso significa que seu site aparecerá nos resultados quando seus clientes procurarem por você.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>E se eu precisar de mais funcionalidades?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Nenhum problema! Oferecemos serviços adicionais como integração de e-commerce, automação de marketing, chatbot com IA e muito mais. Fale com a gente!</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Qual é o domínio?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>O domínio (seu endereço na internet, como seusite.com.br) é incluído em todos os planos. Você pode escolher um novo ou transferir um existente.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Como funciona o pagamento?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>50% no início do projeto (para começar o design e desenvolvimento) e 50% na entrega. Aceitamos PIX, transferência bancária e cartão de crédito.</p>
+        <!-- SOBRE -->
+        <section id="sobre">
+            <h2 class="section-title">Quem é Alexandre Olegario</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-top: 50px;">
+                <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" style="border-radius: 15px; width: 100%; max-width: 400px;">
+                <div>
+                    <p style="font-size: 18px; line-height: 1.8; color: #ccc; margin-bottom: 30px;">
+                        Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais. Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia em método simples, direto e aplicável. Mentor, gestor e autor. Foco: Resultado Real.
+                    </p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <h3 style="font-size: 32px; color: var(--primary); margin-bottom: 5px;">30+</h3>
+                            <p style="color: #aaa;">Anos de experiência em vendas</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 32px; color: var(--primary); margin-bottom: 5px;">2.700+</h3>
+                            <p style="color: #aaa;">Alunos transformados</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 32px; color: var(--primary); margin-bottom: 5px;">100%</h3>
+                            <p style="color: #aaa;">Validado na prática</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 32px; color: var(--primary); margin-bottom: 5px;">∞</h3>
+                            <p style="color: #aaa;">Dedicação ao resultado</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Final -->
-        <section>
-            <div class="cta-final fade-in">
-                <h2>Pronto para Transformar Seu Negócio?</h2>
-                <p>Não deixe seus clientes nas mãos da concorrência. Um site profissional é o seu melhor vendedor 24/7.</p>
-                <a href="https://wa.me/5511912459144?text=Olá! Gostaria de agendar uma consultoria gratuita para criar meu site." class="btn btn-primary">
-                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
-                    </svg>
-                    Agendar Consultoria Gratuita
-                </a>
-            </div>
+        <!-- CTA FINAL -->
+        <section style="text-align: center; background: rgba(157, 78, 221, 0.1); border-radius: 15px; border: 1px solid rgba(157, 78, 221, 0.3);">
+            <h2 class="section-title">Pronto para Transformar Seu Negócio?</h2>
+            <p style="font-size: 18px; color: #ccc; margin-bottom: 30px;">Vagas limitadas este mês. Não perca essa oportunidade.</p>
+            <a href="https://wa.me/5511912459144?text=Olá%20Alexandre!%20Gostaria%20de%20saber%20mais%20sobre%20criação%20de%20sites." class="btn btn-primary" style="font-size: 18px; padding: 18px 50px;">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
+                </svg>
+                Contrate Agora
+            </a>
         </section>
 
-        <!-- Footer -->
+        <!-- FOOTER -->
         <footer>
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Serviços</h4>
-                    <a href="#servicos">Criação de Sites</a>
-                    <a href="#portfolio">Portfólio</a>
-                    <a href="#planos">Planos</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Produtos</h4>
-                    <a href="#produtos">Cursos Digitais</a>
-                    <a href="https://www.tiktok.com/@alexandre.olegario" target="_blank">TikTok</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Contato</h4>
-                    <a href="https://wa.me/5511912459144" target="_blank">WhatsApp</a>
-                    <a href="https://www.instagram.com/olegariotech" target="_blank">Instagram</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Sobre</h4>
-                    <a href="#sobre">Quem Somos</a>
-                    <a href="#faq">FAQ</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 OLEGARIO TECH. Todos os direitos reservados. | <a href="#" style="color: #9D4EDD;">Política de Privacidade</a></p>
-            </div>
+            <p>&copy; 2026 OLEGARIO TECH. Todos os direitos reservados. | Criação de Sites Profissionais + Cursos de Vendas e Performance</p>
         </footer>
     </div>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/5511912459144" target="_blank" class="whatsapp-float" title="Fale conosco no WhatsApp">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+    <!-- WHATSAPP FLUTUANTE -->
+    <a href="https://wa.me/5511912459144" class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.364-3.905 6.75-1.905 10.23.5.858 1.212 1.628 2.025 2.236l-1.52 4.49 4.795-2.231c.628.321 1.319.488 2.04.5 5.394 0 9.753-4.355 9.753-9.748 0-2.607-.994-5.051-2.8-6.889-1.806-1.838-4.204-2.885-6.75-2.965"/>
         </svg>
     </a>
 
     <script>
-        // Neural Network Canvas Animation
+        // ANIMAÇÃO DE NEURÔNIOS CEREBRAIS - MELHORADA
         const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -1255,17 +843,18 @@
         canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = 50;
-        const connectionDistance = 150;
+        const particleCount = 100;
+        const connectionDistance = 180;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.radius = Math.random() * 2 + 1;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.radius = Math.random() * 3 + 1.5;
                 this.color = Math.random() > 0.5 ? '#9D4EDD' : '#3A86FF';
+                this.opacity = Math.random() * 0.5 + 0.5;
             }
 
             update() {
@@ -1280,18 +869,25 @@
             }
 
             draw() {
-                ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
                 ctx.fill();
+
+                // BRILHO EXTERNO
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 1.5;
+                ctx.globalAlpha = this.opacity * 0.6;
+                ctx.stroke();
+
+                ctx.globalAlpha = 1;
             }
         }
 
-        function initParticles() {
-            particles.length = 0;
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+        // INICIALIZAR PARTÍCULAS
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
         }
 
         function drawConnections() {
@@ -1302,12 +898,15 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < connectionDistance) {
-                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - distance / connectionDistance})`;
-                        ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
+                        const opacity = 0.5 * (1 - distance / connectionDistance);
+                        ctx.strokeStyle = `rgba(157, 78, 221, ${opacity})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.globalAlpha = opacity;
                         ctx.stroke();
+                        ctx.globalAlpha = 1;
                     }
                 }
             }
@@ -1325,15 +924,15 @@
             requestAnimationFrame(animate);
         }
 
-        initParticles();
         animate();
 
+        // RESPONSIVO
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
 
-        // Fade-in animation on scroll
+        // SCROLL ANIMATIONS
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
@@ -1342,33 +941,13 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in').forEach(el => {
+        document.querySelectorAll('.card, .product-card, .pricing-card').forEach(el => {
             observer.observe(el);
-        });
-
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const answer = item.querySelector('.faq-answer');
-                const toggle = question.querySelector('.faq-toggle');
-
-                document.querySelectorAll('.faq-item').forEach(i => {
-                    if (i !== item) {
-                        i.querySelector('.faq-answer').classList.remove('active');
-                        i.querySelector('.faq-toggle').classList.remove('active');
-                    }
-                });
-
-                answer.classList.toggle('active');
-                toggle.classList.toggle('active');
-            });
         });
     </script>
 </body>
