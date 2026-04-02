@@ -1,1391 +1,1375 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>OLEGARIO TECH® — Criação de Sites Profissionais | Performance Digital</title>
-  <meta name="description" content="Sites profissionais que vendem. Design premium, otimizado para celular e WhatsApp integrado. Transforme visitantes em clientes.">
-  
-  <!-- Camera Plain Variable Font (Lovable Design) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Camera+Plain:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --primary: #0a0a0a;
-      --secondary: #1a1a2e;
-      --accent: #00d4ff;
-      --accent-alt: #ff3d00;
-      --purple: #9D4EDD;
-      --blue: #3A86FF;
-      --orange: #FFA500;
-      --gold: #d4af37;
-      --text-light: #ffffff;
-      --text-secondary: #b0b8d4;
-      --success: #34c759;
-      --whatsapp: #25D366;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Camera Plain', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, var(--primary) 0%, #0f0f1a 100%);
-      color: var(--text-light);
-      overflow-x: hidden;
-    }
-
-    #canvas-bg {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; z-index: -1;
-    }
-
-    /* ===== NAVIGATION ===== */
-    nav {
-      position: fixed; top: 0; width: 100%; height: 70px;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(157, 78, 221, 0.1);
-      z-index: 1000;
-      display: flex; align-items: center;
-      justify-content: space-between; padding: 0 20px;
-    }
-
-    .logo {
-      font-size: 20px; font-weight: 700; color: var(--orange);
-      text-decoration: none; letter-spacing: -0.5px;
-      display: flex; align-items: center; gap: 10px;
-    }
-
-    .logo-icon {
-      width: 32px; height: 32px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      border-radius: 6px; display: flex; align-items: center;
-      justify-content: center; font-weight: 800; font-size: 16px; color: white;
-    }
-
-    .nav-links { display: flex; gap: 30px; list-style: none; }
-
-    .nav-links a {
-      color: var(--text-secondary); text-decoration: none;
-      font-size: 13px; font-weight: 500; transition: color 0.3s;
-    }
-
-    .nav-links a:hover { color: var(--orange); }
-
-    .nav-cta {
-      padding: 8px 20px;
-      background: var(--whatsapp);
-      color: white; border-radius: 50px;
-      font-size: 13px; font-weight: 700;
-      text-decoration: none;
-      display: flex; align-items: center; gap: 6px;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover { background: #1da851; transform: translateY(-2px); }
-
-    @media (max-width: 768px) {
-      nav { height: 60px; padding: 0 15px; }
-      .logo { font-size: 16px; }
-      .nav-links { display: none; }
-    }
-
-    /* ===== HERO ===== */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 120px 30px 80px;
-      position: relative; z-index: 10;
-    }
-
-    .hero-label {
-      font-size: 12px; font-weight: 600; letter-spacing: 2px;
-      color: var(--purple); margin-bottom: 20px;
-      text-transform: uppercase; opacity: 0.8;
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      font-weight: 700; line-height: 1.2;
-      margin-bottom: 20px;
-      animation: fadeInUp 0.8s ease-out 0.1s both;
-    }
-
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--orange) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 16px; color: var(--text-secondary);
-      max-width: 600px; margin-bottom: 40px;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-
-    .hero-ctas {
-      display: flex; gap: 20px; justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.3s both;
-    }
-
-    .cta-primary, .cta-secondary {
-      padding: 14px 32px; border-radius: 50px;
-      font-size: 14px; font-weight: 700;
-      text-decoration: none; transition: all 0.3s;
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 2px solid transparent;
-    }
-
-    .cta-primary {
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      color: white;
-    }
-
-    .cta-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
-    }
-
-    .cta-secondary {
-      border-color: var(--orange);
-      color: var(--orange);
-      background: transparent;
-    }
-
-    .cta-secondary:hover {
-      background: rgba(255, 165, 0, 0.1);
-      transform: translateY(-3px);
-    }
-
-    .hero-features {
-      display: flex; gap: 40px; justify-content: center;
-      margin-top: 60px; flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .feature-item {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 10px;
-    }
-
-    .feature-icon {
-      width: 40px; height: 40px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-size: 20px;
-    }
-
-    .feature-item span {
-      font-size: 13px; color: var(--text-secondary);
-    }
-
-    /* ===== SECTIONS ===== */
-    section {
-      padding: 80px 30px; position: relative; z-index: 10;
-    }
-
-    .section-label {
-      font-size: 12px; font-weight: 600; letter-spacing: 2px;
-      color: var(--purple); text-transform: uppercase;
-      margin-bottom: 20px; opacity: 0.8;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700; margin-bottom: 50px;
-      line-height: 1.3;
-    }
-
-    .section-title .highlight {
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--orange) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .container {
-      max-width: 1200px; margin: 0 auto;
-    }
-
-    /* ===== PROBLEMS SECTION ===== */
-    .problems {
-      background: rgba(157, 78, 221, 0.05);
-    }
-
-    .problems-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .problem-card {
-      background: rgba(58, 134, 255, 0.05);
-      border: 1px solid rgba(58, 134, 255, 0.2);
-      padding: 30px; border-radius: 12px;
-      transition: all 0.3s;
-    }
-
-    .problem-card:hover {
-      background: rgba(58, 134, 255, 0.1);
-      border-color: rgba(58, 134, 255, 0.4);
-      transform: translateY(-5px);
-    }
-
-    .problem-card h3 {
-      font-size: 18px; margin-bottom: 15px;
-      color: var(--orange);
-    }
-
-    .problem-card p {
-      color: var(--text-secondary); font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* ===== BENEFITS SECTION ===== */
-    .benefits-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
-    .benefit-card {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
-      border: 1px solid rgba(157, 78, 221, 0.2);
-      padding: 30px; border-radius: 12px;
-      transition: all 0.3s;
-    }
-
-    .benefit-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(157, 78, 221, 0.5);
-      box-shadow: 0 20px 40px rgba(157, 78, 221, 0.15);
-    }
-
-    .benefit-icon {
-      width: 50px; height: 50px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      border-radius: 8px; display: flex; align-items: center;
-      justify-content: center; font-size: 24px; margin-bottom: 15px;
-    }
-
-    .benefit-card h3 {
-      font-size: 16px; margin-bottom: 10px;
-      color: var(--text-light);
-    }
-
-    .benefit-card p {
-      font-size: 13px; color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    /* ===== PORTFOLIO SECTION ===== */
-    .portfolio {
-      background: rgba(58, 134, 255, 0.03);
-    }
-
-    .portfolio-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-    }
-
-    .portfolio-card {
-      background: rgba(10, 10, 10, 0.5);
-      border: 1px solid rgba(157, 78, 221, 0.2);
-      border-radius: 12px; overflow: hidden;
-      transition: all 0.3s;
-    }
-
-    .portfolio-card:hover {
-      border-color: rgba(157, 78, 221, 0.5);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
-    }
-
-    .portfolio-image {
-      width: 100%; height: 220px;
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.2) 0%, rgba(58, 134, 255, 0.2) 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; color: var(--text-secondary);
-      overflow: hidden;
-    }
-
-    .portfolio-image img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
-
-    .portfolio-content {
-      padding: 20px;
-    }
-
-    .portfolio-category {
-      font-size: 11px; color: var(--purple);
-      font-weight: 600; text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .portfolio-title {
-      font-size: 16px; font-weight: 700;
-      margin-bottom: 10px; color: var(--text-light);
-    }
-
-    .portfolio-result {
-      font-size: 13px; color: var(--orange);
-      font-weight: 600;
-    }
-
-    /* ===== PROCESS SECTION ===== */
-    .process {
-      background: rgba(157, 78, 221, 0.05);
-    }
-
-    .process-timeline {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      position: relative;
-    }
-
-    .process-step {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
-      border: 1px solid rgba(157, 78, 221, 0.2);
-      padding: 30px; border-radius: 12px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .process-step:hover {
-      border-color: rgba(157, 78, 221, 0.5);
-      transform: translateY(-5px);
-    }
-
-    .step-number {
-      width: 50px; height: 50px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-size: 24px; font-weight: 700;
-      margin: 0 auto 15px;
-      color: white;
-    }
-
-    .process-step h3 {
-      font-size: 16px; margin-bottom: 10px;
-      color: var(--text-light);
-    }
-
-    .process-step p {
-      font-size: 13px; color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    /* ===== PRICING SECTION ===== */
-    .pricing {
-      background: rgba(58, 134, 255, 0.03);
-    }
-
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .pricing-card {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
-      border: 2px solid rgba(157, 78, 221, 0.2);
-      border-radius: 12px; padding: 40px 30px;
-      text-align: center;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .pricing-card.featured {
-      border-color: var(--orange);
-      background: linear-gradient(135deg, rgba(255, 165, 0, 0.15) 0%, rgba(157, 78, 221, 0.1) 100%);
-      transform: scale(1.05);
-    }
-
-    .pricing-card:hover {
-      border-color: rgba(157, 78, 221, 0.5);
-      transform: translateY(-8px);
-    }
-
-    .pricing-badge {
-      position: absolute; top: -15px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--orange); color: white;
-      padding: 5px 15px; border-radius: 20px;
-      font-size: 11px; font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .pricing-name {
-      font-size: 18px; font-weight: 700;
-      margin-bottom: 10px; color: var(--text-light);
-    }
-
-    .pricing-description {
-      font-size: 13px; color: var(--text-secondary);
-      margin-bottom: 25px; min-height: 40px;
-    }
-
-    .pricing-price {
-      font-size: 32px; font-weight: 700;
-      color: var(--orange); margin-bottom: 5px;
-    }
-
-    .pricing-period {
-      font-size: 12px; color: var(--text-secondary);
-      margin-bottom: 25px;
-    }
-
-    .pricing-features {
-      text-align: left; margin-bottom: 30px;
-      list-style: none;
-    }
-
-    .pricing-features li {
-      padding: 10px 0; font-size: 13px;
-      color: var(--text-secondary);
-      border-bottom: 1px solid rgba(157, 78, 221, 0.1);
-      display: flex; align-items: center; gap: 10px;
-    }
-
-    .pricing-features li:before {
-      content: "✓"; color: var(--success);
-      font-weight: 700; font-size: 14px;
-    }
-
-    .pricing-cta {
-      width: 100%; padding: 12px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      color: white; border: none; border-radius: 50px;
-      font-size: 14px; font-weight: 700;
-      cursor: pointer; transition: all 0.3s;
-    }
-
-    .pricing-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
-    }
-
-    /* ===== TESTIMONIALS SECTION ===== */
-    .testimonials {
-      background: rgba(157, 78, 221, 0.05);
-    }
-
-    .testimonials-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-    }
-
-    .testimonial-card {
-      background: rgba(58, 134, 255, 0.05);
-      border: 1px solid rgba(58, 134, 255, 0.2);
-      padding: 25px; border-radius: 12px;
-      transition: all 0.3s;
-    }
-
-    .testimonial-card:hover {
-      background: rgba(58, 134, 255, 0.1);
-      border-color: rgba(58, 134, 255, 0.4);
-    }
-
-    .testimonial-text {
-      font-size: 14px; color: var(--text-secondary);
-      margin-bottom: 15px; line-height: 1.6;
-      font-style: italic;
-    }
-
-    .testimonial-author {
-      font-size: 13px; font-weight: 700;
-      color: var(--text-light);
-    }
-
-    .testimonial-role {
-      font-size: 11px; color: var(--purple);
-      text-transform: uppercase; margin-top: 3px;
-    }
-
-    /* ===== ABOUT SECTION ===== */
-    .about {
-      background: rgba(58, 134, 255, 0.03);
-    }
-
-    .about-content {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center;
-    }
-
-    .about-text h2 {
-      font-size: 32px; font-weight: 700;
-      margin-bottom: 20px; line-height: 1.3;
-    }
-
-    .about-text p {
-      font-size: 15px; color: var(--text-secondary);
-      line-height: 1.8; margin-bottom: 20px;
-    }
-
-    .about-stats {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 20px; margin-top: 30px;
-    }
-
-    .stat {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
-      border: 1px solid rgba(157, 78, 221, 0.2);
-      padding: 20px; border-radius: 8px;
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 28px; font-weight: 700;
-      color: var(--orange); margin-bottom: 5px;
-    }
-
-    .stat-label {
-      font-size: 12px; color: var(--text-secondary);
-      text-transform: uppercase;
-    }
-
-    .about-image {
-      width: 100%; max-width: 400px;
-      border-radius: 12px;
-      border: 2px solid rgba(157, 78, 221, 0.3);
-      overflow: hidden;
-    }
-
-    .about-image img {
-      width: 100%; height: auto;
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .about-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-
-      .about-image {
-        max-width: 100%;
-      }
-    }
-
-    /* ===== FAQ SECTION ===== */
-    .faq {
-      background: rgba(157, 78, 221, 0.05);
-    }
-
-    .faq-container {
-      max-width: 700px; margin: 0 auto;
-    }
-
-    .faq-item {
-      background: rgba(58, 134, 255, 0.05);
-      border: 1px solid rgba(58, 134, 255, 0.2);
-      border-radius: 8px; margin-bottom: 15px;
-      overflow: hidden;
-    }
-
-    .faq-question {
-      padding: 20px; cursor: pointer;
-      display: flex; justify-content: space-between;
-      align-items: center; transition: all 0.3s;
-      font-weight: 600; color: var(--text-light);
-    }
-
-    .faq-item.active .faq-question {
-      background: rgba(157, 78, 221, 0.1);
-      color: var(--orange);
-    }
-
-    .faq-toggle {
-      font-size: 20px; transition: transform 0.3s;
-    }
-
-    .faq-item.active .faq-toggle {
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.3s ease-out;
-      background: rgba(157, 78, 221, 0.05);
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 300px;
-    }
-
-    .faq-answer p {
-      padding: 20px; color: var(--text-secondary);
-      font-size: 14px; line-height: 1.6;
-    }
-
-    /* ===== PRODUCTS SECTION (GALAXY) ===== */
-    .products {
-      background: rgba(58, 134, 255, 0.03);
-    }
-
-    .products-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .product-card {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
-      border: 2px solid rgba(157, 78, 221, 0.2);
-      border-radius: 12px; padding: 30px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .product-card:hover {
-      border-color: rgba(157, 78, 221, 0.5);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
-    }
-
-    .product-image {
-      width: 100%; height: 180px;
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.2) 0%, rgba(58, 134, 255, 0.2) 100%);
-      border-radius: 8px; margin-bottom: 20px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-
-    .product-image img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
-
-    .product-label {
-      font-size: 11px; color: var(--purple);
-      font-weight: 600; text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .product-title {
-      font-size: 18px; font-weight: 700;
-      margin-bottom: 10px; color: var(--text-light);
-    }
-
-    .product-description {
-      font-size: 13px; color: var(--text-secondary);
-      margin-bottom: 20px; line-height: 1.6;
-      min-height: 40px;
-    }
-
-    .product-price {
-      font-size: 24px; font-weight: 700;
-      color: var(--orange); margin-bottom: 15px;
-    }
-
-    .product-price-old {
-      font-size: 14px; color: var(--text-secondary);
-      text-decoration: line-through; margin-right: 10px;
-    }
-
-    .product-cta {
-      width: 100%; padding: 12px;
-      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-      color: white; border: none; border-radius: 50px;
-      font-size: 14px; font-weight: 700;
-      cursor: pointer; transition: all 0.3s;
-    }
-
-    .product-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
-    }
-
-    /* ===== CTA FINAL ===== */
-    .cta-final {
-      background: linear-gradient(135deg, rgba(157, 78, 221, 0.15) 0%, rgba(58, 134, 255, 0.15) 100%);
-      border: 2px solid rgba(157, 78, 221, 0.3);
-      border-radius: 12px; padding: 60px 30px;
-      text-align: center;
-    }
-
-    .cta-final h2 {
-      font-size: 32px; font-weight: 700;
-      margin-bottom: 20px; line-height: 1.3;
-    }
-
-    .cta-final p {
-      font-size: 16px; color: var(--text-secondary);
-      margin-bottom: 30px;
-    }
-
-    .cta-final-buttons {
-      display: flex; gap: 15px; justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-      background: rgba(10, 10, 10, 0.8);
-      border-top: 1px solid rgba(157, 78, 221, 0.1);
-      padding: 40px 30px;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 13px;
-    }
-
-    footer a {
-      color: var(--orange); text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    footer a:hover { color: var(--purple); }
-
-    /* ===== FAB WHATSAPP ===== */
-    .fab-whatsapp {
-      position: fixed; bottom: 30px; right: 30px;
-      width: 60px; height: 60px;
-      background: var(--whatsapp);
-      border-radius: 50%; display: flex;
-      align-items: center; justify-content: center;
-      font-size: 28px; text-decoration: none;
-      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-      transition: all 0.3s; z-index: 999;
-    }
-
-    .fab-whatsapp:hover {
-      transform: scale(1.1);
-      box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
-    }
-
-    @media (max-width: 768px) {
-      .fab-whatsapp {
-        width: 50px; height: 50px;
-        bottom: 20px; right: 20px;
-        font-size: 24px;
-      }
-
-      section { padding: 50px 20px; }
-      .section-title { font-size: 24px; }
-    }
-
-    /* ===== ANIMATIONS ===== */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .scroll-reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease-out;
-    }
-
-    .scroll-reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OLEGARIO TECH - Criação de sites profissionais que geram resultados reais. Sites que vendem, não apenas existem.">
+    <meta name="keywords" content="criação de sites, web design, sites profissionais, WhatsApp integrado, e-commerce, consultório, restaurante">
+    <meta property="og:title" content="OLEGARIO TECH - Criação de Sites Profissionais">
+    <meta property="og:description" content="Sites que vendem, não apenas existem. Design premium + WhatsApp integrado + SEO básico.">
+    <meta property="og:image" content="assets/img/og-image.jpg">
+    <meta property="og:url" content="https://olegariotech.com.br">
+    <title>OLEGARIO TECH - Criação de Sites Profissionais</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Neural Network Canvas Background */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: #9D4EDD;
+        }
+
+        .cta-nav {
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-tag {
+            color: #9D4EDD;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #9D4EDD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            color: white;
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(157, 78, 221, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #9D4EDD;
+            border: 2px solid #9D4EDD;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(157, 78, 221, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .hero-urgency {
+            color: #FFA500;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* WhatsApp Icon */
+        .whatsapp-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #9D4EDD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Problems Section */
+        .problems {
+            background: rgba(157, 78, 221, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .problem-card {
+            background: rgba(58, 134, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(58, 134, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: #9D4EDD;
+            background: rgba(157, 78, 221, 0.1);
+        }
+
+        .problem-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #FFA500;
+        }
+
+        /* Solutions Section */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            border-color: #9D4EDD;
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
+        }
+
+        .solution-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution-card p {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .portfolio-card {
+            background: rgba(157, 78, 221, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+            transition: all 0.3s;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            border-color: #9D4EDD;
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .portfolio-content {
+            padding: 1.5rem;
+        }
+
+        .portfolio-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-result {
+            color: #9D4EDD;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Process Section */
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .process-step {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .process-step h3 {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(58, 134, 255, 0.1));
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.popular {
+            border-color: #9D4EDD;
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #9D4EDD;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: #b0b0b0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: #9D4EDD;
+            font-weight: 700;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .about-image {
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(157, 78, 221, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #9D4EDD;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(157, 78, 221, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #9D4EDD;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: rgba(157, 78, 221, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #9D4EDD;
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            padding: 1rem;
+            background: rgba(58, 134, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-content p {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            flex-grow: 1;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            color: #9D4EDD;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .product-btn {
+            background: linear-gradient(135deg, #9D4EDD, #3A86FF);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(157, 78, 221, 0.3);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+
+        .faq-item {
+            background: rgba(157, 78, 221, 0.05);
+            border: 1px solid rgba(157, 78, 221, 0.2);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(157, 78, 221, 0.1);
+            color: #9D4EDD;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #b0b0b0;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .faq-toggle {
+            color: #9D4EDD;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        /* CTA Section */
+        .cta-final {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(58, 134, 255, 0.2));
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            margin: 3rem 0;
+        }
+
+        .cta-final h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-final p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid rgba(157, 78, 221, 0.2);
+            padding: 2rem;
+            text-align: center;
+            color: #b0b0b0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #9D4EDD;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #b0b0b0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #9D4EDD;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(157, 78, 221, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .whatsapp-float {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .whatsapp-float svg {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Neural Network Canvas Background -->
-  <canvas id="canvas-bg"></canvas>
+    <!-- Neural Network Canvas -->
+    <canvas id="neural-canvas"></canvas>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="#" class="logo">
-      <div class="logo-icon">OT</div>
-      OLEGARIO TECH
-    </a>
-    <ul class="nav-links">
-      <li><a href="#servicos">Serviços</a></li>
-      <li><a href="#portfolio">Portfólio</a></li>
-      <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites profissionais." class="nav-cta">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.505-2.437 1.265-3.355 2.133-1.842 1.843-2.956 4.371-2.956 7.02 0 5.517 4.692 10.144 10.148 10.144 1.257 0 2.47-.24 3.654-.707l3.1 1.023-1.044-3.19c.633-1.204 1.128-2.527 1.128-4.126 0-5.517-4.692-10.144-10.148-10.144z"/>
-      </svg>
-      Contato
-    </a>
-  </nav>
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">OT</div>
+            <ul class="nav-links">
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#planos">Planos</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites." class="cta-nav">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+                </svg>
+                Orçamento
+            </a>
+        </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-label">[ PERFORMANCE DIGITAL STUDIO ]</div>
-    <h1>Seu Site é Seu Melhor <span class="highlight">Vendedor</span></h1>
-    <p>Sites profissionais que geram contatos reais. Design premium, otimizado para celular e WhatsApp integrado.</p>
-    <div class="hero-ctas">
-      <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites profissionais." class="cta-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.505-2.437 1.265-3.355 2.133-1.842 1.843-2.956 4.371-2.956 7.02 0 5.517 4.692 10.144 10.148 10.144 1.257 0 2.47-.24 3.654-.707l3.1 1.023-1.044-3.19c.633-1.204 1.128-2.527 1.128-4.126 0-5.517-4.692-10.144-10.148-10.144z"/>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-tag">Criação de Sites Profissionais</div>
+                <h1>Seu Site é Seu Melhor Vendedor. Ou Seu Maior Problema.</h1>
+                <p>Sites que geram contatos reais, não apenas bonitos. Desenvolvemos plataformas modernas, rápidas e com visual premium para empresas que querem crescer.</p>
+                <div class="hero-buttons">
+                    <a href="https://wa.me/5511912459144?text=Olá! Gostaria de agendar uma consultoria gratuita." class="btn btn-primary">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+                        </svg>
+                        Agendar Consultoria
+                    </a>
+                    <a href="#portfolio" class="btn btn-secondary">Ver Portfólio</a>
+                </div>
+                <div class="hero-urgency">⏰ Vagas limitadas este mês</div>
+            </div>
+        </section>
+
+        <!-- Problems Section -->
+        <section id="servicos">
+            <div class="problems">
+                <h2 class="section-title">O Problema Real</h2>
+                <div class="problems-grid">
+                    <div class="problem-card fade-in">
+                        <h3>❌ Site Feio = Sem Credibilidade</h3>
+                        <p>Um site desatualizado ou mal feito afasta clientes antes deles conhecerem seu trabalho.</p>
+                    </div>
+                    <div class="problem-card fade-in">
+                        <h3>❌ Não Converte Visitante</h3>
+                        <p>Muitos sites têm tráfego, mas não transformam visitas em vendas ou contatos.</p>
+                    </div>
+                    <div class="problem-card fade-in">
+                        <h3>❌ Não Funciona no Celular</h3>
+                        <p>50% do tráfego vem de celular. Se não funciona lá, você perde metade dos clientes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 3rem;">A Solução: Sites que Vendem</h2>
+            <div class="solutions-grid">
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">🎨</div>
+                    <h3>Design que Vende</h3>
+                    <p>Visual premium que passa confiança e diferencia sua marca da concorrência.</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">📱</div>
+                    <h3>100% Responsivo</h3>
+                    <p>Funciona perfeitamente em desktop, tablet e celular. Seus clientes acessam de qualquer lugar.</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">💬</div>
+                    <h3>WhatsApp Integrado</h3>
+                    <p>Botão flutuante com atendimento direto. Converta visitantes em clientes pelo WhatsApp.</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">🔍</div>
+                    <h3>SEO Básico</h3>
+                    <p>Otimizado para aparecer no Google. Seus clientes te encontram quando procuram.</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">⚡</div>
+                    <h3>Rápido e Seguro</h3>
+                    <p>Carregamento instantâneo e cadeado de segurança (HTTPS) para proteger seus clientes.</p>
+                </div>
+                <div class="solution-card fade-in">
+                    <div class="solution-icon">🛠️</div>
+                    <h3>Suporte Técnico</h3>
+                    <p>Atualizações, correções e suporte inclusos. Seu site sempre funcionando perfeitamente.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio">
+            <h2 class="section-title">Portfólio: Trabalhos Reais</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card fade-in">
+                    <img src="assets/img/portfolio-ecommerce.jpg" alt="E-commerce Premium" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>Loja Online Premium</h3>
+                        <p>E-commerce com integração de pagamento e gestão de produtos.</p>
+                        <div class="portfolio-result">+300% em vendas no primeiro trimestre</div>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in">
+                    <img src="assets/img/portfolio-consultorio.jpg" alt="Consultório" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>Clínica e Consultório</h3>
+                        <p>Site profissional com agendamento online e informações de serviços.</p>
+                        <div class="portfolio-result">+250% em agendamentos</div>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in">
+                    <img src="assets/img/portfolio-restaurante.jpg" alt="Restaurante" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>Restaurante e Bar</h3>
+                        <p>Site com cardápio digital, reservas online e integração com delivery.</p>
+                        <div class="portfolio-result">+180% em reservas online</div>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in">
+                    <img src="assets/img/portfolio-agencia.jpg" alt="Agência" class="portfolio-image">
+                    <div class="portfolio-content">
+                        <h3>Empresa de Serviços</h3>
+                        <p>Site corporativo com portfólio, cases e formulário de contato.</p>
+                        <div class="portfolio-result">+400% em leads qualificados</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section>
+            <h2 class="section-title">Como Funciona</h2>
+            <div class="process-timeline">
+                <div class="process-step fade-in" data-step="1">
+                    <h3>Consultoria Gratuita</h3>
+                    <p>Entendemos suas necessidades, objetivos e público-alvo.</p>
+                </div>
+                <div class="process-step fade-in" data-step="2">
+                    <h3>Design e Planejamento</h3>
+                    <p>Criamos o visual e estrutura do seu site.</p>
+                </div>
+                <div class="process-step fade-in" data-step="3">
+                    <h3>Desenvolvimento</h3>
+                    <p>Construímos o site com tecnologia moderna e otimizado.</p>
+                </div>
+                <div class="process-step fade-in" data-step="4">
+                    <h3>Lançamento</h3>
+                    <p>Site no ar e pronto para gerar resultados.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="planos">
+            <h2 class="section-title">Planos e Preços</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <h3>Essencial</h3>
+                    <div class="pricing-price">R$ 1.500</div>
+                    <ul class="pricing-features">
+                        <li>Até 5 páginas</li>
+                        <li>Design responsivo</li>
+                        <li>WhatsApp integrado</li>
+                        <li>Cadeado de segurança (HTTPS)</li>
+                        <li>Endereço próprio na internet (domínio)</li>
+                    </ul>
+                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Essencial." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                </div>
+                <div class="pricing-card popular fade-in">
+                    <div class="pricing-badge">Mais Popular</div>
+                    <h3>Profissional</h3>
+                    <div class="pricing-price">R$ 3.000</div>
+                    <ul class="pricing-features">
+                        <li>Até 15 páginas</li>
+                        <li>Design responsivo premium</li>
+                        <li>WhatsApp integrado</li>
+                        <li>Cadeado de segurança (HTTPS)</li>
+                        <li>Endereço próprio na internet</li>
+                        <li>Painel com estatísticas de visitas</li>
+                        <li>Otimizado para Google (SEO)</li>
+                    </ul>
+                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Profissional." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                </div>
+                <div class="pricing-card fade-in">
+                    <h3>Premium</h3>
+                    <div class="pricing-price">R$ 5.000</div>
+                    <ul class="pricing-features">
+                        <li>Ilimitado de páginas</li>
+                        <li>Design exclusivo e personalizado</li>
+                        <li>WhatsApp integrado com automação</li>
+                        <li>Cadeado de segurança (HTTPS)</li>
+                        <li>Endereço próprio na internet</li>
+                        <li>Painel com estatísticas avançadas</li>
+                        <li>Otimizado para Google (SEO completo)</li>
+                        <li>Consultoria estratégica incluída</li>
+                        <li>Suporte prioritário</li>
+                    </ul>
+                    <a href="https://wa.me/5511912459144?text=Tenho interesse no plano Premium." class="btn btn-primary" style="width: 100%;">Contratar</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section>
+            <h2 class="section-title">Quem é Alexandre Olegario</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
+                </div>
+                <div class="about-text">
+                    <h3>Especialista em Performance e Resultados</h3>
+                    <p>Com mais de 30 anos de experiência em vendas e gestão, Alexandre Olegario fundou a OLEGARIO TECH para transformar a forma como pequenas e médias empresas vendem online.</p>
+                    <p>Acredita que conhecimento só vale quando vira ação. Seu foco: técnica, tecnologia e propósito para gerar resultado real.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">30+</div>
+                            <div class="stat-label">Anos de Experiência</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2.700+</div>
+                            <div class="stat-label">Alunos Transformados</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Métodos Validados</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="produtos">
+            <h2 class="section-title">Produtos Digitais: Aprenda e Cresça</h2>
+            <p style="text-align: center; color: #b0b0b0; margin-bottom: 2rem;">Enquanto seu site fica pronto, aprenda técnicas de vendas, disciplina pessoal e performance com nossos cursos.</p>
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
+                    </div>
+                    <div class="product-content">
+                        <h3>Lucidez Prática</h3>
+                        <p>Filosofia aplicada ao dia a dia. Técnicas para clareza mental e decisões melhores.</p>
+                        <div class="product-price">R$ 97</div>
+                        <a href="https://kiwify.com.br/lucidez-pratica" target="_blank" class="product-btn">Comprar Agora</a>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
+                    </div>
+                    <div class="product-content">
+                        <h3>Dinheiro que Sobra</h3>
+                        <p>Gestão financeira prática. Como organizar suas finanças e ter dinheiro sobrando.</p>
+                        <div class="product-price">R$ 127</div>
+                        <a href="https://kiwify.com.br/dinheiro-que-sobra" target="_blank" class="product-btn">Comprar Agora</a>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas">
+                    </div>
+                    <div class="product-content">
+                        <h3>Manual de Vendas</h3>
+                        <p>Técnicas comprovadas de vendas. Do zero ao fechamento de contratos.</p>
+                        <div class="product-price">R$ 197</div>
+                        <a href="https://kiwify.com.br/manual-vendas" target="_blank" class="product-btn">Comprar Agora</a>
+                    </div>
+                </div>
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa">
+                    </div>
+                    <div class="product-content">
+                        <h3>Treino em Casa</h3>
+                        <p>Calistenia e exercícios sem equipamento. Transforme seu corpo em 90 dias.</p>
+                        <div class="product-price">R$ 147</div>
+                        <a href="https://kiwify.com.br/treino-casa" target="_blank" class="product-btn">Comprar Agora</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quanto tempo leva para ficar pronto?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Depende do plano. Essencial: 7-10 dias. Profissional: 14-21 dias. Premium: 21-30 dias. Isso inclui consultoria, design, desenvolvimento e testes.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Posso editar o site depois?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Todos os planos incluem suporte técnico. Você pode solicitar atualizações, correções e melhorias. No plano Premium, você tem acesso a um painel para editar conteúdo.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>O site funciona no celular?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>100% responsivo! Todos os nossos sites são desenvolvidos com a filosofia "mobile first". Funciona perfeitamente em qualquer dispositivo.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Vocês fazem SEO?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Todos os planos incluem otimização básica para Google (SEO). Isso significa que seu site aparecerá nos resultados quando seus clientes procurarem por você.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>E se eu precisar de mais funcionalidades?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nenhum problema! Oferecemos serviços adicionais como integração de e-commerce, automação de marketing, chatbot com IA e muito mais. Fale com a gente!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Qual é o domínio?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O domínio (seu endereço na internet, como seusite.com.br) é incluído em todos os planos. Você pode escolher um novo ou transferir um existente.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Como funciona o pagamento?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>50% no início do projeto (para começar o design e desenvolvimento) e 50% na entrega. Aceitamos PIX, transferência bancária e cartão de crédito.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Final -->
+        <section>
+            <div class="cta-final fade-in">
+                <h2>Pronto para Transformar Seu Negócio?</h2>
+                <p>Não deixe seus clientes nas mãos da concorrência. Um site profissional é o seu melhor vendedor 24/7.</p>
+                <a href="https://wa.me/5511912459144?text=Olá! Gostaria de agendar uma consultoria gratuita para criar meu site." class="btn btn-primary">
+                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
+                    </svg>
+                    Agendar Consultoria Gratuita
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <a href="#servicos">Criação de Sites</a>
+                    <a href="#portfolio">Portfólio</a>
+                    <a href="#planos">Planos</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Produtos</h4>
+                    <a href="#produtos">Cursos Digitais</a>
+                    <a href="https://www.tiktok.com/@alexandre.olegario" target="_blank">TikTok</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <a href="https://wa.me/5511912459144" target="_blank">WhatsApp</a>
+                    <a href="https://www.instagram.com/olegariotech" target="_blank">Instagram</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Sobre</h4>
+                    <a href="#sobre">Quem Somos</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 OLEGARIO TECH. Todos os direitos reservados. | <a href="#" style="color: #9D4EDD;">Política de Privacidade</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5511912459144" target="_blank" class="whatsapp-float" title="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.39 1.242-3.286 2.128-1.797 1.797-2.745 4.334-2.745 6.922 0 2.588.948 5.123 2.745 6.92 1.797 1.797 4.203 2.745 6.921 2.745 2.719 0 5.124-.948 6.921-2.745 1.797-1.797 2.745-4.202 2.745-6.921 0-2.718-.948-5.123-2.745-6.92-1.797-1.797-4.202-2.745-6.921-2.745zm0-2.383c3.173 0 6.344 1.149 8.845 3.65 2.501 2.501 3.65 5.672 3.65 8.845 0 3.173-1.149 6.344-3.65 8.845-2.501 2.501-5.672 3.65-8.845 3.65-3.173 0-6.344-1.149-8.845-3.65-2.501-2.501-3.65-5.672-3.65-8.845 0-3.173 1.149-6.344 3.65-8.845 2.501-2.501 5.672-3.65 8.845-3.65z"/>
         </svg>
-        Solicitar Orçamento
-      </a>
-      <a href="#portfolio" class="cta-secondary">Ver Portfólio →</a>
-    </div>
-    <div class="hero-features">
-      <div class="feature-item">
-        <div class="feature-icon">✓</div>
-        <span>Design Profissional</span>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">📱</div>
-        <span>100% Responsivo</span>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">💬</div>
-        <span>WhatsApp Integrado</span>
-      </div>
-    </div>
-  </section>
+    </a>
 
-  <!-- Problems Section -->
-  <section class="problems scroll-reveal">
-    <div class="container">
-      <div class="section-label">O PROBLEMA</div>
-      <h2 class="section-title">Por que seu site não gera <span class="highlight">contatos?</span></h2>
-      <div class="problems-grid">
-        <div class="problem-card">
-          <h3>❌ Site Desatualizado</h3>
-          <p>Seu site parece antigo e não passa confiança. Clientes preferem empresas que parecem modernas e profissionais.</p>
-        </div>
-        <div class="problem-card">
-          <h3>❌ Não Funciona no Celular</h3>
-          <p>50% do tráfego vem de celular. Se seu site não é responsivo, você perde metade dos seus clientes potenciais.</p>
-        </div>
-        <div class="problem-card">
-          <h3>❌ Sem Chamada para Ação</h3>
-          <p>Visitantes chegam mas não sabem como entrar em contato. Sem WhatsApp integrado, você perde a venda.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+        // Neural Network Canvas Animation
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
 
-  <!-- Benefits Section -->
-  <section id="servicos" class="scroll-reveal">
-    <div class="container">
-      <div class="section-label">A SOLUÇÃO</div>
-      <h2 class="section-title">O que você vai ter no seu <span class="highlight">site</span></h2>
-      <div class="benefits-grid">
-        <div class="benefit-card">
-          <div class="benefit-icon">🎨</div>
-          <h3>Design que Vende</h3>
-          <p>Visual premium que transmite confiança e profissionalismo. Cada detalhe foi pensado para converter visitante em cliente.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">⚡</div>
-          <h3>Rápido e Seguro</h3>
-          <p>Site otimizado para carregar em 2 segundos. Certificado de segurança (cadeado verde) para o cliente se sentir protegido.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">📊</div>
-          <h3>Painel de Estatísticas</h3>
-          <p>Veja quantas pessoas visitam, de onde vêm e quanto tempo ficam. Dados reais para melhorar seu negócio.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">💬</div>
-          <h3>WhatsApp Integrado</h3>
-          <p>Botão flutuante e links diretos para o WhatsApp. Cliente clica e já abre uma conversa com você.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">📱</div>
-          <h3>100% Responsivo</h3>
-          <p>Funciona perfeitamente em celular, tablet e computador. Seu cliente acessa de qualquer lugar, qualquer hora.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">🌐</div>
-          <h3>Domínio Profissional</h3>
-          <p>Seu endereço próprio na internet (ex: seusite.com.br). Muito mais profissional que redes sociais.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-  <!-- Portfolio Section -->
-  <section id="portfolio" class="portfolio scroll-reveal">
-    <div class="container">
-      <div class="section-label">PORTFÓLIO</div>
-      <h2 class="section-title">Veja os sites que <span class="highlight">criamos</span></h2>
-      <div class="portfolio-grid">
-        <div class="portfolio-card">
-          <div class="portfolio-image">
-            <img src="assets/img/portfolio-ecommerce.jpg" alt="E-commerce Premium">
-          </div>
-          <div class="portfolio-content">
-            <div class="portfolio-category">E-commerce</div>
-            <h3 class="portfolio-title">Loja Online Premium</h3>
-            <p class="portfolio-result">+300% em vendas no 1º trimestre</p>
-          </div>
-        </div>
-        <div class="portfolio-card">
-          <div class="portfolio-image">
-            <img src="assets/img/portfolio-consultorio.jpg" alt="Consultório">
-          </div>
-          <div class="portfolio-content">
-            <div class="portfolio-category">Saúde</div>
-            <h3 class="portfolio-title">Clínica Odontológica</h3>
-            <p class="portfolio-result">+150% em agendamentos</p>
-          </div>
-        </div>
-        <div class="portfolio-card">
-          <div class="portfolio-image">
-            <img src="assets/img/portfolio-restaurante.jpg" alt="Restaurante">
-          </div>
-          <div class="portfolio-content">
-            <div class="portfolio-category">Gastronomia</div>
-            <h3 class="portfolio-title">Restaurante Gourmet</h3>
-            <p class="portfolio-result">+200% em reservas online</p>
-          </div>
-        </div>
-        <div class="portfolio-card">
-          <div class="portfolio-image">
-            <img src="assets/img/portfolio-agencia.jpg" alt="Agência">
-          </div>
-          <div class="portfolio-content">
-            <div class="portfolio-category">Serviços</div>
-            <h3 class="portfolio-title">Agência de Marketing</h3>
-            <p class="portfolio-result">+250% em leads qualificados</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        const particles = [];
+        const particleCount = 50;
+        const connectionDistance = 150;
 
-  <!-- Process Section -->
-  <section class="process scroll-reveal">
-    <div class="container">
-      <div class="section-label">COMO FUNCIONA</div>
-      <h2 class="section-title">Seu site em 4 <span class="highlight">passos</span></h2>
-      <div class="process-timeline">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <h3>Consultoria</h3>
-          <p>Entendemos seu negócio, seus clientes e seus objetivos. Sem consultoria, não há site bom.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <h3>Design</h3>
-          <p>Criamos o visual do seu site. Você aprova antes de qualquer código ser escrito.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <h3>Desenvolvimento</h3>
-          <p>Transformamos o design em código. Tudo otimizado para velocidade e segurança.</p>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <h3>Lançamento</h3>
-          <p>Seu site sai do ar. Você recebe treinamento e suporte técnico por 30 dias.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.radius = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? '#9D4EDD' : '#3A86FF';
+            }
 
-  <!-- Pricing Section -->
-  <section class="pricing scroll-reveal">
-    <div class="container">
-      <div class="section-label">PLANOS</div>
-      <h2 class="section-title">Escolha o plano <span class="highlight">ideal</span></h2>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-name">Essencial</div>
-          <div class="pricing-description">Para quem está começando</div>
-          <div class="pricing-price">R$ 1.500</div>
-          <div class="pricing-period">Pagamento único</div>
-          <ul class="pricing-features">
-            <li>Design profissional</li>
-            <li>Até 5 páginas</li>
-            <li>WhatsApp integrado</li>
-            <li>Responsivo (celular)</li>
-            <li>Cadeado de segurança</li>
-            <li>Domínio por 1 ano</li>
-          </ul>
-          <a href="https://wa.me/5511912459144?text=Olá! Gostaria de contratar o plano Essencial." class="pricing-cta">Contratar →</a>
-        </div>
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Mais Popular</div>
-          <div class="pricing-name">Profissional</div>
-          <div class="pricing-description">Para empresas que querem crescer</div>
-          <div class="pricing-price">R$ 2.500</div>
-          <div class="pricing-period">Pagamento único</div>
-          <ul class="pricing-features">
-            <li>Tudo do Essencial +</li>
-            <li>Até 10 páginas</li>
-            <li>Painel de estatísticas</li>
-            <li>Formulários de contato</li>
-            <li>Blog integrado</li>
-            <li>Suporte por 3 meses</li>
-          </ul>
-          <a href="https://wa.me/5511912459144?text=Olá! Gostaria de contratar o plano Profissional." class="pricing-cta">Contratar →</a>
-        </div>
-        <div class="pricing-card">
-          <div class="pricing-name">Premium</div>
-          <div class="pricing-description">Para quem quer o melhor</div>
-          <div class="pricing-price">R$ 4.500</div>
-          <div class="pricing-period">Pagamento único</div>
-          <ul class="pricing-features">
-            <li>Tudo do Profissional +</li>
-            <li>Páginas ilimitadas</li>
-            <li>Integração com sistemas</li>
-            <li>E-commerce básico</li>
-            <li>Suporte por 6 meses</li>
-            <li>Consultoria estratégica</li>
-          </ul>
-          <a href="https://wa.me/5511912459144?text=Olá! Gostaria de contratar o plano Premium." class="pricing-cta">Contratar →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
 
-  <!-- Testimonials Section -->
-  <section class="testimonials scroll-reveal">
-    <div class="container">
-      <div class="section-label">DEPOIMENTOS</div>
-      <h2 class="section-title">Quem já <span class="highlight">transformou</span></h2>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-text">"Meu site antigo não gerava contatos. Depois que lancei o novo, triplicou meu faturamento em 3 meses. Recomendo demais!"</p>
-          <div class="testimonial-author">Carlos Mendes</div>
-          <div class="testimonial-role">Proprietário - E-commerce</div>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">"Achei que seria complicado, mas foi muito simples. O time foi super profissional e o resultado superou minhas expectativas."</p>
-          <div class="testimonial-author">Mariana Silva</div>
-          <div class="testimonial-role">Gerente - Consultório</div>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">"Não é só um site bonito. É uma máquina de vendas. Meus clientes agora conseguem agendar direto pelo WhatsApp. Perfeito!"</p>
-          <div class="testimonial-author">Roberto Costa</div>
-          <div class="testimonial-role">Diretor - Agência</div>
-        </div>
-      </div>
-    </div>
-  </section>
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
 
-  <!-- About Section -->
-  <section id="sobre" class="about scroll-reveal">
-    <div class="container">
-      <div class="section-label">SOBRE</div>
-      <div class="about-content">
-        <div class="about-text">
-          <h2>Manifesto OLEGARIO TECH</h2>
-          <p>Na OLEGARIO TECH, acreditamos que conhecimento só vale quando vira ação. Unimos técnica, tecnologia e propósito pra gerar resultado real. Zero Desculpas — Só Performance.</p>
-          <h3 style="margin-top: 30px; margin-bottom: 15px;">Quem é Alexandre Olegario</h3>
-          <p>Especialista em vendas e performance, 30+ anos em vendas automotivas e projetos digitais. Fundador da OLEGARIO TECH — transforma rotina de vendas, disciplina pessoal e finanças do dia a dia em método simples, direto e aplicável. Mentor, gestor e autor. Foco: Resultado Real.</p>
-          <div class="about-stats">
-            <div class="stat">
-              <div class="stat-number">30+</div>
-              <div class="stat-label">Anos de Experiência</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">2.700+</div>
-              <div class="stat-label">Alunos Transformados</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">4</div>
-              <div class="stat-label">Métodos Validados</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">100%</div>
-              <div class="stat-label">Prático</div>
-            </div>
-          </div>
-        </div>
-        <div class="about-image">
-          <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario">
-        </div>
-      </div>
-    </div>
-  </section>
+                this.x = Math.max(0, Math.min(canvas.width, this.x));
+                this.y = Math.max(0, Math.min(canvas.height, this.y));
+            }
 
-  <!-- Products Section (Galaxy) -->
-  <section class="products scroll-reveal">
-    <div class="container">
-      <div class="section-label">GALÁXIA DE PRODUTOS</div>
-      <h2 class="section-title">Enquanto espera o site ficar pronto, <span class="highlight">aprenda</span></h2>
-      <div class="products-grid">
-        <div class="product-card">
-          <div class="product-image">
-            <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática">
-          </div>
-          <div class="product-label">01 MIND PROTOCOL</div>
-          <h3 class="product-title">Lucidez Prática</h3>
-          <p class="product-description">Saia do looping mental. Protocolo prático para vencer a ansiedade.</p>
-          <div class="product-price"><span class="product-price-old">R$ 97</span>R$ 29,90</div>
-          <a href="https://kiwify.com.br/lucidez-pratica" class="product-cta">Comprar →</a>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra">
-          </div>
-          <div class="product-label">02 FINANCE ENGINE</div>
-          <h3 class="product-title">Dinheiro que Sobra</h3>
-          <p class="product-description">Organize seu dinheiro sem sofrimento. Método simples e direto.</p>
-          <div class="product-price"><span class="product-price-old">R$ 29,90</span>R$ 19,90</div>
-          <a href="https://kiwify.com.br/dinheiro-que-sobra" class="product-cta">Comprar →</a>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="assets/img/capa-vendas.jpg" alt="Manual do Fechamento">
-          </div>
-          <div class="product-label">03 SALES SYSTEM</div>
-          <h3 class="product-title">Manual do Fechamento</h3>
-          <p class="product-description">A bíblia do fechamento de vendas. Técnicas testadas em 30+ anos.</p>
-          <div class="product-price"><span class="product-price-old">R$ 49,90</span>R$ 19,90</div>
-          <a href="https://kiwify.com.br/manual-fechamento" class="product-cta">Comprar →</a>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa">
-          </div>
-          <div class="product-label">04 BODY FRAMEWORK</div>
-          <h3 class="product-title">Treino em Casa 30min</h3>
-          <p class="product-description">Treino completo em casa, sem equipamento, em apenas 30 minutos.</p>
-          <div class="product-price"><span class="product-price-old">R$ 39,90</span>R$ 14,99</div>
-          <a href="https://kiwify.com.br/treino-casa" class="product-cta">Comprar →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section id="faq" class="faq scroll-reveal">
-    <div class="container">
-      <div class="section-label">DÚVIDAS</div>
-      <h2 class="section-title">Tire suas <span class="highlight">dúvidas</span></h2>
-      <div class="faq-container">
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Como funciona o processo de criação?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Fazemos uma consultoria inicial para entender seu negócio. Depois criamos o design, você aprova, e então desenvolvemos o site. Tudo com suporte técnico incluído.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Quanto tempo leva para ficar pronto?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Geralmente 15 a 30 dias, dependendo da complexidade. Você acompanha todo o processo e pode solicitar ajustes.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>E se eu não gostar do resultado?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Você tem 7 dias para avaliar. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracias.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>O site precisa de manutenção?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Manutenção básica está incluída por 30 dias. Depois, oferecemos pacotes de suporte mensal se desejar.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Como funciona o WhatsApp integrado?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Colocamos um botão flutuante no site que abre uma conversa direta no seu WhatsApp. Seu cliente clica e já começa a conversar com você.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Vocês oferecem hospedagem?</span>
-            <span class="faq-toggle">▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>Sim! A hospedagem está incluída no preço. Você não precisa se preocupar com nada técnico. Nós cuidamos de tudo.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Final -->
-  <section class="scroll-reveal">
-    <div class="container">
-      <div class="cta-final">
-        <h2>Pronto para transformar seu negócio?</h2>
-        <p>Não deixe seus clientes em potencial indo para a concorrência. Seu site é seu melhor vendedor.</p>
-        <div class="cta-final-buttons">
-          <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites profissionais." class="cta-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.505-2.437 1.265-3.355 2.133-1.842 1.843-2.956 4.371-2.956 7.02 0 5.517 4.692 10.144 10.148 10.144 1.257 0 2.47-.24 3.654-.707l3.1 1.023-1.044-3.19c.633-1.204 1.128-2.527 1.128-4.126 0-5.517-4.692-10.144-10.148-10.144z"/>
-            </svg>
-            Solicitar Orçamento
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 OLEGARIO TECH. Todos os direitos reservados. | <a href="#">Privacidade</a> | <a href="#">Termos</a></p>
-  </footer>
-
-  <!-- WhatsApp FAB -->
-  <a href="https://wa.me/5511912459144?text=Olá! Gostaria de saber mais sobre a criação de sites profissionais." class="fab-whatsapp" title="Falar no WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.505-2.437 1.265-3.355 2.133-1.842 1.843-2.956 4.371-2.956 7.02 0 5.517 4.692 10.144 10.148 10.144 1.257 0 2.47-.24 3.654-.707l3.1 1.023-1.044-3.19c.633-1.204 1.128-2.527 1.128-4.126 0-5.517-4.692-10.144-10.148-10.144z"/>
-    </svg>
-  </a>
-
-  <script>
-    // Neural Network Canvas Animation (Lovable Inspired)
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles = [];
-    const particleCount = Math.min(100, Math.floor(window.innerWidth / 10));
-    const connectionDistance = 150;
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 2;
-        this.vy = (Math.random() - 0.5) * 2;
-        this.radius = Math.random() * 2 + 1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        this.x = Math.max(0, Math.min(canvas.width, this.x));
-        this.y = Math.max(0, Math.min(canvas.height, this.y));
-      }
-
-      draw() {
-        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 2);
-        gradient.addColorStop(0, 'rgba(157, 78, 221, 0.8)');
-        gradient.addColorStop(1, 'rgba(58, 134, 255, 0.2)');
-        
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function initParticles() {
-      particles.length = 0;
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function drawConnections() {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < connectionDistance) {
-            const opacity = (1 - distance / connectionDistance) * 0.3;
-            ctx.strokeStyle = `rgba(157, 78, 221, ${opacity})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-      }
-    }
 
-    function animate() {
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
-
-      drawConnections();
-      requestAnimationFrame(animate);
-    }
-
-    initParticles();
-    animate();
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    // Scroll Reveal Animation
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+        function initParticles() {
+            particles.length = 0;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
         }
-      });
-    }, observerOptions);
 
-    document.querySelectorAll('.scroll-reveal').forEach(el => {
-      observer.observe(el);
-    });
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // FAQ Accordion
-    document.querySelectorAll('.faq-question').forEach(question => {
-      question.addEventListener('click', () => {
-        const faqItem = question.closest('.faq-item');
-        faqItem.classList.toggle('active');
-      });
-    });
-
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
+                    if (distance < connectionDistance) {
+                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - distance / connectionDistance})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
         }
-      });
-    });
-  </script>
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const toggle = question.querySelector('.faq-toggle');
+
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    if (i !== item) {
+                        i.querySelector('.faq-answer').classList.remove('active');
+                        i.querySelector('.faq-toggle').classList.remove('active');
+                    }
+                });
+
+                answer.classList.toggle('active');
+                toggle.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
