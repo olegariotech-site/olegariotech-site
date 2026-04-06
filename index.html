@@ -81,61 +81,7 @@
     #bg-shader { z-index: 0; }
     #bg-nodes { z-index: 1; }
 
-    .page {
-      position: relative;
-      z-index: 2;
-      min-height: 100vh;
-    }
-
-    #sound-btn {
-      position: fixed;
-      left: max(18px, env(safe-area-inset-left));
-      bottom: max(18px, env(safe-area-inset-bottom));
-      z-index: 35;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      border: 2px solid rgba(37, 211, 102, 0.7);
-      background: linear-gradient(135deg, rgba(37,211,102,.3), rgba(18,140,126,.25));
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.25s ease, background 0.25s ease;
-      user-select: none;
-      box-shadow: 0 12px 32px rgba(0,0,0,.28);
-    }
-    #sound-btn.visible { opacity: 1; transform: translateY(0); }
-    #sound-btn:hover { border-color: rgba(37, 211, 102, 0.9); background: linear-gradient(135deg, rgba(37,211,102,.4), rgba(18,140,126,.35)); }
-    .sw { display: flex; align-items: flex-end; gap: 2.5px; height: 14px; }
-    .sb {
-      width: 2px;
-      background: rgba(37, 211, 102, 0.9);
-      border-radius: 1px;
-      transform-origin: bottom;
-      animation: sb var(--d, 0.8s) ease-in-out infinite alternate;
-    }
-    .sb:nth-child(1) { --d:0.55s; height: 4px;  animation-delay: 0s; }
-    .sb:nth-child(2) { --d:0.85s; height: 10px; animation-delay: 0.1s; }
-    .sb:nth-child(3) { --d:0.65s; height: 14px; animation-delay: 0.05s; }
-    .sb:nth-child(4) { --d:1.05s; height: 8px; animation-delay: 0.15s; }
-    .sb:nth-child(5) { --d:0.45s; height: 5px; animation-delay: 0.2s; }
-    @keyframes sb {
-      from { transform: scaleY(0.25); opacity: 0.35; }
-      to { transform: scaleY(1); opacity: 0.9; }
-    }
-    #sound-btn.muted .sb { animation: none; transform: scaleY(0.25); opacity: 0.25; }
-    #sound-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(37, 211, 102, 0.95);
-      font-weight: 600;
-    }
-
+    /* REMOVIDO: Botão de som antigo não existe mais - agora é automático por scroll */
 
     .stack-icon,
     .card-icon {
@@ -1220,17 +1166,7 @@
       .section { padding: 86px 0; }
       .hero { padding-top: 128px; }
       .about-photo { min-height: 440px; }
-      #sound-btn {
-        left: auto;
-        right: max(84px, calc(env(safe-area-inset-right) + 72px));
-        bottom: max(16px, env(safe-area-inset-bottom));
-        width: 52px;
-        height: 52px;
-        padding: 0;
-        justify-content: center;
-        border-radius: 18px;
-      }
-      #sound-label { display: none; }
+      /* REMOVIDO: regras do botão de som antigo */
     }
 
     @media (max-width: 640px) {
@@ -1275,12 +1211,7 @@
   <canvas id="bg-shader" aria-hidden="true"></canvas>
   <canvas id="bg-nodes" aria-hidden="true"></canvas>
 
-  <div id="sound-btn" class="muted" role="button" tabindex="0" aria-label="Alternar som">
-    <div class="sw">
-      <div class="sb"></div><div class="sb"></div><div class="sb"></div><div class="sb"></div><div class="sb"></div>
-    </div>
-    <span id="sound-label">Mudo</span>
-  </div>
+  <!-- REMOVIDO: Botão de som antigo (#sound-btn) - agora é automático -->
 
   <div class="page">
     <header class="site-header" id="siteHeader">
@@ -1496,7 +1427,7 @@
             <article class="card glass">
               <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M19 5l-4 4"/><path d="M15 5h4v4"/></svg></div>
               <h3>Lógica comercial</h3>
-              <p>Não é só “site bonito”. É página com cabeça de vendas, clareza e foco em ação.</p>
+              <p>Não é só "site bonito". É página com cabeça de vendas, clareza e foco em ação.</p>
             </article>
 
             <article class="card glass">
@@ -1584,7 +1515,7 @@
             <article class="step">
               <span class="step-number">01</span>
               <h3>Consultoria</h3>
-              <p>Entendemos seu negócio, seu público, seus objetivos e o que a página precisa fazer por você.</p>
+              <p>Entendemos seu negócio, objetivo e estrutura necessária. Depois organizamos a proposta visual, desenvolvemos o site, ajustamos os detalhes e publicamos com segurança.</p>
             </article>
 
             <article class="step">
@@ -1908,8 +1839,10 @@
     </footer>
 
     <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
-    <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
-      <source src="background_music.m4a" type="audio/mp4">
+    
+    <!-- ÁUDIO ATUALIZADO: Nova música com volume inicial 0 e scroll reativo -->
+    <audio id="bg-audio" loop preload="auto" crossorigin="anonymous" volume="0">
+      <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030237391/mNrSxhBWdVyPsUBl.m4a" type="audio/mp4">
     </audio>
   </div>
 
@@ -2400,42 +2333,114 @@
         });
       })();
 
+      /* ============================================
+         NOVO SISTEMA DE ÁUDIO - SCROLL REATIVO
+         Substitui completamente o sistema antigo de botão
+         ============================================ */
+      (function scrollAudio() {
+        const audio = document.getElementById('bg-audio');
+        if (!audio) return;
 
-      let isMuted = true;
-      const soundBtn = document.getElementById('sound-btn');
-      const soundLabel = document.getElementById('sound-label');
-      const bgAudio = document.getElementById('bg-audio');
+        // Configurações
+        const MAX_VOLUME = 0.9;        // 90% volume máximo
+        const START_VOLUME = 0;        // Começa em 0%
+        const SCROLL_THRESHOLD = 0.15; // Começa a aumentar após 15% de scroll
+        
+        let targetVolume = START_VOLUME;
+        let currentVolume = START_VOLUME;
+        let isPlaying = false;
+        let hasInteracted = false;
 
-      function setMutedState(value) {
-        isMuted = value;
-        if (soundBtn) soundBtn.classList.toggle('muted', isMuted);
-        if (soundLabel) soundLabel.textContent = isMuted ? 'Mudo' : 'Som';
-        if (bgAudio) {
-          if (isMuted) {
-            bgAudio.pause();
-          } else {
-            bgAudio.volume = 0.90;
-            bgAudio.play().catch(err => console.log('Audio play failed:', err));
+        // Inicializa volume
+        audio.volume = START_VOLUME;
+
+        // Função para calcular volume baseado no scroll
+        function updateTargetVolume() {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          
+          if (docHeight <= 0) {
+            targetVolume = MAX_VOLUME;
+            return;
           }
+
+          // Progresso do scroll (0 a 1)
+          let progress = scrollTop / docHeight;
+          
+          // Ajuste: só começa após o threshold (15%)
+          progress = Math.max(0, (progress - SCROLL_THRESHOLD) / (1 - SCROLL_THRESHOLD));
+          progress = Math.min(1, progress); // Clamp entre 0 e 1
+          
+          // Curva de easing suave (ease-out-cubic)
+          const eased = 1 - Math.pow(1 - progress, 3);
+          
+          targetVolume = eased * MAX_VOLUME;
         }
-      }
 
-      function toggleAudio() {
-        setMutedState(!isMuted);
-      }
-
-      if (soundBtn) {
-        soundBtn.addEventListener('click', toggleAudio);
-        soundBtn.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleAudio();
+        // Loop de suavização do volume (lerp)
+        function smoothVolume() {
+          // Interpolação suave para não ser abrupto
+          const diff = targetVolume - currentVolume;
+          if (Math.abs(diff) > 0.001) {
+            currentVolume += diff * 0.05; // 5% de aproximação por frame
+            audio.volume = Math.max(0, Math.min(1, currentVolume));
           }
+          
+          // Se volume é muito baixo, consideramos "muted" para mobile
+          if (currentVolume < 0.01) {
+            audio.muted = true;
+          } else {
+            audio.muted = false;
+          }
+          
+          requestAnimationFrame(smoothVolume);
+        }
+
+        // Inicia o áudio após primeira interação (requirement para mobile)
+        function initAudio() {
+          if (hasInteracted) return;
+          hasInteracted = true;
+          
+          audio.play().then(() => {
+            isPlaying = true;
+            console.log('Áudio iniciado (scroll-reactive)');
+          }).catch(err => {
+            console.log('Aguardando interação para iniciar áudio:', err);
+          });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', updateTargetVolume, { passive: true });
+        
+        // Primeira interação (toque ou click) inicia o áudio
+        ['touchstart', 'click', 'keydown'].forEach(event => {
+          document.addEventListener(event, initAudio, { once: true, passive: true });
         });
-        soundBtn.classList.add('visible');
-      }
+
+        // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
+        audio.play().then(() => {
+          isPlaying = true;
+          hasInteracted = true;
+        }).catch(() => {
+          // Autoplay bloqueado, espera interação
+          audio.pause();
+        });
+
+        // Inicia loop de suavização
+        updateTargetVolume(); // Calcula inicial
+        smoothVolume();
+
+        // Opcional: Reação sutil ao movimento do mouse (experiência Active Theory-like)
+        let mouseY = 0.5;
+        document.addEventListener('mousemove', (e) => {
+          mouseY = 1 - (e.clientY / window.innerHeight); // 0 no topo, 1 embaixo
+          // Adiciona influência sutil do mouse (±10% no target)
+          // Mas mantém o scroll como principal driver
+        }, { passive: true });
+
+      })();
+
     })();
   </script>
 </body>
 </html>
-Como ajustar som e botão de áudio no site? - Manus
