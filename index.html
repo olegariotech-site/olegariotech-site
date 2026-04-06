@@ -581,7 +581,7 @@
 
 
 ao vivo
-index_final.html
+pasted_content_2.txt
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -2493,7 +2493,7 @@ index_final.html
 
     <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
     <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
-      <source src="background_music.m4a" type="audio/mp4">
+      <source src="ambient_music.wav" type="audio/wav">
     </audio>
   </div>
 
@@ -2985,12 +2985,10 @@ index_final.html
       })();
 
 
-      let isMuted = false;
-      let currentVolume = 0;
+      let isMuted = true;
       const soundBtn = document.getElementById('sound-btn');
       const soundLabel = document.getElementById('sound-label');
       const bgAudio = document.getElementById('bg-audio');
-      const maxVolume = 0.90;
 
       function setMutedState(value) {
         isMuted = value;
@@ -3000,21 +2998,10 @@ index_final.html
           if (isMuted) {
             bgAudio.pause();
           } else {
-            bgAudio.volume = currentVolume;
+            bgAudio.volume = 0.90;
             bgAudio.play().catch(err => console.log('Audio play failed:', err));
           }
         }
-      }
-
-      function updateVolumeByScroll() {
-        if (isMuted || !bgAudio) return;
-        
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrolled = window.scrollY;
-        const scrollPercent = scrollHeight > 0 ? scrolled / scrollHeight : 0;
-        
-        currentVolume = Math.min(scrollPercent * maxVolume, maxVolume);
-        bgAudio.volume = currentVolume;
       }
 
       function toggleAudio() {
@@ -3031,12 +3018,6 @@ index_final.html
         });
         soundBtn.classList.add('visible');
       }
-
-      window.addEventListener('scroll', updateVolumeByScroll, { passive: true });
-      
-      setTimeout(() => {
-        setMutedState(false);
-      }, 800);
     })();
   </script>
 </body>
