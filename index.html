@@ -2397,25 +2397,30 @@
           requestAnimationFrame(smoothVolume);
         }
 
-        // Inicia o áudio após primeira interação (requirement para mobile)
+        // Inicia o áudio após primeira interação (necessário para navegadores mobile)
         function initAudio() {
           if (hasInteracted) return;
-          hasInteracted = true;
           
+          // Tenta tocar o áudio. Se conseguir, marca como interagido.
           audio.play().then(() => {
+            hasInteracted = true;
             isPlaying = true;
-            console.log('Áudio iniciado (scroll-reactive)');
+            console.log('Áudio ativado com sucesso!');
           }).catch(err => {
-            console.log('Aguardando interação para iniciar áudio:', err);
+            // Se falhar (ex: bloqueio do navegador), tentamos novamente no próximo evento
+            console.log('Aguardando interação do usuário para liberar áudio...');
           });
         }
 
         // Event listeners
-        window.addEventListener('scroll', updateTargetVolume, { passive: true });
+        window.addEventListener('scroll', () => {
+          updateTargetVolume();
+          if (!hasInteracted) initAudio(); // Ativa o áudio no primeiro movimento de scroll
+        }, { passive: true });
         
-        // Primeira interação (toque ou click) inicia o áudio
-        ['touchstart', 'click', 'keydown'].forEach(event => {
-          document.addEventListener(event, initAudio, { once: true, passive: true });
+        // Ativação por qualquer toque, clique ou tecla (cobertura total mobile/desktop)
+        ['touchstart', 'mousedown', 'keydown', 'wheel'].forEach(event => {
+          window.addEventListener(event, initAudio, { once: true, passive: true });
         });
 
         // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
