@@ -2343,8 +2343,8 @@
 
         // Configurações
         const MAX_VOLUME = 0.9;        // 90% volume máximo
-        const START_VOLUME = 0.5;      // Começa em 50% para garantir que seja ouvido logo no início
-        const SCROLL_THRESHOLD = 0.15; // Começa a aumentar após 15% de scroll
+        const START_VOLUME = 0;        // Começa em 0% para não assustar o usuário e crescer com o scroll
+        const SCROLL_THRESHOLD = 0.02; // Começa a aumentar quase imediatamente (2% de scroll) para o fade-in ser suave
         
         let targetVolume = START_VOLUME;
         audio.volume = START_VOLUME;
