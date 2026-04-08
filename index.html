@@ -1841,8 +1841,8 @@
     <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
     
     <!-- ÁUDIO ATUALIZADO: Nova música com volume inicial 0 e scroll reativo -->
-    <audio id="bg-audio" loop preload="auto" crossorigin="anonymous" volume="0">
-      <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663030237391/mNrSxhBWdVyPsUBl.m4a" type="audio/mp4">
+    <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
+      <source src="background.m4a" type="audio/mp4">
     </audio>
   </div>
 
@@ -2343,10 +2343,11 @@
 
         // Configurações
         const MAX_VOLUME = 0.9;        // 90% volume máximo
-        const START_VOLUME = 0;        // Começa em 0%
+        const START_VOLUME = 0.5;      // Começa em 50% para garantir que seja ouvido logo no início
         const SCROLL_THRESHOLD = 0.15; // Começa a aumentar após 15% de scroll
         
         let targetVolume = START_VOLUME;
+        audio.volume = START_VOLUME;
         let currentVolume = START_VOLUME;
         let isPlaying = false;
         let hasInteracted = false;
