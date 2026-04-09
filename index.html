@@ -2413,14 +2413,19 @@
         }
 
         // Event listeners
+        // Ativação IMEDIATA no primeiro scroll (Desktop e Mobile)
         window.addEventListener('scroll', () => {
           updateTargetVolume();
-          if (!hasInteracted) initAudio(); // Ativa o áudio no primeiro movimento de scroll
+          if (!hasInteracted) {
+            initAudio(); 
+          }
         }, { passive: true });
         
-        // Ativação por qualquer toque, clique ou tecla (cobertura total mobile/desktop)
-        ['touchstart', 'mousedown', 'keydown', 'wheel'].forEach(event => {
-          window.addEventListener(event, initAudio, { once: true, passive: true });
+        // Ativação por qualquer movimento ou toque (cobertura total)
+        ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
+          window.addEventListener(event, () => {
+            if (!hasInteracted) initAudio();
+          }, { once: true, passive: true });
         });
 
         // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
