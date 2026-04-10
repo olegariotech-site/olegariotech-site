@@ -9,7 +9,7 @@
     <meta property="og:description" content="Transformamos sua presença digital com sites profissionais, design premium e foco total em conversão de vendas." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://olegariotech.com.br/" />
-    <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v2.jpg?v=2" />
+    <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -286,6 +286,58 @@
       height: 18px;
       flex: 0 0 18px;
       background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white"><path d="M19.11 17.35c-.29-.14-1.7-.84-1.97-.93-.26-.1-.45-.14-.64.14-.18.29-.72.93-.88 1.13-.16.19-.33.21-.62.07-.29-.14-1.22-.45-2.33-1.43-.86-.77-1.45-1.72-1.62-2.01-.16-.29-.02-.44.12-.58.13-.13.29-.33.43-.49.14-.16.19-.28.29-.47.09-.19.05-.35-.02-.49-.08-.14-.64-1.55-.87-2.12-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.49.07-.74.35-.25.29-.98.96-.98 2.35s1.01 2.73 1.15 2.92c.14.19 1.98 3.03 4.79 4.25.67.29 1.18.46 1.59.59.67.21 1.28.18 1.76.11.54-.08 1.7-.69 1.94-1.34.24-.66.24-1.22.17-1.34-.07-.12-.26-.19-.55-.33z"/><path d="M16.01 2.67C8.66 2.67 2.69 8.64 2.69 16c0 2.35.61 4.64 1.77 6.66L2.67 29.33l6.85-1.76c1.93 1.05 4.11 1.6 6.49 1.6 7.35 0 13.32-5.97 13.32-13.33S23.36 2.67 16.01 2.67zm0 23.91c-2.12 0-4.19-.56-6.01-1.62l-.43-.25-4.07 1.04 1.09-3.96-.28-.45a10.55 10.55 0 0 1-1.61-5.59c0-5.85 4.76-10.61 10.61-10.61 2.83 0 5.49 1.1 7.49 3.11a10.52 10.52 0 0 1 3.12 7.5c0 5.85-4.76 10.61-10.61 10.61z"/></svg>') center/contain no-repeat;
+    }
+
+    /* BOTÃO MUTE PREMIUM */
+    .mute-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      z-index: 99;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(12, 16, 30, 0.6);
+      border: 1px solid rgba(183, 148, 246, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .mute-btn:hover {
+      transform: scale(1.1);
+      border-color: var(--violet);
+      background: rgba(157, 78, 221, 0.2);
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+
+    .mute-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .mute-btn.muted {
+      color: var(--muted-2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .mute-btn.muted .icon-unmuted { display: none; }
+    .mute-btn:not(.muted) .icon-muted { display: none; }
+
+    @media (max-width: 768px) {
+      .mute-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 48px;
+        height: 48px;
+      }
     }
 
     .nav-toggle {
@@ -1848,6 +1900,12 @@
     <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
       <source src="background.m4a" type="audio/mp4">
     </audio>
+
+    <!-- BOTÃO MUTE FLUTUANTE -->
+    <div id="muteBtn" class="mute-btn" aria-label="Ligar/Desligar Som">
+      <svg class="icon-unmuted" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path></svg>
+      <svg class="icon-muted" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"></path></svg>
+    </div>
   </div>
 
   <script>
@@ -2424,13 +2482,22 @@
             initAudio(); 
           }
         }, { passive: true });
-        
         // Ativação por qualquer movimento ou toque (cobertura total)
         ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
           window.addEventListener(event, () => {
             if (!hasInteracted) initAudio();
           }, { once: true, passive: true });
         });
+
+        // CONTROLE DO BOTÃO MUTE
+        const muteBtn = document.getElementById('muteBtn');
+        if (muteBtn) {
+          muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita disparar outros eventos
+            audio.muted = !audio.muted;
+            muteBtn.classList.toggle('muted', audio.muted);
+          });
+        }
 
         // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
         audio.play().then(() => {
@@ -2444,14 +2511,6 @@
         // Inicia loop de suavização
         updateTargetVolume(); // Calcula inicial
         smoothVolume();
-
-        // Opcional: Reação sutil ao movimento do mouse (experiência Active Theory-like)
-        let mouseY = 0.5;
-        document.addEventListener('mousemove', (e) => {
-          mouseY = 1 - (e.clientY / window.innerHeight); // 0 no topo, 1 embaixo
-          // Adiciona influência sutil do mouse (±10% no target)
-          // Mas mantém o scroll como principal driver
-        }, { passive: true });
 
       })();
 
