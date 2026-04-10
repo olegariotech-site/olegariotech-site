@@ -2440,20 +2440,25 @@
           targetVolume = eased * MAX_VOLUME;
         }
 
+        // Variável de controle manual do usuário
+        let isManuallyMuted = false;
+
         // Loop de suavização do volume (lerp)
         function smoothVolume() {
-          // Interpolação suave para não ser abrupto
-          const diff = targetVolume - currentVolume;
-          if (Math.abs(diff) > 0.001) {
-            currentVolume += diff * 0.05; // 5% de aproximação por frame
-            audio.volume = Math.max(0, Math.min(1, currentVolume));
-          }
-          
-          // Se volume é muito baixo, consideramos "muted" para mobile
-          if (currentVolume < 0.01) {
-            audio.muted = true;
+          if (!isManuallyMuted) {
+            // Interpolação suave para não ser abrupto
+            const diff = targetVolume - currentVolume;
+            if (Math.abs(diff) > 0.001) {
+              currentVolume += diff * 0.05; // 5% de aproximação por frame
+              audio.volume = Math.max(0, Math.min(1, currentVolume));
+            }
+            
+            // Controle automático de mudo baseado no volume
+            audio.muted = (currentVolume < 0.01);
           } else {
-            audio.muted = false;
+            // Se o usuário silenciou manualmente, garantimos que o áudio esteja mudo
+            audio.muted = true;
+            audio.volume = 0;
           }
           
           requestAnimationFrame(smoothVolume);
@@ -2494,8 +2499,16 @@
         if (muteBtn) {
           muteBtn.addEventListener('click', (e) => {
             e.stopPropagation(); // Evita disparar outros eventos
-            audio.muted = !audio.muted;
-            muteBtn.classList.toggle('muted', audio.muted);
+            isManuallyMuted = !isManuallyMuted;
+            muteBtn.classList.toggle('muted', isManuallyMuted);
+            
+            if (isManuallyMuted) {
+              audio.muted = true;
+              audio.volume = 0;
+            } else {
+              // Ao desativar o mudo, o volume volta suavemente no próximo frame do smoothVolume
+              audio.muted = (currentVolume < 0.01);
+            }
           });
         }
 
