@@ -393,30 +393,30 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 28px;
       align-items: center;
     }
 
     .hero-copy {
-      max-width: 680px;
+      max-width: 660px;
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 2rem + 2.6vw, 4.8rem);
-      line-height: 0.96;
+      font-size: clamp(2.8rem, 2rem + 2.25vw, 4.65rem);
+      line-height: 0.95;
       letter-spacing: -0.06em;
       font-weight: 300;
-      margin-bottom: 22px;
-      max-width: 8.5ch;
+      margin-bottom: 18px;
+      max-width: 9.2ch;
     }
 
     .hero-text {
-      font-size: clamp(1.02rem, 0.95rem + 0.38vw, 1.18rem);
-      line-height: 1.8;
+      font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+      line-height: 1.72;
       color: var(--muted);
-      max-width: 680px;
-      margin-bottom: 30px;
+      max-width: 620px;
+      margin-bottom: 26px;
     }
 
     .hero-badges {
@@ -1200,23 +1200,49 @@
     @media (max-width: 1120px) {
       .hero-grid,
       .about-grid { grid-template-columns: 1fr; }
+
       .portfolio-grid,
       .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .plans-grid,
       .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .hero-panel { max-width: 720px; }
+
+      .hero-panel {
+        max-width: 720px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 136px 0 64px;
+      }
+
+      .hero-copy,
+      .hero-text,
+      .hero-title {
+        max-width: none;
+      }
+
+      .hero-title {
+        max-width: 11ch;
+      }
     }
 
     @media (max-width: 860px) {
       :root { --header-h: 72px; }
+
       .nav-toggle { display: inline-grid; place-items: center; }
+
       .nav-links,
       .nav-cta { display: none; }
+
       .nav-open .nav-menu {
         display: grid;
       }
+
       .nav-menu {
         position: absolute;
         top: calc(var(--header-h) + 12px);
@@ -1230,23 +1256,29 @@
         border: 1px solid rgba(183,148,246,0.18);
         box-shadow: var(--shadow);
       }
+
       .nav-menu a {
         color: rgba(246,247,251,.88);
         font-size: .98rem;
         padding: 10px 4px;
         border-bottom: 1px solid rgba(255,255,255,.06);
       }
+
       .nav-menu a:last-child { border-bottom: 0; }
       .nav-menu .nav-cta { display: inline-flex; width: 100%; }
+
       .section { padding: 86px 0; }
-      .hero { padding-top: 128px; }
+      .hero {
+        min-height: auto;
+        padding: 128px 0 48px;
+      }
       .about-photo { min-height: 440px; }
-      /* REMOVIDO: regras do botão de som antigo */
     }
 
     @media (max-width: 640px) {
       .container { width: min(var(--container), calc(100% - 24px)); }
       .section { padding: 74px 0; scroll-margin-top: 90px; }
+
       .portfolio-grid,
       .products-grid,
       .plans-grid,
@@ -1256,15 +1288,26 @@
       .grid-2,
       .stats-grid,
       .hero-metrics { grid-template-columns: 1fr; }
-      .hero-title { font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem); }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem);
+        max-width: none;
+      }
+
+      .hero-text {
+        max-width: none;
+      }
+
       .hero-actions { flex-direction: column; }
       .btn, .nav-cta { width: 100%; }
+
       .hero-panel,
       .card,
       .plan-card,
       .product-card,
       .cta-box,
       .about-card { padding-inline: 20px; }
+
       .product-media { height: 280px; }
       .about-photo { min-height: 360px; }
       .faq-trigger { padding: 18px 18px; }
