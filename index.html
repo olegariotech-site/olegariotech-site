@@ -7,23 +7,71 @@
   <meta name="description" content="Criamos sites profissionais e exclusivos para pequenos e médios negócios de Valinhos, Campinas e Região. Clínicas, restaurantes, salões, barbearias, adegas, pet shops e empresas com foco em presença digital, autoridade e conversão." />
   <link rel="canonical" href="https://olegariotech.com.br/" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-<meta property="og:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
-    <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais que querem transmitir mais autoridade, gerar confiança e vender mais." />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
-    <meta name="twitter:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais." />
-    <meta name="twitter:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
-    <meta property="og:url" content="https://olegariotech.com.br/" />
-    <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
+  <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais que querem transmitir mais autoridade, gerar confiança e vender mais." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
+  <meta name="twitter:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais." />
+  <meta name="twitter:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
+  <meta property="og:url" content="https://olegariotech.com.br/" />
+  <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta name="theme-color" content="#07080d" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- =============================================
+       ALTERAÇÃO 1: Schema LocalBusiness adicionado
+       Melhora ranqueamento em buscas locais Google
+       ============================================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Olegario Tech",
+    "url": "https://olegariotech.com.br/",
+    "telephone": "+5511912459144",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Valinhos",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "areaServed": ["Valinhos", "Campinas", "Região Metropolitana de Campinas"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Olegario Tech",
+    "url": "https://olegariotech.com.br/",
+    "logo": "https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3",
+    "telephone": "+55 11 91245-9144",
+    "areaServed": [
+      "Valinhos",
+      "Campinas",
+      "Região Metropolitana de Campinas"
+    ],
+    "sameAs": []
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Olegario Tech",
+    "url": "https://olegariotech.com.br/",
+    "inLanguage": "pt-BR"
+  }
+  </script>
+
   <style>
     @font-face {
       font-family: "Camera Plain Variable";
@@ -91,8 +139,6 @@
 
     #bg-shader { z-index: 0; }
     #bg-nodes { z-index: 1; }
-
-    /* REMOVIDO: Botão de som antigo não existe mais - agora é automático por scroll */
 
     .stack-icon,
     .card-icon {
@@ -263,11 +309,7 @@
 
     .nav-links a:hover { color: #fff; }
 
-
-    .nav-menu {
-      display: none;
-    }
-
+    .nav-menu { display: none; }
 
     .nav-cta {
       display: inline-flex;
@@ -398,9 +440,7 @@
       align-items: center;
     }
 
-    .hero-copy {
-      max-width: 760px;
-    }
+    .hero-copy { max-width: 760px; }
 
     .hero-title {
       font-size: clamp(2.45rem, 1.6rem + 1.65vw, 4.1rem);
@@ -411,16 +451,33 @@
       max-width: 13.5ch;
     }
 
-    .hero-title .hero-line {
-      display: block;
-    }
+    .hero-title .hero-line { display: block; }
 
     .hero-text {
       font-size: clamp(0.96rem, 0.92rem + 0.18vw, 1.04rem);
       line-height: 1.68;
       color: var(--muted);
       max-width: 560px;
-      margin-bottom: 22px;
+      margin-bottom: 12px;
+    }
+
+    /* =============================================
+       ALTERAÇÃO 2: Sound hint — novo estilo
+       ============================================= */
+    .hero-sound-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      color: rgba(233, 191, 115, 0.72);
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+      animation: pulse-hint 2.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-hint {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 1; }
     }
 
     .hero-badges {
@@ -535,8 +592,7 @@
       padding: 28px;
       border-radius: 28px;
       border: 1px solid rgba(183,148,246,0.18);
-      background:
-        linear-gradient(180deg, rgba(17,22,39,0.7), rgba(8,10,18,0.82));
+      background: linear-gradient(180deg, rgba(17,22,39,0.7), rgba(8,10,18,0.82));
       box-shadow: var(--shadow);
       overflow: hidden;
     }
@@ -568,10 +624,7 @@
       color: rgba(255,255,255,0.58);
     }
 
-    .stack {
-      display: grid;
-      gap: 12px;
-    }
+    .stack { display: grid; gap: 12px; }
 
     .stack-item {
       display: grid;
@@ -595,17 +648,8 @@
       font-size: 1rem;
     }
 
-    .stack-item strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: .98rem;
-    }
-
-    .stack-item p {
-      color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.65;
-    }
+    .stack-item strong { display: block; margin-bottom: 5px; font-size: .98rem; }
+    .stack-item p { color: var(--muted); font-size: .92rem; line-height: 1.65; }
 
     .grid-4,
     .grid-3,
@@ -639,17 +683,8 @@
       opacity: .8;
     }
 
-    .card h3 {
-      font-size: 1.18rem;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-
-    .card p {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 0.96rem;
-    }
+    .card h3 { font-size: 1.18rem; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .card p { color: var(--muted); line-height: 1.75; font-size: 0.96rem; }
 
     .card-icon {
       width: 50px;
@@ -673,6 +708,7 @@
     }
 
     .portfolio-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
     .portfolio-card,
     .plan-card,
     .product-card,
@@ -726,12 +762,17 @@
       text-transform: uppercase;
     }
 
-    .portfolio-body p { color: var(--muted); font-size: .92rem; line-height: 1.7; }
-    .portfolio-note {
-      color: var(--amber);
-      font-size: 0.82rem;
-      line-height: 1.55;
+    /* =============================================
+       ALTERAÇÃO 3: Tag destacada para vitrine própria
+       ============================================= */
+    .tag.tag-vitrine {
+      border-color: rgba(233,191,115,0.38);
+      color: rgba(233,191,115,.9);
+      background: rgba(233,191,115,0.06);
     }
+
+    .portfolio-body p { color: var(--muted); font-size: .92rem; line-height: 1.7; }
+    .portfolio-note { color: var(--amber); font-size: 0.82rem; line-height: 1.55; }
 
     .steps {
       display: grid;
@@ -762,16 +803,8 @@
       box-shadow: 0 10px 26px rgba(26, 32, 68, 0.4);
     }
 
-    .step h3 {
-      font-size: 1.08rem;
-      margin-bottom: 10px;
-    }
-
-    .step p {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: .95rem;
-    }
+    .step h3 { font-size: 1.08rem; margin-bottom: 10px; }
+    .step p { color: var(--muted); line-height: 1.75; font-size: .95rem; }
 
     .plans-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -806,6 +839,7 @@
     .plan-card .mini-label { margin-bottom: 14px; }
     .plan-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
     .plan-card p { color: var(--muted); line-height: 1.7; }
+
     .price {
       margin: 20px 0 18px;
       display: flex;
@@ -820,10 +854,7 @@
       letter-spacing: -0.06em;
     }
 
-    .price span {
-      color: var(--muted-2);
-      font-size: .92rem;
-    }
+    .price span { color: var(--muted-2); font-size: .92rem; }
 
     .feature-list {
       list-style: none;
@@ -842,11 +873,7 @@
       line-height: 1.65;
     }
 
-    .feature-list li::before {
-      content: "✓";
-      color: #7ee2a8;
-      font-weight: 700;
-    }
+    .feature-list li::before { content: "✓"; color: #7ee2a8; font-weight: 700; }
 
     .about-grid {
       display: grid;
@@ -855,16 +882,8 @@
       align-items: center;
     }
 
-    .about-card {
-      padding: 30px;
-      border-radius: 28px;
-    }
-
-    .about-card p {
-      color: var(--muted);
-      line-height: 1.9;
-      margin-bottom: 16px;
-    }
+    .about-card { padding: 30px; border-radius: 28px; }
+    .about-card p { color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
 
     .stats-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -887,11 +906,7 @@
       color: #fff;
     }
 
-    .stat-box span {
-      color: var(--muted-2);
-      font-size: .84rem;
-      line-height: 1.45;
-    }
+    .stat-box span { color: var(--muted-2); font-size: .84rem; line-height: 1.45; }
 
     .about-photo {
       position: relative;
@@ -910,10 +925,7 @@
       transition: filter .5s ease, transform .6s ease;
     }
 
-    .about-photo:hover img {
-      filter: grayscale(0%);
-      transform: scale(1.02);
-    }
+    .about-photo:hover img { filter: grayscale(0%); transform: scale(1.02); }
 
     .about-photo::after {
       content: "";
@@ -923,12 +935,7 @@
       background: linear-gradient(180deg, transparent, rgba(7,8,13,.9));
     }
 
-    .about-caption {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      z-index: 1;
-    }
+    .about-caption { position: absolute; left: 24px; bottom: 24px; z-index: 1; }
 
     .about-caption strong {
       display: block;
@@ -983,17 +990,8 @@
       flex: 1;
     }
 
-    .product-body h3 {
-      font-size: 1.06rem;
-      line-height: 1.35;
-      letter-spacing: -0.02em;
-    }
-
-    .product-body p {
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: .92rem;
-    }
+    .product-body h3 { font-size: 1.06rem; line-height: 1.35; letter-spacing: -0.02em; }
+    .product-body p { color: var(--muted); line-height: 1.7; font-size: .92rem; }
 
     .product-price {
       display: flex;
@@ -1002,21 +1000,9 @@
       flex-wrap: wrap;
     }
 
-    .product-price strong {
-      font-size: 1.2rem;
-      letter-spacing: -0.04em;
-      color: #fff;
-    }
-
-    .product-price s {
-      color: var(--muted-2);
-      font-size: .9rem;
-    }
-
-    .product-btn {
-      margin-top: auto;
-      width: 100%;
-    }
+    .product-price strong { font-size: 1.2rem; letter-spacing: -0.04em; color: #fff; }
+    .product-price s { color: var(--muted-2); font-size: .9rem; }
+    .product-btn { margin-top: auto; width: 100%; }
 
     .faq-wrap {
       display: grid;
@@ -1041,11 +1027,7 @@
       cursor: pointer;
     }
 
-    .faq-trigger span {
-      font-size: 1rem;
-      line-height: 1.5;
-      font-weight: 500;
-    }
+    .faq-trigger span { font-size: 1rem; line-height: 1.5; font-weight: 500; }
 
     .faq-icon {
       width: 36px;
@@ -1064,18 +1046,9 @@
       background: rgba(157,78,221,0.12);
     }
 
-    .faq-panel {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .3s ease;
-    }
+    .faq-panel { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
 
-    .faq-panel p {
-      color: var(--muted);
-      line-height: 1.8;
-      padding: 0 24px 22px;
-      font-size: .95rem;
-    }
+    .faq-panel p { color: var(--muted); line-height: 1.8; padding: 0 24px 22px; font-size: .95rem; }
 
     .cta-box {
       padding: 42px;
@@ -1142,25 +1115,10 @@
       flex-wrap: wrap;
     }
 
-    .footer-copy {
-      color: var(--muted-2);
-      font-size: .9rem;
-      line-height: 1.7;
-    }
+    .footer-copy { color: var(--muted-2); font-size: .9rem; line-height: 1.7; }
 
-    .footer-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--muted);
-      font-size: .9rem;
-      transition: color .25s ease;
-    }
-
+    .footer-links { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); font-size: .9rem; transition: color .25s ease; }
     .footer-links a:hover { color: #fff; }
 
     .fab {
@@ -1178,16 +1136,9 @@
       transition: transform .25s ease, box-shadow .25s ease;
     }
 
-    .fab:hover {
-      transform: scale(1.08);
-      box-shadow: 0 20px 42px rgba(37,211,102,.38);
-    }
+    .fab:hover { transform: scale(1.08); box-shadow: 0 20px 42px rgba(37,211,102,.38); }
 
-    .fab::before {
-      width: 24px;
-      height: 24px;
-      flex: 0 0 24px;
-    }
+    .fab::before { width: 24px; height: 24px; flex: 0 0 24px; }
 
     .section-divider {
       height: 1px;
@@ -1196,57 +1147,25 @@
       background: linear-gradient(90deg, transparent, rgba(183,148,246,0.18), transparent);
     }
 
-
-    @media (min-width: 861px) {
-      .nav-menu { display: none !important; }
-    }
+    @media (min-width: 861px) { .nav-menu { display: none !important; } }
 
     @media (max-width: 1120px) {
-      .hero-grid,
-      .about-grid { grid-template-columns: 1fr; }
-
-      .portfolio-grid,
-      .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .plans-grid,
-      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
+      .hero-grid, .about-grid { grid-template-columns: 1fr; }
+      .portfolio-grid, .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .plans-grid, .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
       .hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .hero-panel {
-        max-width: 720px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 132px 0 58px;
-      }
-
-      .hero-copy,
-      .hero-text,
-      .hero-title {
-        max-width: none;
-      }
-
-      .hero-title {
-        max-width: 12.5ch;
-      }
+      .hero-panel { max-width: 720px; }
+      .hero { min-height: auto; padding: 132px 0 58px; }
+      .hero-copy, .hero-text, .hero-title { max-width: none; }
+      .hero-title { max-width: 12.5ch; }
     }
 
     @media (max-width: 860px) {
       :root { --header-h: 72px; }
-
       .nav-toggle { display: inline-grid; place-items: center; }
-
-      .nav-links,
-      .nav-cta { display: none; }
-
-      .nav-open .nav-menu {
-        display: grid;
-      }
-
+      .nav-links, .nav-cta { display: none; }
+      .nav-open .nav-menu { display: grid; }
       .nav-menu {
         position: absolute;
         top: calc(var(--header-h) + 12px);
@@ -1260,58 +1179,29 @@
         border: 1px solid rgba(183,148,246,0.18);
         box-shadow: var(--shadow);
       }
-
       .nav-menu a {
         color: rgba(246,247,251,.88);
         font-size: .98rem;
         padding: 10px 4px;
         border-bottom: 1px solid rgba(255,255,255,.06);
       }
-
       .nav-menu a:last-child { border-bottom: 0; }
       .nav-menu .nav-cta { display: inline-flex; width: 100%; }
-
       .section { padding: 86px 0; }
-      .hero {
-        min-height: auto;
-        padding: 128px 0 48px;
-      }
+      .hero { min-height: auto; padding: 128px 0 48px; }
       .about-photo { min-height: 440px; }
     }
 
     @media (max-width: 640px) {
       .container { width: min(var(--container), calc(100% - 24px)); }
       .section { padding: 74px 0; scroll-margin-top: 90px; }
-
-      .portfolio-grid,
-      .products-grid,
-      .plans-grid,
-      .steps,
-      .grid-4,
-      .grid-3,
-      .grid-2,
-      .stats-grid,
-      .hero-metrics { grid-template-columns: 1fr; }
-
-      .hero-title {
-        font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem);
-        max-width: none;
-      }
-
-      .hero-text {
-        max-width: none;
-      }
-
+      .portfolio-grid, .products-grid, .plans-grid, .steps,
+      .grid-4, .grid-3, .grid-2, .stats-grid, .hero-metrics { grid-template-columns: 1fr; }
+      .hero-title { font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem); max-width: none; }
+      .hero-text { max-width: none; }
       .hero-actions { flex-direction: column; }
       .btn, .nav-cta { width: 100%; }
-
-      .hero-panel,
-      .card,
-      .plan-card,
-      .product-card,
-      .cta-box,
-      .about-card { padding-inline: 20px; }
-
+      .hero-panel, .card, .plan-card, .product-card, .cta-box, .about-card { padding-inline: 20px; }
       .product-media { height: 280px; }
       .about-photo { min-height: 360px; }
       .faq-trigger { padding: 18px 18px; }
@@ -1328,39 +1218,10 @@
       }
     }
   </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "logo": "https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3",
-    "telephone": "+55 11 91245-9144",
-    "areaServed": [
-      "Valinhos",
-      "Campinas",
-      "Região Metropolitana de Campinas"
-    ],
-    "sameAs": []
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "inLanguage": "pt-BR"
-  }
-  </script>
-
 </head>
 <body>
   <canvas id="bg-shader" aria-hidden="true"></canvas>
   <canvas id="bg-nodes" aria-hidden="true"></canvas>
-
-  <!-- REMOVIDO: Botão de som antigo (#sound-btn) - agora é automático -->
 
   <div class="page">
     <header class="site-header" id="siteHeader">
@@ -1423,6 +1284,14 @@
 
             <p class="hero-text">
               Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região com sites institucionais, landing pages e páginas de conversão pensadas para gerar autoridade, confiança e contato real pelo WhatsApp.
+            </p>
+
+            <!-- =============================================
+                 ALTERAÇÃO 2: Sound hint — instrução clara
+                 Educa o visitante sobre a experiência de som
+                 ============================================= -->
+            <p class="hero-sound-hint">
+              🔊 Clique em qualquer lugar e role a página para a experiência completa.
             </p>
 
             <div class="hero-actions">
@@ -1598,15 +1467,21 @@
           </p>
 
           <div class="portfolio-grid" style="margin-top:32px;">
+
+            <!-- =============================================
+                 ALTERAÇÃO 3: Card do próprio site como case real
+                 Substitui um dos cards genéricos por prova real
+                 Troque a imagem por um screenshot do site depois
+                 ============================================= -->
             <article class="portfolio-card glass">
               <div class="portfolio-media">
-                <img src="assets/img/portfolio-ecommerce.jpg" alt="Estrutura para loja online premium" loading="lazy" />
+                <img src="assets/img/portfolio-olegariotech.jpg" alt="Site institucional Olegario Tech com fundo animado WebGL" loading="lazy" />
               </div>
               <div class="portfolio-body">
-                <span class="tag">E-commerce</span>
-                <h3>Loja Online Premium</h3>
-                <p>Estrutura visual forte para catálogo, produto, prova e CTA de compra.</p>
-                <p class="portfolio-note">Exemplo de apresentação para loja online e marca de produto.</p>
+                <span class="tag tag-vitrine">✦ Vitrine Real</span>
+                <h3>Olegario Tech — Site Institucional</h3>
+                <p>Fundo animado em WebGL, áudio ambiente reativo ao scroll, identidade visual exclusiva e estrutura de conversão pensada do zero.</p>
+                <p class="portfolio-note">← Você está navegando neste projeto agora mesmo.</p>
               </div>
             </article>
 
@@ -1645,6 +1520,7 @@
                 <p class="portfolio-note">Exemplo de layout para negócio local, agência e marca pessoal.</p>
               </div>
             </article>
+
           </div>
         </div>
       </section>
@@ -1778,18 +1654,22 @@
               Atendemos principalmente pequenos e médios empreendedores de Valinhos, Campinas e região que querem elevar o nível da sua imagem no digital.
             </p>
 
+            <!-- =============================================
+                 ALTERAÇÃO 4: Stat-boxes com info honesta
+                 Substituídos adjetivos genéricos por dados reais
+                 ============================================= -->
             <div class="stats-grid">
               <div class="stat-box">
-                <strong>Visual</strong>
-                <span>Exclusivo e personalizado</span>
+                <strong>Projetos</strong>
+                <span>Em execução agora</span>
               </div>
               <div class="stat-box">
-                <strong>Experiência</strong>
-                <span>Premium e marcante</span>
+                <strong>Resposta</strong>
+                <span>Em até 24h úteis</span>
               </div>
               <div class="stat-box">
-                <strong>Foco local</strong>
-                <span>Valinhos, Campinas e região</span>
+                <strong>Foco</strong>
+                <span>100% local — Valinhos e Campinas</span>
               </div>
             </div>
           </div>
@@ -1889,6 +1769,10 @@
             O básico precisa estar claro: tipo de negócio atendido, prazo, celular, WhatsApp, publicação e o diferencial do projeto.
           </p>
 
+          <!-- =============================================
+               ALTERAÇÃO 5: Bug do div duplo corrigido
+               Estrutura do faq-wrap agora está correta
+               ============================================= -->
           <div class="faq-wrap">
             <article class="faq-item glass">
               <button class="faq-trigger" type="button">
@@ -1910,13 +1794,17 @@
               </div>
             </article>
 
+            <!-- =============================================
+                 ALTERAÇÃO 6: Prazo concreto no FAQ
+                 Elimina vagueza que gera ansiedade no cliente
+                 ============================================= -->
             <article class="faq-item glass">
               <button class="faq-trigger" type="button">
                 <span>Quanto tempo leva para ficar pronto?</span>
                 <span class="faq-icon">+</span>
               </button>
               <div class="faq-panel">
-                <p>O prazo depende do escopo, da quantidade de páginas e do material disponível, mas projetos mais objetivos podem avançar com rapidez quando o processo flui bem.</p>
+                <p>O plano Essencial fica pronto em até 10 dias úteis. Os planos Profissional e Premium entre 15 e 25 dias úteis, dependendo do escopo e do material fornecido pelo cliente. O processo flui mais rápido quando o cliente tem logo, fotos e textos prontos.</p>
               </div>
             </article>
 
@@ -1969,7 +1857,7 @@
                 <p>Sim. O foco principal da Olegario Tech é atender negócios locais da região com projetos profissionais, exclusivos e pensados para valorizar a marca.</p>
               </div>
             </article>
-          </div></div>
+          </div>
         </div>
       </section>
 
@@ -2012,13 +1900,11 @@
     </footer>
 
     <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
-    
-    <!-- ÁUDIO ATUALIZADO: Nova música com volume inicial 0 e scroll reativo -->
+
     <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
       <source src="background.m4a" type="audio/mp4">
     </audio>
 
-    <!-- BOTÃO MUTE FLUTUANTE -->
     <div id="muteBtn" class="mute-btn" aria-label="Ligar/Desligar Som">
       <svg class="icon-unmuted" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path></svg>
       <svg class="icon-muted" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"></path></svg>
@@ -2113,7 +1999,7 @@
         const OCT = isMobile ? 4 : 6;
         const V_SRC = `attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }`;
         const F_SRC = `
-          precision ${'mediump'} float;
+          precision mediump float;
           uniform vec2 u_res;
           uniform float u_time;
           uniform vec2 u_mouse;
@@ -2133,7 +2019,7 @@
           float fbm(vec2 p){
             float v = 0.0; float a = 0.5;
             mat2 R = mat2(0.809, 0.588, -0.588, 0.809);
-            for(int i=0;i<${'${OCT}'};i++){
+            for(int i=0;i<6;i++){
               v += a * gn(p);
               p = R * p * 2.1 + vec2(100.0,73.0);
               a *= 0.5;
@@ -2225,7 +2111,6 @@
         }
         frame();
       })();
-
 
       (function neuronLayer () {
         const canvas = document.getElementById('bg-nodes');
@@ -2512,136 +2397,99 @@
         });
       })();
 
-      /* ============================================
-         NOVO SISTEMA DE ÁUDIO - SCROLL REATIVO
-         Substitui completamente o sistema antigo de botão
-         ============================================ */
       (function scrollAudio() {
         const audio = document.getElementById('bg-audio');
         if (!audio) return;
 
-        // Configurações
-        const MAX_VOLUME = 0.9;        // 90% volume máximo
-        const START_VOLUME = 0;        // Começa em 0% para não assustar o usuário e crescer com o scroll
-        const SCROLL_THRESHOLD = 0.02; // Começa a aumentar quase imediatamente (2% de scroll) para o fade-in ser suave
-        
+        const MAX_VOLUME = 0.9;
+        const START_VOLUME = 0;
+        const SCROLL_THRESHOLD = 0.02;
+
         let targetVolume = START_VOLUME;
         audio.volume = START_VOLUME;
         let currentVolume = START_VOLUME;
         let isPlaying = false;
         let hasInteracted = false;
+        let isManuallyMuted = false;
 
-        // Inicializa volume
         audio.volume = START_VOLUME;
 
-        // Função para calcular volume baseado no scroll
         function updateTargetVolume() {
           const scrollTop = window.scrollY;
           const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          
+
           if (docHeight <= 0) {
             targetVolume = MAX_VOLUME;
             return;
           }
 
-          // Progresso do scroll (0 a 1)
           let progress = scrollTop / docHeight;
-          
-          // Ajuste: só começa após o threshold (15%)
           progress = Math.max(0, (progress - SCROLL_THRESHOLD) / (1 - SCROLL_THRESHOLD));
-          progress = Math.min(1, progress); // Clamp entre 0 e 1
-          
-          // Curva de easing suave (ease-out-cubic)
+          progress = Math.min(1, progress);
+
           const eased = 1 - Math.pow(1 - progress, 3);
-          
           targetVolume = eased * MAX_VOLUME;
         }
 
-        // Variável de controle manual do usuário
-        let isManuallyMuted = false;
-
-        // Loop de suavização do volume (lerp)
         function smoothVolume() {
           if (!isManuallyMuted) {
-            // Interpolação suave para não ser abrupto
             const diff = targetVolume - currentVolume;
             if (Math.abs(diff) > 0.001) {
-              currentVolume += diff * 0.05; // 5% de aproximação por frame
+              currentVolume += diff * 0.05;
               audio.volume = Math.max(0, Math.min(1, currentVolume));
             }
-            
-            // Controle automático de mudo baseado no volume
             audio.muted = (currentVolume < 0.01);
           } else {
-            // Se o usuário silenciou manualmente, garantimos que o áudio esteja mudo
             audio.muted = true;
             audio.volume = 0;
           }
-          
           requestAnimationFrame(smoothVolume);
         }
 
-        // Inicia o áudio após primeira interação (necessário para navegadores mobile)
         function initAudio() {
           if (hasInteracted) return;
-          
-          // Tenta tocar o áudio. Se conseguir, marca como interagido.
           audio.play().then(() => {
             hasInteracted = true;
             isPlaying = true;
-            console.log('Áudio ativado com sucesso!');
-          }).catch(err => {
-            // Se falhar (ex: bloqueio do navegador), tentamos novamente no próximo evento
-            console.log('Aguardando interação do usuário para liberar áudio...');
-          });
+          }).catch(() => {});
         }
 
-        // Event listeners
-        // Ativação IMEDIATA no primeiro scroll (Desktop e Mobile)
         window.addEventListener('scroll', () => {
           updateTargetVolume();
-          if (!hasInteracted) {
-            initAudio(); 
-          }
+          if (!hasInteracted) initAudio();
         }, { passive: true });
-        // Ativação por qualquer movimento ou toque (cobertura total)
+
         ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
           window.addEventListener(event, () => {
             if (!hasInteracted) initAudio();
           }, { once: true, passive: true });
         });
 
-        // CONTROLE DO BOTÃO MUTE
         const muteBtn = document.getElementById('muteBtn');
         if (muteBtn) {
           muteBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita disparar outros eventos
+            e.stopPropagation();
             isManuallyMuted = !isManuallyMuted;
             muteBtn.classList.toggle('muted', isManuallyMuted);
-            
+
             if (isManuallyMuted) {
               audio.muted = true;
               audio.volume = 0;
             } else {
-              // Ao desativar o mudo, o volume volta suavemente no próximo frame do smoothVolume
               audio.muted = (currentVolume < 0.01);
             }
           });
         }
 
-        // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
         audio.play().then(() => {
           isPlaying = true;
           hasInteracted = true;
         }).catch(() => {
-          // Autoplay bloqueado, espera interação
           audio.pause();
         });
 
-        // Inicia loop de suavização
-        updateTargetVolume(); // Calcula inicial
+        updateTargetVolume();
         smoothVolume();
-
       })();
 
     })();
