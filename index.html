@@ -263,6 +263,12 @@
 
     .nav-links a:hover { color: #fff; }
 
+
+    .nav-menu {
+      display: none;
+    }
+
+
     .nav-cta {
       display: inline-flex;
       align-items: center;
@@ -1183,6 +1189,11 @@
       margin: 0 auto;
       width: min(var(--container), calc(100% - 40px));
       background: linear-gradient(90deg, transparent, rgba(183,148,246,0.18), transparent);
+    }
+
+
+    @media (min-width: 861px) {
+      .nav-menu { display: none !important; }
     }
 
     @media (max-width: 1120px) {
