@@ -91,10 +91,6 @@
 
     #bg-shader { z-index: 0; }
     #bg-nodes { z-index: 1; }
-    #bg-3d-canvas { z-index: 2; }
-
-    /* Garante que todo conteúdo fique acima dos canvases de fundo */
-    .page { position: relative; z-index: 3; }
 
     /* REMOVIDO: Botão de som antigo não existe mais - agora é automático por scroll */
 
@@ -1500,7 +1496,6 @@
 <body>
   <canvas id="bg-shader" aria-hidden="true"></canvas>
   <canvas id="bg-nodes" aria-hidden="true"></canvas>
-  <canvas id="bg-3d-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
 
   <!-- REMOVIDO: Botão de som antigo (#sound-btn) - agora é automático -->
 
@@ -2812,8 +2807,5 @@
 
     })();
   </script>
-
-  <!-- 3D Background: Active Theory inspired particles + holographic ring -->
-  <script src="assets/js/bg-3d.js" defer></script>
 </body>
 </html>
