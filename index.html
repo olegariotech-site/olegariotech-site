@@ -1329,141 +1329,6 @@
         transition-duration: .01ms !important;
       }
     }
-
-    /* ===== SCROLL REVEAL ANIMATION ===== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(36px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-36px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .reveal-right {
-      opacity: 0;
-      transform: translateX(36px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal-right.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* Stagger delay para grids */
-    .reveal:nth-child(1) { transition-delay: 0ms; }
-    .reveal:nth-child(2) { transition-delay: 80ms; }
-    .reveal:nth-child(3) { transition-delay: 160ms; }
-    .reveal:nth-child(4) { transition-delay: 240ms; }
-    .reveal:nth-child(5) { transition-delay: 320ms; }
-    .reveal:nth-child(6) { transition-delay: 400ms; }
-    .reveal:nth-child(7) { transition-delay: 480ms; }
-    .reveal:nth-child(8) { transition-delay: 560ms; }
-
-    /* ===== HOVER EFFECTS PREMIUM ===== */
-    .card:hover,
-    .portfolio-card:hover,
-    .plan-card:hover,
-    .product-card:hover,
-    .step:hover {
-      transform: translateY(-8px) !important;
-      box-shadow: 0 28px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(183,148,246,0.3) !important;
-      border-color: rgba(183,148,246,0.4) !important;
-    }
-
-    .card,
-    .portfolio-card,
-    .plan-card,
-    .product-card,
-    .step {
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  border-color 0.35s ease !important;
-    }
-
-    /* ===== HERO 3D FLOAT ANIMATION ===== */
-    .hero-panel {
-      animation: heroFloat 4s ease-in-out infinite;
-    }
-
-    @keyframes heroFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-    }
-
-    /* ===== STEP NUMBER GLOW ===== */
-    .step-number {
-      transition: text-shadow 0.3s ease;
-    }
-
-    .step:hover .step-number {
-      text-shadow: 0 0 20px rgba(157, 78, 221, 0.8);
-    }
-
-    /* ===== PORTFOLIO OVERLAY EFFECT ===== */
-    .portfolio-media {
-      overflow: hidden;
-    }
-
-    .portfolio-media img {
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .portfolio-card:hover .portfolio-media img {
-      transform: scale(1.06);
-    }
-
-    /* ===== PRODUCT IMAGE ZOOM ===== */
-    .product-media {
-      overflow: hidden;
-    }
-
-    .product-media img {
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .product-card:hover .product-media img {
-      transform: scale(1.05);
-    }
-
-    /* ===== GLOW PULSE NO BOTÃO MUTE ===== */
-    .mute-btn {
-      animation: mutePulse 3s ease-in-out infinite;
-    }
-
-    @keyframes mutePulse {
-      0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-      50% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 16px rgba(157,78,221,0.35); }
-    }
-
-    .mute-btn.muted {
-      animation: none;
-    }
-
-    /* ===== SECTION DIVIDER GLOW ===== */
-    .section-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent 0%, rgba(157,78,221,0.3) 30%, rgba(91,140,255,0.3) 70%, transparent 100%);
-      margin: 0 auto;
-      max-width: 900px;
-    }
   </style>
 
   <script type="application/ld+json">
@@ -1735,7 +1600,7 @@
           </p>
 
           <div class="portfolio-grid" style="margin-top:32px;">
-            <article class="portfolio-card glass reveal">
+            <article class="portfolio-card glass">
               <div class="portfolio-media">
                 <img src="assets/img/portfolio-ecommerce.jpg" alt="Estrutura para loja online premium" loading="lazy" />
               </div>
@@ -1747,7 +1612,7 @@
               </div>
             </article>
 
-            <article class="portfolio-card glass reveal">
+            <article class="portfolio-card glass">
               <div class="portfolio-media">
                 <img src="assets/img/portfolio-consultorio.jpg" alt="Estrutura para clínica odontológica" loading="lazy" />
               </div>
@@ -1759,7 +1624,7 @@
               </div>
             </article>
 
-            <article class="portfolio-card glass reveal">
+            <article class="portfolio-card glass">
               <div class="portfolio-media">
                 <img src="assets/img/portfolio-restaurante.jpg" alt="Estrutura para restaurante e gastronomia" loading="lazy" />
               </div>
@@ -1771,7 +1636,7 @@
               </div>
             </article>
 
-            <article class="portfolio-card glass reveal">
+            <article class="portfolio-card glass">
               <div class="portfolio-media">
                 <img src="assets/img/portfolio-agencia.jpg" alt="Estrutura para agência e serviços" loading="lazy" />
               </div>
@@ -1797,25 +1662,25 @@
           </p>
 
           <div class="steps" style="margin-top:34px;">
-            <article class="step reveal">
+            <article class="step">
               <span class="step-number">01</span>
               <h3>Diagnóstico</h3>
               <p>Entendemos seu negócio, objetivo, público e o tipo de presença digital que faz sentido para a sua realidade.</p>
             </article>
 
-            <article class="step reveal">
+            <article class="step">
               <span class="step-number">02</span>
               <h3>Direção visual</h3>
               <p>Definimos a linha visual, o tom da marca e a estrutura da página para transmitir mais valor e mais clareza.</p>
             </article>
 
-            <article class="step reveal">
+            <article class="step">
               <span class="step-number">03</span>
               <h3>Desenvolvimento</h3>
               <p>Construímos o site com foco em experiência, responsividade, organização e contato fácil com o cliente.</p>
             </article>
 
-            <article class="step reveal">
+            <article class="step">
               <span class="step-number">04</span>
               <h3>Publicação</h3>
               <p>Ajustamos os detalhes, organizamos a entrega e colocamos o projeto no ar com presença profissional.</p>
@@ -1835,7 +1700,7 @@
           </p>
 
           <div class="plans-grid" style="margin-top:34px;">
-            <article class="plan-card glass reveal">
+            <article class="plan-card glass">
               <span class="mini-label">Plano inicial</span>
               <h3>Essencial</h3>
               <p>Para negócios que precisam sair do improviso e ter uma presença digital mais profissional.</p>
@@ -1855,7 +1720,7 @@
               </a>
             </article>
 
-            <article class="plan-card glass popular reveal">
+            <article class="plan-card glass popular">
               <span class="mini-label">Plano de crescimento</span>
               <h3>Profissional</h3>
               <p>Para marcas que querem mais força visual, mais estrutura e uma apresentação mais completa.</p>
@@ -1875,7 +1740,7 @@
               </a>
             </article>
 
-            <article class="plan-card glass reveal">
+            <article class="plan-card glass">
               <span class="mini-label">Plano premium</span>
               <h3>Premium</h3>
               <p>Para empresas que querem um site mais autoral, mais marcante e mais alinhado ao seu posicionamento.</p>
@@ -1952,7 +1817,7 @@
           </p>
 
           <div class="products-grid" style="margin-top:34px;">
-            <article class="product-card glass reveal">
+            <article class="product-card glass">
               <div class="product-media">
                 <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Capa do produto Lucidez Prática" loading="lazy" />
               </div>
@@ -1968,7 +1833,7 @@
               </div>
             </article>
 
-            <article class="product-card glass reveal">
+            <article class="product-card glass">
               <div class="product-media">
                 <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Capa do produto Dinheiro que Sobra" loading="lazy" />
               </div>
@@ -1983,7 +1848,7 @@
               </div>
             </article>
 
-            <article class="product-card glass reveal">
+            <article class="product-card glass">
               <div class="product-media">
                 <img src="assets/img/capa-vendas.jpg" alt="Capa do Manual da Prospecção ao Fechamento" loading="lazy" />
               </div>
@@ -1998,7 +1863,7 @@
               </div>
             </article>
 
-            <article class="product-card glass reveal">
+            <article class="product-card glass">
               <div class="product-media">
                 <img src="assets/img/capa-calistenia.jpg" alt="Capa do produto Treino em Casa 30min" loading="lazy" />
               </div>
@@ -2153,9 +2018,9 @@
 
     <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
     
-    <!-- ÁUDIO ATUALIZADO: Caminho corrigido para assets/audio/background.mp3 -->
+    <!-- ÁUDIO ATUALIZADO: Nova música com volume inicial 0 e scroll reativo -->
     <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
-      <source src="assets/audio/background.mp3" type="audio/mpeg">
+      <source src="background.m4a" type="audio/mp4">
     </audio>
 
     <!-- BOTÃO MUTE FLUTUANTE -->
@@ -2782,27 +2647,6 @@
         updateTargetVolume(); // Calcula inicial
         smoothVolume();
 
-      })();
-
-      /* ============================================
-         SCROLL REVEAL - Anima elementos ao entrar na viewport
-         ============================================ */
-      (function initScrollReveal() {
-        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-        if (!revealEls.length) return;
-
-        const observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-
-        revealEls.forEach(function(el) {
-          observer.observe(el);
-        });
       })();
 
     })();
