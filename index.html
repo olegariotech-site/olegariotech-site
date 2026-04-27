@@ -3,305 +3,907 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Criação de Sites Profissionais em Valinhos, Campinas e Região | Olegario Tech</title>
-  <meta name="description" content="Criamos sites profissionais e exclusivos para pequenos e médios negócios de Valinhos, Campinas e Região. Clínicas, restaurantes, salões, barbearias, adegas, pet shops e empresas com foco em presença digital, autoridade e conversão." />
+  <title>OLEGARIO TECH | Experiências Digitais em Valinhos e Campinas</title>
+  <meta name="description" content="Criamos sites profissionais e experiências digitais imersivas para negócios de Valinhos, Campinas e região. WebGL, animação 3D e conversão real." />
   <link rel="canonical" href="https://olegariotech.com.br/" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-<meta property="og:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
-    <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais que querem transmitir mais autoridade, gerar confiança e vender mais." />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="OLEGARIO TECH | Criação de Sites Profissionais em Valinhos e Campinas" />
-    <meta name="twitter:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais." />
-    <meta name="twitter:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
-    <meta property="og:url" content="https://olegariotech.com.br/" />
-    <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/jpeg" />
-  <meta name="theme-color" content="#07080d" />
+  <meta property="og:title" content="OLEGARIO TECH | Experiências Digitais em Valinhos e Campinas" />
+  <meta property="og:description" content="Sites profissionais com WebGL, animação 3D e experiência imersiva para negócios locais." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://olegariotech.com.br/" />
+  <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="theme-color" content="#050508" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    @font-face {
-      font-family: "Camera Plain Variable";
-      src: url("/fonts/CameraPlainVariable-c48bd243.woff2") format("woff2");
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: "Camera Plain Variable";
-      src: url("/fonts/CameraPlainVariableRegularItalic-8524cd9a.woff2") format("woff2");
-      font-weight: 400;
-      font-style: italic;
-      font-display: swap;
-    }
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Olegario Tech",
+    "url": "https://olegariotech.com.br/",
+    "telephone": "+5511912459144",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Valinhos",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "areaServed": ["Valinhos", "Campinas", "Região Metropolitana de Campinas"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Olegario Tech",
+    "url": "https://olegariotech.com.br/",
+    "telephone": "+55 11 91245-9144",
+    "areaServed": ["Valinhos", "Campinas", "Região Metropolitana de Campinas"]
+  }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
     :root {
-      --bg: #07080d;
-      --bg-soft: #0e1120;
-      --panel: rgba(12, 16, 30, 0.72);
-      --panel-2: rgba(17, 22, 39, 0.8);
-      --border: rgba(183, 148, 246, 0.16);
-      --border-strong: rgba(183, 148, 246, 0.34);
-      --text: #f6f7fb;
-      --muted: #aab0c5;
-      --muted-2: #8a91aa;
+      --bg: #050508;
+      --bg-elevated: #0a0a10;
+      --text: #f0f0f5;
+      --muted: #8a8a9a;
       --violet: #9d4edd;
-      --violet-2: #7c3aed;
+      --violet-glow: #c084fc;
       --blue: #5b8cff;
-      --rose: #ec77c8;
-      --green: #25d366;
-      --green-2: #128c7e;
+      --blue-glow: #93bbfd;
       --amber: #e9bf73;
-      --shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
-      --radius: 24px;
-      --radius-sm: 16px;
-      --container: 1180px;
-      --header-h: 84px;
+      --green: #25d366;
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Camera Plain Variable", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
-      line-height: 1.5;
+      line-height: 1.4;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
     }
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
-    button { font: inherit; }
+    button { font: inherit; cursor: pointer; }
 
-    #bg-shader,
-    #bg-nodes {
+    /* Canvas 3D Background */
+    #canvas-container {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
+      z-index: 0;
       pointer-events: none;
     }
+    #canvas-container canvas { display: block; }
 
-    #bg-shader { z-index: 0; }
-    #bg-nodes { z-index: 1; }
-
-    /* REMOVIDO: Botão de som antigo não existe mais - agora é automático por scroll */
-
-    .stack-icon,
-    .card-icon {
-      color: rgba(246,247,251,0.96);
-    }
-
-    .stack-icon svg,
-    .card-icon svg {
-      width: 22px;
-      height: 22px;
-      display: block;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .stack-icon.icon-people svg,
-    .card-icon.icon-people svg { width: 24px; height: 24px; }
-
-    .container {
-      width: min(var(--container), calc(100% - 40px));
-      margin-inline: auto;
-    }
-
-    .section {
+    /* UI Layer */
+    .ui-layer {
       position: relative;
-      padding: 110px 0;
-      scroll-margin-top: 110px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .ui-layer > * { pointer-events: auto; }
+    .ui-layer section { pointer-events: none; }
+    .ui-layer section > * { pointer-events: auto; }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: difference;
+    }
+    .brand {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta-header {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .nav-cta-header:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.4);
     }
 
-    .section.compact { padding: 88px 0; }
+    /* Sections */
+    .section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 120px 40px;
+    }
+    .section-inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
 
-    .eyebrow {
+    /* Hero Cinematográfico Premium */
+    .hero { 
+      text-align: center; 
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vw;
+      background: radial-gradient(circle, rgba(157,78,221,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      text-shadow: 0 0 20px rgba(233,191,115,0.5);
+    }
+    .hero-title {
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .hero-title .line { display: block; }
+    .hero-title .gradient {
+      background: linear-gradient(135deg, #fff 0%, var(--violet-glow) 50%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 40px rgba(157,78,221,0.3);
+    }
+    .hero-sub {
+      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(20px);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-cta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      line-height: 1;
-      letter-spacing: 0.24em;
+      gap: 12px;
+      padding: 18px 36px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 20px 50px rgba(157,78,221,0.3), inset 0 1px 1px rgba(255,255,255,0.3);
+      transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(157,78,221,0.5), inset 0 1px 1px rgba(255,255,255,0.4);
+      filter: brightness(1.1);
+    }
+    .hero-cta svg {
+      width: 20px; height: 20px; fill: currentColor;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(233, 191, 115, 0.78);
-      margin-bottom: 20px;
+      opacity: 0;
     }
-
-    .eyebrow::before {
+    .scroll-hint::after {
       content: "";
-      width: 28px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(233, 191, 115, 0.95));
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 1; transform: scaleY(1); }
     }
 
-    .section-title {
-      font-size: clamp(2rem, 1.5rem + 2vw, 3.4rem);
+    /* Section titles */
+    .sec-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .sec-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
       line-height: 1.05;
-      letter-spacing: -0.04em;
-      font-weight: 300;
-      margin-bottom: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
     }
-
-    .section-title strong,
-    .hero-title strong {
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff 0%, #c8b8ff 35%, #7ea7ff 100%);
+    .sec-title .gradient {
+      background: linear-gradient(135deg, #fff 0%, var(--violet-glow) 60%, var(--blue) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-
-    .section-subtitle {
-      max-width: 760px;
+    .sec-sub {
+      font-size: 1.1rem;
       color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.75;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 48px;
     }
 
-    .glass {
-      background: linear-gradient(180deg, rgba(14,17,32,0.72), rgba(8,10,18,0.8));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    /* Cards Premium Glassmorphism */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      padding: 36px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    }
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(157,78,221,0.15), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glass-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .glass-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .glass-card:hover::before { opacity: 1; }
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(157,78,221,0.3);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(157,78,221,0.1);
+      background: rgba(255,255,255,0.04);
+    }
+    .card-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--violet-glow);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .glass-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .glass-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
-    header.site-header {
-      position: fixed;
-      top: 0;
-      inset-inline: 0;
-      z-index: 30;
-      transition: all .3s ease;
-      background: linear-gradient(180deg, rgba(7,8,13,.88), rgba(7,8,13,.55));
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+    /* O Problema - Nova Seção Premium */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+      align-items: center;
     }
-
-    .site-header.scrolled {
-      background: rgba(7, 8, 13, 0.86);
-      border-bottom-color: rgba(183, 148, 246, 0.14);
+    .problem-content {
+      position: relative;
     }
-
-    .nav-wrap {
-      height: var(--header-h);
+    .problem-highlight {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+    .problem-highlight span {
+      color: var(--amber);
+    }
+    .problem-text {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .problem-cards {
+      display: grid;
+      gap: 16px;
+    }
+    .problem-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+    .problem-card:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateX(10px);
+    }
+    .problem-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(233,191,115,0.1);
+      color: var(--amber);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
     }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(145deg, rgba(157,78,221,0.26), rgba(91,140,255,0.18)),
-        rgba(255,255,255,0.02);
-      border: 1px solid rgba(183, 148, 246, 0.28);
+    .problem-card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
       color: #fff;
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      box-shadow: 0 12px 32px rgba(0,0,0,.24);
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
     }
 
-    .brand-text {
+    /* Portfolio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+    .port-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/10;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      group: port;
+    }
+    .port-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .port-item:hover img {
+      transform: scale(1.05);
+    }
+    .port-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.2) 50%, transparent 100%);
       display: flex;
       flex-direction: column;
-      min-width: 0;
+      justify-content: flex-end;
+      padding: 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .brand-text strong {
-      font-size: 0.95rem;
-      letter-spacing: .08em;
+    .port-item:hover .port-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .port-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      white-space: nowrap;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .port-title {
+      font-size: 1.4rem;
+      font-weight: 700;
     }
 
-    .brand-text span {
-      font-size: 0.69rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted-2);
-      white-space: nowrap;
+    /* Process */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+    .step-card {
+      padding: 40px 32px;
+    }
+    .step-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(157,78,221,0.1);
+      color: var(--violet-glow);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      border: 1px solid rgba(157,78,221,0.2);
     }
 
-    .nav-links {
-      display: flex;
+    /* Pricing */
+    .plans-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
       align-items: center;
-      gap: 28px;
+    }
+    .plan-card {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    .plan-card.popular {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(157,78,221,0.3);
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(157,78,221,0.2);
+      z-index: 2;
+    }
+    .plan-popular-badge {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      box-shadow: 0 10px 20px rgba(157,78,221,0.3);
+    }
+    .plan-name {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+    .plan-card h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 24px 0 32px;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .plan-price span {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .plan-features {
       list-style: none;
+      margin-bottom: 40px;
+      flex: 1;
     }
-
-    .nav-links a {
-      color: rgba(246,247,251,.84);
-      font-size: 0.92rem;
-      letter-spacing: .02em;
-      transition: color .25s ease, opacity .25s ease;
+    .plan-features li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 16px;
+      color: var(--text);
+      font-size: 0.95rem;
     }
-
-    .nav-links a:hover { color: #fff; }
-
-
-    .nav-menu {
-      display: none;
+    .plan-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0; top: 0;
+      color: var(--green);
+      font-weight: 700;
     }
-
-
-    .nav-cta {
+    .plan-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 46px;
-      padding: 0 22px;
+      width: 100%;
+      padding: 16px;
       border-radius: 999px;
-      border: 1px solid rgba(37, 211, 102, 0.34);
-      background: linear-gradient(135deg, rgba(37,211,102,.18), rgba(18,140,126,.16));
-      color: #effff6;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
       font-weight: 600;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-      box-shadow: 0 10px 26px rgba(0,0,0,.26);
+      font-size: 0.95rem;
+      transition: all 0.3s;
     }
-
-    .nav-cta:hover {
+    .plan-cta:hover {
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      border-color: transparent;
+      box-shadow: 0 10px 30px rgba(157,78,221,0.3);
       transform: translateY(-2px);
-      box-shadow: 0 18px 34px rgba(0,0,0,.34);
-      border-color: rgba(37, 211, 102, 0.56);
+    }
+    .plan-card.popular .plan-cta {
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      border-color: transparent;
+    }
+    .plan-card.popular .plan-cta:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 15px 40px rgba(157,78,221,0.4);
     }
 
-    .nav-cta::before,
-    .btn-whatsapp::before,
-    .fab::before {
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-photo {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .about-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .about-photo:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+    .about-photo::after {
       content: "";
-      width: 18px;
-      height: 18px;
-      flex: 0 0 18px;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white"><path d="M19.11 17.35c-.29-.14-1.7-.84-1.97-.93-.26-.1-.45-.14-.64.14-.18.29-.72.93-.88 1.13-.16.19-.33.21-.62.07-.29-.14-1.22-.45-2.33-1.43-.86-.77-1.45-1.72-1.62-2.01-.16-.29-.02-.44.12-.58.13-.13.29-.33.43-.49.14-.16.19-.28.29-.47.09-.19.05-.35-.02-.49-.08-.14-.64-1.55-.87-2.12-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.49.07-.74.35-.25.29-.98.96-.98 2.35s1.01 2.73 1.15 2.92c.14.19 1.98 3.03 4.79 4.25.67.29 1.18.46 1.59.59.67.21 1.28.18 1.76.11.54-.08 1.7-.69 1.94-1.34.24-.66.24-1.22.17-1.34-.07-.12-.26-.19-.55-.33z"/><path d="M16.01 2.67C8.66 2.67 2.69 8.64 2.69 16c0 2.35.61 4.64 1.77 6.66L2.67 29.33l6.85-1.76c1.93 1.05 4.11 1.6 6.49 1.6 7.35 0 13.32-5.97 13.32-13.33S23.36 2.67 16.01 2.67zm0 23.91c-2.12 0-4.19-.56-6.01-1.62l-.43-.25-4.07 1.04 1.09-3.96-.28-.45a10.55 10.55 0 0 1-1.61-5.59c0-5.85 4.76-10.61 10.61-10.61 2.83 0 5.49 1.1 7.49 3.11a10.52 10.52 0 0 1 3.12 7.5c0 5.85-4.76 10.61-10.61 10.61z"/></svg>') center/contain no-repeat;
+      position: absolute;
+      inset: auto 0 0;
+      height: 50%;
+      background: linear-gradient(to top, rgba(5,5,8,0.95), transparent);
+    }
+    .about-caption {
+      position: absolute;
+      bottom: 32px; left: 32px;
+      z-index: 2;
+    }
+    .about-caption strong {
+      display: block;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .about-caption span {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .about-text p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .about-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .about-stat strong {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #fff, var(--muted));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .about-stat span {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
     }
 
-    /* BOTÃO MUTE PREMIUM */
+    /* Products */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+    .product-media {
+      height: 260px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: radial-gradient(circle at top, rgba(157,78,221,0.1), transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .product-media img {
+      max-height: 100%;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .product-card:hover .product-media img { transform: translateY(-8px) scale(1.05); }
+    .product-body {
+      padding: 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+    .product-body h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .product-body p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .product-price-row strong { font-size: 1.2rem; }
+    .product-price-row s { color: var(--muted); font-size: 0.9rem; }
+    .product-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .product-btn:hover {
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(157,78,221,0.3);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: grid;
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .faq-item:hover {
+      border-color: rgba(157,78,221,0.3);
+      background: rgba(255,255,255,0.04);
+    }
+    .faq-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .faq-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 1.4rem;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+      background: rgba(157,78,221,0.2);
+      border-color: rgba(157,78,221,0.4);
+    }
+    .faq-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-panel p {
+      padding: 0 32px 28px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      text-align: center;
+      position: relative;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(91,140,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .final-cta h2 {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      letter-spacing: -0.03em;
+    }
+    .final-cta p {
+      color: var(--muted);
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+    .final-cta .hero-cta {
+      font-size: 1.1rem;
+      padding: 22px 48px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      background: rgba(5,5,8,0.8);
+      backdrop-filter: blur(20px);
+    }
+    .footer-copy {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      transition: color 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    /* Mute Button */
     .mute-btn {
       position: fixed;
       bottom: 30px;
@@ -313,7 +915,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       background: rgba(12, 16, 30, 0.6);
       border: 1px solid rgba(183, 148, 246, 0.4);
       backdrop-filter: blur(10px);
@@ -321,2334 +922,888 @@
       color: #fff;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      pointer-events: auto;
     }
-
     .mute-btn:hover {
       transform: scale(1.1);
       border-color: var(--violet);
       background: rgba(157, 78, 221, 0.2);
       box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
     }
-
-    .mute-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    .mute-btn.muted {
-      color: var(--muted-2);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
+    .mute-btn svg { width: 24px; height: 24px; fill: currentColor; }
+    .mute-btn.muted { color: var(--muted); border-color: rgba(255,255,255,0.1); }
     .mute-btn.muted .icon-unmuted { display: none; }
     .mute-btn:not(.muted) .icon-muted { display: none; }
 
-    @media (max-width: 768px) {
-      .mute-btn {
-        bottom: 20px;
-        left: 20px;
-        width: 48px;
-        height: 48px;
-      }
-    }
-
-    .nav-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .nav-toggle span,
-    .nav-toggle::before,
-    .nav-toggle::after {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 2px;
-      margin: 0 auto;
-      background: #fff;
-      transition: transform .25s ease, opacity .25s ease;
-    }
-
-    .nav-toggle::before { transform: translateY(-5px); }
-    .nav-toggle::after { transform: translateY(5px); }
-
-    .nav-open .nav-toggle span { opacity: 0; }
-    .nav-open .nav-toggle::before { transform: translateY(2px) rotate(45deg); }
-    .nav-open .nav-toggle::after { transform: translateY(0) rotate(-45deg); }
-
-    .hero {
-      min-height: 84vh;
-      display: flex;
-      align-items: center;
-      padding: 118px 0 42px;
-      position: relative;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 24px;
-      align-items: center;
-    }
-
-    .hero-copy {
-      max-width: 760px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.45rem, 1.6rem + 1.65vw, 4.1rem);
-      line-height: 0.92;
-      letter-spacing: -0.06em;
-      font-weight: 300;
-      margin-bottom: 14px;
-      max-width: 13.5ch;
-    }
-
-    .hero-title .hero-line {
-      display: block;
-    }
-
-    .hero-text {
-      font-size: clamp(0.96rem, 0.92rem + 0.18vw, 1.04rem);
-      line-height: 1.68;
-      color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 22px;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 38px;
-      padding: 0 15px;
-      border-radius: 999px;
-      border: 1px solid rgba(183,148,246,0.24);
-      background: rgba(255,255,255,0.03);
-      color: rgba(246,247,251,.82);
-      font-size: .83rem;
-    }
-
-    .hero-badge.pulse {
-      border-color: rgba(233,191,115,0.32);
-      color: rgba(233,191,115,.95);
-      animation: pulse 2.2s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 rgba(233,191,115,0); opacity: 1; }
-      50% { box-shadow: 0 0 26px rgba(233,191,115,0.16); opacity: .92; }
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 54px;
-      padding: 0 24px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(157,78,221,.94), rgba(91,140,255,.9));
-      color: #fff;
-      box-shadow: 0 16px 36px rgba(88, 73, 190, 0.28);
-    }
-
-    .btn-primary:hover { box-shadow: 0 22px 44px rgba(88, 73, 190, 0.36); }
-
-    .btn-outline {
-      background: rgba(255,255,255,0.02);
-      color: #fff;
-      border-color: rgba(183,148,246,0.26);
-    }
-
-    .btn-outline:hover {
-      border-color: rgba(183,148,246,0.52);
-      box-shadow: 0 12px 30px rgba(0,0,0,.26);
-    }
-
-    .btn-whatsapp {
-      background: linear-gradient(135deg, rgba(37,211,102,.18), rgba(18,140,126,.16));
-      color: #effff6;
-      border-color: rgba(37,211,102,0.34);
-    }
-
-    .hero-metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      max-width: 760px;
-    }
-
-    .metric {
-      padding: 16px 18px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.08rem;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .metric span {
-      display: block;
-      color: var(--muted-2);
-      font-size: 0.82rem;
-      line-height: 1.45;
-    }
-
-    .hero-panel {
-      position: relative;
-      padding: 28px;
-      border-radius: 28px;
-      border: 1px solid rgba(183,148,246,0.18);
-      background:
-        linear-gradient(180deg, rgba(17,22,39,0.7), rgba(8,10,18,0.82));
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .hero-panel::before {
-      content: "";
-      position: absolute;
-      inset: -18% auto auto -12%;
-      width: 280px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(157,78,221,0.22), rgba(157,78,221,0) 70%);
-      pointer-events: none;
-      filter: blur(18px);
-    }
-
-    .hero-card {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 18px;
-    }
-
-    .mini-label {
-      display: inline-block;
-      font-size: .73rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.58);
-    }
-
-    .stack {
-      display: grid;
-      gap: 12px;
-    }
-
-    .stack-item {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      align-items: start;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .stack-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: rgba(157,78,221,0.16);
-      border: 1px solid rgba(183,148,246,0.18);
-      font-size: 1rem;
-    }
-
-    .stack-item strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: .98rem;
-    }
-
-    .stack-item p {
-      color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.65;
-    }
-
-    .grid-4,
-    .grid-3,
-    .grid-2,
-    .products-grid,
-    .plans-grid,
-    .portfolio-grid,
-    .faq-grid,
-    .stats-grid { display: grid; gap: 22px; }
-
-    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-    .card {
-      position: relative;
-      padding: 26px;
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: auto -40px -40px auto;
-      width: 160px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(157,78,221,0.18), transparent 70%);
-      pointer-events: none;
-      opacity: .8;
-    }
-
-    .card h3 {
-      font-size: 1.18rem;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-
-    .card p {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 0.96rem;
-    }
-
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 16px;
-      background: linear-gradient(145deg, rgba(157,78,221,0.18), rgba(91,140,255,0.12));
-      border: 1px solid rgba(183,148,246,0.16);
-      color: #fff;
-      font-size: 1.12rem;
-    }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .portfolio-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .portfolio-card,
-    .plan-card,
-    .product-card,
-    .testimonial-card,
-    .faq-item {
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    .portfolio-card {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .portfolio-media {
-      aspect-ratio: 4 / 3;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-        rgba(255,255,255,0.02);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      overflow: hidden;
-    }
-
-    .portfolio-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .5s ease;
-    }
-
-    .portfolio-card:hover .portfolio-media img { transform: scale(1.03); }
-
-    .portfolio-body {
-      padding: 22px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .tag {
-      display: inline-flex;
-      width: fit-content;
-      min-height: 28px;
-      padding: 0 12px;
-      border-radius: 999px;
-      align-items: center;
-      border: 1px solid rgba(183,148,246,0.2);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,.75);
-      font-size: .73rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .portfolio-body p { color: var(--muted); font-size: .92rem; line-height: 1.7; }
-    .portfolio-note {
-      color: var(--amber);
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 22px;
-      margin-top: 20px;
-    }
-
-    .step {
-      position: relative;
-      padding: 26px;
-      border-radius: 24px;
-      border: 1px solid rgba(91,140,255,0.16);
-      background: linear-gradient(180deg, rgba(14,17,32,0.72), rgba(8,10,18,0.82));
-    }
-
-    .step-number {
-      display: inline-flex;
-      width: 44px;
-      height: 44px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      margin-bottom: 16px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(91,140,255,0.94), rgba(157,78,221,0.9));
-      box-shadow: 0 10px 26px rgba(26, 32, 68, 0.4);
-    }
-
-    .step h3 {
-      font-size: 1.08rem;
-      margin-bottom: 10px;
-    }
-
-    .step p {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: .95rem;
-    }
-
-    .plans-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
-    .plan-card {
-      position: relative;
-      padding: 30px;
-    }
-
-    .plan-card.popular {
-      border-color: rgba(183,148,246,0.34);
-      transform: translateY(-6px);
-    }
-
-    .plan-card.popular::after {
-      content: "Mais escolhido";
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      display: inline-flex;
-      min-height: 30px;
-      align-items: center;
-      padding: 0 12px;
-      border-radius: 999px;
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, rgba(157,78,221,.92), rgba(91,140,255,.92));
-      color: #fff;
-    }
-
-    .plan-card .mini-label { margin-bottom: 14px; }
-    .plan-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
-    .plan-card p { color: var(--muted); line-height: 1.7; }
-    .price {
-      margin: 20px 0 18px;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      color: #fff;
-    }
-
-    .price strong {
-      font-size: clamp(2rem, 1.6rem + 1vw, 3rem);
-      line-height: .95;
-      letter-spacing: -0.06em;
-    }
-
-    .price span {
-      color: var(--muted-2);
-      font-size: .92rem;
-    }
-
-    .feature-list {
-      list-style: none;
-      display: grid;
-      gap: 12px;
-      margin: 0 0 26px;
-    }
-
-    .feature-list li {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: start;
-      gap: 10px;
-      color: var(--muted);
-      font-size: .95rem;
-      line-height: 1.65;
-    }
-
-    .feature-list li::before {
-      content: "✓";
-      color: #7ee2a8;
-      font-weight: 700;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.02fr 0.98fr;
-      gap: 34px;
-      align-items: center;
-    }
-
-    .about-card {
-      padding: 30px;
-      border-radius: 28px;
-    }
-
-    .about-card p {
-      color: var(--muted);
-      line-height: 1.9;
-      margin-bottom: 16px;
-    }
-
-    .stats-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 14px;
-    }
-
-    .stat-box {
-      padding: 18px 16px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      text-align: center;
-    }
-
-    .stat-box strong {
-      display: block;
-      font-size: 1.56rem;
-      letter-spacing: -0.06em;
-      margin-bottom: 6px;
-      color: #fff;
-    }
-
-    .stat-box span {
-      color: var(--muted-2);
-      font-size: .84rem;
-      line-height: 1.45;
-    }
-
-    .about-photo {
-      position: relative;
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(183,148,246,0.16);
-      min-height: 520px;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .about-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%);
-      transition: filter .5s ease, transform .6s ease;
-    }
-
-    .about-photo:hover img {
-      filter: grayscale(0%);
-      transform: scale(1.02);
-    }
-
-    .about-photo::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 34%;
-      background: linear-gradient(180deg, transparent, rgba(7,8,13,.9));
-    }
-
-    .about-caption {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      z-index: 1;
-    }
-
-    .about-caption strong {
-      display: block;
-      font-size: 1rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .about-caption span {
-      display: block;
-      color: var(--muted-2);
-      font-size: .78rem;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
-
-    .products-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-    .product-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-media {
-      height: 320px;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top, rgba(157,78,221,0.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .product-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-      filter: drop-shadow(0 18px 28px rgba(0,0,0,.34));
-      transition: transform .35s ease;
-    }
-
-    .product-card:hover .product-media img { transform: translateY(-4px) scale(1.02); }
-
-    .product-body {
-      display: grid;
-      gap: 12px;
-      padding: 22px;
-      flex: 1;
-    }
-
-    .product-body h3 {
-      font-size: 1.06rem;
-      line-height: 1.35;
-      letter-spacing: -0.02em;
-    }
-
-    .product-body p {
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: .92rem;
-    }
-
-    .product-price {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .product-price strong {
-      font-size: 1.2rem;
-      letter-spacing: -0.04em;
-      color: #fff;
-    }
-
-    .product-price s {
-      color: var(--muted-2);
-      font-size: .9rem;
-    }
-
-    .product-btn {
-      margin-top: auto;
-      width: 100%;
-    }
-
-    .faq-wrap {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 30px;
-    }
-
-    .faq-item { overflow: clip; }
-
-    .faq-trigger {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 22px 24px;
-      background: transparent;
-      border: 0;
-      color: #fff;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .faq-trigger span {
-      font-size: 1rem;
-      line-height: 1.5;
-      font-weight: 500;
-    }
-
-    .faq-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      flex: 0 0 auto;
-      transition: transform .25s ease, background .25s ease;
-    }
-
-    .faq-item.active .faq-icon {
-      transform: rotate(45deg);
-      background: rgba(157,78,221,0.12);
-    }
-
-    .faq-panel {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .3s ease;
-    }
-
-    .faq-panel p {
-      color: var(--muted);
-      line-height: 1.8;
-      padding: 0 24px 22px;
-      font-size: .95rem;
-    }
-
-    .cta-box {
-      padding: 42px;
-      border-radius: 30px;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-
-    .cta-box::before,
-    .cta-box::after {
-      content: "";
-      position: absolute;
-      width: 280px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      filter: blur(30px);
-      opacity: .35;
-      pointer-events: none;
-    }
-
-    .cta-box::before {
-      top: -110px;
-      left: -80px;
-      background: radial-gradient(circle, rgba(157,78,221,0.54), transparent 60%);
-    }
-
-    .cta-box::after {
-      right: -100px;
-      bottom: -120px;
-      background: radial-gradient(circle, rgba(91,140,255,0.44), transparent 60%);
-    }
-
-    .cta-box h2 {
-      font-size: clamp(2rem, 1.5rem + 2vw, 3.2rem);
-      line-height: 1.04;
-      letter-spacing: -0.05em;
-      font-weight: 300;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-box p {
-      max-width: 760px;
-      margin: 0 auto 24px;
-      color: var(--muted);
-      line-height: 1.85;
-      position: relative;
-      z-index: 1;
-    }
-
-    footer {
-      position: relative;
-      z-index: 10;
-      padding: 38px 0 52px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      background: rgba(7,8,13,0.86);
-    }
-
-    .footer-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-copy {
-      color: var(--muted-2);
-      font-size: .9rem;
-      line-height: 1.7;
-    }
-
-    .footer-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--muted);
-      font-size: .9rem;
-      transition: color .25s ease;
-    }
-
-    .footer-links a:hover { color: #fff; }
-
+    /* WhatsApp FAB */
     .fab {
       position: fixed;
-      right: max(18px, env(safe-area-inset-right));
-      bottom: max(18px, env(safe-area-inset-bottom));
-      width: 62px;
-      height: 62px;
+      right: 30px;
+      bottom: 30px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, var(--green), var(--green-2));
-      box-shadow: 0 16px 36px rgba(37,211,102,.28);
-      z-index: 34;
-      transition: transform .25s ease, box-shadow .25s ease;
+      background: linear-gradient(135deg, var(--green), #128c7e);
+      box-shadow: 0 12px 30px rgba(37,211,102,0.4);
+      z-index: 99;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+      pointer-events: auto;
     }
-
-    .fab:hover {
-      transform: scale(1.08);
-      box-shadow: 0 20px 42px rgba(37,211,102,.38);
+    .fab:hover { 
+      transform: scale(1.1) translateY(-5px); 
+      box-shadow: 0 20px 40px rgba(37,211,102,0.5);
     }
+    .fab svg { width: 32px; height: 32px; fill: #fff; }
 
-    .fab::before {
-      width: 24px;
-      height: 24px;
-      flex: 0 0 24px;
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .about-grid, .problem-grid { grid-template-columns: 1fr; }
+      .about-photo { max-width: 500px; margin: 0 auto; }
+      .steps-row { grid-template-columns: repeat(2, 1fr); }
+      .plans-row { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+      .plan-card.popular { transform: scale(1); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-grid { grid-template-columns: 1fr; }
     }
-
-    .section-divider {
-      height: 1px;
-      margin: 0 auto;
-      width: min(var(--container), calc(100% - 40px));
-      background: linear-gradient(90deg, transparent, rgba(183,148,246,0.18), transparent);
-    }
-
-
-    @media (min-width: 861px) {
-      .nav-menu { display: none !important; }
-    }
-
-    @media (max-width: 1120px) {
-      .hero-grid,
-      .about-grid { grid-template-columns: 1fr; }
-
-      .portfolio-grid,
-      .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .plans-grid,
-      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      .hero-panel {
-        max-width: 720px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 132px 0 58px;
-      }
-
-      .hero-copy,
-      .hero-text,
-      .hero-title {
-        max-width: none;
-      }
-
-      .hero-title {
-        max-width: 12.5ch;
-      }
-    }
-
-    @media (max-width: 860px) {
-      :root { --header-h: 72px; }
-
-      .nav-toggle { display: inline-grid; place-items: center; }
-
-      .nav-links,
-      .nav-cta { display: none; }
-
-      .nav-open .nav-menu {
-        display: grid;
-      }
-
-      .nav-menu {
-        position: absolute;
-        top: calc(var(--header-h) + 12px);
-        left: 20px;
-        right: 20px;
-        display: none;
-        gap: 14px;
-        padding: 18px;
-        border-radius: 22px;
-        background: rgba(10, 13, 22, 0.96);
-        border: 1px solid rgba(183,148,246,0.18);
-        box-shadow: var(--shadow);
-      }
-
-      .nav-menu a {
-        color: rgba(246,247,251,.88);
-        font-size: .98rem;
-        padding: 10px 4px;
-        border-bottom: 1px solid rgba(255,255,255,.06);
-      }
-
-      .nav-menu a:last-child { border-bottom: 0; }
-      .nav-menu .nav-cta { display: inline-flex; width: 100%; }
-
-      .section { padding: 86px 0; }
-      .hero {
-        min-height: auto;
-        padding: 128px 0 48px;
-      }
-      .about-photo { min-height: 440px; }
-    }
-
-    @media (max-width: 640px) {
-      .container { width: min(var(--container), calc(100% - 24px)); }
-      .section { padding: 74px 0; scroll-margin-top: 90px; }
-
-      .portfolio-grid,
-      .products-grid,
-      .plans-grid,
-      .steps,
-      .grid-4,
-      .grid-3,
-      .grid-2,
-      .stats-grid,
-      .hero-metrics { grid-template-columns: 1fr; }
-
-      .hero-title {
-        font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem);
-        max-width: none;
-      }
-
-      .hero-text {
-        max-width: none;
-      }
-
-      .hero-actions { flex-direction: column; }
-      .btn, .nav-cta { width: 100%; }
-
-      .hero-panel,
-      .card,
-      .plan-card,
-      .product-card,
-      .cta-box,
-      .about-card { padding-inline: 20px; }
-
-      .product-media { height: 280px; }
-      .about-photo { min-height: 360px; }
-      .faq-trigger { padding: 18px 18px; }
-      .faq-panel p { padding: 0 18px 18px; }
-      .fab { right: 16px; bottom: 16px; width: 56px; height: 56px; }
+    @media (max-width: 768px) {
+      header { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .section { padding: 100px 20px; }
+      .steps-row { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .about-stats { gap: 20px; flex-wrap: wrap; }
+      .mute-btn { bottom: 20px; left: 20px; width: 48px; height: 48px; }
+      .fab { right: 20px; bottom: 20px; width: 56px; height: 56px; }
+      footer { flex-direction: column; text-align: center; padding: 40px 20px; }
+      .hero-title { font-size: 3rem; }
+      .sec-title { font-size: 2.5rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after {
         animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
       }
     }
   </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "logo": "https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3",
-    "telephone": "+55 11 91245-9144",
-    "areaServed": [
-      "Valinhos",
-      "Campinas",
-      "Região Metropolitana de Campinas"
-    ],
-    "sameAs": []
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "inLanguage": "pt-BR"
-  }
-  </script>
-
 </head>
 <body>
-  <canvas id="bg-shader" aria-hidden="true"></canvas>
-  <canvas id="bg-nodes" aria-hidden="true"></canvas>
 
-  <!-- REMOVIDO: Botão de som antigo (#sound-btn) - agora é automático -->
+  <div id="canvas-container"></div>
 
-  <div class="page">
-    <header class="site-header" id="siteHeader">
-      <div class="container nav-wrap">
-        <a class="brand" href="#top" aria-label="Olegario Tech">
-          <span class="brand-mark">OT</span>
-          <span class="brand-text">
-            <strong>OLEGARIO TECH</strong>
-            <span>Sites Profissionais</span>
-          </span>
-        </a>
-
-        <nav aria-label="principal">
-          <ul class="nav-links">
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#portfolio">Portfólio</a></li>
-            <li><a href="#processo">Processo</a></li>
-            <li><a href="#planos">Planos</a></li>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#produtos">Produtos</a></li>
-            <li><a href="#faq">FAQ</a></li>
-          </ul>
-        </nav>
-
-        <a class="nav-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site.">
-          Falar no WhatsApp
-        </a>
-
-        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
-          <span></span>
-        </button>
-      </div>
-
-      <div class="nav-menu container glass" id="navMenu">
-        <a href="#servicos">Serviços</a>
-        <a href="#portfolio">Portfólio</a>
-        <a href="#processo">Processo</a>
-        <a href="#planos">Planos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#produtos">Produtos</a>
-        <a href="#faq">FAQ</a>
-        <a class="nav-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site.">
-          Falar no WhatsApp
-        </a>
-      </div>
+  <div class="ui-layer">
+    <header>
+      <a href="#top" class="brand">Olegario Tech</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#problema">Por que um site?</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#portfolio">Portfólio</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+        </ul>
+      </nav>
+      <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." class="nav-cta-header" target="_blank" rel="noopener noreferrer">Solicitar Orçamento</a>
     </header>
 
     <main id="top">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <div class="hero-badges">
-              <span class="hero-badge pulse">Vagas limitadas neste mês</span>
-              <span class="hero-badge">Sites profissionais para negócios locais</span>
-            </div>
-
-            <h1 class="hero-title">
-              Criamos <strong>sites profissionais e exclusivos</strong> para negócios locais.
-            </h1>
-
-            <p class="hero-text">
-              Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região com sites institucionais, landing pages e páginas de conversão pensadas para gerar autoridade, confiança e contato real pelo WhatsApp.
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-whatsapp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site.">
-                Solicitar orçamento no WhatsApp
-              </a>
-              <a class="btn btn-outline" href="#portfolio">Ver estruturas e segmentos</a>
-            </div>
-
-            <div class="hero-metrics">
-              <div class="metric">
-                <strong>Design exclusivo</strong>
-                <span>Seu site com identidade própria, sem aparência genérica.</span>
-              </div>
-              <div class="metric">
-                <strong>100% responsivo</strong>
-                <span>Experiência forte no celular e no desktop.</span>
-              </div>
-              <div class="metric">
-                <strong>WhatsApp integrado</strong>
-                <span>Contato rápido, direto e sem fricção para o cliente.</span>
-              </div>
-              <div class="metric">
-                <strong>Visão comercial</strong>
-                <span>Visual premium com lógica de conversão e posicionamento.</span>
-              </div>
-            </div>
+      <!-- HERO -->
+      <section class="section hero">
+        <div class="section-inner">
+          <span class="hero-eyebrow">Experiências Digitais</span>
+          <h1 class="hero-title">
+            <span class="line">Presença digital</span>
+            <span class="line gradient">com visão comercial.</span>
+          </h1>
+          <p class="hero-sub">
+            Não criamos só sites bonitos — criamos estruturas que transmitem autoridade e facilitam o contato com o cliente. Foco em negócios de Valinhos, Campinas e região.
+          </p>
+          <div class="hero-sound">
+            <span class="icon-volume">🔊</span> Experiência com áudio imersivo ativada
           </div>
-
-          <aside class="hero-panel glass" aria-label="Resumo da proposta">
-            <div class="hero-card">
-              <span class="mini-label">O que entregamos</span>
-              <div class="stack">
-                <div class="stack-item">
-                  <div class="stack-icon icon-people"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20a4 4 0 0 0-8 0"/><circle cx="12" cy="8" r="3"/><path d="M20 20a3.5 3.5 0 0 0-3-3.46"/><path d="M17.5 5.5a2.5 2.5 0 1 1 0 5"/><path d="M4 20a3.5 3.5 0 0 1 3-3.46"/><path d="M6.5 5.5a2.5 2.5 0 1 0 0 5"/></svg></div>
-                  <div>
-                    <strong>Identidade visual forte</strong>
-                    <p>Cada projeto é pensado para representar melhor a marca e transmitir mais valor.</p>
-                  </div>
-                </div>
-                <div class="stack-item">
-                  <div class="stack-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 20h10"/><path d="M8 8h8"/><path d="M8 12h5"/></svg></div>
-                  <div>
-                    <strong>Estrutura profissional</strong>
-                    <p>Site com presença digital sólida, navegação clara e experiência premium.</p>
-                  </div>
-                </div>
-                <div class="stack-item">
-                  <div class="stack-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M19 5l-4 4"/><path d="M15 5h4v4"/></svg></div>
-                  <div>
-                    <strong>Foco em negócios locais</strong>
-                    <p>Clínicas, restaurantes, salões, barbearias, adegas, pet shops e empresas da região.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
+          <a class="hero-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.38 3.55 1.06 5.11L2 22l5.06-1.06A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+            Falar no WhatsApp
+          </a>
         </div>
+        <div class="scroll-hint">Scroll para explorar</div>
       </section>
 
-      <div class="section-divider"></div>
-
-      <section class="section compact" id="problema">
-        <div class="container">
-          <span class="eyebrow">O problema</span>
-          <div class="panel-title">
-            <div>
-              <h2 class="section-title">Por que muitos sites <strong>não geram contato</strong>?</h2>
-              <p class="section-subtitle">
-                O cliente até entra, mas não sente confiança, não entende a proposta e não encontra um caminho claro para falar com a empresa.
+      <!-- O PROBLEMA (Nova Seção Premium) -->
+      <section class="section" id="problema">
+        <div class="section-inner">
+          <div class="problem-grid">
+            <div class="problem-content">
+              <span class="sec-eyebrow">A Realidade</span>
+              <h2 class="problem-highlight">
+                Sem um site profissional, <span>você perde clientes todos os dias</span> para concorrentes menores.
+              </h2>
+              <p class="problem-text">
+                O Instagram é ótimo para vitrine, mas não transmite a mesma autoridade corporativa. Quando um cliente pesquisa pelo seu serviço no Google, ele espera encontrar uma estrutura sólida. Se ele não encontra seu site, ele encontra o do seu concorrente.
               </p>
+              <a class="plan-cta" href="#planos" style="width: auto; padding: 14px 32px;">Ver soluções</a>
+            </div>
+            <div class="problem-cards">
+              <div class="problem-card glass-card">
+                <div class="problem-icon">🔍</div>
+                <div>
+                  <h4>Invisibilidade no Google</h4>
+                  <p>Sem SEO local, quem procura pelo seu serviço em Valinhos e Campinas não te acha.</p>
+                </div>
+              </div>
+              <div class="problem-card glass-card">
+                <div class="problem-icon">📉</div>
+                <div>
+                  <h4>Falta de Autoridade</h4>
+                  <p>Apenas redes sociais passam a impressão de um negócio amador, não de uma empresa estabeleada.</p>
+                </div>
+              </div>
+              <div class="problem-card glass-card">
+                <div class="problem-icon">💬</div>
+                <div>
+                  <h4>Dificuldade de Contato</h4>
+                  <p>Clientes desistem se não encontram rapidamente o que você faz e como falar com você pelo WhatsApp.</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="grid-4">
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
-              <h3>Visual antigo e sem confiança</h3>
-              <p>Se o site parece desatualizado, sua empresa perde autoridade antes mesmo da conversa começar.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="13" height="9" rx="1.8"/><path d="M7 19h5"/><rect x="18" y="8" width="3" height="8" rx="0.8"/></svg></div>
-              <h3>No celular ele falha</h3>
-              <p>Boa parte do tráfego vem do mobile. Se a experiência quebra no celular, o cliente sai no meio do caminho.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18l1.5-3A7 7 0 1 1 19 9.5"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></div>
-              <h3>Sem chamada para ação</h3>
-              <p>Muita gente até visita a página, mas não sabe o próximo passo. Sem direção clara, o lead evapora.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M8 16h8"/></svg></div>
-              <h3>Sem captação real</h3>
-              <p>Sem WhatsApp, formulário, botão certo e estrutura comercial, seu site vira só uma vitrine fria.</p>
-            </article>
-          </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
+      <!-- SERVIÇOS -->
       <section class="section" id="servicos">
-        <div class="container">
-          <span class="eyebrow">Serviços</span>
-          <h2 class="section-title">Sites pensados para fortalecer sua marca e <strong>gerar contato de verdade</strong></h2>
-          <p class="section-subtitle">
-            A Olegario Tech cria estruturas digitais para negócios que não querem parecer improvisados. O objetivo é unir presença visual forte, clareza comercial e experiência profissional desde o primeiro clique.
-          </p>
-
-          <div class="grid-4" style="margin-top:32px;">
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="5"/><path d="M9.5 15.5L8 21l4-2 4 2-1.5-5.5"/><path d="M10 10.5l1.2 1.2 2.8-2.8"/></svg></div>
-              <h3>Landing Pages</h3>
-              <p>Páginas diretas para campanhas, lançamentos, captação de leads e ofertas com foco em ação rápida.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="13" height="9" rx="1.8"/><path d="M7 19h5"/><rect x="18" y="8" width="3" height="8" rx="0.8"/></svg></div>
-              <h3>Sites Institucionais</h3>
-              <p>Estruturas completas para empresas que precisam transmitir mais credibilidade, organização e presença de marca.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18l1.5-3A7 7 0 1 1 19 9.5"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></div>
-              <h3>Páginas de Conversão</h3>
-              <p>Sites pensados para facilitar o contato, valorizar a oferta e transformar visita em oportunidade real.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path d="M12 4a13 13 0 0 1 0 16"/><path d="M12 4a13 13 0 0 0 0 16"/></svg></div>
-              <h3>Projetos Personalizados</h3>
-              <p>Estruturas visuais exclusivas para marcas que querem sair do genérico e ter presença digital com identidade própria.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16a7 7 0 1 1 14 0"/><path d="M12 12l3-3"/><path d="M8 16h8"/></svg></div>
-              <h3>Experiência Responsiva</h3>
-              <p>Seu site funcionando muito bem no celular, no tablet e no desktop, com leitura clara e navegação profissional.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h8"/><path d="M8 11h6"/><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 16h8"/></svg></div>
-              <h3>Captação e Contato</h3>
-              <p>Orçamento, agendamento, formulário e WhatsApp organizados para facilitar o próximo passo do cliente.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M19 5l-4 4"/><path d="M15 5h4v4"/></svg></div>
-              <h3>Visual Premium</h3>
-              <p>Layout pensado para transmitir mais autoridade, valorizar a marca e causar impacto desde o primeiro clique.</p>
-            </article>
-
-            <article class="card glass">
-              <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16l4-4 3 3 6-7"/><path d="M14 8h4v4"/><path d="M5 20h14"/></svg></div>
-              <h3>Base para Crescer</h3>
-              <p>Estrutura preparada para evoluir com novas páginas, catálogo, blog, campanhas ou integrações futuras.</p>
-            </article>
+        <div class="section-inner">
+          <span class="sec-eyebrow">Expertise</span>
+          <h2 class="sec-title">O que nós<br><span class="gradient">entregamos.</span></h2>
+          <p class="sec-sub">Não usamos templates prontos. Construímos soluções digitais focadas em conversão e autoridade para o seu negócio.</p>
+          <div class="cards-grid">
+            <div class="glass-card">
+              <div class="card-num">01</div>
+              <h3>Design Exclusivo</h3>
+              <p>Identidade visual única e autoral. Seu site não será igual a nenhum outro, refletindo o real valor da sua marca.</p>
+            </div>
+            <div class="glass-card">
+              <div class="card-num">02</div>
+              <h3>100% Responsivo</h3>
+              <p>Mais de 80% dos acessos vêm de celulares. Nossos sites são pensados primeiro para mobile (Mobile-First).</p>
+            </div>
+            <div class="glass-card">
+              <div class="card-num">03</div>
+              <h3>WhatsApp Integrado</h3>
+              <p>Botões flutuantes e CTAs estratégicos para encurtar o caminho entre o visitante e o fechamento da venda.</p>
+            </div>
+            <div class="glass-card">
+              <div class="card-num">04</div>
+              <h3>SEO Local</h3>
+              <p>Estrutura otimizada para o Google entender onde você está e o que você faz, atraindo clientes da sua região.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
+      <!-- PORTFÓLIO -->
       <section class="section" id="portfolio">
-        <div class="container">
-          <span class="eyebrow">Portfólio</span>
-          <h2 class="section-title">Exemplos de direção visual para diferentes <strong>tipos de negócio</strong></h2>
-          <p class="section-subtitle">
-            Nosso próprio site é uma vitrine da experiência que podemos entregar. E cada estrutura pode ser adaptada para o segmento, o posicionamento e a proposta comercial da sua marca.
-          </p>
-
-          <div class="portfolio-grid" style="margin-top:32px;">
-            <article class="portfolio-card glass">
-              <div class="portfolio-media">
-                <img src="assets/img/portfolio-ecommerce.jpg" alt="Estrutura para loja online premium" loading="lazy" />
+        <div class="section-inner">
+          <span class="sec-eyebrow">Trabalhos</span>
+          <h2 class="sec-title">Direção<br><span class="gradient">Visual.</span></h2>
+          <p class="sec-sub">Exemplos do nível de estética e acabamento que aplicamos nos projetos.</p>
+          <div class="portfolio-grid">
+            <div class="port-item">
+              <img src="assets/img/portfolio-consultorio.jpg" alt="Projeto Clínica" loading="lazy" />
+              <div class="port-overlay">
+                <span class="port-tag">Saúde & Bem-estar</span>
+                <div class="port-title">Consultório Médico</div>
               </div>
-              <div class="portfolio-body">
-                <span class="tag">E-commerce</span>
-                <h3>Loja Online Premium</h3>
-                <p>Estrutura visual forte para catálogo, produto, prova e CTA de compra.</p>
-                <p class="portfolio-note">Exemplo de apresentação para loja online e marca de produto.</p>
+            </div>
+            <div class="port-item">
+              <img src="assets/img/portfolio-agencia.jpg" alt="Projeto Agência" loading="lazy" />
+              <div class="port-overlay">
+                <span class="port-tag">Marketing & Branding</span>
+                <div class="port-title">Agência Digital</div>
               </div>
-            </article>
-
-            <article class="portfolio-card glass">
-              <div class="portfolio-media">
-                <img src="assets/img/portfolio-consultorio.jpg" alt="Estrutura para clínica odontológica" loading="lazy" />
+            </div>
+            <div class="port-item">
+              <img src="assets/img/portfolio-ecommerce.jpg" alt="Projeto E-commerce" loading="lazy" />
+              <div class="port-overlay">
+                <span class="port-tag">E-commerce</span>
+                <div class="port-title">Loja Virtual</div>
               </div>
-              <div class="portfolio-body">
-                <span class="tag">Saúde</span>
-                <h3>Clínica Odontológica</h3>
-                <p>Layout para autoridade, serviços, diferenciais e agendamento simplificado.</p>
-                <p class="portfolio-note">Exemplo de estrutura para clínica, consultório e saúde.</p>
+            </div>
+            <div class="port-item">
+              <img src="assets/img/portfolio-restaurante.jpg" alt="Projeto Restaurante" loading="lazy" />
+              <div class="port-overlay">
+                <span class="port-tag">Gastronomia</span>
+                <div class="port-title">Restaurante</div>
               </div>
-            </article>
-
-            <article class="portfolio-card glass">
-              <div class="portfolio-media">
-                <img src="assets/img/portfolio-restaurante.jpg" alt="Estrutura para restaurante e gastronomia" loading="lazy" />
-              </div>
-              <div class="portfolio-body">
-                <span class="tag">Gastronomia</span>
-                <h3>Restaurante Gourmet</h3>
-                <p>Visual pensado para reserva, cardápio, localização e percepção premium.</p>
-                <p class="portfolio-note">Exemplo de apresentação para restaurante, delivery e adega.</p>
-              </div>
-            </article>
-
-            <article class="portfolio-card glass">
-              <div class="portfolio-media">
-                <img src="assets/img/portfolio-agencia.jpg" alt="Estrutura para agência e serviços" loading="lazy" />
-              </div>
-              <div class="portfolio-body">
-                <span class="tag">Serviços</span>
-                <h3>Agência de Serviços</h3>
-                <p>Estrutura corporativa com portfólio, proposta clara e captação de leads.</p>
-                <p class="portfolio-note">Exemplo de layout para negócio local, agência e marca pessoal.</p>
-              </div>
-            </article>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
-      <section class="section compact" id="processo">
-        <div class="container">
-          <span class="eyebrow">Processo</span>
-          <h2 class="section-title">Um processo claro para tirar sua presença digital do <strong>improviso</strong></h2>
-          <p class="section-subtitle">
-            Sem enrolação, sem bagunça e sem site com cara de template solto. O projeto segue uma lógica simples: entender o negócio, construir a proposta visual certa e colocar no ar uma estrutura que represente melhor a marca.
-          </p>
-
-          <div class="steps" style="margin-top:34px;">
-            <article class="step">
-              <span class="step-number">01</span>
-              <h3>Diagnóstico</h3>
-              <p>Entendemos seu negócio, objetivo, público e o tipo de presença digital que faz sentido para a sua realidade.</p>
-            </article>
-
-            <article class="step">
-              <span class="step-number">02</span>
-              <h3>Direção visual</h3>
-              <p>Definimos a linha visual, o tom da marca e a estrutura da página para transmitir mais valor e mais clareza.</p>
-            </article>
-
-            <article class="step">
-              <span class="step-number">03</span>
-              <h3>Desenvolvimento</h3>
-              <p>Construímos o site com foco em experiência, responsividade, organização e contato fácil com o cliente.</p>
-            </article>
-
-            <article class="step">
-              <span class="step-number">04</span>
+      <!-- PROCESSO -->
+      <section class="section" id="processo">
+        <div class="section-inner">
+          <span class="sec-eyebrow">Metodologia</span>
+          <h2 class="sec-title">Como<br><span class="gradient">Funciona.</span></h2>
+          <p class="sec-sub">Um processo claro, sem enrolação e focado no resultado. Entregamos seu projeto pronto para vender.</p>
+          <div class="steps-row">
+            <div class="glass-card step-card">
+              <div class="step-icon">01</div>
+              <h3>Briefing</h3>
+              <p>Entendemos o seu negócio, seus diferenciais e o perfil do seu cliente ideal.</p>
+            </div>
+            <div class="glass-card step-card">
+              <div class="step-icon">02</div>
+              <h3>Design & Dev</h3>
+              <p>Criamos a identidade visual e desenvolvemos a estrutura técnica otimizada.</p>
+            </div>
+            <div class="glass-card step-card">
+              <div class="step-icon">03</div>
+              <h3>Revisão</h3>
+              <p>Apresentamos o projeto para sua aprovação e realizamos os ajustes necessários.</p>
+            </div>
+            <div class="glass-card step-card">
+              <div class="step-icon">04</div>
               <h3>Publicação</h3>
-              <p>Ajustamos os detalhes, organizamos a entrega e colocamos o projeto no ar com presença profissional.</p>
-            </article>
+              <p>Site no ar com domínio configurado, hospedagem rápida, SEO base e WhatsApp integrado.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
+      <!-- PLANOS -->
       <section class="section" id="planos">
-        <div class="container">
-          <span class="eyebrow">Planos</span>
-          <h2 class="section-title">Escolha a estrutura ideal para o <strong>momento do seu negócio</strong></h2>
-          <p class="section-subtitle">
-            Cada projeto pode seguir um nível diferente de profundidade, mas todos têm o mesmo objetivo: transmitir mais autoridade, melhorar sua presença digital e facilitar o contato com o cliente.
-          </p>
-
-          <div class="plans-grid" style="margin-top:34px;">
-            <article class="plan-card glass">
-              <span class="mini-label">Plano inicial</span>
+        <div class="section-inner">
+          <span class="sec-eyebrow">Investimento</span>
+          <h2 class="sec-title">Escolha o momento<br><span class="gradient">do seu negócio.</span></h2>
+          <p class="sec-sub">Pagamento único. Sem mensalidade. Sem surpresa.</p>
+          <div class="plans-row">
+            <div class="glass-card plan-card">
+              <div class="plan-name">Inicial</div>
               <h3>Essencial</h3>
-              <p>Para negócios que precisam sair do improviso e ter uma presença digital mais profissional.</p>
-              <div class="price">
-                <strong>R$ 1.500</strong>
-                <span>pagamento único</span>
-              </div>
-              <ul class="feature-list">
+              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para sair do improviso.</p>
+              <div class="plan-price">R$ 1.500 <span>único</span></div>
+              <ul class="plan-features">
                 <li>Estrutura clara e objetiva</li>
                 <li>Visual profissional</li>
                 <li>WhatsApp integrado</li>
-                <li>Responsivo para celular</li>
-                <li>Publicação com presença de marca</li>
+                <li>100% responsivo</li>
+                <li>Publicação completa</li>
               </ul>
-              <a class="btn btn-primary btn-whatsapp" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20de%20contratar%20o%20plano%20Essencial%20da%20OLEGARIO%20TECH.">
-                Contratar Essencial
-              </a>
-            </article>
-
-            <article class="plan-card glass popular">
-              <span class="mini-label">Plano de crescimento</span>
+              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Essencial." target="_blank" rel="noopener noreferrer">Contratar</a>
+            </div>
+            <div class="glass-card plan-card popular">
+              <div class="plan-popular-badge">Mais escolhido</div>
+              <div class="plan-name">Crescimento</div>
               <h3>Profissional</h3>
-              <p>Para marcas que querem mais força visual, mais estrutura e uma apresentação mais completa.</p>
-              <div class="price">
-                <strong>R$ 3.000</strong>
-                <span>pagamento único</span>
-              </div>
-              <ul class="feature-list">
+              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para marcas que querem mais.</p>
+              <div class="plan-price">R$ 3.000 <span>único</span></div>
+              <ul class="plan-features">
                 <li>Tudo do Essencial</li>
-                <li>Organização comercial da informação</li>
+                <li>Organização comercial</li>
                 <li>Mais profundidade visual</li>
-                <li>Recursos de contato e captação</li>
-                <li>Estrutura pensada para crescimento</li>
+                <li>Recursos de captação</li>
+                <li>Estrutura para crescer</li>
               </ul>
-              <a class="btn btn-primary btn-whatsapp" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20de%20contratar%20o%20plano%20Profissional%20da%20OLEGARIO%20TECH.">
-                Contratar Profissional
-              </a>
-            </article>
-
-            <article class="plan-card glass">
-              <span class="mini-label">Plano premium</span>
-              <h3>Premium</h3>
-              <p>Para empresas que querem um site mais autoral, mais marcante e mais alinhado ao seu posicionamento.</p>
-              <div class="price">
-                <strong>R$ 5.000</strong>
-                <span>pagamento único</span>
-              </div>
-              <ul class="feature-list">
+              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Profissional." target="_blank" rel="noopener noreferrer">Contratar</a>
+            </div>
+            <div class="glass-card plan-card">
+              <div class="plan-name">Premium</div>
+              <h3>Exclusivo</h3>
+              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para quem quer se destacar.</p>
+              <div class="plan-price">R$ 5.000 <span>único</span></div>
+              <ul class="plan-features">
                 <li>Tudo do Profissional</li>
-                <li>Estrutura mais robusta e autoral</li>
+                <li>Estrutura autoral robusta</li>
                 <li>Recursos avançados sob medida</li>
-                <li>Direção visual e comercial</li>
-                <li>Suporte e refinamento ampliados</li>
+                <li>Direção visual completa</li>
+                <li>Suporte ampliado</li>
               </ul>
-              <a class="btn btn-primary btn-whatsapp" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20de%20contratar%20o%20plano%20Premium%20da%20OLEGARIO%20TECH.">
-                Contratar Premium
-              </a>
-            </article>
+              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Premium." target="_blank" rel="noopener noreferrer">Contratar</a>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
+      <!-- SOBRE -->
       <section class="section" id="sobre">
-        <div class="container about-grid">
-          <div class="about-card glass">
-            <span class="eyebrow">Sobre</span>
-            <h2 class="section-title">Olegario Tech: presença digital com <strong>visão comercial</strong></h2>
-            <p>
-              A Olegario Tech nasce da combinação entre estética forte, comunicação direta e visão de resultado. A proposta não é criar só um site bonito, mas construir uma presença digital que valorize a marca, transmita confiança e facilite o contato com o cliente.
-            </p>
-            <p>
-              Nosso próprio site é parte da prova do que entregamos: identidade visual marcante, experiência diferenciada e estrutura pensada para negócios que não querem parecer iguais a todo mundo.
-            </p>
-            <p>
-              Atendemos principalmente pequenos e médios empreendedores de Valinhos, Campinas e região que querem elevar o nível da sua imagem no digital.
-            </p>
-
-            <div class="stats-grid">
-              <div class="stat-box">
-                <strong>Visual</strong>
-                <span>Exclusivo e personalizado</span>
-              </div>
-              <div class="stat-box">
-                <strong>Experiência</strong>
-                <span>Premium e marcante</span>
-              </div>
-              <div class="stat-box">
-                <strong>Foco local</strong>
-                <span>Valinhos, Campinas e região</span>
+        <div class="section-inner">
+          <div class="about-grid">
+            <div class="about-text">
+              <span class="sec-eyebrow">Quem somos</span>
+              <h2 class="sec-title">Presença digital<br><span class="gradient">com visão comercial.</span></h2>
+              <p>
+                A Olegario Tech nasce da combinação entre estética forte e resultado real. 
+                Não criamos só sites bonitos — criamos estruturas que transmitem autoridade 
+                e facilitam o contato com o cliente.
+              </p>
+              <p>
+                Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região 
+                que querem elevar o nível da imagem no digital, saindo do amadorismo das redes sociais para uma presença corporativa forte.
+              </p>
+              <div class="about-stats">
+                <div class="about-stat">
+                  <strong>Projetos</strong>
+                  <span>Em execução agora</span>
+                </div>
+                <div class="about-stat">
+                  <strong>24h</strong>
+                  <span>Tempo de resposta</span>
+                </div>
+                <div class="about-stat">
+                  <strong>100%</strong>
+                  <span>Foco local</span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="about-photo glass">
-            <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario" loading="lazy" />
-            <div class="about-caption">
-              <strong>Alexandre Olegario</strong>
-              <span>Olegario Tech</span>
+            <div class="about-photo">
+              <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario - Fundador Olegario Tech" loading="lazy" />
+              <div class="about-caption">
+                <strong>Alexandre Olegario</strong>
+                <span>Fundador Olegario Tech</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-
+      <!-- PRODUTOS -->
       <section class="section" id="produtos">
-        <div class="container">
-          <span class="eyebrow">Produtos digitais</span>
-          <h2 class="section-title">Além dos sites, também criamos <strong>métodos digitais</strong></h2>
-          <p class="section-subtitle">
-            Os produtos digitais da Olegario Tech seguem a mesma lógica da marca: clareza, direção, execução e resultado real.
-          </p>
-
-          <div class="products-grid" style="margin-top:34px;">
-            <article class="product-card glass">
+        <div class="section-inner">
+          <span class="sec-eyebrow">Produtos Digitais</span>
+          <h2 class="sec-title">Além dos sites,<br><span class="gradient">métodos práticos.</span></h2>
+          <p class="sec-sub">Clareza, direção e execução em formato digital para o seu desenvolvimento pessoal e profissional.</p>
+          <div class="products-grid">
+            <div class="glass-card product-card">
               <div class="product-media">
-                <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Capa do produto Lucidez Prática" loading="lazy" />
+                <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" loading="lazy" />
               </div>
               <div class="product-body">
-                <span class="tag">Filosofia aplicada</span>
+                <span class="product-tag">Filosofia</span>
                 <h3>Lucidez Prática</h3>
-                <p>Um protocolo prático para sair do looping mental e voltar à execução, com linguagem direta e aplicação real.</p>
-                <div class="product-price">
-                  <s>R$ 97</s>
-                  <strong>R$ 29,90</strong>
-                </div>
-                <a class="btn btn-primary product-btn" href="https://pay.kiwify.com.br/FxEtsfU">Comprar agora</a>
+                <p>Protocolo para sair do looping mental e voltar à execução.</p>
+                <div class="product-price-row"><s>R$ 97</s><strong>R$ 29,90</strong></div>
+                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/FxEtsfU','_blank')">Comprar</button>
               </div>
-            </article>
-
-            <article class="product-card glass">
+            </div>
+            <div class="glass-card product-card">
               <div class="product-media">
-                <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Capa do produto Dinheiro que Sobra" loading="lazy" />
+                <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" loading="lazy" />
               </div>
               <div class="product-body">
-                <span class="tag">Finanças</span>
+                <span class="product-tag">Finanças</span>
                 <h3>Dinheiro que Sobra</h3>
-                <p>Guia prático para organizar a vida financeira, entender os vazamentos e começar a fazer sobrar.</p>
-                <div class="product-price">
-                  <strong>R$ 19,90</strong>
-                </div>
-                <a class="btn btn-primary product-btn" href="https://pay.kiwify.com.br/xPzKLoK">Comprar agora</a>
+                <p>Guia prático para organizar a vida financeira.</p>
+                <div class="product-price-row"><strong>R$ 19,90</strong></div>
+                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/xPzKLoK','_blank')">Comprar</button>
               </div>
-            </article>
-
-            <article class="product-card glass">
+            </div>
+            <div class="glass-card product-card">
               <div class="product-media">
-                <img src="assets/img/capa-vendas.jpg" alt="Capa do Manual da Prospecção ao Fechamento" loading="lazy" />
+                <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas" loading="lazy" />
               </div>
               <div class="product-body">
-                <span class="tag">Vendas</span>
-                <h3>Manual da Prospecção ao Fechamento</h3>
-                <p>Método direto para gerar conversa, conduzir objeções e fechar mais vendas com rotina comercial.</p>
-                <div class="product-price">
-                  <strong>R$ 19,90</strong>
-                </div>
-                <a class="btn btn-primary product-btn" href="https://pay.kiwify.com.br/rmmRvfc">Comprar agora</a>
+                <span class="product-tag">Vendas</span>
+                <h3>Manual da Prospecção</h3>
+                <p>Método direto para gerar conversa e fechar mais.</p>
+                <div class="product-price-row"><strong>R$ 19,90</strong></div>
+                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/rmmRvfc','_blank')">Comprar</button>
               </div>
-            </article>
-
-            <article class="product-card glass">
+            </div>
+            <div class="glass-card product-card">
               <div class="product-media">
-                <img src="assets/img/capa-calistenia.jpg" alt="Capa do produto Treino em Casa 30min" loading="lazy" />
+                <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa" loading="lazy" />
               </div>
               <div class="product-body">
-                <span class="tag">Treino</span>
+                <span class="product-tag">Treino</span>
                 <h3>Treino em Casa 30min</h3>
-                <p>Treino objetivo, sem enrolação e sem precisar de academia. Estrutura simples para constância e resultado.</p>
-                <div class="product-price">
-                  <strong>R$ 14,99</strong>
-                </div>
-                <a class="btn btn-primary product-btn" href="https://pay.kiwify.com.br/lt9RRvy">Comprar agora</a>
+                <p>Constância e resultado sem precisar de academia.</p>
+                <div class="product-price-row"><strong>R$ 14,99</strong></div>
+                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/lt9RRvy','_blank')">Comprar</button>
               </div>
-            </article>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
+      <!-- FAQ -->
+      <section class="section" id="faq" style="min-height:auto;padding:100px 40px;">
+        <div class="section-inner">
+          <span class="sec-eyebrow">Dúvidas Frequentes</span>
+          <h2 class="sec-title">O básico,<br><span class="gradient">esclarecido.</span></h2>
+          <div class="faq-list">
+            <div class="faq-item glass-card" style="padding: 0;">
+              <button class="faq-trigger"><span>Quais tipos de negócio vocês atendem?</span><span class="faq-icon">+</span></button>
+              <div class="faq-panel"><p>Clínicas, restaurantes, salões, barbearias, adegas, pet shops, prestadores de serviço e empresas de Valinhos, Campinas e região.</p></div>
+            </div>
+            <div class="faq-item glass-card" style="padding: 0;">
+              <button class="faq-trigger"><span>O site fica com visual exclusivo?</span><span class="faq-icon">+</span></button>
+              <div class="faq-panel"><p>Sim. Cada projeto é pensado do zero com direção visual própria. Nada de template genérico.</p></div>
+            </div>
+            <div class="faq-item glass-card" style="padding: 0;">
+              <button class="faq-trigger"><span>Quanto tempo leva para ficar pronto?</span><span class="faq-icon">+</span></button>
+              <div class="faq-panel"><p>Essencial: até 10 dias úteis. Profissional e Premium: 15 a 25 dias úteis, dependendo do escopo.</p></div>
+            </div>
+            <div class="faq-item glass-card" style="padding: 0;">
+              <button class="faq-trigger"><span>O site funciona bem no celular?</span><span class="faq-icon">+</span></button>
+              <div class="faq-panel"><p>Sim. A estrutura é pensada mobile-first. Grande parte dos contatos vem do celular, então essa é nossa prioridade técnica.</p></div>
+            </div>
+            <div class="faq-item glass-card" style="padding: 0;">
+              <button class="faq-trigger"><span>Vocês ajudam com domínio e publicação?</span><span class="faq-icon">+</span></button>
+              <div class="faq-panel"><p>Sim. Orientação e configuração completa para colocar o site no ar com presença profissional (.com.br) e hospedagem segura.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <section class="section compact" id="faq">
-        <div class="container">
-          <span class="eyebrow">FAQ</span>
-          <h2 class="section-title">Tire suas <strong>dúvidas</strong></h2>
-          <p class="section-subtitle">
-            O básico precisa estar claro: tipo de negócio atendido, prazo, celular, WhatsApp, publicação e o diferencial do projeto.
+      <!-- CTA FINAL -->
+      <section class="section final-cta" id="cta">
+        <div class="section-inner">
+          <h2>Seu negócio merece<br><span class="gradient">um site à altura.</span></h2>
+          <p>
+            Instagram ajuda. Indicação ajuda. Mas um site profissional bem feito 
+            coloca sua marca em outro nível de autoridade e confiança. Vamos conversar?
           </p>
-
-          <div class="faq-wrap">
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>Vocês criam sites para quais tipos de negócio?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Criamos sites para pequenos e médios empreendedores de Valinhos, Campinas e região, como clínicas, restaurantes, salões, barbearias, adegas, pet shops, prestadores de serviço e empresas que precisam de presença digital profissional.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>O site fica com visual exclusivo ou vocês usam modelo pronto?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>A proposta da Olegario Tech é criar uma estrutura com direção visual forte e personalizada, para que o site represente melhor a marca e não pareça genérico.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>Quanto tempo leva para ficar pronto?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>O prazo depende do escopo, da quantidade de páginas e do material disponível, mas projetos mais objetivos podem avançar com rapidez quando o processo flui bem.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>O site funciona bem no celular?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Sim. A estrutura é pensada para funcionar muito bem no mobile, porque hoje grande parte dos acessos e contatos acontece pelo celular.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>O WhatsApp já fica integrado?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Sim. O site pode sair com botão flutuante, chamadas para ação e links diretos para facilitar o contato do cliente com sua empresa.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>Vocês ajudam com domínio, publicação e presença digital?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Sim. A estrutura pode incluir orientação e configuração para colocar o site no ar com presença profissional e base preparada para o digital.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>Qual é o diferencial da Olegario Tech?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Unimos visual premium, personalização e visão comercial. O site precisa ser bonito, transmitir autoridade e gerar ação.</p>
-              </div>
-            </article>
-
-            <article class="faq-item glass">
-              <button class="faq-trigger" type="button">
-                <span>Vocês atendem Valinhos, Campinas e Região?</span>
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-panel">
-                <p>Sim. O foco principal da Olegario Tech é atender negócios locais da região com projetos profissionais, exclusivos e pensados para valorizar a marca.</p>
-              </div>
-            </article>
-          </div></div>
-        </div>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <section class="section">
-        <div class="container">
-          <div class="cta-box glass">
-            <h2>Seu negócio já deveria estar com um site profissional à altura da sua entrega.</h2>
-            <p>
-              Não deixe sua marca parecer improvisada. Se a sua empresa quer transmitir mais autoridade, gerar mais confiança e facilitar o contato com o cliente, a Olegario Tech pode construir essa presença digital com você.
-            </p>
-            <p>
-              Instagram ajuda. Indicação ajuda. Mas um site profissional bem feito coloca sua marca em outro nível.
-            </p>
-            <a class="btn btn-primary btn-whatsapp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento%20para%20criar%20meu%20site.">
-              Solicitar orçamento no WhatsApp
-            </a>
-          </div>
+          <a class="hero-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.38 3.55 1.06 5.11L2 22l5.06-1.06A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+            Falar no WhatsApp
+          </a>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="container footer-wrap">
-        <div class="footer-copy">
-          <strong style="display:block; color:#fff; margin-bottom:6px; letter-spacing:.14em; text-transform:uppercase; font-size:.84rem;">OLEGARIO TECH</strong>
-          Conhecimento que vira ação.<br />
-          © <span id="year"></span> Olegario Tech. Todos os direitos reservados.
-        </div>
-
-        <div class="footer-links">
-          <a href="#top">Início</a>
-          <a href="#servicos">Serviços</a>
-          <a href="#portfolio">Portfólio</a>
-          <a href="#processo">Processo</a>
-          <a href="#planos">Planos</a>
-          <a href="#sobre">Sobre</a>
-          <a href="#produtos">Produtos</a>
-          <a href="#faq">FAQ</a>
-        </div>
+      <div class="footer-copy">
+        <strong style="display:block;color:#fff;margin-bottom:8px;letter-spacing:.15em;text-transform:uppercase;font-size:.9rem;">OLEGARIO TECH</strong>
+        © 2025 Olegario Tech. Todos os direitos reservados.<br>
+        Valinhos, Campinas e Região.
+      </div>
+      <div class="footer-links">
+        <a href="#servicos">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#planos">Planos</a>
+        <a href="#sobre">Sobre</a>
       </div>
     </footer>
+  </div>
 
-    <a class="fab" aria-label="Falar no WhatsApp" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento%20para%20criação%20de%20site."></a>
-    
-    <!-- ÁUDIO ATUALIZADO: Nova música com volume inicial 0 e scroll reativo -->
-    <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
-      <source src="background.m4a" type="audio/mp4">
-    </audio>
+  <!-- WhatsApp FAB -->
+  <a class="fab" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
 
-    <!-- BOTÃO MUTE FLUTUANTE -->
-    <div id="muteBtn" class="mute-btn" aria-label="Ligar/Desligar Som">
-      <svg class="icon-unmuted" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path></svg>
-      <svg class="icon-muted" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"></path></svg>
-    </div>
+  <!-- Audio -->
+  <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
+    <source src="assets/audio/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Mute Button -->
+  <div id="muteBtn" class="mute-btn" aria-label="Ligar/Desligar Som">
+    <svg class="icon-unmuted" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path></svg>
+    <svg class="icon-muted" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"></path></svg>
   </div>
 
   <script>
-    (function () {
-      const body = document.body;
-      const header = document.getElementById("siteHeader");
-      const navToggle = document.getElementById("navToggle");
-      const navMenu = document.getElementById("navMenu");
-      const year = document.getElementById("year");
+    // ==========================================
+    // THREE.JS PARTICLE SYSTEM - NARRATIVE 3D
+    // ==========================================
+    (function() {
+      // Mobile check for performance
+      const isMobile = window.innerWidth <= 768;
+      
+      const container = document.getElementById('canvas-container');
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x050508, 0.02);
 
-      if (year) year.textContent = new Date().getFullYear();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 30;
 
-      function updateHeader() {
-        if (window.scrollY > 16) header.classList.add("scrolled");
-        else header.classList.remove("scrolled");
+      const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true, powerPreference: "high-performance" });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
+      renderer.setClearColor(0x050508, 1);
+      container.appendChild(renderer.domElement);
+
+      // Particle count - reduced for mobile
+      const COUNT = isMobile ? 800 : 2500;
+      const positions = new Float32Array(COUNT * 3);
+      const randoms = new Float32Array(COUNT * 3);
+      const sizes = new Float32Array(COUNT);
+      const colors = new Float32Array(COUNT * 3);
+
+      const color1 = new THREE.Color(0x9d4edd);
+      const color2 = new THREE.Color(0x5b8cff);
+      const color3 = new THREE.Color(0xe9bf73);
+
+      for (let i = 0; i < COUNT; i++) {
+        const i3 = i * 3;
+        randoms[i3] = Math.random();
+        randoms[i3 + 1] = Math.random();
+        randoms[i3 + 2] = Math.random();
+        positions[i3] = (Math.random() - 0.5) * 60;
+        positions[i3 + 1] = (Math.random() - 0.5) * 60;
+        positions[i3 + 2] = (Math.random() - 0.5) * 40;
+        sizes[i] = Math.random() * 2 + 0.5;
+
+        const c = Math.random() > 0.6 ? color3 : (Math.random() > 0.5 ? color1 : color2);
+        colors[i3] = c.r;
+        colors[i3 + 1] = c.g;
+        colors[i3 + 2] = c.b;
       }
 
-      updateHeader();
-      window.addEventListener("scroll", updateHeader, { passive: true });
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 3));
+      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-      if (navToggle) {
-        navToggle.addEventListener("click", function () {
-          body.classList.toggle("nav-open");
-          const expanded = body.classList.contains("nav-open");
-          navToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      // Custom shader material
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          uTime: { value: 0 },
+          uScroll: { value: 0 },
+          uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+          uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        },
+        vertexShader: `
+          uniform float uTime;
+          uniform float uScroll;
+          uniform vec2 uMouse;
+          attribute vec3 aRandom;
+          attribute float aSize;
+          attribute vec3 color;
+          varying vec3 vColor;
+          varying float vAlpha;
+
+          // Hash function
+          float hash(float n) { return fract(sin(n) * 43758.5453123); }
+
+          void main() {
+            vColor = color;
+            float t = uTime * 0.3;
+            float s = uScroll;
+
+            // Base position from random
+            vec3 pos = position;
+
+            // STATE 0: Chaos (0.0 - 0.25) - floating particles
+            float chaos = smoothstep(0.0, 0.25, s) * (1.0 - smoothstep(0.2, 0.35, s));
+            vec3 chaosPos = pos + vec3(
+              sin(aRandom.x * 6.28 + t + aRandom.y * 3.0) * 2.0,
+              cos(aRandom.y * 6.28 + t * 0.7 + aRandom.z * 2.0) * 2.0,
+              sin(aRandom.z * 6.28 + t * 0.5) * 1.5
+            );
+
+            // STATE 1: Grid formation (0.25 - 0.55) - wireframe sites
+            float gridPhase = smoothstep(0.2, 0.4, s) * (1.0 - smoothstep(0.5, 0.65, s));
+            float gridSize = 18.0;
+            float gridSpacing = 2.5;
+            int idx = int(mod(float(gl_VertexID), 1000.0));
+            int gx = idx % 20;
+            int gy = (idx / 20) % 20;
+            int gz = idx / 400;
+            vec3 gridPos = vec3(
+              float(gx) * gridSpacing - gridSize * 0.5,
+              float(gy) * gridSpacing - gridSize * 0.5,
+              float(gz) * 3.0 - 3.0
+            );
+            // Add some noise to grid
+            gridPos += vec3(
+              sin(float(gx) * 0.5 + t) * 0.3,
+              cos(float(gy) * 0.5 + t * 0.8) * 0.3,
+              0.0
+            );
+
+            // STATE 2: Network (0.55 - 0.8) - connections
+            float netPhase = smoothstep(0.5, 0.65, s) * (1.0 - smoothstep(0.75, 0.85, s));
+            float angle = aRandom.x * 6.28318;
+            float radius = 8.0 + aRandom.y * 12.0;
+            float height = (aRandom.z - 0.5) * 16.0;
+            vec3 netPos = vec3(
+              cos(angle + t * 0.2 + aRandom.z) * radius,
+              height + sin(t * 0.3 + aRandom.x * 3.0) * 2.0,
+              sin(angle + t * 0.2 + aRandom.z) * radius
+            );
+
+            // STATE 3: Convergence (0.8 - 1.0) - all to center
+            float convPhase = smoothstep(0.75, 0.85, s);
+            vec3 convPos = mix(pos * 0.1, vec3(0.0), convPhase);
+            convPos += vec3(
+              sin(aRandom.x * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase),
+              cos(aRandom.y * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase),
+              sin(aRandom.z * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase)
+            );
+
+            // Blend states
+            vec3 finalPos = mix(pos, chaosPos, chaos);
+            finalPos = mix(finalPos, gridPos, gridPhase);
+            finalPos = mix(finalPos, netPos, netPhase);
+            finalPos = mix(finalPos, convPos, convPhase);
+
+            // Mouse interaction - repulsion
+            vec2 mouseNDC = (uMouse - 0.5) * 2.0;
+            vec4 viewPos = modelViewMatrix * vec4(finalPos, 1.0);
+            vec2 screenPos = viewPos.xy / viewPos.z;
+            float mouseDist = length(screenPos - mouseNDC * 15.0);
+            float mouseInfluence = smoothstep(8.0, 0.0, mouseDist);
+            vec2 repelDir = normalize(screenPos - mouseNDC * 15.0 + 0.001);
+            finalPos.xy += repelDir * mouseInfluence * 3.0;
+
+            // Breathing effect
+            float breath = sin(uTime * 0.5 + aRandom.x * 6.28) * 0.5 + 0.5;
+            vAlpha = 0.4 + breath * 0.6;
+
+            vec4 mvPosition = modelViewMatrix * vec4(finalPos, 1.0);
+            gl_Position = projectionMatrix * mvPosition;
+            gl_PointSize = aSize * (300.0 / -mvPosition.z) * (0.8 + breath * 0.4);
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vColor;
+          varying float vAlpha;
+
+          void main() {
+            float dist = length(gl_PointCoord - vec2(0.5));
+            if (dist > 0.5) discard;
+            float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+            glow = pow(glow, 1.5);
+            gl_FragColor = vec4(vColor, vAlpha * glow);
+          }
+        `,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      // Connection lines for network state - disabled on mobile for performance
+      let lines;
+      let lineMaterial;
+      if (!isMobile) {
+        const lineCount = 300;
+        const linePositions = new Float32Array(lineCount * 6); // 2 points * 3 coords
+        const lineGeometry = new THREE.BufferGeometry();
+        lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+        lineMaterial = new THREE.LineBasicMaterial({
+          color: 0x5b8cff,
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending
+        });
+        lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+        scene.add(lines);
+      }
+
+      // Mouse tracking
+      const mouse = { x: 0.5, y: 0.5 };
+      document.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX / window.innerWidth;
+        mouse.y = 1.0 - e.clientY / window.innerHeight;
+      }, { passive: true });
+
+      // Scroll tracking
+      let scrollProgress = 0;
+      function updateScroll() {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress = docHeight > 0 ? Math.min(1, window.scrollY / docHeight) : 0;
+      }
+      window.addEventListener('scroll', updateScroll, { passive: true });
+
+      // Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+      });
+
+      // Animation loop
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsed = clock.getElapsedTime();
+
+        material.uniforms.uTime.value = elapsed;
+        material.uniforms.uScroll.value = scrollProgress;
+        material.uniforms.uMouse.value.set(mouse.x, mouse.y);
+
+        // Rotate entire scene slowly based on scroll
+        particles.rotation.y = elapsed * 0.02 + scrollProgress * Math.PI * 0.5;
+        particles.rotation.x = Math.sin(elapsed * 0.1) * 0.1;
+
+        // Update connection lines opacity based on network phase
+        if (!isMobile && lineMaterial) {
+          const netPhase = Math.max(0, Math.min(1, (scrollProgress - 0.5) / 0.3));
+          lineMaterial.opacity = netPhase * 0.3 * (0.5 + Math.sin(elapsed * 2) * 0.5);
+        }
+
+        // Update camera based on scroll
+        camera.position.z = 30 - scrollProgress * 15;
+        camera.position.y = Math.sin(scrollProgress * Math.PI) * 5;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // GSAP ScrollTrigger animations for UI elements
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero entrance
+      gsap.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
+      gsap.to('.hero-title', { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power3.out' });
+      gsap.to('.hero-sub', { opacity: 1, y: 0, duration: 1, delay: 0.7, ease: 'power3.out' });
+      gsap.to('.hero-cta', { opacity: 1, y: 0, duration: 1, delay: 0.9, ease: 'power3.out' });
+      gsap.to('.scroll-hint', { opacity: 0.6, duration: 1, delay: 1.5, ease: 'power3.out' });
+
+      // Section reveals
+      document.querySelectorAll('.section:not(.hero)').forEach(sec => {
+        const inner = sec.querySelector('.section-inner');
+        if (!inner) return;
+        gsap.from(inner.children, {
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          },
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power3.out'
+        });
+      });
+    })();
+
+    // ==========================================
+    // AUDIO SYSTEM
+    // ==========================================
+    (function() {
+      const audio = document.getElementById('bg-audio');
+      if (!audio) return;
+
+      const MAX_VOLUME = 0.8;
+      const START_VOLUME = 0;
+      const SCROLL_THRESHOLD = 0.02;
+
+      let targetVolume = START_VOLUME;
+      let currentVolume = START_VOLUME;
+      let hasInteracted = false;
+      let isManuallyMuted = false;
+
+      audio.volume = START_VOLUME;
+
+      function updateTargetVolume() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) { targetVolume = MAX_VOLUME; return; }
+        let progress = scrollTop / docHeight;
+        progress = Math.max(0, (progress - SCROLL_THRESHOLD) / (1 - SCROLL_THRESHOLD));
+        progress = Math.min(1, progress);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        targetVolume = eased * MAX_VOLUME;
+      }
+
+      function smoothVolume() {
+        if (!isManuallyMuted) {
+          const diff = targetVolume - currentVolume;
+          if (Math.abs(diff) > 0.001) {
+            currentVolume += diff * 0.05;
+            audio.volume = Math.max(0, Math.min(1, currentVolume));
+          }
+          audio.muted = (currentVolume < 0.01);
+        } else {
+          audio.muted = true;
+          audio.volume = 0;
+        }
+        requestAnimationFrame(smoothVolume);
+      }
+
+      function initAudio() {
+        if (hasInteracted) return;
+        audio.play().then(() => {
+          hasInteracted = true;
+        }).catch(() => {});
+      }
+
+      window.addEventListener('scroll', () => {
+        updateTargetVolume();
+        if (!hasInteracted) initAudio();
+      }, { passive: true });
+
+      ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
+        window.addEventListener(event, () => {
+          if (!hasInteracted) initAudio();
+        }, { once: true, passive: true });
+      });
+
+      const muteBtn = document.getElementById('muteBtn');
+      if (muteBtn) {
+        muteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          isManuallyMuted = !isManuallyMuted;
+          muteBtn.classList.toggle('muted', isManuallyMuted);
+          if (isManuallyMuted) {
+            audio.muted = true;
+            audio.volume = 0;
+          } else {
+            audio.muted = (currentVolume < 0.01);
+          }
         });
       }
 
-      if (navMenu) {
-        navMenu.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", function () {
-            body.classList.remove("nav-open");
-            navToggle && navToggle.setAttribute("aria-expanded", "false");
-          });
-        });
-      }
+      audio.play().then(() => {
+        hasInteracted = true;
+      }).catch(() => {
+        audio.pause();
+      });
 
-      document.querySelectorAll(".faq-item").forEach((item) => {
-        const trigger = item.querySelector(".faq-trigger");
-        const panel = item.querySelector(".faq-panel");
+      updateTargetVolume();
+      smoothVolume();
+    })();
 
+    // ==========================================
+    // FAQ ACCORDION
+    // ==========================================
+    (function() {
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const trigger = item.querySelector('.faq-trigger');
+        const panel = item.querySelector('.faq-panel');
         if (!trigger || !panel) return;
 
-        trigger.addEventListener("click", function () {
-          const isActive = item.classList.contains("active");
-
-          document.querySelectorAll(".faq-item").forEach((other) => {
-            other.classList.remove("active");
-            const otherPanel = other.querySelector(".faq-panel");
-            if (otherPanel) otherPanel.style.maxHeight = "0px";
+        trigger.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          document.querySelectorAll('.faq-item').forEach(other => {
+            other.classList.remove('active');
+            const p = other.querySelector('.faq-panel');
+            if (p) p.style.maxHeight = '0px';
           });
-
           if (!isActive) {
-            item.classList.add("active");
-            panel.style.maxHeight = panel.scrollHeight + "px";
+            item.classList.add('active');
+            panel.style.maxHeight = panel.scrollHeight + 'px';
           }
         });
       });
     })();
-  </script>
 
-  <script>
-    (function () {
-      'use strict';
-      const isMobile = ('ontouchstart' in window) || window.innerWidth < 768;
-      const PR = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.6);
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const mouse = { x: 0.5, y: 0.5 };
-
-      document.addEventListener('mousemove', function (e) {
-        mouse.x = e.clientX / window.innerWidth;
-        mouse.y = 1 - e.clientY / window.innerHeight;
-      }, { passive: true });
-
-      document.addEventListener('touchmove', function (e) {
-        const t = e.touches && e.touches[0];
-        if (!t) return;
-        mouse.x = t.clientX / window.innerWidth;
-        mouse.y = 1 - t.clientY / window.innerHeight;
-      }, { passive: true });
-
-      (function shaderLayer () {
-        const canvas = document.getElementById('bg-shader');
-        if (!canvas) return;
-        const gl = canvas.getContext('webgl', { alpha: true, antialias: true }) || canvas.getContext('experimental-webgl');
-        if (!gl) return;
-
-        const OCT = isMobile ? 4 : 6;
-        const V_SRC = `attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }`;
-        const F_SRC = `
-          precision ${'mediump'} float;
-          uniform vec2 u_res;
-          uniform float u_time;
-          uniform vec2 u_mouse;
-          vec2 hash2(vec2 p){
-            p = vec2(dot(p, vec2(127.1,311.7)), dot(p, vec2(269.5,183.3)));
-            return fract(sin(p) * 43758.5453) * 2.0 - 1.0;
-          }
-          float gn(vec2 p){
-            vec2 i = floor(p), f = fract(p);
-            vec2 u = f*f*(3.0-2.0*f);
-            return mix(
-              mix(dot(hash2(i), f), dot(hash2(i+vec2(1.0,0.0)), f-vec2(1.0,0.0)), u.x),
-              mix(dot(hash2(i+vec2(0.0,1.0)), f-vec2(0.0,1.0)), dot(hash2(i+vec2(1.0,1.0)), f-vec2(1.0,1.0)), u.x),
-              u.y
-            );
-          }
-          float fbm(vec2 p){
-            float v = 0.0; float a = 0.5;
-            mat2 R = mat2(0.809, 0.588, -0.588, 0.809);
-            for(int i=0;i<${'${OCT}'};i++){
-              v += a * gn(p);
-              p = R * p * 2.1 + vec2(100.0,73.0);
-              a *= 0.5;
-            }
-            return v;
-          }
-          void main(){
-            vec2 uv = gl_FragCoord.xy / u_res;
-            vec2 st = uv * 2.0 - 1.0;
-            st.x *= u_res.x / u_res.y;
-            vec2 m = u_mouse * 2.0 - 1.0;
-            m.x *= u_res.x / u_res.y;
-            vec2 dm = st - m;
-            float md = length(dm);
-            vec2 mw = normalize(dm + 0.0001) * smoothstep(0.55, 0.0, md) * 0.13;
-            float t = u_time * 0.085;
-            vec2 p = st + mw;
-            vec2 q = vec2(fbm(p + t), fbm(p + vec2(3.2,1.9) + t * 0.78));
-            vec2 r = vec2(
-              fbm(p + 3.9*q + vec2(1.7,9.2) + t*0.48 + mw*1.6),
-              fbm(p + 3.9*q + vec2(8.3,2.8) + t*0.43)
-            );
-            float f = fbm(p + 4.3*r) * 0.5 + 0.5;
-            vec3 c0 = vec3(0.023, 0.016, 0.050);
-            vec3 c1 = vec3(0.048, 0.030, 0.128);
-            vec3 c2 = vec3(0.092, 0.052, 0.275);
-            vec3 c3 = vec3(0.068, 0.135, 0.415);
-            vec3 c4 = vec3(0.265, 0.132, 0.595);
-            vec3 c5 = vec3(0.190, 0.365, 0.840);
-            vec3 col = c0;
-            col = mix(col, c1, smoothstep(0.00, 0.28, f));
-            col = mix(col, c2, smoothstep(0.22, 0.52, f));
-            col = mix(col, c3, smoothstep(0.44, 0.68, f));
-            col = mix(col, c4, smoothstep(0.60, 0.82, f));
-            col = mix(col, c5, smoothstep(0.76, 1.00, f) * 0.36);
-            float mg = smoothstep(0.42, 0.0, md);
-            col += vec3(0.14, 0.055, 0.36) * mg * 0.58;
-            col += vec3(0.04, 0.10, 0.32) * mg * 0.28;
-            float vg = 1.0 - dot(uv - 0.5, uv - 0.5) * 2.5;
-            col *= clamp(vg, 0.0, 1.0);
-            float gr = fract(sin(dot(gl_FragCoord.xy + u_time*600.0, vec2(12.9898, 78.233))) * 43758.5) - 0.5;
-            col += gr * 0.018;
-            gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
-          }
-        `;
-
-        function mkShader(type, src) {
-          const s = gl.createShader(type);
-          gl.shaderSource(s, src);
-          gl.compileShader(s);
-          return s;
-        }
-        const prog = gl.createProgram();
-        gl.attachShader(prog, mkShader(gl.VERTEX_SHADER, V_SRC));
-        gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, F_SRC));
-        gl.linkProgram(prog);
-        const aPos = gl.getAttribLocation(prog, 'a_pos');
-        const uRes = gl.getUniformLocation(prog, 'u_res');
-        const uTime = gl.getUniformLocation(prog, 'u_time');
-        const uMouse = gl.getUniformLocation(prog, 'u_mouse');
-        const buf = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-
-        function resize() {
-          const W = window.innerWidth;
-          const H = window.innerHeight;
-          canvas.width = Math.floor(W * PR);
-          canvas.height = Math.floor(H * PR);
-          canvas.style.width = W + 'px';
-          canvas.style.height = H + 'px';
-          gl.viewport(0, 0, canvas.width, canvas.height);
-        }
-        resize();
-        window.addEventListener('resize', resize);
-        const T0 = performance.now();
-
-        function frame() {
-          const t = (performance.now() - T0) * 0.001;
-          gl.useProgram(prog);
-          gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-          gl.enableVertexAttribArray(aPos);
-          gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-          gl.uniform2f(uRes, canvas.width, canvas.height);
-          gl.uniform1f(uTime, t);
-          gl.uniform2f(uMouse, mouse.x, mouse.y);
-          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-          requestAnimationFrame(frame);
-        }
-        frame();
-      })();
-
-
-      (function neuronLayer () {
-        const canvas = document.getElementById('bg-nodes');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        let W = 0, H = 0, animationId = 0;
-        let neurons = [];
-        let impulses = [];
-        const MAX_DEPTH = isMobile ? 3 : 4;
-
-        function getNeuronCount() {
-          if (window.innerWidth < 640) return 5;
-          if (window.innerWidth < 1024) return 7;
-          return 9;
-        }
-
-        function resize() {
-          W = window.innerWidth;
-          H = window.innerHeight;
-          canvas.width = Math.floor(W * PR);
-          canvas.height = Math.floor(H * PR);
-          canvas.style.width = W + 'px';
-          canvas.style.height = H + 'px';
-          ctx.setTransform(PR, 0, 0, PR, 0, 0);
-          init();
-        }
-
-        function createBranch(angle, length, depth) {
-          const branch = { angle, length, depth, children: [] };
-          if (depth < MAX_DEPTH && length > 10) {
-            const childCount = depth === 0 ? 2 + Math.floor(Math.random() * 2) : 1 + Math.floor(Math.random() * 2);
-            for (let i = 0; i < childCount; i++) {
-              const spread = (Math.random() - 0.5) * 1.05 + (i === 0 ? -0.28 : 0.28);
-              const childAngle = angle + spread;
-              const childLength = length * (0.58 + Math.random() * 0.18);
-              branch.children.push(createBranch(childAngle, childLength, depth + 1));
-            }
-          }
-          return branch;
-        }
-
-        function createNeuron(x, y) {
-          const somaRadius = (isMobile ? 5.5 : 7) + Math.random() * (isMobile ? 1.8 : 3.2);
-          const roots = [];
-          const dendrites = isMobile ? 4 + Math.floor(Math.random() * 2) : 5 + Math.floor(Math.random() * 3);
-          for (let i = 0; i < dendrites; i++) {
-            const angle = (Math.PI * 2 / dendrites) * i + (Math.random() - 0.5) * 0.42;
-            const length = (isMobile ? 34 : 48) + Math.random() * (isMobile ? 26 : 46);
-            roots.push(createBranch(angle, length, 0));
-          }
-          return {
-            x, y,
-            vx: prefersReduced ? 0 : (Math.random() - 0.5) * 0.035,
-            vy: prefersReduced ? 0 : (Math.random() - 0.5) * 0.035,
-            pulse: Math.random() * Math.PI * 2,
-            alpha: 0.18 + Math.random() * 0.12,
-            somaRadius,
-            roots
-          };
-        }
-
-        function init() {
-          neurons = [];
-          impulses = [];
-          const count = getNeuronCount();
-          for (let i = 0; i < count; i++) {
-            const margin = Math.min(120, Math.max(70, Math.min(W, H) * 0.12));
-            neurons.push(createNeuron(
-              margin + Math.random() * Math.max(40, W - margin * 2),
-              margin + Math.random() * Math.max(40, H - margin * 2)
-            ));
-          }
-        }
-
-        function drawBranch(startX, startY, branch, baseAlpha, time) {
-          const wobble = prefersReduced ? 0 : Math.sin(time * 0.7 + branch.depth * 0.9 + branch.angle * 2.8) * (2.4 / (branch.depth + 1));
-          const bend = prefersReduced ? 0 : Math.cos(time * 0.5 + branch.depth * 1.2 + branch.angle * 2.1) * (3.2 / (branch.depth + 1));
-          const endX = startX + Math.cos(branch.angle) * branch.length;
-          const endY = startY + Math.sin(branch.angle) * branch.length;
-          const ctrlX = (startX + endX) / 2 + wobble * 2.8;
-          const ctrlY = (startY + endY) / 2 + bend * 2.8;
-          const thickness = Math.max(0.38, (isMobile ? 1.8 : 2.4) - branch.depth * 0.34);
-          const fade = baseAlpha * (1 - branch.depth * 0.14);
-          const hue = 278 + branch.depth * 10;
-          const sat = 42 + branch.depth * 6;
-          const light = 58 + branch.depth * 4;
-
-          ctx.beginPath();
-          ctx.moveTo(startX, startY);
-          ctx.quadraticCurveTo(ctrlX, ctrlY, endX, endY);
-          ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${light}%, ${fade * 0.44})`;
-          ctx.lineWidth = thickness;
-          ctx.lineCap = 'round';
-          ctx.stroke();
-
-          if (branch.depth < 2) {
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.quadraticCurveTo(ctrlX, ctrlY, endX, endY);
-            ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${light}%, ${fade * 0.12})`;
-            ctx.lineWidth = thickness + 4.5;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-          }
-
-          if (!branch.children.length) {
-            const blink = prefersReduced ? 0.78 : (Math.sin(time * 1.8 + branch.angle * 4.3) * 0.24 + 0.78);
-            ctx.beginPath();
-            ctx.arc(endX, endY, 1.2 + blink * 0.9, 0, Math.PI * 2);
-            ctx.fillStyle = `hsla(320, 64%, 73%, ${fade * 0.48 * blink})`;
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(endX, endY, 4.4 + blink * 1.4, 0, Math.PI * 2);
-            ctx.fillStyle = `hsla(305, 56%, 62%, ${fade * 0.08 * blink})`;
-            ctx.fill();
-          }
-
-          for (const child of branch.children) {
-            drawBranch(endX, endY, child, baseAlpha, time);
-          }
-        }
-
-        function buildPath(startX, startY, branch, path) {
-          const endX = startX + Math.cos(branch.angle) * branch.length;
-          const endY = startY + Math.sin(branch.angle) * branch.length;
-          path.push({ branch, startX, startY, endX, endY, length: branch.length });
-          if (branch.children.length) {
-            const next = branch.children[Math.floor(Math.random() * branch.children.length)];
-            buildPath(endX, endY, next, path);
-          }
-        }
-
-        function spawnImpulse(neuronIndex, time) {
-          const neuron = neurons[neuronIndex];
-          if (!neuron || !neuron.roots.length) return;
-          const root = neuron.roots[Math.floor(Math.random() * neuron.roots.length)];
-          const path = [];
-          buildPath(neuron.x, neuron.y, root, path);
-          const total = path.reduce((sum, seg) => sum + seg.length, 0);
-          if (!total) return;
-          impulses.push({
-            neuronIndex,
-            path,
-            totalLength: total,
-            progress: 0,
-            speed: (isMobile ? 0.0055 : 0.0075) + Math.random() * (isMobile ? 0.003 : 0.004),
-            intensity: 0.62 + Math.random() * 0.32,
-            bornAt: time
-          });
-        }
-
-        function drawImpulse(impulse) {
-          let distance = impulse.totalLength * impulse.progress;
-          let seg = impulse.path[0];
-          for (const candidate of impulse.path) {
-            if (distance <= candidate.length) { seg = candidate; break; }
-            distance -= candidate.length;
-          }
-          const t = Math.max(0, Math.min(1, seg.length ? distance / seg.length : 0));
-          const px = seg.startX + (seg.endX - seg.startX) * t;
-          const py = seg.startY + (seg.endY - seg.startY) * t;
-          const wave = Math.sin(impulse.progress * Math.PI);
-          const halo = ctx.createRadialGradient(px, py, 0, px, py, 16);
-          halo.addColorStop(0, `rgba(231,210,255,${wave * impulse.intensity * 0.82})`);
-          halo.addColorStop(0.28, `rgba(157,78,221,${wave * impulse.intensity * 0.26})`);
-          halo.addColorStop(1, 'rgba(91,140,255,0)');
-          ctx.beginPath();
-          ctx.arc(px, py, 16, 0, Math.PI * 2);
-          ctx.fillStyle = halo;
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(px, py, 2.1, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(248,242,255,${wave * impulse.intensity})`;
-          ctx.fill();
-        }
-
-        function drawConnections(time) {
-          for (let i = 0; i < neurons.length; i++) {
-            for (let j = i + 1; j < neurons.length; j++) {
-              const a = neurons[i];
-              const b = neurons[j];
-              const dx = a.x - b.x;
-              const dy = a.y - b.y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist > (isMobile ? 210 : 260) || dist < 70) continue;
-              const fade = 1 - dist / (isMobile ? 210 : 260);
-              const mx = (a.x + b.x) / 2 + (prefersReduced ? 0 : Math.sin(time * 0.42 + i + j) * 10);
-              const my = (a.y + b.y) / 2 + (prefersReduced ? 0 : Math.cos(time * 0.36 + i * 1.7 + j) * 10);
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.quadraticCurveTo(mx, my, b.x, b.y);
-              ctx.strokeStyle = `rgba(128, 112, 218, ${fade * 0.06})`;
-              ctx.lineWidth = 0.55;
-              ctx.setLineDash([5, 10]);
-              ctx.stroke();
-              ctx.setLineDash([]);
-            }
-          }
-        }
-
-        function frame() {
-          const time = performance.now() * 0.001;
-          ctx.clearRect(0, 0, W, H);
-
-          for (let i = 0; i < neurons.length; i++) {
-            const neuron = neurons[i];
-            neuron.x += neuron.vx;
-            neuron.y += neuron.vy;
-            neuron.pulse += 0.01;
-
-            const margin = 110;
-            if (neuron.x < -margin) neuron.x = W + margin;
-            if (neuron.x > W + margin) neuron.x = -margin;
-            if (neuron.y < -margin) neuron.y = H + margin;
-            if (neuron.y > H + margin) neuron.y = -margin;
-
-            const breath = prefersReduced ? 0.9 : Math.sin(neuron.pulse) * 0.14 + 0.86;
-            const alpha = neuron.alpha * breath;
-
-            for (const root of neuron.roots) {
-              drawBranch(neuron.x, neuron.y, root, alpha, time + i * 0.33);
-            }
-
-            const glow = ctx.createRadialGradient(neuron.x, neuron.y, 0, neuron.x, neuron.y, neuron.somaRadius * 5.4);
-            glow.addColorStop(0, `rgba(157,78,221,${alpha * 0.22})`);
-            glow.addColorStop(0.42, `rgba(91,140,255,${alpha * 0.08})`);
-            glow.addColorStop(1, 'rgba(91,140,255,0)');
-            ctx.beginPath();
-            ctx.arc(neuron.x, neuron.y, neuron.somaRadius * 5.4, 0, Math.PI * 2);
-            ctx.fillStyle = glow;
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(neuron.x, neuron.y, neuron.somaRadius * 1.2, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(214,198,255,${alpha * 0.24})`;
-            ctx.lineWidth = 0.9;
-            ctx.stroke();
-
-            const body = ctx.createRadialGradient(neuron.x - neuron.somaRadius * 0.2, neuron.y - neuron.somaRadius * 0.2, 0, neuron.x, neuron.y, neuron.somaRadius);
-            body.addColorStop(0, `rgba(240,232,255,${alpha * 0.7})`);
-            body.addColorStop(0.55, `rgba(188,147,255,${alpha * 0.42})`);
-            body.addColorStop(1, `rgba(106,76,195,${alpha * 0.16})`);
-            ctx.beginPath();
-            ctx.arc(neuron.x, neuron.y, neuron.somaRadius, 0, Math.PI * 2);
-            ctx.fillStyle = body;
-            ctx.fill();
-
-            const nucleusR = neuron.somaRadius * 0.48;
-            const nucleus = ctx.createRadialGradient(neuron.x - nucleusR * 0.18, neuron.y - nucleusR * 0.18, 0, neuron.x, neuron.y, nucleusR);
-            nucleus.addColorStop(0, `rgba(255,244,252,${alpha * 0.74})`);
-            nucleus.addColorStop(1, `rgba(220,145,214,${alpha * 0.22})`);
-            ctx.beginPath();
-            ctx.arc(neuron.x, neuron.y, nucleusR, 0, Math.PI * 2);
-            ctx.fillStyle = nucleus;
-            ctx.fill();
-
-            if (!prefersReduced && Math.random() < (isMobile ? 0.0035 : 0.006)) {
-              spawnImpulse(i, time);
-            }
-          }
-
-          drawConnections(time);
-
-          for (let i = impulses.length - 1; i >= 0; i--) {
-            const imp = impulses[i];
-            imp.progress += imp.speed;
-            if (imp.progress > 1) {
-              impulses.splice(i, 1);
-              continue;
-            }
-            drawImpulse(imp);
-          }
-
-          animationId = requestAnimationFrame(frame);
-        }
-
-        resize();
-        frame();
-        window.addEventListener('resize', resize);
-        window.addEventListener('beforeunload', function () {
-          cancelAnimationFrame(animationId);
+    // ==========================================
+    // CARD SPOTLIGHT EFFECT
+    // ==========================================
+    (function() {
+      document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty('--mouse-x', x + '%');
+          card.style.setProperty('--mouse-y', y + '%');
         });
-      })();
-
-      /* ============================================
-         NOVO SISTEMA DE ÁUDIO - SCROLL REATIVO
-         Substitui completamente o sistema antigo de botão
-         ============================================ */
-      (function scrollAudio() {
-        const audio = document.getElementById('bg-audio');
-        if (!audio) return;
-
-        // Configurações
-        const MAX_VOLUME = 0.9;        // 90% volume máximo
-        const START_VOLUME = 0;        // Começa em 0% para não assustar o usuário e crescer com o scroll
-        const SCROLL_THRESHOLD = 0.02; // Começa a aumentar quase imediatamente (2% de scroll) para o fade-in ser suave
-        
-        let targetVolume = START_VOLUME;
-        audio.volume = START_VOLUME;
-        let currentVolume = START_VOLUME;
-        let isPlaying = false;
-        let hasInteracted = false;
-
-        // Inicializa volume
-        audio.volume = START_VOLUME;
-
-        // Função para calcular volume baseado no scroll
-        function updateTargetVolume() {
-          const scrollTop = window.scrollY;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          
-          if (docHeight <= 0) {
-            targetVolume = MAX_VOLUME;
-            return;
-          }
-
-          // Progresso do scroll (0 a 1)
-          let progress = scrollTop / docHeight;
-          
-          // Ajuste: só começa após o threshold (15%)
-          progress = Math.max(0, (progress - SCROLL_THRESHOLD) / (1 - SCROLL_THRESHOLD));
-          progress = Math.min(1, progress); // Clamp entre 0 e 1
-          
-          // Curva de easing suave (ease-out-cubic)
-          const eased = 1 - Math.pow(1 - progress, 3);
-          
-          targetVolume = eased * MAX_VOLUME;
-        }
-
-        // Variável de controle manual do usuário
-        let isManuallyMuted = false;
-
-        // Loop de suavização do volume (lerp)
-        function smoothVolume() {
-          if (!isManuallyMuted) {
-            // Interpolação suave para não ser abrupto
-            const diff = targetVolume - currentVolume;
-            if (Math.abs(diff) > 0.001) {
-              currentVolume += diff * 0.05; // 5% de aproximação por frame
-              audio.volume = Math.max(0, Math.min(1, currentVolume));
-            }
-            
-            // Controle automático de mudo baseado no volume
-            audio.muted = (currentVolume < 0.01);
-          } else {
-            // Se o usuário silenciou manualmente, garantimos que o áudio esteja mudo
-            audio.muted = true;
-            audio.volume = 0;
-          }
-          
-          requestAnimationFrame(smoothVolume);
-        }
-
-        // Inicia o áudio após primeira interação (necessário para navegadores mobile)
-        function initAudio() {
-          if (hasInteracted) return;
-          
-          // Tenta tocar o áudio. Se conseguir, marca como interagido.
-          audio.play().then(() => {
-            hasInteracted = true;
-            isPlaying = true;
-            console.log('Áudio ativado com sucesso!');
-          }).catch(err => {
-            // Se falhar (ex: bloqueio do navegador), tentamos novamente no próximo evento
-            console.log('Aguardando interação do usuário para liberar áudio...');
-          });
-        }
-
-        // Event listeners
-        // Ativação IMEDIATA no primeiro scroll (Desktop e Mobile)
-        window.addEventListener('scroll', () => {
-          updateTargetVolume();
-          if (!hasInteracted) {
-            initAudio(); 
-          }
-        }, { passive: true });
-        // Ativação por qualquer movimento ou toque (cobertura total)
-        ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
-          window.addEventListener(event, () => {
-            if (!hasInteracted) initAudio();
-          }, { once: true, passive: true });
-        });
-
-        // CONTROLE DO BOTÃO MUTE
-        const muteBtn = document.getElementById('muteBtn');
-        if (muteBtn) {
-          muteBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita disparar outros eventos
-            isManuallyMuted = !isManuallyMuted;
-            muteBtn.classList.toggle('muted', isManuallyMuted);
-            
-            if (isManuallyMuted) {
-              audio.muted = true;
-              audio.volume = 0;
-            } else {
-              // Ao desativar o mudo, o volume volta suavemente no próximo frame do smoothVolume
-              audio.muted = (currentVolume < 0.01);
-            }
-          });
-        }
-
-        // Tenta autoplay silencioso (vai falhar em alguns mobile, aí espera interação)
-        audio.play().then(() => {
-          isPlaying = true;
-          hasInteracted = true;
-        }).catch(() => {
-          // Autoplay bloqueado, espera interação
-          audio.pause();
-        });
-
-        // Inicia loop de suavização
-        updateTargetVolume(); // Calcula inicial
-        smoothVolume();
-
-      })();
-
+      });
     })();
   </script>
 </body>
