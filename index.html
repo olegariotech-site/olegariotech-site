@@ -3,1431 +3,599 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OLEGARIO TECH | Experiências Digitais em Valinhos e Campinas</title>
-  <meta name="description" content="Criamos sites profissionais e experiências digitais imersivas para negócios de Valinhos, Campinas e região. WebGL, animação 3D e conversão real." />
+  <title>Criação de Sites Profissionais em Valinhos e Campinas | Olegario Tech</title>
+  <meta name="description" content="Criamos sites profissionais e exclusivos para pequenos e médios negócios de Valinhos, Campinas e Região. Salões, barbearias, adegas, clínicas e empresas com foco em presença digital, autoridade e conversão." />
   <link rel="canonical" href="https://olegariotech.com.br/" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta property="og:title" content="OLEGARIO TECH | Experiências Digitais em Valinhos e Campinas" />
-  <meta property="og:description" content="Sites profissionais com WebGL, animação 3D e experiência imersiva para negócios locais." />
+  <meta property="og:title" content="OLEGARIO TECH | Sites Profissionais em Valinhos e Campinas" />
+  <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais." />
   <meta property="og:type" content="website" />
-  <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://olegariotech.com.br/" />
   <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta name="theme-color" content="#050508" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#03040a" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Olegario Tech","url":"https://olegariotech.com.br/","telephone":"+5511912459144","address":{"@type":"PostalAddress","addressLocality":"Valinhos","addressRegion":"SP","addressCountry":"BR"},"areaServed":["Valinhos","Campinas","Região Metropolitana de Campinas"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "telephone": "+5511912459144",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Valinhos",
-      "addressRegion": "SP",
-      "addressCountry": "BR"
-    },
-    "areaServed": ["Valinhos", "Campinas", "Região Metropolitana de Campinas"]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Olegario Tech",
-    "url": "https://olegariotech.com.br/",
-    "telephone": "+55 11 91245-9144",
-    "areaServed": ["Valinhos", "Campinas", "Região Metropolitana de Campinas"]
-  }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
   <style>
-    :root {
-      --bg: #050508;
-      --bg-elevated: #0a0a10;
-      --text: #f5f5fa;
-      --muted: #b0b0c0;
-      --violet: #9d4edd;
-      --violet-glow: #c084fc;
-      --blue: #5b8cff;
-      --blue-glow: #93bbfd;
-      --amber: #e9bf73;
-      --green: #25d366;
-      --radius: 20px;
-    }
+  :root{
+    --void:#03040a;--deep:#07091a;
+    --ice:#67e8f9;--ice2:#22d3ee;
+    --indigo:#4338ca;--amber:#f59e0b;
+    --text:#eef0ff;--muted:#8891b0;--muted2:#555e7a;
+    --green:#25d366;--green2:#128c7e;
+    --panel:rgba(5,7,20,0.84);--pborder:rgba(103,232,249,0.10);
+    --card:rgba(7,9,26,0.76);--cborder:rgba(103,232,249,0.08);
+    --shadow:0 30px 80px rgba(0,0,0,0.65);
+    --r:20px;--rl:28px;--w:1180px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--void);color:var(--text);overflow-x:hidden;line-height:1.5;-webkit-font-smoothing:antialiased;cursor:none}
+  a{color:inherit;text-decoration:none;cursor:none}
+  img{display:block;max-width:100%}
+  button{font:inherit;cursor:none}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "Inter", system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.4;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
+  /* CURSOR */
+  #cd{position:fixed;top:0;left:0;width:7px;height:7px;background:var(--ice);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--ice),0 0 28px rgba(103,232,249,.5);transition:width .15s,height .15s,background .2s;will-change:transform}
+  #cr{position:fixed;top:0;left:0;width:38px;height:38px;border:1.5px solid rgba(103,232,249,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s}
+  body.ch #cd{width:12px;height:12px;background:var(--amber);box-shadow:0 0 16px var(--amber)}
+  body.ch #cr{width:56px;height:56px;border-color:rgba(245,158,11,.45)}
+  body.ck #cr{width:22px;height:22px}
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    button { font: inherit; cursor: pointer; }
+  /* 3D CANVAS */
+  #cv3{position:fixed;inset:0;z-index:0;pointer-events:none}
+  #cv3 canvas{display:block}
 
-    /* Canvas 3D Background */
-    #canvas-container {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-    #canvas-container canvas { display: block; }
+  /* PAGE */
+  .page{position:relative;z-index:10}
+  .wrap{width:min(var(--w),calc(100% - 40px));margin-inline:auto}
+  .sec{position:relative;padding:110px 0;scroll-margin-top:90px}
+  .sec.sm{padding:80px 0}
 
-    /* UI Layer */
-    .ui-layer {
-      position: relative;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .ui-layer > * { pointer-events: auto; }
-    .ui-layer section { pointer-events: none; }
-    .ui-layer section > * { pointer-events: auto; }
+  /* GLASS PANEL — the legibility fix */
+  .panel{position:relative;background:var(--panel);border:1px solid var(--pborder);border-radius:var(--rl);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);padding:54px 50px;box-shadow:var(--shadow),inset 0 1px 0 rgba(103,232,249,.06)}
 
-    /* Header */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 24px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      mix-blend-mode: difference;
-    }
-    .brand {
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #fff;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: #fff; }
-    .nav-cta-header {
-      padding: 10px 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      backdrop-filter: blur(10px);
-    }
-    .nav-cta-header:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.4);
-    }
+  /* TYPOGRAPHY */
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:10.5px;letter-spacing:.30em;text-transform:uppercase;color:var(--amber);margin-bottom:18px;font-weight:500}
+  .eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,transparent,var(--amber))}
+  .stitle{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,1.4rem + 2.4vw,3.8rem);line-height:1.0;letter-spacing:-0.04em;font-weight:800;margin-bottom:16px}
+  .stitle .hl{background:linear-gradient(135deg,var(--ice) 0%,#a5f3fc 45%,var(--ice2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ssub{max-width:620px;color:var(--muted);font-size:1.02rem;line-height:1.8;margin-bottom:44px}
 
-    /* Sections */
-    .section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 120px 40px;
-    }
-    .section-inner {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-    }
+  /* HEADER */
+  .hdr{position:fixed;top:0;inset-inline:0;z-index:50;height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 40px;background:rgba(3,4,10,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(103,232,249,.04);transition:border-color .3s}
+  .hdr.sc{border-bottom-color:rgba(103,232,249,.13)}
+  .brand{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+  .bmark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(103,232,249,.10);border:1px solid rgba(103,232,249,.22);font-family:'Syne',sans-serif;font-weight:800;font-size:.82rem;color:var(--ice);letter-spacing:0;box-shadow:0 0 16px rgba(103,232,249,.08)}
+  .nav-l{display:flex;gap:28px;list-style:none}
+  .nav-l a{font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:rgba(238,240,255,.65);transition:color .25s}
+  .nav-l a:hover{color:var(--ice)}
+  .ncta{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 18px;border-radius:999px;border:1px solid rgba(37,211,102,.3);background:rgba(37,211,102,.08);color:#efffef;font-weight:600;font-size:.82rem;transition:transform .25s,border-color .25s,box-shadow .25s}
+  .ncta:hover{transform:translateY(-2px);border-color:rgba(37,211,102,.5);box-shadow:0 8px 24px rgba(37,211,102,.12)}
+  .ntog{display:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(103,232,249,.15);background:rgba(255,255,255,.02);color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+  .ntog span{display:block;width:18px;height:1.5px;background:#fff;transition:transform .25s,opacity .25s}
+  .nav-open .ntog span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .nav-open .ntog span:nth-child(2){opacity:0}
+  .nav-open .ntog span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+  .nmenu{display:none;position:absolute;top:86px;left:16px;right:16px;background:rgba(5,7,20,.96);border:1px solid rgba(103,232,249,.14);border-radius:18px;padding:16px;backdrop-filter:blur(20px);box-shadow:var(--shadow)}
+  .nav-open .nmenu{display:grid;gap:4px}
+  .nmenu a{display:block;padding:11px 14px;border-radius:10px;color:rgba(238,240,255,.8);font-size:.92rem;transition:background .2s,color .2s}
+  .nmenu a:hover{background:rgba(103,232,249,.06);color:var(--ice)}
 
-    /* Hero Cinematográfico Premium */
-    .hero { 
-      text-align: center; 
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80vw;
-      height: 80vw;
-      background: radial-gradient(circle, rgba(157,78,221,0.15) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: -1;
-    }
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 32px;
-      opacity: 0;
-      transform: translateY(20px);
-      text-shadow: 0 0 20px rgba(233,191,115,0.5);
-    }
-    .hero-title {
-      font-size: clamp(3.5rem, 8vw, 8rem);
-      line-height: 0.95;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 24px;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    .hero-title .line { display: block; }
-    .hero-title .gradient {
-      background: linear-gradient(135deg, #fff 0%, var(--violet-glow) 50%, var(--blue) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 40px rgba(157,78,221,0.3);
-    }
-    .hero-sub {
-      font-size: clamp(1.1rem, 1.5vw, 1.35rem);
-      color: #c8c8d8;
-      max-width: 600px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-      opacity: 0;
-      transform: translateY(20px);
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 36px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-      box-shadow: 0 20px 50px rgba(157,78,221,0.3), inset 0 1px 1px rgba(255,255,255,0.3);
-      transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    .hero-cta:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 30px 60px rgba(157,78,221,0.5), inset 0 1px 1px rgba(255,255,255,0.4);
-      filter: brightness(1.1);
-    }
-    .hero-cta svg {
-      width: 20px; height: 20px; fill: currentColor;
-    }
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.94rem;transition:transform .25s,box-shadow .25s,filter .25s}
+  .btn:hover{transform:translateY(-2px)}
+  .b-ice{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#020b12;box-shadow:0 14px 36px rgba(103,232,249,.25)}
+  .b-ice:hover{box-shadow:0 22px 48px rgba(103,232,249,.35);filter:brightness(1.05)}
+  .b-wa{background:rgba(37,211,102,.12);color:#efffef;border-color:rgba(37,211,102,.3)}
+  .b-wa:hover{border-color:rgba(37,211,102,.5);box-shadow:0 10px 28px rgba(37,211,102,.14)}
+  .b-gh{background:rgba(255,255,255,.03);color:var(--text);border-color:rgba(103,232,249,.2)}
+  .b-gh:hover{border-color:rgba(103,232,249,.44)}
 
-    /* Scroll indicator */
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      opacity: 0;
-    }
-    .scroll-hint::after {
-      content: "";
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--muted), transparent);
-      animation: scrollPulse 2s infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-      50% { opacity: 1; transform: scaleY(1); }
-    }
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 60px;position:relative}
+  .hero-in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .hbadge{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(245,158,11,.32);background:rgba(245,158,11,.06);color:var(--amber);font-size:.78rem;margin-bottom:24px;animation:ap 2.5s infinite ease-in-out}
+  @keyframes ap{0%,100%{box-shadow:0 0 0 rgba(245,158,11,0)}50%{box-shadow:0 0 22px rgba(245,158,11,.18)}}
+  .htitle{font-family:'Syne',sans-serif;font-size:clamp(3rem,1.5rem + 3.5vw,5.6rem);line-height:.9;letter-spacing:-0.06em;font-weight:800;margin-bottom:22px}
+  .htitle .ln{display:block}
+  .htitle .hl{background:linear-gradient(135deg,var(--ice) 0%,#a5f3fc 40%,var(--ice2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hsub{font-size:1.05rem;line-height:1.75;color:var(--muted);max-width:520px;margin-bottom:32px}
+  .hact{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+  .hmets{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .met{padding:14px 16px;border-radius:14px;border:1px solid rgba(103,232,249,.07);background:rgba(103,232,249,.03)}
+  .met strong{display:block;font-size:.9rem;color:var(--ice);margin-bottom:3px;font-family:'Syne',sans-serif}
+  .met span{display:block;color:var(--muted2);font-size:.78rem;line-height:1.45}
+  .hpanel{position:relative;padding:32px;border-radius:var(--rl);background:var(--card);border:1px solid rgba(103,232,249,.12);backdrop-filter:blur(24px);box-shadow:var(--shadow),inset 0 1px 0 rgba(103,232,249,.07)}
+  .hpanel::before{content:"";position:absolute;inset:-15% auto auto -10%;width:220px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(103,232,249,.12),transparent 65%);filter:blur(22px);pointer-events:none}
+  .plbl{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:18px;font-family:'Syne',sans-serif}
+  .si{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:16px;border-radius:14px;background:rgba(103,232,249,.025);border:1px solid rgba(103,232,249,.06);transition:border-color .3s,background .3s;margin-bottom:10px}
+  .si:last-child{margin-bottom:0}
+  .si:hover{border-color:rgba(103,232,249,.16);background:rgba(103,232,249,.05)}
+  .sic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(103,232,249,.09);border:1px solid rgba(103,232,249,.14);color:var(--ice);flex-shrink:0}
+  .sic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .si strong{display:block;font-size:.9rem;margin-bottom:3px}
+  .si p{color:var(--muted);font-size:.83rem;line-height:1.6}
+  .shint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted2);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;opacity:0;animation:shfade 1s ease 2.5s forwards}
+  @keyframes shfade{to{opacity:.7}}
+  .shint::after{content:"";width:1px;height:36px;background:linear-gradient(to bottom,var(--muted2),transparent);animation:sl 2s infinite}
+  @keyframes sl{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
 
-    /* Section titles */
-    .sec-eyebrow {
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 20px;
-      display: inline-block;
-    }
-    .sec-title {
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      line-height: 1.05;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 16px;
-    }
-    .sec-title .gradient {
-      background: linear-gradient(135deg, #fff 0%, var(--violet-glow) 60%, var(--blue) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .sec-sub {
-      font-size: 1.1rem;
-      color: #c0c0d0;
-      max-width: 520px;
-      line-height: 1.6;
-      margin-bottom: 48px;
-    }
+  /* DIVIDER */
+  .div{height:1px;margin:0 auto;width:min(var(--w),calc(100% - 40px));background:linear-gradient(90deg,transparent,rgba(103,232,249,.10),transparent)}
 
-    /* Cards Premium Glassmorphism */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .glass-card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: var(--radius);
-      padding: 36px;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-    }
-    .glass-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(157,78,221,0.15), transparent 40%);
-      opacity: 0;
-      transition: opacity 0.5s;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .glass-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-    .glass-card > * {
-      position: relative;
-      z-index: 1;
-    }
-    .glass-card:hover::before { opacity: 1; }
-    .glass-card:hover {
-      transform: translateY(-8px) scale(1.01);
-      border-color: rgba(157,78,221,0.3);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(157,78,221,0.1);
-      background: rgba(255,255,255,0.04);
-    }
-    .card-num {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--violet-glow);
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-    .glass-card h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-    .glass-card p {
-      color: #c0c0d0;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
+  /* CARDS */
+  .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{position:relative;padding:28px;border-radius:var(--r);background:var(--card);border:1px solid var(--cborder);backdrop-filter:blur(16px);transition:border-color .35s,transform .35s,box-shadow .35s;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:auto -20px -20px auto;width:120px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(103,232,249,.06),transparent 70%);pointer-events:none}
+  .card:hover{border-color:rgba(103,232,249,.2);transform:translateY(-4px);box-shadow:0 32px 72px rgba(0,0,0,.55),0 0 0 1px rgba(103,232,249,.06)}
+  .card h3{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:.9rem;line-height:1.75}
+  .cnum{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ice);margin-bottom:14px;font-weight:600}
+  .cico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;background:rgba(103,232,249,.09);border:1px solid rgba(103,232,249,.12);color:var(--ice)}
+  .cico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-    /* O Problema - Nova Seção Premium */
-    .problem-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .problem-content {
-      position: relative;
-    }
-    .problem-highlight {
-      font-size: 1.8rem;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 24px;
-      color: #fff;
-    }
-    .problem-highlight span {
-      color: var(--amber);
-    }
-    .problem-text {
-      color: #c0c0d0;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-    .problem-cards {
-      display: grid;
-      gap: 16px;
-    }
-    .problem-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s;
-    }
-    .problem-card:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.15);
-      transform: translateX(10px);
-    }
-    .problem-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(233,191,115,0.1);
-      color: var(--amber);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    .problem-card h4 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-    .problem-card p {
-      font-size: 0.9rem;
-      color: #c0c0d0;
-      line-height: 1.5;
-    }
+  /* PROBLEM */
+  .prob-sp{display:grid;grid-template-columns:1.1fr 0.9fr;gap:52px;align-items:center}
+  .prob-hl{font-size:clamp(1.5rem,1.1rem + 1.2vw,2rem);font-weight:700;line-height:1.3;margin-bottom:18px}
+  .prob-hl span{color:var(--amber)}
+  .prob-body{color:var(--muted);font-size:1rem;line-height:1.8;margin-bottom:28px}
+  .pcard{display:flex;align-items:flex-start;gap:14px;padding:20px;border-radius:14px;background:rgba(103,232,249,.03);border:1px solid rgba(103,232,249,.07);margin-bottom:12px;transition:border-color .3s,transform .3s}
+  .pcard:last-child{margin-bottom:0}
+  .pcard:hover{border-color:rgba(245,158,11,.2);transform:translateX(6px)}
+  .pico{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.14);display:grid;place-items:center;color:var(--amber);font-size:1rem}
+  .pcard h4{font-size:.96rem;font-weight:600;margin-bottom:5px}
+  .pcard p{font-size:.84rem;color:var(--muted);line-height:1.55}
 
-    /* Portfolio */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-    }
-    .port-item {
-      border-radius: var(--radius);
-      overflow: hidden;
-      position: relative;
-      aspect-ratio: 16/10;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.08);
-      group: port;
-    }
-    .port-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .port-item:hover img {
-      transform: scale(1.05);
-    }
-    .port-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.2) 50%, transparent 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 32px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .port-item:hover .port-overlay {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .port-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 8px;
-    }
-    .port-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
+  /* PORTFOLIO */
+  .pg{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .pi{border-radius:var(--r);overflow:hidden;position:relative;aspect-ratio:16/10;background:rgba(103,232,249,.03);border:1px solid rgba(103,232,249,.08);transition:transform .4s,box-shadow .4s}
+  .pi:hover{transform:translateY(-4px);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(103,232,249,.12)}
+  .pi img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+  .pi:hover img{transform:scale(1.05)}
+  .pov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,4,10,.96) 0%,rgba(3,4,10,.3) 50%,transparent);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;opacity:0;transition:opacity .4s}
+  .pi:hover .pov{opacity:1}
+  .ptag{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+  .ptit{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
 
-    /* Process */
-    .steps-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      position: relative;
-    }
-    .step-card {
-      padding: 40px 32px;
-    }
-    .step-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: rgba(157,78,221,0.1);
-      color: var(--violet-glow);
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 24px;
-      border: 1px solid rgba(157,78,221,0.2);
-    }
+  /* STEPS */
+  .stg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .snum{display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(135deg,var(--ice),var(--ice2));color:var(--void);font-family:'Syne',sans-serif;font-weight:800;box-shadow:0 8px 24px rgba(103,232,249,.25);margin-bottom:18px}
+  .step h3{font-family:'Syne',sans-serif;font-size:1.04rem;margin-bottom:10px}
+  .step p{color:var(--muted);font-size:.88rem;line-height:1.75}
 
-    /* Pricing */
-    .plans-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      align-items: center;
-    }
-    .plan-card {
-      padding: 48px 40px;
-      display: flex;
-      flex-direction: column;
-    }
-    .plan-card.popular {
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(157,78,221,0.3);
-      transform: scale(1.05);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(157,78,221,0.2);
-      z-index: 2;
-    }
-    .plan-popular-badge {
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 16px;
-      border-radius: 999px;
-      box-shadow: 0 10px 20px rgba(157,78,221,0.3);
-    }
-    .plan-name {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 12px;
-    }
-    .plan-card h3 {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .plan-price {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin: 24px 0 32px;
-      color: #fff;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .plan-price span {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .plan-features {
-      list-style: none;
-      margin-bottom: 40px;
-      flex: 1;
-    }
-    .plan-features li {
-      position: relative;
-      padding-left: 28px;
-      margin-bottom: 16px;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-    .plan-features li::before {
-      content: "✓";
-      position: absolute;
-      left: 0; top: 0;
-      color: var(--green);
-      font-weight: 700;
-    }
-    .plan-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-    }
-    .plan-cta:hover {
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      border-color: transparent;
-      box-shadow: 0 10px 30px rgba(157,78,221,0.3);
-      transform: translateY(-2px);
-    }
-    .plan-card.popular .plan-cta {
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      border-color: transparent;
-    }
-    .plan-card.popular .plan-cta:hover {
-      filter: brightness(1.1);
-      box-shadow: 0 15px 40px rgba(157,78,221,0.4);
-    }
+  /* PLANS — max visibility */
+  .plg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+  .plan{position:relative;padding:36px 32px;border-radius:var(--rl);background:rgba(5,7,20,.9);border:1px solid rgba(103,232,249,.10);backdrop-filter:blur(24px);box-shadow:0 24px 60px rgba(0,0,0,.5);transition:transform .3s,box-shadow .3s}
+  .plan:hover{transform:translateY(-4px);box-shadow:0 40px 80px rgba(0,0,0,.6)}
+  .plan.pop{border-color:rgba(103,232,249,.35);background:rgba(8,12,30,.94);transform:translateY(-10px);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 60px rgba(103,232,249,.05)}
+  .plan.pop:hover{transform:translateY(-14px)}
+  .pbadge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,var(--ice),var(--ice2));color:var(--void);font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:999px;box-shadow:0 8px 20px rgba(103,232,249,.3)}
+  .ptier{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  .pname{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:6px}
+  .pdesc{color:var(--muted);font-size:.88rem;margin-bottom:20px;line-height:1.6}
+  .pprice{display:flex;align-items:baseline;gap:8px;margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid rgba(103,232,249,.08)}
+  .pprice strong{font-family:'Syne',sans-serif;font-size:clamp(2rem,1.6rem + 1.2vw,2.8rem);color:var(--ice);line-height:1;letter-spacing:-0.06em}
+  .pprice span{color:var(--muted2);font-size:.84rem}
+  .pfeats{list-style:none;margin-bottom:28px;display:grid;gap:10px}
+  .pfeats li{display:flex;align-items:flex-start;gap:10px;color:var(--text);font-size:.9rem;line-height:1.55}
+  .pfeats li::before{content:"✓";color:var(--ice);font-weight:700;flex-shrink:0}
+  .pcta{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border-radius:999px;border:1px solid rgba(103,232,249,.22);background:rgba(103,232,249,.06);color:var(--text);font-weight:600;font-size:.92rem;transition:all .3s}
+  .pcta:hover{background:rgba(103,232,249,.14);border-color:rgba(103,232,249,.44);transform:translateY(-2px)}
+  .plan.pop .pcta{background:linear-gradient(135deg,var(--ice),var(--ice2));color:var(--void);border-color:transparent;box-shadow:0 10px 28px rgba(103,232,249,.28)}
+  .plan.pop .pcta:hover{filter:brightness(1.08);box-shadow:0 16px 40px rgba(103,232,249,.38)}
 
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .about-photo {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      aspect-ratio: 4/5;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    }
-    .about-photo img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(100%);
-      transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .about-photo:hover img {
-      filter: grayscale(0%);
-      transform: scale(1.05);
-    }
-    .about-photo::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 50%;
-      background: linear-gradient(to top, rgba(5,5,8,0.95), transparent);
-    }
-    .about-caption {
-      position: absolute;
-      bottom: 32px; left: 32px;
-      z-index: 2;
-    }
-    .about-caption strong {
-      display: block;
-      font-size: 1.2rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .about-caption span {
-      font-size: 0.85rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .about-text p {
-      color: #c0c0d0;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      margin-bottom: 24px;
-    }
-    .about-stats {
-      display: flex;
-      gap: 40px;
-      margin-top: 40px;
-    }
-    .about-stat strong {
-      display: block;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 4px;
-      background: linear-gradient(135deg, #fff, var(--muted));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .about-stat span {
-      font-size: 0.85rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
+  /* ABOUT */
+  .abg{display:grid;grid-template-columns:1fr .85fr;gap:44px;align-items:center}
+  .abt p{color:var(--muted);font-size:1rem;line-height:1.85;margin-bottom:18px}
+  .abst{display:flex;gap:32px;margin-top:32px;flex-wrap:wrap}
+  .abst strong{display:block;font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--ice);letter-spacing:-0.04em;margin-bottom:4px}
+  .abst span{color:var(--muted2);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+  .abph{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid rgba(103,232,249,.12);min-height:500px;box-shadow:var(--shadow)}
+  .abph img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:filter .6s,transform .6s}
+  .abph:hover img{filter:grayscale(0%);transform:scale(1.02)}
+  .abph::after{content:"";position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(to top,rgba(3,4,10,.95),transparent)}
+  .abcap{position:absolute;left:24px;bottom:24px;z-index:2}
+  .abcap strong{display:block;font-family:'Syne',sans-serif;font-size:.95rem;letter-spacing:.1em;text-transform:uppercase}
+  .abcap span{display:block;color:var(--muted2);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin-top:4px}
 
-    /* Products */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .product-card {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      overflow: hidden;
-    }
-    .product-media {
-      height: 260px;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: radial-gradient(circle at top, rgba(157,78,221,0.1), transparent 60%),
-                  linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .product-media img {
-      max-height: 100%;
-      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .product-card:hover .product-media img { transform: translateY(-8px) scale(1.05); }
-    .product-body {
-      padding: 28px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .product-tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 10px;
-    }
-    .product-body h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      line-height: 1.3;
-    }
-    .product-body p {
-      font-size: 0.9rem;
-      color: #c0c0d0;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-    .product-price-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: auto;
-    }
-    .product-price-row strong { font-size: 1.2rem; }
-    .product-price-row s { color: var(--muted); font-size: 0.9rem; }
-    .product-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: all 0.3s;
-    }
-    .product-btn:hover {
-      background: linear-gradient(135deg, var(--violet), var(--blue));
-      border-color: transparent;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(157,78,221,0.3);
-    }
+  /* PRODUCTS */
+  .prg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .prod{display:flex;flex-direction:column;border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--cborder);transition:transform .35s,box-shadow .35s}
+  .prod:hover{transform:translateY(-4px);box-shadow:0 32px 64px rgba(0,0,0,.55),0 0 0 1px rgba(103,232,249,.08)}
+  .pmed{height:260px;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top,rgba(103,232,249,.08),transparent 55%);border-bottom:1px solid rgba(103,232,249,.06)}
+  .pmed img{max-height:100%;filter:drop-shadow(0 16px 24px rgba(0,0,0,.45));transition:transform .4s}
+  .prod:hover .pmed img{transform:translateY(-6px) scale(1.04)}
+  .pbod{padding:22px;flex:1;display:flex;flex-direction:column}
+  .ptg{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+  .pbod h3{font-family:'Syne',sans-serif;font-size:1rem;line-height:1.3;margin-bottom:8px}
+  .pbod p{font-size:.86rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .ppr{display:flex;align-items:center;gap:10px;margin-top:auto;margin-bottom:16px}
+  .ppr strong{font-family:'Syne',sans-serif;font-size:1.15rem;color:var(--ice)}
+  .ppr s{color:var(--muted2);font-size:.85rem}
+  .pbtn{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(103,232,249,.2);background:rgba(103,232,249,.05);color:var(--text);font-weight:600;font-size:.85rem;transition:all .3s}
+  .pbtn:hover{background:rgba(103,232,249,.12);border-color:rgba(103,232,249,.4);transform:translateY(-2px)}
 
-    /* FAQ */
-    .faq-list {
-      display: grid;
-      gap: 16px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .faq-item {
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s;
-    }
-    .faq-item:hover {
-      border-color: rgba(157,78,221,0.3);
-      background: rgba(255,255,255,0.04);
-    }
-    .faq-trigger {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 32px;
-      background: transparent;
-      border: none;
-      color: #fff;
-      text-align: left;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    .faq-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      font-size: 1.4rem;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
-      flex-shrink: 0;
-    }
-    .faq-item.active .faq-icon {
-      transform: rotate(45deg);
-      background: rgba(157,78,221,0.2);
-      border-color: rgba(157,78,221,0.4);
-    }
-    .faq-panel {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .faq-panel p {
-      padding: 0 32px 28px;
-      color: #c0c0d0;
-      line-height: 1.7;
-      font-size: 1rem;
-    }
+  /* FAQ */
+  .fw{display:grid;gap:12px;max-width:820px;margin:0 auto}
+  .fi{border-radius:16px;overflow:clip;background:var(--card);border:1px solid var(--cborder);transition:border-color .3s}
+  .fi.ac,.fi:hover{border-color:rgba(103,232,249,.18)}
+  .ft{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;background:transparent;border:0;color:var(--text);text-align:left;font-size:.98rem;font-weight:500}
+  .fic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(103,232,249,.09);flex:0 0 auto;transition:transform .3s,background .3s;color:var(--ice);font-size:1.2rem}
+  .fi.ac .fic{transform:rotate(45deg);background:rgba(103,232,249,.08);border-color:rgba(103,232,249,.24)}
+  .fp{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .fp p{padding:0 26px 22px;color:var(--muted);line-height:1.8;font-size:.92rem}
 
-    /* Final CTA */
-    .final-cta {
-      text-align: center;
-      position: relative;
-    }
-    .final-cta::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60vw;
-      height: 60vw;
-      background: radial-gradient(circle, rgba(91,140,255,0.1) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: -1;
-    }
-    .final-cta h2 {
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.05;
-      margin-bottom: 24px;
-      letter-spacing: -0.03em;
-    }
-    .final-cta p {
-      color: #c0c0d0;
-      font-size: 1.2rem;
-      max-width: 650px;
-      margin: 0 auto 48px;
-      line-height: 1.7;
-    }
-    .final-cta .hero-cta {
-      font-size: 1.1rem;
-      padding: 22px 48px;
-    }
+  /* CTA BOX */
+  .ctab{text-align:center;position:relative;padding:72px 44px;border-radius:32px;overflow:hidden}
+  .ctab::before,.ctab::after{content:"";position:absolute;width:300px;aspect-ratio:1;border-radius:50%;filter:blur(50px);opacity:.22;pointer-events:none}
+  .ctab::before{top:-100px;left:-80px;background:radial-gradient(circle,rgba(103,232,249,.7),transparent)}
+  .ctab::after{right:-80px;bottom:-100px;background:radial-gradient(circle,rgba(67,56,202,.7),transparent)}
+  .ctab h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,1.2rem + 2.2vw,3.4rem);line-height:1.06;letter-spacing:-0.04em;font-weight:800;margin-bottom:18px;position:relative;z-index:1}
+  .ctab p{max-width:640px;margin:0 auto 32px;color:var(--muted);line-height:1.85;position:relative;z-index:1}
+  .ctab .btn{position:relative;z-index:1}
 
-    /* Footer */
-    footer {
-      padding: 60px 40px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 30px;
-      background: rgba(5,5,8,0.8);
-      backdrop-filter: blur(20px);
-    }
-    .footer-copy {
-      font-size: 0.9rem;
-      color: #b0b0c0;
-    }
-    .footer-links {
-      display: flex;
-      gap: 32px;
-    }
-    .footer-links a {
-      font-size: 0.85rem;
-      color: #b0b0c0;
-      transition: color 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .footer-links a:hover { color: #fff; }
+  /* MUTE */
+  .mb{position:fixed;bottom:28px;left:28px;z-index:80;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,7,20,.72);border:1px solid rgba(103,232,249,.26);backdrop-filter:blur(12px);color:var(--ice);transition:all .3s;box-shadow:0 6px 28px rgba(0,0,0,.4)}
+  .mb:hover{transform:scale(1.1);border-color:var(--ice);box-shadow:0 0 22px rgba(103,232,249,.22)}
+  .mb svg{width:22px;height:22px;fill:currentColor}
+  .mb.m{color:var(--muted2);border-color:rgba(255,255,255,.08)}
+  .mb.m .ion{display:none}
+  .mb:not(.m) .ioff{display:none}
 
-    /* Footer Signature */
-    .footer-signature {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-      opacity: 0.4;
-      transition: opacity 0.4s;
-      text-decoration: none;
-    }
-    .footer-signature:hover { opacity: 0.8; }
-    .footer-signature svg {
-      width: 22px;
-      height: 22px;
-      flex-shrink: 0;
-    }
-    .footer-signature span {
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #fff;
-      font-weight: 500;
-    }
+  /* FAB */
+  .fab{position:fixed;right:28px;bottom:28px;z-index:80;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),var(--green2));box-shadow:0 12px 32px rgba(37,211,102,.3);transition:transform .3s,box-shadow .3s}
+  .fab:hover{transform:scale(1.08) translateY(-4px);box-shadow:0 20px 44px rgba(37,211,102,.4)}
+  .fab svg{width:30px;height:30px;fill:#fff}
 
-    /* Mute Button */
-    .mute-btn {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
-      z-index: 99;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(12, 16, 30, 0.6);
-      border: 1px solid rgba(183, 148, 246, 0.4);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: #fff;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      pointer-events: auto;
-    }
-    .mute-btn:hover {
-      transform: scale(1.1);
-      border-color: var(--violet);
-      background: rgba(157, 78, 221, 0.2);
-      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
-    }
-    .mute-btn svg { width: 24px; height: 24px; fill: currentColor; }
-    .mute-btn.muted { color: var(--muted); border-color: rgba(255,255,255,0.1); }
-    .mute-btn.muted .icon-unmuted { display: none; }
-    .mute-btn:not(.muted) .icon-muted { display: none; }
+  /* FOOTER */
+  footer{position:relative;z-index:20;padding:44px 0 52px;border-top:1px solid rgba(103,232,249,.06);background:rgba(3,4,10,.92)}
+  .fot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .fcp{color:var(--muted2);font-size:.86rem;line-height:1.7}
+  .fcp strong{display:block;color:var(--ice);font-family:'Syne',sans-serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+  .fls{display:flex;gap:22px;flex-wrap:wrap}
+  .fls a{color:var(--muted);font-size:.84rem;letter-spacing:.04em;text-transform:uppercase;transition:color .25s}
+  .fls a:hover{color:var(--ice)}
 
-    /* WhatsApp FAB */
-    .fab {
-      position: fixed;
-      right: 30px;
-      bottom: 30px;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--green), #128c7e);
-      box-shadow: 0 12px 30px rgba(37,211,102,0.4);
-      z-index: 99;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
-      pointer-events: auto;
-    }
-    .fab:hover { 
-      transform: scale(1.1) translateY(-5px); 
-      box-shadow: 0 20px 40px rgba(37,211,102,0.5);
-    }
-    .fab svg { width: 32px; height: 32px; fill: #fff; }
+  /* REVEAL */
+  .rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  .rv.on{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .about-grid, .problem-grid { grid-template-columns: 1fr; }
-      .about-photo { max-width: 500px; margin: 0 auto; }
-      .steps-row { grid-template-columns: repeat(2, 1fr); }
-      .plans-row { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-      .plan-card.popular { transform: scale(1); }
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
-      .portfolio-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      header { padding: 16px 20px; }
-      .nav-links { display: none; }
-      .section { padding: 100px 20px; }
-      .steps-row { grid-template-columns: 1fr; }
-      .products-grid { grid-template-columns: 1fr; }
-      .about-stats { gap: 20px; flex-wrap: wrap; }
-      .mute-btn { bottom: 20px; left: 20px; width: 48px; height: 48px; }
-      .fab { right: 20px; bottom: 20px; width: 56px; height: 56px; }
-      footer { flex-direction: column; text-align: center; padding: 40px 20px; }
-      .hero-title { font-size: 3rem; }
-      .sec-title { font-size: 2.5rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
+  /* RESPONSIVE */
+  @media(max-width:1100px){
+    .hero-in,.abg{grid-template-columns:1fr}
+    .g4,.prg,.stg{grid-template-columns:repeat(2,1fr)}
+    .pg{grid-template-columns:1fr}
+    .plg{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+    .plan.pop{transform:none}
+    .prob-sp{grid-template-columns:1fr}
+    .hmets{grid-template-columns:repeat(2,1fr)}
+    .panel{padding:36px 28px}
+  }
+  @media(max-width:860px){
+    .nav-l,.ncta{display:none}
+    .ntog{display:flex}
+    .hdr{padding:0 20px}
+    .sec{padding:80px 0}
+    .hero{padding:100px 0 56px}
+    #cd,#cr{display:none}
+  }
+  @media(max-width:640px){
+    .wrap{width:calc(100% - 28px)}
+    .g2,.g3,.g4,.prg,.stg,.pg{grid-template-columns:1fr}
+    .htitle{font-size:clamp(2.4rem,8vw,3.2rem)}
+    .hact{flex-direction:column}
+    .btn{width:100%}
+    .ctab,.panel{padding:28px 18px}
+    .mb{bottom:18px;left:18px;width:46px;height:46px}
+    .fab{right:18px;bottom:18px;width:54px;height:54px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+    .rv{opacity:1;transform:none}
+  }
   </style>
 </head>
 <body>
+  <div id="cv3" aria-hidden="true"></div>
+  <div id="cd" aria-hidden="true"></div>
+  <div id="cr" aria-hidden="true"></div>
 
-  <div id="canvas-container"></div>
-
-  <div class="ui-layer">
-    <header>
-      <a href="#top" class="brand">Olegario Tech</a>
-      <nav>
-        <ul class="nav-links">
+  <div class="page">
+    <!-- HEADER -->
+    <header class="hdr" id="hdr">
+      <a href="#top" class="brand" aria-label="Olegario Tech">
+        <span class="bmark">OT</span>OLEGARIO TECH
+      </a>
+      <nav aria-label="principal">
+        <ul class="nav-l">
           <li><a href="#problema">Por que um site?</a></li>
           <li><a href="#servicos">Serviços</a></li>
           <li><a href="#portfolio">Portfólio</a></li>
           <li><a href="#planos">Planos</a></li>
           <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." class="nav-cta-header" target="_blank" rel="noopener noreferrer">Solicitar Orçamento</a>
+      <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." class="ncta" target="_blank" rel="noopener noreferrer">Solicitar Orçamento</a>
+      <button class="ntog" id="ntog" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="nmenu" id="nmenu">
+        <a href="#problema">Por que um site?</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#planos">Planos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:600">Solicitar Orçamento</a>
+      </div>
     </header>
 
     <main id="top">
       <!-- HERO -->
-      <section class="section hero">
-        <div class="section-inner">
-          <span class="hero-eyebrow">Experiências Digitais</span>
-          <h1 class="hero-title">
-            <span class="line">Presença digital</span>
-            <span class="line gradient">com visão comercial.</span>
-          </h1>
-          <p class="hero-sub">
-            Não criamos só sites bonitos — criamos estruturas que transmitem autoridade e facilitam o contato com o cliente. Foco em negócios de Valinhos, Campinas e região.
-          </p>
-          <div class="hero-sound">
-            <span class="icon-volume">🔊</span> Experiência com áudio imersivo ativada
+      <section class="hero">
+        <div class="wrap hero-in">
+          <div>
+            <div class="hbadge rv">Vagas limitadas neste mês</div>
+            <h1 class="htitle" id="htit" aria-label="Presença digital com visão comercial.">
+              <span class="ln rv d1" data-t="Presença" data-b="0"></span>
+              <span class="ln rv d2" data-t="digital com" data-b="1"></span>
+              <span class="ln rv d3" data-t="visão comercial." data-b="1"></span>
+            </h1>
+            <p class="hsub rv d2">Não criamos só sites bonitos — criamos estruturas digitais que transmitem autoridade e facilitam o contato com o cliente. Foco em negócios de Valinhos, Campinas e região.</p>
+            <div class="hact rv d3">
+              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+              <a class="btn b-gh" href="#planos">Ver planos e preços</a>
+            </div>
+            <div class="hmets rv d4">
+              <div class="met"><strong>Design exclusivo</strong><span>Identidade própria, sem visual genérico.</span></div>
+              <div class="met"><strong>100% responsivo</strong><span>Forte no celular e no desktop.</span></div>
+              <div class="met"><strong>WhatsApp integrado</strong><span>Contato direto, sem fricção.</span></div>
+              <div class="met"><strong>Visão comercial</strong><span>Premium com lógica de conversão.</span></div>
+            </div>
           </div>
-          <a class="hero-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.38 3.55 1.06 5.11L2 22l5.06-1.06A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-            Falar no WhatsApp
-          </a>
+          <div class="hpanel rv d2">
+            <p class="plbl">O que entregamos</p>
+            <div class="si">
+              <div class="sic"><svg viewBox="0 0 24 24"><path d="M16 20a4 4 0 0 0-8 0"/><circle cx="12" cy="8" r="3"/><path d="M20 20a3.5 3.5 0 0 0-3-3.46"/><path d="M4 20a3.5 3.5 0 0 1 3-3.46"/></svg></div>
+              <div><strong>Identidade visual forte</strong><p>Cada projeto é pensado para representar melhor a marca e transmitir mais valor.</p></div>
+            </div>
+            <div class="si">
+              <div class="sic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 20h10M8 8h8M8 12h5"/></svg></div>
+              <div><strong>Estrutura profissional</strong><p>Presença sólida, navegação clara e experiência premium do primeiro ao último clique.</p></div>
+            </div>
+            <div class="si">
+              <div class="sic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M19 5l-4 4M15 5h4v4"/></svg></div>
+              <div><strong>Foco em negócios locais</strong><p>Salões, barbearias, adegas, clínicas, restaurantes e empresas da região.</p></div>
+            </div>
+          </div>
         </div>
-        <div class="scroll-hint">Scroll para explorar</div>
+        <div class="shint">Scroll para explorar</div>
       </section>
 
-      <!-- O PROBLEMA (Nova Seção Premium) -->
-      <section class="section" id="problema">
-        <div class="section-inner">
-          <div class="problem-grid">
-            <div class="problem-content">
-              <span class="sec-eyebrow">A Realidade</span>
-              <h2 class="problem-highlight">
-                Sem um site profissional, <span>você perde clientes todos os dias</span> para concorrentes menores.
-              </h2>
-              <p class="problem-text">
-                O Instagram é ótimo para vitrine, mas não transmite a mesma autoridade corporativa. Quando um cliente pesquisa pelo seu serviço no Google, ele espera encontrar uma estrutura sólida. Se ele não encontra seu site, ele encontra o do seu concorrente.
-              </p>
-              <a class="plan-cta" href="#planos" style="width: auto; padding: 14px 32px;">Ver soluções</a>
-            </div>
-            <div class="problem-cards">
-              <div class="problem-card glass-card">
-                <div class="problem-icon">🔍</div>
-                <div>
-                  <h4>Invisibilidade no Google</h4>
-                  <p>Sem SEO local, quem procura pelo seu serviço em Valinhos e Campinas não te acha.</p>
-                </div>
+      <div class="div"></div>
+
+      <!-- PROBLEMA -->
+      <section class="sec" id="problema">
+        <div class="wrap">
+          <div class="panel rv">
+            <div class="prob-sp">
+              <div>
+                <span class="eyebrow">A Realidade</span>
+                <p class="prob-hl">Sem um site profissional, <span>você perde clientes todos os dias</span> para concorrentes menores.</p>
+                <p class="prob-body">O Instagram é ótimo para vitrine, mas não transmite a mesma autoridade. Quando um cliente pesquisa pelo seu serviço no Google, ele espera encontrar uma estrutura sólida. Se não encontra o seu, encontra o do seu concorrente.</p>
+                <a class="btn b-gh" href="#planos" style="display:inline-flex;width:auto;min-height:44px;padding:0 20px;font-size:.88rem;">Ver soluções →</a>
               </div>
-              <div class="problem-card glass-card">
-                <div class="problem-icon">📉</div>
-                <div>
-                  <h4>Falta de Autoridade</h4>
-                  <p>Apenas redes sociais passam a impressão de um negócio amador, não de uma empresa estabelecida.</p>
-                </div>
-              </div>
-              <div class="problem-card glass-card">
-                <div class="problem-icon">💬</div>
-                <div>
-                  <h4>Dificuldade de Contato</h4>
-                  <p>Clientes desistem se não encontram rapidamente o que você faz e como falar com você pelo WhatsApp.</p>
-                </div>
+              <div>
+                <div class="pcard"><div class="pico">🔍</div><div><h4>Invisibilidade no Google</h4><p>Sem SEO local, quem procura pelo seu serviço em Valinhos e Campinas não te acha.</p></div></div>
+                <div class="pcard"><div class="pico">📉</div><div><h4>Falta de Autoridade</h4><p>Apenas redes sociais passam a impressão de um negócio amador, não de uma empresa estabelecida.</p></div></div>
+                <div class="pcard"><div class="pico">💬</div><div><h4>Dificuldade de Contato</h4><p>Clientes desistem se não encontram rapidamente o que você faz e como falar com você pelo WhatsApp.</p></div></div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- SERVIÇOS -->
-      <section class="section" id="servicos">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Expertise</span>
-          <h2 class="sec-title">O que nós<br><span class="gradient">entregamos.</span></h2>
-          <p class="sec-sub">Não usamos templates prontos. Construímos soluções digitais focadas em conversão e autoridade para o seu negócio.</p>
-          <div class="cards-grid">
-            <div class="glass-card">
-              <div class="card-num">01</div>
-              <h3>Design Exclusivo</h3>
-              <p>Identidade visual única e autoral. Seu site não será igual a nenhum outro, refletindo o real valor da sua marca.</p>
-            </div>
-            <div class="glass-card">
-              <div class="card-num">02</div>
-              <h3>100% Responsivo</h3>
-              <p>Mais de 80% dos acessos vêm de celulares. Nossos sites são pensados primeiro para mobile (Mobile-First).</p>
-            </div>
-            <div class="glass-card">
-              <div class="card-num">03</div>
-              <h3>WhatsApp Integrado</h3>
-              <p>Botões flutuantes e CTAs estratégicos para encurtar o caminho entre o visitante e o fechamento da venda.</p>
-            </div>
-            <div class="glass-card">
-              <div class="card-num">04</div>
-              <h3>SEO Local</h3>
-              <p>Estrutura otimizada para o Google entender onde você está e o que você faz, atraindo clientes da sua região.</p>
-            </div>
+      <section class="sec" id="servicos">
+        <div class="wrap">
+          <span class="eyebrow rv">Expertise</span>
+          <h2 class="stitle rv">O que nós <span class="hl">entregamos.</span></h2>
+          <p class="ssub rv d1">Não usamos templates prontos. Construímos estruturas digitais focadas em conversão e autoridade para o seu negócio.</p>
+          <div class="g4">
+            <div class="card rv d1"><div class="cnum">01</div><h3>Design Exclusivo</h3><p>Identidade visual única e autoral. Seu site não será igual a nenhum outro, refletindo o real valor da sua marca.</p></div>
+            <div class="card rv d2"><div class="cnum">02</div><h3>100% Responsivo</h3><p>Mais de 80% dos acessos vêm de celulares. Nossos sites são pensados primeiro para mobile.</p></div>
+            <div class="card rv d3"><div class="cnum">03</div><h3>WhatsApp Integrado</h3><p>Botões flutuantes e CTAs estratégicos para encurtar o caminho entre o visitante e o fechamento da venda.</p></div>
+            <div class="card rv d4"><div class="cnum">04</div><h3>SEO Local</h3><p>Estrutura otimizada para o Google entender onde você está e o que você faz, atraindo clientes da sua região.</p></div>
           </div>
         </div>
       </section>
 
-      <!-- PORTFÓLIO -->
-      <section class="section" id="portfolio">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Trabalhos</span>
-          <h2 class="sec-title">Direção<br><span class="gradient">Visual.</span></h2>
-          <p class="sec-sub">Exemplos do nível de estética e acabamento que aplicamos nos projetos.</p>
-          <div class="portfolio-grid">
-            <div class="port-item">
-              <img src="assets/img/portfolio-consultorio.jpg" alt="Projeto Clínica" loading="lazy" />
-              <div class="port-overlay">
-                <span class="port-tag">Saúde & Bem-estar</span>
-                <div class="port-title">Consultório Médico</div>
-              </div>
-            </div>
-            <div class="port-item">
-              <img src="assets/img/portfolio-agencia.jpg" alt="Projeto Agência" loading="lazy" />
-              <div class="port-overlay">
-                <span class="port-tag">Marketing & Branding</span>
-                <div class="port-title">Agência Digital</div>
-              </div>
-            </div>
-            <div class="port-item">
-              <img src="assets/img/portfolio-ecommerce.jpg" alt="Projeto E-commerce" loading="lazy" />
-              <div class="port-overlay">
-                <span class="port-tag">E-commerce</span>
-                <div class="port-title">Loja Virtual</div>
-              </div>
-            </div>
-            <div class="port-item">
-              <img src="assets/img/portfolio-restaurante.jpg" alt="Projeto Restaurante" loading="lazy" />
-              <div class="port-overlay">
-                <span class="port-tag">Gastronomia</span>
-                <div class="port-title">Restaurante</div>
-              </div>
-            </div>
+      <div class="div"></div>
+
+      <!-- PORTFOLIO -->
+      <section class="sec" id="portfolio">
+        <div class="wrap">
+          <span class="eyebrow rv">Trabalhos</span>
+          <h2 class="stitle rv">Direção <span class="hl">Visual.</span></h2>
+          <p class="ssub rv d1">Exemplos do nível de estética e acabamento que aplicamos nos projetos.</p>
+          <div class="pg">
+            <div class="pi rv d1"><img src="assets/img/portfolio-consultorio.jpg" alt="Projeto Clínica" loading="lazy"/><div class="pov"><span class="ptag">Saúde & Bem-estar</span><div class="ptit">Consultório Médico</div></div></div>
+            <div class="pi rv d2"><img src="assets/img/portfolio-agencia.jpg" alt="Projeto Agência" loading="lazy"/><div class="pov"><span class="ptag">Marketing & Branding</span><div class="ptit">Agência Digital</div></div></div>
+            <div class="pi rv d3"><img src="assets/img/portfolio-ecommerce.jpg" alt="Projeto E-commerce" loading="lazy"/><div class="pov"><span class="ptag">E-commerce</span><div class="ptit">Loja Virtual</div></div></div>
+            <div class="pi rv d4"><img src="assets/img/portfolio-restaurante.jpg" alt="Projeto Restaurante" loading="lazy"/><div class="pov"><span class="ptag">Gastronomia</span><div class="ptit">Restaurante</div></div></div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- PROCESSO -->
-      <section class="section" id="processo">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Metodologia</span>
-          <h2 class="sec-title">Como<br><span class="gradient">Funciona.</span></h2>
-          <p class="sec-sub">Um processo claro, sem enrolação e focado no resultado. Entregamos seu projeto pronto para vender.</p>
-          <div class="steps-row">
-            <div class="glass-card step-card">
-              <div class="step-icon">01</div>
-              <h3>Briefing</h3>
-              <p>Entendemos o seu negócio, seus diferenciais e o perfil do seu cliente ideal.</p>
-            </div>
-            <div class="glass-card step-card">
-              <div class="step-icon">02</div>
-              <h3>Design & Dev</h3>
-              <p>Criamos a identidade visual e desenvolvemos a estrutura técnica otimizada.</p>
-            </div>
-            <div class="glass-card step-card">
-              <div class="step-icon">03</div>
-              <h3>Revisão</h3>
-              <p>Apresentamos o projeto para sua aprovação e realizamos os ajustes necessários.</p>
-            </div>
-            <div class="glass-card step-card">
-              <div class="step-icon">04</div>
-              <h3>Publicação</h3>
-              <p>Site no ar com domínio configurado, hospedagem rápida, SEO base e WhatsApp integrado.</p>
-            </div>
+      <section class="sec sm" id="processo">
+        <div class="wrap">
+          <span class="eyebrow rv">Metodologia</span>
+          <h2 class="stitle rv">Como <span class="hl">Funciona.</span></h2>
+          <p class="ssub rv d1">Um processo claro, sem enrolação e focado no resultado.</p>
+          <div class="stg">
+            <div class="card step rv d1"><div class="snum">01</div><h3>Briefing</h3><p>Entendemos o seu negócio, seus diferenciais e o perfil do seu cliente ideal.</p></div>
+            <div class="card step rv d2"><div class="snum">02</div><h3>Design & Dev</h3><p>Criamos a identidade visual e desenvolvemos a estrutura técnica otimizada.</p></div>
+            <div class="card step rv d3"><div class="snum">03</div><h3>Revisão</h3><p>Apresentamos o projeto para sua aprovação e realizamos os ajustes necessários.</p></div>
+            <div class="card step rv d4"><div class="snum">04</div><h3>Publicação</h3><p>Site no ar com domínio, hospedagem rápida, SEO base e WhatsApp integrado.</p></div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- PLANOS -->
-      <section class="section" id="planos">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Investimento</span>
-          <h2 class="sec-title">Escolha o momento<br><span class="gradient">do seu negócio.</span></h2>
-          <p class="sec-sub">Pagamento único. Sem mensalidade. Sem surpresa.</p>
-          <div class="plans-row">
-            <div class="glass-card plan-card">
-              <div class="plan-name">Inicial</div>
-              <h3>Essencial</h3>
-              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para sair do improviso.</p>
-              <div class="plan-price">R$ 1.500 <span>único</span></div>
-              <ul class="plan-features">
-                <li>Estrutura clara e objetiva</li>
-                <li>Visual profissional</li>
-                <li>WhatsApp integrado</li>
-                <li>100% responsivo</li>
-                <li>Publicação completa</li>
-              </ul>
-              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Essencial." target="_blank" rel="noopener noreferrer">Contratar</a>
+      <section class="sec" id="planos">
+        <div class="wrap">
+          <span class="eyebrow rv" style="display:block;text-align:center">Investimento</span>
+          <h2 class="stitle rv" style="text-align:center">Escolha o momento <span class="hl">do seu negócio.</span></h2>
+          <p class="ssub rv d1" style="text-align:center;margin-inline:auto">Pagamento único. Sem mensalidade. Sem surpresa.</p>
+          <div class="plg" style="margin-top:40px">
+            <div class="plan rv d1">
+              <div class="ptier">Inicial</div>
+              <div class="pname">Essencial</div>
+              <div class="pdesc">Para sair do improviso e ter presença digital profissional.</div>
+              <div class="pprice"><strong>R$ 1.500</strong><span>pagamento único</span></div>
+              <ul class="pfeats"><li>Estrutura clara e objetiva</li><li>Visual profissional</li><li>WhatsApp integrado</li><li>100% responsivo</li><li>Publicação completa</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Essencial." target="_blank" rel="noopener noreferrer">Contratar Essencial</a>
             </div>
-            <div class="glass-card plan-card popular">
-              <div class="plan-popular-badge">Mais escolhido</div>
-              <div class="plan-name">Crescimento</div>
-              <h3>Profissional</h3>
-              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para marcas que querem mais.</p>
-              <div class="plan-price">R$ 3.000 <span>único</span></div>
-              <ul class="plan-features">
-                <li>Tudo do Essencial</li>
-                <li>Organização comercial</li>
-                <li>Mais profundidade visual</li>
-                <li>Recursos de captação</li>
-                <li>Estrutura para crescer</li>
-              </ul>
-              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Profissional." target="_blank" rel="noopener noreferrer">Contratar</a>
+            <div class="plan pop rv d2">
+              <div class="pbadge">Mais escolhido</div>
+              <div class="ptier">Crescimento</div>
+              <div class="pname">Profissional</div>
+              <div class="pdesc">Para marcas que querem mais força visual e estrutura completa.</div>
+              <div class="pprice"><strong>R$ 3.000</strong><span>pagamento único</span></div>
+              <ul class="pfeats"><li>Tudo do Essencial</li><li>Organização comercial da informação</li><li>Mais profundidade visual</li><li>Recursos de captação</li><li>Estrutura pensada para crescer</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Profissional." target="_blank" rel="noopener noreferrer">Contratar Profissional</a>
             </div>
-            <div class="glass-card plan-card">
-              <div class="plan-name">Premium</div>
-              <h3>Exclusivo</h3>
-              <p style="color:var(--muted);font-size:0.95rem;margin-bottom:8px;">Para quem quer se destacar.</p>
-              <div class="plan-price">R$ 5.000 <span>único</span></div>
-              <ul class="plan-features">
-                <li>Tudo do Profissional</li>
-                <li>Estrutura autoral robusta</li>
-                <li>Recursos avançados sob medida</li>
-                <li>Direção visual completa</li>
-                <li>Suporte ampliado</li>
-              </ul>
-              <a class="plan-cta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Premium." target="_blank" rel="noopener noreferrer">Contratar</a>
+            <div class="plan rv d3">
+              <div class="ptier">Premium</div>
+              <div class="pname">Exclusivo</div>
+              <div class="pdesc">Para quem quer se destacar com um site completamente autoral.</div>
+              <div class="pprice"><strong>R$ 5.000</strong><span>pagamento único</span></div>
+              <ul class="pfeats"><li>Tudo do Profissional</li><li>Estrutura autoral robusta</li><li>Recursos avançados sob medida</li><li>Direção visual completa</li><li>Suporte e refinamento ampliados</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Premium." target="_blank" rel="noopener noreferrer">Contratar Exclusivo</a>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- SOBRE -->
-      <section class="section" id="sobre">
-        <div class="section-inner">
-          <div class="about-grid">
-            <div class="about-text">
-              <span class="sec-eyebrow">Quem somos</span>
-              <h2 class="sec-title">Presença digital<br><span class="gradient">com visão comercial.</span></h2>
-              <p>
-                A Olegario Tech nasce da combinação entre estética forte e resultado real. 
-                Não criamos só sites bonitos — criamos estruturas que transmitem autoridade 
-                e facilitam o contato com o cliente.
-              </p>
-              <p>
-                Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região 
-                que querem elevar o nível da imagem no digital, saindo do amadorismo das redes sociais para uma presença corporativa forte.
-              </p>
-              <div class="about-stats">
-                <div class="about-stat">
-                  <strong>Projetos</strong>
-                  <span>Em execução agora</span>
-                </div>
-                <div class="about-stat">
-                  <strong>24h</strong>
-                  <span>Tempo de resposta</span>
-                </div>
-                <div class="about-stat">
-                  <strong>100%</strong>
-                  <span>Foco local</span>
+      <section class="sec" id="sobre">
+        <div class="wrap">
+          <div class="panel">
+            <div class="abg">
+              <div class="abt rv">
+                <span class="eyebrow">Quem somos</span>
+                <h2 class="stitle">Presença digital com <span class="hl">visão comercial.</span></h2>
+                <p>A Olegario Tech nasce da combinação entre estética forte e resultado real. Não criamos só sites bonitos — criamos estruturas que transmitem autoridade e facilitam o contato com o cliente.</p>
+                <p>Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região que querem elevar o nível da imagem no digital, saindo do amadorismo das redes sociais para uma presença corporativa forte.</p>
+                <div class="abst">
+                  <div><strong>24h</strong><span>Tempo de resposta</span></div>
+                  <div><strong>100%</strong><span>Foco local</span></div>
+                  <div><strong>∞</strong><span>Comprometimento</span></div>
                 </div>
               </div>
-            </div>
-            <div class="about-photo">
-              <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario - Fundador Olegario Tech" loading="lazy" />
-              <div class="about-caption">
-                <strong>Alexandre Olegario</strong>
-                <span>Fundador Olegario Tech</span>
+              <div class="abph rv d2">
+                <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario – Fundador Olegario Tech" loading="lazy"/>
+                <div class="abcap"><strong>Alexandre Olegario</strong><span>Fundador · Olegario Tech</span></div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- PRODUTOS -->
-      <section class="section" id="produtos">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Produtos Digitais</span>
-          <h2 class="sec-title">Além dos sites,<br><span class="gradient">métodos práticos.</span></h2>
-          <p class="sec-sub">Clareza, direção e execução em formato digital para o seu desenvolvimento pessoal e profissional.</p>
-          <div class="products-grid">
-            <div class="glass-card product-card">
-              <div class="product-media">
-                <img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" loading="lazy" />
-              </div>
-              <div class="product-body">
-                <span class="product-tag">Filosofia</span>
-                <h3>Lucidez Prática</h3>
-                <p>Protocolo para sair do looping mental e voltar à execução.</p>
-                <div class="product-price-row"><s>R$ 97</s><strong>R$ 29,90</strong></div>
-                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/FxEtsfU','_blank')">Comprar</button>
-              </div>
+      <section class="sec" id="produtos">
+        <div class="wrap">
+          <span class="eyebrow rv">Produtos Digitais</span>
+          <h2 class="stitle rv">Além dos sites, <span class="hl">métodos práticos.</span></h2>
+          <p class="ssub rv d1">Clareza, direção e execução em formato digital para o seu desenvolvimento.</p>
+          <div class="prg">
+            <div class="prod rv d1">
+              <div class="pmed"><img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Filosofia</span><h3>Lucidez Prática</h3><p>Protocolo para sair do looping mental e voltar à execução.</p><div class="ppr"><s>R$ 97</s><strong>R$ 29,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/FxEtsfU" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
-            <div class="glass-card product-card">
-              <div class="product-media">
-                <img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" loading="lazy" />
-              </div>
-              <div class="product-body">
-                <span class="product-tag">Finanças</span>
-                <h3>Dinheiro que Sobra</h3>
-                <p>Guia prático para organizar a vida financeira.</p>
-                <div class="product-price-row"><strong>R$ 19,90</strong></div>
-                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/xPzKLoK','_blank')">Comprar</button>
-              </div>
+            <div class="prod rv d2">
+              <div class="pmed"><img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Finanças</span><h3>Dinheiro que Sobra</h3><p>Guia prático para organizar a vida financeira.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/xPzKLoK" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
-            <div class="glass-card product-card">
-              <div class="product-media">
-                <img src="assets/img/capa-vendas.jpg" alt="Manual de Vendas" loading="lazy" />
-              </div>
-              <div class="product-body">
-                <span class="product-tag">Vendas</span>
-                <h3>Manual da Prospecção</h3>
-                <p>Método direto para gerar conversa e fechar mais.</p>
-                <div class="product-price-row"><strong>R$ 19,90</strong></div>
-                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/rmmRvfc','_blank')">Comprar</button>
-              </div>
+            <div class="prod rv d3">
+              <div class="pmed"><img src="assets/img/capa-vendas.jpg" alt="Manual da Prospecção" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Vendas</span><h3>Manual da Prospecção</h3><p>Método direto para gerar conversa e fechar mais.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/rmmRvfc" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
-            <div class="glass-card product-card">
-              <div class="product-media">
-                <img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa" loading="lazy" />
-              </div>
-              <div class="product-body">
-                <span class="product-tag">Treino</span>
-                <h3>Treino em Casa 30min</h3>
-                <p>Constância e resultado sem precisar de academia.</p>
-                <div class="product-price-row"><strong>R$ 14,99</strong></div>
-                <button class="product-btn" onclick="window.open('https://pay.kiwify.com.br/lt9RRvy','_blank')">Comprar</button>
-              </div>
+            <div class="prod rv d4">
+              <div class="pmed"><img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa 30min" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Treino</span><h3>Treino em Casa 30min</h3><p>Constância e resultado sem precisar de academia.</p><div class="ppr"><strong>R$ 14,99</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/lt9RRvy" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
 
       <!-- FAQ -->
-      <section class="section" id="faq" style="min-height:auto;padding:100px 40px;">
-        <div class="section-inner">
-          <span class="sec-eyebrow">Dúvidas Frequentes</span>
-          <h2 class="sec-title">O básico,<br><span class="gradient">esclarecido.</span></h2>
-          <div class="faq-list">
-            <div class="faq-item glass-card" style="padding: 0;">
-              <button class="faq-trigger"><span>Quais tipos de negócio vocês atendem?</span><span class="faq-icon">+</span></button>
-              <div class="faq-panel"><p>Clínicas, restaurantes, salões, barbearias, adegas, pet shops, prestadores de serviço e empresas de Valinhos, Campinas e região.</p></div>
-            </div>
-            <div class="faq-item glass-card" style="padding: 0;">
-              <button class="faq-trigger"><span>O site fica com visual exclusivo?</span><span class="faq-icon">+</span></button>
-              <div class="faq-panel"><p>Sim. Cada projeto é pensado do zero com direção visual própria. Nada de template genérico.</p></div>
-            </div>
-            <div class="faq-item glass-card" style="padding: 0;">
-              <button class="faq-trigger"><span>Quanto tempo leva para ficar pronto?</span><span class="faq-icon">+</span></button>
-              <div class="faq-panel"><p>Essencial: até 10 dias úteis. Profissional e Premium: 15 a 25 dias úteis, dependendo do escopo.</p></div>
-            </div>
-            <div class="faq-item glass-card" style="padding: 0;">
-              <button class="faq-trigger"><span>O site funciona bem no celular?</span><span class="faq-icon">+</span></button>
-              <div class="faq-panel"><p>Sim. A estrutura é pensada mobile-first. Grande parte dos contatos vem do celular, então essa é nossa prioridade técnica.</p></div>
-            </div>
-            <div class="faq-item glass-card" style="padding: 0;">
-              <button class="faq-trigger"><span>Vocês ajudam com domínio e publicação?</span><span class="faq-icon">+</span></button>
-              <div class="faq-panel"><p>Sim. Orientação e configuração completa para colocar o site no ar com presença profissional (.com.br) e hospedagem segura.</p></div>
-            </div>
+      <section class="sec sm" id="faq">
+        <div class="wrap">
+          <span class="eyebrow rv" style="display:block;text-align:center">Dúvidas Frequentes</span>
+          <h2 class="stitle rv" style="text-align:center">O básico, <span class="hl">esclarecido.</span></h2>
+          <div class="fw" style="margin-top:36px">
+            <div class="fi rv d1"><button class="ft" type="button"><span>Quais tipos de negócio vocês atendem?</span><span class="fic">+</span></button><div class="fp"><p>Clínicas, restaurantes, salões, barbearias, adegas, pet shops, prestadores de serviço e empresas de Valinhos, Campinas e região.</p></div></div>
+            <div class="fi rv d2"><button class="ft" type="button"><span>O site fica com visual exclusivo?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Cada projeto é pensado do zero com direção visual própria. Nada de template genérico.</p></div></div>
+            <div class="fi rv d3"><button class="ft" type="button"><span>Quanto tempo leva para ficar pronto?</span><span class="fic">+</span></button><div class="fp"><p>Essencial: até 10 dias úteis. Profissional e Exclusivo: 15 a 25 dias úteis, dependendo do escopo e material disponível.</p></div></div>
+            <div class="fi rv d4"><button class="ft" type="button"><span>O site funciona bem no celular?</span><span class="fic">+</span></button><div class="fp"><p>Sim. A estrutura é pensada mobile-first. Grande parte dos contatos vem do celular, então essa é nossa prioridade técnica.</p></div></div>
+            <div class="fi rv"><button class="ft" type="button"><span>Vocês ajudam com domínio e publicação?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Orientação e configuração completa para colocar o site no ar com presença profissional (.com.br) e hospedagem segura.</p></div></div>
+            <div class="fi rv d1"><button class="ft" type="button"><span>Qual é o diferencial da Olegario Tech?</span><span class="fic">+</span></button><div class="fp"><p>Unimos visual premium, personalização e visão comercial. O site precisa ser bonito, transmitir autoridade e gerar ação real — contato, orçamento, venda.</p></div></div>
           </div>
         </div>
       </section>
 
+      <div class="div"></div>
+
       <!-- CTA FINAL -->
-      <section class="section final-cta" id="cta">
-        <div class="section-inner">
-          <h2>Seu negócio merece<br><span class="gradient">um site à altura.</span></h2>
-          <p>
-            Instagram ajuda. Indicação ajuda. Mas um site profissional bem feito 
-            coloca sua marca em outro nível de autoridade e confiança. Vamos conversar?
-          </p>
-          <a class="hero-cta" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.38 3.55 1.06 5.11L2 22l5.06-1.06A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-            Falar no WhatsApp
-          </a>
+      <section class="sec sm">
+        <div class="wrap">
+          <div class="ctab panel rv">
+            <h2>Seu negócio merece um site <span class="hl">à altura da sua entrega.</span></h2>
+            <p>Instagram ajuda. Indicação ajuda. Mas um site profissional bem feito coloca sua marca em outro nível de autoridade e confiança.</p>
+            <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+          </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="footer-copy">
-        <strong style="display:block;color:#fff;margin-bottom:8px;letter-spacing:.15em;text-transform:uppercase;font-size:.9rem;">OLEGARIO TECH</strong>
-        © 2025 Olegario Tech. Todos os direitos reservados.<br>
-        Valinhos, Campinas e Região.
+      <div class="wrap fot">
+        <div class="fcp">
+          <strong>OLEGARIO TECH</strong>
+          Conhecimento que vira ação.<br/>
+          © <span id="yr"></span> Olegario Tech. Todos os direitos reservados. Valinhos, SP.
+        </div>
+        <div class="fls">
+          <a href="#servicos">Serviços</a>
+          <a href="#portfolio">Portfólio</a>
+          <a href="#planos">Planos</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#faq">FAQ</a>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="#servicos">Serviços</a>
-        <a href="#portfolio">Portfólio</a>
-        <a href="#planos">Planos</a>
-        <a href="#sobre">Sobre</a>
-      </div>
-      <a href="https://olegariotech.com.br" target="_blank" rel="noopener noreferrer" class="footer-signature" aria-label="Desenvolvido por Olegario Tech">
-        <!-- Monograma OT: círculo com abertura na base + T interno -->
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Círculo com abertura na base (arco de ~300°) -->
-          <path d="M20 4 A16 16 0 1 1 9.1 33.1" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-          <!-- Barra horizontal do T -->
-          <line x1="11" y1="17" x2="29" y2="17" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-          <!-- Haste vertical do T -->
-          <line x1="20" y1="17" x2="20" y2="32" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-        </svg>
-        <span>Desenvolvido por OLEGARIO TECH</span>
-      </a>
     </footer>
   </div>
 
@@ -1436,416 +604,323 @@
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <!-- Audio -->
-  <audio id="bg-audio" loop preload="auto" crossorigin="anonymous">
+  <!-- Audio — caminho exato do repositório Netlify -->
+  <audio id="aud" loop preload="auto" crossorigin="anonymous">
     <source src="assets/audio/background.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Mute Button -->
-  <div id="muteBtn" class="mute-btn" aria-label="Ligar/Desligar Som">
-    <svg class="icon-unmuted" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path></svg>
-    <svg class="icon-muted" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"></path></svg>
+  <div id="mb" class="mb" role="button" aria-label="Ligar/Desligar Som" tabindex="0">
+    <svg class="ion" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.03,19.86 21,16.28 21,12C21,7.72 18.03,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/></svg>
+    <svg class="ioff" viewBox="0 0 24 24"><path d="M12,4L9.91,6.09L12,8.18V4M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.03,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"/></svg>
   </div>
 
-  <script>
-    // ==========================================
-    // THREE.JS PARTICLE SYSTEM - NARRATIVE 3D
-    // ==========================================
-    (function() {
-      // Mobile check for performance
-      const isMobile = window.innerWidth <= 768;
-      
-      const container = document.getElementById('canvas-container');
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x050508, 0.02);
+<script>
+(function(){
+  'use strict';
+  const isMob = window.innerWidth < 768;
+  const noMot = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 30;
+  // Year
+  const yr = document.getElementById('yr');
+  if(yr) yr.textContent = new Date().getFullYear();
 
-      const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true, powerPreference: "high-performance" });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
-      renderer.setClearColor(0x050508, 1);
-      container.appendChild(renderer.domElement);
+  // Header scroll
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', ()=>hdr.classList.toggle('sc', window.scrollY>20), {passive:true});
 
-      // Particle count - reduced for mobile
-      const COUNT = isMobile ? 800 : 2500;
-      const positions = new Float32Array(COUNT * 3);
-      const randoms = new Float32Array(COUNT * 3);
-      const sizes = new Float32Array(COUNT);
-      const colors = new Float32Array(COUNT * 3);
+  // Nav toggle
+  const ntog = document.getElementById('ntog');
+  const nmenu = document.getElementById('nmenu');
+  if(ntog){
+    ntog.addEventListener('click', ()=>{
+      const o = document.body.classList.toggle('nav-open');
+      ntog.setAttribute('aria-expanded', o);
+    });
+  }
+  if(nmenu) nmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    document.body.classList.remove('nav-open');
+    ntog&&ntog.setAttribute('aria-expanded','false');
+  }));
 
-      const color1 = new THREE.Color(0x9d4edd);
-      const color2 = new THREE.Color(0x5b8cff);
-      const color3 = new THREE.Color(0xe9bf73);
+  // FAQ
+  document.querySelectorAll('.fi').forEach(item=>{
+    const t=item.querySelector('.ft'), p=item.querySelector('.fp');
+    if(!t||!p) return;
+    t.addEventListener('click',()=>{
+      const ac=item.classList.contains('ac');
+      document.querySelectorAll('.fi').forEach(o=>{o.classList.remove('ac');const pp=o.querySelector('.fp');if(pp)pp.style.maxHeight='0'});
+      if(!ac){item.classList.add('ac');p.style.maxHeight=p.scrollHeight+'px';}
+    });
+  });
 
-      for (let i = 0; i < COUNT; i++) {
-        const i3 = i * 3;
-        randoms[i3] = Math.random();
-        randoms[i3 + 1] = Math.random();
-        randoms[i3 + 2] = Math.random();
-        positions[i3] = (Math.random() - 0.5) * 60;
-        positions[i3 + 1] = (Math.random() - 0.5) * 60;
-        positions[i3 + 2] = (Math.random() - 0.5) * 40;
-        sizes[i] = Math.random() * 2 + 0.5;
+  // Custom cursor (desktop only)
+  const cd=document.getElementById('cd'), cr=document.getElementById('cr');
+  if(cd&&cr&&!isMob){
+    let mx=-200,my=-200,rx=-200,ry=-200;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY},{passive:true});
+    document.addEventListener('mousedown',()=>document.body.classList.add('ck'));
+    document.addEventListener('mouseup',()=>document.body.classList.remove('ck'));
+    document.querySelectorAll('a,button,.card,.plan,.prod,.fi,.si,.pi,.pcard').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+    });
+    (function loop(){
+      cd.style.left=mx+'px';cd.style.top=my+'px';
+      rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+      cr.style.left=rx+'px';cr.style.top=ry+'px';
+      requestAnimationFrame(loop);
+    })();
+  }
 
-        const c = Math.random() > 0.6 ? color3 : (Math.random() > 0.5 ? color1 : color2);
-        colors[i3] = c.r;
-        colors[i3 + 1] = c.g;
-        colors[i3 + 2] = c.b;
-      }
+  // Scroll reveal
+  if(!noMot){
+    const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
+    }),{threshold:.07,rootMargin:'0px 0px -30px 0px'});
+    document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+  } else {
+    document.querySelectorAll('.rv').forEach(el=>el.classList.add('on'));
+  }
 
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 3));
-      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-      // Custom shader material
-      const material = new THREE.ShaderMaterial({
-        uniforms: {
-          uTime: { value: 0 },
-          uScroll: { value: 0 },
-          uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-          uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
-        },
-        vertexShader: `
-          uniform float uTime;
-          uniform float uScroll;
-          uniform vec2 uMouse;
-          attribute vec3 aRandom;
-          attribute float aSize;
-          attribute vec3 color;
-          varying vec3 vColor;
-          varying float vAlpha;
-
-          // Hash function
-          float hash(float n) { return fract(sin(n) * 43758.5453123); }
-
-          void main() {
-            vColor = color;
-            float t = uTime * 0.3;
-            float s = uScroll;
-
-            // Base position from random
-            vec3 pos = position;
-
-            // STATE 0: Chaos (0.0 - 0.25) - floating particles
-            float chaos = smoothstep(0.0, 0.25, s) * (1.0 - smoothstep(0.2, 0.35, s));
-            vec3 chaosPos = pos + vec3(
-              sin(aRandom.x * 6.28 + t + aRandom.y * 3.0) * 2.0,
-              cos(aRandom.y * 6.28 + t * 0.7 + aRandom.z * 2.0) * 2.0,
-              sin(aRandom.z * 6.28 + t * 0.5) * 1.5
-            );
-
-            // STATE 1: Grid formation (0.25 - 0.55) - wireframe sites
-            float gridPhase = smoothstep(0.2, 0.4, s) * (1.0 - smoothstep(0.5, 0.65, s));
-            float gridSize = 18.0;
-            float gridSpacing = 2.5;
-            int idx = int(mod(float(gl_VertexID), 1000.0));
-            int gx = idx % 20;
-            int gy = (idx / 20) % 20;
-            int gz = idx / 400;
-            vec3 gridPos = vec3(
-              float(gx) * gridSpacing - gridSize * 0.5,
-              float(gy) * gridSpacing - gridSize * 0.5,
-              float(gz) * 3.0 - 3.0
-            );
-            // Add some noise to grid
-            gridPos += vec3(
-              sin(float(gx) * 0.5 + t) * 0.3,
-              cos(float(gy) * 0.5 + t * 0.8) * 0.3,
-              0.0
-            );
-
-            // STATE 2: Network (0.55 - 0.8) - connections
-            float netPhase = smoothstep(0.5, 0.65, s) * (1.0 - smoothstep(0.75, 0.85, s));
-            float angle = aRandom.x * 6.28318;
-            float radius = 8.0 + aRandom.y * 12.0;
-            float height = (aRandom.z - 0.5) * 16.0;
-            vec3 netPos = vec3(
-              cos(angle + t * 0.2 + aRandom.z) * radius,
-              height + sin(t * 0.3 + aRandom.x * 3.0) * 2.0,
-              sin(angle + t * 0.2 + aRandom.z) * radius
-            );
-
-            // STATE 3: Convergence (0.8 - 1.0) - all to center
-            float convPhase = smoothstep(0.75, 0.85, s);
-            vec3 convPos = mix(pos * 0.1, vec3(0.0), convPhase);
-            convPos += vec3(
-              sin(aRandom.x * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase),
-              cos(aRandom.y * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase),
-              sin(aRandom.z * 10.0 + t * 2.0) * 0.5 * (1.0 - convPhase)
-            );
-
-            // Blend states
-            vec3 finalPos = mix(pos, chaosPos, chaos);
-            finalPos = mix(finalPos, gridPos, gridPhase);
-            finalPos = mix(finalPos, netPos, netPhase);
-            finalPos = mix(finalPos, convPos, convPhase);
-
-            // Mouse interaction - repulsion
-            vec2 mouseNDC = (uMouse - 0.5) * 2.0;
-            vec4 viewPos = modelViewMatrix * vec4(finalPos, 1.0);
-            vec2 screenPos = viewPos.xy / viewPos.z;
-            float mouseDist = length(screenPos - mouseNDC * 15.0);
-            float mouseInfluence = smoothstep(8.0, 0.0, mouseDist);
-            vec2 repelDir = normalize(screenPos - mouseNDC * 15.0 + 0.001);
-            finalPos.xy += repelDir * mouseInfluence * 3.0;
-
-            // Breathing effect
-            float breath = sin(uTime * 0.5 + aRandom.x * 6.28) * 0.5 + 0.5;
-            vAlpha = 0.4 + breath * 0.6;
-
-            vec4 mvPosition = modelViewMatrix * vec4(finalPos, 1.0);
-            gl_Position = projectionMatrix * mvPosition;
-            gl_PointSize = aSize * (300.0 / -mvPosition.z) * (0.8 + breath * 0.4);
-          }
-        `,
-        fragmentShader: `
-          varying vec3 vColor;
-          varying float vAlpha;
-
-          void main() {
-            float dist = length(gl_PointCoord - vec2(0.5));
-            if (dist > 0.5) discard;
-            float glow = 1.0 - smoothstep(0.0, 0.5, dist);
-            glow = pow(glow, 1.5);
-            gl_FragColor = vec4(vColor, vAlpha * glow);
-          }
-        `,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending
+  // Hero title neural emerge
+  (function emerge(){
+    const POOL='ΨΩ∂∇λφ◆◈⟨⟩01アイウ█▓◇≠∞';
+    const rnd=()=>POOL[Math.floor(Math.random()*POOL.length)];
+    const lines=document.querySelectorAll('#htit .ln');
+    const all=[];
+    lines.forEach((line,li)=>{
+      const text=line.dataset.t||'', bold=line.dataset.b==='1';
+      line.innerHTML='';
+      line.style.cssText='display:block;font-family:Syne,sans-serif;font-weight:800;';
+      if(bold) line.style.cssText+='background:linear-gradient(135deg,#67e8f9 0%,#a5f3fc 40%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;';
+      [...text].forEach(ch=>{
+        if(ch===' '){const s=document.createElement('span');s.style.cssText='display:inline-block;width:.28em;';line.appendChild(s);return;}
+        const wrap=document.createElement('span');wrap.style.cssText='display:inline-block;';
+        const span=document.createElement('span');span.style.cssText='display:inline-block;opacity:0;';
+        if(noMot){span.textContent=ch;span.style.opacity='1';}else{span.textContent=rnd();}
+        wrap.appendChild(span);line.appendChild(wrap);
+        all.push({span,ch,li});
       });
-
-      const particles = new THREE.Points(geometry, material);
-      scene.add(particles);
-
-      // Connection lines for network state - disabled on mobile for performance
-      let lines;
-      let lineMaterial;
-      if (!isMobile) {
-        const lineCount = 300;
-        const linePositions = new Float32Array(lineCount * 6); // 2 points * 3 coords
-        const lineGeometry = new THREE.BufferGeometry();
-        lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-        lineMaterial = new THREE.LineBasicMaterial({
-          color: 0x5b8cff,
-          transparent: true,
-          opacity: 0,
-          blending: THREE.AdditiveBlending
-        });
-        lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-        scene.add(lines);
-      }
-
-      // Mouse tracking
-      const mouse = { x: 0.5, y: 0.5 };
-      document.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX / window.innerWidth;
-        mouse.y = 1.0 - e.clientY / window.innerHeight;
-      }, { passive: true });
-
-      // Scroll tracking
-      let scrollProgress = 0;
-      function updateScroll() {
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        scrollProgress = docHeight > 0 ? Math.min(1, window.scrollY / docHeight) : 0;
-      }
-      window.addEventListener('scroll', updateScroll, { passive: true });
-
-      // Resize
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+      line.classList.add('on');
+    });
+    if(noMot) return;
+    const DELAY=44,PAUSE=200,CYCLES=6;
+    setTimeout(()=>{
+      all.forEach(({span,ch,li},idx)=>{
+        let delay=idx*DELAY;
+        for(let i=0;i<li;i++) delay+=PAUSE;
+        setTimeout(()=>{
+          let c=0;span.style.opacity='1';
+          span.style.color='#67e8f9';
+          span.style.textShadow='0 0 14px rgba(103,232,249,.9)';
+          const iv=setInterval(()=>{
+            span.textContent=rnd();c++;
+            if(c>=CYCLES){
+              clearInterval(iv);
+              span.textContent=ch;
+              span.style.color='';
+              span.style.textShadow='';
+            }
+          },55);
+        },delay);
       });
+    },500);
+  })();
 
-      // Animation loop
-      const clock = new THREE.Clock();
+  // THREE.JS 3D — architectural environment with grid + neurons
+  (function scene3D(){
+    if(noMot||typeof THREE==='undefined') return;
+    const container=document.getElementById('cv3');
+    if(!container) return;
 
-      function animate() {
-        requestAnimationFrame(animate);
-        const elapsed = clock.getElapsedTime();
+    const renderer=new THREE.WebGLRenderer({antialias:!isMob,alpha:true,powerPreference:'high-performance'});
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1:1.8));
+    renderer.setClearColor(0x03040a,1);
+    container.appendChild(renderer.domElement);
 
-        material.uniforms.uTime.value = elapsed;
-        material.uniforms.uScroll.value = scrollProgress;
-        material.uniforms.uMouse.value.set(mouse.x, mouse.y);
+    const scene=new THREE.Scene();
+    scene.fog=new THREE.FogExp2(0x03040a,isMob?.025:.016);
 
-        // Rotate entire scene slowly based on scroll
-        particles.rotation.y = elapsed * 0.02 + scrollProgress * Math.PI * 0.5;
-        particles.rotation.x = Math.sin(elapsed * 0.1) * 0.1;
+    const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,.5,1200);
+    camera.position.set(0,10,65);
+    camera.lookAt(0,0,0);
 
-        // Update connection lines opacity based on network phase
-        if (!isMobile && lineMaterial) {
-          const netPhase = Math.max(0, Math.min(1, (scrollProgress - 0.5) / 0.3));
-          lineMaterial.opacity = netPhase * 0.3 * (0.5 + Math.sin(elapsed * 2) * 0.5);
+    // PERSPECTIVE GRID — the Active Theory signature move
+    const GS=140, GD=isMob?18:32, GSTEP=GS/GD;
+    const gc1=new THREE.Color(0x091828), gc2=new THREE.Color(0x0c1f38);
+    for(let i=0;i<=GD;i++){
+      const x=-GS/2+i*GSTEP;
+      const fade=1-Math.abs(i-GD/2)/(GD/2);
+      const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x,0,-GS/2),new THREE.Vector3(x,0,GS/2)]);
+      scene.add(new THREE.Line(g,new THREE.LineBasicMaterial({color:gc1,transparent:true,opacity:fade*.5,depthWrite:false})));
+    }
+    for(let i=0;i<=GD;i++){
+      const z=-GS/2+i*GSTEP;
+      const fade=i/GD;
+      const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-GS/2,0,z),new THREE.Vector3(GS/2,0,z)]);
+      scene.add(new THREE.Line(g,new THREE.LineBasicMaterial({color:gc2,transparent:true,opacity:fade*.65,depthWrite:false})));
+    }
+    // Side walls
+    [-58,58].forEach(xp=>{
+      for(let i=0;i<=GD;i++){
+        const z=-GS/2+i*GSTEP;
+        const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(xp,-24,z),new THREE.Vector3(xp,20,z)]);
+        scene.add(new THREE.Line(g,new THREE.LineBasicMaterial({color:0x071222,transparent:true,opacity:.22,depthWrite:false})));
+      }
+    });
+    // Grid group for breathing animation
+    const gridY=-24;
+
+    // NEURON NETWORK
+    const NN=isMob?20:44;
+    const neurons=[];
+    const somaGeo=new THREE.SphereGeometry(1,10,10);
+    const somaGrp=new THREE.Group();
+    scene.add(somaGrp);
+    const SPR={x:95,y:55,z:110};
+
+    for(let i=0;i<NN;i++){
+      const pos=new THREE.Vector3((Math.random()-.5)*SPR.x,(Math.random()-.5)*SPR.y+5,(Math.random()-.5)*SPR.z);
+      const depth=(pos.z+SPR.z/2)/SPR.z;
+      const size=(isMob?3:4)+Math.random()*(isMob?4:8);
+      const col=new THREE.Color().lerpColors(new THREE.Color(0x2a1870),new THREE.Color(0x67e8f9),depth*.6+.1);
+      const mat=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.12+depth*.38});
+      const mesh=new THREE.Mesh(somaGeo,mat); mesh.scale.setScalar(size); mesh.position.copy(pos); somaGrp.add(mesh);
+      const nm=new THREE.MeshBasicMaterial({color:new THREE.Color(0xb8f0ff),transparent:true,opacity:.2+depth*.35});
+      const nuc=new THREE.Mesh(somaGeo,nm); nuc.scale.setScalar(size*.4); nuc.position.copy(pos); somaGrp.add(nuc);
+      neurons.push({pos,mesh,nuc,vel:new THREE.Vector3((Math.random()-.5)*.09,(Math.random()-.5)*.06,(Math.random()-.5)*.04),pulse:Math.random()*Math.PI*2,depth});
+    }
+
+    // Connections
+    const MC=isMob?60:180;
+    const cp=new Float32Array(MC*6), cc=new Float32Array(MC*6);
+    const cg=new THREE.BufferGeometry();
+    cg.setAttribute('position',new THREE.BufferAttribute(cp,3));
+    cg.setAttribute('color',new THREE.BufferAttribute(cc,3));
+    scene.add(new THREE.LineSegments(cg,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.38,blending:THREE.AdditiveBlending,depthWrite:false})));
+
+    // Impulses
+    const MI=isMob?6:14;
+    const ip=new Float32Array(MI*3);
+    const ig=new THREE.BufferGeometry();
+    ig.setAttribute('position',new THREE.BufferAttribute(ip,3));
+    const im=new THREE.PointsMaterial({color:0x67e8f9,size:isMob?4:7,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+    scene.add(new THREE.Points(ig,im));
+    const imps=Array.from({length:MI},(_,i)=>({active:false,from:null,to:null,t:0,spd:0,slot:i}));
+    function spawnImp(){
+      const s=imps.find(i=>!i.active); if(!s) return;
+      const pairs=[];
+      for(let a=0;a<neurons.length;a++) for(let b=a+1;b<neurons.length;b++) if(neurons[a].pos.distanceTo(neurons[b].pos)<65) pairs.push([a,b]);
+      if(!pairs.length) return;
+      const [ai,bi]=pairs[Math.floor(Math.random()*pairs.length)];
+      s.active=true;s.from=neurons[ai].pos;s.to=neurons[bi].pos;s.t=0;s.spd=.007+Math.random()*.009;
+    }
+
+    // Background particles
+    const FP=isMob?500:1600;
+    const fpp=new Float32Array(FP*3),fpc=new Float32Array(FP*3);
+    for(let i=0;i<FP;i++){
+      fpp[i*3]=(Math.random()-.5)*190;fpp[i*3+1]=(Math.random()-.5)*130;fpp[i*3+2]=(Math.random()-.5)*170;
+      const c=Math.random()>.7?new THREE.Color(0x67e8f9):(Math.random()>.5?new THREE.Color(0x4338ca):new THREE.Color(0xf59e0b));
+      fpc[i*3]=c.r;fpc[i*3+1]=c.g;fpc[i*3+2]=c.b;
+    }
+    const fpg=new THREE.BufferGeometry();
+    fpg.setAttribute('position',new THREE.BufferAttribute(fpp,3));
+    fpg.setAttribute('color',new THREE.BufferAttribute(fpc,3));
+    const fps=new THREE.Points(fpg,new THREE.PointsMaterial({vertexColors:true,size:isMob?1.2:1.8,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true}));
+    scene.add(fps);
+
+    // Mouse + scroll
+    const m3={tx:0,ty:0,x:0,y:0};
+    document.addEventListener('mousemove',e=>{m3.tx=(e.clientX/window.innerWidth-.5)*2;m3.ty=(e.clientY/window.innerHeight-.5)*2},{passive:true});
+    let sp=0,ctz=65;
+    window.addEventListener('scroll',()=>{sp=window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight);ctz=65-sp*28},{passive:true});
+
+    window.addEventListener('resize',()=>{
+      camera.aspect=window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth,window.innerHeight);
+    });
+
+    const clock=new THREE.Clock(); let it=0;
+    function animate(){
+      requestAnimationFrame(animate);
+      const dt=clock.getDelta(), t=clock.getElapsedTime();
+      if(!isMob){m3.x+=(m3.tx-m3.x)*.05;m3.y+=(m3.ty-m3.y)*.05;camera.rotation.y=m3.x*.033;camera.rotation.x=-m3.y*.02;}
+      camera.position.z+=(ctz-camera.position.z)*.028;
+      // Grid breath
+      const gyTarget=gridY+Math.sin(t*.3)*.8;
+      // move all grid lines Y — via scene children (first GD*2+wall lines)
+      fps.rotation.y=t*.012;fps.rotation.x=t*.006;
+      // Neurons
+      neurons.forEach(n=>{
+        n.pos.add(n.vel);
+        ['x','y','z'].forEach(ax=>{const lim=SPR[ax]/2+22;if(n.pos[ax]>lim)n.pos[ax]=-lim;if(n.pos[ax]<-lim)n.pos[ax]=lim;});
+        n.pulse+=dt*1.4;
+        const br=Math.sin(n.pulse)*.14+.86;
+        n.mesh.position.copy(n.pos);n.nuc.position.copy(n.pos);
+        n.mesh.material.opacity=(.12+n.depth*.38)*br;
+        n.nuc.material.opacity=(.20+n.depth*.35)*br;
+      });
+      // Connections
+      let ci=0;
+      for(let a=0;a<neurons.length&&ci<MC-1;a++){
+        for(let b=a+1;b<neurons.length&&ci<MC-1;b++){
+          const d=neurons[a].pos.distanceTo(neurons[b].pos);
+          if(d>65) continue;
+          const fade=(1-d/65)*.68, off=ci*6;
+          cp[off]=neurons[a].pos.x;cp[off+1]=neurons[a].pos.y;cp[off+2]=neurons[a].pos.z;
+          cp[off+3]=neurons[b].pos.x;cp[off+4]=neurons[b].pos.y;cp[off+5]=neurons[b].pos.z;
+          const ic=new THREE.Color(0x0d3055).multiplyScalar(fade*2);
+          cc[off]=ic.r;cc[off+1]=ic.g;cc[off+2]=ic.b;cc[off+3]=ic.r;cc[off+4]=ic.g;cc[off+5]=ic.b;
+          ci++;
         }
-
-        // Update camera based on scroll
-        camera.position.z = 30 - scrollProgress * 15;
-        camera.position.y = Math.sin(scrollProgress * Math.PI) * 5;
-
-        renderer.render(scene, camera);
       }
-      animate();
-
-      // GSAP ScrollTrigger animations for UI elements
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Hero entrance
-      gsap.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
-      gsap.to('.hero-title', { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power3.out' });
-      gsap.to('.hero-sub', { opacity: 1, y: 0, duration: 1, delay: 0.7, ease: 'power3.out' });
-      gsap.to('.hero-cta', { opacity: 1, y: 0, duration: 1, delay: 0.9, ease: 'power3.out' });
-      gsap.to('.scroll-hint', { opacity: 0.6, duration: 1, delay: 1.5, ease: 'power3.out' });
-
-      // Section reveals
-      document.querySelectorAll('.section:not(.hero)').forEach(sec => {
-        const inner = sec.querySelector('.section-inner');
-        if (!inner) return;
-        gsap.from(inner.children, {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-          },
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out'
-        });
+      for(let k=ci*6;k<MC*6;k++){cp[k]=0;cc[k]=0;}
+      cg.attributes.position.needsUpdate=true;cg.attributes.color.needsUpdate=true;cg.setDrawRange(0,ci*2);
+      // Impulses
+      it+=dt;if(it>(isMob?1.5:.9)){spawnImp();it=0;}
+      imps.forEach(s=>{
+        const off=s.slot*3;
+        if(!s.active){ip[off]=ip[off+1]=ip[off+2]=9999;return;}
+        s.t+=s.spd;if(s.t>=1){s.active=false;ip[off]=ip[off+1]=ip[off+2]=9999;return;}
+        const p=new THREE.Vector3().lerpVectors(s.from,s.to,s.t);
+        ip[off]=p.x;ip[off+1]=p.y;ip[off+2]=p.z;
+        im.opacity=Math.sin(s.t*Math.PI)*.9;
       });
+      ig.attributes.position.needsUpdate=true;
+      renderer.render(scene,camera);
+    }
+    animate();
+  })();
+
+  // AUDIO — assets/audio/background.mp3
+  (function audioSys(){
+    const audio=document.getElementById('aud');
+    if(!audio) return;
+    const MAX=.82;let target=0,cur=0,interacted=false,muted=false;
+    audio.volume=0;
+    function calc(){
+      const prog=window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+      const p=Math.min(1,Math.max(0,(prog-.02)/.98));
+      target=(1-Math.pow(1-p,3))*MAX;
+    }
+    function tryPlay(){if(interacted)return;audio.play().then(()=>{interacted=true;}).catch(()=>{});}
+    window.addEventListener('scroll',()=>{calc();tryPlay();},{passive:true});
+    ['touchstart','mousedown','keydown','wheel'].forEach(ev=>window.addEventListener(ev,tryPlay,{once:true,passive:true}));
+    audio.play().then(()=>{interacted=true;}).catch(()=>{});
+    const mbtn=document.getElementById('mb');
+    if(mbtn) mbtn.addEventListener('click',()=>{muted=!muted;mbtn.classList.toggle('m',muted);audio.muted=muted;});
+    (function smooth(){
+      if(!muted){const d=target-cur;if(Math.abs(d)>.001){cur+=d*.045;audio.volume=Math.max(0,Math.min(1,cur));}audio.muted=cur<.01;}
+      requestAnimationFrame(smooth);
     })();
+    calc();
+  })();
 
-    // ==========================================
-    // AUDIO SYSTEM
-    // ==========================================
-    (function() {
-      const audio = document.getElementById('bg-audio');
-      if (!audio) return;
-
-      const MAX_VOLUME = 0.8;
-      const START_VOLUME = 0;
-      const SCROLL_THRESHOLD = 0.02;
-
-      let targetVolume = START_VOLUME;
-      let currentVolume = START_VOLUME;
-      let hasInteracted = false;
-      let isManuallyMuted = false;
-
-      audio.volume = START_VOLUME;
-
-      function updateTargetVolume() {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (docHeight <= 0) { targetVolume = MAX_VOLUME; return; }
-        let progress = scrollTop / docHeight;
-        progress = Math.max(0, (progress - SCROLL_THRESHOLD) / (1 - SCROLL_THRESHOLD));
-        progress = Math.min(1, progress);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        targetVolume = eased * MAX_VOLUME;
-      }
-
-      function smoothVolume() {
-        if (!isManuallyMuted) {
-          const diff = targetVolume - currentVolume;
-          if (Math.abs(diff) > 0.001) {
-            currentVolume += diff * 0.05;
-            audio.volume = Math.max(0, Math.min(1, currentVolume));
-          }
-          audio.muted = (currentVolume < 0.01);
-        } else {
-          audio.muted = true;
-          audio.volume = 0;
-        }
-        requestAnimationFrame(smoothVolume);
-      }
-
-      function initAudio() {
-        if (hasInteracted) return;
-        audio.play().then(() => {
-          hasInteracted = true;
-        }).catch(() => {});
-      }
-
-      window.addEventListener('scroll', () => {
-        updateTargetVolume();
-        if (!hasInteracted) initAudio();
-      }, { passive: true });
-
-      ['touchstart', 'touchmove', 'mousedown', 'keydown', 'wheel', 'mousewheel', 'DOMMouseScroll'].forEach(event => {
-        window.addEventListener(event, () => {
-          if (!hasInteracted) initAudio();
-        }, { once: true, passive: true });
-      });
-
-      const muteBtn = document.getElementById('muteBtn');
-      if (muteBtn) {
-        muteBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          isManuallyMuted = !isManuallyMuted;
-          muteBtn.classList.toggle('muted', isManuallyMuted);
-          if (isManuallyMuted) {
-            audio.muted = true;
-            audio.volume = 0;
-          } else {
-            audio.muted = (currentVolume < 0.01);
-          }
-        });
-      }
-
-      audio.play().then(() => {
-        hasInteracted = true;
-      }).catch(() => {
-        audio.pause();
-      });
-
-      updateTargetVolume();
-      smoothVolume();
-    })();
-
-    // ==========================================
-    // FAQ ACCORDION
-    // ==========================================
-    (function() {
-      document.querySelectorAll('.faq-item').forEach(item => {
-        const trigger = item.querySelector('.faq-trigger');
-        const panel = item.querySelector('.faq-panel');
-        if (!trigger || !panel) return;
-
-        trigger.addEventListener('click', () => {
-          const isActive = item.classList.contains('active');
-          document.querySelectorAll('.faq-item').forEach(other => {
-            other.classList.remove('active');
-            const p = other.querySelector('.faq-panel');
-            if (p) p.style.maxHeight = '0px';
-          });
-          if (!isActive) {
-            item.classList.add('active');
-            panel.style.maxHeight = panel.scrollHeight + 'px';
-          }
-        });
-      });
-    })();
-
-    // ==========================================
-    // CARD SPOTLIGHT EFFECT
-    // ==========================================
-    (function() {
-      document.querySelectorAll('.glass-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
-          card.style.setProperty('--mouse-x', x + '%');
-          card.style.setProperty('--mouse-y', y + '%');
-        });
-      });
-    })();
-  </script>
+})();
+</script>
 </body>
 </html>
