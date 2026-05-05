@@ -26,7 +26,7 @@
     --void:#03040a;--deep:#07091a;
     --ice:#67e8f9;--ice2:#22d3ee;
     --indigo:#4338ca;--amber:#f59e0b;
-    --text:#eef0ff;--muted:#8891b0;--muted2:#555e7a;
+    --text:#eef0ff;--muted:#9ba3c0;--muted2:#7a84a0;
     --green:#25d366;--green2:#128c7e;
     --panel:rgba(5,7,20,0.84);--pborder:rgba(103,232,249,0.10);
     --card:rgba(7,9,26,0.76);--cborder:rgba(103,232,249,0.08);
@@ -1235,16 +1235,16 @@
     let animId = null;
     const heroSection = document.querySelector('.hero');
     if(heroSection && 'IntersectionObserver' in window){
+      // Inicia como false — o observer vai disparar imediatamente ao observar
+      isVisible = false;
       const obs = new IntersectionObserver(entries => {
         isVisible = entries[0].isIntersecting;
         if(isVisible && !animId) animate();
       }, { threshold: 0.02, rootMargin: '80px' });
       obs.observe(heroSection);
     }
-
     const clock = new THREE.Clock();
     let spawnTimer = 0;
-
     function animate(){
       if(!isVisible){ animId = null; return; }
       animId = requestAnimationFrame(animate);
@@ -1334,8 +1334,12 @@
       renderer.render(scene, camera);
     }
 
-    animate();
-
+    // Inicia animação diretamente se IntersectionObserver não estiver disponível
+    // (quando está disponível, o observer dispara e chama animate() automaticamente)
+    if(!('IntersectionObserver' in window) || !heroSection){
+      isVisible = true;
+      animate();
+    }
     // Fallback elegante se WebGL não renderizar
     setTimeout(() => {
       if(!renderer.info.render.frame) document.body.classList.add('no-webgl');
