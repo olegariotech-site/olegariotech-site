@@ -361,20 +361,42 @@
   .pcard h4{font-size:.96rem;font-weight:600;margin-bottom:5px}
   .pcard p{font-size:.84rem;color:var(--muted);line-height:1.55}
 
-  /* PORTFOLIO */
-  .pg{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-  .pi{border-radius:var(--r);overflow:hidden;position:relative;aspect-ratio:16/10;background:rgba(103,232,249,.03);border:1px solid rgba(103,232,249,.08);transition:transform .4s,box-shadow .4s}
-  .pi:hover{transform:translateY(-4px);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(103,232,249,.12)}
-.pi picture{
-  display:block;
-  width:100%;
-  height:100%;
-}  .pi img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
-  .pi:hover img{transform:scale(1.05)}
-  .pov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,4,10,.96) 0%,rgba(3,4,10,.3) 50%,transparent);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;opacity:0;transition:opacity .4s}
-  .pi:hover .pov{opacity:1}
-  .ptag{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
-  .ptit{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
+  /* PORTFOLIO SHOWCASE — Immersive Scroll Experience */
+  .portfolio-showcase{position:relative;background:var(--void);overflow:visible}
+  .showcase-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .showcase-intro{text-align:center;margin-bottom:40px;z-index:10;transition:opacity .5s, transform .5s}
+  .showcase-intro.out{opacity:0;transform:translateY(-20px)}
+  
+  .showcase-track{position:relative;width:100%;height:60vh;display:flex;justify-content:center;align-items:center;perspective:1200px}
+  .showcase-card{position:absolute;width:min(1100px, 92%);aspect-ratio:16/10;border-radius:var(--rl);overflow:hidden;background:var(--card);border:1px solid var(--cborder);box-shadow:var(--shadow);transform-origin:center center;transition:transform .8s cubic-bezier(.16,1,.3,1), opacity .8s ease, filter .8s ease;opacity:0;pointer-events:none;display:flex;flex-direction:column}
+  .showcase-card.active{opacity:1;pointer-events:all;z-index:5}
+  .showcase-card.prev{opacity:0.4;transform:translateZ(-200px) translateY(-10%) scale(0.85);filter:blur(4px);pointer-events:none;z-index:1}
+  .showcase-card.next{opacity:0;transform:translateZ(200px) translateY(10%) scale(1.1);filter:blur(8px);pointer-events:none;z-index:10}
+  
+  .showcase-card picture{display:block;width:100%;height:100%}
+  .showcase-card img{width:100%;height:100%;object-fit:cover}
+  
+  .showcase-info{position:absolute;inset:0;background:linear-gradient(to top, rgba(3,4,10,0.95) 0%, rgba(3,4,10,0.4) 40%, transparent 70%);display:flex;flex-direction:column;justify-content:flex-end;padding:44px;opacity:0;transform:translateY(20px);transition:opacity .6s .3s, transform .6s .3s}
+  .showcase-card.active .showcase-info{opacity:1;transform:translateY(0)}
+  
+  .sc-tag{font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;font-weight:600}
+  .sc-tit{font-family:'Syne',sans-serif;font-size:clamp(1.8rem, 3vw, 2.8rem);font-weight:800;line-height:1.1;margin-bottom:16px}
+  .sc-desc{color:var(--muted);font-size:1rem;max-width:540px;margin-bottom:28px;line-height:1.6}
+  .sc-act{display:flex;align-items:center;gap:20px}
+  .sc-micro{font-size:0.7rem;color:var(--muted2);margin-top:14px;opacity:0.8}
+  
+  /* Spacer to allow scroll progress */
+  .showcase-spacer{height:400vh}
+
+  @media(max-width:768px){
+    .showcase-track{height:75vh}
+    .showcase-card{aspect-ratio:4/5;width:90%}
+    .showcase-info{padding:28px}
+    .sc-tit{font-size:1.6rem}
+    .sc-desc{font-size:0.9rem;margin-bottom:20px}
+    .sc-act .btn{width:100%}
+    .showcase-spacer{height:350vh}
+  }
 
   /* STEPS */
   .stg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -449,9 +471,15 @@
   .ctab::before,.ctab::after{content:"";position:absolute;width:300px;aspect-ratio:1;border-radius:50%;filter:blur(50px);opacity:.22;pointer-events:none}
   .ctab::before{top:-100px;left:-80px;background:radial-gradient(circle,rgba(103,232,249,.7),transparent)}
   .ctab::after{right:-80px;bottom:-100px;background:radial-gradient(circle,rgba(67,56,202,.7),transparent)}
+  .cta-logo{width:140px;height:140px;margin:0 auto 40px;position:relative;z-index:1;display:flex;justify-content:center;align-items:center}
+  .cta-logo img{width:100%;height:100%;opacity:0.85;animation:otFloat 6s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(103,232,249,0.3))}
+  @keyframes otFloat{0%,100%{transform:translateY(0) rotateZ(0deg)}50%{transform:translateY(-14px) rotateZ(2deg)}}
+  .ctab:hover .cta-logo img{opacity:1;filter:drop-shadow(0 0 32px rgba(103,232,249,0.45))}
   .ctab h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,1.2rem + 2.2vw,3.4rem);line-height:1.06;letter-spacing:-0.04em;font-weight:800;margin-bottom:18px;position:relative;z-index:1}
-  .ctab p{max-width:640px;margin:0 auto 32px;color:var(--muted);line-height:1.85;position:relative;z-index:1}
-  .ctab .btn{position:relative;z-index:1}
+  .ctab h2 .hl{background:linear-gradient(135deg,var(--ice) 0%,#a5f3fc 45%,var(--ice2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ctab p{max-width:640px;margin:0 auto 32px;color:var(--muted);line-height:1.85;position:relative;z-index:1;font-size:1.05rem}
+  .cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+  .cta-actions .btn{min-height:54px;padding:0 28px}
 
   /* MUTE */
   .mb{position:fixed;bottom:28px;left:28px;z-index:80;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,7,20,.72);border:1px solid rgba(103,232,249,.26);backdrop-filter:blur(12px);color:var(--ice);transition:all .3s;box-shadow:0 6px 28px rgba(0,0,0,.4)}
@@ -474,6 +502,11 @@
   .fls{display:flex;gap:22px;flex-wrap:wrap}
   .fls a{color:var(--muted);font-size:.84rem;letter-spacing:.04em;text-transform:uppercase;transition:color .25s}
   .fls a:hover{color:var(--ice)}
+  .foot-sig{text-align:center;padding-top:32px;border-top:1px solid rgba(103,232,249,.04);margin-top:32px}
+  .foot-sig a{display:inline-flex;align-items:center;gap:10px;color:var(--muted2);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;transition:color .3s,opacity .3s;opacity:0.6}
+  .foot-sig a:hover{color:var(--ice);opacity:1}
+  .ot-mark{width:32px;height:32px;flex-shrink:0;transition:filter .3s}
+  .foot-sig a:hover .ot-mark{filter:drop-shadow(0 0 8px rgba(103,232,249,0.25))}
 
   /* REVEAL */
   .rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
@@ -504,11 +537,13 @@
     .hact .btn{width:auto}
     #cd,#cr{display:none}
   }
-  @media(max-width:640px}.pi{
-  aspect-ratio:4/5;
-}
+  @media(max-width:640px){
+    .pi{
+      aspect-ratio:4/5;
+    }
     .wrap{width:calc(100% - 28px)}
-    .g2,.g3,.g4,.prg,.stg,.pg{grid-template-columns:1fr}
+    .pg{grid-template-columns:1fr}
+    .g2,.g3,.g4,.prg,.stg{grid-template-columns:1fr}
     .hero{padding:100px 0 48px}
     .htitle{font-size:clamp(2.2rem,8vw,3rem);line-height:1.1}
     .hsub{font-size:1rem;max-width:100%}
@@ -519,9 +554,14 @@
     .si{padding:14px}
     .shint{bottom:24px}
     .btn{width:100%}
+    .cta-actions{flex-direction:column}
+    .cta-actions .btn{width:100%}
     .ctab,.panel{padding:28px 18px}
     .mb{bottom:18px;left:18px;width:46px;height:46px}
     .fab{right:18px;bottom:18px;width:54px;height:54px}
+    .foot-sig{padding-top:24px;margin-top:24px}
+    .foot-sig a{font-size:.7rem}
+    .ot-mark{width:28px;height:28px}
   }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -663,65 +703,84 @@
 
       <div class="div"></div>
 
-           <!-- PORTFOLIO -->
-      <section class="sec" id="portfolio">
-        <div class="wrap">
-          <span class="eyebrow rv">Portfólio</span>
-          <h2 class="stitle rv">Projetos com <span class="hl">direção visual.</span></h2>
-          <p class="ssub rv d1">
-            Sites e conceitos criados para valorizar marcas locais, transmitir confiança e transformar visitantes em conversas reais pelo WhatsApp.
-          </p>
-
-          <div class="pg">
+      <!-- PORTFOLIO SHOWCASE -->
+      <section class="portfolio-showcase" id="portfolio">
+        <div class="showcase-sticky">
+          <div class="showcase-intro" id="sc-intro">
+            <span class="eyebrow">Portfólio</span>
+            <h2 class="stitle">Projetos que não parecem <span class="hl">templates.</span></h2>
+            <p class="ssub">Cada vitrine digital foi pensada para valorizar marcas locais, transmitir confiança e transformar visitantes em conversas reais pelo WhatsApp.</p>
+          </div>
+          
+          <div class="showcase-track" id="sc-track">
             <!-- ADEGA SÃO MARCOS -->
-            <a class="pi rv d1" href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Ver projeto Adega São Marcos">
+            <div class="showcase-card" data-idx="0">
               <picture>
-                <source media="(max-width: 720px)" srcset="assets/img/projetos/adega/adega-sao-marcos-card-mobile.webp">
-                <img src="assets/img/projetos/adega/adega-sao-marcos-card-desktop.webp" alt="Presença digital premium para adegas, bares e restaurantes — Adega São Marcos" loading="lazy">
+                <source media="(max-width: 768px)" srcset="assets/img/projetos/adega/adega-sao-marcos-card-mobile.webp">
+                <img src="assets/img/projetos/adega/adega-sao-marcos-card-desktop.webp" alt="Adega São Marcos" loading="lazy">
               </picture>
-              <div class="pov">
-                <span class="ptag">Projeto real · Adegas, bares e restaurantes</span>
-                <div class="ptit">Adega São Marcos</div>
+              <div class="showcase-info">
+                <span class="sc-tag">Projeto real · Adegas, bares e restaurantes</span>
+                <h3 class="sc-tit">Adega São Marcos</h3>
+                <p class="sc-desc">Site criado para apresentar produtos, destacar preços e transformar visitantes em pedidos pelo WhatsApp.</p>
+                <div class="sc-act">
+                  <a href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver projeto</a>
+                </div>
               </div>
-            </a>
+            </div>
 
             <!-- CÍNTIA ALMEIDA GOMES ADVOCACIA -->
-            <a class="pi rv d2" href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer" aria-label="Ver projeto Cíntia Almeida Gomes Advocacia">
+            <div class="showcase-card" data-idx="1">
               <picture>
-                <source media="(max-width: 720px)" srcset="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile.webp">
-                <img src="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop.webp" alt="Autoridade digital para escritórios de advocacia — Cíntia Almeida Gomes Advocacia" loading="lazy">
+                <source media="(max-width: 768px)" srcset="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile.webp">
+                <img src="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop.webp" alt="Cíntia Almeida Gomes Advocacia" loading="lazy">
               </picture>
-              <div class="pov">
-                <span class="ptag">Projeto real · Escritórios de advocacia</span>
-                <div class="ptit">Cíntia Almeida Gomes Advocacia</div>
+              <div class="showcase-info">
+                <span class="sc-tag">Projeto real · Escritórios de advocacia</span>
+                <h3 class="sc-tit">Cíntia Almeida Gomes Advocacia</h3>
+                <p class="sc-desc">Site profissional criado para transmitir confiança, organizar informações e facilitar o contato com clientes.</p>
+                <div class="sc-act">
+                  <a href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver projeto</a>
+                </div>
               </div>
-            </a>
+            </div>
 
             <!-- NAVALHA PRIME EXPERIENCE -->
-            <a class="pi rv d3" href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer" aria-label="Ver demonstração Navalha Prime Experience">
+            <div class="showcase-card" data-idx="2">
               <picture>
-                <source media="(max-width: 720px)" srcset="assets/img/projetos/navalha/navalha-prime-experience-card-mobile.webp">
-                <img src="assets/img/projetos/navalha/navalha-prime-experience-card-desktop.webp" alt="Experiência digital premium para barbearias e salões — Navalha Prime Experience" loading="lazy">
+                <source media="(max-width: 768px)" srcset="assets/img/projetos/navalha/navalha-prime-experience-card-mobile.webp">
+                <img src="assets/img/projetos/navalha/navalha-prime-experience-card-desktop.webp" alt="Navalha Prime Experience" loading="lazy">
               </picture>
-              <div class="pov">
-                <span class="ptag">Projeto demonstrativo · Barbearias e salões</span>
-                <div class="ptit">Navalha Prime Experience</div>
+              <div class="showcase-info">
+                <span class="sc-tag">Projeto demonstrativo · Barbearias e salões</span>
+                <h3 class="sc-tit">Navalha Prime Experience</h3>
+                <p class="sc-desc">Demo criada para apresentar serviços, barbeiros, horários e diferenciais de forma cinematográfica.</p>
+                <div class="sc-act">
+                  <a href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver demonstração</a>
+                </div>
+                <p class="sc-micro">Projeto demonstrativo. Nome, dados e endereços fictícios.</p>
               </div>
-            </a>
+            </div>
 
             <!-- MINI MERCADO & EMPÓRIO -->
-            <a class="pi rv d4" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20para%20mini%20mercado%20ou%20empório." target="_blank" rel="noopener noreferrer" aria-label="Quero um modelo para mini mercado ou empório">
+            <div class="showcase-card" data-idx="3">
               <picture>
-                <source media="(max-width: 720px)" srcset="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile.webp">
-                <img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Presença digital premium para mini mercados e empórios" loading="lazy">
+                <source media="(max-width: 768px)" srcset="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile.webp">
+                <img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Mini Mercado & Empório" loading="lazy">
               </picture>
-              <div class="pov">
-                <span class="ptag">Projeto conceito · Mini mercados e empórios</span>
-                <div class="ptit">Mini Mercado & Empório</div>
+              <div class="showcase-info">
+                <span class="sc-tag">Projeto conceito · Mini mercados e empórios</span>
+                <h3 class="sc-tit">Mini Mercado & Empório</h3>
+                <p class="sc-desc">Conceito criado para mostrar como mercados de bairro e empórios podem apresentar ofertas com imagem profissional.</p>
+                <div class="sc-act">
+                  <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20para%20mini%20mercado%20ou%20empório." target="_blank" rel="noopener noreferrer" class="btn b-ice">Quero esse modelo</a>
+                </div>
+                <p class="sc-micro">Conceito visual para negócios locais.</p>
               </div>
-            </a>
+            </div>
           </div>
         </div>
+        <div class="showcase-spacer"></div>
       </section>
 
       <div class="div"></div>
@@ -859,9 +918,15 @@
       <section class="sec sm">
         <div class="wrap">
           <div class="ctab panel rv">
-            <h2>Seu negócio merece um site <span class="hl">à altura da sua entrega.</span></h2>
-            <p>Instagram ajuda. Indicação ajuda. Mas um site profissional bem feito coloca sua marca em outro nível de autoridade e confiança.</p>
-            <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+            <div class="cta-logo">
+              <img src="assets/img/brand/olegario-tech-logo-oficial.webp" alt="Olegario Tech" loading="eager">
+            </div>
+            <h2>Sua presença digital não precisa parecer <span class="hl">comum.</span></h2>
+            <p>Ela precisa vender confiança antes da primeira mensagem.</p>
+            <div class="cta-actions">
+              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Criar meu site com a Olegario Tech</a>
+              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20conversar." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+            </div>
           </div>
         </div>
       </section>
@@ -881,6 +946,15 @@
           <a href="#sobre">Sobre</a>
           <a href="#faq">FAQ</a>
         </div>
+      </div>
+      <div class="foot-sig">
+        <a href="https://olegariotech.com.br" target="_blank" rel="noopener noreferrer" aria-label="Desenvolvido por Olegario Tech">
+          <svg class="ot-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+            <text x="20" y="26" font-family="Syne, sans-serif" font-size="16" font-weight="800" text-anchor="middle" fill="currentColor" opacity="0.5" letter-spacing="-1">OT</text>
+          </svg>
+          <span>Desenvolvido por OLEGARIO TECH</span>
+        </a>
       </div>
     </footer>
   </div>
@@ -958,6 +1032,75 @@
       requestAnimationFrame(loop);
     })();
   }
+
+  // Portfolio Showcase Scroll Logic
+  (function showcaseSys(){
+    const scSection = document.getElementById('portfolio');
+    const scIntro = document.getElementById('sc-intro');
+    const scCards = document.querySelectorAll('.showcase-card');
+    if(!scSection || scCards.length === 0) return;
+
+    function updateShowcase(){
+      const rect = scSection.getBoundingClientRect();
+      const winH = window.innerHeight;
+      
+      // Calculate progress (0 to 1) across the entire showcase section
+      const totalDist = scSection.offsetHeight - winH;
+      const scrollPos = -rect.top;
+      const rawProg = scrollPos / totalDist;
+      const prog = Math.min(1, Math.max(0, rawProg));
+
+      // Intro fade out
+      if(scIntro){
+        const introFade = Math.max(0, 1 - prog * 5); // Fades out early
+        scIntro.style.opacity = introFade;
+        scIntro.style.transform = `translateY(${-prog * 50}px)`;
+      }
+
+      // Card progression logic
+      const cardCount = scCards.length;
+      scCards.forEach((card, i) => {
+        // Each card has its own "active" range
+        const cardStart = i / cardCount;
+        const cardEnd = (i + 1) / cardCount;
+        
+        // Relative progress within this card's segment
+        const cardProg = (prog - cardStart) / (cardEnd - cardStart);
+        
+        if(prog >= cardStart && prog <= cardEnd){
+          // Active card
+          card.classList.add('active');
+          card.classList.remove('prev', 'next');
+          
+          // Subtle scaling based on cardProg
+          const scale = 1 - (cardProg * 0.08); // Shrinks from 1 to 0.92
+          const opacity = cardProg > 0.8 ? 1 - (cardProg - 0.8) * 5 : 1; // Fade out at the very end
+          
+          card.style.transform = `scale(${scale})`;
+          card.style.opacity = opacity;
+          card.style.filter = `blur(${cardProg > 0.8 ? (cardProg - 0.8) * 20 : 0}px)`;
+        } else if (prog < cardStart) {
+          // Future card
+          card.classList.add('next');
+          card.classList.remove('active', 'prev');
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.filter = '';
+        } else {
+          // Past card
+          card.classList.add('prev');
+          card.classList.remove('active', 'next');
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.filter = '';
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateShowcase, {passive:true});
+    window.addEventListener('resize', updateShowcase, {passive:true});
+    updateShowcase(); // Initial call
+  })();
 
   // Scroll reveal
   if(!noMot){
