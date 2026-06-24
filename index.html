@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- kimi-showcase-fullscreen-clean | Olegario Tech -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Criacao de Sites Profissionais em Valinhos e Campinas | Olegario Tech</title>
@@ -97,6 +96,356 @@
   .b-wa:hover{border-color:rgba(37,211,102,.5);box-shadow:0 10px 28px rgba(37,211,102,.14)}
   .b-gh{background:rgba(255,255,255,.03);color:var(--text);border-color:rgba(103,232,249,.2)}
   .b-gh:hover{border-color:rgba(103,232,249,.44)}
+
+  /* ============================================================
+     MANIFEST — Logo OT que se forma, textos scroll-driven, 0→100%
+     ============================================================ */
+  .manifest{
+    position:relative;
+    min-height:400vh;
+    background:var(--void);
+    scroll-margin-top:78px;
+  }
+  .manifest-sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  /* Canvas de partículas convergindo */
+  #manifest-canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+  }
+  /* Glow de fundo que pulsa */
+  .manifest-glow{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(103,232,249,.15), rgba(67,56,202,.05), transparent 65%);
+    filter:blur(60px);
+    opacity:0;
+    transform:scale(0.3);
+    transition:opacity 1.2s ease, transform 1.2s ease;
+    pointer-events:none;
+    z-index:0;
+  }
+  .manifest-glow.on{
+    opacity:1;
+    transform:scale(1);
+  }
+  /* Logo OT */
+  .manifest-logo{
+    position:relative;
+    z-index:3;
+    width:min(280px, 55vw);
+    height:min(280px, 55vw);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transform:scale(0.1) rotate(-180deg);
+    transition:opacity .1s, transform .1s;
+    pointer-events:none;
+  }
+  .manifest-logo.on{
+    opacity:1;
+    transform:scale(1) rotate(0deg);
+  }
+  .manifest-logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    filter:drop-shadow(0 0 60px rgba(103,232,249,.5)) drop-shadow(0 0 120px rgba(103,232,249,.2));
+  }
+  /* Ring orbital */
+  .manifest-ring{
+    position:absolute;
+    inset:-20%;
+    border-radius:50%;
+    border:1px solid rgba(103,232,249,.08);
+    opacity:0;
+    transform:scale(0.5) rotateX(70deg);
+    transition:opacity 1s ease 0.3s, transform 1.5s cubic-bezier(.16,1,.3,1) 0.3s;
+    pointer-events:none;
+  }
+  .manifest-ring.on{
+    opacity:1;
+    transform:scale(1) rotateX(70deg);
+  }
+  .manifest-ring::before,
+  .manifest-ring::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid rgba(103,232,249,.06);
+  }
+  .manifest-ring::before{
+    inset:-15%;
+    border-color:rgba(67,56,202,.1);
+    animation:mrSpin 20s linear infinite;
+  }
+  .manifest-ring::after{
+    inset:10%;
+    border-color:rgba(245,158,11,.08);
+    animation:mrSpin 15s linear infinite reverse;
+  }
+  @keyframes mrSpin{
+    to{transform:rotate(360deg)}
+  }
+  /* Progresso 0→100% */
+  .manifest-progress{
+    position:absolute;
+    bottom:clamp(40px, 8vh, 80px);
+    left:50%;
+    transform:translateX(-50%);
+    z-index:4;
+    font-family:'Syne',sans-serif;
+    font-size:clamp(3rem, 6vw, 5.5rem);
+    font-weight:800;
+    color:transparent;
+    -webkit-text-stroke:1.5px rgba(103,232,249,.25);
+    letter-spacing:-0.04em;
+    opacity:0;
+    transition:opacity .6s ease;
+    pointer-events:none;
+  }
+  .manifest-progress.on{
+    opacity:1;
+  }
+  .manifest-progress .fill{
+    position:absolute;
+    inset:0;
+    font-family:'Syne',sans-serif;
+    font-size:inherit;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--ice) 0%,#a5f3fc 50%,var(--ice2) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    clip-path:inset(0 100% 0 0);
+    transition:clip-path .15s linear;
+    white-space:nowrap;
+  }
+  /* Textos scroll-driven */
+  .manifest-texts{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+  }
+  .mt{
+    position:absolute;
+    font-family:'Syne',sans-serif;
+    font-weight:800;
+    color:var(--text);
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    white-space:nowrap;
+    line-height:1.1;
+  }
+  .mt.on{
+    opacity:1;
+    transform:translateY(0);
+  }
+  /* Posições dos textos */
+  .mt-1{
+    top:clamp(80px, 14vh, 160px);
+    left:clamp(20px, 6vw, 100px);
+    font-size:clamp(1.6rem, 3.2vw, 3.2rem);
+    letter-spacing:-0.03em;
+    background:linear-gradient(135deg,rgba(238,240,255,.9),rgba(238,240,255,.5));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .mt-2{
+    top:clamp(140px, 22vh, 260px);
+    right:clamp(20px, 6vw, 100px);
+    font-size:clamp(1.4rem, 2.6vw, 2.6rem);
+    letter-spacing:-0.02em;
+    color:var(--ice);
+    text-shadow:0 0 40px rgba(103,232,249,.3);
+  }
+  .mt-3{
+    bottom:clamp(160px, 26vh, 320px);
+    left:clamp(20px, 8vw, 140px);
+    font-size:clamp(1.8rem, 3.8vw, 3.8rem);
+    letter-spacing:-0.04em;
+    background:linear-gradient(135deg,var(--amber),#fbbf24);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .mt-4{
+    bottom:clamp(100px, 18vh, 200px);
+    right:clamp(20px, 8vw, 140px);
+    font-size:clamp(2rem, 4.5vw, 4.5rem);
+    letter-spacing:-0.05em;
+    background:linear-gradient(135deg,var(--ice) 0%,#a5f3fc 50%,var(--ice2) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .mt-5{
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) translateY(30px);
+    font-size:clamp(1rem, 1.8vw, 1.6rem);
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:500;
+    font-family:'DM Sans',sans-serif;
+  }
+  .mt-5.on{
+    transform:translate(-50%,-50%) translateY(0);
+  }
+  /* Mobile adjustments */
+  @media(max-width:768px){
+    .manifest-logo{
+      width:min(200px, 50vw);
+      height:min(200px, 50vw);
+    }
+    .manifest-progress{
+      font-size:clamp(2.5rem, 10vw, 4rem);
+    }
+    .mt-1,.mt-2,.mt-3,.mt-4{
+      font-size:clamp(1.2rem, 5vw, 2rem);
+      white-space:normal;
+      max-width:80vw;
+    }
+    .mt-1{top:clamp(70px, 12vh, 120px);left:20px}
+    .mt-2{top:clamp(130px, 20vh, 220px);right:20px;left:auto;text-align:right}
+    .mt-3{bottom:clamp(200px, 32vh, 380px);left:20px}
+    .mt-4{bottom:clamp(130px, 22vh, 260px);right:20px;left:auto;text-align:right}
+    .mt-5{font-size:.85rem;letter-spacing:.1em}
+  }
+
+  /* ============================================================
+     INFINITE LOOP — Logo OT orbitando antes do footer
+     ============================================================ */
+  .infinite-loop{
+    position:relative;
+    min-height:100vh;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 50%, rgba(103,232,249,.04), transparent 55%),
+      var(--void);
+  }
+  .infinite-inner{
+    position:relative;
+    width:min(400px, 70vw);
+    height:min(400px, 70vw);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .infinite-logo{
+    width:60%;
+    height:60%;
+    position:relative;
+    z-index:2;
+    animation:ilBreath 4s ease-in-out infinite;
+  }
+  .infinite-logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    filter:drop-shadow(0 0 50px rgba(103,232,249,.4)) drop-shadow(0 0 100px rgba(67,56,202,.15));
+  }
+  @keyframes ilBreath{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.06)}
+  }
+  /* Orbitas */
+  .orbit{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid rgba(103,232,249,.1);
+    transform:rotateX(70deg);
+    animation:orbitSpin 12s linear infinite;
+  }
+  .orbit.o2{
+    inset:-15%;
+    border-color:rgba(67,56,202,.08);
+    animation-duration:18s;
+    animation-direction:reverse;
+  }
+  .orbit.o3{
+    inset:-30%;
+    border-color:rgba(245,158,11,.06);
+    animation-duration:24s;
+  }
+  /* Pontos orbitais */
+  .orbit::after{
+    content:"";
+    position:absolute;
+    top:-3px;
+    left:50%;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--ice);
+    box-shadow:0 0 10px var(--ice),0 0 20px rgba(103,232,249,.5);
+    transform:translateX(-50%);
+  }
+  .orbit.o2::after{
+    background:rgba(67,56,202,.6);
+    box-shadow:0 0 10px rgba(67,56,202,.6);
+    width:4px;
+    height:4px;
+  }
+  .orbit.o3::after{
+    background:var(--amber);
+    box-shadow:0 0 10px var(--amber);
+    width:5px;
+    height:5px;
+    top:auto;
+    bottom:-3px;
+  }
+  @keyframes orbitSpin{
+    to{transform:rotateX(70deg) rotateZ(360deg)}
+  }
+  /* Texto abaixo */
+  .infinite-text{
+    position:absolute;
+    bottom:clamp(60px, 12vh, 120px);
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    z-index:3;
+  }
+  .infinite-text p{
+    font-family:'Syne',sans-serif;
+    font-size:clamp(1.2rem, 2.5vw, 2rem);
+    font-weight:700;
+    color:var(--text);
+    letter-spacing:-0.02em;
+    margin-bottom:8px;
+  }
+  .infinite-text span{
+    font-size:clamp(.8rem, 1.2vw, 1rem);
+    color:var(--muted);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
 
   /* HERO */
   .hero{
@@ -364,8 +713,6 @@
       radial-gradient(ellipse 70% 44% at 50% 100%, rgba(245,158,11,.025), transparent 55%),
       var(--void);
   }
-
-  /* Intro do portfolio */
   .showcase-intro{
     text-align:center;
     margin:0 auto;
@@ -390,8 +737,6 @@
     font-size:1rem;
     line-height:1.75;
   }
-
-  /* Card individual — cada projeto = uma tela */
   .showcase-card{
     min-height:100svh;
     display:flex;
@@ -408,8 +753,6 @@
     opacity:1;
     transform:none;
   }
-
-  /* Container da imagem */
   .showcase-frame{
     width:min(1380px, 94vw);
     height:min(76svh, 760px);
@@ -443,8 +786,6 @@
   .showcase-frame img{
     object-fit:contain;
   }
-
-  /* Barra de acao — FORA da imagem */
   .showcase-actions{
     margin-top:22px;
     display:flex;
@@ -472,10 +813,7 @@
     box-shadow:0 10px 26px rgba(103,232,249,.18);
     pointer-events:auto;
   }
-
-  /* Spacer final para respiro */
   .showcase-spacer{height:18vh}
-
   @media(max-width:900px){
     .portfolio-showcase{
       padding-top:20px;
@@ -501,7 +839,6 @@
       gap:10px;
     }
   }
-
   @media(max-width:640px){
     .showcase-intro{
       padding:48px 0 20px;
@@ -753,8 +1090,16 @@
     *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     .rv{opacity:1;transform:none}
     .showcase-card{opacity:1;transform:none}
+    .manifest-logo{opacity:1!important;transform:none!important}
+    .mt{opacity:1!important;transform:none!important}
+    .manifest-progress{opacity:1!important}
+    .manifest-glow{opacity:.5!important;transform:none!important}
+    .manifest-ring{opacity:1!important;transform:rotateX(70deg)!important}
+    .orbit{animation:none!important}
+    .infinite-logo{animation:none!important}
   }
   </style>
+<base target="_blank">
 </head>
 <body>
   <div id="cv3" aria-hidden="true"></div>
@@ -845,6 +1190,37 @@
         </div>
 
         <div class="shint">Scroll para explorar</div>
+      </section>
+
+      <div class="div"></div>
+
+      <!-- ============================================================
+           MANIFEST — Logo OT que se forma, textos scroll-driven, 0→100%
+           ============================================================ -->
+      <section class="manifest" id="manifest">
+        <div class="manifest-sticky">
+          <canvas id="manifest-canvas"></canvas>
+          <div class="manifest-glow" id="mglow"></div>
+
+          <div class="manifest-texts">
+            <p class="mt mt-1" id="mt1">Design que vende.</p>
+            <p class="mt mt-2" id="mt2">Sites que convertem.</p>
+            <p class="mt mt-3" id="mt3">Autoridade digital.</p>
+            <p class="mt mt-4" id="mt4">Olegario Tech.</p>
+            <p class="mt mt-5" id="mt5">Continue rolando...</p>
+          </div>
+
+          <div class="manifest-ring" id="mring"></div>
+
+          <div class="manifest-logo" id="mlogo">
+            <img src="assets/img/brand/olegario-tech-logo-oficial.webp" alt="Olegario Tech">
+          </div>
+
+          <div class="manifest-progress" id="mprog">
+            <span id="mprog-num">0%</span>
+            <span class="fill" id="mprog-fill">0%</span>
+          </div>
+        </div>
       </section>
 
       <div class="div"></div>
@@ -1111,6 +1487,26 @@
           </div>
         </div>
       </section>
+
+      <div class="div"></div>
+
+      <!-- ============================================================
+           INFINITE LOOP — Logo OT orbitando infinitamente
+           ============================================================ -->
+      <section class="infinite-loop" id="infinite">
+        <div class="infinite-inner">
+          <div class="orbit"></div>
+          <div class="orbit o2"></div>
+          <div class="orbit o3"></div>
+          <div class="infinite-logo">
+            <img src="assets/img/brand/olegario-tech-logo-oficial.webp" alt="Olegario Tech">
+          </div>
+        </div>
+        <div class="infinite-text">
+          <p>Conhecimento que vira acao.</p>
+          <span>Olegario Tech · Valinhos, SP</span>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -1213,6 +1609,212 @@
       requestAnimationFrame(loop);
     })();
   }
+
+  // ============================================================
+  // MANIFEST — Logo OT que se forma, textos scroll-driven, 0→100%
+  // ============================================================
+  (function manifest(){
+    const section = document.getElementById('manifest');
+    const canvas = document.getElementById('manifest-canvas');
+    const mlogo = document.getElementById('mlogo');
+    const mglow = document.getElementById('mglow');
+    const mring = document.getElementById('mring');
+    const mprog = document.getElementById('mprog');
+    const mprogNum = document.getElementById('mprog-num');
+    const mprogFill = document.getElementById('mprog-fill');
+    const texts = [
+      document.getElementById('mt1'),
+      document.getElementById('mt2'),
+      document.getElementById('mt3'),
+      document.getElementById('mt4'),
+      document.getElementById('mt5')
+    ].filter(Boolean);
+
+    if(!section || !mlogo) return;
+
+    // Se reduced motion, ativa tudo imediatamente
+    if(noMot){
+      mlogo.classList.add('on');
+      mglow && mglow.classList.add('on');
+      mring && mring.classList.add('on');
+      mprog && mprog.classList.add('on');
+      texts.forEach(t => t && t.classList.add('on'));
+      if(mprogNum) mprogNum.textContent = '100%';
+      if(mprogFill){
+        mprogFill.textContent = '100%';
+        mprogFill.style.clipPath = 'inset(0 0% 0 0)';
+      }
+      return;
+    }
+
+    // Canvas de partículas convergindo para o logo
+    let ctx, w, h, particles = [];
+    const PARTICLE_COUNT = isMob ? 40 : 100;
+    const CENTER_PULL_START = 0.15; // quando as particulas comecam a convergir
+    const CENTER_PULL_END = 0.55;   // quando chegam ao centro
+
+    function initCanvas(){
+      if(!canvas) return;
+      ctx = canvas.getContext('2d');
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+
+      for(let i = 0; i < PARTICLE_COUNT; i++){
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          ox: Math.random() * w, // origem
+          oy: Math.random() * h,
+          tx: w/2, // target
+          ty: h/2,
+          size: Math.random() * 2 + 0.5,
+          speed: Math.random() * 0.02 + 0.01,
+          alpha: Math.random() * 0.6 + 0.2,
+          color: Math.random() > 0.7 ? '103,232,249' : (Math.random() > 0.5 ? '67,56,202' : '245,158,11')
+        });
+      }
+    }
+
+    function drawParticles(progress){
+      if(!ctx || !canvas) return;
+      ctx.clearRect(0, 0, w, h);
+
+      const pullPhase = Math.min(1, Math.max(0, (progress - CENTER_PULL_START) / (CENTER_PULL_END - CENTER_PULL_START)));
+
+      particles.forEach((p, i) => {
+        // Fase 1: dispersao randomica
+        // Fase 2: convergencia para o centro
+        const stagger = i / PARTICLE_COUNT;
+        const myPull = Math.min(1, Math.max(0, (pullPhase - stagger * 0.5) / 0.5));
+
+        const x = p.ox + (p.tx - p.ox) * easeOutCubic(myPull) + Math.sin(Date.now() * 0.001 + i) * (1 - myPull) * 20;
+        const y = p.oy + (p.ty - p.oy) * easeOutCubic(myPull) + Math.cos(Date.now() * 0.001 + i) * (1 - myPull) * 20;
+
+        // Fade out quando chegam ao centro
+        const distToCenter = Math.sqrt(Math.pow(x - w/2, 2) + Math.pow(y - h/2, 2));
+        const centerFade = distToCenter < 80 ? distToCenter / 80 : 1;
+        const alpha = p.alpha * (1 - myPull * 0.8) * centerFade;
+
+        if(alpha < 0.01) return;
+
+        ctx.beginPath();
+        ctx.arc(x, y, p.size * (1 - myPull * 0.5), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},${alpha})`;
+        ctx.fill();
+
+        // Brilho nas proximidades do centro
+        if(myPull > 0.8){
+          ctx.beginPath();
+          ctx.arc(x, y, p.size * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color},${alpha * 0.15})`;
+          ctx.fill();
+        }
+      });
+
+      // Glow no centro durante a convergencia
+      if(pullPhase > 0.3 && pullPhase < 1){
+        const glowRadius = 100 * (1 - pullPhase) + 20;
+        const glowAlpha = Math.sin(pullPhase * Math.PI) * 0.3;
+        const grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, glowRadius);
+        grad.addColorStop(0, `rgba(103,232,249,${glowAlpha})`);
+        grad.addColorStop(0.5, `rgba(67,232,249,${glowAlpha * 0.3})`);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      requestAnimationFrame(() => drawParticles(currentProgress));
+    }
+
+    function easeOutCubic(t){return 1 - Math.pow(1 - t, 3)}
+    let currentProgress = 0;
+
+    initCanvas();
+    if(canvas) drawParticles(0);
+
+    window.addEventListener('resize', ()=>{
+      if(!canvas) return;
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+    });
+
+    // Scroll-driven manifest logic
+    function updateManifest(){
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      const sectionH = section.offsetHeight;
+
+      // Progresso 0 a 1 baseado no scroll dentro da secao
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / (sectionH - winH)));
+      currentProgress = progress;
+
+      // 0-10%: Glow aparece
+      if(progress > 0.02){
+        mglow && mglow.classList.add('on');
+      }
+
+      // 5-25%: Particulas convergem (via canvas)
+      // 15-30%: Logo aparece
+      if(progress > 0.15){
+        mlogo.classList.add('on');
+      }
+
+      // 20%: Ring aparece
+      if(progress > 0.20){
+        mring && mring.classList.add('on');
+      }
+
+      // 10%: Progress counter aparece
+      if(progress > 0.08){
+        mprog && mprog.classList.add('on');
+      }
+
+      // Progresso numerico 0→100%
+      const percent = Math.round(progress * 100);
+      if(mprogNum) mprogNum.textContent = percent + '%';
+      if(mprogFill){
+        mprogFill.textContent = percent + '%';
+        mprogFill.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+      }
+
+      // Textos aparecem em fases
+      const textPhases = [0.12, 0.25, 0.40, 0.55, 0.70];
+      texts.forEach((t, i) => {
+        if(!t) return;
+        if(progress > textPhases[i]){
+          t.classList.add('on');
+        } else {
+          t.classList.remove('on');
+        }
+      });
+
+      // Logo brilha mais conforme progresso
+      if(mlogo && mlogo.classList.contains('on')){
+        const brightness = 0.5 + progress * 0.5;
+        const glow = 60 + progress * 80;
+        const img = mlogo.querySelector('img');
+        if(img){
+          img.style.filter = `drop-shadow(0 0 ${glow}px rgba(103,232,249,${brightness * 0.5})) drop-shadow(0 0 ${glow * 2}px rgba(103,232,249,${brightness * 0.2}))`;
+        }
+      }
+    }
+
+    // IntersectionObserver para pausar quando nao visivel
+    let manifestActive = false;
+    const obs = new IntersectionObserver(entries => {
+      manifestActive = entries[0].isIntersecting;
+      if(manifestActive) requestAnimationFrame(updateManifest);
+    }, { threshold: 0.01, rootMargin: '100px' });
+    obs.observe(section);
+
+    window.addEventListener('scroll', ()=>{
+      if(manifestActive) updateManifest();
+    }, {passive:true});
+
+    // Ativa tudo se ja estiver no meio da pagina (refresh)
+    setTimeout(updateManifest, 100);
+  })();
 
   // Portfolio Showcase — IntersectionObserver simples e confiavel
   (function showcaseReveal(){
@@ -1436,8 +2038,6 @@
     }
 
     const impGeo = new THREE.SphereGeometry(1, 10, 10);
-    const impMeshes = [];
-    const impTrails = [];
     const impulses = [];
 
     for(let i = 0; i < IMPULSE_COUNT; i++){
@@ -1464,8 +2064,6 @@
         trail.push(tMesh);
       }
 
-      impMeshes.push(mesh);
-      impTrails.push(trail);
       impulses.push({ active: false, synapseIndex: -1, progress: 0, speed: 0, mesh, trail });
     }
 
