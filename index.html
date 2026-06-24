@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- kimi-showcase-fullscreen-clean | Olegario Tech -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Criação de Sites Profissionais em Valinhos e Campinas | Olegario Tech</title>
-  <meta name="description" content="Criamos sites profissionais e exclusivos para pequenos e médios negócios de Valinhos, Campinas e Região. Salões, barbearias, adegas, clínicas e empresas com foco em presença digital, autoridade e conversão." />
+  <title>Criacao de Sites Profissionais em Valinhos e Campinas | Olegario Tech</title>
+  <meta name="description" content="Criamos sites profissionais e exclusivos para pequenos e medios negocios de Valinhos, Campinas e Regiao. Saloes, barbearias, adegas, clinicas e empresas com foco em presenca digital, autoridade e conversao." />
   <link rel="canonical" href="https://olegariotech.com.br/" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta property="og:title" content="OLEGARIO TECH | Sites Profissionais em Valinhos e Campinas" />
-  <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negócios locais." />
+  <meta property="og:description" content="Sites profissionais, exclusivos e com visual premium para negocios locais." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://olegariotech.com.br/" />
   <meta property="og:image" content="https://olegariotech.com.br/assets/img/og-image-v3.jpg?v=3" />
@@ -16,7 +17,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#03040a" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Olegario Tech","url":"https://olegariotech.com.br/","telephone":"+5511912459144","address":{"@type":"PostalAddress","addressLocality":"Valinhos","addressRegion":"SP","addressCountry":"BR"},"areaServed":["Valinhos","Campinas","Região Metropolitana de Campinas"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Olegario Tech","url":"https://olegariotech.com.br/","telephone":"+5511912459144","address":{"@type":"PostalAddress","addressLocality":"Valinhos","addressRegion":"SP","addressCountry":"BR"},"areaServed":["Valinhos","Campinas","Regiao Metropolitana de Campinas"]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
@@ -57,7 +58,7 @@
   .sec{position:relative;padding:110px 0;scroll-margin-top:90px}
   .sec.sm{padding:80px 0}
 
-  /* GLASS PANEL — the legibility fix */
+  /* GLASS PANEL */
   .panel{position:relative;background:var(--panel);border:1px solid var(--pborder);border-radius:var(--rl);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);padding:54px 50px;box-shadow:var(--shadow),inset 0 1px 0 rgba(103,232,249,.06)}
 
   /* TYPOGRAPHY */
@@ -106,7 +107,6 @@
     position:relative;
     overflow:hidden;
   }
-  /* Vignette que protege a leitura no centro-esquerdo */
   .hero::before{
     content:"";
     position:absolute;
@@ -126,7 +126,6 @@
   .hero-content{
     max-width:720px;
   }
-  /* Badge */
   .hbadge{
     display:inline-flex;
     align-items:center;
@@ -147,7 +146,6 @@
     0%,100%{box-shadow:0 0 0 rgba(245,158,11,0)}
     50%{box-shadow:0 0 24px rgba(245,158,11,0.18), 0 0 0 1px rgba(245,158,11,0.1)}
   }
-  /* H1 — legibilidade absoluta */
   .htitle{
     font-family:'Syne',sans-serif;
     font-size:clamp(2.6rem, 4.2vw + 0.6rem, 4.6rem);
@@ -161,7 +159,6 @@
     overflow-wrap:normal;
     hyphens:none;
   }
-  /* Destaque sutil no verbo da promessa */
   .htitle .hl{
     background:linear-gradient(135deg, var(--ice) 0%, #a5f3fc 50%, var(--ice2) 100%);
     -webkit-background-clip:text;
@@ -187,7 +184,6 @@
     font-size:0.96rem;
     letter-spacing:0.01em;
   }
-  /* Metadados */
   .hmets{
     display:grid;
     grid-template-columns:repeat(2, 1fr);
@@ -220,7 +216,6 @@
     font-size:0.8rem;
     line-height:1.5;
   }
-  /* Painel direito — glass premium refinado */
   .hpanel-wrap{
     position:relative;
     z-index:5;
@@ -239,7 +234,6 @@
       0 0 0 1px rgba(103,232,249,0.04);
     overflow:hidden;
   }
-  /* Glow orgânico no canto superior */
   .hpanel::before{
     content:"";
     position:absolute;
@@ -298,7 +292,6 @@
   .sic svg{width:20px;height:20px}
   .si strong{display:block;font-size:0.94rem;margin-bottom:4px;color:var(--text)}
   .si p{color:var(--muted);font-size:0.85rem;line-height:1.65}
-  /* Scroll hint */
   .shint{
     position:absolute;
     bottom:36px;
@@ -328,12 +321,10 @@
     0%,100%{opacity:0.2;transform:scaleY(0.5)}
     50%{opacity:1;transform:scaleY(1)}
   }
-  /* Fallback quando WebGL falha */
   .no-webgl .hero{background:linear-gradient(135deg, #03040a 0%, #070b1f 50%, #03040a 100%)}
   .no-webgl .hero::before{
     background:radial-gradient(ellipse 65% 80% at 28% 50%, rgba(3,4,10,0.92) 0%, rgba(3,4,10,0.6) 40%, transparent 70%);
   }
-  /* DIVIDER */
   .div{height:1px;margin:0 auto;width:min(var(--w),calc(100% - 40px));background:linear-gradient(90deg,transparent,rgba(103,232,249,.10),transparent)}
 
   /* CARDS */
@@ -361,37 +352,34 @@
   .pcard h4{font-size:.96rem;font-weight:600;margin-bottom:5px}
   .pcard p{font-size:.84rem;color:var(--muted);line-height:1.55}
 
-  /* PORTFOLIO SHOWCASE — Showroom em telas inteiras, sem cortes */
+  /* ============================================================
+     PORTFOLIO SHOWCASE — Tela cheia, imagem inteira, CTA claro
+     ============================================================ */
   .portfolio-showcase{
     position:relative;
-    padding:118px 0 96px;
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 8%, rgba(103,232,249,.055), transparent 58%),
-      radial-gradient(ellipse 70% 44% at 50% 92%, rgba(245,158,11,.035), transparent 60%),
-      var(--void);
     overflow:visible;
     scroll-margin-top:78px;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(103,232,249,.04), transparent 55%),
+      radial-gradient(ellipse 70% 44% at 50% 100%, rgba(245,158,11,.025), transparent 55%),
+      var(--void);
   }
-  .showcase-sticky{
-    position:relative;
-    min-height:auto;
-    overflow:visible;
-    display:block;
-    padding-top:0;
-  }
+
+  /* Intro do portfolio */
   .showcase-intro{
-    position:relative;
-    top:auto;
-    left:auto;
-    width:min(940px,calc(100% - 48px));
-    transform:none!important;
     text-align:center;
-    z-index:3;
-    margin:0 auto 58px;
-    pointer-events:auto;
-    opacity:1!important;
+    margin:0 auto;
+    padding:110px 0 40px;
+    max-width:940px;
+    width:min(940px,calc(100% - 48px));
   }
-  .showcase-intro .eyebrow{margin-bottom:12px}
+  .showcase-intro .eyebrow{
+    justify-content:center;
+    margin-bottom:12px;
+  }
+  .showcase-intro .eyebrow::before{
+    display:none;
+  }
   .showcase-intro .stitle{
     font-size:clamp(2rem, 4vw, 4.2rem);
     margin-bottom:12px;
@@ -403,49 +391,31 @@
     line-height:1.75;
   }
 
-  .showcase-track{
-    position:relative;
-    width:100%;
-    height:auto;
-    min-height:0;
-    display:grid;
-    gap:28vh;
-    perspective:1400px;
-    transform-style:preserve-3d;
-    margin-top:0;
-  }
+  /* Card individual — cada projeto = uma tela */
   .showcase-card{
-    position:sticky;
-    top:98px;
-    width:min(1120px, calc(100vw - 88px));
-    height:auto;
-    margin:0 auto;
-    border-radius:var(--rl);
-    overflow:visible;
-    background:transparent;
-    border:0;
-    box-shadow:none;
-    opacity:1;
-    pointer-events:auto;
-    will-change:transform,opacity,filter;
-    transform-origin:center center;
-    transform-style:preserve-3d;
-    transition:filter .18s linear, opacity .18s linear;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(88px, 10vh, 120px) clamp(18px, 4vw, 56px);
+    position:relative;
+    opacity:0;
+    transform:translateY(50px);
+    transition:opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
   }
-  .showcase-card.active{
+  .showcase-card.on{
     opacity:1;
-    pointer-events:auto;
-  }
-  .showcase-card.prev,
-  .showcase-card.next{
-    pointer-events:auto;
+    transform:none;
   }
 
-  .showcase-card picture{
-    display:block;
-    width:100%;
-    height:min(58vh, 560px);
-    min-height:390px;
+  /* Container da imagem */
+  .showcase-frame{
+    width:min(1380px, 94vw);
+    height:min(76svh, 760px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border-radius:var(--rl);
     overflow:hidden;
     background:
@@ -456,124 +426,109 @@
       0 34px 90px rgba(0,0,0,.72),
       0 0 0 1px rgba(103,232,249,.04),
       inset 0 1px 0 rgba(255,255,255,.04);
+    position:relative;
   }
-  .showcase-card img{
+  .showcase-frame a{
+    display:block;
     width:100%;
     height:100%;
+    cursor:none;
+  }
+  .showcase-frame picture,
+  .showcase-frame img{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .showcase-frame img{
     object-fit:contain;
-    object-position:center center;
-    transform:none;
-    filter:saturate(1.04) contrast(1.02);
   }
 
-  /* A arte já carrega a chamada visual. A barra fica fora da imagem para não sobrepor letras. */
-  .showcase-info{
-    position:relative;
-    left:auto;
-    bottom:auto;
-    width:min(760px, calc(100% - 36px));
-    margin:16px auto 0;
-    background:linear-gradient(135deg, rgba(3,4,10,.82), rgba(7,9,26,.66));
-    border:1px solid rgba(245,158,11,.22);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border-radius:18px;
-    padding:14px 16px;
+  /* Barra de acao — FORA da imagem */
+  .showcase-actions{
+    margin-top:22px;
     display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
     gap:16px;
-    opacity:1;
-    transform:none;
-    transition:opacity .25s ease, transform .25s ease, border-color .25s ease;
-    box-shadow:0 14px 40px rgba(0,0,0,.38);
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    position:relative;
+    z-index:5;
     pointer-events:auto;
   }
-  .showcase-card.active .showcase-info{
-    opacity:1;
-    transform:none;
-  }
-
   .sc-tag{
-    flex:1 1 auto;
     font-size:.68rem;
     letter-spacing:.22em;
     text-transform:uppercase;
     color:var(--amber);
     font-weight:800;
     line-height:1.45;
-    margin:0;
   }
-  .sc-tit,
-  .sc-desc,
-  .sc-micro{
-    display:none;
-  }
-  .sc-act{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:0;
-    flex:0 0 auto;
-  }
-  .sc-act .btn{
+  .showcase-actions .btn{
     min-height:42px;
     padding:0 18px;
     font-size:.82rem;
-    width:auto;
-    box-shadow:0 10px 26px rgba(103,232,249,.18);
     white-space:nowrap;
+    box-shadow:0 10px 26px rgba(103,232,249,.18);
+    pointer-events:auto;
   }
 
-  /* A rolagem vem dos próprios cards; não precisa de espaçador gigante. */
+  /* Spacer final para respiro */
   .showcase-spacer{height:18vh}
 
   @media(max-width:900px){
-    .portfolio-showcase{padding:96px 0 76px}
-    .showcase-intro{width:calc(100% - 32px);margin-bottom:40px}
-    .showcase-track{gap:20vh}
+    .portfolio-showcase{
+      padding-top:20px;
+    }
+    .showcase-intro{
+      padding:60px 0 28px;
+      width:calc(100% - 32px);
+    }
+    .showcase-intro .stitle{
+      font-size:clamp(1.85rem, 6vw, 2.8rem);
+    }
     .showcase-card{
+      min-height:90svh;
+      padding:clamp(72px, 8vh, 96px) clamp(14px, 3vw, 32px);
+    }
+    .showcase-frame{
       width:92vw;
-      top:88px;
+      height:min(64svh, 580px);
       border-radius:22px;
     }
-    .showcase-card picture{
-      height:min(60vh, 540px);
-      min-height:360px;
-      border-radius:22px;
-    }
-    .showcase-info{
-      width:calc(100% - 18px);
-      margin-top:12px;
-      padding:13px;
+    .showcase-actions{
+      margin-top:16px;
+      gap:10px;
     }
   }
 
   @media(max-width:640px){
-    .portfolio-showcase{padding:86px 0 66px}
-    .showcase-intro .stitle{font-size:clamp(1.85rem, 8vw, 2.7rem)}
-    .showcase-intro .ssub{font-size:.92rem}
-    .showcase-track{gap:18vh}
+    .showcase-intro{
+      padding:48px 0 20px;
+    }
+    .showcase-intro .stitle{
+      font-size:clamp(1.7rem, 8vw, 2.4rem);
+    }
+    .showcase-intro .ssub{
+      font-size:.92rem;
+    }
     .showcase-card{
+      min-height:85svh;
+      padding:72px 14px 48px;
+    }
+    .showcase-frame{
       width:92vw;
-      top:86px;
+      height:min(62svh, 540px);
+      border-radius:18px;
     }
-    .showcase-card picture{
-      height:min(64vh, 560px);
-      min-height:0;
-      aspect-ratio:4/5;
-    }
-    .showcase-info{
+    .showcase-actions{
       flex-direction:column;
-      align-items:flex-start;
-      gap:12px;
-      width:100%;
-      margin-top:12px;
+      gap:10px;
+      width:92vw;
     }
-    .sc-act,
-    .sc-act .btn{
+    .showcase-actions .btn{
       width:100%;
+      min-height:48px;
     }
     .showcase-spacer{height:10vh}
   }
@@ -584,7 +539,7 @@
   .step h3{font-family:'Syne',sans-serif;font-size:1.04rem;margin-bottom:10px}
   .step p{color:var(--muted);font-size:.88rem;line-height:1.75}
 
-  /* PLANS — max visibility */
+  /* PLANS */
   .plg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
   .plan{position:relative;padding:36px 32px;border-radius:var(--rl);background:rgba(5,7,20,.9);border:1px solid rgba(103,232,249,.10);backdrop-filter:blur(24px);box-shadow:0 24px 60px rgba(0,0,0,.5);transition:transform .3s,box-shadow .3s}
   .plan:hover{transform:translateY(-4px);box-shadow:0 40px 80px rgba(0,0,0,.6)}
@@ -771,9 +726,6 @@
     #cd,#cr{display:none}
   }
   @media(max-width:640px){
-    .pi{
-      aspect-ratio:4/5;
-    }
     .wrap{width:calc(100% - 28px)}
     .pg{grid-template-columns:1fr}
     .g2,.g3,.g4,.prg,.stg{grid-template-columns:1fr}
@@ -800,6 +752,7 @@
     html{scroll-behavior:auto}
     *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     .rv{opacity:1;transform:none}
+    .showcase-card{opacity:1;transform:none}
   }
   </style>
 </head>
@@ -817,23 +770,23 @@
       <nav aria-label="principal">
         <ul class="nav-l">
           <li><a href="#problema">Por que um site?</a></li>
-          <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#portfolio">Portfólio</a></li>
+          <li><a href="#servicos">Servicos</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#planos">Planos</a></li>
           <li><a href="#sobre">Sobre</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." class="ncta" target="_blank" rel="noopener noreferrer">Solicitar Orçamento</a>
+      <a href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orcamento." class="ncta" target="_blank" rel="noopener noreferrer">Solicitar Orcamento</a>
       <button class="ntog" id="ntog" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
       <div class="nmenu" id="nmenu">
         <a href="#problema">Por que um site?</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#portfolio">Portfólio</a>
+        <a href="#servicos">Servicos</a>
+        <a href="#portfolio">Portfolio</a>
         <a href="#planos">Planos</a>
         <a href="#sobre">Sobre</a>
         <a href="#faq">FAQ</a>
-        <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:600">Solicitar Orçamento</a>
+        <a href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orcamento." target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:600">Solicitar Orcamento</a>
       </div>
     </header>
 
@@ -842,18 +795,18 @@
       <section class="hero" id="hero">
         <div class="wrap hero-in">
           <div class="hero-content">
-            <div class="hbadge">Vagas limitadas neste mês</div>
-            <h1 class="htitle">Sites profissionais para negócios que querem parecer maiores.</h1>
-            <p class="hsub">Criamos sites modernos, responsivos e com WhatsApp integrado para empresas de Valinhos, Campinas e região — com foco em autoridade, presença digital e contato real.</p>
+            <div class="hbadge">Vagas limitadas neste mes</div>
+            <h1 class="htitle">Sites profissionais para negocios que querem parecer maiores.</h1>
+            <p class="hsub">Criamos sites modernos, responsivos e com WhatsApp integrado para empresas de Valinhos, Campinas e regiao — com foco em autoridade, presenca digital e contato real.</p>
             <div class="hact">
-              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Solicitar orçamento no WhatsApp</a>
-              <a class="btn b-gh" href="#planos">Ver planos e preços</a>
+              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orcamento." target="_blank" rel="noopener noreferrer">Solicitar orcamento no WhatsApp</a>
+              <a class="btn b-gh" href="#planos">Ver planos e precos</a>
             </div>
             <div class="hmets">
-              <div class="met"><strong>Design exclusivo</strong><span>Identidade própria, sem visual genérico.</span></div>
+              <div class="met"><strong>Design exclusivo</strong><span>Identidade propria, sem visual generico.</span></div>
               <div class="met"><strong>100% responsivo</strong><span>Forte no celular e no desktop.</span></div>
-              <div class="met"><strong>WhatsApp integrado</strong><span>Contato direto, sem fricção.</span></div>
-              <div class="met"><strong>Visão comercial</strong><span>Premium com lógica de conversão.</span></div>
+              <div class="met"><strong>WhatsApp integrado</strong><span>Contato direto, sem friccao.</span></div>
+              <div class="met"><strong>Visao comercial</strong><span>Premium com logica de conversao.</span></div>
             </div>
           </div>
 
@@ -866,7 +819,7 @@
                 </div>
                 <div>
                   <strong>Identidade visual forte</strong>
-                  <p>Cada projeto é pensado para representar melhor a marca e transmitir mais valor percebido.</p>
+                  <p>Cada projeto e pensado para representar melhor a marca e transmitir mais valor percebido.</p>
                 </div>
               </div>
               <div class="si">
@@ -875,7 +828,7 @@
                 </div>
                 <div>
                   <strong>Estrutura profissional</strong>
-                  <p>Presença sólida, navegação clara e experiência premium do primeiro ao último clique.</p>
+                  <p>Presenca solida, navegacao clara e experiencia premium do primeiro ao ultimo clique.</p>
                 </div>
               </div>
               <div class="si">
@@ -883,8 +836,8 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                 </div>
                 <div>
-                  <strong>Foco em negócios locais</strong>
-                  <p>Salões, barbearias, adegas, clínicas, restaurantes e empresas da região.</p>
+                  <strong>Foco em negocios locais</strong>
+                  <p>Saloes, barbearias, adegas, clinicas, restaurantes e empresas da regiao.</p>
                 </div>
               </div>
             </div>
@@ -903,14 +856,14 @@
             <div class="prob-sp">
               <div>
                 <span class="eyebrow">A Realidade</span>
-                <p class="prob-hl">Sem um site profissional, <span>você perde clientes todos os dias</span> para concorrentes menores.</p>
-                <p class="prob-body">O Instagram é ótimo para vitrine, mas não transmite a mesma autoridade. Quando um cliente pesquisa pelo seu serviço no Google, ele espera encontrar uma estrutura sólida. Se não encontra o seu, encontra o do seu concorrente.</p>
-                <a class="btn b-gh" href="#planos" style="display:inline-flex;width:auto;min-height:44px;padding:0 20px;font-size:.88rem;">Ver soluções →</a>
+                <p class="prob-hl">Sem um site profissional, <span>voce perde clientes todos os dias</span> para concorrentes menores.</p>
+                <p class="prob-body">O Instagram e otimo para vitrine, mas nao transmite a mesma autoridade. Quando um cliente pesquisa pelo seu servico no Google, ele espera encontrar uma estrutura solida. Se nao encontra o seu, encontra o do seu concorrente.</p>
+                <a class="btn b-gh" href="#planos" style="display:inline-flex;width:auto;min-height:44px;padding:0 20px;font-size:.88rem;">Ver solucoes →</a>
               </div>
               <div>
-                <div class="pcard"><div class="pico">🔍</div><div><h4>Invisibilidade no Google</h4><p>Sem SEO local, quem procura pelo seu serviço em Valinhos e Campinas não te acha.</p></div></div>
-                <div class="pcard"><div class="pico">📉</div><div><h4>Falta de Autoridade</h4><p>Apenas redes sociais passam a impressão de um negócio amador, não de uma empresa estabelecida.</p></div></div>
-                <div class="pcard"><div class="pico">💬</div><div><h4>Dificuldade de Contato</h4><p>Clientes desistem se não encontram rapidamente o que você faz e como falar com você pelo WhatsApp.</p></div></div>
+                <div class="pcard"><div class="pico">🔍</div><div><h4>Invisibilidade no Google</h4><p>Sem SEO local, quem procura pelo seu servico em Valinhos e Campinas nao te acha.</p></div></div>
+                <div class="pcard"><div class="pico">📉</div><div><h4>Falta de Autoridade</h4><p>Apenas redes sociais passam a impressao de um negocio amador, nao de uma empresa estabelecida.</p></div></div>
+                <div class="pcard"><div class="pico">💬</div><div><h4>Dificuldade de Contato</h4><p>Clientes desistem se nao encontram rapidamente o que voce faz e como falar com voce pelo WhatsApp.</p></div></div>
               </div>
             </div>
           </div>
@@ -919,17 +872,17 @@
 
       <div class="div"></div>
 
-      <!-- SERVIÇOS -->
+      <!-- SERVICOS -->
       <section class="sec" id="servicos">
         <div class="wrap">
           <span class="eyebrow rv">Expertise</span>
-          <h2 class="stitle rv">O que nós <span class="hl">entregamos.</span></h2>
-          <p class="ssub rv d1">Não usamos templates prontos. Construímos estruturas digitais focadas em conversão e autoridade para o seu negócio.</p>
+          <h2 class="stitle rv">O que nos <span class="hl">entregamos.</span></h2>
+          <p class="ssub rv d1">Nao usamos templates prontos. Construimos estruturas digitais focadas em conversao e autoridade para o seu negocio.</p>
           <div class="g4">
-            <div class="card rv d1"><div class="cnum">01</div><h3>Design Exclusivo</h3><p>Identidade visual única e autoral. Seu site não será igual a nenhum outro, refletindo o real valor da sua marca.</p></div>
-            <div class="card rv d2"><div class="cnum">02</div><h3>100% Responsivo</h3><p>Mais de 80% dos acessos vêm de celulares. Nossos sites são pensados primeiro para mobile.</p></div>
-            <div class="card rv d3"><div class="cnum">03</div><h3>WhatsApp Integrado</h3><p>Botões flutuantes e CTAs estratégicos para encurtar o caminho entre o visitante e o fechamento da venda.</p></div>
-            <div class="card rv d4"><div class="cnum">04</div><h3>SEO Local</h3><p>Estrutura otimizada para o Google entender onde você está e o que você faz, atraindo clientes da sua região.</p></div>
+            <div class="card rv d1"><div class="cnum">01</div><h3>Design Exclusivo</h3><p>Identidade visual unica e autoral. Seu site nao sera igual a nenhum outro, refletindo o real valor da sua marca.</p></div>
+            <div class="card rv d2"><div class="cnum">02</div><h3>100% Responsivo</h3><p>Mais de 80% dos acessos vem de celulares. Nossos sites sao pensados primeiro para mobile.</p></div>
+            <div class="card rv d3"><div class="cnum">03</div><h3>WhatsApp Integrado</h3><p>Botoes flutuantes e CTAs estrategicos para encurtar o caminho entre o visitante e o fechamento da venda.</p></div>
+            <div class="card rv d4"><div class="cnum">04</div><h3>SEO Local</h3><p>Estrutura otimizada para o Google entender onde voce esta e o que voce faz, atraindo clientes da sua regiao.</p></div>
           </div>
         </div>
       </section>
@@ -938,81 +891,76 @@
 
       <!-- PORTFOLIO SHOWCASE -->
       <section class="portfolio-showcase" id="portfolio">
-        <div class="showcase-sticky">
-          <div class="showcase-intro" id="sc-intro">
-            <span class="eyebrow">Portfólio</span>
-            <h2 class="stitle">Projetos que não parecem <span class="hl">templates.</span></h2>
-            <p class="ssub">Cada vitrine digital foi pensada para valorizar marcas locais, transmitir confiança e transformar visitantes em conversas reais pelo WhatsApp.</p>
-          </div>
-          
-          <div class="showcase-track" id="sc-track">
-            <!-- ADEGA SÃO MARCOS -->
-            <div class="showcase-card" data-idx="0">
-              <picture>
-                <source media="(max-width: 768px)" srcset="assets/img/projetos/adega/adega-sao-marcos-card-mobile.webp">
-                <img src="assets/img/projetos/adega/adega-sao-marcos-card-desktop.webp" alt="Adega São Marcos" loading="lazy">
-              </picture>
-              <div class="showcase-info">
-                <span class="sc-tag">Projeto real · Adegas, bares e restaurantes</span>
-                <h3 class="sc-tit">Adega São Marcos</h3>
-                <p class="sc-desc">Site criado para apresentar produtos, destacar preços e transformar visitantes em pedidos pelo WhatsApp.</p>
-                <div class="sc-act">
-                  <a href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver projeto</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- CÍNTIA ALMEIDA GOMES ADVOCACIA -->
-            <div class="showcase-card" data-idx="1">
-              <picture>
-                <source media="(max-width: 768px)" srcset="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile.webp">
-                <img src="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop.webp" alt="Cíntia Almeida Gomes Advocacia" loading="lazy">
-              </picture>
-              <div class="showcase-info">
-                <span class="sc-tag">Projeto real · Escritórios de advocacia</span>
-                <h3 class="sc-tit">Cíntia Almeida Gomes Advocacia</h3>
-                <p class="sc-desc">Site profissional criado para transmitir confiança, organizar informações e facilitar o contato com clientes.</p>
-                <div class="sc-act">
-                  <a href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver projeto</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- NAVALHA PRIME EXPERIENCE -->
-            <div class="showcase-card" data-idx="2">
-              <picture>
-                <source media="(max-width: 768px)" srcset="assets/img/projetos/navalha/navalha-prime-experience-card-mobile.webp">
-                <img src="assets/img/projetos/navalha/navalha-prime-experience-card-desktop.webp" alt="Navalha Prime Experience" loading="lazy">
-              </picture>
-              <div class="showcase-info">
-                <span class="sc-tag">Projeto demonstrativo · Barbearias e salões</span>
-                <h3 class="sc-tit">Navalha Prime Experience</h3>
-                <p class="sc-desc">Demo criada para apresentar serviços, barbeiros, horários e diferenciais de forma cinematográfica.</p>
-                <div class="sc-act">
-                  <a href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer" class="btn b-ice">Ver demonstração</a>
-                </div>
-                <p class="sc-micro">Projeto demonstrativo. Nome, dados e endereços fictícios.</p>
-              </div>
-            </div>
-
-            <!-- MINI MERCADO & EMPÓRIO -->
-            <div class="showcase-card" data-idx="3">
-              <picture>
-                <source media="(max-width: 768px)" srcset="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile.webp">
-                <img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Mini Mercado & Empório" loading="lazy">
-              </picture>
-              <div class="showcase-info">
-                <span class="sc-tag">Projeto conceito · Mini mercados e empórios</span>
-                <h3 class="sc-tit">Mini Mercado & Empório</h3>
-                <p class="sc-desc">Conceito criado para mostrar como mercados de bairro e empórios podem apresentar ofertas com imagem profissional.</p>
-                <div class="sc-act">
-                  <a href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20para%20mini%20mercado%20ou%20empório." target="_blank" rel="noopener noreferrer" class="btn b-ice">Quero esse modelo</a>
-                </div>
-                <p class="sc-micro">Conceito visual para negócios locais.</p>
-              </div>
-            </div>
-          </div>
+        <div class="showcase-intro">
+          <span class="eyebrow">Portfolio</span>
+          <h2 class="stitle">Projetos que nao parecem <span class="hl">templates.</span></h2>
+          <p class="ssub">Cada vitrine digital foi pensada para valorizar marcas locais, transmitir confianca e transformar visitantes em conversas reais pelo WhatsApp.</p>
         </div>
+
+        <!-- ADEGA SAO MARCOS -->
+        <section class="showcase-card" data-idx="0">
+          <div class="showcase-frame">
+            <a href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer">
+              <picture>
+                <source media="(max-width: 720px)" srcset="assets/img/projetos/adega/adega-sao-marcos-card-mobile.webp">
+                <img src="assets/img/projetos/adega/adega-sao-marcos-card-desktop.webp" alt="Adega Sao Marcos - Site profissional criado pela Olegario Tech" loading="lazy">
+              </picture>
+            </a>
+          </div>
+          <div class="showcase-actions">
+            <span class="sc-tag">Projeto real &middot; Adegas, bares e restaurantes</span>
+            <a class="btn b-ice" href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+          </div>
+        </section>
+
+        <!-- CINTIA ALMEIDA GOMES ADVOCACIA -->
+        <section class="showcase-card" data-idx="1">
+          <div class="showcase-frame">
+            <a href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer">
+              <picture>
+                <source media="(max-width: 720px)" srcset="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile.webp">
+                <img src="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop.webp" alt="Cintia Almeida Gomes Advocacia - Site profissional criado pela Olegario Tech" loading="lazy">
+              </picture>
+            </a>
+          </div>
+          <div class="showcase-actions">
+            <span class="sc-tag">Projeto real &middot; Escritorios de advocacia</span>
+            <a class="btn b-ice" href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+          </div>
+        </section>
+
+        <!-- NAVALHA PRIME EXPERIENCE -->
+        <section class="showcase-card" data-idx="2">
+          <div class="showcase-frame">
+            <a href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer">
+              <picture>
+                <source media="(max-width: 720px)" srcset="assets/img/projetos/navalha/navalha-prime-experience-card-mobile.webp">
+                <img src="assets/img/projetos/navalha/navalha-prime-experience-card-desktop.webp" alt="Navalha Prime Experience - Demonstracao de barbearia criada pela Olegario Tech" loading="lazy">
+              </picture>
+            </a>
+          </div>
+          <div class="showcase-actions">
+            <span class="sc-tag">Projeto demonstrativo &middot; Barbearias e saloes</span>
+            <a class="btn b-ice" href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer">Ver demonstracao</a>
+          </div>
+        </section>
+
+        <!-- MINI MERCADO & EMPORIO -->
+        <section class="showcase-card" data-idx="3">
+          <div class="showcase-frame">
+            <a href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20para%20mini%20mercado%20ou%20emporio." target="_blank" rel="noopener noreferrer">
+              <picture>
+                <source media="(max-width: 720px)" srcset="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile.webp">
+                <img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Mini Mercado e Emporio - Conceito visual criado pela Olegario Tech" loading="lazy">
+              </picture>
+            </a>
+          </div>
+          <div class="showcase-actions">
+            <span class="sc-tag">Projeto conceito &middot; Mini mercados e emporios</span>
+            <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20para%20mini%20mercado%20ou%20emporio." target="_blank" rel="noopener noreferrer">Quero esse modelo</a>
+          </div>
+        </section>
+
         <div class="showcase-spacer"></div>
       </section>
 
@@ -1023,12 +971,12 @@
         <div class="wrap">
           <span class="eyebrow rv">Metodologia</span>
           <h2 class="stitle rv">Como <span class="hl">Funciona.</span></h2>
-          <p class="ssub rv d1">Um processo claro, sem enrolação e focado no resultado.</p>
+          <p class="ssub rv d1">Um processo claro, sem enrolacao e focado no resultado.</p>
           <div class="stg">
-            <div class="card step rv d1"><div class="snum">01</div><h3>Briefing</h3><p>Entendemos o seu negócio, seus diferenciais e o perfil do seu cliente ideal.</p></div>
-            <div class="card step rv d2"><div class="snum">02</div><h3>Design & Dev</h3><p>Criamos a identidade visual e desenvolvemos a estrutura técnica otimizada.</p></div>
-            <div class="card step rv d3"><div class="snum">03</div><h3>Revisão</h3><p>Apresentamos o projeto para sua aprovação e realizamos os ajustes necessários.</p></div>
-            <div class="card step rv d4"><div class="snum">04</div><h3>Publicação</h3><p>Site no ar com domínio, hospedagem rápida, SEO base e WhatsApp integrado.</p></div>
+            <div class="card step rv d1"><div class="snum">01</div><h3>Briefing</h3><p>Entendemos o seu negocio, seus diferenciais e o perfil do seu cliente ideal.</p></div>
+            <div class="card step rv d2"><div class="snum">02</div><h3>Design & Dev</h3><p>Criamos a identidade visual e desenvolvemos a estrutura tecnica otimizada.</p></div>
+            <div class="card step rv d3"><div class="snum">03</div><h3>Revisao</h3><p>Apresentamos o projeto para sua aprovacao e realizamos os ajustes necessarios.</p></div>
+            <div class="card step rv d4"><div class="snum">04</div><h3>Publicacao</h3><p>Site no ar com dominio, hospedagem rapida, SEO base e WhatsApp integrado.</p></div>
           </div>
         </div>
       </section>
@@ -1039,33 +987,33 @@
       <section class="sec" id="planos">
         <div class="wrap">
           <span class="eyebrow rv" style="display:block;text-align:center">Investimento</span>
-          <h2 class="stitle rv" style="text-align:center">Escolha o momento <span class="hl">do seu negócio.</span></h2>
-          <p class="ssub rv d1" style="text-align:center;margin-inline:auto">Pagamento único. Sem mensalidade. Sem surpresa.</p>
+          <h2 class="stitle rv" style="text-align:center">Escolha o momento <span class="hl">do seu negocio.</span></h2>
+          <p class="ssub rv d1" style="text-align:center;margin-inline:auto">Pagamento unico. Sem mensalidade. Sem surpresa.</p>
           <div class="plg" style="margin-top:40px">
             <div class="plan rv d1">
               <div class="ptier">Inicial</div>
               <div class="pname">Essencial</div>
-              <div class="pdesc">Para sair do improviso e ter presença digital profissional.</div>
-              <div class="pprice"><strong>R$ 1.500</strong><span>pagamento único</span></div>
-              <ul class="pfeats"><li>Estrutura clara e objetiva</li><li>Visual profissional</li><li>WhatsApp integrado</li><li>100% responsivo</li><li>Publicação completa</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Essencial." target="_blank" rel="noopener noreferrer">Contratar Essencial</a>
+              <div class="pdesc">Para sair do improviso e ter presenca digital profissional.</div>
+              <div class="pprice"><strong>R$ 1.500</strong><span>pagamento unico</span></div>
+              <ul class="pfeats"><li>Estrutura clara e objetiva</li><li>Visual profissional</li><li>WhatsApp integrado</li><li>100% responsivo</li><li>Publicacao completa</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ola!%20Gostaria%20do%20plano%20Essencial." target="_blank" rel="noopener noreferrer">Contratar Essencial</a>
             </div>
             <div class="plan pop rv d2">
               <div class="pbadge">Mais escolhido</div>
               <div class="ptier">Crescimento</div>
               <div class="pname">Profissional</div>
-              <div class="pdesc">Para marcas que querem mais força visual e estrutura completa.</div>
-              <div class="pprice"><strong>R$ 3.000</strong><span>pagamento único</span></div>
-              <ul class="pfeats"><li>Tudo do Essencial</li><li>Organização comercial da informação</li><li>Mais profundidade visual</li><li>Recursos de captação</li><li>Estrutura pensada para crescer</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Profissional." target="_blank" rel="noopener noreferrer">Contratar Profissional</a>
+              <div class="pdesc">Para marcas que querem mais forca visual e estrutura completa.</div>
+              <div class="pprice"><strong>R$ 3.000</strong><span>pagamento unico</span></div>
+              <ul class="pfeats"><li>Tudo do Essencial</li><li>Organizacao comercial da informacao</li><li>Mais profundidade visual</li><li>Recursos de captacao</li><li>Estrutura pensada para crescer</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ola!%20Gostaria%20do%20plano%20Profissional." target="_blank" rel="noopener noreferrer">Contratar Profissional</a>
             </div>
             <div class="plan rv d3">
               <div class="ptier">Premium</div>
               <div class="pname">Exclusivo</div>
               <div class="pdesc">Para quem quer se destacar com um site completamente autoral.</div>
-              <div class="pprice"><strong>R$ 5.000</strong><span>pagamento único</span></div>
-              <ul class="pfeats"><li>Tudo do Profissional</li><li>Estrutura autoral robusta</li><li>Recursos avançados sob medida</li><li>Direção visual completa</li><li>Suporte e refinamento ampliados</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Olá!%20Gostaria%20do%20plano%20Premium." target="_blank" rel="noopener noreferrer">Contratar Exclusivo</a>
+              <div class="pprice"><strong>R$ 5.000</strong><span>pagamento unico</span></div>
+              <ul class="pfeats"><li>Tudo do Profissional</li><li>Estrutura autoral robusta</li><li>Recursos avancados sob medida</li><li>Direcao visual completa</li><li>Suporte e refinamento ampliados</li></ul>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ola!%20Gostaria%20do%20plano%20Premium." target="_blank" rel="noopener noreferrer">Contratar Exclusivo</a>
             </div>
           </div>
         </div>
@@ -1080,9 +1028,9 @@
             <div class="abg">
               <div class="abt rv">
                 <span class="eyebrow">Quem somos</span>
-                <h2 class="stitle">Presença digital com <span class="hl">visão comercial.</span></h2>
-                <p>A Olegario Tech nasce da combinação entre estética forte e resultado real. Não criamos só sites bonitos — criamos estruturas que transmitem autoridade e facilitam o contato com o cliente.</p>
-                <p>Atendemos pequenos e médios empreendedores de Valinhos, Campinas e região que querem elevar o nível da imagem no digital, saindo do amadorismo das redes sociais para uma presença corporativa forte.</p>
+                <h2 class="stitle">Presenca digital com <span class="hl">visao comercial.</span></h2>
+                <p>A Olegario Tech nasce da combinacao entre estetica forte e resultado real. Nao criamos so sites bonitos — criamos estruturas que transmitem autoridade e facilitam o contato com o cliente.</p>
+                <p>Atendemos pequenos e medios empreendedores de Valinhos, Campinas e regiao que querem elevar o nivel da imagem no digital, saindo do amadorismo das redes sociais para uma presenca corporativa forte.</p>
                 <div class="abst">
                   <div><strong>24h</strong><span>Tempo de resposta</span></div>
                   <div><strong>100%</strong><span>Foco local</span></div>
@@ -1090,7 +1038,7 @@
                 </div>
               </div>
               <div class="abph rv d2">
-                <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario – Fundador Olegario Tech" loading="lazy"/>
+                <img src="assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario - Fundador Olegario Tech" loading="lazy"/>
                 <div class="abcap"><strong>Alexandre Olegario</strong><span>Fundador · Olegario Tech</span></div>
               </div>
             </div>
@@ -1104,24 +1052,24 @@
       <section class="sec" id="produtos">
         <div class="wrap">
           <span class="eyebrow rv">Produtos Digitais</span>
-          <h2 class="stitle rv">Além dos sites, <span class="hl">métodos práticos.</span></h2>
-          <p class="ssub rv d1">Clareza, direção e execução em formato digital para o seu desenvolvimento.</p>
+          <h2 class="stitle rv">Alem dos sites, <span class="hl">metodos praticos.</span></h2>
+          <p class="ssub rv d1">Clareza, direcao e execucao em formato digital para o seu desenvolvimento.</p>
           <div class="prg">
             <div class="prod rv d1">
-              <div class="pmed"><img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Prática" loading="lazy"/></div>
-              <div class="pbod"><span class="ptg">Filosofia</span><h3>Lucidez Prática</h3><p>Protocolo para sair do looping mental e voltar à execução.</p><div class="ppr"><s>R$ 97</s><strong>R$ 29,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/FxEtsfU" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
+              <div class="pmed"><img src="assets/img/capa-lucidez-pratica-3d.png" alt="Lucidez Pratica" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Filosofia</span><h3>Lucidez Pratica</h3><p>Protocolo para sair do looping mental e voltar a execucao.</p><div class="ppr"><s>R$ 97</s><strong>R$ 29,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/FxEtsfU" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
             <div class="prod rv d2">
               <div class="pmed"><img src="assets/img/dinheiro-que-sobra-capa.png" alt="Dinheiro que Sobra" loading="lazy"/></div>
-              <div class="pbod"><span class="ptg">Finanças</span><h3>Dinheiro que Sobra</h3><p>Guia prático para organizar a vida financeira.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/xPzKLoK" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
+              <div class="pbod"><span class="ptg">Financas</span><h3>Dinheiro que Sobra</h3><p>Guia pratico para organizar a vida financeira.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/xPzKLoK" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
             <div class="prod rv d3">
-              <div class="pmed"><img src="assets/img/capa-vendas.jpg" alt="Manual da Prospecção" loading="lazy"/></div>
-              <div class="pbod"><span class="ptg">Vendas</span><h3>Manual da Prospecção</h3><p>Método direto para gerar conversa e fechar mais.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/rmmRvfc" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
+              <div class="pmed"><img src="assets/img/capa-vendas.jpg" alt="Manual da Prospeccao" loading="lazy"/></div>
+              <div class="pbod"><span class="ptg">Vendas</span><h3>Manual da Prospeccao</h3><p>Metodo direto para gerar conversa e fechar mais.</p><div class="ppr"><strong>R$ 19,90</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/rmmRvfc" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
             <div class="prod rv d4">
               <div class="pmed"><img src="assets/img/capa-calistenia.jpg" alt="Treino em Casa 30min" loading="lazy"/></div>
-              <div class="pbod"><span class="ptg">Treino</span><h3>Treino em Casa 30min</h3><p>Constância e resultado sem precisar de academia.</p><div class="ppr"><strong>R$ 14,99</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/lt9RRvy" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
+              <div class="pbod"><span class="ptg">Treino</span><h3>Treino em Casa 30min</h3><p>Constancia e resultado sem precisar de academia.</p><div class="ppr"><strong>R$ 14,99</strong></div><a class="pbtn" href="https://pay.kiwify.com.br/lt9RRvy" target="_blank" rel="noopener noreferrer">Comprar agora</a></div>
             </div>
           </div>
         </div>
@@ -1132,15 +1080,15 @@
       <!-- FAQ -->
       <section class="sec sm" id="faq">
         <div class="wrap">
-          <span class="eyebrow rv" style="display:block;text-align:center">Dúvidas Frequentes</span>
-          <h2 class="stitle rv" style="text-align:center">O básico, <span class="hl">esclarecido.</span></h2>
+          <span class="eyebrow rv" style="display:block;text-align:center">Duvidas Frequentes</span>
+          <h2 class="stitle rv" style="text-align:center">O basico, <span class="hl">esclarecido.</span></h2>
           <div class="fw" style="margin-top:36px">
-            <div class="fi rv d1"><button class="ft" type="button"><span>Quais tipos de negócio vocês atendem?</span><span class="fic">+</span></button><div class="fp"><p>Clínicas, restaurantes, salões, barbearias, adegas, pet shops, prestadores de serviço e empresas de Valinhos, Campinas e região.</p></div></div>
-            <div class="fi rv d2"><button class="ft" type="button"><span>O site fica com visual exclusivo?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Cada projeto é pensado do zero com direção visual própria. Nada de template genérico.</p></div></div>
-            <div class="fi rv d3"><button class="ft" type="button"><span>Quanto tempo leva para ficar pronto?</span><span class="fic">+</span></button><div class="fp"><p>Essencial: até 10 dias úteis. Profissional e Exclusivo: 15 a 25 dias úteis, dependendo do escopo e material disponível.</p></div></div>
-            <div class="fi rv d4"><button class="ft" type="button"><span>O site funciona bem no celular?</span><span class="fic">+</span></button><div class="fp"><p>Sim. A estrutura é pensada mobile-first. Grande parte dos contatos vem do celular, então essa é nossa prioridade técnica.</p></div></div>
-            <div class="fi rv"><button class="ft" type="button"><span>Vocês ajudam com domínio e publicação?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Orientação e configuração completa para colocar o site no ar com presença profissional (.com.br) e hospedagem segura.</p></div></div>
-            <div class="fi rv d1"><button class="ft" type="button"><span>Qual é o diferencial da Olegario Tech?</span><span class="fic">+</span></button><div class="fp"><p>Unimos visual premium, personalização e visão comercial. O site precisa ser bonito, transmitir autoridade e gerar ação real — contato, orçamento, venda.</p></div></div>
+            <div class="fi rv d1"><button class="ft" type="button"><span>Quais tipos de negocio voces atendem?</span><span class="fic">+</span></button><div class="fp"><p>Clinicas, restaurantes, saloes, barbearias, adegas, pet shops, prestadores de servico e empresas de Valinhos, Campinas e regiao.</p></div></div>
+            <div class="fi rv d2"><button class="ft" type="button"><span>O site fica com visual exclusivo?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Cada projeto e pensado do zero com direcao visual propria. Nada de template generico.</p></div></div>
+            <div class="fi rv d3"><button class="ft" type="button"><span>Quanto tempo leva para ficar pronto?</span><span class="fic">+</span></button><div class="fp"><p>Essencial: ate 10 dias uteis. Profissional e Exclusivo: 15 a 25 dias uteis, dependendo do escopo e material disponivel.</p></div></div>
+            <div class="fi rv d4"><button class="ft" type="button"><span>O site funciona bem no celular?</span><span class="fic">+</span></button><div class="fp"><p>Sim. A estrutura e pensada mobile-first. Grande parte dos contatos vem do celular, entao essa e nossa prioridade tecnica.</p></div></div>
+            <div class="fi rv"><button class="ft" type="button"><span>Voces ajudam com dominio e publicacao?</span><span class="fic">+</span></button><div class="fp"><p>Sim. Orientacao e configuracao completa para colocar o site no ar com presenca profissional (.com.br) e hospedagem segura.</p></div></div>
+            <div class="fi rv d1"><button class="ft" type="button"><span>Qual e o diferencial da Olegario Tech?</span><span class="fic">+</span></button><div class="fp"><p>Unimos visual premium, personalizacao e visao comercial. O site precisa ser bonito, transmitir autoridade e gerar acao real — contato, orcamento, venda.</p></div></div>
           </div>
         </div>
       </section>
@@ -1154,11 +1102,11 @@
             <div class="cta-logo">
               <img src="assets/img/brand/olegario-tech-logo-oficial.webp" alt="Olegario Tech" loading="eager">
             </div>
-            <h2>Sua presença digital não precisa parecer <span class="hl">comum.</span></h2>
-            <p>Ela precisa vender confiança antes da primeira mensagem.</p>
+            <h2>Sua presenca digital nao precisa parecer <span class="hl">comum.</span></h2>
+            <p>Ela precisa vender confianca antes da primeira mensagem.</p>
             <div class="cta-actions">
-              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orçamento." target="_blank" rel="noopener noreferrer">Criar meu site com a Olegario Tech</a>
-              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20conversar." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orcamento." target="_blank" rel="noopener noreferrer">Criar meu site com a Olegario Tech</a>
+              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20conversar." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
             </div>
           </div>
         </div>
@@ -1169,12 +1117,12 @@
       <div class="wrap fot">
         <div class="fcp">
           <strong>OLEGARIO TECH</strong>
-          Conhecimento que vira ação.<br/>
-          © <span id="yr"></span> Olegario Tech. Todos os direitos reservados. Valinhos, SP.
+          Conhecimento que vira acao.<br/>
+          &copy; <span id="yr"></span> Olegario Tech. Todos os direitos reservados. Valinhos, SP.
         </div>
         <div class="fls">
-          <a href="#servicos">Serviços</a>
-          <a href="#portfolio">Portfólio</a>
+          <a href="#servicos">Servicos</a>
+          <a href="#portfolio">Portfolio</a>
           <a href="#planos">Planos</a>
           <a href="#sobre">Sobre</a>
           <a href="#faq">FAQ</a>
@@ -1193,11 +1141,11 @@
   </div>
 
   <!-- WhatsApp FAB -->
-  <a class="fab" href="https://wa.me/5511912459144?text=Olá!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orçamento." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <a class="fab" href="https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orcamento." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <!-- Audio — caminho exato do repositório Netlify -->
+  <!-- Audio -->
   <audio id="aud" loop preload="auto" crossorigin="anonymous">
     <source src="assets/audio/background.mp3" type="audio/mpeg">
   </audio>
@@ -1254,7 +1202,7 @@
     document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY},{passive:true});
     document.addEventListener('mousedown',()=>document.body.classList.add('ck'));
     document.addEventListener('mouseup',()=>document.body.classList.remove('ck'));
-    document.querySelectorAll('a,button,.card,.plan,.prod,.fi,.si,.pi,.pcard,.showcase-card,.showcase-info').forEach(el=>{
+    document.querySelectorAll('a,button,.card,.plan,.prod,.fi,.si,.pcard,.showcase-card,.showcase-info').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
       el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
     });
@@ -1266,65 +1214,26 @@
     })();
   }
 
-  // Portfolio Showcase Scroll Logic — cards em fluxo natural, imagem inteira, links clicáveis
-  (function showcaseSys(){
-    const scSection = document.getElementById('portfolio');
-    const scIntro = document.getElementById('sc-intro');
-    const scCards = Array.from(document.querySelectorAll('.showcase-card'));
-    if(!scSection || scCards.length === 0) return;
+  // Portfolio Showcase — IntersectionObserver simples e confiavel
+  (function showcaseReveal(){
+    const cards = document.querySelectorAll('.showcase-card');
+    if(!cards.length) return;
 
-    const clamp = (v,min,max)=>Math.min(max,Math.max(min,v));
-
-    function updateShowcase(){
-      const winH = window.innerHeight || 1;
-
-      if(scIntro){
-        const rect = scIntro.getBoundingClientRect();
-        const fade = clamp(1 - Math.max(0, -rect.top) / 180, .28, 1);
-        scIntro.style.opacity = fade.toFixed(3);
-        scIntro.style.transform = `translate3d(0, ${((1-fade)*-14).toFixed(2)}px, 0)`;
-      }
-
-      scCards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const center = rect.top + rect.height * .5;
-        const dist = (center - winH * .53) / (winH * .72);
-        const abs = Math.abs(dist);
-        const active = abs < .62;
-
-        const scale = clamp(1 - abs * .035, .94, 1);
-        const opacity = clamp(1 - abs * .22, .58, 1);
-        const rotX = clamp(-dist * 2.2, -4.5, 4.5);
-        const rotY = clamp(dist * 2.8, -5.5, 5.5);
-        const y = clamp(-dist * 12, -18, 18);
-        const blur = abs > .85 ? clamp((abs-.85)*2.5, 0, 2.2) : 0;
-
-        card.classList.toggle('active', active);
-        card.classList.toggle('prev', dist < -.62);
-        card.classList.toggle('next', dist > .62);
-
-        card.style.opacity = opacity.toFixed(3);
-        card.style.pointerEvents = 'auto';
-        card.style.filter = `blur(${blur.toFixed(2)}px)`;
-        card.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(3)}) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-        card.style.zIndex = String(100 - Math.round(abs * 10));
-      });
+    if(noMot){
+      cards.forEach(c => c.classList.add('on'));
+      return;
     }
 
-    let ticking = false;
-    function requestUpdate(){
-      if(ticking) return;
-      ticking = true;
-      requestAnimationFrame(()=>{
-        updateShowcase();
-        ticking = false;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add('on');
+          obs.unobserve(e.target);
+        }
       });
-    }
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    window.addEventListener('scroll', requestUpdate, {passive:true});
-    window.addEventListener('resize', requestUpdate, {passive:true});
-    window.addEventListener('load', requestUpdate, {passive:true});
-    updateShowcase();
+    cards.forEach(card => obs.observe(card));
   })();
 
   // CTA logo 3D scroll motion
@@ -1351,7 +1260,7 @@
     updateLogo();
   })();
 
-  // Scroll reveal
+  // Scroll reveal (global)
   if(!noMot){
     const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
       if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
@@ -1361,52 +1270,7 @@
     document.querySelectorAll('.rv').forEach(el=>el.classList.add('on'));
   }
 
-  // Hero title neural emerge
-  (function emerge(){
-    const POOL='ΨΩ∂∇λφ◆◈⟨⟩01アイウ█▓◇≠∞';
-    const rnd=()=>POOL[Math.floor(Math.random()*POOL.length)];
-    const lines=document.querySelectorAll('#htit .ln');
-    const all=[];
-    lines.forEach((line,li)=>{
-      const text=line.dataset.t||'', bold=line.dataset.b==='1';
-      line.innerHTML='';
-      line.style.cssText='display:block;font-family:Syne,sans-serif;font-weight:800;';
-      if(bold) line.style.cssText+='background:linear-gradient(135deg,#67e8f9 0%,#a5f3fc 40%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;';
-      [...text].forEach(ch=>{
-        if(ch===' '){const s=document.createElement('span');s.style.cssText='display:inline-block;width:.28em;';line.appendChild(s);return;}
-        const wrap=document.createElement('span');wrap.style.cssText='display:inline-block;';
-        const span=document.createElement('span');span.style.cssText='display:inline-block;opacity:0;';
-        if(noMot){span.textContent=ch;span.style.opacity='1';}else{span.textContent=rnd();}
-        wrap.appendChild(span);line.appendChild(wrap);
-        all.push({span,ch,li});
-      });
-      line.classList.add('on');
-    });
-    if(noMot) return;
-    const DELAY=44,PAUSE=200,CYCLES=6;
-    setTimeout(()=>{
-      all.forEach(({span,ch,li},idx)=>{
-        let delay=idx*DELAY;
-        for(let i=0;i<li;i++) delay+=PAUSE;
-        setTimeout(()=>{
-          let c=0;span.style.opacity='1';
-          span.style.color='#67e8f9';
-          span.style.textShadow='0 0 14px rgba(103,232,249,.9)';
-          const iv=setInterval(()=>{
-            span.textContent=rnd();c++;
-            if(c>=CYCLES){
-              clearInterval(iv);
-              span.textContent=ch;
-              span.style.color='';
-              span.style.textShadow='';
-            }
-          },55);
-        },delay);
-      });
-    },500);
-  })();
-
-  // THREE.JS 3D — Organic Neural Network (Cérebro Digital Vivo)
+  // THREE.JS 3D — Organic Neural Network
   (function scene3D(){
     'use strict';
 
@@ -1419,7 +1283,6 @@
     const container = document.getElementById('cv3');
     if(!container) return;
 
-    // Limpa canvas anterior se houver re-hidratação
     while(container.firstChild){
       container.removeChild(container.firstChild);
     }
@@ -1439,7 +1302,6 @@
     const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 180);
     camera.position.set(0, 0, 46);
 
-    // === CONFIGURAÇÕES ===
     const BOUNDS = { x: 75, y: 55, z: 42 };
     const NEURON_COUNT = isMob ? 12 : 32;
     const MAX_SYNAPSES = isMob ? 22 : 75;
@@ -1455,13 +1317,11 @@
 
     const rand = (min, max) => Math.random() * (max - min) + min;
 
-    // === UTILITÁRIO: CRIAR LINHA ORGÂNICA CURVA ===
     function createOrganicLine(start, direction, length, segments){
       const pts = [];
       for(let i = 0; i <= segments; i++){
         const t = i / segments;
         const base = new THREE.Vector3().copy(direction).multiplyScalar(length * t);
-        // Ruído orgânico que aumenta com a distância do soma
         const noise = new THREE.Vector3(
           Math.sin(t * 4.7 + start.x) * 0.35,
           Math.cos(t * 3.9 + start.y) * 0.35,
@@ -1474,10 +1334,8 @@
       return { curve, geo };
     }
 
-    // === NEURÔNIOS ORGÂNICOS ===
     const neurons = [];
     for(let i = 0; i < NEURON_COUNT; i++){
-      // Exclusion zone: área do texto (esquerda/center) permanece mais limpa
       let x, y, z, attempts = 0;
       do {
         x = rand(-BOUNDS.x, BOUNDS.x);
@@ -1494,7 +1352,6 @@
       const depth = (z + BOUNDS.z) / (BOUNDS.z * 2);
       const size = rand(isMob ? 2.2 : 3.2, isMob ? 4 : 6.5);
 
-      // Corpo (soma)
       const somaGeo = new THREE.SphereGeometry(1, 18, 18);
       const somaCol = new THREE.Color().lerpColors(
         new THREE.Color(0x1a237e),
@@ -1510,7 +1367,6 @@
       soma.position.set(x, y, z);
       neuronGroup.add(soma);
 
-      // Núcleo luminoso
       const nucGeo = new THREE.SphereGeometry(1, 14, 14);
       const nucMat = new THREE.MeshBasicMaterial({
         color: 0xc8f6ff, transparent: true, opacity: 0.28 + depth * 0.32,
@@ -1521,7 +1377,6 @@
       nuc.position.set(x, y, z);
       neuronGroup.add(nuc);
 
-      // Dendritos finos (3 a 6 ramificações curvas)
       const dendrites = [];
       const dCount = Math.floor(rand(3, 7));
       for(let d = 0; d < dCount; d++){
@@ -1551,7 +1406,6 @@
       });
     }
 
-    // === SINAPSES (conexões curvas entre neurônios) ===
     const synapses = [];
     for(let a = 0; a < neurons.length && synapses.length < MAX_SYNAPSES; a++){
       for(let b = a + 1; b < neurons.length && synapses.length < MAX_SYNAPSES; b++){
@@ -1561,7 +1415,6 @@
         const p0 = neurons[a].pos.clone();
         const p2 = neurons[b].pos.clone();
         const p1 = new THREE.Vector3().lerpVectors(p0, p2, 0.5);
-        // Curva orgânica: desvia o ponto médio
         p1.x += rand(-5, 5);
         p1.y += rand(-5, 5);
         p1.z += rand(-3.5, 3.5);
@@ -1582,7 +1435,6 @@
       }
     }
 
-    // === IMPULSOS ELÉTRICOS ===
     const impGeo = new THREE.SphereGeometry(1, 10, 10);
     const impMeshes = [];
     const impTrails = [];
@@ -1630,7 +1482,6 @@
       imp.trail.forEach(t => { t.visible = true; t.material.opacity = 0.5; });
     }
 
-    // === PARTÍCULAS AMBIENTE (poeira neural) ===
     const pPos = new Float32Array(PARTICLE_COUNT * 3);
     const pCol = new Float32Array(PARTICLE_COUNT * 3);
     for(let i = 0; i < PARTICLE_COUNT; i++){
@@ -1653,7 +1504,6 @@
     const particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
 
-    // === INTERAÇÃO ===
     const mouse = { tx: 0, ty: 0, x: 0, y: 0 };
     if(!isMob){
       document.addEventListener('mousemove', e => {
@@ -1674,12 +1524,10 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // === PAUSA INTELIGENTE ===
     let isVisible = true;
     let animId = null;
     const heroSection = document.querySelector('.hero');
     if(heroSection && 'IntersectionObserver' in window){
-      // Inicia como false — o observer vai disparar imediatamente ao observar
       isVisible = false;
       const obs = new IntersectionObserver(entries => {
         isVisible = entries[0].isIntersecting;
@@ -1696,7 +1544,6 @@
       const dt = clock.getDelta();
       const t = clock.getElapsedTime();
 
-      // Câmera suave
       if(!isMob){
         mouse.x += (mouse.tx - mouse.x) * 0.028;
         mouse.y += (mouse.ty - mouse.y) * 0.028;
@@ -1705,11 +1552,9 @@
       }
       camera.position.z += (targetZ - camera.position.z) * 0.022;
 
-      // Poeira neural
       particles.rotation.y = t * 0.0035;
       particles.rotation.x = Math.sin(t * 0.0025) * 0.06;
 
-      // === NEURÔNIOS: PULSAÇÃO ORGÂNICA ===
       neurons.forEach(n => {
         const pulse = Math.sin(t * n.pulseSpeed + n.pulsePhase);
         const factor = pulse * 0.1 + 0.9;
@@ -1721,19 +1566,16 @@
         n.nuc.scale.setScalar(n.baseSize * 0.22 * (0.88 + nucPulse * 0.12));
         n.nuc.material.opacity = (0.28 + n.depth * 0.32) * (0.88 + nucPulse * 0.12);
 
-        // Deriva sutil (não invalida sinapses — movimento mínimo)
         n.pos.x += Math.sin(t * 0.18 + n.pulsePhase) * 0.004;
         n.pos.y += Math.cos(t * 0.14 + n.pulsePhase) * 0.003;
         n.soma.position.copy(n.pos);
         n.nuc.position.copy(n.pos);
 
-        // Dendritos respiram
         n.dendrites.forEach(d => {
           d.mat.opacity = (0.06 + n.depth * 0.08) * (0.8 + Math.sin(t * 0.6 + d.phase) * 0.2);
         });
       });
 
-      // === IMPULSOS: ENERGIA VIAJANDO ===
       spawnTimer += dt;
       if(spawnTimer > (isMob ? 2.2 : 1.3)){
         spawnImpulse();
@@ -1760,12 +1602,10 @@
         const pos = syn.curve.getPointAt(imp.progress);
         imp.mesh.position.copy(pos);
 
-        // Brilho intenso no centro da jornada
         const bright = Math.sin(imp.progress * Math.PI);
         imp.mesh.material.opacity = bright * 0.95;
         imp.mesh.scale.setScalar((isMob ? 0.22 : 0.38) * (0.75 + bright * 0.6));
 
-        // Rastro que decai
         imp.trail.forEach((tMesh, idx) => {
           const lag = Math.max(0, imp.progress - (idx + 1) * 0.022);
           const tPos = syn.curve.getPointAt(lag);
@@ -1778,19 +1618,16 @@
       renderer.render(scene, camera);
     }
 
-    // Inicia animação diretamente se IntersectionObserver não estiver disponível
-    // (quando está disponível, o observer dispara e chama animate() automaticamente)
     if(!('IntersectionObserver' in window) || !heroSection){
       isVisible = true;
       animate();
     }
-    // Fallback elegante se WebGL não renderizar
     setTimeout(() => {
       if(!renderer.info.render.frame) document.body.classList.add('no-webgl');
     }, 3000);
   })();
 
-  // AUDIO — assets/audio/background.mp3
+  // AUDIO
   (function audioSys(){
     const audio=document.getElementById('aud');
     if(!audio) return;
