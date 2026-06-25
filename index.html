@@ -1098,6 +1098,53 @@
     .orbit{animation:none!important}
     .infinite-logo{animation:none!important}
   }
+  
+  /* HERO TEXT ANIMATION (Split Text) */
+  .htitle span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(5px);
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .htitle.active span {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .hsub {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease 0.4s;
+  }
+  .hsub.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* FOOTER LOGO 3D SCROLL */
+  .footer-logo-container {
+    perspective: 1000px;
+    width: 120px;
+    height: 120px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .footer-logo-3d {
+    width: 80px;
+    height: 80px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+  }
+  .footer-logo-3d img {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 15px rgba(103,232,249,0.3));
+  }
+
   </style>
 <base target="_blank">
 </head>
@@ -1516,6 +1563,13 @@
           Conhecimento que vira acao.<br/>
           &copy; <span id="yr"></span> Olegario Tech. Todos os direitos reservados. Valinhos, SP.
         </div>
+        
+        <div class="footer-logo-container">
+          <div class="footer-logo-3d" id="footerLogo3D">
+            <img src="assets/img/brand/olegario-tech-logo-oficial.webp" alt="Olegario Tech">
+          </div>
+        </div>
+
         <div class="fls">
           <a href="#servicos">Servicos</a>
           <a href="#portfolio">Portfolio</a>
@@ -2250,6 +2304,38 @@
   })();
 
 })();
+</script>
+<script>
+
+  // HERO TEXT ANIMATION
+  (function heroTextAnim() {
+    const htitle = document.querySelector('.htitle');
+    const hsub = document.querySelector('.hsub');
+    if (!htitle) return;
+
+    const text = htitle.innerText;
+    htitle.innerHTML = text.split(' ').map((word, i) => 
+      `<span style="transition-delay: ${i * 0.05}s">${word}</span>`
+    ).join(' ');
+
+    setTimeout(() => {
+      htitle.classList.add('active');
+      if (hsub) hsub.classList.add('active');
+    }, 500);
+  })();
+
+  // FOOTER LOGO 3D SCROLL
+  (function footerLogoAnim() {
+    const logo = document.getElementById('footerLogo3D');
+    if (!logo) return;
+
+    window.addEventListener('scroll', () => {
+      const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      const rotation = scrollPercent * 360 * 2; // 2 voltas completas
+      logo.style.transform = `rotateY(${rotation}deg) rotateX(${Math.sin(scrollPercent * Math.PI) * 20}deg)`;
+    }, { passive: true });
+  })();
+
 </script>
 </body>
 </html>
