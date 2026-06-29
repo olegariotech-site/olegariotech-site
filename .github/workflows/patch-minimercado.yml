@@ -1,0 +1,42 @@
+name: Patch Mini Mercado
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/patch-minimercado.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Insert Mini Mercado card into home
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          txt = p.read_text(encoding='utf-8')
+          if 'Mini Mercado & Empório - projeto conceito' not in txt:
+              insert = '''<section class="showcase-card"><div class="showcase-frame"><a href="https://wa.me/5511912459144?text=Ola!%20Quero%20ver%20o%20conceito%20Mini%20Mercado%20e%20Emporio%20da%20Olegario%20Tech." target="_blank" rel="noopener noreferrer"><picture><source media="(max-width:720px)" srcset="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile.webp"><img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Mini Mercado & Empório - projeto conceito" loading="lazy"></picture></a></div><div class="showcase-actions"><span class="sc-tag">Projeto conceito · Mercado local e empório</span><a class="btn b-ice" href="https://wa.me/5511912459144?text=Ola!%20Quero%20ver%20o%20conceito%20Mini%20Mercado%20e%20Emporio%20da%20Olegario%20Tech." target="_blank" rel="noopener noreferrer">Ver conceito</a><a class="btn b-gh" href="https://wa.me/5511912459144?text=Ola!%20Quero%20um%20site%20para%20mini%20mercado%20ou%20emporio." target="_blank" rel="noopener noreferrer">Quero esse modelo</a></div></section>'''
+              needle = '<section class="showcase-card"><div class="showcase-frame"><a href="https://olegariotech-site.github.io/navalha-prime-experience/"'
+              if needle not in txt:
+                  raise SystemExit('Ponto de inserção da Navalha não encontrado')
+              txt = txt.replace(needle, insert + needle, 1)
+              p.write_text(txt, encoding='utf-8')
+          wf = Path('.github/workflows/patch-minimercado.yml')
+          if wf.exists():
+              wf.unlink()
+          PY
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/patch-minimercado.yml
+          git commit -m "Inclui Mini Mercado no portfólio imersivo" || echo "Nada para commitar"
+          git push
