@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projetos em destaque 3D | Olegario Tech</title>
+  <meta name="description" content="Cards 3D dos projetos em destaque da Olegario Tech: Adega São Marcos, Cíntia Advocacia, Mini Mercado & Empório e Navalha Prime." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--void:#050008;--deep:#080514;--ice:#67e8f9;--ice2:#22d3ee;--purple:#a855f7;--amber:#f59e0b;--text:#eef0ff;--muted:#a4abc4;--muted2:#7e849b;--green:#25d366;--line:rgba(168,85,247,.16);--card:rgba(9,7,26,.78);--shadow:0 34px 90px rgba(0,0,0,.72);--r:28px;--w:1180px}
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{min-height:100vh;font-family:'DM Sans',system-ui,sans-serif;background:radial-gradient(ellipse 70% 55% at 18% 18%,rgba(168,85,247,.18),transparent 62%),radial-gradient(ellipse 58% 50% at 78% 28%,rgba(103,232,249,.10),transparent 58%),var(--void);color:var(--text);line-height:1.5;overflow-x:hidden}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.grain{position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(circle at center,#000 0%,transparent 76%)}.wrap{width:min(var(--w),calc(100% - 40px));margin:auto}.top{min-height:100svh;display:grid;place-items:center;padding:90px 0}.head{max-width:890px;text-align:center;margin:0 auto 54px}.eyebrow{display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px;padding:8px 15px;border-radius:999px;border:1px solid rgba(245,158,11,.28);background:rgba(245,158,11,.07);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:900}.title{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,1.2rem + 4vw,5.2rem);line-height:.96;letter-spacing:-.06em;font-weight:800;margin-bottom:18px}.hl{background:linear-gradient(135deg,var(--ice),#c084fc 48%,var(--ice2));-webkit-background-clip:text;background-clip:text;color:transparent}.sub{max-width:760px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,.9rem + .4vw,1.18rem);line-height:1.82}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;perspective:1800px}.card-3d{position:relative;min-height:560px;border-radius:var(--r);transform-style:preserve-3d;transition:transform .18s ease,border-color .3s ease,box-shadow .3s ease;will-change:transform}.card-shell{position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(103,232,249,.45),rgba(168,85,247,.16) 45%,rgba(245,158,11,.22));box-shadow:var(--shadow);transform-style:preserve-3d}.card-inner{position:relative;height:100%;border-radius:calc(var(--r) - 1px);overflow:hidden;background:linear-gradient(145deg,rgba(11,7,30,.92),rgba(5,0,8,.96));border:1px solid rgba(255,255,255,.045);transform-style:preserve-3d}.card-inner::before{content:'';position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(circle at var(--mx,50%) var(--my,20%),rgba(103,232,249,.20),transparent 24%),conic-gradient(from 0deg,transparent,rgba(168,85,247,.22),transparent 34%);opacity:.7;filter:blur(26px);transition:.25s;transform:translateZ(-20px)}.card-media{height:230px;position:relative;overflow:hidden;background:#090514;transform:translateZ(52px)}.card-media img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.04);transition:transform .7s ease,filter .7s ease}.card-3d:hover .card-media img{transform:scale(1.075);filter:saturate(1.18) contrast(1.08)}.card-body{position:relative;z-index:2;padding:24px 22px 22px;display:flex;min-height:330px;flex-direction:column;transform-style:preserve-3d}.tag{display:inline-flex;width:max-content;margin-bottom:13px;color:var(--amber);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:900;transform:translateZ(72px)}.card-body h2{font-family:'Syne',sans-serif;font-size:1.24rem;line-height:1.16;letter-spacing:-.03em;margin-bottom:12px;transform:translateZ(90px)}.card-body p{color:var(--muted);font-size:.92rem;line-height:1.68;margin-bottom:22px;transform:translateZ(76px)}.actions{margin-top:auto;display:grid;gap:10px;transform:translateZ(82px)}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;padding:0 16px;font-size:.84rem;font-weight:900;transition:.25s}.primary{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#020b12;box-shadow:0 14px 34px rgba(103,232,249,.18)}.secondary{background:rgba(255,255,255,.035);border:1px solid rgba(168,85,247,.24);color:var(--text)}.btn:hover{transform:translateY(-2px)}.back{display:inline-flex;align-items:center;justify-content:center;margin:42px auto 0;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid rgba(103,232,249,.24);background:rgba(103,232,249,.06);font-weight:900}.note{margin-top:18px;text-align:center;color:var(--muted2);font-size:.84rem}@media(max-width:1120px){.grid{grid-template-columns:repeat(2,1fr)}.card-3d{min-height:520px}}@media(max-width:640px){.wrap{width:calc(100% - 28px)}.top{padding:70px 0}.grid{grid-template-columns:1fr}.card-3d{min-height:auto;transform:none!important}.card-shell,.card-inner,.card-media,.card-body,.tag,.card-body h2,.card-body p,.actions{transform:none}.card-body{min-height:auto}.card-media{height:220px}.actions{grid-template-columns:1fr}.title{font-size:clamp(2.25rem,11vw,3.3rem)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}.card-3d{transform:none!important}}
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main class="top">
+    <div class="wrap">
+      <header class="head">
+        <span class="eyebrow">Projetos em destaque</span>
+        <h1 class="title">Vitrine 3D para provar <span class="hl">valor antes da proposta.</span></h1>
+        <p class="sub">Quatro projetos com leitura rápida, imagem forte e CTA direto. A ideia é usar esta seção como teaser antes do portfólio imersivo da home.</p>
+      </header>
+
+      <section class="grid" aria-label="Projetos em destaque da Olegario Tech">
+        <article class="card-3d">
+          <div class="card-shell">
+            <div class="card-inner">
+              <div class="card-media"><img src="assets/img/projetos/adega/adega-sao-marcos-card-desktop.webp" alt="Adega São Marcos - projeto criado pela Olegario Tech" loading="lazy"></div>
+              <div class="card-body">
+                <span class="tag">Projeto real · Adega e delivery</span>
+                <h2>Adega São Marcos</h2>
+                <p>Site com visual forte, leitura rápida e caminho claro para transformar visitante em pedido pelo WhatsApp.</p>
+                <div class="actions">
+                  <a class="btn primary" href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+                  <a class="btn secondary" href="https://wa.me/5511912459144?text=Ola!%20Vi%20o%20projeto%20da%20Adega%20Sao%20Marcos%20e%20quero%20um%20site%20assim." target="_blank" rel="noopener noreferrer">Quero um assim</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d">
+          <div class="card-shell">
+            <div class="card-inner">
+              <div class="card-media"><img src="assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop.webp" alt="Cíntia Almeida Gomes Advocacia - site profissional" loading="lazy"></div>
+              <div class="card-body">
+                <span class="tag">Projeto real · Advocacia</span>
+                <h2>Cíntia Almeida Gomes Advocacia</h2>
+                <p>Estrutura profissional para transmitir autoridade, confiança e posicionamento sério no digital.</p>
+                <div class="actions">
+                  <a class="btn primary" href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+                  <a class="btn secondary" href="https://wa.me/5511912459144?text=Ola!%20Vi%20o%20projeto%20de%20advocacia%20e%20quero%20um%20site%20profissional." target="_blank" rel="noopener noreferrer">Quero para meu escritório</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d">
+          <div class="card-shell">
+            <div class="card-inner">
+              <div class="card-media"><img src="assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop.webp" alt="Mini Mercado & Empório - projeto conceito" loading="lazy"></div>
+              <div class="card-body">
+                <span class="tag">Projeto conceito · Mercado local</span>
+                <h2>Mini Mercado & Empório</h2>
+                <p>Demonstração para negócios locais que precisam parecer organizados, acessíveis e prontos para vender.</p>
+                <div class="actions">
+                  <a class="btn primary" href="https://wa.me/5511912459144?text=Ola!%20Quero%20ver%20o%20conceito%20Mini%20Mercado%20e%20Emporio%20da%20Olegario%20Tech." target="_blank" rel="noopener noreferrer">Ver conceito</a>
+                  <a class="btn secondary" href="https://wa.me/5511912459144?text=Ola!%20Quero%20um%20site%20para%20mini%20mercado%20ou%20emporio." target="_blank" rel="noopener noreferrer">Quero esse modelo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d">
+          <div class="card-shell">
+            <div class="card-inner">
+              <div class="card-media"><img src="assets/img/projetos/navalha/navalha-prime-experience-card-desktop.webp" alt="Navalha Prime Experience - demonstração de barbearia" loading="lazy"></div>
+              <div class="card-body">
+                <span class="tag">Projeto demonstrativo · Barbearia</span>
+                <h2>Navalha Prime Experience</h2>
+                <p>Apresentação premium para barbearias e salões que querem sair do comum e elevar percepção de valor.</p>
+                <div class="actions">
+                  <a class="btn primary" href="https://olegariotech-site.github.io/navalha-prime-experience/" target="_blank" rel="noopener noreferrer">Ver demonstração</a>
+                  <a class="btn secondary" href="https://wa.me/5511912459144?text=Ola!%20Vi%20o%20modelo%20Navalha%20Prime%20e%20quero%20um%20site%20para%20barbearia%20ou%20salao." target="_blank" rel="noopener noreferrer">Quero esse modelo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <a class="back" href="index.html#portfolio">Voltar para o portfólio imersivo →</a>
+      <p class="note">Protótipo para adaptação na home entre Serviços e Portfólio.</p>
+    </div>
+  </main>
+
+  <script>
+    (()=>{
+      const finePointer=matchMedia('(hover:hover) and (pointer:fine)').matches;
+      const noMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!finePointer||noMotion)return;
+      document.querySelectorAll('.card-3d').forEach(card=>{
+        const inner=card.querySelector('.card-inner');
+        card.addEventListener('pointermove',e=>{
+          const r=card.getBoundingClientRect();
+          const x=(e.clientX-r.left)/r.width;
+          const y=(e.clientY-r.top)/r.height;
+          const rx=(.5-y)*12;
+          const ry=(x-.5)*14;
+          card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
+          if(inner){inner.style.setProperty('--mx',(x*100).toFixed(1)+'%');inner.style.setProperty('--my',(y*100).toFixed(1)+'%')}
+        },{passive:true});
+        card.addEventListener('pointerleave',()=>{card.style.transform='rotateX(0deg) rotateY(0deg) translateY(0)'},{passive:true});
+      });
+    })();
+  </script>
+</body>
+</html>
