@@ -1,6 +1,7 @@
 name: Apply Visual Polish To Branch
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
@@ -52,10 +53,7 @@ jobs:
     velocity*=.82;
     ticking=false;
   }
-  function onScroll(){
-    const dy=Math.abs(scrollY-lastY);lastY=scrollY;velocity=Math.min(1,dy/90);
-    if(!ticking){ticking=true;requestAnimationFrame(update);}
-  }
+  function onScroll(){const dy=Math.abs(scrollY-lastY);lastY=scrollY;velocity=Math.min(1,dy/90);if(!ticking){ticking=true;requestAnimationFrame(update);}}
   addEventListener('scroll',onScroll,{passive:true});
   update();
   const frames=[...document.querySelectorAll('.showcase-frame')];
