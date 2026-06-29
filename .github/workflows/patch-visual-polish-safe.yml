@@ -1,6 +1,7 @@
 name: Patch Visual Polish Safe
 
 on:
+  workflow_dispatch:
   push:
     branches: [ visual-polish-neural-whatsapp-3d-safe ]
     paths:
@@ -22,7 +23,6 @@ jobs:
           from pathlib import Path
           p = Path('index.html')
           txt = p.read_text(encoding='utf-8')
-
           css = r'''
 /* Olegario Tech - safe visual polish: neural + WhatsApp + portfolio frames */
 @keyframes otFrame3DIn{0%{opacity:.72;transform:perspective(1200px) rotateY(12deg) rotateX(-3deg) translateY(22px) scale(.985);filter:blur(3px)}65%{opacity:1}100%{opacity:1;transform:perspective(1200px) rotateY(0) rotateX(0) translateY(0) scale(1);filter:blur(0)}}
@@ -32,7 +32,6 @@ jobs:
 '''
           if 'safe visual polish: neural + WhatsApp + portfolio frames' not in txt:
               txt = txt.replace('</style>', css + '\n  </style>', 1)
-
           js = r'''
 <script>
 (function(){
@@ -58,7 +57,6 @@ jobs:
   }
   addEventListener('scroll',onScroll,{passive:true});
   update();
-
   const frames=[...document.querySelectorAll('.showcase-frame')];
   if(frames.length){
     const io=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('ot-3d-in');io.unobserve(entry.target);}})},{threshold:.18,rootMargin:'0px 0px -10% 0px'});
@@ -79,15 +77,11 @@ jobs:
 })();
 </script>
 '''
-          if 'ot-cta-urgent' in txt and 'const frames=[...document.querySelectorAll' not in txt:
+          if 'const frames=[...document.querySelectorAll' not in txt:
               txt = txt.replace('</body>', js + '\n</body>', 1)
-          elif 'const frames=[...document.querySelectorAll' not in txt:
-              txt = txt.replace('</body>', js + '\n</body>', 1)
-
           p.write_text(txt, encoding='utf-8')
           wf = Path('.github/workflows/patch-visual-polish-safe.yml')
-          if wf.exists():
-              wf.unlink()
+          if wf.exists(): wf.unlink()
           PY
       - name: Commit patch
         run: |
