@@ -23,48 +23,14 @@ jobs:
         run: |
           python3 <<'PY'
           from pathlib import Path
+          import base64
           p = Path('index.html')
           txt = p.read_text(encoding='utf-8')
-          css = r'''
-/* Olegario Tech - safe visual polish: neural + WhatsApp + portfolio frames */
-@keyframes otFrame3DIn{0%{opacity:.72;transform:perspective(1200px) rotateY(12deg) rotateX(-3deg) translateY(22px) scale(.985);filter:blur(3px)}65%{opacity:1}100%{opacity:1;transform:perspective(1200px) rotateY(0) rotateX(0) translateY(0) scale(1);filter:blur(0)}}
-.showcase-frame{transform-style:preserve-3d;backface-visibility:hidden;transition:transform .18s ease,box-shadow .35s ease,filter .35s ease;will-change:auto}.showcase-frame.ot-3d-ready{opacity:.96}.showcase-frame.ot-3d-in{animation:otFrame3DIn .82s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--otDelay,0ms)}.showcase-frame.ot-tilt{transition:transform .08s ease-out,box-shadow .28s ease}.showcase-frame.ot-tilt::after{opacity:.28}.fab.ot-cta-urgent{box-shadow:0 16px 48px rgba(37,211,102,calc(.24 + var(--otUrgency,.4)*.18));filter:saturate(calc(1 + var(--otUrgency,.4)*.14))}.fab.ot-cta-urgent:hover{box-shadow:0 20px 58px rgba(37,211,102,calc(.32 + var(--otUrgency,.4)*.16))}#neural{transition:filter .32s ease-out}#neural.ot-neural-live{filter:saturate(calc(1.02 + var(--otNeural,.18)*.18)) brightness(calc(1 + var(--otNeural,.18)*.05))}
-@media(max-width:768px),(hover:none){.showcase-frame.ot-3d-in{animation-duration:.62s}.showcase-frame.ot-tilt{transform:none!important}.fab.ot-cta-urgent{box-shadow:0 12px 34px rgba(37,211,102,.28)}}
-@media(prefers-reduced-motion:reduce){.showcase-frame.ot-3d-in{animation:none}.showcase-frame,.fab,#neural{transition:none!important}}
-'''
+          css = base64.b64decode('LyogT2xlZ2FyaW8gVGVjaCAtIHNhZmUgdmlzdWFsIHBvbGlzaDogbmV1cmFsICsgV2hhdHNBcHAgKyBwb3J0Zm9saW8gZnJhbWVzICovCkBrZXlmcmFtZXMgb3RGcmFtZTNEe0luJTBBfWBlcnJvciB9Cg==').decode('utf-8')
+          css = base64.b64decode('LyogT2xlZ2FyaW8gVGVjaCAtIHNhZmUgdmlzdWFsIHBvbGlzaDogbmV1cmFsICsgV2hhdHNBcHAgKyBwb3J0Zm9saW8gZnJhbWVzICovCkBrZXlmcmFtZXMgb3RGcmFtZTNESW57MCV7b3BhY2l0eTouNzI7dHJhbnNmb3JtOnBlcnNwZWN0aXZlKDEyMDBweCkgcm90YXRlWSgxMmRlZykgcm90YXRlWCgtM2RlZykgdHJhbnNsYXRlWSgyMnB4KSBzY2FsZSguOTg1KTtmaWx0ZXI6Ymx1cigzcHgpuTY1JXtvcGFjaXR5OjF9MTAwJXtvcGFjaXR5OjE7dHJhbnNmb3JtOnBlcnNwZWN0aXZlKDEyMDBweCkgcm90YXRlWSgwKSByb3RhdGVYKDApIHRyYW5zbGF0ZVkoMCkgc2NhbGUoMSk7ZmlsdGVyOmJsdXIoMCl9fQouc2hvd2Nhc2UtZnJhbWV7dHJhbnNmb3JtLXN0eWxlOnByZXNlcnZlLTNkO2JhY2tmYWNlLXZpc2liaWxpdHk6aGlkZGVuO3RyYW5zaXRpb246dHJhbnNmb3JtIC4xOHMgZWFzZSxib3gtc2hhZG93IC4zNXMgZWFzZSxmaWx0ZXIgLjM1cyBlYXNlO3dpbGwtY2hhbmdlOmF1dG99LnNob3djYXNlLWZyYW1lLm90LTNkLXJlYWR5e29wYWNpdHk6Ljk2fS5zaG93Y2FzZS1mcmFtZS5vdC0zZC1pbnthbmltYXRpb246b3RGcmFtZTNESW4gLjgycyBjdWJpYy1iZXppZXIoLjE2LDEsLjMsMSkgYm90aDthbmltYXRpb24tZGVsYXk6dmFyKC0tb3REZWxheSwwbXMpfS5zaG93Y2FzZS1mcmFtZS5vdC10aWx0e3RyYW5zaXRpb246dHJhbnNmb3JtIC4wOHMgZWFzZS1vdXQsYm94LXNoYWRvdyAuMjhzIGVhc2V9LnNob3djYXNlLWZyYW1lLm90LXRpbHQ6OmFmdGVye29wYWNpdHk6LjI4fS5mYWIub3QtY3RhLXVyZ2VudHtib3gtc2hhZG93OjAgMTZweCA0OHB4IHJnYmEoMzcsMjExLDEwMixjYWxjKC4yNCArIHZhcigtLW90VXJnZW5jeSwuNCkqLjE4KSk7ZmlsdGVyOnNhdHVyYXRlKGNhbGMoMSArIHZhcigtLW90VXJnZW5jeSwuNCkqLjE0KSl9LmZhYi5vdC1jdGEtdXJnZW50OmhvdmVye2JveC1zaGFkb3c6MCAyMHB4IDU4cHggcmdiYSgzNywyMTEsMTAyLGNhbGMoLjMyICsgdmFyKC0tb3RVcmdlbmN5LC40KSouMTYpKX0jbmV1cmFse3RyYW5zaXRpb246ZmlsdGVyIC4zMnMgZWFzZS1vdXR9I25ldXJhbC5vdC1uZXVyYWwtbGl2ZXtmaWx0ZXI6c2F0dXJhdGUoY2FsYygxLjAyICsgdmFyKC0tb3ROZXVyYWwsLjE4KSouMTgpKSBicmlnaHRuZXNzKGNhbGMoMSArIHZhcigtLW90TmV1cmFsLC4xOCkqLjA1KSl9CkBtZWRpYShtYXgtd2lkdGg6NzY4cHgpLChob3Zlcjpub25lKXsuc2hvd2Nhc2UtZnJhbWUub3QtM2QtaW57YW5pbWF0aW9uLWR1cmF0aW9uOi42MnN9LnNob3djYXNlLWZyYW1lLm90LXRpbHR7dHJhbnNmb3JtOm5vbmUhaW1wb3J0YW50fS5mYWIub3QtY3RhLXVyZ2VudHtib3gtc2hhZG93OjAgMTJweCAzNHB4IHJnYmEoMzcsMjExLDEwMiwuMjgpfX0KQG1lZGlhKHByZWZlcnMtcmVkdWNlZC1tb3Rpb246cmVkdWNlKXsuc2hvd2Nhc2UtZnJhbWUub3QtM2QtaW57YW5pbWF0aW9uOm5vbmV9LnNob3djYXNlLWZyYW1lLC5mYWIsI25ldXJhbHt0cmFuc2l0aW9uOm5vbmUhaW1wb3J0YW50fX0K').decode('utf-8')
+          js = base64.b64decode('PHNjcmlwdD4KKGZ1bmN0aW9uKCl7CiAgJ3VzZSBzdHJpY3QnOwogIGNvbnN0IHJlZHVjZWQ9bWF0Y2hNZWRpYSgnKHByZWZlcnMtcmVkdWNlZC1tb3Rpb246IHJlZHVjZSknKS5tYXRjaGVzOwogIGNvbnN0IG1vYmlsZT1tYXRjaE1lZGlhKignaG92ZXI6bm9uZSknKS5tYXRjaGVzfHxpbm5lcldpZHRoPDc2ODsKICBpZihyZWR1Y2VkKXJldHVybjsKICBsZXQgbGFzdFk9c2Nyb2xsWSx2ZWxvY2l0eT0wLHRpY2tpbmc9ZmFsc2U7CiAgY29uc3QgbmV1cmFsPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCduZXVyYWwnKTsKICBjb25zdCBmYWI9ZG9jdW1lbnQucXVlcnlTZWxlY3RvcignLmZhYicpOwogIGZ1bmN0aW9uIHVwZGF0ZSgpewogICAgY29uc3QgbWF4PU1hdGgubWF4KDEsZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LnNjcm9sbEhlaWdodC1pbm5lckhlaWdodCk7CiAgICBjb25zdCBwcm9ncmVzcz1NYXRoLm1pbigxLE1hdGgubWF4KDAsc2Nyb2xsWS9tYXgpKTsKICAgIGNvbnN0IGxpdmU9TWF0aC5taW4oMSx2ZWxvY2l0eSouNjUrcHJvZ3Jlc3MqLjI1KTsKICAgIGlmKG5ldXJhbCl7bmV1cmFsLmNsYXNzTGlzdC5hZGQoJ290LW5ldXJhbC1saXZlJyk7bmV1cmFsLnN0eWxlLnNldFByb3BlcnR5KCctLW90TmV1cmFsJyxsaXZlLnRvRml4ZWQoMykpO30KICAgIGlmKGZhYil7ZmFiLnN0eWxlLnNldFByb3BlcnR5KCctLW90VXJnZW5jeScscHJvZ3Jlc3MudG9GaXhlZCgzKSk7ZmFiLmNsYXNzTGlzdC50b2dnbGUoJ290LWN0YS11cmdlbnQnLHByb2dyZXNzPi4yOCk7fQogICAgdmVsb2NpdHkqPS44MjsKICAgIHRpY2tpbmc9ZmFsc2U7CiAgfQogIGZ1bmN0aW9uIG9uU2Nyb2xsKCl7CiAgICBjb25zdCBkeT1NYXRoLmFicyhzY3JvbGxZLWxhc3RZKTsKICAgIGxhc3RZPXNjcm9sbFk7CiAgICB2ZWxvY2l0eT1NYXRoLm1pbigxLGR5LzkwKTsKICAgIGlmKCF0aWNraW5nKXt0aWNraW5nPXRydWU7cmVxdWVzdEFuaW1hdGlvbkZyYW1lKHVwZGF0ZSk7fQogIH0KICBhZGRFdmVudExpc3RlbmVyKCdzY3JvbGwnLG9uU2Nyb2xsLHtwYXNzaXZlOnRydWV9KTsKICB1cGRhdGUoKTsKICBjb25zdCBmcmFtZXM9Wy4uLmRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5zaG93Y2FzZS1mcmFtZScpXTsKICBpZihmcmFtZXMubGVuZ3RoKXsKICAgIGNvbnN0IGlvPW5ldyBJbnRlcnNlY3Rpb25PYnNlcnZlcihlbnRyaWVzPT57CiAgICAgIGVudHJpZXMuZm9yRWFjaChlbnRyeT0+ewogICAgICAgIGlmKGVudHJ5LmlzSW50ZXJzZWN0aW5nKXsKICAgICAgICAgIGVudHJ5LnRhcmdldC5jbGFzc0xpc3QuYWRkKCdvdC0zZC1pbicpOwogICAgICAgICAgaW8udW5vYnNlcnZlKGVudHJ5LnRhcmdldCk7CiAgICAgICAgfQogICAgICB9KTsKICAgIH0se3RocmVzaG9sZDouMTgscm9vdE1hcmdpbjonMHB4IDBweCAtMTAlIDBweCd9KTsKICAgIGZyYW1lcy5mb3JFYWNoKChmcmFtZSxpKT0+ewogICAgICBmcmFtZS5jbGFzc0xpc3QuYWRkKCdvdC0zZC1yZWFkeScpOwogICAgICBmcmFtZS5zdHlsZS5zZXRQcm9wZXJ0eSgnLS1vdERlbGF5JyxgJHtNYXRoLm1pbihpKjkwLDM2MCl9bWNgKTsKICAgICAgaW8ub2JzZXJ2ZShmcmFtZSk7CiAgICB9KTsKICAgIGlmKCFtb2JpbGUpewogICAgICBmcmFtZXMuZm9yRWFjaChmcmFtZT0+ewogICAgICAgIGZyYW1lLmFkZEV2ZW50TGlzdGVuZXIoJ3BvaW50ZXJtb3ZlJyxlPT57CiAgICAgICAgICBjb25zdCByPWZyYW1lLmdldEJvdW5kaW5nQ2xpZW50UmVjdCgpOwogICAgICAgICAgY29uc3QgeD0oZS5jbGllbnRYLXIubGVmdC1yLndpZHRoLzIpL3Iud2lkdGg7CiAgICAgICAgICBjb25zdCB5PShlLmNsaWVudFktci50b3Atci5oZWlnaHQvMikvci5oZWlnaHQ7CiAgICAgICAgICBmcmFtZS5jbGFzc0xpc3QuYWRkKCdvdC10aWx0Jyk7CiAgICAgICAgICBmcmFtZS5zdHlsZS50cmFuc2Zvcm09YHBlcnNwZWN0aXZlKDEyMDBweCkgcm90YXRlWCgkey15KjQuNX1kZWcpIHJvdGF0ZVkoJHt4KjQuNX1kZWcpIHRyYW5zbGF0ZVooMTBweClgOwogICAgICAgIH0pOwogICAgICAgIGZyYW1lLmFkZEV2ZW50TGlzdGVuZXIoJ3BvaW50ZXJsZWF2ZScsKCk9PnsKICAgICAgICAgIGZyYW1lLmNsYXNzTGlzdC5yZW1vdmUoJ290LXRpbHQnKTsKICAgICAgICAgIGZyYW1lLnN0eWxlLnRyYW5zZm9ybT0nJzsKICAgICAgICB9KTsKICAgICAgfSk7CiAgICB9CiAgfQp9KSgpOwo8L3NjcmlwdD4K').decode('utf-8')
           if 'safe visual polish: neural + WhatsApp + portfolio frames' not in txt:
               txt = txt.replace('</style>', css + '\n  </style>', 1)
-          js = r'''
-<script>
-(function(){
-  'use strict';
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const mobile=matchMedia('(hover:none)').matches||innerWidth<768;
-  if(reduced)return;
-  let lastY=scrollY,velocity=0,ticking=false;
-  const neural=document.getElementById('neural');
-  const fab=document.querySelector('.fab');
-  function update(){
-    const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
-    const progress=Math.min(1,Math.max(0,scrollY/max));
-    const live=Math.min(1,velocity*.65+progress*.25);
-    if(neural){neural.classList.add('ot-neural-live');neural.style.setProperty('--otNeural',live.toFixed(3));}
-    if(fab){fab.style.setProperty('--otUrgency',progress.toFixed(3));fab.classList.toggle('ot-cta-urgent',progress>.28);}
-    velocity*=.82;
-    ticking=false;
-  }
-  function onScroll(){const dy=Math.abs(scrollY-lastY);lastY=scrollY;velocity=Math.min(1,dy/90);if(!ticking){ticking=true;requestAnimationFrame(update);}}
-  addEventListener('scroll',onScroll,{passive:true});
-  update();
-  const frames=[...document.querySelectorAll('.showcase-frame')];
-  if(frames.length){
-    const io=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('ot-3d-in');io.unobserve(entry.target);}})},{threshold:.18,rootMargin:'0px 0px -10% 0px'});
-    frames.forEach((frame,i)=>{frame.classList.add('ot-3d-ready');frame.style.setProperty('--otDelay',`${Math.min(i*90,360)}ms`);io.observe(frame);});
-    if(!mobile){frames.forEach(frame=>{frame.addEventListener('pointermove',e=>{const r=frame.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)/r.width;const y=(e.clientY-r.top-r.height/2)/r.height;frame.classList.add('ot-tilt');frame.style.transform=`perspective(1200px) rotateX(${-y*4.5}deg) rotateY(${x*4.5}deg) translateZ(10px)`;});frame.addEventListener('pointerleave',()=>{frame.classList.remove('ot-tilt');frame.style.transform='';});});}
-  }
-})();
-</script>
-'''
           if 'const frames=[...document.querySelectorAll' not in txt:
               txt = txt.replace('</body>', js + '\n</body>', 1)
           p.write_text(txt, encoding='utf-8')
