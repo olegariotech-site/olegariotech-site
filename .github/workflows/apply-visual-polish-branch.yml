@@ -17,59 +17,46 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Phase 1 copy and conversion updates
+      - name: Phase 2 proof and trust updates
         run: |
           python3 <<'PY'
           from pathlib import Path
           p = Path('index.html')
           txt = p.read_text(encoding='utf-8')
 
-          css_old = ".hsub{font-size:clamp(1rem,.9rem + .35vw,1.18rem);line-height:1.75;color:var(--muted);max-width:630px;margin-bottom:34px}.hact{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}"
-          css_new = ".hsub{font-size:clamp(1rem,.9rem + .35vw,1.18rem);line-height:1.75;color:var(--muted);max-width:630px;margin-bottom:20px}.hero-chips{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 30px}.hero-chip{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px;border-radius:999px;background:rgba(103,232,249,.06);border:1px solid rgba(103,232,249,.14);color:rgba(238,240,255,.78);font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.hero-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ice);box-shadow:0 0 12px rgba(103,232,249,.8)}.hero-chip:nth-child(2)::before{background:var(--green);box-shadow:0 0 12px rgba(37,211,102,.7)}.hero-chip:nth-child(3)::before{background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.7)}.hero-chip:nth-child(4)::before{background:var(--purple);box-shadow:0 0 12px rgba(168,85,247,.7)}.hact{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}"
-          if '.hero-chips' not in txt:
-              if css_old not in txt:
-                  raise SystemExit('CSS do hero nao encontrado')
-              txt = txt.replace(css_old, css_new, 1)
+          css = ''.join([
+            '.proof-strip{position:relative;padding:30px 0 8px}.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.proof-item{position:relative;min-height:112px;padding:18px 18px 17px;border-radius:18px;background:rgba(7,5,20,.62);border:1px solid rgba(103,232,249,.12);box-shadow:0 18px 44px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden}.proof-item::before{content:\'\';position:absolute;inset:auto 18px 0;height:1px;background:linear-gradient(90deg,var(--ice),transparent);opacity:.5}.proof-item strong{display:block;font-family:\'Syne\',sans-serif;font-size:.92rem;letter-spacing:-.02em;margin-bottom:7px;color:var(--text)}.proof-item span{display:block;font-size:.79rem;line-height:1.55;color:var(--muted)}.proof-item b{display:inline-flex;margin-bottom:9px;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);font-weight:900}.sc-result{flex:1 1 360px;max-width:520px;text-align:center;font-size:.82rem;line-height:1.5;color:var(--muted);padding:0 4px}.sc-result strong{color:rgba(238,240,255,.9);font-weight:800}',
+            '@media(max-width:860px){.proof-grid{grid-template-columns:repeat(2,1fr)}.proof-strip{padding-top:18px}.sc-result{flex-basis:100%;order:2}.showcase-actions .btn{order:3}}',
+            '@media(max-width:640px){.proof-grid{grid-template-columns:1fr}.proof-item{min-height:auto}.sc-result{text-align:left;width:100%;font-size:.84rem}}'
+          ])
+          if '.proof-strip' not in txt:
+              txt = txt.replace('</style>', css + '\n  </style>', 1)
 
-          txt = txt.replace('Sites, páginas de venda e presença digital para negócios que querem <span class="hero-word" id="heroWord">vender melhor.</span>', 'Sites e páginas de venda para negócios que precisam <span class="hero-word" id="heroWord">parecer grandes.</span>', 1)
-          old_sub = '<p class="hsub reveal-words">A Olegario Tech une design premium, estratégia comercial, WhatsApp, SEO local e produtos digitais para transformar sua presença online em autoridade, conversa e venda.</p>'
-          new_sub = '<p class="hsub reveal-words">Criamos páginas profissionais com visual premium, texto comercial e WhatsApp bem guiado para transformar visita em conversa.</p><div class="hero-chips" aria-label="Diferenciais Olegario Tech"><span class="hero-chip">Design premium</span><span class="hero-chip">Mobile perfeito</span><span class="hero-chip">WhatsApp integrado</span><span class="hero-chip">Visão comercial</span></div>'
-          if 'class="hero-chips"' not in txt:
-              txt = txt.replace(old_sub, new_sub, 1)
+          proof_html = '<section class="proof-strip" aria-label="Prova e confiança"><div class="wrap proof-grid"><div class="proof-item"><b>Projetos reais</b><strong>Sites no ar e conceitos comerciais</strong><span>Adega, advocacia, barbearia e mercado local com visual próprio.</span></div><div class="proof-item"><b>Local</b><strong>Valinhos, Campinas e região</strong><span>Presença digital pensada para negócio local que precisa gerar conversa.</span></div><div class="proof-item"><b>Conversão</b><strong>WhatsApp integrado desde o início</strong><span>Botões, mensagens prontas e caminho simples para o cliente chamar.</span></div><div class="proof-item"><b>Método</b><strong>Estratégia antes do código</strong><span>Copy, oferta, CTA, visual e publicação trabalhando juntos.</span></div></div></section>'
+          hero_end = '<div class="shint">Role para sentir a experiência</div></div></section>\n      <div class="div"></div><section class="sec" id="problema">'
+          if 'class="proof-strip"' not in txt:
+              if hero_end not in txt:
+                  raise SystemExit('Ponto de insercao da faixa de prova nao encontrado')
+              txt = txt.replace(hero_end, '<div class="shint">Role para sentir a experiência</div></div></section>\n      ' + proof_html + '\n      <div class="div"></div><section class="sec" id="problema">', 1)
 
           replacements = {
-            'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20criar%20meu%20site.': 'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagnostico%20gratuito%20para%20meu%20negocio.',
-            '>Quero criar meu site</a>': '>Quero um diagnóstico gratuito</a>',
-            '<a class="btn b-gh" href="#produtos">Ver produtos digitais</a>': '<a class="btn b-gh" href="#portfolio">Ver projetos reais</a>',
-            '<a class="btn b-ice" href="#planos">Ver soluções</a>': '<a class="btn b-ice" href="#planos">Ver planos</a>',
-            'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20solicitar%20um%20orcamento.': 'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagnostico%20gratuito.',
-            '>Solicitar Orçamento</a>': '>Diagnóstico gratuito</a>',
-            'Criar meu site com a Olegario Tech': 'Diagnóstico gratuito Olegario Tech',
-            'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20pedir%20um%20orcamento.': 'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagnostico%20gratuito.',
-            'Para sair do improviso e ter uma base profissional.': 'Para quem precisa sair do Instagram e ter uma presença profissional.',
-            'Para ebook, curso, consultoria, evento ou campanha.': 'Para quem quer vender ebook, curso, evento, consultoria ou campanha.',
-            'Para negócios que precisam parecer maiores e vender confiança.': 'Para quem precisa gerar confiança antes do cliente chamar no WhatsApp.',
-            'Site, página de venda, WhatsApp, criativos e organização comercial.': 'Para quem quer organizar site, WhatsApp, criativos e funil comercial.',
-            'https://wa.me/5511912459144?text=Ola!%20Quero%20o%20plano%20Presenca%20Local.': 'https://wa.me/5511912459144?text=Ola!%20Vim%20pelo%20site%20da%20OLEGARIO%20TECH%20e%20quero%20entender%20se%20o%20plano%20Presenca%20Local%20faz%20sentido%20para%20meu%20negocio.',
-            '>Pedir proposta</a>': '>Quero esse plano</a>',
-            'https://wa.me/5511912459144?text=Ola!%20Quero%20uma%20pagina%20de%20venda.': 'https://wa.me/5511912459144?text=Ola!%20Quero%20vender%20meu%20produto%20digital%20com%20uma%20pagina%20de%20venda%20da%20Olegario%20Tech.',
-            '>Criar página</a>': '>Quero vender meu produto</a>',
-            'https://wa.me/5511912459144?text=Ola!%20Quero%20o%20plano%20Site%20Profissional.': 'https://wa.me/5511912459144?text=Ola!%20Quero%20um%20site%20profissional%20para%20gerar%20mais%20confianca%20e%20chamadas%20no%20WhatsApp.',
-            '>Falar com Alexandre</a>': '>Quero um site profissional</a>',
-            'https://wa.me/5511912459144?text=Ola!%20Quero%20montar%20um%20ecossistema%20digital%20completo.': 'https://wa.me/5511912459144?text=Ola!%20Quero%20montar%20um%20ecossistema%20digital%20com%20site%2C%20WhatsApp%2C%20criativos%20e%20funil.',
-            '>Montar projeto</a>': '>Quero montar meu ecossistema</a>',
-            'https://wa.me/5511912459144?text=Ola!%20Quero%20criar%20minha%20estrutura%20digital%20com%20a%20Olegario%20Tech.': 'https://wa.me/5511912459144?text=Ola!%20Quero%20um%20diagnostico%20gratuito%20para%20melhorar%20minha%20presenca%20digital%20com%20a%20Olegario%20Tech.',
-            '>Criar minha estrutura digital</a>': '>Quero meu diagnóstico gratuito</a>'
+            '<span class="sc-tag">Projeto real · Adega, bar e delivery</span><a class="btn b-ice" href="https://adegasaomarcos.com.br/"': '<span class="sc-tag">Projeto real · Adega, bar e delivery</span><span class="sc-result"><strong>Resultado esperado:</strong> cardápio, delivery, autoridade local e pedido pelo WhatsApp.</span><a class="btn b-ice" href="https://adegasaomarcos.com.br/"',
+            '<span class="sc-tag">Projeto real · Advocacia</span><a class="btn b-ice" href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/"': '<span class="sc-tag">Projeto real · Advocacia</span><span class="sc-result"><strong>Resultado esperado:</strong> presença séria, confiança e captação com postura profissional.</span><a class="btn b-ice" href="https://olegariotech-site.github.io/cintia-almeida-gomes-advocacia/"',
+            '<span class="sc-tag">Projeto conceito · Mercado local e empório</span><a class="btn b-ice" href="https://wa.me/5511912459144?text=Ola!%20Quero%20ver%20o%20conceito%20Mini%20Mercado%20e%20Emporio%20da%20Olegario%20Tech."': '<span class="sc-tag">Projeto conceito · Mercado local e empório</span><span class="sc-result"><strong>Resultado esperado:</strong> vitrine local para produtos, ofertas e relacionamento com o bairro.</span><a class="btn b-ice" href="https://wa.me/5511912459144?text=Ola!%20Quero%20ver%20o%20conceito%20Mini%20Mercado%20e%20Emporio%20da%20Olegario%20Tech."',
+            '<span class="sc-tag">Projeto demonstrativo · Barbearia e salão</span><a class="btn b-ice" href="https://olegariotech-site.github.io/navalha-prime-experience/"': '<span class="sc-tag">Projeto demonstrativo · Barbearia e salão</span><span class="sc-result"><strong>Resultado esperado:</strong> imagem premium para agenda, serviços e experiência do cliente.</span><a class="btn b-ice" href="https://olegariotech-site.github.io/navalha-prime-experience/"'
           }
           for old, new in replacements.items():
-              txt = txt.replace(old, new)
+              if old in txt:
+                  txt = txt.replace(old, new, 1)
+              elif new not in txt:
+                  raise SystemExit('Microcopy de portfolio nao encontrado para troca')
 
-          if 'hero-chips' not in txt or 'Quero um diagnóstico gratuito' not in txt or 'Quero vender meu produto' not in txt:
-              raise SystemExit('Patch de copy incompleto')
+          if 'proof-strip' not in txt or 'Resultado esperado:' not in txt:
+              raise SystemExit('Patch fase 2 incompleto')
           p.write_text(txt, encoding='utf-8')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Ajusta copy e CTAs da fase 1" || echo "Nada para commitar"
+          git commit -m "Adiciona prova e microcopy no portfolio" || echo "Nada para commitar"
           git push
