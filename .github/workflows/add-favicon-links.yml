@@ -2,6 +2,10 @@ name: Add Favicon Links
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/add-favicon-links.yml'
 
 permissions:
   contents: write
