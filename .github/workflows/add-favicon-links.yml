@@ -1,0 +1,43 @@
+name: Add Favicon Links
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/add-favicon-links.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Add favicon links to head
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          txt = p.read_text(encoding='utf-8')
+          block = '''  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />'''
+          marker = '<link rel="manifest" href="/site.webmanifest"'
+          anchor = '  <meta name="robots" content="index,follow,max-image-preview:large" />'
+          if marker not in txt:
+              if anchor not in txt:
+                  raise SystemExit('Anchor de robots nao encontrado')
+              txt = txt.replace(anchor, anchor + '\n' + block, 1)
+              p.write_text(txt, encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Adiciona favicon e manifest no head" || echo "Nada para commitar"
+          git push
