@@ -380,6 +380,26 @@
     .htitle,.stitle{letter-spacing:-.035em;line-height:1.04}
     .hsub{max-width:720px}
     @media(max-width:640px){.htitle{font-size:clamp(2.25rem,12vw,3.25rem);line-height:1.02}.stitle{font-size:clamp(2rem,10vw,2.8rem)}p,.lead,.hsub,.ssub{font-size:1.02rem;line-height:1.72}.brand{letter-spacing:.08em}}
+    /* HOME SUMMARY CARD — foco em leitura e conversão */
+    .hero-scroll{min-height:auto}
+    .hero-sticky{position:relative;top:auto;min-height:auto;padding:122px 0 72px}
+    .hero-sticky::before{background:radial-gradient(ellipse 72% 82% at 24% 50%,rgba(5,0,8,.92),rgba(5,0,8,.64) 48%,transparent 78%)}
+    .hero-grid{grid-template-columns:.95fr 1.05fr;gap:38px;align-items:center}
+    .xp-hint,.hero-progress,.shint{display:none!important}
+    .hero-summary-card{display:block;position:relative;padding:34px;border-radius:28px;background:linear-gradient(180deg,rgba(14,11,34,.92),rgba(8,6,22,.86));border:1px solid rgba(103,232,249,.18);box-shadow:0 34px 100px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
+    .hero-summary-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(circle at 50% 0%,rgba(103,232,249,.14),transparent 38%),radial-gradient(circle at 16% 90%,rgba(168,85,247,.18),transparent 38%);pointer-events:none}
+    .hero-summary-card>*{position:relative;z-index:1}
+    .summary-kicker{display:inline-flex;margin-bottom:14px;color:var(--amber);font-size:.76rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+    .hero-summary-card h2{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(1.9rem,3.2vw,3.1rem);line-height:1.02;letter-spacing:-.045em;max-width:680px;margin-bottom:14px}
+    .summary-lead{font-size:clamp(1rem,.96rem + .25vw,1.16rem);line-height:1.72;color:var(--readable-muted);max-width:720px;margin-bottom:22px}
+    .summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:22px 0 24px}
+    .summary-grid div{padding:16px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.10)}
+    .summary-grid span{display:block;color:var(--ice);font-weight:900;font-size:.72rem;letter-spacing:.12em;margin-bottom:7px}
+    .summary-grid strong{display:block;color:var(--text);font-size:.98rem;margin-bottom:4px}
+    .summary-grid p{font-size:.92rem;line-height:1.5;color:rgba(246,247,255,.68);margin:0}
+    .summary-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+    .summary-foot{margin-top:18px;font-size:.88rem;color:rgba(246,247,255,.55)}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-content{text-align:left}.hero-summary-card{padding:24px}.summary-grid{grid-template-columns:1fr}.hero-sticky{padding:108px 0 48px}.hact{gap:10px}.hact .btn{width:100%}}
 
   </style>
 </head>
@@ -453,12 +473,21 @@
               </div>
               <div class="hero-progress" aria-hidden="true"><span id="heroProgress"></span></div>
             </div>
-            <div class="hpanel" id="heroPanel">
-              <p class="plbl">O movimento acontece aqui</p>
-              <div class="si active"><div class="sic">01</div><div><strong>Design que impressiona</strong><p>O cliente bate o olho e sente que a marca é séria, organizada e pronta para vender melhor.</p></div></div>
-              <div class="si"><div class="sic">02</div><div><strong>Copy que direciona</strong><p>Texto com oferta clara, benefício direto e caminho simples para a próxima ação.</p></div></div>
-              <div class="si"><div class="sic">03</div><div><strong>WhatsApp que chama</strong><p>CTA, mensagem pronta e menos atrito para transformar visita em conversa real.</p></div></div>
-              <div class="si"><div class="sic">04</div><div><strong>Venda que acontece</strong><p>Site, página de venda e produto digital trabalhando juntos, sem bloco solto no meio da página.</p></div></div>
+            <div class="hpanel hero-summary-card" id="heroPanel" aria-label="Resumo da Olegario Tech">
+              <div class="summary-kicker">Olegario Tech em uma tela</div>
+              <h2>Sites, landing pages e WhatsApp para vender melhor.</h2>
+              <p class="summary-lead">Para negócios locais, serviços profissionais e produtos digitais que precisam parecer confiáveis e transformar visita em conversa real.</p>
+              <div class="summary-grid" aria-label="Entregas principais">
+                <div><span>01</span><strong>Presença profissional</strong><p>Site ou página clara, rápida e responsiva.</p></div>
+                <div><span>02</span><strong>Oferta organizada</strong><p>Texto, seções e benefícios fáceis de entender.</p></div>
+                <div><span>03</span><strong>WhatsApp integrado</strong><p>Botões com mensagem pronta para gerar conversa.</p></div>
+                <div><span>04</span><strong>Visão comercial</strong><p>Estrutura pensada para confiança, contato e venda.</p></div>
+              </div>
+              <div class="summary-actions">
+                <a class="btn b-ice" href="/diagnostico-digital/">Fazer diagnóstico gratuito</a>
+                <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vi%20o%20card%20resumo%20da%20home%20da%20OLEGARIO%20TECH%20e%20quero%20entender%20qual%20site%20ou%20landing%20page%20faz%20sentido%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+              </div>
+              <p class="summary-foot">Valinhos/SP • Campinas e região • Sites, páginas de venda e presença digital</p>
             </div>
           </div>
           <div class="shint">Role para sentir a experiência</div>
