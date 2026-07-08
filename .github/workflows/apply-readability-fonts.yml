@@ -24,17 +24,18 @@ jobs:
 
           FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />'
 
-          READABILITY_CSS = """
-    /* READABILITY UPDATE — Olegario Tech 2026-07 */
-    :root{--readable-text:#f6f7ff;--readable-muted:#c1c7dc}
-    body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:-.01em}
-    h1,h2,h3,.htitle,.stitle,.question,.brand,.preloader-mark,.preloader-percent{font-family:'Space Grotesk',system-ui,sans-serif}
-    .eyebrow,.nav-l a,.hbadge,.chip,.tag,.kpi-label,.faq-q,.mini,.xp-hint{letter-spacing:.08em}
-    p,.lead,.hsub,.ssub,.case-text,.card p,.faq-a,.flow-card p,.about p,.plan p,.small{font-size:clamp(1rem,.96rem + .18vw,1.12rem);line-height:1.78;color:var(--readable-muted)}
-    .htitle,.stitle{letter-spacing:-.035em;line-height:1.04}
-    .hsub{max-width:720px}
-    @media(max-width:640px){.htitle{font-size:clamp(2.25rem,12vw,3.25rem);line-height:1.02}.stitle{font-size:clamp(2rem,10vw,2.8rem)}p,.lead,.hsub,.ssub{font-size:1.02rem;line-height:1.72}.brand{letter-spacing:.08em}}
-"""
+          READABILITY_CSS = '\n'.join([
+              '    /* READABILITY UPDATE — Olegario Tech 2026-07 */',
+              '    :root{--readable-text:#f6f7ff;--readable-muted:#c1c7dc}',
+              "    body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:-.01em}",
+              "    h1,h2,h3,.htitle,.stitle,.question,.brand,.preloader-mark,.preloader-percent{font-family:'Space Grotesk',system-ui,sans-serif}",
+              '    .eyebrow,.nav-l a,.hbadge,.chip,.tag,.kpi-label,.faq-q,.mini,.xp-hint{letter-spacing:.08em}',
+              '    p,.lead,.hsub,.ssub,.case-text,.card p,.faq-a,.flow-card p,.about p,.plan p,.small{font-size:clamp(1rem,.96rem + .18vw,1.12rem);line-height:1.78;color:var(--readable-muted)}',
+              '    .htitle,.stitle{letter-spacing:-.035em;line-height:1.04}',
+              '    .hsub{max-width:720px}',
+              '    @media(max-width:640px){.htitle{font-size:clamp(2.25rem,12vw,3.25rem);line-height:1.02}.stitle{font-size:clamp(2rem,10vw,2.8rem)}p,.lead,.hsub,.ssub{font-size:1.02rem;line-height:1.72}.brand{letter-spacing:.08em}}',
+              ''
+          ])
 
           def patch_file(path: str) -> None:
               file_path = Path(path)
