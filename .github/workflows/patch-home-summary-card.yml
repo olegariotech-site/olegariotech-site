@@ -1,4 +1,5 @@
 name: Patch home summary card
+# Trigger refresh: card resumo home
 
 on:
   push:
