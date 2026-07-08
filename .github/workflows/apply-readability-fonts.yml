@@ -1,7 +1,7 @@
 name: Apply readability fonts
-# Trigger refresh: 2026-07-08
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/apply-readability-fonts.yml'
