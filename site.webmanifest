@@ -1,6 +1,19 @@
 {
+  "id": "/",
   "name": "Olegario Tech",
   "short_name": "Olegario Tech",
+  "description": "Sites, landing pages e presença digital com visão comercial para negócios locais.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#050008",
+  "background_color": "#050008",
+  "categories": [
+    "business",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/assets/img/android-chrome-192x192.png",
@@ -12,8 +25,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#050008",
-  "background_color": "#050008",
-  "display": "standalone"
+  ]
 }
