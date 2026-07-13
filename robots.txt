@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://olegariotech.netlify.app/sitemap.xml
+
+Sitemap: https://olegariotech.com.br/sitemap.xml
