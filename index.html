@@ -49,7 +49,7 @@
     @keyframes preloaderLine{to{transform:scaleX(1)}}
 
     /* NEURAL + GRAIN */
-    #neural{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 20% 45%,rgba(139,92,246,.18),transparent 60%),radial-gradient(ellipse 55% 50% at 76% 36%,rgba(103,232,249,.09),transparent 58%),#050008;overflow:hidden}#neural canvas{width:100%;height:100%;display:block}.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.09;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(circle at center,#000 0%,transparent 74%)}
+    #neural{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 20% 45%,rgba(139,92,246,.09),transparent 60%),radial-gradient(ellipse 55% 50% at 76% 36%,rgba(103,232,249,.06),transparent 58%),#050008;overflow:hidden}#neural canvas{width:100%;height:100%;display:block;opacity:.38}.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.09;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(circle at center,#000 0%,transparent 74%)}
 
     .page{position:relative;z-index:5}.wrap{width:min(var(--w),calc(100% - 40px));margin-inline:auto}.sec{padding:110px 0;position:relative;scroll-margin-top:86px}.sec.sm{padding:82px 0}.div{height:1px;width:min(var(--w),calc(100% - 40px));margin:0 auto;background:linear-gradient(90deg,transparent,rgba(168,85,247,.15),transparent)}
 
@@ -70,9 +70,16 @@
     /* HERO cinematográfico — evoluído */
     .hero-scroll{position:relative;min-height:235vh}
     .hero-sticky{position:sticky;top:0;min-height:100svh;display:flex;align-items:center;padding:116px 0 58px;overflow:hidden}
-    .hero-sticky::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 72% 82% at 24% 50%,rgba(5,0,8,.92),rgba(5,0,8,.55) 48%,transparent 78%)}
+    .hero-sticky::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 72% 82% at 24% 50%,rgba(5,0,8,.94),rgba(5,0,8,.68) 48%,transparent 78%),linear-gradient(90deg,rgba(5,0,8,.2),transparent 55%)}
     .hero-sticky::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,transparent 72%,rgba(5,0,8,1) 100%)}
-    .hero-grid{position:relative;z-index:5;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+    .hero-grid{position:relative;z-index:5;display:block;min-height:620px}
+    /* ORBIT EARTH — desktop recebe rotação real em Canvas; mobile usa a arte cinematográfica estática. */
+    .earth-orbit{position:absolute;z-index:2;right:4vw;top:48%;width:min(43vw,560px);aspect-ratio:1;transform:translateY(-50%);pointer-events:none;filter:drop-shadow(0 0 46px rgba(24,190,255,.24))}
+    .earth-orbit::before{content:'';position:absolute;inset:7%;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(109,239,255,.17),transparent 30%),radial-gradient(circle at 50% 50%,transparent 58%,rgba(0,0,0,.66) 82%);mix-blend-mode:screen;z-index:2}
+    .earth-orbit canvas,.earth-mobile img{width:100%;height:100%;display:block}
+    .earth-hud{position:absolute;z-index:4;top:9%;left:10%;font-family:'Share Tech Mono',monospace;font-size:clamp(.52rem,.5rem + .12vw,.66rem);line-height:1.72;letter-spacing:.14em;text-transform:uppercase;color:rgba(211,239,255,.65);text-shadow:0 0 14px rgba(63,212,255,.34)}
+    .earth-hud strong{font-weight:400;color:#f6b735}.earth-hud b{font-weight:400;color:#53e9ff}.earth-hud i{display:inline-block;width:6px;height:6px;margin:0 6px 1px 0;border-radius:50%;background:#25d366;box-shadow:0 0 12px #25d366}
+    .earth-mobile{display:none}
     .hbadge{display:inline-flex;min-height:34px;align-items:center;padding:0 16px;border:1px solid rgba(245,158,11,.34);border-radius:999px;background:rgba(245,158,11,.07);color:var(--amber);font-size:.78rem;font-weight:800;margin-bottom:28px}
     .htitle{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(2.5rem,4vw + .45rem,4.55rem);line-height:1.05;letter-spacing:-.05em;font-weight:800;max-width:790px;margin-bottom:24px}
     .hero-word{display:inline-block;min-width:min(720px,100%);background:linear-gradient(135deg,var(--ice),#c084fc 52%,var(--ice2));-webkit-background-clip:text;background-clip:text;color:transparent;transition:opacity .18s,transform .18s}
@@ -404,7 +411,34 @@
     .summary-grid p{font-size:.92rem;line-height:1.5;color:rgba(246,247,255,.68);margin:0}
     .summary-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
     .summary-foot{margin-top:18px;font-size:.88rem;color:rgba(246,247,255,.55)}
+    /* Desktop: a Terra é o protagonista visual. O painel repetido fica reservado ao mobile. */
+    @media(min-width:901px){
+      .hero-grid{display:block;min-height:620px}
+      .hero-content{position:relative;z-index:5;width:min(52%,660px)}
+      .hero-summary-card{display:none}
+    }
     @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-content{text-align:left}.hero-summary-card{padding:24px}.summary-grid{grid-template-columns:1fr}.hero-sticky{padding:108px 0 48px}.hact{gap:10px}.hact .btn{width:100%}}
+    .hud-type,.summary-kicker,.summary-grid span,.proof-item b,.guide-kicker{font-family:'Share Tech Mono',monospace;letter-spacing:.13em}
+    @media(max-width:900px){
+      .hero-sticky{display:flex;flex-direction:column;align-items:stretch}
+      .earth-orbit{display:none}
+      .earth-mobile{display:block;position:relative;z-index:3;order:2;width:calc(100% - 28px);max-width:600px;aspect-ratio:1.42;margin:4px auto 20px;overflow:hidden;border-radius:26px;background:#030711;box-shadow:0 26px 80px rgba(0,0,0,.55)}
+      .earth-mobile::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 74% 53%,transparent 12%,rgba(3,7,17,.18) 50%,rgba(3,7,17,.86) 100%),linear-gradient(90deg,rgba(3,7,17,.6),transparent 45%);pointer-events:none}
+      .earth-mobile img{object-fit:cover;object-position:70% 50%;opacity:.94}
+      .earth-mobile .earth-hud{top:10%;left:7%;font-size:.57rem}
+    }
+    /* Linguagem Orbit distribuída: cada área vira um módulo do mesmo sistema. */
+    .sec[data-orbit],.portfolio-showcase[data-orbit]{isolation:isolate;overflow:hidden}
+    .sec[data-orbit]>.wrap,.portfolio-showcase[data-orbit]>*{position:relative;z-index:1}
+    .sec[data-orbit]::before,.portfolio-showcase[data-orbit]::before{content:attr(data-orbit);position:absolute;top:34px;left:max(20px,calc((100% - var(--w))/2));font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:.22em;color:rgba(103,232,249,.57);text-transform:uppercase}
+    .sec[data-orbit]::after,.portfolio-showcase[data-orbit]::after{content:'';position:absolute;z-index:0;width:min(42vw,540px);aspect-ratio:1;right:-16vw;top:18px;border:1px solid rgba(103,232,249,.12);border-radius:50%;box-shadow:inset 0 0 90px rgba(103,232,249,.025),0 0 80px rgba(168,85,247,.035)}
+    .sec[data-orbit] .eyebrow,.portfolio-showcase[data-orbit] .eyebrow{font-family:'Share Tech Mono',monospace;letter-spacing:.18em}
+    .cnum,.snum,.ptier,.ptg,.pbadge,.sc-tag,.case-objective,.pprice span,.abst span,.ft .fic{font-family:'Share Tech Mono',monospace;letter-spacing:.1em}
+    .stg{position:relative}.stg::before{content:'';position:absolute;left:7%;right:7%;top:32px;height:1px;background:linear-gradient(90deg,transparent,rgba(103,232,249,.5),rgba(168,85,247,.48),transparent);box-shadow:0 0 14px rgba(103,232,249,.3)}
+    .stg .snum{position:relative;display:inline-flex}.stg .snum::after{content:'';position:absolute;top:50%;left:calc(100% + 11px);width:8px;height:8px;transform:translateY(-50%);border-radius:50%;background:var(--ice);box-shadow:0 0 14px var(--ice)}
+    .plg .plan,.prg .prod,.guide-card{background-image:linear-gradient(140deg,rgba(16,17,42,.84),rgba(6,6,19,.92)),radial-gradient(circle at 100% 0,rgba(103,232,249,.08),transparent 30%)}
+    .case-top,.pfeats li{font-family:'Share Tech Mono',monospace;letter-spacing:.035em}
+    @media(max-width:900px){.sec[data-orbit]::before,.portfolio-showcase[data-orbit]::before{top:20px;left:16px;font-size:.54rem}.sec[data-orbit]::after,.portfolio-showcase[data-orbit]::after{width:82vw;right:-36vw;top:6px}.stg::before{display:none}}
 
   </style>
 </head>
@@ -496,6 +530,14 @@
               <p class="summary-foot">Valinhos/SP • Campinas e região • Sites, páginas de venda e presença digital</p>
             </div>
           </div>
+          <div class="earth-orbit" aria-hidden="true">
+            <canvas id="earthCanvas"></canvas>
+            <div class="earth-hud"><span>Orbit · Olegario Tech</span><br><span>operação · <b id="orbitClock">--:--:-- BRT</b></span><br><span>base · <strong>Valinhos/SP</strong></span><br><span><i></i>sinal comercial · <b>ativo</b></span><br><span>canais · site + ia + whatsapp</span></div>
+          </div>
+          <div class="earth-mobile" aria-hidden="true">
+            <img src="assets/img/orbit/earth-night-orbit-v1.webp" alt="">
+            <div class="earth-hud"><span>Orbit · Olegario Tech</span><br><span>operação · <b>online</b></span><br><span>base · <strong>Valinhos/SP</strong></span><br><span><i></i>sinal comercial · <b>ativo</b></span></div>
+          </div>
           <div class="shint">Role para sentir a experiência</div>
         </div>
       </section>
@@ -547,7 +589,7 @@
 
       <div class="div"></div>
 
-      <section class="sec" id="servicos">
+      <section class="sec" id="servicos" data-orbit="Módulo 01 · soluções">
         <div class="wrap">
           <span class="eyebrow rv">O que fazemos</span>
           <h2 class="stitle rv">Estruturas digitais <span class="hl">com visão comercial.</span></h2>
@@ -565,7 +607,7 @@
 
       <div class="div"></div>
 
-      <section class="portfolio-showcase" id="portfolio">
+      <section class="portfolio-showcase" id="portfolio" data-orbit="Módulo 02 · projetos em órbita">
         <div class="showcase-intro rv">
           <span class="eyebrow">Portfólio</span>
           <h2 class="stitle">Projetos que não parecem <span class="hl">template.</span></h2>
@@ -684,7 +726,7 @@
 
       <div class="div"></div>
 
-            <section class="sec sm" id="processo">
+            <section class="sec sm" id="processo" data-orbit="Módulo 03 · rota de execução">
         <div class="wrap">
           <span class="eyebrow rv">Método</span>
           <h2 class="stitle rv">Do diagnóstico ao <span class="hl">site no ar.</span></h2>
@@ -700,7 +742,7 @@
 
       <div class="div"></div>
 
-      <section class="sec" id="confianca">
+      <section class="sec" id="confianca" data-orbit="Módulo 04 · sinal de confiança">
         <div class="wrap">
           <div class="panel rv">
             <span class="eyebrow">Confiança e método</span>
@@ -722,7 +764,7 @@
 
       <div class="div"></div>
 
-      <section class="sec sm solution-guide" id="solucao-ideal">
+      <section class="sec sm solution-guide" id="solucao-ideal" data-orbit="Módulo 05 · diagnóstico de rota">
         <div class="wrap">
           <div class="guide-head rv">
             <span class="eyebrow">Escolha guiada</span>
@@ -758,7 +800,7 @@
 
       <div class="div"></div>
 
-      <section class="sec" id="planos">
+      <section class="sec" id="planos" data-orbit="Módulo 06 · soluções orbitais">
         <div class="wrap">
           <span class="eyebrow rv" style="display:block;text-align:center">Soluções</span>
           <h2 class="stitle rv" style="text-align:center">Escolha o momento <span class="hl">do seu projeto.</span></h2>
@@ -803,7 +845,7 @@
 
       <div class="div"></div>
 
-      <section class="sec" id="sobre">
+      <section class="sec" id="sobre" data-orbit="Módulo 07 · base humana">
         <div class="wrap">
           <div class="panel">
             <div class="abg">
@@ -829,7 +871,7 @@
 
       <div class="div"></div>
 
-      <section class="sec" id="produtos">
+      <section class="sec" id="produtos" data-orbit="Módulo 08 · conhecimento em ação">
         <div class="wrap">
           <span class="eyebrow rv">Produtos digitais</span>
           <h2 class="stitle rv">Método prático como <span class="hl">apoio da marca.</span></h2>
@@ -857,7 +899,7 @@
 
       <div class="div"></div>
 
-      <section class="sec sm" id="faq">
+      <section class="sec sm" id="faq" data-orbit="Módulo 09 · central de comando">
         <div class="wrap">
           <span class="eyebrow rv" style="display:block;text-align:center">FAQ</span>
           <h2 class="stitle rv" style="text-align:center">Direto ao ponto, <span class="hl">sem enrolação.</span></h2>
@@ -1071,6 +1113,58 @@
     }
     glowCards();
 
+    /* Terra orbital: rotação por textura esférica em Canvas, sem biblioteca externa. */
+    function orbitEarth(){
+      const canvas=document.getElementById('earthCanvas'),clock=document.getElementById('orbitClock');
+      if(!canvas)return;
+      const media=matchMedia('(max-width:900px)'),reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+      let ctx,texture,raf=0,running=false,visible=true,last=0,rotation=.18,size=0;
+      function updateClock(){
+        if(!clock)return;
+        clock.textContent=new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date())+' BRT';
+      }
+      updateClock();setInterval(updateClock,1000);
+      function resize(){
+        if(media.matches)return;
+        const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.25);
+        size=Math.max(260,Math.min(560,Math.floor(Math.min(rect.width,rect.height)*dpr)));
+        canvas.width=size;canvas.height=size;ctx=canvas.getContext('2d',{alpha:true});
+      }
+      function paint(now){
+        if(!running||media.matches||!ctx||!texture)return;
+        if(now-last<33){raf=requestAnimationFrame(paint);return}
+        const dt=Math.min(80,now-last||33);last=now;rotation=(rotation+dt*.000055)%(Math.PI*2);
+        const out=ctx.createImageData(size,size),data=out.data,src=texture.data,tw=texture.width,th=texture.height,r=size*.465,c=size*.5;
+        for(let y=0;y<size;y++){
+          const ny=(y-c)/r;
+          for(let x=0;x<size;x++){
+            const nx=(x-c)/r,rr=nx*nx+ny*ny;
+            if(rr>1)continue;
+            const z=Math.sqrt(1-rr),lon=Math.atan2(nx,z)+rotation,lat=Math.asin(ny);
+            const tx=((lon/(Math.PI*2)+.5)%1+1)%1,ty=.5-lat/Math.PI;
+            const sx=Math.min(tw-1,Math.floor(tx*(tw-1))),sy=Math.min(th-1,Math.floor(ty*(th-1))),si=(sy*tw+sx)*4,di=(y*size+x)*4;
+            const rim=Math.pow(z,.38),light=.62+.38*Math.max(0,nx*.28-ny*.16+z*.58),shade=rim*light;
+            data[di]=src[si]*shade;data[di+1]=src[si+1]*shade;data[di+2]=src[si+2]*Math.min(1.2,shade*1.08);data[di+3]=255;
+          }
+        }
+        ctx.clearRect(0,0,size,size);ctx.putImageData(out,0,0);
+        const at=ctx.createRadialGradient(c-r*.34,c-r*.35,r*.18,c,c,r*1.08);at.addColorStop(0,'rgba(89,232,255,.22)');at.addColorStop(.67,'rgba(43,156,255,.08)');at.addColorStop(1,'rgba(0,172,255,0)');ctx.fillStyle=at;ctx.beginPath();ctx.arc(c,c,r*1.06,0,Math.PI*2);ctx.fill();
+        ctx.save();ctx.globalCompositeOperation='screen';
+        for(let i=0;i<3;i++){const phase=rotation*(i%2?-.34:.48)+i*1.72;ctx.beginPath();ctx.ellipse(c,c,r*(1.08+i*.075),r*(.30+i*.03),phase,0,Math.PI*2);ctx.strokeStyle='rgba(104,226,255,'+(.18-i*.035)+')';ctx.lineWidth=1;ctx.stroke();const a=phase+now*.00016*(i%2?1:-1);const px=c+Math.cos(a)*r*(1.08+i*.075),py=c+Math.sin(a)*r*(.30+i*.03);ctx.fillStyle='#c8f8ff';ctx.shadowColor='#4ce7ff';ctx.shadowBlur=13;ctx.beginPath();ctx.arc(px,py,2.1,0,Math.PI*2);ctx.fill();}
+        ctx.restore();
+        raf=requestAnimationFrame(paint);
+      }
+      function start(){if(reduced||media.matches||!texture||!visible)return;running=true;cancelAnimationFrame(raf);last=0;raf=requestAnimationFrame(paint)}
+      function stop(){running=false;cancelAnimationFrame(raf)}
+      const image=new Image();
+      fetch('assets/img/orbit/earth-night-texture-v1.webp').then(response=>{if(!response.ok)throw new Error('texture unavailable');return response.blob()}).then(blob=>{image.src=URL.createObjectURL(blob)}).catch(()=>{});
+      image.onload=()=>{const off=document.createElement('canvas');off.width=image.naturalWidth;off.height=image.naturalHeight;const octx=off.getContext('2d',{willReadFrequently:true});octx.drawImage(image,0,0);texture=octx.getImageData(0,0,off.width,off.height);resize();if(reduced&&ctx){running=true;paint(40);stop()}else start()};
+      const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)start();else stop()},{threshold:.05});observer.observe(canvas);
+      addEventListener('resize',()=>{resize();start()},{passive:true});media.addEventListener('change',()=>{resize();if(media.matches)stop();else start()});
+      document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+    }
+    orbitEarth();
+
     /* Organic Neural — otimizado */
     function organicNeural(){
       const host=document.getElementById('neural');
@@ -1096,7 +1190,7 @@
           const angle=(Math.PI*2/dendrites)*i+(Math.random()-.5)*.6;
           branches.push(makeBranch(angle,28+Math.random()*46,0,maxDepth));
         }
-        return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*(isMobile?.035:.055),vy:(Math.random()-.5)*(isMobile?.035:.055),soma:2.5+Math.random()*3.5,pulse:Math.random()*Math.PI*2,alpha:.15+Math.random()*.18,depthFactor:.5+Math.random()*.5,branches};
+        return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*(isMobile?.035:.055),vy:(Math.random()-.5)*(isMobile?.035:.055),soma:2.5+Math.random()*3.5,pulse:Math.random()*Math.PI*2,alpha:.15+Math.random()*.18,depthFactor:.5+Math.random()*.5,axonAngle:Math.random()*Math.PI*2,axonLength:48+Math.random()*72,dendriteAngle:Math.random()*Math.PI*2,branches};
       }
       function drawBranch(b,x,y,t){
         const wob=Math.sin(t*.5+b.angle*3)*(2/(b.depth+1)),ex=x+Math.cos(b.angle)*b.length,ey=y+Math.sin(b.angle)*b.length,cx=(x+ex)/2+Math.sin(t*.3+b.depth)*3+wob,cy=(y+ey)/2+Math.cos(t*.4+b.depth)*3,th=Math.max(.25,2.4-b.depth*.55),fade=1-b.depth*.16,hue=270+b.depth*10;
@@ -1141,8 +1235,8 @@
         s.p+=dt*s.speed;
         if(s.p>=1)return false;
         const a=neurons[s.a],b=neurons[s.b];
-        if(!a||!b||a._px==null||b._px==null)return false;
-        const A={x:a._px,y:a._py},B={x:b._px,y:b._py};
+        if(!a||!b||!a._axon||!b._dendrite)return false;
+        const A=a._axon,B=b._dendrite;
         const C={x:(A.x+B.x)/2+Math.sin(t+s.seed)*12,y:(A.y+B.y)/2+Math.cos(t+s.seed*1.7)*12};
         const p=Math.max(0,Math.min(1,s.p));
         const tail=Math.max(0,p-.045);
@@ -1196,19 +1290,24 @@
           g.addColorStop(1,'hsla(285,60%,50%,0)');
           ctx.beginPath();ctx.arc(px,py,n.soma*5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
           ctx.beginPath();ctx.arc(px,py,n.soma,0,Math.PI*2);ctx.fillStyle='hsla(300,85%,80%,'+(a*1.4)+')';ctx.fill();
+          const axEnd={x:px+Math.cos(n.axonAngle)*n.axonLength,y:py+Math.sin(n.axonAngle)*n.axonLength};
+          const dendrite={x:px+Math.cos(n.dendriteAngle)*(n.soma*3.2),y:py+Math.sin(n.dendriteAngle)*(n.soma*3.2)};
+          ctx.beginPath();ctx.moveTo(px,py);ctx.quadraticCurveTo(px+Math.cos(n.axonAngle+.45)*n.axonLength*.48,py+Math.sin(n.axonAngle+.45)*n.axonLength*.48,axEnd.x,axEnd.y);ctx.strokeStyle='hsla(278,76%,66%,'+(a*.38)+')';ctx.lineWidth=1.05;ctx.stroke();
+          ctx.beginPath();ctx.arc(axEnd.x,axEnd.y,1.25,0,Math.PI*2);ctx.fillStyle='hsla(190,95%,76%,'+(a*.9)+')';ctx.fill();
           n._px=px;n._py=py;
+          n._axon=axEnd;n._dendrite=dendrite;
         });
         const pairs=[];
         if(!noMot){
           const maxDist=isMobile?160:230;
           for(let i=0;i<neurons.length;i++){
             for(let j=i+1;j<neurons.length;j++){
-              const a=neurons[i],b=neurons[j],dx=a._px-b._px,dy=a._py-b._py,d=Math.hypot(dx,dy);
+              const a=neurons[i],b=neurons[j],dx=a._axon.x-b._dendrite.x,dy=a._axon.y-b._dendrite.y,d=Math.hypot(dx,dy);
               if(d<maxDist){
-                const fade=(1-d/maxDist)*(Math.sin(t*.6+i*j)*.5+.5),mx=(a._px+b._px)/2+Math.sin(t+i+j)*10,my=(a._py+b._py)/2+Math.cos(t+i*j)*10;
-                ctx.beginPath();ctx.moveTo(a._px,a._py);ctx.quadraticCurveTo(mx,my,b._px,b._py);
-                ctx.strokeStyle='hsla(275,70%,60%,'+(fade*.13)+')';
-                ctx.lineWidth=.65;
+                const fade=(1-d/maxDist)*(Math.sin(t*.6+i*j)*.5+.5),mx=(a._axon.x+b._dendrite.x)/2+Math.sin(t+i+j)*10,my=(a._axon.y+b._dendrite.y)/2+Math.cos(t+i*j)*10;
+                ctx.beginPath();ctx.moveTo(a._axon.x,a._axon.y);ctx.quadraticCurveTo(mx,my,b._dendrite.x,b._dendrite.y);
+                ctx.strokeStyle='hsla(275,70%,68%,'+(fade*.21)+')';
+                ctx.lineWidth=.82;
                 ctx.stroke();
                 if(fade>.16)pairs.push({i,j,fade});
               }
