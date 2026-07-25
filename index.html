@@ -1150,7 +1150,8 @@
       }
       function start(){if(reduced||media.matches||!texture||!visible)return;running=true;cancelAnimationFrame(raf);last=0;raf=requestAnimationFrame(paint)}
       function stop(){running=false;cancelAnimationFrame(raf)}
-      const image=new Image();image.crossOrigin='anonymous';image.src='assets/img/orbit/earth-night-texture-v1.webp';
+      const image=new Image();
+      fetch('assets/img/orbit/earth-night-texture-v1.webp').then(response=>{if(!response.ok)throw new Error('texture unavailable');return response.blob()}).then(blob=>{image.src=URL.createObjectURL(blob)}).catch(()=>{});
       image.onload=()=>{const off=document.createElement('canvas');off.width=image.naturalWidth;off.height=image.naturalHeight;const octx=off.getContext('2d',{willReadFrequently:true});octx.drawImage(image,0,0);texture=octx.getImageData(0,0,off.width,off.height);resize();if(reduced&&ctx){running=true;paint(40);stop()}else start()};
       const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)start();else stop()},{threshold:.05});observer.observe(canvas);
       addEventListener('resize',()=>{resize();start()},{passive:true});media.addEventListener('change',()=>{resize();if(media.matches)stop();else start()});
