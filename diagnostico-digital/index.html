@@ -64,8 +64,8 @@
               <div class="proof" role="listitem"><b>WhatsApp</b><span>Resultado com contexto para análise.</span></div>
             </div>
             <div class="copy-actions">
-              <a class="btn b-ice" href="#quiz" data-start-link>Começar diagnóstico →</a>
-              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20p%C3%A1gina%20do%20Diagn%C3%B3stico%20Digital%20da%20OLEGARIO%20TECH%20e%20quero%20avaliar%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+              <a class="btn b-ice" href="#quiz" data-start-link>Fazer minha análise gratuita →</a>
+              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conheci%20a%20Olegario%20Tech%20pela%20p%C3%A1gina%20de%20an%C3%A1lise%20gratuita%20e%20quero%20conversar%20sobre%20o%20que%20posso%20melhorar%20no%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Fale com a OT</a>
             </div>
           </div>
           <p class="micro"><strong>Ideal para:</strong> negócios locais, serviços profissionais, produtos digitais, adegas, barbearias, clínicas, lojas e prestadores de serviço.</p>
@@ -117,15 +117,15 @@
             <h2 class="question">Como podemos chamar seu negócio?</h2>
             <p class="hint">Pode ser o nome da empresa, segmento ou uma descrição simples.</p>
             <input class="field" id="nomeNegocio" name="business_name" type="text" placeholder="Ex: barbearia, adega, clínica, loja..." autocomplete="organization" maxlength="120">
-            <div class="nav"><button class="ghost" type="button" data-back>Voltar</button><button class="finish" type="button" data-finish>Ver diagnóstico</button></div>
+            <div class="nav"><button class="ghost" type="button" data-back>Voltar</button><button class="finish" type="button" data-finish>Ver minha análise</button></div>
           </div>
 
           <div class="step" data-step="4">
             <div class="kicker">Resultado inicial</div>
-            <h2 class="question">Seu diagnóstico começa pelo WhatsApp.</h2>
+            <h2 class="question">Sua análise continua pelo WhatsApp.</h2>
             <p class="hint">Vou receber suas respostas e consigo te orientar com mais precisão sobre site, landing page e presença digital.</p>
             <div class="result-box" id="summary" aria-live="polite"><strong>Resumo:</strong> presença digital em análise.</div>
-            <a class="wa-big" id="waLink" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20Diagn%C3%B3stico%20Digital%20da%20OLEGARIO%20TECH%20e%20quero%20avaliar%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Enviar diagnóstico pelo WhatsApp →</a>
+            <a class="wa-big" id="waLink" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conclu%C3%AD%20a%20an%C3%A1lise%20gratuita%20no%20site%20da%20Olegario%20Tech%20e%20quero%20conversar%20sobre%20como%20melhorar%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Enviar minha análise para a OT →</a>
             <p class="small">Sem compromisso. A ideia é entender seu momento e mostrar o caminho mais simples.</p>
             <div class="nav"><button class="ghost" type="button" data-restart>Refazer</button><a class="ghost" href="/">Ver site oficial</a></div>
           </div>
@@ -175,7 +175,7 @@
       const name=(document.getElementById('nomeNegocio')?.value||'').trim();
       answers.nome=name||'Ainda não informado';
       const summary=document.getElementById('summary');
-      const text='Olá! Vim pelo Diagnóstico Digital da OLEGARIO TECH e quero avaliar minha presença digital.%0A%0A'+
+      const text='Olá%2C%20OT!%20Conclu%C3%AD%20a%20an%C3%A1lise%20gratuita%20no%20site%20da%20Olegario%20Tech%20e%20quero%20conversar%20sobre%20como%20melhorar%20minha%20presen%C3%A7a%20digital.%0A%0A'+
         'Tipo de negócio: '+encodeURIComponent(answers.negocio||'Não informado')+'%0A'+
         'Estrutura atual: '+encodeURIComponent(answers.estrutura||'Não informado')+'%0A'+
         'Principal objetivo: '+encodeURIComponent(answers.objetivo||'Não informado')+'%0A'+
