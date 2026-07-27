@@ -243,8 +243,8 @@
 
 
     /* CICLO OLEGARIO TECH — CSS 3D leve, sem GSAP/Three.js */
-    .ciclo-ot{position:relative;min-height:180vh;background:#000;overflow:hidden;isolation:isolate;--portal:0;--portalScale:1}
-    .ciclo-ot::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 52% at 50% 48%,rgba(103,232,249,.10),transparent 62%),radial-gradient(ellipse 68% 52% at 50% 55%,rgba(168,85,247,.14),transparent 66%);pointer-events:none}
+    .ciclo-ot{position:relative;min-height:155vh;background:#000;overflow:hidden;isolation:isolate;--portal:0;--portalScale:1}
+    .ciclo-ot::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 58%,#000 94%),radial-gradient(ellipse 80% 52% at 50% 48%,rgba(103,232,249,.10),transparent 62%),radial-gradient(ellipse 68% 52% at 50% 55%,rgba(168,85,247,.14),transparent 66%);pointer-events:none}
     .ciclo-ot::after{content:'';position:absolute;inset:-18%;pointer-events:none;z-index:3;background:radial-gradient(circle at 50% 52%,rgba(255,255,255,.58) 0%,rgba(103,232,249,.28) 11%,rgba(168,85,247,.16) 24%,transparent 54%);opacity:var(--portal);transform:scale(var(--portalScale));transition:opacity .12s linear,transform .12s linear;mix-blend-mode:screen}
     .ciclo-container{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;z-index:2}
     .ciclo-header{position:absolute;top:5.5vh;left:50%;transform:translateX(-50%);text-align:center;z-index:10;width:min(1040px,calc(100% - 32px));transition:opacity .6s ease,transform .6s ease;pointer-events:none}.ciclo-header.fade-out{opacity:0;transform:translateX(-50%) translateY(-20px)}
@@ -257,8 +257,8 @@
     .ot-t-trunk{position:absolute;width:22px;height:140px;background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(200,220,255,.86));top:50%;left:50%;transform:translate(-50%,-40%);border-radius:3px;box-shadow:0 0 16px rgba(103,232,249,.46),0 0 44px rgba(168,85,247,.24)}.ot-t-arm{position:absolute;width:130px;height:22px;background:linear-gradient(90deg,rgba(255,255,255,.97),rgba(200,220,255,.86));top:50%;left:50%;transform:translate(-50%,-85px);border-radius:3px;box-shadow:0 0 16px rgba(103,232,249,.46),0 0 44px rgba(168,85,247,.24)}
     .ot-glow{position:absolute;width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(103,232,249,.18),transparent 70%);border-radius:50%;pointer-events:none;animation:otPulse 3s ease-in-out infinite}@keyframes otPulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
     .ciclo-float-texts{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:1}.ciclo-word{position:absolute;font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(2.25rem,7vw,5.9rem);font-weight:800;letter-spacing:-.035em;color:rgba(103,232,249,.16);text-transform:uppercase;text-align:center;opacity:0;transform:scale(.82) translateY(30px);transition:opacity .5s ease,transform .65s ease,text-shadow .65s ease;mix-blend-mode:screen;text-shadow:0 0 34px rgba(103,232,249,.18),0 0 70px rgba(168,85,247,.10)}.ciclo-word.active{opacity:.72;transform:scale(1) translateY(0);text-shadow:0 0 42px rgba(103,232,249,.34),0 0 110px rgba(168,85,247,.22)}
-    .ciclo-footer-cta{position:absolute;top:70vh;left:50%;transform:translate(-50%,34px);text-align:center;z-index:10;opacity:0;transition:opacity .65s ease,transform .65s ease;max-width:720px;width:calc(100% - 48px);pointer-events:none}.ciclo-footer-cta.visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}.ciclo-footer-cta h3{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(1.55rem,2.8vw,2.35rem);font-weight:800;line-height:1.1;margin-bottom:14px;letter-spacing:-.03em}.ciclo-footer-cta p{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:24px}.ciclo-botoes{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ciclo-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;font-weight:800;font-size:.93rem;transition:transform .25s,box-shadow .25s,background .25s}.ciclo-btn:hover{transform:translateY(-2px)}.ciclo-btn-primario{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#020b12;box-shadow:0 14px 36px rgba(103,232,249,.22)}.ciclo-btn-secundario{background:rgba(255,255,255,.035);border:1px solid rgba(168,85,247,.26);color:var(--text)}.ciclo-btn-secundario:hover{background:rgba(255,255,255,.06)}
-    @media(max-width:768px){.ciclo-ot{min-height:185vh}.ciclo-header{top:6.5vh}.ciclo-title{white-space:normal;font-size:clamp(2.25rem,11vw,3.2rem)}.ciclo-sub{font-size:.94rem;max-width:320px}.ciclo-scene{transform:translateY(84px)}.ot-logo-3d{width:210px;height:210px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:190px;height:190px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:104px}.ot-t-arm{width:92px;height:16px;transform:translate(-50%,-61px)}.ot-glow{width:160px;height:160px}.ciclo-word{font-size:clamp(2rem,10vw,4rem)}.ciclo-footer-cta{top:72vh}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}}
+    .ciclo-footer-cta{position:absolute;left:50%;bottom:clamp(52px,7vh,76px);transform:translate(-50%,24px);text-align:center;z-index:10;opacity:0;transition:opacity .5s ease,transform .5s ease;max-width:720px;width:calc(100% - 48px);pointer-events:none}.ciclo-footer-cta.visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}.ciclo-footer-cta h3{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(1.55rem,2.8vw,2.35rem);font-weight:800;line-height:1.1;margin-bottom:14px;letter-spacing:-.03em}.ciclo-footer-cta p{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:24px}.ciclo-botoes{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ciclo-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;font-weight:800;font-size:.93rem;transition:transform .25s,box-shadow .25s,background .25s}.ciclo-btn:hover{transform:translateY(-2px)}.ciclo-btn-primario{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#020b12;box-shadow:0 14px 36px rgba(103,232,249,.22)}.ciclo-btn-secundario{background:rgba(255,255,255,.035);border:1px solid rgba(168,85,247,.26);color:var(--text)}.ciclo-btn-secundario:hover{background:rgba(255,255,255,.06)}
+    @media(max-width:768px){.ciclo-ot{min-height:165vh}.ciclo-header{top:6.5vh}.ciclo-title{white-space:normal;font-size:clamp(2.25rem,11vw,3.2rem)}.ciclo-sub{font-size:.94rem;max-width:320px}.ciclo-scene{transform:translateY(84px)}.ot-logo-3d{width:210px;height:210px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:190px;height:190px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:104px}.ot-t-arm{width:92px;height:16px;transform:translate(-50%,-61px)}.ot-glow{width:160px;height:160px}.ciclo-word{font-size:clamp(2rem,10vw,4rem)}.ciclo-footer-cta{bottom:28px}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}}
     @media(prefers-reduced-motion:reduce){.ot-glow{animation:none}.ciclo-ot::after{display:none}.ciclo-word,.ciclo-footer-cta,.ciclo-header{transition:none}}
 
     .fab{position:fixed;right:28px;bottom:28px;z-index:90;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--green),var(--green2));box-shadow:0 14px 36px rgba(37,211,102,.32);transition:width .32s ease,transform .3s ease,box-shadow .3s ease,padding .32s ease;color:#fff;overflow:hidden;white-space:nowrap;padding:0}.fab:hover{width:286px;padding:0 22px 0 18px;transform:translateY(-3px);box-shadow:0 18px 44px rgba(37,211,102,.38)}.fab svg{width:30px;height:30px;fill:#fff;flex:0 0 30px}.fab span{max-width:0;opacity:0;overflow:hidden;font-size:.9rem;font-weight:900;line-height:1.15;letter-spacing:-.01em;transition:max-width .32s ease,opacity .22s ease}.fab:hover span{max-width:210px;opacity:1}@media(max-width:640px){.fab:hover{width:54px;padding:0}.fab span{display:none}}
@@ -362,7 +362,7 @@
       .abph{min-height:390px}
       .pmed{height:230px}
 
-      .ciclo-ot{min-height:185vh}.ot-logo-3d{width:200px;height:200px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:180px;height:180px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:100px}.ot-t-arm{width:90px;height:16px;transform:translate(-50%,-60px)}.ciclo-word{font-size:clamp(1.9rem,9vw,3.45rem)}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}
+      .ciclo-ot{min-height:165vh}.ot-logo-3d{width:200px;height:200px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:180px;height:180px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:100px}.ot-t-arm{width:90px;height:16px;transform:translate(-50%,-60px)}.ciclo-word{font-size:clamp(1.9rem,9vw,3.45rem)}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}
       .hero-sticky{padding:96px 0 38px}
       .hbadge{font-size:.7rem;min-height:30px;padding:0 12px;margin-bottom:18px}
       .xp-hint{display:none}
@@ -1002,13 +1002,14 @@
             </div>
           </div>
 
-          <div class="ciclo-footer-cta" id="cicloFooterCta">
-            <h3>Seu negócio é único.<br><span class="ciclo-hl">Seu projeto também precisa ser.</span></h3>
-            <p>Não deixe sua presença digital na mão de templates genéricos.</p>
-            <div class="ciclo-botoes">
-              <a class="ciclo-btn ciclo-btn-primario" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
-              <a class="ciclo-btn ciclo-btn-secundario" href="#" data-scroll-top>Recomeçar experiência</a>
-            </div>
+        </div>
+
+        <div class="ciclo-footer-cta" id="cicloFooterCta">
+          <h3>Seu negócio é único.<br><span class="ciclo-hl">Seu projeto também precisa ser.</span></h3>
+          <p>Não deixe sua presença digital na mão de templates genéricos.</p>
+          <div class="ciclo-botoes">
+            <a class="ciclo-btn ciclo-btn-primario" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
+            <a class="ciclo-btn ciclo-btn-secundario" href="#" data-scroll-top>Recomeçar experiência</a>
           </div>
         </div>
       </section>
@@ -1493,7 +1494,7 @@
         }else if(p<.94){
           const q=(p-.82)/.12;rotateX=188;scale=(small?2.35:3.15)+(q*(small?.55:.85));translateZ=small?115:220;footerOpacity=q;headerOpacity=0;burst=.72+q*.20;burstScale=2.6+q*1.25;portal=.28+q*.44;portalScale=1.85+q*1.45;logoOpacity=1-q*.28;
         }else{
-          const q=(p-.94)/.06;rotateX=190;scale=small?3.05:4.25;translateZ=small?130:250;footerOpacity=1;headerOpacity=0;burst=.95;burstScale=4.1+q*1.4;portal=.72+q*.28;portalScale=3.2+q*1.8;logoOpacity=Math.max(0, .72-q*.72);
+          const q=(p-.94)/.06;rotateX=190;scale=small?3.05:4.25;translateZ=small?130:250;footerOpacity=1;headerOpacity=0;burst=.95;burstScale=4.1+q*1.4;portal=Math.max(0,.72-q*.72);portalScale=3.2+q*1.8;logoOpacity=Math.max(0,.72-q*.72);
         }
         otLogo.style.transform=`translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
         otLogo.style.setProperty('--burst',burst.toFixed(2));
