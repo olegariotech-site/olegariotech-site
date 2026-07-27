@@ -442,6 +442,36 @@
     .case-top,.pfeats li{font-family:'Share Tech Mono',monospace;letter-spacing:.035em}
     @media(max-width:900px){.sec[data-orbit]::before,.portfolio-showcase[data-orbit]::before{top:20px;left:16px;font-size:.54rem}.sec[data-orbit]::after,.portfolio-showcase[data-orbit]::after{width:82vw;right:-36vw;top:6px}.stg::before{display:none}}
 
+    /* MOTION SYSTEM — profundidade útil, luz contextual e progresso de leitura */
+    .scroll-meter{position:absolute;left:0;right:0;bottom:-1px;height:2px;z-index:3;pointer-events:none;background:linear-gradient(90deg,var(--amber),var(--ice) 48%,var(--purple));box-shadow:0 0 14px rgba(103,232,249,.42);transform:scaleX(0);transform-origin:left center;will-change:transform}
+    .motion-card{--tilt-x:0deg;--tilt-y:0deg;--lift:0px;--rv-x:0px;position:relative;isolation:isolate;transform:perspective(1000px) translate3d(0,var(--lift),0) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transform-style:preserve-3d;transition:transform .38s cubic-bezier(.16,1,.3,1),border-color .35s ease,box-shadow .35s ease;will-change:transform}
+    .motion-card:hover,.motion-card:focus-within{--lift:-5px}
+    .plan.pop.motion-card{--lift:-10px}.plan.pop.motion-card:hover,.plan.pop.motion-card:focus-within{--lift:-14px}
+    .showcase-frame.motion-card:hover,.showcase-frame.motion-card:focus-within{--lift:-6px}
+    .js .rv.motion-card{transform:perspective(1000px) translate3d(var(--rv-x),34px,0) scale(.985) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))}
+    .js .rv.on.motion-card{transform:perspective(1000px) translate3d(0,var(--lift),0) scale(1) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))}
+    .card-spot{position:absolute!important;z-index:3!important;inset:-1px!important;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--spot-x,50%) var(--spot-y,50%),rgba(103,232,249,.16),rgba(168,85,247,.07) 32%,transparent 64%);mix-blend-mode:screen;opacity:0;transition:opacity .32s ease}
+    .motion-card.is-lit>.card-spot,.motion-card:hover>.card-spot,.motion-card:focus-within>.card-spot{opacity:1}
+    .showcase-card{min-height:92svh}
+    .showcase-spacer{height:6vh}
+    .showcase-frame img{transition:transform .8s cubic-bezier(.16,1,.3,1),filter .6s ease}
+    .showcase-card.is-current .showcase-frame{border-color:rgba(103,232,249,.34);box-shadow:0 44px 112px rgba(0,0,0,.78),0 0 52px rgba(103,232,249,.08),inset 0 1px 0 rgba(255,255,255,.055)}
+    .showcase-card.is-current .showcase-frame img{transform:scale(1.012);filter:saturate(1.04) contrast(1.02)}
+    .showcase-card.is-current .case-panel{border-color:rgba(103,232,249,.25);box-shadow:0 30px 82px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.05)}
+    .case-panel,.case-points div,.pcard,.proof-item{transition:border-color .35s ease,box-shadow .35s ease,background-color .35s ease}
+    .case-points div.is-lit,.pcard.is-lit,.proof-item.is-lit{border-color:rgba(103,232,249,.22);box-shadow:0 20px 48px rgba(0,0,0,.34)}
+    @media(max-width:900px){
+      .showcase-card{min-height:82svh;padding-top:72px;padding-bottom:72px}
+      .showcase-spacer{height:0}
+      .motion-card,.js .rv.motion-card,.js .rv.on.motion-card{--tilt-x:0deg!important;--tilt-y:0deg!important;transform:translate3d(0,var(--lift),0)}
+      .card-spot{background:radial-gradient(300px circle at 50% 45%,rgba(103,232,249,.11),rgba(168,85,247,.05) 35%,transparent 68%)}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .motion-card,.js .rv.motion-card,.js .rv.on.motion-card{transform:none!important;transition:none!important}
+      .card-spot,.showcase-frame img{transition:none!important}
+      .scroll-meter{display:none}
+    }
+
   </style>
 </head>
 <body>
@@ -1133,6 +1163,80 @@
       });
     }
     glowCards();
+
+    /* Profundidade dos cards + progresso de leitura, sem pesar no touch */
+    function motionSystem(){
+      const header=document.getElementById('hdr');
+      if(header){
+        const meter=document.createElement('span');
+        meter.className='scroll-meter';
+        meter.setAttribute('aria-hidden','true');
+        header.appendChild(meter);
+        let meterTick=false;
+        const updateMeter=()=>{
+          const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+          meter.style.transform=`scaleX(${Math.max(0,Math.min(1,scrollY/max)).toFixed(4)})`;
+          meterTick=false;
+        };
+        addEventListener('scroll',()=>{if(!meterTick){meterTick=true;requestAnimationFrame(updateMeter)}},{passive:true});
+        addEventListener('resize',updateMeter,{passive:true});
+        updateMeter();
+      }
+
+      const selector='.card,.plan,.prod,.guide-card,.pcard,.proof-item,.case-points>div,.case-panel,.showcase-frame';
+      const items=[...document.querySelectorAll(selector)];
+      const finePointer=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>900&&!noMot;
+      items.forEach((el,index)=>{
+        el.classList.add('motion-card');
+        if(el.classList.contains('rv'))el.style.setProperty('--rv-x',index%2===0?'-18px':'18px');
+        const spot=document.createElement('span');
+        spot.className='card-spot';
+        spot.setAttribute('aria-hidden','true');
+        el.appendChild(spot);
+        if(!finePointer)return;
+        let moveTick=false,lastEvent=null;
+        const strength=el.matches('.showcase-frame,.case-panel') ? .85 : 2.35;
+        el.addEventListener('pointermove',event=>{
+          lastEvent=event;
+          if(moveTick)return;
+          moveTick=true;
+          requestAnimationFrame(()=>{
+            const rect=el.getBoundingClientRect();
+            const px=Math.max(0,Math.min(1,(lastEvent.clientX-rect.left)/rect.width));
+            const py=Math.max(0,Math.min(1,(lastEvent.clientY-rect.top)/rect.height));
+            el.style.setProperty('--spot-x',(px*100).toFixed(1)+'%');
+            el.style.setProperty('--spot-y',(py*100).toFixed(1)+'%');
+            el.style.setProperty('--tilt-x',((.5-py)*strength).toFixed(2)+'deg');
+            el.style.setProperty('--tilt-y',((px-.5)*strength).toFixed(2)+'deg');
+            moveTick=false;
+          });
+        },{passive:true});
+        el.addEventListener('pointerenter',()=>el.classList.add('is-lit'),{passive:true});
+        el.addEventListener('pointerleave',()=>{
+          el.classList.remove('is-lit');
+          el.style.setProperty('--tilt-x','0deg');
+          el.style.setProperty('--tilt-y','0deg');
+          el.style.setProperty('--spot-x','50%');
+          el.style.setProperty('--spot-y','50%');
+        },{passive:true});
+      });
+
+      if(!finePointer&&items.length){
+        const lightObserver=new IntersectionObserver(entries=>{
+          entries.forEach(entry=>entry.target.classList.toggle('is-lit',entry.isIntersecting));
+        },{threshold:.38,rootMargin:'-8% 0px -18% 0px'});
+        items.forEach(el=>lightObserver.observe(el));
+      }
+
+      const showcases=[...document.querySelectorAll('.showcase-card')];
+      if(showcases.length){
+        const showcaseObserver=new IntersectionObserver(entries=>{
+          entries.forEach(entry=>entry.target.classList.toggle('is-current',entry.isIntersecting));
+        },{threshold:.12,rootMargin:'-28% 0px -28% 0px'});
+        showcases.forEach(el=>showcaseObserver.observe(el));
+      }
+    }
+    motionSystem();
 
     /* Terra orbital: rotação por textura esférica em Canvas, sem biblioteca externa. */
     function orbitEarth(){
