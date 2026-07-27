@@ -1,0 +1,79 @@
+name: Fix hero first fold
+
+on:
+  push:
+    branches:
+      - fix/hero-primeira-dobra
+    paths:
+      - .github/workflows/fix-hero-first-fold.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/hero-primeira-dobra
+
+      - name: Apply hero fixes
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          old_words = "const words=['crescer e vender melhor.','chamar no WhatsApp.','parecer profissional.','virar referência.'];"
+          new_words = "const words=['crescer e vender melhor.','chamar no WhatsApp.','transmitir confiança.','virar referência.'];"
+          if old_words not in text:
+              raise SystemExit("Dynamic hero words pattern not found")
+          text = text.replace(old_words, new_words, 1)
+
+          css_marker = """    /* HERO FIRST FOLD FIX — Olegario Tech 2026-07 */
+    .hero-progress{display:none!important}
+    @media(min-width:901px){
+      .hero-sticky{padding:96px 0 30px}
+      .hero-grid{min-height:0}
+      .hero-content{width:min(49%,620px)}
+      .earth-orbit{right:3vw;top:50%;width:min(41vw,520px)}
+      .shint{bottom:14px;opacity:.7}
+    }
+    @media(min-width:901px) and (max-height:840px){
+      .hero-sticky{padding:86px 0 22px}
+      .hbadge{min-height:30px;padding:0 13px;margin-bottom:14px;font-size:.7rem}
+      .htitle.hero-title-modern{margin-bottom:12px}
+      .hero-title-main{font-size:clamp(2.9rem,5.15vw,4.75rem);line-height:.9}
+      .hero-title-sub{font-size:clamp(1.12rem,1.75vw,1.55rem);margin:10px 0 2px}
+      .htitle .hero-title-word{font-size:clamp(2.2rem,3.75vw,3.6rem);line-height:.92}
+      .hsub{font-size:1rem;line-height:1.55;margin-bottom:14px;max-width:600px}
+      .hero-chips{gap:8px;margin-bottom:16px}
+      .hero-chip{min-height:30px;padding:0 10px;font-size:.64rem}
+      .hero-chip:nth-child(4){display:none}
+      .hact{gap:10px;margin-bottom:18px}
+      .hact .btn,.hero-link{min-height:46px;font-size:.84rem}
+      .cta-assurance{margin:-8px 0 0;font-size:.65rem}
+      .earth-orbit{right:4vw;top:51%;width:min(38vw,470px)}
+      .shint{display:none}
+    }
+
+"""
+          if "HERO FIRST FOLD FIX" in text:
+              raise SystemExit("Hero first-fold fix already exists")
+          close_style = "\n  </style>"
+          if close_style not in text:
+              raise SystemExit("Closing style tag not found")
+          text = text.replace(close_style, "\n" + css_marker + "  </style>", 1)
+
+          path.write_text(text, encoding="utf-8")
+
+      - name: Commit fix
+        run: |
+          git config user.name "Olegario Tech Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "fix: compactar hero e melhorar primeira dobra [skip ci]"
+          git push origin HEAD:fix/hero-primeira-dobra
