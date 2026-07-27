@@ -40,10 +40,12 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'Inter',system-ui,sans-serif;background:var(--void);color:var(--text);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}img{max-width:100%;display:block}button{font:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--ice);outline-offset:4px;border-radius:8px}.skip-link{position:fixed;top:12px;left:16px;z-index:10000;padding:12px 16px;border-radius:10px;background:var(--ice);color:#020b12;font-weight:900;transform:translateY(-180%);transition:transform .2s}.skip-link:focus{transform:translateY(0)}
 
     /* PRELOADER OT — inspirado na WebHub: contador + marca, mas identidade própria */
-    #preloader{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s cubic-bezier(.16,1,.3,1),visibility .8s}
+    #preloader{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s cubic-bezier(.16,1,.3,1),visibility .45s}
     #preloader.done{opacity:0;visibility:hidden;pointer-events:none}
-    .preloader-mark{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text);position:relative}
-    .preloader-mark::after{content:'';position:absolute;bottom:-8px;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--ice),var(--purple),var(--amber));transform:scaleX(0);transform-origin:left;animation:preloaderLine 2s cubic-bezier(.16,1,.3,1) forwards}
+    .preloader-mark{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text);position:relative;display:flex;align-items:center;gap:14px}
+    .preloader-mark img{width:46px;height:50px;object-fit:contain}
+    .preloader-mark b{color:var(--ice);font-weight:800}
+    .preloader-mark::after{content:'';position:absolute;bottom:-8px;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--ice),var(--purple),var(--amber));transform:scaleX(0);transform-origin:left;animation:preloaderLine .8s cubic-bezier(.16,1,.3,1) forwards}
     .preloader-percent{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.12em;color:var(--muted2);margin-top:18px}
     .preloader-percent i{font-style:normal;color:var(--ice)}
     @keyframes preloaderLine{to{transform:scaleX(1)}}
@@ -91,6 +93,8 @@
     .hero-chip:nth-child(3)::before{background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.7)}
     .hero-chip:nth-child(4)::before{background:var(--purple);box-shadow:0 0 12px rgba(168,85,247,.7)}
     .hact{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+    .hero-link{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 8px;color:rgba(238,240,255,.74);font-size:.9rem;font-weight:800;text-decoration:underline;text-decoration-color:rgba(103,232,249,.34);text-underline-offset:6px;transition:color .25s,text-decoration-color .25s}.hero-link:hover{color:var(--ice);text-decoration-color:var(--ice)}
+    .cta-assurance{margin:-18px 0 24px;color:rgba(238,240,255,.56);font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.04em}
     .hero-progress{height:4px;width:min(520px,100%);border-radius:999px;background:rgba(168,85,247,.13);overflow:hidden}
     .hero-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--ice),var(--purple));border-radius:inherit;transition:width .12s linear}
     .hpanel{position:relative;padding:34px 30px;border-radius:var(--rl);background:linear-gradient(145deg,rgba(11,7,30,.80),rgba(7,5,20,.92));border:1px solid rgba(168,85,247,.16);box-shadow:var(--shadow);overflow:hidden}
@@ -239,7 +243,7 @@
 
 
     /* CICLO OLEGARIO TECH — CSS 3D leve, sem GSAP/Three.js */
-    .ciclo-ot{position:relative;min-height:240vh;background:#000;overflow:hidden;isolation:isolate;--portal:0;--portalScale:1}
+    .ciclo-ot{position:relative;min-height:180vh;background:#000;overflow:hidden;isolation:isolate;--portal:0;--portalScale:1}
     .ciclo-ot::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 52% at 50% 48%,rgba(103,232,249,.10),transparent 62%),radial-gradient(ellipse 68% 52% at 50% 55%,rgba(168,85,247,.14),transparent 66%);pointer-events:none}
     .ciclo-ot::after{content:'';position:absolute;inset:-18%;pointer-events:none;z-index:3;background:radial-gradient(circle at 50% 52%,rgba(255,255,255,.58) 0%,rgba(103,232,249,.28) 11%,rgba(168,85,247,.16) 24%,transparent 54%);opacity:var(--portal);transform:scale(var(--portalScale));transition:opacity .12s linear,transform .12s linear;mix-blend-mode:screen}
     .ciclo-container{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;z-index:2}
@@ -254,8 +258,7 @@
     .ot-glow{position:absolute;width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(103,232,249,.18),transparent 70%);border-radius:50%;pointer-events:none;animation:otPulse 3s ease-in-out infinite}@keyframes otPulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
     .ciclo-float-texts{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:1}.ciclo-word{position:absolute;font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(2.25rem,7vw,5.9rem);font-weight:800;letter-spacing:-.035em;color:rgba(103,232,249,.16);text-transform:uppercase;text-align:center;opacity:0;transform:scale(.82) translateY(30px);transition:opacity .5s ease,transform .65s ease,text-shadow .65s ease;mix-blend-mode:screen;text-shadow:0 0 34px rgba(103,232,249,.18),0 0 70px rgba(168,85,247,.10)}.ciclo-word.active{opacity:.72;transform:scale(1) translateY(0);text-shadow:0 0 42px rgba(103,232,249,.34),0 0 110px rgba(168,85,247,.22)}
     .ciclo-footer-cta{position:absolute;top:70vh;left:50%;transform:translate(-50%,34px);text-align:center;z-index:10;opacity:0;transition:opacity .65s ease,transform .65s ease;max-width:720px;width:calc(100% - 48px);pointer-events:none}.ciclo-footer-cta.visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}.ciclo-footer-cta h3{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(1.55rem,2.8vw,2.35rem);font-weight:800;line-height:1.1;margin-bottom:14px;letter-spacing:-.03em}.ciclo-footer-cta p{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:24px}.ciclo-botoes{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ciclo-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;font-weight:800;font-size:.93rem;transition:transform .25s,box-shadow .25s,background .25s}.ciclo-btn:hover{transform:translateY(-2px)}.ciclo-btn-primario{background:linear-gradient(135deg,var(--ice),var(--ice2));color:#020b12;box-shadow:0 14px 36px rgba(103,232,249,.22)}.ciclo-btn-secundario{background:rgba(255,255,255,.035);border:1px solid rgba(168,85,247,.26);color:var(--text)}.ciclo-btn-secundario:hover{background:rgba(255,255,255,.06)}
-    .ciclo-bursting .ciclo-container{animation:cicloFlash .78s ease both}@keyframes cicloFlash{0%{filter:brightness(1)}48%{filter:brightness(1.65)}100%{filter:brightness(1)}}
-    @media(max-width:768px){.ciclo-ot{min-height:230vh}.ciclo-header{top:6.5vh}.ciclo-title{white-space:normal;font-size:clamp(2.25rem,11vw,3.2rem)}.ciclo-sub{font-size:.94rem;max-width:320px}.ciclo-scene{transform:translateY(84px)}.ot-logo-3d{width:210px;height:210px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:190px;height:190px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:104px}.ot-t-arm{width:92px;height:16px;transform:translate(-50%,-61px)}.ot-glow{width:160px;height:160px}.ciclo-word{font-size:clamp(2rem,10vw,4rem)}.ciclo-footer-cta{top:72vh}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}}
+    @media(max-width:768px){.ciclo-ot{min-height:185vh}.ciclo-header{top:6.5vh}.ciclo-title{white-space:normal;font-size:clamp(2.25rem,11vw,3.2rem)}.ciclo-sub{font-size:.94rem;max-width:320px}.ciclo-scene{transform:translateY(84px)}.ot-logo-3d{width:210px;height:210px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:190px;height:190px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:104px}.ot-t-arm{width:92px;height:16px;transform:translate(-50%,-61px)}.ot-glow{width:160px;height:160px}.ciclo-word{font-size:clamp(2rem,10vw,4rem)}.ciclo-footer-cta{top:72vh}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}}
     @media(prefers-reduced-motion:reduce){.ot-glow{animation:none}.ciclo-ot::after{display:none}.ciclo-word,.ciclo-footer-cta,.ciclo-header{transition:none}}
 
     .fab{position:fixed;right:28px;bottom:28px;z-index:90;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--green),var(--green2));box-shadow:0 14px 36px rgba(37,211,102,.32);transition:width .32s ease,transform .3s ease,box-shadow .3s ease,padding .32s ease;color:#fff;overflow:hidden;white-space:nowrap;padding:0}.fab:hover{width:286px;padding:0 22px 0 18px;transform:translateY(-3px);box-shadow:0 18px 44px rgba(37,211,102,.38)}.fab svg{width:30px;height:30px;fill:#fff;flex:0 0 30px}.fab span{max-width:0;opacity:0;overflow:hidden;font-size:.9rem;font-weight:900;line-height:1.15;letter-spacing:-.01em;transition:max-width .32s ease,opacity .22s ease}.fab:hover span{max-width:210px;opacity:1}@media(max-width:640px){.fab:hover{width:54px;padding:0}.fab span{display:none}}
@@ -359,7 +362,7 @@
       .abph{min-height:390px}
       .pmed{height:230px}
 
-      .ciclo-ot{min-height:250vh}.ot-logo-3d{width:200px;height:200px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:180px;height:180px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:100px}.ot-t-arm{width:90px;height:16px;transform:translate(-50%,-60px)}.ciclo-word{font-size:clamp(1.9rem,9vw,3.45rem)}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}
+      .ciclo-ot{min-height:185vh}.ot-logo-3d{width:200px;height:200px}.ot-ring-top,.ot-ring-bl,.ot-ring-br{width:180px;height:180px;top:10px;left:10px;border-width:14px}.ot-t-trunk{width:16px;height:100px}.ot-t-arm{width:90px;height:16px;transform:translate(-50%,-60px)}.ciclo-word{font-size:clamp(1.9rem,9vw,3.45rem)}.ciclo-botoes{flex-direction:column}.ciclo-btn{width:100%}
       .hero-sticky{padding:96px 0 38px}
       .hbadge{font-size:.7rem;min-height:30px;padding:0 12px;margin-bottom:18px}
       .xp-hint{display:none}
@@ -392,12 +395,12 @@
     .htitle,.stitle{letter-spacing:-.035em;line-height:1.04}
     .hsub{max-width:720px}
     @media(max-width:640px){.htitle{font-size:clamp(2.25rem,12vw,3.25rem);line-height:1.02}.stitle{font-size:clamp(2rem,10vw,2.8rem)}p,.lead,.hsub,.ssub{font-size:1.02rem;line-height:1.72}.brand{letter-spacing:.08em}}
-    /* HOME SUMMARY CARD — foco em leitura e conversão */
-    .hero-scroll{min-height:auto}
-    .hero-sticky{position:relative;top:auto;min-height:auto;padding:122px 0 72px}
+    /* HOME SUMMARY CARD — foco em leitura, conversão e progressão real no scroll */
+    .hero-scroll{min-height:160vh}
+    .hero-sticky{position:sticky;top:0;min-height:100svh;padding:122px 0 72px}
     .hero-sticky::before{background:radial-gradient(ellipse 72% 82% at 24% 50%,rgba(5,0,8,.92),rgba(5,0,8,.64) 48%,transparent 78%)}
     .hero-grid{grid-template-columns:.95fr 1.05fr;gap:38px;align-items:center}
-    .xp-hint,.hero-progress,.shint{display:none!important}
+    .xp-hint{display:none!important}
     .hero-summary-card{display:block;position:relative;padding:34px;border-radius:28px;background:linear-gradient(180deg,rgba(14,11,34,.92),rgba(8,6,22,.86));border:1px solid rgba(103,232,249,.18);box-shadow:0 34px 100px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
     .hero-summary-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(circle at 50% 0%,rgba(103,232,249,.14),transparent 38%),radial-gradient(circle at 16% 90%,rgba(168,85,247,.18),transparent 38%);pointer-events:none}
     .hero-summary-card>*{position:relative;z-index:1}
@@ -409,7 +412,6 @@
     .summary-grid span{display:block;color:var(--ice);font-weight:900;font-size:.72rem;letter-spacing:.12em;margin-bottom:7px}
     .summary-grid strong{display:block;color:var(--text);font-size:.98rem;margin-bottom:4px}
     .summary-grid p{font-size:.92rem;line-height:1.5;color:rgba(246,247,255,.68);margin:0}
-    .summary-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
     .summary-foot{margin-top:18px;font-size:.88rem;color:rgba(246,247,255,.55)}
     /* Desktop: a Terra é o protagonista visual. O painel repetido fica reservado ao mobile. */
     @media(min-width:901px){
@@ -417,7 +419,7 @@
       .hero-content{position:relative;z-index:5;width:min(52%,660px)}
       .hero-summary-card{display:none}
     }
-    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-content{text-align:left}.hero-summary-card{padding:24px}.summary-grid{grid-template-columns:1fr}.hero-sticky{padding:108px 0 48px}.hact{gap:10px}.hact .btn{width:100%}}
+    @media(max-width:900px){.hero-scroll{min-height:auto}.hero-grid{grid-template-columns:1fr}.hero-content{text-align:left}.hero-summary-card{padding:24px}.summary-grid{grid-template-columns:1fr}.hero-sticky{position:relative;top:auto;min-height:auto;padding:108px 0 48px}.hact{gap:10px}.hact .btn{width:100%}.hero-link{width:100%}.cta-assurance{text-align:center;margin-top:-12px}}
     .hud-type,.summary-kicker,.summary-grid span,.proof-item b,.guide-kicker{font-family:'Share Tech Mono',monospace;letter-spacing:.13em}
     @media(max-width:900px){
       .hero-sticky{display:flex;flex-direction:column;align-items:stretch}
@@ -446,7 +448,10 @@
   <a class="skip-link" href="#top">Pular para o conteúdo principal</a>
   <!-- PRELOADER OT -->
   <div id="preloader" aria-hidden="true">
-    <div class="preloader-mark">OLEGARIO</div>
+    <div class="preloader-mark">
+      <img src="/assets/img/brand/olegario-tech-monograma-ot.webp" alt="">
+      <span>OLEGARIO <b>TECH</b></span>
+    </div>
     <div class="preloader-percent"><i>0</i>%</div>
   </div>
 
@@ -469,7 +474,7 @@
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20menu%20superior%20do%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagn%C3%B3stico%20gratuito." class="ncta" target="_blank" rel="noopener noreferrer">Diagnóstico gratuito</a>
+      <a href="/diagnostico-digital/" class="ncta">Diagnóstico gratuito</a>
       <button class="ntog" id="ntog" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nmenu">
         <span></span><span></span><span></span>
       </button>
@@ -480,7 +485,7 @@
         <a href="#planos">Planos</a>
         <a href="#sobre">Sobre</a>
         <a href="#faq">FAQ</a>
-        <a href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20menu%20mobile%20do%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagn%C3%B3stico%20gratuito." target="_blank" rel="noopener noreferrer" style="color:var(--green);font-weight:800">Diagnóstico gratuito</a>
+        <a href="/diagnostico-digital/" style="color:var(--ice);font-weight:800">Diagnóstico gratuito</a>
       </div>
     </header>
 
@@ -507,10 +512,11 @@
                 <span class="hero-chip" role="listitem">Visão comercial</span>
               </div>
               <div class="hact">
-                <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20CTA%20principal%20do%20hero%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagn%C3%B3stico%20gratuito%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Quero um diagnóstico gratuito</a>
-                <a class="btn b-gh" href="#portfolio">Ver projetos reais</a>
-                <a class="btn b-ice" href="#planos">Ver planos</a>
+                <a class="btn b-ice" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
+                <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20hero%20da%20OLEGARIO%20TECH%20e%20quero%20falar%20diretamente%20com%20Alexandre%20sobre%20meu%20projeto." target="_blank" rel="noopener noreferrer">Falar com Alexandre agora</a>
+                <a class="hero-link" href="#portfolio">Ver projetos reais</a>
               </div>
+              <p class="cta-assurance">Atendimento direto com Alexandre • conversa sem compromisso</p>
               <div class="hero-progress" aria-hidden="true"><span id="heroProgress"></span></div>
             </div>
             <div class="hpanel hero-summary-card" id="heroPanel" role="region" aria-labelledby="hero-summary-title">
@@ -522,10 +528,6 @@
                 <div role="listitem"><span>02</span><strong>Oferta organizada</strong><p>Texto, seções e benefícios fáceis de entender.</p></div>
                 <div role="listitem"><span>03</span><strong>WhatsApp integrado</strong><p>Botões com mensagem pronta para gerar conversa.</p></div>
                 <div role="listitem"><span>04</span><strong>Visão comercial</strong><p>Estrutura pensada para confiança, contato e venda.</p></div>
-              </div>
-              <div class="summary-actions">
-                <a class="btn b-ice" href="/diagnostico-digital/">Fazer diagnóstico gratuito</a>
-                <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vi%20o%20card%20resumo%20da%20home%20da%20OLEGARIO%20TECH%20e%20quero%20entender%20qual%20site%20ou%20landing%20page%20faz%20sentido%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
               </div>
               <p class="summary-foot">Valinhos/SP • Campinas e região • Sites, páginas de venda e presença digital</p>
             </div>
@@ -566,7 +568,7 @@
                 <span class="eyebrow">A realidade</span>
                 <p class="prob-hl">Seu negócio existe. Mas se o cliente não entende, não confia ou não compra, <span>a página está falhando.</span></p>
                 <p class="prob-body">Instagram ajuda, mas não substitui uma estrutura profissional. Sem site, sem página de venda e sem WhatsApp bem guiado, o cliente chega frio, pergunta preço e some.</p>
-                <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20A%20Realidade%20do%20site%20da%20OLEGARIO%20TECH.%20Quero%20arrumar%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Quero arrumar isso</a>
+                <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20A%20Realidade%20do%20site%20da%20OLEGARIO%20TECH.%20Quero%20avaliar%20minha%20presen%C3%A7a%20digital%20com%20Alexandre." target="_blank" rel="noopener noreferrer">Quero avaliar meu negócio</a>
               </div>
               <div>
                 <div class="pcard rv d1">
@@ -689,8 +691,7 @@
               <div><b>Resultado esperado</b><span>Mais lembrança local, mais pedidos e relacionamento direto com a região.</span></div>
             </div>
             <div class="case-actions">
-              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20case%20Mini%20Mercado%20%26%20Emp%C3%B3rio%20da%20OLEGARIO%20TECH%20e%20quero%20ver%20como%20esse%20modelo%20funcionaria%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Ver conceito</a>
-              <a class="btn b-gh" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vi%20o%20case%20Mini%20Mercado%20%26%20Emp%C3%B3rio%20no%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20parecido%20para%20meu%20neg%C3%B3cio%20local." target="_blank" rel="noopener noreferrer">Quero esse modelo</a>
+              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vi%20o%20conceito%20Mini%20Mercado%20%26%20Emp%C3%B3rio%20no%20site%20da%20OLEGARIO%20TECH%20e%20quero%20adaptar%20essa%20l%C3%B3gica%20ao%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Quero adaptar este conceito</a>
             </div>
           </div>
         </section>
@@ -755,7 +756,7 @@
             </div>
             <p class="ssub rv d4" style="margin-top:30px;margin-bottom:0;max-width:900px"><strong style="color:var(--text)">Ideal para</strong> adegas, barbearias, mercados, consultorias, serviços locais, profissionais liberais e produtos digitais.</p>
             <div class="hact rv d4" style="margin-top:28px;margin-bottom:0">
-              <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Confian%C3%A7a%20e%20M%C3%A9todo%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagn%C3%B3stico%20gratuito." target="_blank" rel="noopener noreferrer">Quero um diagnóstico gratuito</a>
+              <a class="btn b-ice" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
               <a class="btn b-gh" href="#planos">Ver soluções</a>
             </div>
           </div>
@@ -812,7 +813,7 @@
               <div class="pdesc">Para quem precisa sair do Instagram e ter uma presença profissional.</div>
               <div class="pprice"><strong>R$ 1.500</strong><span>a partir de</span></div>
               <ul class="pfeats"><li>Site responsivo</li><li>WhatsApp integrado</li><li>SEO base local</li><li>Publicação completa</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20entender%20o%20plano%20Presen%C3%A7a%20Local." target="_blank" rel="noopener noreferrer">Quero esse plano</a>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20entender%20o%20plano%20Presen%C3%A7a%20Local." target="_blank" rel="noopener noreferrer">Criar minha presença profissional</a>
             </div>
             <div class="plan pop rv d2">
               <div class="pbadge">Mais comercial</div>
@@ -821,7 +822,7 @@
               <div class="pdesc">Para quem quer vender ebook, curso, evento, consultoria ou campanha.</div>
               <div class="pprice"><strong>R$ 2.000</strong><span>a partir de</span></div>
               <ul class="pfeats"><li>Copy da oferta</li><li>CTA Kiwify ou WhatsApp</li><li>Seções persuasivas</li><li>Design premium</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20vender%20meu%20produto%20digital%20com%20uma%20p%C3%A1gina%20de%20venda." target="_blank" rel="noopener noreferrer">Quero vender meu produto</a>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20vender%20meu%20produto%20digital%20com%20uma%20p%C3%A1gina%20de%20venda." target="_blank" rel="noopener noreferrer">Quero vender minha oferta</a>
             </div>
             <div class="plan rv d3">
               <div class="ptier">Comercial Premium</div>
@@ -829,7 +830,7 @@
               <div class="pdesc">Para quem precisa gerar confiança antes do cliente chamar no WhatsApp.</div>
               <div class="pprice"><strong>R$ 3.000</strong><span>a partir de</span></div>
               <ul class="pfeats"><li>Mais seções</li><li>Direção visual completa</li><li>Portfólio/serviços</li><li>Estrutura de captação</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20profissional%20para%20gerar%20confian%C3%A7a%20e%20chamadas%20no%20WhatsApp." target="_blank" rel="noopener noreferrer">Quero um site profissional</a>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20um%20site%20profissional%20para%20gerar%20confian%C3%A7a%20e%20chamadas%20no%20WhatsApp." target="_blank" rel="noopener noreferrer">Quero um site que gere confiança</a>
             </div>
             <div class="plan rv d4">
               <div class="ptier">Ecossistema</div>
@@ -837,7 +838,7 @@
               <div class="pdesc">Para quem quer organizar site, WhatsApp, criativos e funil comercial.</div>
               <div class="pprice"><strong>Sob consulta</strong><span>projeto</span></div>
               <ul class="pfeats"><li>Diagnóstico completo</li><li>Funil e WhatsApp</li><li>Produtos digitais</li><li>Suporte ampliado</li></ul>
-              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20montar%20um%20ecossistema%20digital%20completo." target="_blank" rel="noopener noreferrer">Quero montar meu ecossistema</a>
+              <a class="pcta" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pela%20se%C3%A7%C3%A3o%20Planos%20da%20OLEGARIO%20TECH%20e%20quero%20montar%20um%20ecossistema%20digital%20completo." target="_blank" rel="noopener noreferrer">Quero organizar meu digital</a>
             </div>
           </div>
         </div>
@@ -932,7 +933,7 @@
             <h2>Sua presença digital não precisa parecer <span class="hl">improvisada.</span></h2>
             <p>Ela precisa vender confiança antes da primeira mensagem. Bora montar uma estrutura que pareça grande, funcione no celular e chame cliente para a conversa certa.</p>
             <div class="cta-actions">
-              <a class="btn b-ice" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20CTA%20final%20antes%20do%20Ciclo%20OT%20e%20quero%20um%20diagn%C3%B3stico%20gratuito%20para%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Quero meu diagnóstico gratuito</a>
+              <a class="btn b-ice" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
               <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20CTA%20final%20antes%20do%20Ciclo%20OT%20e%20quero%20conversar%20com%20Alexandre%20sobre%20OLEGARIO%20TECH." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
             </div>
           </div>
@@ -975,7 +976,7 @@
             <h3>Seu negócio é único.<br><span class="ciclo-hl">Seu projeto também precisa ser.</span></h3>
             <p>Não deixe sua presença digital na mão de templates genéricos.</p>
             <div class="ciclo-botoes">
-              <a class="ciclo-btn ciclo-btn-primario" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Vim%20pelo%20Ciclo%20Olegario%20Tech%20no%20final%20do%20site%20e%20quero%20um%20diagn%C3%B3stico%20gratuito." target="_blank" rel="noopener noreferrer">Quero meu diagnóstico gratuito</a>
+              <a class="ciclo-btn ciclo-btn-primario" href="/diagnostico-digital/">Receber meu diagnóstico gratuito</a>
               <a class="ciclo-btn ciclo-btn-secundario" href="#" data-scroll-top>Recomeçar experiência</a>
             </div>
           </div>
@@ -1001,9 +1002,9 @@
     </footer>
   </div>
 
-  <a class="fab" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Cliquei%20no%20bot%C3%A3o%20flutuante%20do%20WhatsApp%20no%20site%20da%20OLEGARIO%20TECH%20e%20quero%20um%20diagn%C3%B3stico%20gratuito." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <a class="fab" href="https://wa.me/5511912459144?text=Ol%C3%A1%21%20Cliquei%20no%20bot%C3%A3o%20flutuante%20do%20site%20da%20OLEGARIO%20TECH%20e%20quero%20falar%20com%20Alexandre%20sobre%20meu%20projeto." target="_blank" rel="noopener noreferrer" aria-label="Falar com Alexandre no WhatsApp">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    <span>Diagnóstico gratuito Olegario Tech</span>
+    <span>Falar com Alexandre no WhatsApp</span>
   </a>
 
   <audio id="aud" loop preload="none"><source src="/assets/audio/background.mp3" type="audio/mpeg"></audio>
@@ -1018,16 +1019,36 @@
     const isMob=innerWidth<768;
     const noMot=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-    /* PRELOADER: max 2.5s fallback absoluto */
+    /* PRELOADER: rápido na primeira visita e dispensado durante a sessão */
     const preloader=document.getElementById('preloader');
     const preloaderPercent=preloader?preloader.querySelector('.preloader-percent i'):null;
+    const preloaderKey='ot-preloader-seen-v2';
     let preloaderDone=false;
-    function hidePreloader(){if(preloaderDone)return;preloaderDone=true;if(preloader)preloader.classList.add('done');}
+    function hidePreloader(){
+      if(preloaderDone)return;
+      preloaderDone=true;
+      try{sessionStorage.setItem(preloaderKey,'1')}catch(e){}
+      if(preloader)preloader.classList.add('done');
+    }
     if(preloader){
-      let p=0;
-      const interval=setInterval(()=>{p+=Math.floor(Math.random()*15)+5;if(p>=100){p=100;clearInterval(interval);if(preloaderPercent)preloaderPercent.textContent=p;setTimeout(hidePreloader,400);}else{if(preloaderPercent)preloaderPercent.textContent=p;}},180);
-      setTimeout(()=>{clearInterval(interval);if(preloaderPercent)preloaderPercent.textContent='100';hidePreloader();},2500);
-      window.addEventListener('load',()=>{clearInterval(interval);if(preloaderPercent)preloaderPercent.textContent='100';setTimeout(hidePreloader,300);});
+      let alreadySeen=false;
+      try{alreadySeen=sessionStorage.getItem(preloaderKey)==='1'}catch(e){}
+      if(alreadySeen){
+        hidePreloader();
+      }else{
+        let p=0;
+        const interval=setInterval(()=>{
+          p=Math.min(96,p+Math.floor(Math.random()*18)+10);
+          if(preloaderPercent)preloaderPercent.textContent=p;
+        },70);
+        const finish=()=>{
+          clearInterval(interval);
+          if(preloaderPercent)preloaderPercent.textContent='100';
+          setTimeout(hidePreloader,120);
+        };
+        setTimeout(finish,780);
+        window.addEventListener('load',finish,{once:true});
+      }
     }
 
     const yr=document.getElementById('yr');
@@ -1339,10 +1360,7 @@
       const words=[...cicloSection.querySelectorAll('.ciclo-word')];
       const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
       const topBtn=cicloSection.querySelector('[data-scroll-top]');
-      const loopKey='ot-ciclo-loop-v1';
-      let hasLooped=false;
-      try{hasLooped=sessionStorage.getItem(loopKey)==='1'}catch(e){}
-      let ticking=false,looping=false,lastY=scrollY;
+      let ticking=false;
       if(topBtn){topBtn.addEventListener('click',e=>{e.preventDefault();scrollTo({top:0,behavior:reduce?'auto':'smooth'});},{passive:false});}
       function progress(){
         const rect=cicloSection.getBoundingClientRect();
@@ -1351,8 +1369,6 @@
       }
       function update(){
         const p=progress();
-        const scrollingDown=scrollY>=lastY;
-        lastY=scrollY;
         if(reduce){
           otLogo.style.transform='scale(1)';
           otLogo.style.setProperty('--logoOpacity','1');
@@ -1387,15 +1403,6 @@
           const start=.08+i*.105,end=start+.22;
           word.classList.toggle('active',p>=start&&p<=end);
         });
-        if(p>.985&&scrollingDown&&!looping&&!hasLooped){
-          looping=true;
-          hasLooped=true;
-          try{sessionStorage.setItem(loopKey,'1')}catch(e){}
-          cicloSection.classList.add('ciclo-bursting');
-          setTimeout(()=>scrollTo({top:0,behavior:'smooth'}),520);
-          setTimeout(()=>cicloSection.classList.remove('ciclo-bursting'),1500);
-        }
-        if(p<.18)looping=false;
       }
       addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{update();ticking=false});ticking=true;}},{passive:true});
       addEventListener('resize',()=>requestAnimationFrame(update),{passive:true});
