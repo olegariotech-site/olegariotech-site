@@ -215,7 +215,7 @@
 
   function bannerTemplate() {
     return [
-      '<section class="ot-consent" id="otConsent" role="dialog" aria-modal="true" aria-labelledby="otConsentTitle" aria-describedby="otConsentText">',
+      '<section class="ot-consent" id="otConsent" role="dialog" aria-labelledby="otConsentTitle" aria-describedby="otConsentText">',
       '  <div class="ot-consent__copy">',
       '    <span class="ot-consent__eyebrow">Privacidade e métricas</span>',
       '    <h2 id="otConsentTitle">Você escolhe como a OT mede o site.</h2>',
