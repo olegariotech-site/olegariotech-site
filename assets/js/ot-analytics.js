@@ -79,10 +79,6 @@
         send_page_view: true,
         debug_mode: new URLSearchParams(location.search).get('debug_analytics') === '1'
       });
-      window.gtag('event', 'consent_granted', {
-        consent_type: 'analytics',
-        page_path: location.pathname
-      });
     }
   }
 
