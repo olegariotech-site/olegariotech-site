@@ -49,32 +49,32 @@ jobs:
           preview = Path('preview/ot-commercial-navigation.html').read_text(encoding='utf-8')
           analytics = Path('assets/js/ot-analytics.js').read_text(encoding='utf-8')
 
-          assert '<meta name="robots" content="index,follow,max-image-preview:large">' in index
-          assert '<link rel="canonical" href="https://olegariotech.com.br/">' in index
+          required = [
+              '<meta name="robots" content="index,follow,max-image-preview:large">',
+              '<link rel="canonical" href="https://olegariotech.com.br/">',
+              'ot-analytics.js?v=2',
+              'ot-consent.css?v=1',
+              "analytics_storage:'denied'",
+              'G-0YXCH58MXD',
+              'data-page="home"',
+          ]
+          for token in required:
+              assert token in index, token
           assert '<meta name="robots" content="noindex,nofollow">' in preview
-          assert 'ot-analytics.js?v=2' in index
-          assert 'ot-consent.css?v=1' in index
-          assert "analytics_storage:'denied'" in index
-          assert 'G-0YXCH58MXD' in index
           assert 'G-0YXCH58MXD' not in preview
-          assert 'data-page="home"' in index
           assert index.count('data-generate-lead') >= 5
           assert index.count('5511912459144') >= 7
-          assert 'click_solucao' in analytics
-          assert 'select_project' in analytics
-          assert 'audio_toggle' in analytics
-          assert "'.prod, .product'" in analytics
-          assert "'.showcase-card, .project-stage'" in analytics
+
+          for token in ['click_solucao', 'select_project', 'audio_toggle', "'.prod, .product'", "'.showcase-card, .project-stage'", 'site_olegario_tech']:
+              assert token in analytics, token
           assert "link.closest('#portfolio, #projetos')" not in analytics
 
           ids = re.findall(r'\bid="([^"]+)"', index)
           duplicates = {item for item in ids if ids.count(item) > 1}
           assert not duplicates, duplicates
 
-          class Parser(HTMLParser):
-              pass
+          class Parser(HTMLParser): pass
           Parser().feed(index)
-
           schemas = re.findall(r'<script type="application/ld\+json">(.*?)</script>', index, re.S)
           assert len(schemas) == 1
           schema = json.loads(schemas[0])
@@ -89,7 +89,7 @@ jobs:
           PY
           node --check /tmp/index-inline.js
           node --check assets/js/ot-analytics.js
-          git diff --exit-code main -- preview/ot-commercial-navigation.html
+          git diff --exit-code origin/main -- preview/ot-commercial-navigation.html
 
       - name: Install Playwright browsers
         run: |
@@ -105,7 +105,7 @@ jobs:
           const { chromium, webkit } = require('playwright');
           const url = 'http://127.0.0.1:4173/';
 
-          async function validate(engine, viewport, mobile = false, label = 'desktop') {
+          async function validate(engine, viewport, mobile, label) {
             const browser = await engine.launch({ headless: true });
             const page = await browser.newPage({ viewportSize: viewport, isMobile: mobile });
             const errors = [];
@@ -114,62 +114,55 @@ jobs:
             await page.route('**/gtag/js**', route => route.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
             await page.goto(url, { waitUntil: 'networkidle' });
 
-            const robots = await page.locator('meta[name="robots"]').getAttribute('content');
-            if (!robots.includes('index')) throw new Error('production robots invalid');
+            if (!(await page.locator('meta[name="robots"]').getAttribute('content')).includes('index')) throw new Error('robots invalid');
             if (await page.locator('link[rel="canonical"][href="https://olegariotech.com.br/"]').count() !== 1) throw new Error('canonical missing');
-            if (!(await page.locator('#otConsent').isVisible())) throw new Error('consent banner not visible on first visit');
+            if (!(await page.locator('#otConsent').isVisible())) throw new Error('consent banner missing');
             if (await page.locator('#ot-ga4-script').count()) throw new Error('GA loaded before consent');
 
             await page.locator('[data-consent-accept]').click();
             await page.waitForTimeout(150);
-            if (await page.locator('#ot-ga4-script').count() !== 1) throw new Error('GA did not load after consent');
-            if (!(await page.locator('#otConsentSettings').isVisible())) throw new Error('privacy settings button missing');
+            if (await page.locator('#ot-ga4-script').count() !== 1) throw new Error('GA missing after consent');
+            if (!(await page.locator('#otConsentSettings').isVisible())) throw new Error('privacy settings missing');
 
             const products = page.locator('.product');
-            if (await products.count() !== 4) throw new Error('product card count invalid');
+            if (await products.count() !== 4) throw new Error('product count invalid');
             for (let i = 0; i < 4; i++) {
               const href = await products.nth(i).getAttribute('href');
-              if (!href || !href.startsWith('https://pay.kiwify.com.br/')) throw new Error('invalid Kiwify link');
+              if (!href || !href.startsWith('https://pay.kiwify.com.br/')) throw new Error('Kiwify link invalid');
             }
 
-            await page.locator('[data-solution="oferta"]').first().click();
+            await page.locator('[data-solution="oferta"]:visible').first().click();
             if (!(await page.locator('#solutionContent').textContent()).includes('Oferta que vende')) throw new Error('solution navigation failed');
-            await page.locator('[data-project="advocacia"]').click();
+            await page.locator('[data-project="advocacia"]:visible').click();
             if (!(await page.locator('#projectStage').textContent()).includes('Cíntia Almeida Gomes')) throw new Error('project navigation failed');
 
-            const audioToggle = page.locator('.audio-toggle:visible').first();
-            if (await audioToggle.getAttribute('aria-pressed') !== 'false') throw new Error('audio initial state invalid');
+            const audio = page.locator('.audio-toggle:visible').first();
+            if (await audio.getAttribute('aria-pressed') !== 'false') throw new Error('audio initial state invalid');
 
             if (mobile) {
               if (!(await page.locator('.mobile-header').isVisible())) throw new Error('mobile header missing');
-              if (!(await page.locator('.mobile-nav').isVisible())) throw new Error('mobile navigation missing');
-              if (await page.locator('#waFab').isVisible()) throw new Error('desktop WhatsApp FAB visible on mobile');
+              if (!(await page.locator('.mobile-nav').isVisible())) throw new Error('mobile nav missing');
+              if (await page.locator('#waFab').isVisible()) throw new Error('desktop FAB visible on mobile');
             } else {
               if (!(await page.locator('.desktop-rail').isVisible())) throw new Error('desktop rail missing');
-              if (!(await page.locator('#earthCanvas').isVisible())) throw new Error('earth canvas missing');
+              if (!(await page.locator('#earthCanvas').isVisible())) throw new Error('planet canvas missing');
             }
 
             const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
             if (overflow || errors.length) throw new Error(JSON.stringify({ overflow, errors }));
-
             await page.screenshot({ path: `/tmp/screenshots/${label}-${viewport.width}x${viewport.height}.png`, fullPage: true });
             await browser.close();
           }
 
           (async () => {
-            for (const viewport of [
-              { width: 1366, height: 600 },
-              { width: 1366, height: 640 },
-              { width: 1440, height: 900 },
-              { width: 1920, height: 1080 }
-            ]) await validate(chromium, viewport, false, 'chromium');
-
+            for (const viewport of [{width:1366,height:600},{width:1366,height:640},{width:1440,height:900},{width:1920,height:1080}]) {
+              await validate(chromium, viewport, false, 'chromium');
+            }
             for (const engine of [chromium, webkit]) {
-              const name = engine === webkit ? 'webkit' : 'chromium-mobile';
-              for (const viewport of [
-                { width: 390, height: 844 },
-                { width: 430, height: 932 }
-              ]) await validate(engine, viewport, true, name);
+              const label = engine === webkit ? 'webkit' : 'chromium-mobile';
+              for (const viewport of [{width:390,height:844},{width:430,height:932}]) {
+                await validate(engine, viewport, true, label);
+              }
             }
           })().catch(error => { console.error(error); process.exit(1); });
           JS
