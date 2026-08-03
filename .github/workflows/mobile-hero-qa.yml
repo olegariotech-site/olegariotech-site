@@ -1,0 +1,138 @@
+name: Mobile hero QA
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  patch-test-commit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Apply mobile-first patch
+        run: python3 .github/scripts/mobile_hero_patch.py
+
+      - name: Static validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          import re
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          css = Path('assets/css/ot-consent.css').read_text(encoding='utf-8')
+          assert '.hero-visual{position:absolute' in html
+          assert 'min-height:330px;margin-top:-10px' not in html
+          assert 'right:-56%' in html
+          assert 'bottom:calc(82px + env(safe-area-inset-bottom))' in css
+          assert 'bottom:calc(78px + env(safe-area-inset-bottom))' in css
+          assert "G-0YXCH58MXD" in html
+          assert 'index,follow,max-image-preview:large' in html
+          assert 'LocalBusiness' in html
+          assert html.count('5511912459144') >= 1
+          ids = re.findall(r'\bid="([^"]+)"', html)
+          dupes = {item for item in ids if ids.count(item) > 1}
+          assert not dupes, dupes
+          class Parser(HTMLParser): pass
+          Parser().feed(html)
+          scripts = re.findall(r'<script>(.*?)</script>', html, re.S)
+          Path('/tmp/index-inline.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+          node --check /tmp/index-inline.js
+          git diff --quiet origin/main -- preview/ot-commercial-navigation.html
+
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --save-dev playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium webkit >/dev/null
+
+      - name: Browser validation and screenshots
+        run: |
+          mkdir -p /tmp/mobile-hero-evidence
+          python3 -m http.server 4173 >/tmp/ot-server.log 2>&1 &
+          node <<'JS'
+          const { chromium, webkit } = require('playwright');
+          const url = 'http://127.0.0.1:4173/';
+
+          async function validate(engine, name, viewport, mobile) {
+            const browser = await engine.launch({ headless: true });
+            const page = await browser.newPage({ viewport, isMobile: mobile });
+            const errors = [];
+            page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+            page.on('pageerror', error => errors.push(error.message));
+            await page.goto(url, { waitUntil: 'networkidle' });
+
+            const hero = page.locator('#inicio');
+            const visual = page.locator('.hero-visual');
+            const choice = page.locator('#solucoes');
+            const header = page.locator('.mobile-header');
+            const audio = page.locator('.mobile-audio-toggle');
+            const cta = page.locator('.mobile-cta');
+
+            if (mobile) {
+              const heroBox = await hero.boundingBox();
+              const visualBox = await visual.boundingBox();
+              const choiceBox = await choice.boundingBox();
+              if (!heroBox || !visualBox || !choiceBox) throw new Error('missing mobile layout box');
+              const visualPosition = await visual.evaluate(el => getComputedStyle(el).position);
+              if (visualPosition !== 'absolute') throw new Error(`hero visual is ${visualPosition}`);
+              if (visualBox.height > heroBox.height + 2) throw new Error('decorative visual exceeds hero height');
+              if (Math.abs(choiceBox.y - (heroBox.y + heroBox.height)) > 4) throw new Error('gap remains between hero and solutions');
+              if (!(await header.isVisible()) || !(await audio.isVisible()) || !(await cta.isVisible())) throw new Error('mobile header controls missing');
+
+              const accept = page.locator('[data-consent-accept]');
+              await accept.waitFor({ state: 'visible', timeout: 4000 });
+              await accept.click();
+              const settings = page.locator('.ot-consent-settings');
+              await settings.waitFor({ state: 'visible', timeout: 3000 });
+              const settingsBox = await settings.boundingBox();
+              const navBox = await page.locator('.mobile-nav').boundingBox();
+              if (!settingsBox || !navBox || settingsBox.y + settingsBox.height > navBox.y - 4) throw new Error('privacy control overlaps mobile navigation');
+            } else {
+              const position = await visual.evaluate(el => getComputedStyle(el).position);
+              if (position !== 'relative') throw new Error('desktop hero visual changed');
+            }
+
+            const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+            if (overflow || errors.length) throw new Error(JSON.stringify({ overflow, errors }));
+            await page.screenshot({ path: `/tmp/mobile-hero-evidence/${name}.png`, fullPage: true });
+            await browser.close();
+          }
+
+          (async () => {
+            await validate(chromium, 'desktop-1366x768', { width: 1366, height: 768 }, false);
+            for (const viewport of [{ width: 360, height: 800 }, { width: 390, height: 844 }, { width: 430, height: 932 }]) {
+              await validate(chromium, `chromium-${viewport.width}x${viewport.height}`, viewport, true);
+              await validate(webkit, `webkit-${viewport.width}x${viewport.height}`, viewport, true);
+            }
+          })().catch(error => { console.error(error); process.exit(1); });
+          JS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobile-hero-evidence
+          path: /tmp/mobile-hero-evidence
+          retention-days: 7
+
+      - name: Commit final change and remove temporary QA files
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html assets/css/ot-consent.css
+          git rm -f .github/scripts/mobile_hero_patch.py .github/workflows/mobile-hero-qa.yml
+          git commit -m "fix: integrar planeta ao hero mobile e liberar navegação"
+          git push origin HEAD:${{ github.head_ref }}
