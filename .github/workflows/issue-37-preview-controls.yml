@@ -1,0 +1,119 @@
+name: Issue 37 preview controls
+
+on:
+  push:
+    branches:
+      - feat/preview-audio-whatsapp-fab
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/preview-audio-whatsapp-fab
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Patch preview
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          path=Path('preview/ot-commercial-navigation.html')
+          text=path.read_text(encoding='utf-8')
+          text,count=re.subn(r'<a class="rail-wa"[^>]*>.*?</a>','',text,count=1,flags=re.S)
+          if count!=1: raise SystemExit('rail-wa removal failed')
+          mobile_header=re.compile(r'(<header class="mobile-header">.*?</a>)(<a class="mobile-cta"[^>]*>Análise gratuita</a></header>)',re.S)
+          mobile_audio='''\\1<div class="mobile-actions"><button class="audio-toggle mobile-audio-toggle is-muted" type="button" aria-label="Ativar som" aria-pressed="false"><svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.23v2.06A7 7 0 0 1 14 18.71v2.06A9 9 0 0 0 14 3.23ZM16.5 12A5 5 0 0 0 14 7.97v8.05A5 5 0 0 0 16.5 12ZM3 9v6h4l5 5V4L7 9H3Z"/></svg><svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="m4.27 3-1.27 1.27L7.73 9H3v6h4l5 5v-6.73l4.25 4.26A7 7 0 0 1 14 18.7v2.07a9 9 0 0 0 3.68-1.81L19.73 21 21 19.73 4.27 3ZM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A9 9 0 0 0 14 3.23v2.06A7 7 0 0 1 19 12Z"/></svg></button>\\2</div></header>'''
+          text,count=mobile_header.subn(mobile_audio,text,count=1)
+          if count!=1: raise SystemExit('mobile header patch failed')
+          controls_css='''
+    /* EXPERIENCE CONTROLS — audio + contextual WhatsApp */
+    .experience-controls{position:fixed;z-index:92;right:28px;bottom:28px;display:grid;justify-items:end;gap:12px;pointer-events:none}.audio-toggle,.wa-fab{pointer-events:auto}.audio-toggle{position:relative;width:48px;height:48px;border:1px solid rgba(168,85,247,.32);border-radius:50%;display:grid;place-items:center;background:rgba(7,5,20,.94);color:var(--ice);box-shadow:0 12px 30px rgba(0,0,0,.46);cursor:pointer;transition:transform .24s,border-color .24s,background .24s}.audio-toggle:hover,.audio-toggle:focus-visible{transform:translateY(-2px);border-color:rgba(103,232,249,.55);background:rgba(12,9,31,.98)}.audio-toggle svg{width:22px;height:22px;fill:currentColor}.audio-toggle .sound-off{display:none}.audio-toggle.is-muted .sound-on{display:none}.audio-toggle.is-muted .sound-off{display:block}.sound-hint{position:absolute;right:58px;top:50%;width:max-content;max-width:220px;padding:9px 12px;border:1px solid rgba(103,232,249,.18);border-radius:10px;background:rgba(5,8,20,.94);color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:.04em;transform:translateY(-50%);box-shadow:0 10px 28px rgba(0,0,0,.38);transition:opacity .25s,transform .25s;pointer-events:none}.audio-toggle.has-interacted .sound-hint{opacity:0;transform:translate(-6px,-50%);visibility:hidden}.wa-fab{width:58px;height:58px;padding:0;border-radius:999px;display:flex;align-items:center;justify-content:flex-start;gap:10px;overflow:hidden;white-space:nowrap;background:linear-gradient(135deg,var(--green),#128c7e);color:#fff;box-shadow:0 14px 36px rgba(37,211,102,.34);opacity:0;visibility:hidden;transform:translateY(12px) scale(.96);transition:width .3s ease,padding .3s ease,opacity .26s ease,visibility .26s ease,transform .26s ease,box-shadow .26s ease}.wa-fab.is-visible{opacity:1;visibility:visible;transform:none}.wa-fab:hover,.wa-fab:focus-visible{width:188px;padding:0 18px;transform:translateY(-2px);box-shadow:0 18px 44px rgba(37,211,102,.4)}.wa-fab svg{width:30px;height:30px;flex:0 0 30px;margin-left:14px;fill:#fff}.wa-fab:hover svg,.wa-fab:focus-visible svg{margin-left:0}.wa-fab span{max-width:0;opacity:0;overflow:hidden;font-size:.86rem;font-weight:900;transition:max-width .3s ease,opacity .2s ease}.wa-fab:hover span,.wa-fab:focus-visible span{max-width:118px;opacity:1}.mobile-actions{display:flex;align-items:center;gap:9px}.mobile-audio-toggle{display:none;width:38px;height:38px;box-shadow:none}.mobile-audio-toggle svg{width:19px;height:19px}
+    @media(max-width:900px){.experience-controls{display:none}.mobile-actions{display:flex}.mobile-audio-toggle{display:grid}.mobile-header .mobile-cta{min-height:38px}.sound-hint{display:none}}
+    @media(min-width:901px) and (max-height:680px){.experience-controls{right:20px;bottom:18px;gap:9px}.audio-toggle{width:44px;height:44px}.wa-fab{width:54px;height:54px}.wa-fab svg{width:28px;height:28px;flex-basis:28px;margin-left:13px}}
+    @media(prefers-reduced-motion:reduce){.audio-toggle,.wa-fab,.sound-hint{transition:none}}
+'''
+          if '  </style>' not in text: raise SystemExit('style marker not found')
+          text=text.replace('  </style>',controls_css+'  </style>',1)
+          controls_html='''
+  <div class="experience-controls" aria-label="Controles da experiência">
+    <button class="audio-toggle desktop-audio-toggle is-muted" type="button" aria-label="Ativar som" aria-pressed="false" aria-describedby="soundHint"><svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.23v2.06A7 7 0 0 1 14 18.71v2.06A9 9 0 0 0 14 3.23ZM16.5 12A5 5 0 0 0 14 7.97v8.05A5 5 0 0 0 16.5 12ZM3 9v6h4l5 5V4L7 9H3Z"/></svg><svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="m4.27 3-1.27 1.27L7.73 9H3v6h4l5 5v-6.73l4.25 4.26A7 7 0 0 1 14 18.7v2.07a9 9 0 0 0 3.68-1.81L19.73 21 21 19.73 4.27 3ZM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A9 9 0 0 0 14 3.23v2.06A7 7 0 0 1 19 12Z"/></svg><span class="sound-hint" id="soundHint">Ativar experiência sonora</span></button>
+    <a class="wa-fab" id="waFab" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conheci%20a%20Olegario%20Tech%20pelo%20site%20e%20quero%20conversar%20sobre%20um%20projeto%20para%20o%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer" aria-label="Fale com a Olegario Tech pelo WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span>Fale com a OT</span></a>
+  </div>
+  <audio id="backgroundAudio" loop preload="none"><source src="/assets/audio/background.mp3" type="audio/mpeg"></audio>
+'''
+          script_marker='  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>'
+          if script_marker not in text: raise SystemExit('script tag marker not found')
+          text=text.replace(script_marker,controls_html+script_marker,1)
+          controls_js='''
+    function initExperienceControls(){
+      const audio=document.getElementById('backgroundAudio'),toggles=[...document.querySelectorAll('.audio-toggle')],hero=document.getElementById('inicio'),waFab=document.getElementById('waFab');
+      if(!audio||!toggles.length)return;
+      let enabled=false,interacted=false,pausedByVisibility=false;
+      const volume=()=>innerWidth<=900?.18:.25;
+      function sync(){toggles.forEach(button=>{button.classList.toggle('is-muted',!enabled);button.classList.toggle('has-interacted',interacted);button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'Desativar som':'Ativar som')})}
+      async function toggleAudio(){interacted=true;enabled=!enabled;audio.volume=volume();if(enabled){audio.muted=false;try{await audio.play()}catch(error){enabled=false}}else{audio.pause();audio.muted=true}sync()}
+      toggles.forEach(button=>button.addEventListener('click',toggleAudio));
+      addEventListener('resize',()=>{audio.volume=volume()},{passive:true});
+      document.addEventListener('visibilitychange',()=>{if(document.hidden){pausedByVisibility=enabled&&!audio.paused;if(pausedByVisibility)audio.pause()}else if(enabled&&pausedByVisibility){pausedByVisibility=false;audio.play().catch(()=>{})}});
+      sync();
+      if(hero&&waFab){
+        const updateFab=heroVisible=>{const show=!heroVisible&&innerWidth>900;waFab.classList.toggle('is-visible',show);waFab.setAttribute('aria-hidden',String(!show));waFab.tabIndex=show?0:-1};
+        const observer=new IntersectionObserver(entries=>updateFab(entries[0].isIntersecting),{threshold:.08});observer.observe(hero);addEventListener('resize',()=>updateFab(hero.getBoundingClientRect().bottom>0),{passive:true});updateFab(true);
+      }
+    }
+'''
+          marker="    renderSolution('presenca',false);renderProject('adega');syncScrollSpy();orbitEarth();"
+          if marker not in text: raise SystemExit('script marker not found')
+          text=text.replace(marker,controls_js+marker+'initExperienceControls();',1)
+          path.write_text(text,encoding='utf-8')
+          PY
+      - name: Static validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          import re
+          text=Path('preview/ot-commercial-navigation.html').read_text(encoding='utf-8')
+          assert '/assets/audio/background.mp3' in text
+          assert 'class="rail-wa"' not in text
+          assert 'id="waFab"' in text
+          assert text.count('5511912459144')>=1
+          assert 'noindex,nofollow' in text
+          assert 'G-0YXCH58MXD' not in text
+          ids=re.findall(r'\bid="([^"]+)"',text);dupes={x for x in ids if ids.count(x)>1};assert not dupes,dupes
+          class P(HTMLParser):pass
+          P().feed(text)
+          scripts=re.findall(r'<script>(.*?)</script>',text,re.S)
+          Path('/tmp/preview-inline.js').write_text('\n'.join(scripts),encoding='utf-8')
+          PY
+          node --check /tmp/preview-inline.js
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --save-dev playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium webkit >/dev/null
+      - name: Browser validation
+        run: |
+          python3 -m http.server 4173 >/tmp/ot-server.log 2>&1 &
+          node <<'JS'
+          const {chromium,webkit}=require('playwright');
+          const url='http://127.0.0.1:4173/preview/ot-commercial-navigation.html';
+          async function test(engine,viewport,mobile=false){
+            const browser=await engine.launch({headless:true});const page=await browser.newPage({viewportSize:viewport,isMobile:mobile});const errors=[];page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});page.on('pageerror',e=>errors.push(e.message));await page.goto(url,{waitUntil:'networkidle'});const audio=page.locator('#backgroundAudio');if(await audio.evaluate(a=>!a.paused))throw new Error('audio autoplayed');await page.locator('.audio-toggle:visible').click();await page.waitForTimeout(250);if(await audio.evaluate(a=>a.paused))throw new Error('audio did not start');await page.locator('.audio-toggle:visible').click();if(!(await audio.evaluate(a=>a.paused)))throw new Error('audio did not pause');if(!mobile){if(await page.locator('#waFab').isVisible())throw new Error('FAB visible on hero');await page.locator('#projetos').scrollIntoViewIfNeeded();await page.waitForTimeout(350);if(!(await page.locator('#waFab').isVisible()))throw new Error('FAB hidden after hero');await page.locator('#waFab').focus()}else if(await page.locator('#waFab').isVisible())throw new Error('FAB visible on mobile');const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);if(overflow||errors.length)throw new Error(JSON.stringify({overflow,errors}));await browser.close()}
+          (async()=>{for(const v of [{width:1366,height:600},{width:1366,height:640},{width:1366,height:768},{width:1440,height:900},{width:1920,height:1080}])await test(chromium,v,false);for(const engine of [chromium,webkit])for(const v of [{width:390,height:844},{width:430,height:932}])await test(engine,v,true)})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - name: Commit preview change
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add preview/ot-commercial-navigation.html
+          git commit -m "feat: restaurar áudio e WhatsApp flutuante no preview [skip ci]"
+          git push origin HEAD:feat/preview-audio-whatsapp-fab
