@@ -129,9 +129,11 @@
 
     if (/wa\.me\/5511912459144/i.test(absoluteHref)) {
       track('click_whatsapp', params);
-      if (link.id === 'waLink' || link.classList.contains('wa-big')) {
+      const diagnosticLead = link.id === 'waLink' || link.classList.contains('wa-big');
+      const commercialLead = link.hasAttribute('data-generate-lead');
+      if (diagnosticLead || commercialLead) {
         track('generate_lead', Object.assign({}, params, {
-          lead_source: 'diagnostico_digital',
+          lead_source: diagnosticLead ? 'diagnostico_digital' : 'site_olegario_tech',
           method: 'whatsapp'
         }));
       }
@@ -143,7 +145,7 @@
       return;
     }
 
-    if (href === '#portfolio' || link.closest('#portfolio')) {
+    if (href === '#portfolio' || href === '#projetos' || link.closest('#portfolio')) {
       track('click_portfolio', params);
       return;
     }
@@ -157,15 +159,15 @@
       return;
     }
 
-    const project = link.closest('.showcase-card');
+    const project = link.closest('.showcase-card, .project-stage');
     if (project) {
       track('click_projeto', Object.assign({}, params, {
-        project_name: safeText(project.querySelector('.sc-result strong')?.textContent || project.querySelector('.sc-tag')?.textContent)
+        project_name: safeText(project.querySelector('.project-copy h3')?.textContent || project.querySelector('.sc-result strong')?.textContent || project.querySelector('.sc-tag')?.textContent)
       }));
       return;
     }
 
-    const product = link.closest('.prod');
+    const product = link.closest('.prod, .product');
     if (product) {
       track('click_produto', Object.assign({}, params, {
         product_name: safeText(product.querySelector('h3')?.textContent)
@@ -177,6 +179,32 @@
     document.addEventListener('click', function (event) {
       const link = event.target.closest('a[href]');
       if (link) classifyClick(link);
+
+      const solution = event.target.closest('[data-solution]');
+      if (solution) {
+        track('click_solucao', {
+          solution_name: safeText(solution.dataset.solution || solution.textContent),
+          cta_location: sectionName(solution)
+        });
+      }
+
+      const projectTab = event.target.closest('[data-project]');
+      if (projectTab) {
+        track('select_project', {
+          project_name: safeText(projectTab.textContent),
+          cta_location: sectionName(projectTab)
+        });
+      }
+
+      const audioToggle = event.target.closest('.audio-toggle');
+      if (audioToggle) {
+        setTimeout(function () {
+          track('audio_toggle', {
+            audio_state: audioToggle.getAttribute('aria-pressed') === 'true' ? 'on' : 'off',
+            cta_location: sectionName(audioToggle)
+          });
+        }, 0);
+      }
 
       const start = event.target.closest('[data-start-link]');
       if (start) {
