@@ -1,0 +1,34 @@
+name: Preview WebKit QA
+
+on:
+  push:
+    branches:
+      - fix/preview-comercial-v2
+
+permissions:
+  contents: read
+
+jobs:
+  webkit-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright WebKit
+        run: |
+          npm install --no-save playwright@1.55.0 three@0.128.0
+          npx playwright install --with-deps webkit
+      - name: Test mobile preview in WebKit
+        run: node .github/preview-webkit-qa.cjs
+      - name: Upload WebKit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-webkit-qa
+          path: |
+            preview/screenshots/issue-35-mobile-webkit-390x844.png
+            preview/screenshots/issue-35-mobile-webkit-430x932.png
+            preview-webkit-results.json
+
