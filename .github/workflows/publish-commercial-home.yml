@@ -1,0 +1,166 @@
+name: Publish commercial experience as home
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  promote-and-validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build production home
+        run: |
+          python3 .github/scripts/promote_commercial_preview.py
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('assets/js/ot-analytics.js')
+          text = path.read_text(encoding='utf-8').replace(
+              "if (href === '#portfolio' || href === '#projetos' || link.closest('#portfolio, #projetos')) {",
+              "if (href === '#portfolio' || href === '#projetos' || link.closest('#portfolio')) {",
+              1,
+          )
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Static validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          import json, re
+
+          index = Path('index.html').read_text(encoding='utf-8')
+          preview = Path('preview/ot-commercial-navigation.html').read_text(encoding='utf-8')
+          analytics = Path('assets/js/ot-analytics.js').read_text(encoding='utf-8')
+
+          for token in ['index,follow,max-image-preview:large','https://olegariotech.com.br/','ot-analytics.js?v=2','ot-consent.css?v=1',"analytics_storage:'denied'",'G-0YXCH58MXD','data-page="home"']:
+              assert token in index, token
+          assert 'noindex,nofollow' in preview
+          assert 'G-0YXCH58MXD' not in preview
+          assert index.count('data-generate-lead') >= 5
+          assert index.count('5511912459144') >= 7
+          for token in ['click_solucao','select_project','audio_toggle',"'.prod, .product'", "'.showcase-card, .project-stage'",'site_olegario_tech']:
+              assert token in analytics, token
+          assert "link.closest('#portfolio, #projetos')" not in analytics
+
+          ids = re.findall(r'\bid="([^"]+)"', index)
+          assert len(ids) == len(set(ids))
+          class Parser(HTMLParser): pass
+          Parser().feed(index)
+          schemas = re.findall(r'<script type="application/ld\+json">(.*?)</script>', index, re.S)
+          assert len(schemas) == 1
+          schema = json.loads(schemas[0])
+          assert schema['@type'] == 'LocalBusiness'
+          assert schema['telephone'] == '+5511912459144'
+
+          scripts = [body for attrs, body in re.findall(r'<script([^>]*)>(.*?)</script>', index, re.S) if 'application/ld+json' not in attrs and 'src=' not in attrs]
+          Path('/tmp/index-inline.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+          node --check /tmp/index-inline.js
+          node --check assets/js/ot-analytics.js
+          git diff --exit-code origin/main -- preview/ot-commercial-navigation.html
+
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --save-dev playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium webkit >/dev/null
+
+      - name: Validate browsers
+        run: |
+          mkdir -p /tmp/screenshots
+          python3 -m http.server 4173 >/tmp/ot-home-server.log 2>&1 &
+          node <<'JS'
+          const { chromium, webkit } = require('playwright');
+          const url = 'http://127.0.0.1:4173/';
+
+          async function validate(engine, viewport, mobile, label) {
+            const browser = await engine.launch({ headless: true });
+            const page = await browser.newPage({ viewport, isMobile: mobile });
+            const errors = [];
+            page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+            page.on('pageerror', e => errors.push(e.message));
+            await page.route('**/gtag/js**', route => route.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
+            await page.goto(url, { waitUntil: 'networkidle' });
+
+            if (!(await page.locator('meta[name="robots"]').getAttribute('content')).includes('index')) throw new Error('robots invalid');
+            if (await page.locator('link[rel="canonical"][href="https://olegariotech.com.br/"]').count() !== 1) throw new Error('canonical missing');
+
+            const consent = page.locator('#otConsent');
+            await consent.waitFor({ state: 'visible', timeout: 5000 });
+            if (await page.locator('#ot-ga4-script').count()) throw new Error('GA loaded before consent');
+            await page.locator('[data-consent-accept]').click();
+            await page.locator('#otConsentSettings').waitFor({ state: 'visible', timeout: 3000 });
+            if (await page.locator('#ot-ga4-script').count() !== 1) throw new Error('GA missing after consent');
+
+            const products = page.locator('.product');
+            if (await products.count() !== 4) throw new Error('product count invalid');
+            for (let i = 0; i < 4; i++) {
+              const href = await products.nth(i).getAttribute('href');
+              if (!href || !href.startsWith('https://pay.kiwify.com.br/')) throw new Error('Kiwify link invalid');
+            }
+
+            await page.locator('[data-solution="oferta"]:visible').first().click();
+            if (!(await page.locator('#solutionContent').textContent()).includes('Oferta que vende')) throw new Error('solution navigation failed');
+            await page.locator('[data-project="advocacia"]:visible').click();
+            if (!(await page.locator('#projectStage').textContent()).includes('Cíntia Almeida Gomes')) throw new Error('project navigation failed');
+
+            const audio = page.locator('.audio-toggle:visible').first();
+            if (await audio.getAttribute('aria-pressed') !== 'false') throw new Error('audio state invalid');
+
+            if (mobile) {
+              if (!(await page.locator('.mobile-header').isVisible())) throw new Error('mobile header missing');
+              if (!(await page.locator('.mobile-nav').isVisible())) throw new Error('mobile nav missing');
+              if (await page.locator('#waFab').isVisible()) throw new Error('desktop FAB visible on mobile');
+            } else {
+              if (!(await page.locator('.desktop-rail').isVisible())) throw new Error('desktop rail missing');
+              if (!(await page.locator('#earthCanvas').isVisible())) throw new Error('planet missing');
+            }
+
+            const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+            if (overflow || errors.length) throw new Error(JSON.stringify({ overflow, errors, viewport, mobile }));
+            await page.screenshot({ path: `/tmp/screenshots/${label}-${viewport.width}x${viewport.height}.png`, fullPage: true });
+            await browser.close();
+          }
+
+          (async () => {
+            for (const viewport of [{width:1366,height:600},{width:1366,height:640},{width:1440,height:900},{width:1920,height:1080}]) {
+              await validate(chromium, viewport, false, 'chromium');
+            }
+            for (const engine of [chromium, webkit]) {
+              const label = engine === webkit ? 'webkit' : 'chromium-mobile';
+              for (const viewport of [{width:390,height:844},{width:430,height:932}]) {
+                await validate(engine, viewport, true, label);
+              }
+            }
+          })().catch(error => { console.error(error); process.exit(1); });
+          JS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-home-screenshots
+          path: /tmp/screenshots
+          retention-days: 14
+
+      - name: Commit final production files
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html assets/js/ot-analytics.js
+          git rm -f .github/scripts/promote_commercial_preview.py .github/workflows/publish-commercial-home.yml
+          git commit -m "feat: publicar experiência comercial como home oficial [skip ci]"
+          git push origin HEAD:${{ github.head_ref }}
