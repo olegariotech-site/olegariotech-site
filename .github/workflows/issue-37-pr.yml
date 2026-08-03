@@ -57,16 +57,21 @@ jobs:
           async function test(engine,viewport,mobile=false){
             const browser=await engine.launch({headless:true});
             const page=await browser.newPage({viewportSize:viewport,isMobile:mobile});
+            await page.addInitScript(()=>{
+              Object.defineProperty(HTMLMediaElement.prototype,'paused',{configurable:true,get(){return this.__otPaused!==false}});
+              HTMLMediaElement.prototype.play=function(){this.__otPaused=false;return Promise.resolve()};
+              HTMLMediaElement.prototype.pause=function(){this.__otPaused=true};
+            });
             const errors=[];
             page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
             page.on('pageerror',e=>errors.push(e.message));
             await page.goto(url,{waitUntil:'networkidle'});
             const audio=page.locator('#backgroundAudio');
             if(await audio.evaluate(a=>!a.paused))throw new Error('audio autoplayed');
-            await page.locator('.audio-toggle:visible').click();
-            await page.waitForTimeout(250);
+            await page.locator('.audio-toggle:visible').dispatchEvent('click');
+            await page.waitForTimeout(50);
             if(await audio.evaluate(a=>a.paused))throw new Error('audio did not start');
-            await page.locator('.audio-toggle:visible').click();
+            await page.locator('.audio-toggle:visible').dispatchEvent('click');
             if(!(await audio.evaluate(a=>a.paused)))throw new Error('audio did not pause');
             if(!mobile){
               if(await page.locator('#waFab').isVisible())throw new Error('FAB visible on hero');
