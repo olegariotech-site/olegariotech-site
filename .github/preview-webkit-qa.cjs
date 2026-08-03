@@ -80,19 +80,15 @@ async function testViewport(browser, width, height) {
   const chip = page.locator('.choice-tab').first();
   await chip.scrollIntoViewIfNeeded();
   const verticalBefore = await page.evaluate(() => scrollY);
-  const chipBox = await chip.boundingBox();
-  await page.mouse.move(chipBox.x + chipBox.width / 2, chipBox.y + chipBox.height / 2);
-  await page.mouse.wheel(0, 300);
+  await page.evaluate(() => scrollBy(0, 300));
   await page.waitForTimeout(200);
-  assert(await page.evaluate(() => scrollY) > verticalBefore, `${viewport}: rolagem vertical iniciada sobre chip falhou`);
+  assert(await page.evaluate(() => scrollY) > verticalBefore, `${viewport}: rolagem vertical da página falhou`);
 
   const choiceRail = page.locator('.choice-tabs');
   await choiceRail.scrollIntoViewIfNeeded();
-  const railBox = await choiceRail.boundingBox();
-  await page.mouse.move(railBox.x + railBox.width / 2, railBox.y + railBox.height / 2);
-  await page.mouse.wheel(260, 0);
+  await choiceRail.evaluate(el => el.scrollBy({ left: 260 }));
   await page.waitForTimeout(200);
-  assert(await choiceRail.evaluate(el => el.scrollLeft) > 0, `${viewport}: gesto horizontal dos chips falhou`);
+  assert(await choiceRail.evaluate(el => el.scrollLeft) > 0, `${viewport}: faixa horizontal dos chips não rola`);
 
   await page.locator('.choice-tab[data-solution="digital"]').tap();
   assert(await page.locator('.choice-tab[data-solution="digital"]').getAttribute('aria-selected') === 'true', `${viewport}: seleção de solução falhou`);
@@ -106,11 +102,9 @@ async function testViewport(browser, width, height) {
 
   await page.locator('#produtos').scrollIntoViewIfNeeded();
   const products = page.locator('.products-rail');
-  const productsBox = await products.boundingBox();
-  await page.mouse.move(productsBox.x + productsBox.width / 2, productsBox.y + productsBox.height / 2);
-  await page.mouse.wheel(280, 0);
+  await products.evaluate(el => el.scrollBy({ left: 280 }));
   await page.waitForTimeout(200);
-  assert(await products.evaluate(el => el.scrollLeft) > 0, `${viewport}: gesto horizontal dos produtos falhou`);
+  assert(await products.evaluate(el => el.scrollLeft) > 0, `${viewport}: faixa horizontal dos produtos não rola`);
 
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; scrollTo(0, 0); });
   await page.waitForTimeout(150);
@@ -121,12 +115,47 @@ async function testViewport(browser, width, height) {
   await context.close();
 }
 
+async function testDirectionalInput(browser, width, height) {
+  const viewport = `${width}x${height}`;
+  const context = await browser.newContext({
+    viewport: { width, height },
+    hasTouch: true,
+    userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1',
+  });
+  const page = await context.newPage();
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', route => route.fulfill({ status: 200, contentType: 'text/javascript', body: three }));
+  await page.route(/https:\/\/fonts\.googleapis\.com\/.*/, route => route.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await page.route(/https:\/\/fonts\.gstatic\.com\/.*/, route => route.fulfill({ status: 204, body: '' }));
+  await page.goto('http://127.0.0.1:4173/preview/ot-commercial-navigation.html', { waitUntil: 'load' });
+  await page.waitForTimeout(400);
+
+  const chip = page.locator('.choice-tab').first();
+  await chip.scrollIntoViewIfNeeded();
+  const chipBox = await chip.boundingBox();
+  const verticalBefore = await page.evaluate(() => scrollY);
+  await page.mouse.move(chipBox.x + chipBox.width / 2, chipBox.y + chipBox.height / 2);
+  await page.mouse.wheel(0, 300);
+  await page.waitForTimeout(200);
+  assert(await page.evaluate(() => scrollY) > verticalBefore, `${viewport}: input vertical iniciado sobre chip falhou no WebKit`);
+
+  const choiceRail = page.locator('.choice-tabs');
+  await choiceRail.scrollIntoViewIfNeeded();
+  const railBox = await choiceRail.boundingBox();
+  await page.mouse.move(railBox.x + railBox.width / 2, railBox.y + railBox.height / 2);
+  await page.mouse.wheel(260, 0);
+  await page.waitForTimeout(200);
+  assert(await choiceRail.evaluate(el => el.scrollLeft) > 0, `${viewport}: input horizontal dos chips falhou no WebKit`);
+  await context.close();
+}
+
 server.listen(4173, '127.0.0.1', async () => {
   fs.mkdirSync(screenshots, { recursive: true });
   const browser = await webkit.launch({ headless: true });
   try {
     await testViewport(browser, 390, 844);
     await testViewport(browser, 430, 932);
+    await testDirectionalInput(browser, 390, 844);
+    await testDirectionalInput(browser, 430, 932);
     fs.writeFileSync(path.join(root, 'preview-webkit-results.json'), JSON.stringify({ results }, null, 2));
     console.log(JSON.stringify({ results }, null, 2));
   } catch (error) {

@@ -24,6 +24,7 @@ jobs:
       - name: Test mobile preview in WebKit
         run: node .github/preview-webkit-qa.cjs
       - name: Upload WebKit evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: preview-webkit-qa
@@ -31,4 +32,3 @@ jobs:
             preview/screenshots/issue-35-mobile-webkit-390x844.png
             preview/screenshots/issue-35-mobile-webkit-430x932.png
             preview-webkit-results.json
-
