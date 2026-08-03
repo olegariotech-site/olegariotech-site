@@ -79,10 +79,13 @@ async function testViewport(browser, width, height) {
 
   const chip = page.locator('.choice-tab').first();
   await chip.scrollIntoViewIfNeeded();
-  const verticalBefore = await page.evaluate(() => scrollY);
-  await page.evaluate(() => scrollBy(0, 300));
-  await page.waitForTimeout(200);
-  assert(await page.evaluate(() => scrollY) > verticalBefore, `${viewport}: rolagem vertical da página falhou`);
+  const verticalScroll = await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    const before = scrollY;
+    scrollTo(0, Math.min(document.documentElement.scrollHeight - innerHeight, before + 300));
+    return { before, after: scrollY };
+  });
+  assert(verticalScroll.after > verticalScroll.before, `${viewport}: rolagem vertical da página falhou (${verticalScroll.before}/${verticalScroll.after})`);
 
   const choiceRail = page.locator('.choice-tabs');
   await choiceRail.scrollIntoViewIfNeeded();
