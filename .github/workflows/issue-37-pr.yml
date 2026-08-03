@@ -1,0 +1,94 @@
+name: Issue 37 PR implementation
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  implement-and-test:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply issue 37 patch
+        run: python3 .github/scripts/issue37_patch.py
+      - name: Validate static HTML and JavaScript
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          import re
+          text=Path('preview/ot-commercial-navigation.html').read_text(encoding='utf-8')
+          assert '/assets/audio/background.mp3' in text
+          assert 'class="rail-wa"' not in text
+          assert 'id="waFab"' in text
+          assert 'noindex,nofollow' in text
+          assert 'G-0YXCH58MXD' not in text
+          ids=re.findall(r'\bid="([^"]+)"',text)
+          dupes={x for x in ids if ids.count(x)>1}
+          assert not dupes,dupes
+          class P(HTMLParser):pass
+          P().feed(text)
+          scripts=re.findall(r'<script>(.*?)</script>',text,re.S)
+          Path('/tmp/preview-inline.js').write_text('\n'.join(scripts),encoding='utf-8')
+          PY
+          node --check /tmp/preview-inline.js
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --save-dev playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium webkit >/dev/null
+      - name: Browser validation
+        run: |
+          python3 -m http.server 4173 >/tmp/ot-server.log 2>&1 &
+          node <<'JS'
+          const {chromium,webkit}=require('playwright');
+          const url='http://127.0.0.1:4173/preview/ot-commercial-navigation.html';
+          async function test(engine,viewport,mobile=false){
+            const browser=await engine.launch({headless:true});
+            const page=await browser.newPage({viewportSize:viewport,isMobile:mobile});
+            const errors=[];
+            page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+            page.on('pageerror',e=>errors.push(e.message));
+            await page.goto(url,{waitUntil:'networkidle'});
+            const audio=page.locator('#backgroundAudio');
+            if(await audio.evaluate(a=>!a.paused))throw new Error('audio autoplayed');
+            await page.locator('.audio-toggle:visible').click();
+            await page.waitForTimeout(250);
+            if(await audio.evaluate(a=>a.paused))throw new Error('audio did not start');
+            await page.locator('.audio-toggle:visible').click();
+            if(!(await audio.evaluate(a=>a.paused)))throw new Error('audio did not pause');
+            if(!mobile){
+              if(await page.locator('#waFab').isVisible())throw new Error('FAB visible on hero');
+              await page.locator('#projetos').scrollIntoViewIfNeeded();
+              await page.waitForTimeout(350);
+              if(!(await page.locator('#waFab').isVisible()))throw new Error('FAB hidden after hero');
+              await page.locator('#waFab').focus();
+            }else if(await page.locator('#waFab').isVisible())throw new Error('FAB visible on mobile');
+            const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
+            if(overflow||errors.length)throw new Error(JSON.stringify({overflow,errors}));
+            await browser.close();
+          }
+          (async()=>{
+            for(const v of [{width:1366,height:600},{width:1366,height:640},{width:1366,height:768},{width:1440,height:900},{width:1920,height:1080}])await test(chromium,v,false);
+            for(const engine of [chromium,webkit])for(const v of [{width:390,height:844},{width:430,height:932}])await test(engine,v,true);
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - name: Commit implementation and remove temporary automation
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add preview/ot-commercial-navigation.html
+          git rm -f .github/workflows/issue-37-preview-controls.yml .github/workflows/issue-37-pr.yml .github/scripts/issue37_patch.py .github/issue-37-trigger.txt
+          git commit -m "feat: restaurar áudio e WhatsApp flutuante no preview [skip ci]"
+          git push origin HEAD:${{ github.head_ref }}
