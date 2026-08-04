@@ -308,6 +308,13 @@
             destination_url: (link.href || '').slice(0, 500)
           });
         }
+        if (link.hasAttribute('data-google-review')) {
+          track('click_google_review', {
+            cta_text: safeText(link.textContent),
+            cta_location: sectionName(link),
+            destination_url: (link.href || '').slice(0, 500)
+          });
+        }
       }
 
       const solution = event.target.closest('[data-solution]');
@@ -507,7 +514,9 @@
         '.footer-social__link svg{width:17px;height:17px;flex:0 0 17px}',
         '.footer-social__link:hover,.footer-social__link:focus-visible{transform:translateY(-2px);color:var(--text);border-color:rgba(103,232,249,.34);background:rgba(103,232,249,.065)}',
         '.footer-social__link--instagram svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
-        '.footer-social__link--facebook svg{fill:currentColor}',
+        '.footer-social__link--facebook svg,.footer-social__link--google svg{fill:currentColor}',
+        '.footer-social__link--google{border-color:rgba(245,158,11,.22);color:#f7d774}',
+        '.footer-social__link--google:hover,.footer-social__link--google:focus-visible{border-color:rgba(245,158,11,.48);background:rgba(245,158,11,.08);color:#fde68a}',
         '@media(max-width:900px){.footer-social{justify-content:center}.footer-social__link{min-height:42px;padding-inline:14px}}',
         '@media(prefers-reduced-motion:reduce){.footer-social__link{transition:none}.footer-social__link:hover,.footer-social__link:focus-visible{transform:none}}'
       ].join('');
@@ -516,7 +525,7 @@
 
     const social = document.createElement('nav');
     social.className = 'footer-social';
-    social.setAttribute('aria-label', 'Redes sociais da Olegario Tech');
+    social.setAttribute('aria-label', 'Canais e avaliações da Olegario Tech');
     social.innerHTML = [
       '<a class="footer-social__link footer-social__link--instagram" data-social-network="instagram" href="https://www.instagram.com/olegariotech/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram da Olegario Tech">',
       '  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
@@ -525,6 +534,10 @@
       '<a class="footer-social__link footer-social__link--facebook" data-social-network="facebook" href="https://www.facebook.com/profile.php?id=61583326394905" target="_blank" rel="noopener noreferrer" aria-label="Abrir Facebook da Olegario Tech">',
       '  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5H17V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.5V13h2.8v8h3.4Z"/></svg>',
       '  <span>Facebook</span>',
+      '</a>',
+      '<a class="footer-social__link footer-social__link--google" data-google-review href="https://g.page/r/CXo5WLSa7H2oEBM/review" target="_blank" rel="noopener noreferrer" aria-label="Avaliar a Olegario Tech no Google">',
+      '  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.7 2.75 5.57 6.15.9-4.45 4.33 1.05 6.12L12 16.72l-5.5 2.9 1.05-6.12L3.1 9.17l6.15-.9L12 2.7Z"/></svg>',
+      '  <span>Avalie no Google</span>',
       '</a>'
     ].join('');
     footerBrand.appendChild(social);
