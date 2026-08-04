@@ -298,7 +298,17 @@
   function installClickTracking() {
     document.addEventListener('click', function (event) {
       const link = event.target.closest('a[href]');
-      if (link) classifyClick(link);
+      if (link) {
+        classifyClick(link);
+        if (link.dataset.socialNetwork) {
+          track('click_rede_social', {
+            social_network: safeText(link.dataset.socialNetwork),
+            cta_text: safeText(link.textContent),
+            cta_location: sectionName(link),
+            destination_url: (link.href || '').slice(0, 500)
+          });
+        }
+      }
 
       const solution = event.target.closest('[data-solution]');
       if (solution) {
@@ -482,7 +492,62 @@
     document.body.classList.add('ot-consent-open');
   }
 
+  function installSocialFooter() {
+    if (document.body.dataset.page !== 'home') return;
+
+    const footerBrand = document.querySelector('.footer-brand');
+    if (!footerBrand || footerBrand.querySelector('.footer-social')) return;
+
+    if (!document.getElementById('ot-social-footer-style')) {
+      const style = document.createElement('style');
+      style.id = 'ot-social-footer-style';
+      style.textContent = [
+        '.footer-social{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}',
+        '.footer-social__link{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 12px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.035);color:var(--muted);font-size:.7rem;font-weight:800;letter-spacing:.01em;transition:transform .22s ease,border-color .22s ease,color .22s ease,background .22s ease}',
+        '.footer-social__link svg{width:17px;height:17px;flex:0 0 17px}',
+        '.footer-social__link:hover,.footer-social__link:focus-visible{transform:translateY(-2px);color:var(--text);border-color:rgba(103,232,249,.34);background:rgba(103,232,249,.065)}',
+        '.footer-social__link--instagram svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
+        '.footer-social__link--facebook svg{fill:currentColor}',
+        '@media(max-width:900px){.footer-social{justify-content:center}.footer-social__link{min-height:42px;padding-inline:14px}}',
+        '@media(prefers-reduced-motion:reduce){.footer-social__link{transition:none}.footer-social__link:hover,.footer-social__link:focus-visible{transform:none}}'
+      ].join('');
+      document.head.appendChild(style);
+    }
+
+    const social = document.createElement('nav');
+    social.className = 'footer-social';
+    social.setAttribute('aria-label', 'Redes sociais da Olegario Tech');
+    social.innerHTML = [
+      '<a class="footer-social__link footer-social__link--instagram" data-social-network="instagram" href="https://www.instagram.com/olegariotech/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram da Olegario Tech">',
+      '  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+      '  <span>Instagram</span>',
+      '</a>',
+      '<a class="footer-social__link footer-social__link--facebook" data-social-network="facebook" href="https://www.facebook.com/profile.php?id=61583326394905" target="_blank" rel="noopener noreferrer" aria-label="Abrir Facebook da Olegario Tech">',
+      '  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5H17V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.5V13h2.8v8h3.4Z"/></svg>',
+      '  <span>Facebook</span>',
+      '</a>'
+    ].join('');
+    footerBrand.appendChild(social);
+
+    const schema = Array.from(document.querySelectorAll('script[type="application/ld+json"]')).find(function (node) {
+      return node.textContent.indexOf('LocalBusiness') !== -1;
+    });
+    if (schema) {
+      try {
+        const data = JSON.parse(schema.textContent);
+        data.sameAs = [
+          'https://www.instagram.com/olegariotech/',
+          'https://www.facebook.com/profile.php?id=61583326394905'
+        ];
+        schema.textContent = JSON.stringify(data);
+      } catch (error) {
+        // Structured data remains unchanged if it cannot be parsed safely.
+      }
+    }
+  }
+
   function init() {
+    installSocialFooter();
     installClickTracking();
     const choice = readConsent();
 
