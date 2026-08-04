@@ -2,10 +2,15 @@
   'use strict';
 
   const GA_ID = window.OT_GA_ID || 'G-0YXCH58MXD';
-  const STORAGE_KEY = 'ot_analytics_consent_v1';
-  const SCRIPT_ID = 'ot-ga4-script';
+  const META_PIXEL_ID = window.OT_META_PIXEL_ID || '1822005305910193';
+  const STORAGE_KEY = 'ot_consent_preferences_v2';
+  const LEGACY_STORAGE_KEY = 'ot_analytics_consent_v1';
+  const GA_SCRIPT_ID = 'ot-ga4-script';
+  const META_SCRIPT_ID = 'ot-meta-pixel-script';
   const MAX_LABEL = 100;
-  let configured = false;
+  let googleConfigured = false;
+  let metaConfigured = false;
+  let metaPageViewSent = false;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () {
@@ -16,20 +21,43 @@
     return value === 'granted' || value === 'denied' ? value : null;
   }
 
+  function normalizePreferences(value) {
+    if (!value || typeof value !== 'object') return null;
+    const analytics = consentState(value.analytics);
+    const marketing = consentState(value.marketing);
+    return analytics && marketing ? { analytics: analytics, marketing: marketing } : null;
+  }
+
   function readConsent() {
     try {
-      return consentState(localStorage.getItem(STORAGE_KEY));
+      const current = localStorage.getItem(STORAGE_KEY);
+      if (!current) return null;
+      return normalizePreferences(JSON.parse(current));
     } catch (error) {
       return null;
     }
   }
 
-  function saveConsent(value) {
+  function readLegacyConsent() {
     try {
-      localStorage.setItem(STORAGE_KEY, value);
+      return consentState(localStorage.getItem(LEGACY_STORAGE_KEY));
     } catch (error) {
-      // The choice still applies to the current page even when storage is unavailable.
+      return null;
     }
+  }
+
+  function saveConsent(preferences) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+    } catch (error) {
+      // The choice still applies to the current page when storage is unavailable.
+    }
+  }
+
+  function hasConsent(type) {
+    const choice = readConsent();
+    return Boolean(choice && choice[type] === 'granted');
   }
 
   function updateGoogleConsent(analyticsValue) {
@@ -41,12 +69,7 @@
     });
   }
 
-  function clearAnalyticsCookies() {
-    const cookieNames = document.cookie
-      .split(';')
-      .map(function (part) { return part.trim().split('=')[0]; })
-      .filter(function (name) { return name === '_ga' || name.indexOf('_ga_') === 0; });
-
+  function clearCookies(cookieNames) {
     const hostParts = location.hostname.split('.');
     const domains = [location.hostname];
     if (hostParts.length > 2) domains.push('.' + hostParts.slice(-2).join('.'));
@@ -59,19 +82,35 @@
     });
   }
 
+  function clearAnalyticsCookies() {
+    const cookieNames = document.cookie
+      .split(';')
+      .map(function (part) { return part.trim().split('=')[0]; })
+      .filter(function (name) { return name === '_ga' || name.indexOf('_ga_') === 0; });
+
+    clearCookies(cookieNames);
+  }
+
+  function clearMetaCookies() {
+    clearCookies(['_fbp', '_fbc']);
+    metaPageViewSent = false;
+  }
+
   function loadGoogleTag() {
+    if (!hasConsent('analytics')) return;
+
     updateGoogleConsent('granted');
 
-    if (!document.getElementById(SCRIPT_ID)) {
+    if (!document.getElementById(GA_SCRIPT_ID)) {
       const script = document.createElement('script');
-      script.id = SCRIPT_ID;
+      script.id = GA_SCRIPT_ID;
       script.async = true;
       script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
       document.head.appendChild(script);
     }
 
-    if (!configured) {
-      configured = true;
+    if (!googleConfigured) {
+      googleConfigured = true;
       window.gtag('js', new Date());
       window.gtag('config', GA_ID, {
         allow_google_signals: false,
@@ -79,6 +118,49 @@
         send_page_view: true,
         debug_mode: new URLSearchParams(location.search).get('debug_analytics') === '1'
       });
+    }
+  }
+
+  function ensureMetaQueue() {
+    if (window.fbq) return;
+
+    const fbq = function () {
+      if (fbq.callMethod) {
+        fbq.callMethod.apply(fbq, arguments);
+      } else {
+        fbq.queue.push(arguments);
+      }
+    };
+
+    if (!window._fbq) window._fbq = fbq;
+    fbq.push = fbq;
+    fbq.loaded = true;
+    fbq.version = '2.0';
+    fbq.queue = [];
+    window.fbq = fbq;
+  }
+
+  function loadMetaPixel() {
+    if (!META_PIXEL_ID || !hasConsent('marketing')) return;
+
+    ensureMetaQueue();
+
+    if (!document.getElementById(META_SCRIPT_ID)) {
+      const script = document.createElement('script');
+      script.id = META_SCRIPT_ID;
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+    }
+
+    if (!metaConfigured) {
+      window.fbq('init', META_PIXEL_ID);
+      metaConfigured = true;
+    }
+
+    if (!metaPageViewSent) {
+      window.fbq('track', 'PageView');
+      metaPageViewSent = true;
     }
   }
 
@@ -100,7 +182,7 @@
   }
 
   function track(eventName, params) {
-    if (readConsent() !== 'granted' || !configured) return;
+    if (!hasConsent('analytics') || !googleConfigured) return;
     const payload = Object.assign({
       page_path: location.pathname,
       page_title: document.title
@@ -108,8 +190,16 @@
     window.gtag('event', eventName, payload);
   }
 
+  function metaTrack(eventName, params) {
+    if (!hasConsent('marketing')) return;
+    loadMetaPixel();
+    if (!metaConfigured || typeof window.fbq !== 'function') return;
+    window.fbq('track', eventName, params || {});
+  }
+
   window.OTAnalytics = {
     track: track,
+    trackMeta: metaTrack,
     getConsent: readConsent,
     openPreferences: openBanner
   };
@@ -129,6 +219,12 @@
 
     if (/wa\.me\/5511912459144/i.test(absoluteHref)) {
       track('click_whatsapp', params);
+      metaTrack('Contact', {
+        content_name: params.cta_text,
+        content_category: 'whatsapp',
+        content_location: params.cta_location
+      });
+
       const diagnosticLead = link.id === 'waLink' || link.classList.contains('wa-big');
       const commercialLead = link.hasAttribute('data-generate-lead');
       if (diagnosticLead || commercialLead) {
@@ -136,12 +232,21 @@
           lead_source: diagnosticLead ? 'diagnostico_digital' : 'site_olegario_tech',
           method: 'whatsapp'
         }));
+        metaTrack('Lead', {
+          content_name: diagnosticLead ? 'Diagnóstico digital' : params.cta_text,
+          content_category: 'whatsapp',
+          content_location: params.cta_location
+        });
       }
       return;
     }
 
     if (href.indexOf('/diagnostico-digital/') !== -1) {
       track('click_diagnostico', params);
+      metaTrack('ViewContent', {
+        content_name: 'Diagnóstico digital',
+        content_category: 'lead_generation'
+      });
       return;
     }
 
@@ -161,17 +266,32 @@
 
     const project = link.closest('.showcase-card, .project-stage');
     if (project) {
+      const projectName = safeText(
+        project.querySelector('.project-copy h3')?.textContent ||
+        project.querySelector('.sc-result strong')?.textContent ||
+        project.querySelector('.sc-tag')?.textContent
+      );
       track('click_projeto', Object.assign({}, params, {
-        project_name: safeText(project.querySelector('.project-copy h3')?.textContent || project.querySelector('.sc-result strong')?.textContent || project.querySelector('.sc-tag')?.textContent)
+        project_name: projectName
       }));
+      metaTrack('ViewContent', {
+        content_name: projectName || 'Projeto Olegario Tech',
+        content_category: 'portfolio'
+      });
       return;
     }
 
     const product = link.closest('.prod, .product');
     if (product) {
+      const productName = safeText(product.querySelector('h3')?.textContent);
       track('click_produto', Object.assign({}, params, {
-        product_name: safeText(product.querySelector('h3')?.textContent)
+        product_name: productName
       }));
+      metaTrack('InitiateCheckout', {
+        content_name: productName || 'Produto digital Olegario Tech',
+        content_category: 'produto_digital',
+        currency: 'BRL'
+      });
     }
   }
 
@@ -241,14 +361,29 @@
     return [
       '<section class="ot-consent" id="otConsent" role="dialog" aria-labelledby="otConsentTitle" aria-describedby="otConsentText">',
       '  <div class="ot-consent__copy">',
-      '    <span class="ot-consent__eyebrow">Privacidade e métricas</span>',
-      '    <h2 id="otConsentTitle">Você escolhe como a OT mede o site.</h2>',
-      '    <p id="otConsentText">Usamos o Google Analytics somente com sua autorização para entender visitas e cliques. Cookies de publicidade permanecem desativados.</p>',
+      '    <span class="ot-consent__eyebrow">Privacidade e preferências</span>',
+      '    <h2 id="otConsentTitle">Você escolhe como a OT mede e anuncia.</h2>',
+      '    <p id="otConsentText">Análise e marketing são opcionais. O Google Analytics e o Pixel da Meta só carregam nas categorias autorizadas.</p>',
+      '    <div class="ot-consent__preferences" aria-label="Categorias de cookies">',
+      '      <label class="ot-consent__option is-required">',
+      '        <span><strong>Necessários</strong><small>Funcionamento e sua escolha de privacidade.</small></span>',
+      '        <input type="checkbox" checked disabled aria-label="Cookies necessários sempre ativos">',
+      '      </label>',
+      '      <label class="ot-consent__option">',
+      '        <span><strong>Análise</strong><small>Google Analytics para visitas e cliques gerais.</small></span>',
+      '        <input type="checkbox" data-consent-analytics aria-label="Autorizar cookies de análise">',
+      '      </label>',
+      '      <label class="ot-consent__option">',
+      '        <span><strong>Marketing</strong><small>Meta Pixel para anúncios, contatos e leads.</small></span>',
+      '        <input type="checkbox" data-consent-marketing aria-label="Autorizar cookies de marketing">',
+      '      </label>',
+      '    </div>',
       '    <a href="/privacidade/">Ler a política de privacidade</a>',
       '  </div>',
       '  <div class="ot-consent__actions">',
-      '    <button type="button" class="ot-consent__reject" data-consent-reject>Recusar análise</button>',
-      '    <button type="button" class="ot-consent__accept" data-consent-accept>Aceitar análise</button>',
+      '    <button type="button" class="ot-consent__reject" data-consent-reject>Recusar opcionais</button>',
+      '    <button type="button" class="ot-consent__save" data-consent-save>Salvar escolhas</button>',
+      '    <button type="button" class="ot-consent__accept" data-consent-accept>Aceitar tudo</button>',
       '  </div>',
       '</section>'
     ].join('');
@@ -279,6 +414,39 @@
     ensureSettingsButton();
   }
 
+  function applyConsent(preferences) {
+    const normalized = normalizePreferences(preferences) || {
+      analytics: 'denied',
+      marketing: 'denied'
+    };
+
+    saveConsent(normalized);
+
+    if (normalized.analytics === 'granted') {
+      loadGoogleTag();
+    } else {
+      updateGoogleConsent('denied');
+      clearAnalyticsCookies();
+    }
+
+    if (normalized.marketing === 'granted') {
+      loadMetaPixel();
+    } else {
+      clearMetaCookies();
+    }
+
+    closeBanner();
+  }
+
+  function syncBannerChoices(banner) {
+    const current = readConsent();
+    const legacyAnalytics = readLegacyConsent();
+    const analytics = banner.querySelector('[data-consent-analytics]');
+    const marketing = banner.querySelector('[data-consent-marketing]');
+    if (analytics) analytics.checked = current ? current.analytics === 'granted' : legacyAnalytics === 'granted';
+    if (marketing) marketing.checked = current ? current.marketing === 'granted' : false;
+  }
+
   function openBanner() {
     let banner = document.getElementById('otConsent');
     if (!banner) {
@@ -286,25 +454,30 @@
       banner = document.getElementById('otConsent');
 
       banner.querySelector('[data-consent-accept]')?.addEventListener('click', function () {
-        saveConsent('granted');
-        loadGoogleTag();
-        closeBanner();
+        applyConsent({ analytics: 'granted', marketing: 'granted' });
       });
 
       banner.querySelector('[data-consent-reject]')?.addEventListener('click', function () {
-        saveConsent('denied');
-        updateGoogleConsent('denied');
-        clearAnalyticsCookies();
-        closeBanner();
+        applyConsent({ analytics: 'denied', marketing: 'denied' });
+      });
+
+      banner.querySelector('[data-consent-save]')?.addEventListener('click', function () {
+        const analytics = banner.querySelector('[data-consent-analytics]')?.checked;
+        const marketing = banner.querySelector('[data-consent-marketing]')?.checked;
+        applyConsent({
+          analytics: analytics ? 'granted' : 'denied',
+          marketing: marketing ? 'granted' : 'denied'
+        });
       });
     }
 
+    syncBannerChoices(banner);
     const settings = document.getElementById('otConsentSettings');
     if (settings) settings.hidden = true;
     banner.removeAttribute('aria-hidden');
     requestAnimationFrame(function () {
       banner.classList.add('is-visible');
-      banner.querySelector('[data-consent-accept]')?.focus();
+      banner.querySelector('[data-consent-save]')?.focus();
     });
     document.body.classList.add('ot-consent-open');
   }
@@ -313,15 +486,25 @@
     installClickTracking();
     const choice = readConsent();
 
-    if (choice === 'granted') {
-      loadGoogleTag();
-      ensureSettingsButton();
-    } else if (choice === 'denied') {
-      updateGoogleConsent('denied');
-      ensureSettingsButton();
-    } else {
+    if (!choice) {
       openBanner();
+      return;
     }
+
+    if (choice.analytics === 'granted') {
+      loadGoogleTag();
+    } else {
+      updateGoogleConsent('denied');
+      clearAnalyticsCookies();
+    }
+
+    if (choice.marketing === 'granted') {
+      loadMetaPixel();
+    } else {
+      clearMetaCookies();
+    }
+
+    ensureSettingsButton();
   }
 
   if (document.readyState === 'loading') {
