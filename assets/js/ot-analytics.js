@@ -499,6 +499,65 @@
     document.body.classList.add('ot-consent-open');
   }
 
+  function installEcosystemSection() {
+    if (document.body.dataset.page !== 'home' || document.getElementById('ecossistema')) return;
+
+    const contact = document.getElementById('contato');
+    if (!contact) return;
+
+    if (!document.getElementById('ot-ecosystem-style')) {
+      const style = document.createElement('style');
+      style.id = 'ot-ecosystem-style';
+      style.textContent = [
+        '.ot-ecosystem{padding-top:44px;padding-bottom:44px}',
+        '.ot-ecosystem__shell{position:relative;display:grid;grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr);gap:30px;padding:38px;border:1px solid rgba(103,232,249,.18);border-radius:var(--radius);background:radial-gradient(circle at 12% 8%,rgba(37,99,235,.18),transparent 38%),radial-gradient(circle at 92% 90%,rgba(168,85,247,.13),transparent 36%),rgba(8,7,22,.84);box-shadow:var(--shadow);overflow:hidden}',
+        '.ot-ecosystem__shell::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(90deg,transparent,#000 45%,#000)}',
+        '.ot-ecosystem__copy,.ot-ecosystem__grid{position:relative;z-index:1}',
+        '.ot-ecosystem__title{margin:10px 0 15px;font-family:"Space Grotesk",sans-serif;font-size:clamp(2.15rem,3.5vw,3.65rem);line-height:.98;letter-spacing:-.045em}',
+        '.ot-ecosystem__copy p{margin:0;color:var(--muted);font-size:.98rem;line-height:1.75}',
+        '.ot-ecosystem__status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:8px 11px;border:1px solid rgba(37,211,102,.2);border-radius:999px;background:rgba(37,211,102,.065);color:#86efac;font-family:"Share Tech Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase}',
+        '.ot-ecosystem__status::before{content:"";width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 14px rgba(37,211,102,.78)}',
+        '.ot-ecosystem__cta{width:max-content;margin-top:22px}',
+        '.ot-ecosystem__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}',
+        '.ot-ecosystem__card{position:relative;min-width:0;padding:18px;border:1px solid rgba(255,255,255,.09);border-radius:17px;background:rgba(255,255,255,.035);transition:transform .24s ease,border-color .24s ease,background .24s ease}',
+        '.ot-ecosystem__card:hover{transform:translateY(-3px);border-color:rgba(103,232,249,.25);background:rgba(103,232,249,.055)}',
+        '.ot-ecosystem__card small{display:block;margin-bottom:12px;color:var(--ice);font-family:"Share Tech Mono",monospace;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase}',
+        '.ot-ecosystem__card strong{display:block;color:var(--text);font-family:"Space Grotesk",sans-serif;font-size:.9rem;line-height:1.25}',
+        '.ot-ecosystem__card p{margin:7px 0 0;color:var(--muted-2);font-size:.73rem;line-height:1.5}',
+        '@media(max-width:1100px){.ot-ecosystem__shell{grid-template-columns:1fr}.ot-ecosystem__copy{max-width:760px}.ot-ecosystem__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}',
+        '@media(max-width:760px){.ot-ecosystem{padding-top:24px;padding-bottom:24px}.ot-ecosystem__shell{padding:24px 18px}.ot-ecosystem__grid{grid-template-columns:1fr}.ot-ecosystem__cta{width:100%}.ot-ecosystem__card{padding:16px}}',
+        '@media(prefers-reduced-motion:reduce){.ot-ecosystem__card{transition:none}.ot-ecosystem__card:hover{transform:none}}'
+      ].join('');
+      document.head.appendChild(style);
+    }
+
+    const section = document.createElement('section');
+    section.className = 'section ot-ecosystem';
+    section.id = 'ecossistema';
+    section.setAttribute('aria-labelledby', 'ecossistemaTitle');
+    section.innerHTML = [
+      '<div class="inner ot-ecosystem__shell">',
+      '  <div class="ot-ecosystem__copy">',
+      '    <span class="section-label">Estrutura em operação</span>',
+      '    <h2 class="ot-ecosystem__title" id="ecossistemaTitle">O que você vê na OT também pode trabalhar pelo <span class="gradient-text">seu negócio.</span></h2>',
+      '    <p>Este site é uma demonstração prática: presença profissional, atendimento, dados e canais conectados para transformar visita em oportunidade comercial.</p>',
+      '    <span class="ot-ecosystem__status">Ecossistema OT ativo</span>',
+      '    <a data-generate-lead class="btn btn-ghost ot-ecosystem__cta" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20ecossistema%20digital%20do%20site%20e%20quero%20entender%20o%20que%20pode%20ser%20feito%20para%20o%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Quero uma estrutura assim</a>',
+      '  </div>',
+      '  <div class="ot-ecosystem__grid" aria-label="Recursos digitais em operação na Olegario Tech">',
+      '    <article class="ot-ecosystem__card"><small>01 · presença</small><strong>Site responsivo e comercial</strong><p>Experiência premium no computador e no celular, com oferta e chamadas para ação claras.</p></article>',
+      '    <article class="ot-ecosystem__card"><small>02 · atendimento</small><strong>WhatsApp integrado</strong><p>Botões contextuais, mensagens prontas e medição das conversas iniciadas pelo site.</p></article>',
+      '    <article class="ot-ecosystem__card"><small>03 · dados</small><strong>Google Analytics 4</strong><p>Visitas, cliques, diagnóstico, produtos e geração de leads acompanhados com consentimento.</p></article>',
+      '    <article class="ot-ecosystem__card"><small>04 · busca</small><strong>SEO e Search Console</strong><p>Estrutura técnica para indexação, presença regional e evolução orgânica no Google.</p></article>',
+      '    <article class="ot-ecosystem__card"><small>05 · campanhas</small><strong>Meta Pixel</strong><p>Eventos de contato e intenção comercial preparados para campanhas de Facebook e Instagram.</p></article>',
+      '    <article class="ot-ecosystem__card"><small>06 · confiança</small><strong>Redes e avaliações</strong><p>Instagram, Facebook e avaliações do Google conectados à presença oficial da marca.</p></article>',
+      '  </div>',
+      '</div>'
+    ].join('');
+
+    contact.parentNode.insertBefore(section, contact);
+  }
+
   function installSocialFooter() {
     if (document.body.dataset.page !== 'home') return;
 
@@ -560,6 +619,7 @@
   }
 
   function init() {
+    installEcosystemSection();
     installSocialFooter();
     installClickTracking();
     const choice = readConsent();
