@@ -3,9 +3,10 @@
   z-index:10050;
   left:50%;
   bottom:18px;
-  width:min(760px,calc(100% - 28px));
+  width:min(920px,calc(100% - 28px));
+  max-height:calc(100svh - 36px);
   display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-columns:minmax(0,1fr) minmax(190px,220px);
   gap:24px;
   align-items:center;
   padding:22px;
@@ -19,6 +20,8 @@
   visibility:hidden;
   transform:translate(-50%,22px);
   transition:opacity .28s ease,transform .28s ease,visibility .28s;
+  overflow:auto;
+  overscroll-behavior:contain;
 }
 .ot-consent.is-visible{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .ot-consent__copy{min-width:0}
@@ -46,8 +49,45 @@
   line-height:1.55;
 }
 .ot-consent a{color:#67e8f9;text-decoration:underline;text-underline-offset:3px;font-size:.82rem;font-weight:800}
-.ot-consent__actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.ot-consent__preferences{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:14px 0 11px;
+}
+.ot-consent__option{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  cursor:pointer;
+}
+.ot-consent__option:hover{border-color:rgba(103,232,249,.24);background:rgba(103,232,249,.05)}
+.ot-consent__option.is-required{opacity:.74;cursor:default}
+.ot-consent__option span{display:grid;gap:4px;min-width:0}
+.ot-consent__option strong{color:#f6f7ff;font-size:.78rem;line-height:1.15}
+.ot-consent__option small{color:#9ba5bf;font-size:.68rem;line-height:1.35}
+.ot-consent__option input{
+  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  margin:1px 0 0;
+  accent-color:#67e8f9;
+  cursor:pointer;
+}
+.ot-consent__option input:disabled{cursor:not-allowed}
+.ot-consent__actions{
+  display:grid;
+  gap:9px;
+  align-content:center;
+}
 .ot-consent button{
+  width:100%;
   min-height:44px;
   padding:0 16px;
   border-radius:999px;
@@ -55,8 +95,10 @@
   cursor:pointer;
 }
 .ot-consent__reject{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.045);color:#f6f7ff}
+.ot-consent__save{border:1px solid rgba(139,92,246,.42);background:rgba(139,92,246,.12);color:#f6f7ff}
 .ot-consent__accept{border:0;background:linear-gradient(135deg,#67e8f9,#22d3ee);color:#020b12;box-shadow:0 12px 28px rgba(103,232,249,.2)}
-.ot-consent button:focus-visible,.ot-consent-settings:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
+.ot-consent button:hover{filter:brightness(1.08)}
+.ot-consent button:focus-visible,.ot-consent-settings:focus-visible,.ot-consent__option input:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
 .ot-consent-settings{
   position:fixed;
   z-index:10020;
@@ -76,14 +118,29 @@
 }
 .ot-consent-settings:hover{color:#67e8f9;border-color:rgba(103,232,249,.35)}
 .ot-consent-settings[hidden]{display:none!important}
-@media(max-width:720px){
-  .ot-consent{grid-template-columns:1fr;gap:16px;padding:19px;bottom:calc(82px + env(safe-area-inset-bottom))}
-  .ot-consent__actions{display:grid;grid-template-columns:1fr 1fr;justify-content:stretch}
-  .ot-consent button{width:100%;padding:0 10px}
-  .ot-consent-settings{left:10px;bottom:calc(78px + env(safe-area-inset-bottom));max-width:min(52vw,230px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:780px){
+  .ot-consent{
+    grid-template-columns:1fr;
+    gap:16px;
+    padding:19px;
+    bottom:calc(82px + env(safe-area-inset-bottom));
+    max-height:calc(100svh - 104px - env(safe-area-inset-bottom));
+  }
+  .ot-consent__preferences{grid-template-columns:1fr}
+  .ot-consent__actions{grid-template-columns:1fr}
+  .ot-consent button{padding:0 10px}
+  .ot-consent-settings{
+    left:10px;
+    bottom:calc(78px + env(safe-area-inset-bottom));
+    max-width:min(52vw,230px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
 }
 @media(max-width:430px){
-  .ot-consent__actions{grid-template-columns:1fr}
+  .ot-consent{padding:16px}
+  .ot-consent__option{padding:10px}
 }
 @media(prefers-reduced-motion:reduce){
   .ot-consent{transition:none}
