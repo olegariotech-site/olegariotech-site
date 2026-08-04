@@ -31,22 +31,19 @@
   function readConsent() {
     try {
       const current = localStorage.getItem(STORAGE_KEY);
-      if (current) {
-        const parsed = normalizePreferences(JSON.parse(current));
-        if (parsed) return parsed;
-      }
-
-      const legacy = consentState(localStorage.getItem(LEGACY_STORAGE_KEY));
-      if (legacy) {
-        const migrated = { analytics: legacy, marketing: 'denied' };
-        saveConsent(migrated);
-        return migrated;
-      }
+      if (!current) return null;
+      return normalizePreferences(JSON.parse(current));
     } catch (error) {
       return null;
     }
+  }
 
-    return null;
+  function readLegacyConsent() {
+    try {
+      return consentState(localStorage.getItem(LEGACY_STORAGE_KEY));
+    } catch (error) {
+      return null;
+    }
   }
 
   function saveConsent(preferences) {
@@ -442,11 +439,12 @@
   }
 
   function syncBannerChoices(banner) {
-    const current = readConsent() || { analytics: 'denied', marketing: 'denied' };
+    const current = readConsent();
+    const legacyAnalytics = readLegacyConsent();
     const analytics = banner.querySelector('[data-consent-analytics]');
     const marketing = banner.querySelector('[data-consent-marketing]');
-    if (analytics) analytics.checked = current.analytics === 'granted';
-    if (marketing) marketing.checked = current.marketing === 'granted';
+    if (analytics) analytics.checked = current ? current.analytics === 'granted' : legacyAnalytics === 'granted';
+    if (marketing) marketing.checked = current ? current.marketing === 'granted' : false;
   }
 
   function openBanner() {
