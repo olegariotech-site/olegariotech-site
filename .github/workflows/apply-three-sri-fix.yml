@@ -1,0 +1,42 @@
+name: Apply Three.js SRI fix
+
+on:
+  push:
+    branches:
+      - security/sri-three-cdn
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+        with:
+          ref: security/sri-three-cdn
+
+      - name: Add integrity protection to Three.js CDN
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+          old = '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>'
+          new = '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>'
+          if old not in text:
+              raise SystemExit("Expected Three.js script tag not found; refusing to modify index.html")
+          if text.count(old) != 1:
+              raise SystemExit("Unexpected number of matching Three.js script tags; refusing to modify index.html")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+      - name: Remove temporary workflow and commit fix
+        run: |
+          rm .github/workflows/apply-three-sri-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/apply-three-sri-fix.yml
+          git commit -m "security: protege carregamento do Three.js com SRI"
+          git push origin HEAD:security/sri-three-cdn
