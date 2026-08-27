@@ -24,7 +24,7 @@
     var audio=document.querySelector('.mobile-audio-toggle');
     if(audio){
       audio.title='Ativar ou desativar a experiência sonora';
-      audio.setAttribute('aria-describedby','');
+      audio.removeAttribute('aria-describedby');
     }
   }
 
@@ -35,12 +35,12 @@
 
     var hero=document.getElementById('inicio');
     if(!hero||!isMobile()){
-      button.classList.add('is-mobile-visible');
+      button.classList.remove('is-mobile-hidden');
       return;
     }
 
     function setVisible(heroVisible){
-      button.classList.toggle('is-mobile-visible',!heroVisible);
+      button.classList.toggle('is-mobile-hidden',heroVisible);
     }
 
     if('IntersectionObserver'in window){
