@@ -91,7 +91,8 @@
     font-weight:700;
     letter-spacing:.055em;
   }
-  .section-title .accent,.section-title .gradient-text{
+  .section-title .accent,.section-title .gradient-text,
+  .ot-ecosystem__title .gradient-text,.cta-box .gradient-text{
     background:none;
     -webkit-background-clip:border-box;
     background-clip:border-box;
@@ -120,15 +121,15 @@
     background:rgba(8,8,12,.78);
     color:rgba(245,246,249,.64);
     font-size:.58rem;
-    opacity:0;
-    transform:translateY(6px);
-    pointer-events:none;
-    transition:opacity .2s ease,transform .2s ease,border-color .2s ease,color .2s ease;
-  }
-  .ot-consent-settings.is-mobile-visible{
     opacity:.78;
     transform:none;
     pointer-events:auto;
+    transition:opacity .2s ease,transform .2s ease,border-color .2s ease,color .2s ease;
+  }
+  .ot-consent-settings.is-mobile-hidden{
+    opacity:0;
+    transform:translateY(6px);
+    pointer-events:none;
   }
   .ot-consent-settings:hover,.ot-consent-settings:focus-visible{
     color:#fff;
