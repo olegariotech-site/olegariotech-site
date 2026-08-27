@@ -1,0 +1,151 @@
+@media(max-width:900px){
+  .mobile-header{
+    background:rgba(5,5,8,.94);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  .mobile-actions{gap:8px!important}
+  .mobile-audio-toggle{
+    display:grid!important;
+    width:38px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.045);
+    color:rgba(244,246,249,.88);
+    box-shadow:none;
+  }
+  .mobile-audio-toggle:hover,.mobile-audio-toggle:focus-visible{
+    transform:none;
+    border-color:rgba(255,255,255,.24);
+    background:rgba(255,255,255,.075);
+  }
+  .mobile-audio-toggle.is-muted{color:rgba(244,246,249,.62)}
+  .mobile-cta.mobile-cta-wa{
+    min-height:40px;
+    padding:0 14px;
+    border:0;
+    border-radius:999px;
+    background:#25d366;
+    color:#fff;
+    box-shadow:0 7px 18px rgba(37,211,102,.20);
+    font-size:.68rem;
+    font-weight:850;
+    letter-spacing:0;
+  }
+  .mobile-cta.mobile-cta-wa:hover,.mobile-cta.mobile-cta-wa:focus-visible{
+    background:#20bd5a;
+    color:#fff;
+  }
+
+  .hero-brandline{
+    margin-bottom:20px;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:.73rem;
+    font-weight:700;
+    letter-spacing:.025em;
+    text-transform:none;
+    color:rgba(240,242,246,.66);
+  }
+  .hero h1{
+    color:#f4f3f0;
+    letter-spacing:-.048em;
+  }
+  .hero h1>span:not(.gradient-text){color:#f4f3f0}
+  .hero h1 .gradient-text{
+    background:linear-gradient(110deg,#65c6d7 0%,#6fa9df 58%,#7c90d9 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-sub{
+    color:rgba(235,237,242,.72);
+    line-height:1.64;
+  }
+  .hero .btn-primary{
+    background:#2f66d0;
+    border:1px solid rgba(255,255,255,.07);
+    box-shadow:0 10px 26px rgba(47,102,208,.20);
+  }
+  .hero .btn-ghost{
+    border-color:rgba(255,255,255,.13);
+    background:rgba(255,255,255,.035);
+    color:rgba(244,246,249,.88);
+  }
+
+  .hero-visual{opacity:.56}
+  .hero-visual::after{
+    background:linear-gradient(90deg,rgba(5,0,8,.97) 0%,rgba(5,0,8,.82) 34%,rgba(5,0,8,.42) 60%,rgba(5,0,8,.08) 82%,transparent 100%);
+  }
+  .planet-wrap{
+    width:min(500px,116vw);
+    right:-34%;
+    top:61%;
+    filter:drop-shadow(0 0 34px rgba(103,232,249,.10));
+  }
+  .planet-wrap .planet-fallback{opacity:.92}
+
+  .section-label{
+    color:#9ba8b1;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-weight:700;
+    letter-spacing:.055em;
+  }
+  .section-title .accent,.section-title .gradient-text,
+  .ot-ecosystem__title .gradient-text,.cta-box .gradient-text{
+    background:none;
+    -webkit-background-clip:border-box;
+    background-clip:border-box;
+    color:#9eb4c0;
+  }
+  .ot-proof-strip__lead span{
+    color:#9ba8b1;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-weight:700;
+    letter-spacing:.045em;
+  }
+  .mobile-nav{
+    background:rgba(5,5,8,.97);
+    border-top-color:rgba(255,255,255,.08);
+  }
+  .mobile-nav a.is-active,.mobile-nav a:hover{color:#8fb7c5}
+
+  .ot-consent-settings{
+    left:auto!important;
+    right:10px;
+    bottom:calc(78px + env(safe-area-inset-bottom));
+    min-height:30px;
+    max-width:none;
+    padding:0 10px;
+    border-color:rgba(255,255,255,.12);
+    background:rgba(8,8,12,.78);
+    color:rgba(245,246,249,.64);
+    font-size:.58rem;
+    opacity:.78;
+    transform:none;
+    pointer-events:auto;
+    transition:opacity .2s ease,transform .2s ease,border-color .2s ease,color .2s ease;
+  }
+  .ot-consent-settings.is-mobile-hidden{
+    opacity:0;
+    transform:translateY(6px);
+    pointer-events:none;
+  }
+  .ot-consent-settings:hover,.ot-consent-settings:focus-visible{
+    color:#fff;
+    border-color:rgba(255,255,255,.24);
+  }
+}
+
+@media(max-width:420px){
+  .mobile-header{padding-inline:12px}
+  .mobile-actions{gap:6px!important}
+  .mobile-audio-toggle{width:36px;height:36px}
+  .mobile-cta.mobile-cta-wa{min-height:38px;padding:0 12px;font-size:.64rem}
+  .hero-visual{opacity:.53}
+  .planet-wrap{width:min(470px,118vw);right:-40%;top:62%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .ot-consent-settings{transition:none}
+}
