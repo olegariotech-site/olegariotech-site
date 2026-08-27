@@ -5,9 +5,14 @@
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
   }
-  .mobile-actions{gap:8px!important}
+  .mobile-actions{
+    display:flex;
+    align-items:center;
+    gap:8px!important;
+  }
   .mobile-audio-toggle{
     display:grid!important;
+    flex:0 0 38px;
     width:38px;
     height:38px;
     border:1px solid rgba(255,255,255,.14);
@@ -22,20 +27,41 @@
   }
   .mobile-audio-toggle.is-muted{color:rgba(244,246,249,.62)}
   .mobile-cta.mobile-cta-wa{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    gap:7px;
     min-height:40px;
-    padding:0 14px;
-    border:0;
+    padding:0 13px 0 11px;
+    border:1px solid rgba(255,255,255,.08);
     border-radius:999px;
     background:#25d366;
     color:#fff;
-    box-shadow:0 7px 18px rgba(37,211,102,.20);
-    font-size:.68rem;
-    font-weight:850;
+    box-shadow:0 7px 18px rgba(37,211,102,.18);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:.70rem;
+    font-weight:800;
+    line-height:1;
     letter-spacing:0;
+    white-space:nowrap;
+    text-align:center;
+  }
+  .mobile-cta.mobile-cta-wa .mobile-cta-wa__icon{
+    display:block;
+    flex:0 0 17px;
+    width:17px;
+    height:17px;
+  }
+  .mobile-cta.mobile-cta-wa span{
+    display:block;
+    line-height:1;
+    transform:translateY(.2px);
   }
   .mobile-cta.mobile-cta-wa:hover,.mobile-cta.mobile-cta-wa:focus-visible{
     background:#20bd5a;
     color:#fff;
+    transform:none;
   }
 
   .hero-brandline{
@@ -140,8 +166,18 @@
 @media(max-width:420px){
   .mobile-header{padding-inline:12px}
   .mobile-actions{gap:6px!important}
-  .mobile-audio-toggle{width:36px;height:36px}
-  .mobile-cta.mobile-cta-wa{min-height:38px;padding:0 12px;font-size:.64rem}
+  .mobile-audio-toggle{flex-basis:36px;width:36px;height:36px}
+  .mobile-cta.mobile-cta-wa{
+    min-height:38px;
+    padding:0 11px 0 9px;
+    gap:6px;
+    font-size:.66rem;
+  }
+  .mobile-cta.mobile-cta-wa .mobile-cta-wa__icon{
+    flex-basis:16px;
+    width:16px;
+    height:16px;
+  }
   .hero-visual{opacity:.53}
   .planet-wrap{width:min(470px,118vw);right:-40%;top:62%}
 }
