@@ -9,6 +9,10 @@
   mobileCss.rel='stylesheet';mobileCss.href='/assets/css/ot-mobile-v3.css?v=1';mobileCss.id='ot-mobile-v3-css';
   document.head.appendChild(mobileCss);
 
+  var footerCss=document.createElement('link');
+  footerCss.rel='stylesheet';footerCss.href='/assets/css/ot-footer-v4.css?v=1';footerCss.id='ot-footer-v4-css';
+  document.head.appendChild(footerCss);
+
   var core=document.createElement('script');
   core.src='/assets/js/ot-analytics-core.js?v=2';core.async=false;
   core.onload=function(){
@@ -17,6 +21,11 @@
     v2.onload=function(){
       var mobile=document.createElement('script');
       mobile.src='/assets/js/ot-mobile-v3.js?v=1';mobile.async=false;
+      mobile.onload=function(){
+        var footer=document.createElement('script');
+        footer.src='/assets/js/ot-footer-v4.js?v=1';footer.async=false;
+        document.head.appendChild(footer);
+      };
       document.head.appendChild(mobile);
     };
     document.head.appendChild(v2);
