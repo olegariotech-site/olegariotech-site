@@ -1,0 +1,146 @@
+/* OT V3 — maturidade comercial
+   Camada visual incremental: preserva a identidade atual e prioriza clareza, confiança e conversão. */
+
+body[data-page="home"] .hero-sub{max-width:700px;color:#c4cada}
+body[data-page="home"] .hero-actions .btn-primary{box-shadow:0 18px 54px rgba(109,40,217,.28)}
+body[data-page="home"] .hero-actions .btn-ghost{border-color:rgba(103,232,249,.22);background:rgba(7,5,20,.54)}
+body[data-page="home"] .btn{position:relative;overflow:hidden}
+body[data-page="home"] .btn::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.11) 48%,transparent 72%);transform:translateX(-135%);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+body[data-page="home"] .btn:hover::after,body[data-page="home"] .btn:focus-visible::after{transform:translateX(135%)}
+
+/* Menos ruído: a experiência sonora deixa de disputar atenção com a jornada comercial. */
+body[data-page="home"] .audio-toggle{display:none!important}
+
+/* Planeta como ecossistema — movimento sutil, sem trocar o elemento autoral. */
+body[data-page="home"] .planet-wrap canvas,
+body[data-page="home"] .planet-wrap .planet-fallback{transition:transform .55s cubic-bezier(.16,1,.3,1),filter .55s ease;transform:translate3d(var(--ot-planet-x,0),var(--ot-planet-y,0),0) rotateX(var(--ot-planet-rx,0deg)) rotateY(var(--ot-planet-ry,0deg))}
+body[data-page="home"] .planet-wrap:hover canvas,
+body[data-page="home"] .planet-wrap:hover .planet-fallback{filter:drop-shadow(0 0 18px rgba(103,232,249,.14))}
+body[data-page="home"] .orbit-status{max-width:250px;line-height:1.72}
+body[data-page="home"] .orbit-status .otv3-orbit-stack{display:grid;gap:3px;margin-top:5px;color:#d9dcf0}
+body[data-page="home"] .orbit-status .otv3-orbit-stack span{color:var(--muted)}
+body[data-page="home"] .orbit-status .otv3-orbit-stack b{font-weight:700;color:var(--ice)}
+
+/* Escolha por problema */
+body[data-page="home"] .choice-heading{max-width:820px;margin-inline:auto;text-align:center}
+body[data-page="home"] .choice-tab strong{font-size:.86rem}
+body[data-page="home"] .choice-tab span{color:#929bb2}
+body[data-page="home"] .choice-tab.is-active{box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 0 36px rgba(109,40,217,.1)}
+
+/* Seções comerciais novas */
+.otv3-section{position:relative;padding:88px 34px;scroll-margin-top:var(--top,76px)}
+.otv3-inner{width:min(var(--max,1240px),100%);margin-inline:auto}
+.otv3-kicker{font-family:'Share Tech Mono',monospace;font-size:.71rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ice,#67e8f9)}
+.otv3-title{max-width:900px;margin:10px 0 13px;font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,4.1rem);line-height:.98;letter-spacing:-.045em}
+.otv3-lead{max-width:760px;margin:0;color:var(--muted,#aeb5ca);font-size:clamp(.98rem,.94rem + .2vw,1.1rem);line-height:1.8}
+.otv3-gradient{background:linear-gradient(110deg,var(--ice,#67e8f9),#7dd3fc 30%,#c084fc 72%,var(--purple,#a855f7));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.otv3-diagnostic{padding-top:52px}
+.otv3-diagnostic-card{position:relative;display:grid;grid-template-columns:minmax(0,.82fr) minmax(420px,1.18fr);gap:38px;align-items:center;padding:40px;border:1px solid rgba(103,232,249,.17);border-radius:28px;background:radial-gradient(circle at 85% 8%,rgba(103,232,249,.08),transparent 35%),linear-gradient(145deg,rgba(13,11,33,.92),rgba(7,7,20,.9));box-shadow:0 30px 90px rgba(0,0,0,.46);overflow:hidden}
+.otv3-diagnostic-card::after{content:"";position:absolute;width:460px;aspect-ratio:1;border-radius:50%;right:-260px;bottom:-310px;background:radial-gradient(circle,rgba(168,85,247,.16),transparent 68%);pointer-events:none}
+.otv3-diagnostic-copy{position:relative;z-index:1}
+.otv3-diagnostic-copy h2{margin:9px 0 14px;font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,3.7vw,3.55rem);line-height:1;letter-spacing:-.045em}
+.otv3-diagnostic-copy p{margin:0 0 24px;color:var(--muted,#aeb5ca);line-height:1.75}
+.otv3-diagnostic-output{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.otv3-output{min-height:178px;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:19px;background:rgba(255,255,255,.035)}
+.otv3-output b{display:grid;place-items:center;width:38px;height:38px;margin-bottom:30px;border:1px solid rgba(103,232,249,.25);border-radius:12px;font-family:'Share Tech Mono',monospace;color:var(--ice,#67e8f9);background:rgba(103,232,249,.05)}
+.otv3-output strong{display:block;margin-bottom:7px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;text-transform:uppercase}
+.otv3-output span{color:var(--muted,#aeb5ca);font-size:.79rem;line-height:1.5}
+
+/* Cases: decisão comercial visível, sem inventar métricas. */
+body[data-page="home"] .project-stage{position:relative}
+body[data-page="home"] .project-image{position:relative}
+body[data-page="home"] .project-image::after{content:"Projeto OT";position:absolute;left:14px;bottom:14px;padding:7px 10px;border:1px solid rgba(103,232,249,.18);border-radius:999px;background:rgba(5,8,20,.8);backdrop-filter:blur(10px);font-family:'Share Tech Mono',monospace;font-size:.61rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ice,#67e8f9)}
+.otv3-decision{margin:18px 0;padding:15px 16px;border-left:2px solid var(--ice,#67e8f9);border-radius:0 13px 13px 0;background:linear-gradient(90deg,rgba(103,232,249,.07),rgba(139,92,246,.035))}
+.otv3-decision b{display:block;margin-bottom:6px;font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ice,#67e8f9)}
+.otv3-decision p{margin:0!important;color:#d7dbea!important;font-size:.84rem!important;line-height:1.58!important}
+.otv3-evidence{display:inline-flex;align-items:center;gap:7px;margin-top:9px;color:#9ba5bc;font-size:.7rem}
+.otv3-evidence::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ice,#67e8f9);box-shadow:0 0 10px rgba(103,232,249,.6)}
+
+/* Método OT: cinco passos, mais claros e comerciais. */
+body[data-page="home"] .method-grid{grid-template-columns:repeat(5,1fr);position:relative}
+body[data-page="home"] .method-grid::before{content:"";position:absolute;z-index:-1;left:8%;right:8%;top:46px;height:1px;background:linear-gradient(90deg,rgba(103,232,249,.08),rgba(103,232,249,.55),rgba(168,85,247,.52),rgba(103,232,249,.08))}
+body[data-page="home"] .method-card{transition:transform .28s ease,border-color .28s ease,background .28s ease}
+body[data-page="home"] .method-card:hover{transform:translateY(-4px);border-color:rgba(103,232,249,.22);background:rgba(103,232,249,.035)}
+
+/* Fundador / autoridade */
+body[data-page="home"] .about-grid{grid-template-columns:minmax(0,1fr) minmax(300px,390px);gap:48px;padding:44px}
+body[data-page="home"] .about-grid h2{max-width:760px;font-size:clamp(2.35rem,4.3vw,4.65rem)}
+body[data-page="home"] .about-grid p{max-width:760px}
+body[data-page="home"] .about-stats span:first-child{border-color:rgba(103,232,249,.24);color:#edfaff;background:rgba(103,232,249,.055)}
+
+/* Segurança da contratação */
+.otv3-trust{padding-top:58px}
+.otv3-trust-grid{display:grid;grid-template-columns:minmax(0,.72fr) minmax(520px,1.28fr);gap:34px;align-items:start}
+.otv3-trust-points{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.otv3-trust-item{min-height:160px;padding:20px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.027)}
+.otv3-trust-item b{display:block;margin-bottom:10px;color:var(--ice,#67e8f9);font-family:'Space Grotesk',sans-serif;font-size:.91rem;text-transform:uppercase}
+.otv3-trust-item p{margin:0;color:var(--muted,#aeb5ca);font-size:.82rem;line-height:1.58}
+
+/* Investimento sem transformar o serviço em commodity */
+.otv3-investment-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:30px;padding:34px 38px;border:1px solid rgba(139,92,246,.25);border-radius:23px;background:linear-gradient(120deg,rgba(109,40,217,.11),rgba(103,232,249,.025) 58%,rgba(255,255,255,.018))}
+.otv3-investment-card h2{margin:7px 0 10px;font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.2vw,3rem);line-height:1}
+.otv3-investment-card p{max-width:760px;margin:0;color:var(--muted,#aeb5ca);line-height:1.7}
+.otv3-investment-steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.otv3-investment-steps span{padding:8px 11px;border:1px solid rgba(255,255,255,.09);border-radius:999px;color:#cdd2e3;font-size:.72rem}
+
+/* FAQ comercial */
+.otv3-faq{padding-top:58px}
+.otv3-faq-grid{display:grid;grid-template-columns:minmax(280px,.7fr) minmax(0,1.3fr);gap:40px;align-items:start}
+.otv3-faq-list{display:grid;gap:8px}
+.otv3-faq details{border:1px solid rgba(255,255,255,.09);border-radius:15px;background:rgba(255,255,255,.025);overflow:hidden}
+.otv3-faq summary{position:relative;cursor:pointer;list-style:none;padding:17px 48px 17px 17px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700}
+.otv3-faq summary::-webkit-details-marker{display:none}
+.otv3-faq summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--ice,#67e8f9);font-size:1.2rem;font-weight:400;transition:transform .2s}
+.otv3-faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.otv3-faq details p{margin:0;padding:0 17px 17px;color:var(--muted,#aeb5ca);font-size:.86rem;line-height:1.65}
+
+/* Produtos passam a atuar como autoridade, não como segunda oferta principal. */
+body[data-page="home"] #produtos{padding-top:62px;padding-bottom:62px;opacity:.9}
+body[data-page="home"] #produtos .section-title{font-size:clamp(1.8rem,3vw,3rem)}
+body[data-page="home"] #produtos .product{box-shadow:none}
+
+/* CTA final mais limpo */
+body[data-page="home"] .cta-box{padding:58px 38px;background:radial-gradient(circle at 50% -20%,rgba(103,232,249,.09),transparent 44%),radial-gradient(circle at 58% 15%,rgba(109,40,217,.14),transparent 54%),rgba(7,5,20,.9)}
+
+/* Banner de consentimento continua completo, mas deixa de dominar a primeira impressão. */
+.ot-consent{width:min(760px,calc(100% - 28px));gap:16px;padding:16px 18px;border-radius:18px}
+.ot-consent h2{font-size:1.08rem}.ot-consent p{font-size:.79rem;line-height:1.45}.ot-consent__preferences{gap:6px;margin:10px 0 7px}.ot-consent__option{padding:9px}.ot-consent__actions{gap:7px}.ot-consent button{min-height:40px}
+
+/* Entrada discreta no scroll — movimento só para hierarquia. */
+.otv3-reveal{opacity:0;transform:translateY(18px);transition:opacity .62s ease,transform .62s cubic-bezier(.16,1,.3,1)}
+.otv3-reveal.is-visible{opacity:1;transform:none}
+
+/* Página de Diagnóstico OT */
+.otv3-diagnostic-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0 16px}
+.otv3-diagnostic-outcomes span{padding:10px;border:1px solid rgba(103,232,249,.13);border-radius:13px;background:rgba(103,232,249,.035);color:rgba(246,247,255,.78);font-size:.72rem;line-height:1.35}
+.otv3-diagnostic-outcomes b{display:block;margin-bottom:3px;color:#67e8f9;font-size:.64rem;letter-spacing:.07em;text-transform:uppercase}
+.otv3-result-map{display:grid;gap:8px;margin-top:10px}
+.otv3-result-point{padding:10px 11px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.035)}
+.otv3-result-point b{display:block;margin-bottom:3px;color:#67e8f9;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.otv3-result-point span{color:rgba(246,247,255,.78);font-size:.81rem;line-height:1.4}
+.otv3-result-priority{margin-top:9px;padding:10px 11px;border-left:2px solid #a855f7;background:rgba(168,85,247,.06);color:#f4efff;font-size:.82rem;line-height:1.5}
+
+@media(max-width:1180px){
+  .otv3-trust-grid{grid-template-columns:1fr}
+  body[data-page="home"] .method-grid{grid-template-columns:repeat(5,1fr)}
+}
+@media(max-width:900px){
+  .otv3-section{padding:64px 14px;scroll-margin-top:calc(var(--top,72px) + var(--safe-top,0px) + 12px)}
+  .otv3-diagnostic{padding-top:28px}
+  .otv3-diagnostic-card{display:block;padding:25px 18px}
+  .otv3-diagnostic-output{grid-template-columns:1fr;margin-top:26px}
+  .otv3-output{min-height:auto}.otv3-output b{margin-bottom:15px}
+  .otv3-trust-points{grid-template-columns:1fr}.otv3-trust-item{min-height:auto}
+  .otv3-investment-card{grid-template-columns:1fr;padding:27px 20px}.otv3-investment-card .btn{width:100%}
+  .otv3-faq-grid{grid-template-columns:1fr;gap:24px}
+  body[data-page="home"] .about-grid{padding:28px 18px}
+  body[data-page="home"] .choice-heading{text-align:left;margin-inline:0}
+  .ot-consent{bottom:calc(78px + env(safe-area-inset-bottom));padding:14px;gap:11px}.ot-consent__preferences{grid-template-columns:1fr}
+  .otv3-diagnostic-outcomes{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .otv3-reveal{opacity:1;transform:none;transition:none}
+  body[data-page="home"] .planet-wrap canvas,body[data-page="home"] .planet-wrap .planet-fallback{transition:none!important;transform:none!important}
+  body[data-page="home"] .btn::after{display:none}
+}
