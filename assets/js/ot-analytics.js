@@ -17,9 +17,17 @@
   commercialCss.rel='stylesheet';commercialCss.href='/assets/css/ot-commercial-v3.css?v=1';commercialCss.id='ot-commercial-v3-css';
   document.head.appendChild(commercialCss);
 
+  function loadRuntime(){
+    var runtime=document.createElement('script');
+    runtime.src='/assets/js/ot-commercial-v3-runtime.js?v=1';runtime.async=false;
+    document.head.appendChild(runtime);
+  }
+
   function loadCommercial(){
     var commercial=document.createElement('script');
     commercial.src='/assets/js/ot-commercial-v3.js?v=1';commercial.async=false;
+    commercial.onload=loadRuntime;
+    commercial.onerror=loadRuntime;
     document.head.appendChild(commercial);
   }
 
