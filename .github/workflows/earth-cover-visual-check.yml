@@ -55,8 +55,10 @@ jobs:
             await page.locator('[data-project="kl"]').click();
             await page.waitForTimeout(600);
             await page.locator('#projectStage').screenshot({path:`visual-check/${name}-kl.png`});
-            results.push({name,hero,acai,errors});
+            const fab=await page.evaluate(()=>document.getElementById('waFab').classList.contains('is-visible'));
+            results.push({name,hero,acai,fab,errors});
             if(!acai.loaded||acai.fit!=='contain'||errors.length)throw Error(JSON.stringify(results.at(-1)));
+            if(fab)throw Error(`Floating WhatsApp overlaps project at ${name}`);
             if(width>900&&!hero.spin)throw Error(`Rotating globe unavailable at ${name}`);
             if(width<=900&&(hero.fixed!=='none'||hero.static==='none'))throw Error(`Mobile fallback invalid at ${name}`);
             await page.close();

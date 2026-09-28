@@ -176,8 +176,12 @@
       document.addEventListener('visibilitychange',()=>{if(document.hidden){pausedByVisibility=enabled&&!audio.paused;if(pausedByVisibility)audio.pause()}else if(enabled&&pausedByVisibility){pausedByVisibility=false;audio.play().catch(()=>{enabled=false;audio.muted=true;sync()})}});
       sync();
       if(hero&&waFab){
-        const updateFab=heroVisible=>{const show=!heroVisible&&innerWidth>900;waFab.classList.toggle('is-visible',show);waFab.setAttribute('aria-hidden',String(!show));waFab.tabIndex=show?0:-1};
-        const observer=new IntersectionObserver(entries=>updateFab(entries[0].isIntersecting),{threshold:.08});observer.observe(hero);addEventListener('resize',()=>updateFab(hero.getBoundingClientRect().bottom>0),{passive:true});updateFab(true);
+        const projects=document.getElementById('projetos');
+        let heroVisible=true,projectsVisible=false;
+        const updateFab=()=>{const show=!heroVisible&&!projectsVisible&&innerWidth>900;waFab.classList.toggle('is-visible',show);waFab.setAttribute('aria-hidden',String(!show));waFab.tabIndex=show?0:-1};
+        const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.target===hero)heroVisible=entry.isIntersecting;else projectsVisible=entry.isIntersecting});updateFab()},{threshold:.08});
+        observer.observe(hero);if(projects)observer.observe(projects);
+        addEventListener('resize',updateFab,{passive:true});updateFab();
       }
     }
     renderSolution('presenca',false);renderProject('acai');syncScrollSpy();initScrollProgress();initExperienceControls();
