@@ -75,14 +75,15 @@
     @media(min-width:901px) and (max-height:680px){.experience-controls{right:20px;bottom:18px;gap:9px}.audio-toggle{width:44px;height:44px}.sound-hint{top:auto;bottom:calc(100% + 85px);transform:none}.wa-fab{width:54px;height:54px}.wa-fab svg{width:28px;height:28px;flex-basis:28px;margin-left:13px}}
     @media(prefers-reduced-motion:reduce){.audio-toggle,.wa-fab,.sound-hint{transition:none}}
   </style>
-  <link rel="stylesheet" href="/assets/css/ot-project-cases.css?v=1">
-  <link rel="stylesheet" href="/assets/css/ot-earth-journey.css?v=1">
-  <script src="/assets/js/ot-earth-journey.js?v=1" defer></script>
+  <link rel="stylesheet" href="/assets/css/ot-project-cases.css?v=2">
+  <link rel="stylesheet" href="/assets/css/ot-earth-journey.css?v=2">
+  <script src="/assets/js/ot-earth-journey.js?v=2" defer></script>
+  <script src="/assets/js/ot-earth-spin.js?v=1" defer></script>
 </head>
 <body data-page="home">
   <div class="scroll-progress" aria-hidden="true"><i id="scrollProgressBar"></i></div>
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a><div class="ambient" aria-hidden="true"></div>
-  <div class="earth-journey" id="earthJourney" aria-hidden="true"><div class="earth-journey__globe"><img src="/assets/img/orbit/nasa-blue-marble-south-america.webp" width="1280" height="1280" alt="" decoding="async" fetchpriority="high"></div></div>
+  <div class="earth-journey" id="earthJourney" aria-hidden="true"><div class="earth-journey__globe"><img src="/assets/img/orbit/nasa-blue-marble-south-america.webp" width="1280" height="1280" alt="" decoding="async" fetchpriority="high"><canvas class="earth-journey__canvas" aria-hidden="true"></canvas></div></div>
   <aside class="desktop-rail" aria-label="Navegação por necessidade"><a class="brand" href="#inicio" aria-label="Olegario Tech, início"><img src="/assets/img/brand/olegario-tech-logo-oficial.webp" alt=""><span class="brand-text">Olegario <b>Tech</b></span></a><p class="rail-label">O que você<br>quer resolver?</p><nav class="rail-nav">
     <button class="rail-btn is-active" type="button" data-solution="presenca" aria-pressed="true"><span class="rail-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M8 5v14M16 5v14M3.5 10h17"/></svg></span><span>Presença profissional</span></button>
     <button class="rail-btn" type="button" data-solution="oferta" aria-pressed="false"><span class="rail-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h2l2 10h10l2-7H7"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></span><span>Vender uma oferta</span></button>
