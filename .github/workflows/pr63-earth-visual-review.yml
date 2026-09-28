@@ -103,13 +103,15 @@ jobs:
               await scrollSection(page,'faq');
               await snap(page,vp,'05-faq-hidden');
 
-              await scrollSection(page,'contato',.22);
+              await page.locator('#contato').scrollIntoViewIfNeeded();
+              await page.evaluate(()=>scrollBy(0,-innerHeight*.12));
               await snap(page,vp,'06-cta-return');
             }else{
               await scrollSection(page,'projetos');
               await snap(page,vp,'02-projects-mobile');
 
-              await scrollSection(page,'contato',.16);
+              await page.locator('#contato').scrollIntoViewIfNeeded();
+              await page.evaluate(()=>scrollBy(0,-innerHeight*.08));
               await snap(page,vp,'03-cta-mobile');
             }
             await page.close();
