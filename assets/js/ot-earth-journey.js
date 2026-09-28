@@ -1,0 +1,86 @@
+/* Scroll-linked Earth: one visual update per animation frame, no continuous render loop. */
+(() => {
+  const earth = document.getElementById('earthJourney');
+  const hero = document.getElementById('inicio');
+  const visual = hero?.querySelector('.hero-visual');
+  const cta = document.getElementById('contato');
+  if (!earth || !hero || !visual || !cta) return;
+  document.documentElement.classList.add('has-earth-journey');
+
+  const mobile = matchMedia('(max-width:900px)');
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  const dense = ['solucoes', 'projetos', 'metodo', 'sobre', 'produtos', 'faq']
+    .map(id => document.getElementById(id)).filter(Boolean);
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const ease = value => value * value * (3 - 2 * value);
+  let baseX = 0, baseY = 0, frame = 0;
+
+  function measure() {
+    const rect = visual.getBoundingClientRect();
+    baseX = rect.left + rect.width * .57;
+    baseY = rect.top + scrollY + rect.height * .5;
+    earth.style.setProperty('--earth-left', `${baseX}px`);
+    earth.style.setProperty('--earth-top', `${baseY}px`);
+    update();
+  }
+
+  function update() {
+    frame = 0;
+    if (mobile.matches) return;
+    const height = innerHeight;
+    const heroRect = hero.getBoundingClientRect();
+    if (reduced.matches) {
+      earth.style.setProperty('--earth-x', '0px');
+      earth.style.setProperty('--earth-y', '0px');
+      earth.style.setProperty('--earth-scale', '1');
+      earth.style.setProperty('--earth-opacity', heroRect.bottom > height * .2 ? '.88' : '0');
+      return;
+    }
+
+    const progress = ease(clamp(-heroRect.top / Math.max(1, heroRect.height * .84)));
+    let x = (innerWidth - 106 - baseX) * progress;
+    let y = (height * .66 - baseY) * progress;
+    let scale = 1 - progress * .72;
+    let opacity = .88 - progress * .48;
+
+    // Clear the reading and project sections, including their entry and exit edges.
+    const reading = dense.some(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.top < height * .82 && rect.bottom > height * .18;
+    });
+    if (reading) opacity = 0;
+
+    const ctaRect = cta.getBoundingClientRect();
+    const ctaProgress = ease(clamp((height * .9 - ctaRect.top) / (height * .7)));
+    if (!reading && ctaProgress > 0 && ctaRect.bottom > height * .1) {
+      const targetX = innerWidth - Math.min(235, innerWidth * .2) - baseX;
+      const targetY = height * .53 - baseY;
+      x += (targetX - x) * ctaProgress;
+      y += (targetY - y) * ctaProgress;
+      scale += (.51 - scale) * ctaProgress;
+      opacity = .53 * ctaProgress;
+    }
+    if (ctaRect.bottom < height * .1) opacity = 0;
+
+    earth.style.setProperty('--earth-x', `${x.toFixed(1)}px`);
+    earth.style.setProperty('--earth-y', `${y.toFixed(1)}px`);
+    earth.style.setProperty('--earth-scale', scale.toFixed(3));
+    earth.style.setProperty('--earth-opacity', opacity.toFixed(3));
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', measure, { passive: true });
+  mobile.addEventListener('change', measure);
+  reduced.addEventListener('change', measure);
+  measure();
+
+  const clock = document.getElementById('orbitClock');
+  if (clock) {
+    const format = new Intl.DateTimeFormat('pt-BR', {
+      timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit',
+      second: '2-digit', hour12: false
+    });
+    const tick = () => { clock.textContent = `${format.format(new Date())} BRT`; };
+    tick(); setInterval(tick, 1000);
+  }
+})();
