@@ -50,7 +50,7 @@
       new THREE.TextureLoader().load('/assets/img/orbit/nasa-blue-marble-map-2048.webp', texture => {
         texture.encoding = THREE.sRGBEncoding;
         globe = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 48), new THREE.MeshPhongMaterial({map:texture, shininess:3, specular:0x192c44}));
-        globe.rotation.y = Math.PI / 6; // South America faces the visitor first.
+        globe.rotation.y = -Math.PI / 6; // The Americas face the visitor first.
         globe.rotation.z = -.09;
         scene.add(globe);
         ready = true;
