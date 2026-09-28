@@ -1,0 +1,59 @@
+/* A single photographic Earth travels behind the home page, clear of the content. */
+.page{position:relative;z-index:1}
+.earth-journey{
+  position:fixed;z-index:0;left:var(--earth-left,78vw);top:var(--earth-top,49vh);
+  width:clamp(390px,45vw,680px);aspect-ratio:1;pointer-events:none;
+  transform:translate(-50%,-50%) translate3d(var(--earth-x,0px),var(--earth-y,0px),0);
+  opacity:var(--earth-opacity,0);will-change:transform,opacity;transition:opacity .4s ease;
+}
+.earth-journey__globe{
+  width:100%;height:100%;transform:scale(var(--earth-scale,1));
+  filter:drop-shadow(0 0 34px rgba(69,171,232,.27));
+}
+.earth-journey__globe::before{
+  content:"";position:absolute;inset:6%;border-radius:50%;
+  box-shadow:0 0 58px 8px rgba(60,155,227,.14),inset 0 0 20px rgba(99,191,249,.22);
+}
+.earth-journey img{
+  display:block;width:100%;height:100%;object-fit:contain;
+  -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+  mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+  filter:brightness(1.16) saturate(1.14);
+}
+.hero .planet-fallback{
+  display:block;object-fit:contain;border-radius:50%;
+  -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+  mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+  filter:brightness(1.22) saturate(1.14);
+}
+.has-earth-journey .hero .planet-wrap{display:none}
+/* The journey passes behind the CTA; its copy and controls retain contrast. */
+.cta-box{position:relative;isolation:isolate}
+@media(max-width:900px){
+  .earth-journey{display:none}
+  .has-earth-journey .hero .planet-wrap,.hero .planet-wrap{
+    display:block;width:min(470px,110vw);right:-40%;top:59%;
+    transform:translateY(-50%);opacity:1;filter:drop-shadow(0 0 32px rgba(69,171,232,.2));
+  }
+  .hero .planet-wrap::before,.hero .planet-wrap::after{display:none}
+  .hero .planet-fallback{
+    display:block;object-fit:contain;border-radius:50%;
+    -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+    mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
+    filter:brightness(1.22) saturate(1.14);
+  }
+  .hero .hero-visual{opacity:.7}
+  .cta-box{overflow:hidden}
+  .cta-box::before{
+    content:"";position:absolute;z-index:-1;width:290px;aspect-ratio:1;right:-120px;bottom:-135px;
+    background:url('/assets/img/orbit/nasa-blue-marble-south-america.webp') center/contain no-repeat;
+    opacity:.17;border-radius:50%;
+    -webkit-mask-image:radial-gradient(circle,#000 42%,transparent 49%);
+    mask-image:radial-gradient(circle,#000 42%,transparent 49%);
+  }
+}
+@media(max-width:420px){.hero .planet-wrap{width:min(450px,118vw);right:-46%;top:62%}.hero .hero-visual{opacity:.53}}
+@media(prefers-reduced-motion:reduce){
+  .earth-journey{will-change:auto}
+  .hero .planet-wrap{transition:none;animation:none}
+}
