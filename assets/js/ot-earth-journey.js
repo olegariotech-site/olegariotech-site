@@ -39,7 +39,10 @@
 
     const progress = ease(clamp(-heroRect.top / Math.max(1, heroRect.height * .84)));
     let x = (innerWidth - 106 - baseX) * progress;
-    let y = (height * .66 - baseY) * progress;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - height);
+    const pageProgress = clamp(scrollY / maxScroll);
+    const travelY = height * (.62 + pageProgress * .12);
+    let y = (travelY - baseY) * progress;
     let scale = 1 - progress * .72;
     let opacity = .88 - progress * .48;
 
@@ -48,17 +51,17 @@
       const rect = section.getBoundingClientRect();
       return rect.top < height * .82 && rect.bottom > height * .18;
     });
-    if (reading) opacity = 0;
+    if (reading) opacity = Math.min(opacity, .11);
 
     const ctaRect = cta.getBoundingClientRect();
     const ctaProgress = ease(clamp((height * .9 - ctaRect.top) / (height * .7)));
-    if (!reading && ctaProgress > 0 && ctaRect.bottom > height * .1) {
-      const targetX = innerWidth - Math.min(235, innerWidth * .2) - baseX;
-      const targetY = height * .53 - baseY;
+    if (ctaProgress > 0 && ctaRect.bottom > height * .1) {
+      const targetX = innerWidth - Math.min(210, innerWidth * .17) - baseX;
+      const targetY = height * .69 - baseY;
       x += (targetX - x) * ctaProgress;
       y += (targetY - y) * ctaProgress;
-      scale += (.51 - scale) * ctaProgress;
-      opacity = .53 * ctaProgress;
+      scale += (.38 - scale) * ctaProgress;
+      opacity = Math.max(opacity, .34 * ctaProgress);
     }
     if (ctaRect.bottom < height * .1) opacity = 0;
 
