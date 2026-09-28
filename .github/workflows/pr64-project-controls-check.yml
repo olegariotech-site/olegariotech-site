@@ -1,0 +1,74 @@
+name: PR64 project controls visual check
+
+on:
+  push:
+    branches:
+      - fix/earth-rotation-acai-cover-20260928
+    paths:
+      - 'index.html'
+      - '.github/workflows/pr64-project-controls-check.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start site
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/server.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/server.log
+          exit 1
+      - name: Validate project controls
+        run: |
+          cat > check.mjs <<'JS'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          fs.mkdirSync('visual-check',{recursive:true});
+          const browser=await chromium.launch({headless:true});
+          for(const [name,w,h] of [['notebook',1366,768],['desktop',1920,1080]]){
+            const page=await browser.newPage({viewport:{width:w,height:h}});
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await page.addStyleTag({content:'#otConsent{display:none!important}.ot-consent-backdrop{display:none!important}'});
+            await page.locator('#projetos').scrollIntoViewIfNeeded();
+            await page.waitForTimeout(700);
+            for(const key of ['acai','kl']){
+              await page.locator('[data-project="'+key+'"]').evaluate(el=>el.click());
+              await page.waitForTimeout(500);
+              const state=await page.evaluate(()=>{
+                const audio=document.querySelector('.desktop-audio-toggle');
+                const wa=document.getElementById('waFab');
+                const a=audio?getComputedStyle(audio):null;
+                const w=wa?getComputedStyle(wa):null;
+                return {
+                  audioHidden:audio?.classList.contains('is-context-hidden'),
+                  audioOpacity:a?.opacity,
+                  audioVisibility:a?.visibility,
+                  audioPointer:a?.pointerEvents,
+                  audioTabIndex:audio?.tabIndex,
+                  waVisible:wa?.classList.contains('is-visible'),
+                  waOpacity:w?.opacity
+                };
+              });
+              console.log(JSON.stringify({viewport:name,case:key,...state}));
+              await page.screenshot({path:'visual-check/'+name+'-'+key+'.png',fullPage:false});
+            }
+            await page.close();
+          }
+          await browser.close();
+          JS
+          node check.mjs
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr64-project-controls-check
+          path: visual-check/*.png
+          retention-days: 7
