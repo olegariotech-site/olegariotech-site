@@ -1,0 +1,53 @@
+/* Portfolio cases: site-led covers with the original project photography. */
+#projetos .project-stage{align-items:stretch;gap:clamp(18px,2vw,30px)}
+#projetos .project-image{position:relative;display:block;align-self:center;min-width:0;min-height:0;aspect-ratio:1586/992;isolation:isolate;overflow:hidden;background:#091020}
+#projetos .project-image>img{display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:center;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+#projetos .project-image::after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid rgba(255,255,255,.06);border-radius:inherit}
+#projetos .project-stage.fade-in .project-image{animation:caseReveal .5s cubic-bezier(.2,.8,.2,1) both}
+#projetos .project-stage.fade-in .project-copy{animation:caseCopy .48s .05s cubic-bezier(.2,.8,.2,1) both}
+@keyframes caseReveal{from{opacity:.55;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes caseCopy{from{opacity:.45;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(hover:hover){#projetos .project-image:hover>img{transform:scale(1.025)}#projetos .project-tab:hover{transform:translateY(-2px)}}
+
+.case-cover{width:100%;height:100%;position:relative;overflow:hidden;contain:layout paint}
+.case-cover img{width:100%;height:100%;object-fit:cover}
+.case-cover__chrome{height:12%;display:flex;align-items:center;gap:9px;padding:0 4%;border-bottom:1px solid rgba(255,255,255,.15);font-size:clamp(8px,.9vw,13px);font-weight:700;letter-spacing:.035em;white-space:nowrap}
+.case-cover__chrome img{width:auto;height:65%;max-width:35%;object-fit:contain;object-position:left center}
+.case-cover__chrome span{margin-left:auto;opacity:.75;font-size:.8em}
+.case-cover--kl{background:radial-gradient(circle at 78% 74%,#183f62,#051b3b 63%);color:white;font-family:'Inter',sans-serif}
+.case-cover--kl .case-cover__chrome{border-color:rgba(215,170,54,.22)}
+.case-cover--kl .case-cover__chrome img{max-width:33%;height:58%}
+.case-cover--kl .case-cover__chrome span{color:#e8b83d}
+.case-cover--kl .case-cover__headline{position:absolute;left:5%;top:20%;width:43%;font-size:clamp(19px,2.4vw,36px);line-height:1.08;letter-spacing:-.045em;font-weight:800}
+.case-cover--kl .case-cover__headline em{font-style:normal;color:#e5ae2e}
+.case-cover--kl .case-cover__truck{position:absolute;right:3%;bottom:7%;width:62%;height:59%;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.25);background:#0a1c32;box-shadow:0 16px 30px rgba(0,0,0,.34)}
+.case-cover--kl .case-cover__truck img{object-fit:cover;object-position:center 52%}
+.case-cover--kl .case-cover__mini{position:absolute;z-index:2;width:23%;height:29%;border:2px solid #071c3c;border-radius:10px;overflow:hidden;background:#17334b;box-shadow:0 10px 20px rgba(0,0,0,.4)}
+.case-cover--kl .case-cover__mini img{object-position:center}
+.case-cover--kl .case-cover__mini--fiorino{left:5%;bottom:8%}
+.case-cover--kl .case-cover__mini--van{right:4%;top:17%}
+.case-cover--kl .case-cover__mini--moto{left:29%;bottom:5%;width:17%;height:32%}
+.case-cover--kl .case-cover__mini--moto img{object-position:center 35%}
+.case-cover--kl .case-cover__caption{position:absolute;z-index:3;right:5%;bottom:9%;font-size:clamp(8px,.85vw,11px);font-weight:800;text-transform:uppercase;letter-spacing:.08em;text-shadow:0 2px 6px #000}
+.case-cover--kl .case-cover__truck img,.case-cover--kl .case-cover__mini img{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+
+.case-cover--cintia{background:radial-gradient(circle at 34% 75%,#48291e,#1b0c09 66%);color:#f5ebd9;font-family:Georgia,serif}
+.case-cover--cintia::before{content:"";position:absolute;inset:12% 0 0;background:url('/assets/img/projetos/advocacia/cintia-assinatura-poster.jpg') center/cover;opacity:.16;filter:sepia(1);pointer-events:none}
+.case-cover--cintia .case-cover__chrome{position:relative;border-color:rgba(219,180,118,.23)}
+.case-cover--cintia .case-cover__chrome img{height:70%;max-width:30%;object-position:left center}
+.case-cover--cintia .case-cover__chrome span{color:#d8b679}
+.case-cover--cintia .case-cover__editorial{position:absolute;left:5%;top:25%;width:55%;z-index:1}
+.case-cover--cintia .case-cover__eyebrow{display:block;margin-bottom:9%;font:600 clamp(7px,.75vw,10px)/1.3 'Inter',sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#d8b679}
+.case-cover--cintia .case-cover__title{display:block;font-size:clamp(20px,2.65vw,39px);line-height:1.07;letter-spacing:-.035em}
+.case-cover--cintia .case-cover__subtitle{display:block;margin-top:7%;font-size:clamp(11px,1.25vw,18px);line-height:1.3;font-style:italic;color:#dbbf91}
+.case-cover--cintia .case-cover__rule{display:block;width:40%;height:2px;margin-top:10%;background:#d2ab6d}
+.case-cover--cintia .case-cover__portrait{position:absolute;right:4%;top:23%;width:35%;height:68%;padding:7px 7px 26px;border:1px solid rgba(216,182,121,.56);background:#281510;box-shadow:0 15px 40px rgba(0,0,0,.35)}
+.case-cover--cintia .case-cover__portrait img{object-position:center 37%}
+.case-cover--cintia .case-cover__portrait span{display:block;margin-top:5px;font-size:clamp(8px,.8vw,12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.case-cover--cintia .case-cover__portrait img{height:calc(100% - 22px);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+@media(hover:hover){.case-cover--kl:hover .case-cover__truck img,.case-cover--kl:hover .case-cover__mini img,.case-cover--cintia:hover .case-cover__portrait img{transform:scale(1.035)}}
+@media(hover:hover){.project-image--kl:hover .case-cover__chrome img,.project-image--cintia:hover .case-cover__chrome img{transform:none}}
+@media(min-width:901px) and (max-width:1240px){#projetos .project-stage{grid-template-columns:minmax(0,1fr)}#projetos .project-copy{padding-inline:10px}}
+@media(max-width:900px){#projetos .project-tabs{flex-wrap:wrap;overflow:visible;gap:8px;padding-bottom:10px}#projetos .project-tab{flex:0 0 auto}#projetos .project-image{height:auto;min-height:0;aspect-ratio:16/10}#projetos .project-image>img{height:100%;aspect-ratio:auto}.case-cover{min-height:0;aspect-ratio:16/10}.case-cover--kl .case-cover__headline{font-size:clamp(15px,5vw,24px)}.case-cover--cintia .case-cover__title{font-size:clamp(18px,5.2vw,28px)}.case-cover--cintia .case-cover__subtitle{font-size:clamp(10px,2.7vw,15px)}}
+@media(max-width:420px){.case-cover__chrome{font-size:7px}.case-cover--kl .case-cover__headline{font-size:clamp(14px,4.9vw,20px)}.case-cover--cintia .case-cover__title{font-size:clamp(16px,5vw,22px)}}
+@media(prefers-reduced-motion:reduce){#projetos .project-stage.fade-in .project-image,#projetos .project-stage.fade-in .project-copy{animation:none}#projetos .project-image>img,.case-cover--kl img,.case-cover--cintia img,#projetos .project-tab{transition:none!important}#projetos .project-image:hover>img,.case-cover--kl:hover img,.case-cover--cintia:hover img,#projetos .project-tab:hover{transform:none}}
