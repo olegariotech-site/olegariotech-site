@@ -32,7 +32,7 @@
 .has-earth-journey .hero .planet-wrap{display:none}
 /* The journey passes behind the CTA; its copy and controls retain contrast. */
 .cta-box{position:relative;isolation:isolate}
-@media(min-width:901px) and (max-width:1150px){.earth-journey{width:43vw}}
+@media(min-width:901px) and (max-width:1150px){.earth-journey{width:41vw}}
 @media(max-width:900px){
   .earth-journey{display:none}
   .has-earth-journey .hero .planet-wrap,.hero .planet-wrap{
