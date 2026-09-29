@@ -24,7 +24,8 @@
 
   function measure() {
     const rect = visual.getBoundingClientRect();
-    baseX = rect.left + rect.width * .57;
+    // Keep the whole opening sphere in view as its size changes across laptops and desktops.
+    baseX = Math.min(rect.left + rect.width * .57, innerWidth - earth.offsetWidth * .5 - 16);
     baseY = rect.top + scrollY + rect.height * .5;
     earth.style.setProperty('--earth-left', `${baseX}px`);
     earth.style.setProperty('--earth-top', `${baseY}px`);

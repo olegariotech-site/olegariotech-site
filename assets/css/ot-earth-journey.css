@@ -2,7 +2,7 @@
 .page{position:relative;z-index:1}
 .earth-journey{
   position:fixed;z-index:0;left:var(--earth-left,78vw);top:var(--earth-top,49vh);
-  width:clamp(390px,45vw,680px);aspect-ratio:1;pointer-events:none;
+  width:clamp(390px,48vw,760px);aspect-ratio:1;pointer-events:none;
   transform:translate(-50%,-50%) translate3d(var(--earth-x,0px),var(--earth-y,0px),0);
   opacity:var(--earth-opacity,0);will-change:transform,opacity;transition:opacity .4s ease;
 }

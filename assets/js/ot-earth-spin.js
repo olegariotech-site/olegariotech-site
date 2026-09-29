@@ -9,12 +9,13 @@
   const canLoad = () => !mobile.matches && !reduced.matches && !navigator.connection?.saveData;
   let requested = false, ready = false, renderer, scene, camera, globe;
   let frame = 0, last = 0;
+  const radiansPerMs = Math.PI * 2 / 42000; // One complete, seamless turn every 42 seconds.
 
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function draw(now) {
     if (!frame) return;
     if (now - last >= 33) {
-      globe.rotation.y += (last ? Math.min(80, now - last) : 33) * .000055;
+      globe.rotation.y = (globe.rotation.y + (last ? Math.min(80, now - last) : 33) * radiansPerMs) % (Math.PI * 2);
       renderer.render(scene, camera);
       last = now;
     }
