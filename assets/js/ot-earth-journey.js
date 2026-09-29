@@ -14,10 +14,18 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const ease = value => value * value * (3 - 2 * value);
   let baseX = 0, baseY = 0, frame = 0;
+  function setAnimation(active) {
+    const next = String(active);
+    if (earth.dataset.animate !== next) {
+      earth.dataset.animate = next;
+      earth.dispatchEvent(new Event('ot-earth-visibility'));
+    }
+  }
 
   function measure() {
     const rect = visual.getBoundingClientRect();
-    baseX = rect.left + rect.width * .57;
+    // Keep the whole opening sphere in view as its size changes across laptops and desktops.
+    baseX = Math.min(rect.left + rect.width * .57, innerWidth - earth.offsetWidth * .5 - 16);
     baseY = rect.top + scrollY + rect.height * .5;
     earth.style.setProperty('--earth-left', `${baseX}px`);
     earth.style.setProperty('--earth-top', `${baseY}px`);
@@ -26,10 +34,11 @@
 
   function update() {
     frame = 0;
-    if (mobile.matches) return;
+    if (mobile.matches) { setAnimation(false); return; }
     const height = innerHeight;
     const heroRect = hero.getBoundingClientRect();
     if (reduced.matches) {
+      setAnimation(false);
       earth.style.setProperty('--earth-x', '0px');
       earth.style.setProperty('--earth-y', '0px');
       earth.style.setProperty('--earth-scale', '1');
@@ -55,7 +64,7 @@
 
     const ctaRect = cta.getBoundingClientRect();
     const ctaProgress = ease(clamp((height * .9 - ctaRect.top) / (height * .7)));
-    if (ctaProgress > 0 && ctaRect.bottom > height * .1) {
+    if (!reading && ctaProgress > 0 && ctaRect.bottom > height * .1) {
       const targetX = innerWidth - Math.min(210, innerWidth * .17) - baseX;
       const targetY = height * .69 - baseY;
       x += (targetX - x) * ctaProgress;
@@ -69,6 +78,7 @@
     earth.style.setProperty('--earth-y', `${y.toFixed(1)}px`);
     earth.style.setProperty('--earth-scale', scale.toFixed(3));
     earth.style.setProperty('--earth-opacity', opacity.toFixed(3));
+    setAnimation(opacity > .16);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   addEventListener('scroll', schedule, { passive: true });
