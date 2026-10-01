@@ -17,7 +17,7 @@
     var hero=document.getElementById('inicio');if(!hero)return;
     var section=document.createElement('section');
     section.id='prova';section.className='ot-proof-strip';section.setAttribute('aria-label','Projetos reais da Olegario Tech');
-    section.innerHTML='<div class="inner ot-proof-strip__inner"><div class="ot-proof-strip__lead"><span>Projetos reais em operação</span><strong>Antes de prometer, mostramos o que já colocamos no ar.</strong></div><div class="ot-proof-strip__cases"><a href="#projetos" data-proof-case="Açaí do Dudu"><b>Açaí do Dudu</b><span>Marca + site + presença digital</span></a><a href="#projetos" data-proof-case="Adega São Marcos"><b>Adega São Marcos</b><span>Site + campanhas + WhatsApp</span></a><a href="#projetos" data-proof-case="Cíntia Advocacia"><b>Cíntia Advocacia</b><span>Presença profissional + autoridade</span></a></div></div>';
+    section.innerHTML='<div class="inner ot-proof-strip__inner"><div class="ot-proof-strip__lead"><span>Projetos reais em operação</span><strong>Antes de prometer, mostramos o que já colocamos no ar.</strong></div><div class="ot-proof-strip__cases"><a href="#projetos" data-proof-case="Açaí do Dudu" data-project="acai"><b>Açaí do Dudu</b><span>Marca + site + presença digital</span></a><a href="#projetos" data-proof-case="K.L Transporte" data-project="kl"><b>K.L Transporte</b><span>Site + SEO local + WhatsApp</span></a><a href="#projetos" data-proof-case="Cíntia Advocacia" data-project="advocacia"><b>Cíntia Advocacia</b><span>Presença profissional + autoridade</span></a></div></div>';
     hero.insertAdjacentElement('afterend',section);
   }
 
@@ -27,11 +27,11 @@
     var actions=document.querySelector('.hero .hero-actions');
     if(actions){
       var primary=actions.querySelector('.btn-primary');
-      if(primary) primary.innerHTML='Quero meu diagnóstico digital <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      if(primary) primary.innerHTML='Fazer meu diagnóstico gratuito <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
       var secondary=actions.querySelector('.btn-wa');
       if(secondary){secondary.textContent='Ver projetos reais';secondary.href='#projetos';secondary.removeAttribute('target');secondary.removeAttribute('rel');secondary.removeAttribute('data-generate-lead');secondary.classList.remove('btn-wa');secondary.classList.add('btn-ghost');}
     }
-    var mobileCta=document.querySelector('.mobile-cta');if(mobileCta)mobileCta.textContent='Diagnóstico';
+    var mobileCta=document.querySelector('.mobile-cta');if(mobileCta)mobileCta.textContent='Diagnóstico gratuito';
     var orbit=document.querySelector('.orbit-status');
     if(orbit)orbit.innerHTML='ECOSSISTEMA · OT<br>site · <b>online</b><br>WhatsApp · <b>conectado</b><br>dados · <b>medindo</b><br>base · <b>Valinhos/SP</b>';
   }
@@ -52,7 +52,7 @@
   }
 
   function tuneProjects(){
-    var headerCta=document.querySelector('#projetos .projects-head .btn');if(headerCta)headerCta.textContent='Quero uma estrutura assim';
+    var headerCta=document.querySelector('#projetos .projects-head .btn');if(headerCta)headerCta.textContent='Quero um projeto assim';
     try{if(typeof projects!=='undefined'&&projects.acai){projects.acai.label='Projeto entregue · Marca + ecossistema digital';projects.acai.text='Projeto concluído e entregue. A OT organizou a marca e construiu uma presença digital pronta para vender confiança antes do primeiro contato.';projects.acai.points=['Desafio · organizar marca e presença digital antes fragmentadas','OT entregou · identidade, logotipo, site, mobile, WhatsApp e mensuração','Agora · projeto publicado, entregue e preparado para evolução contínua'];if(typeof renderProject==='function')renderProject('acai');}}catch(e){}
   }
 
@@ -72,14 +72,14 @@
 
   function tuneProducts(){var section=document.getElementById('produtos');if(!section)return;section.classList.add('ot-products-teaser');section.innerHTML='<div class="inner ot-products-teaser__box"><div><span class="section-label">Conteúdo autoral</span><h2 class="section-title">Produtos digitais <span class="accent">em um espaço próprio.</span></h2><p class="section-copy">Livros e materiais práticos continuam disponíveis, sem disputar atenção com a jornada comercial da Olegario Tech.</p></div><a class="btn btn-ghost" href="/produtos/">Ver produtos digitais</a></div>';}
 
-  function tuneEcosystem(){var section=document.getElementById('ecossistema');if(!section)return false;var title=section.querySelector('.ot-ecosystem__title');if(title)title.innerHTML='Tudo o que usamos para crescer também pode trabalhar pelo <span class="gradient-text">seu negócio.</span>';var p=section.querySelector('.ot-ecosystem__copy p');if(p)p.textContent='Marca, site, WhatsApp, Google, dados e campanhas conectados para transformar presença digital em oportunidade comercial.';var cta=section.querySelector('.ot-ecosystem__cta');if(cta)cta.textContent='Quero montar meu ecossistema';return true;}
+  function tuneEcosystem(){var section=document.getElementById('ecossistema');if(!section)return false;var title=section.querySelector('.ot-ecosystem__title');if(title)title.innerHTML='Tudo o que usamos para crescer também pode trabalhar pelo <span class="gradient-text">seu negócio.</span>';var p=section.querySelector('.ot-ecosystem__copy p');if(p)p.textContent='Marca, site, WhatsApp, Google, dados e campanhas conectados para transformar presença digital em oportunidade comercial.';var cta=section.querySelector('.ot-ecosystem__cta');if(cta)cta.textContent='Quero organizar meu ecossistema';return true;}
 
-  function tuneFinalCta(){var title=document.querySelector('#contato .cta-box h2');if(title)title.innerHTML='Seu digital não precisa ser um monte de <span class="gradient-text">peças soltas.</span>';setText('#contato .cta-box p','Comece pelo diagnóstico. A OT entende o momento do seu negócio e mostra a estrutura mais direta para gerar confiança, contatos e oportunidades.');var buttons=document.querySelectorAll('#contato .hero-actions .btn');if(buttons[0])buttons[0].textContent='Quero meu diagnóstico digital';if(buttons[1])buttons[1].textContent='Falar sobre meu projeto';}
+  function tuneFinalCta(){var title=document.querySelector('#contato .cta-box h2');if(title)title.innerHTML='Seu digital não precisa ser um monte de <span class="gradient-text">peças soltas.</span>';setText('#contato .cta-box p','Comece pelo diagnóstico. A OT entende o momento do seu negócio e mostra a estrutura mais direta para gerar confiança, contatos e oportunidades.');var buttons=document.querySelectorAll('#contato .hero-actions .btn');if(buttons[0])buttons[0].textContent='Fazer meu diagnóstico gratuito';if(buttons[1])buttons[1].textContent='Falar sobre meu projeto';}
 
   function installHomeTracking(){
     var seen={};if('IntersectionObserver'in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting&&entry.intersectionRatio>=.35&&!seen[entry.target.id]){seen[entry.target.id]=true;safeTrack('view_section',{section_name:entry.target.id});}});},{threshold:[.35]});['inicio','prova','solucoes','projetos','metodo','sobre','ecossistema','contato'].forEach(function(id){var el=document.getElementById(id);if(el)observer.observe(el);});}
     var depths=[25,50,75,90],sent={};addEventListener('scroll',function(){var doc=document.documentElement,max=Math.max(1,doc.scrollHeight-innerHeight),pct=Math.round((scrollY/max)*100);depths.forEach(function(d){if(pct>=d&&!sent[d]){sent[d]=true;safeTrack('scroll_depth',{percent:d});}});},{passive:true});
-    document.addEventListener('click',function(e){var proof=e.target.closest('[data-proof-case]');if(proof)safeTrack('click_proof_case',{project_name:proof.dataset.proofCase});},true);
+    document.addEventListener('click',function(e){var proof=e.target.closest('[data-proof-case]');if(!proof)return;var key=proof.dataset.project;if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case',{project_name:proof.dataset.proofCase});},true);
     var params=new URLSearchParams(location.search),attribution={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(params.get(k))attribution[k]=params.get(k).slice(0,100);});if(Object.keys(attribution).length){try{sessionStorage.setItem('ot_attribution',JSON.stringify(attribution));}catch(e){}}
     document.addEventListener('click',function(e){var link=e.target.closest('a[href*="wa.me/"]');if(!link)return;var a={};try{a=JSON.parse(sessionStorage.getItem('ot_attribution')||'{}');}catch(err){}if(Object.keys(a).length)safeTrack('lead_attribution',a);},true);
   }
