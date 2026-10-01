@@ -52,8 +52,6 @@
   }
 
   function tuneProjects(){
-    var label=document.querySelector('#projetos .projects-head .section-label');if(label)label.textContent='Prova antes da promessa';
-    var title=document.querySelector('#projetos .projects-head .section-title');if(title)title.innerHTML='Projetos reais. <span class="accent">Negócios reais.</span>';
     var headerCta=document.querySelector('#projetos .projects-head .btn');if(headerCta)headerCta.textContent='Quero uma estrutura assim';
     try{if(typeof projects!=='undefined'&&projects.acai){projects.acai.label='Projeto entregue · Marca + ecossistema digital';projects.acai.text='Projeto concluído e entregue. A OT organizou a marca e construiu uma presença digital pronta para vender confiança antes do primeiro contato.';projects.acai.points=['Desafio · organizar marca e presença digital antes fragmentadas','OT entregou · identidade, logotipo, site, mobile, WhatsApp e mensuração','Agora · projeto publicado, entregue e preparado para evolução contínua'];if(typeof renderProject==='function')renderProject('acai');}}catch(e){}
   }
