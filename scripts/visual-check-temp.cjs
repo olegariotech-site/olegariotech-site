@@ -48,6 +48,8 @@ fs.mkdirSync('visual-check-output', { recursive: true });
       }
       const first = page.locator('#projetos [data-project=acai]');
       await first.press('Enter');
+      await first.evaluate(el => window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 170, behavior: 'instant' }));
+      await page.screenshot({ path: `visual-check-output/${width}-tabs.png`, animations: 'disabled' });
       await first.press('ArrowRight');
       assert.equal(await page.locator('#projetos [aria-selected=true]').getAttribute('data-project'), 'kl');
       await page.locator('#projetos [data-project=kl]').press('End');
@@ -58,8 +60,12 @@ fs.mkdirSync('visual-check-output', { recursive: true });
     }
     const reduced = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await reduced.goto('http://127.0.0.1:8009/', { waitUntil: 'domcontentloaded' });
-    const motion = await reduced.locator('#projetos .project-image').evaluate(el => getComputedStyle(el).animationName);
-    assert.equal(motion, 'none');
+    await reduced.locator('#projetos .project-image').waitFor();
+    await reduced.locator('#projetos [data-project=kl]').press('Enter');
+    const motion = await reduced.locator('#projetos .project-image').evaluate(el => ({ requested: matchMedia('(prefers-reduced-motion: reduce)').matches, name: getComputedStyle(el).animationName, cssLoaded: !!document.querySelector('link[href*="ot-project-cases.css"]')?.sheet }));
+    assert.equal(motion.requested, true);
+    assert.equal(motion.cssLoaded, true);
+    assert.ok(['none', ''].includes(motion.name), `reduced motion animation: ${motion.name}`);
     await reduced.close();
     fs.writeFileSync('visual-check-output/report.json', JSON.stringify(report, null, 2));
     console.log(`PASS: ${sizes.length} viewport widths, ${cases.length} cases, keyboard tabs, reduced motion`);
