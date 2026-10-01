@@ -14,6 +14,8 @@ fs.mkdirSync('visual-check-output', { recursive: true });
       const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
       await page.goto('http://127.0.0.1:8009/', { waitUntil: 'domcontentloaded' });
       await page.locator('#projetos .project-stage .project-image').waitFor();
+      await page.locator('#otConsent').waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
+      if (await page.locator('#otConsent').isVisible()) await page.locator('[data-consent-reject]').click();
       assert.equal(await page.locator('#projetos [role=tablist]').count(), 1);
       assert.equal(await page.locator('#projetos [role=group]').count(), 2);
       assert.deepEqual(await page.locator('#projetos [role=group]').evaluateAll(groups => groups.map(group => group.getAttribute('aria-labelledby'))), ['projectGroupReal', 'projectGroupConcept']);
@@ -21,6 +23,7 @@ fs.mkdirSync('visual-check-output', { recursive: true });
       assert.equal(await page.locator('#projetos [data-project=kl]').evaluate(el => getComputedStyle(el, '::after').content), '"novo"');
       for (const key of cases) {
         const tab = page.locator(`#projetos [data-project=${key}]`);
+        await tab.evaluate(el => window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 160, behavior: 'instant' }));
         await tab.click();
         assert.equal(await tab.getAttribute('aria-selected'), 'true', `${width}: selected ${key}`);
         assert.equal(await page.locator('#projetos [aria-selected=true]').count(), 1);
@@ -44,7 +47,7 @@ fs.mkdirSync('visual-check-output', { recursive: true });
         report.push({ width, key, imageTop: Math.round(metrics.image.top), copyTop: Math.round(metrics.copy.top), sectionWidth: Math.round(metrics.section.width), viewportWidth: metrics.viewportWidth, bodyWidth: metrics.bodyWidth });
       }
       const first = page.locator('#projetos [data-project=acai]');
-      await first.click();
+      await first.press('Enter');
       await first.press('ArrowRight');
       assert.equal(await page.locator('#projetos [aria-selected=true]').getAttribute('data-project'), 'kl');
       await page.locator('#projetos [data-project=kl]').press('End');
