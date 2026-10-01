@@ -542,7 +542,7 @@
       '    <h2 class="ot-ecosystem__title" id="ecossistemaTitle">O que você vê na OT também pode trabalhar pelo <span class="gradient-text">seu negócio.</span></h2>',
       '    <p>Este site é uma demonstração prática: presença profissional, atendimento, dados e canais conectados para transformar visita em oportunidade comercial.</p>',
       '    <span class="ot-ecosystem__status">Ecossistema OT ativo</span>',
-      '    <a data-generate-lead class="btn btn-ghost ot-ecosystem__cta" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20ecossistema%20digital%20do%20site%20e%20quero%20entender%20o%20que%20pode%20ser%20feito%20para%20o%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Quero uma estrutura assim</a>',
+      '    <a data-generate-lead class="btn btn-ghost ot-ecosystem__cta" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20ecossistema%20digital%20do%20site%20e%20quero%20entender%20o%20que%20pode%20ser%20feito%20para%20o%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Quero organizar meu ecossistema</a>',
       '  </div>',
       '  <div class="ot-ecosystem__grid" aria-label="Recursos digitais em operação na Olegario Tech">',
       '    <article class="ot-ecosystem__card"><small>01 · presença</small><strong>Site responsivo e comercial</strong><p>Experiência premium no computador e no celular, com oferta e chamadas para ação claras.</p></article>',
