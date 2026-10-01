@@ -13,8 +13,6 @@
 #projetos .project-testimonial blockquote{margin:9px 0 11px;color:#f6efe5;font:italic clamp(.86rem,1.1vw,.96rem)/1.5 Georgia,serif}
 #projetos .project-testimonial figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px;font-size:.72rem}
 #projetos .project-testimonial figcaption strong{color:#e9dfd1;font-weight:600}
-#projetos .project-testimonial__credit{display:flex;flex-direction:column;gap:2px}
-#projetos .project-testimonial__credit small{color:#b6aa9a;font-size:.67rem;line-height:1.35}
 #projetos .project-testimonial figcaption a{color:#e7bf80;text-decoration:underline;text-underline-offset:3px}
 #projetos .project-testimonial figcaption a:hover,#projetos .project-testimonial figcaption a:focus-visible{color:#fff2d9}
 @keyframes caseReveal{from{opacity:.55;transform:translateY(8px)}to{opacity:1;transform:none}}
