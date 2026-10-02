@@ -1,0 +1,131 @@
+name: Solution configurator preview
+
+on:
+  push:
+    branches:
+      - feature/ot-solution-configurator-v2
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-config
+          cd /tmp/ot-config
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http.log
+          exit 1
+      - name: Validate configurator
+        shell: bash
+        run: |
+          mkdir -p configurator-artifacts
+          cat > /tmp/ot-config/capture.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+
+          async function dismiss(page){
+            const accept=page.getByRole('button',{name:'Aceitar tudo'});
+            if(await accept.count()){await accept.click();await page.waitForTimeout(180);}
+          }
+
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(page);
+            await page.locator('#solucoes').scrollIntoViewIfNeeded();
+            await page.waitForTimeout(450);
+
+            const routes=[
+              ['presenca','Minha empresa não parece profissional','01-presenca-1440.png',3],
+              ['oferta','Preciso vender uma oferta','02-oferta-1440.png',3],
+              ['digital','Meu digital está todo solto','03-digital-1440.png',4]
+            ];
+            const checks=[];
+            for(const [key,label,file,nodeCount] of routes){
+              await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
+              await page.waitForTimeout(520);
+              const state=await page.evaluate((key)=>{
+                const stage=document.getElementById('solutionStage');
+                const content=document.getElementById('solutionContent');
+                return {
+                  route:stage?.dataset.route,
+                  contentRoute:content?.dataset.solution,
+                  status:stage?.querySelector('.solution-config-status b')?.textContent,
+                  nodes:stage?.querySelectorAll('.solution-route-node').length||0,
+                  scans:stage?.querySelectorAll('.solution-scan').length||0,
+                  layers:stage?.querySelectorAll('.solution-signal-layer').length||0,
+                  overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+                };
+              },key);
+              if(state.route!==key||state.contentRoute!==key||state.nodes!==nodeCount||state.scans!==1||state.layers!==1||state.overflow>1){
+                throw new Error('Route failed '+key+' '+JSON.stringify(state));
+              }
+              checks.push({key,...state});
+              await page.screenshot({path:'configurator-artifacts/'+file,fullPage:false});
+            }
+
+            // Same-route click must not duplicate visual overlays.
+            await page.getByRole('tab',{name:/meu digital está todo solto/i}).click();
+            await page.waitForTimeout(250);
+            const duplicates=await page.evaluate(()=>({
+              scans:document.querySelectorAll('#solutionStage .solution-scan').length,
+              layers:document.querySelectorAll('#solutionStage .solution-signal-layer').length,
+              statuses:document.querySelectorAll('#solutionStage .solution-config-status').length
+            }));
+            if(duplicates.scans!==1||duplicates.layers!==1||duplicates.statuses!==1) throw new Error('Duplicate overlays '+JSON.stringify(duplicates));
+
+            // Keyboard navigation remains functional.
+            const first=page.getByRole('tab',{name:/minha empresa não parece profissional/i});
+            await first.focus();
+            await first.press('ArrowRight');
+            await page.waitForTimeout(260);
+            const keyboard=await page.evaluate(()=>({
+              active:document.getElementById('solutionStage')?.dataset.route,
+              focused:document.activeElement?.dataset?.solution||null
+            }));
+            if(keyboard.active!=='oferta'||keyboard.focused!=='oferta') throw new Error('Keyboard failed '+JSON.stringify(keyboard));
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(mobile);
+            await mobile.locator('#solucoes').scrollIntoViewIfNeeded();
+            await mobile.waitForTimeout(350);
+            const mobileState=await mobile.evaluate(()=>({
+              route:document.getElementById('solutionStage')?.dataset.route,
+              layer:!!document.querySelector('.solution-signal-layer'),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(mobileState.route!=='presenca'||!mobileState.layer||mobileState.overflow>1) throw new Error('Mobile failed '+JSON.stringify(mobileState));
+            await mobile.screenshot({path:'configurator-artifacts/04-mobile-390.png',fullPage:false});
+
+            fs.writeFileSync('configurator-artifacts/diagnostics.json',JSON.stringify({checks,duplicates,keyboard,mobileState},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-config/capture.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: solution-configurator-preview
+          path: configurator-artifacts/
+          retention-days: 7
