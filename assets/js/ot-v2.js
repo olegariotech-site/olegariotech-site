@@ -70,7 +70,7 @@
     var stats=document.querySelectorAll('#sobre .about-stats span');if(stats[0])stats[0].textContent='30+ anos em vendas';if(stats[1])stats[1].textContent='Projetos reais em operação';if(stats[2])stats[2].textContent='Valinhos · Campinas · Brasil';
   }
 
-  function tuneProducts(){var section=document.getElementById('produtos');if(!section)return;section.classList.add('ot-products-teaser');section.innerHTML='<div class="inner ot-products-teaser__box"><div><span class="section-label">Conteúdo autoral</span><h2 class="section-title">Produtos digitais <span class="accent">em um espaço próprio.</span></h2><p class="section-copy">Livros e materiais práticos continuam disponíveis, sem disputar atenção com a jornada comercial da Olegario Tech.</p></div><a class="btn btn-ghost" href="/produtos/">Ver produtos digitais</a></div>';}
+  function tuneProducts(){var section=document.getElementById('produtos');if(section)section.classList.add('ot-products-teaser');}
 
   function tuneEcosystem(){var section=document.getElementById('ecossistema');if(!section)return false;var title=section.querySelector('.ot-ecosystem__title');if(title)title.innerHTML='Tudo o que usamos para crescer também pode trabalhar pelo <span class="gradient-text">seu negócio.</span>';var p=section.querySelector('.ot-ecosystem__copy p');if(p)p.textContent='Marca, site, WhatsApp, Google, dados e campanhas conectados para transformar presença digital em oportunidade comercial.';var cta=section.querySelector('.ot-ecosystem__cta');if(cta)cta.textContent='Quero organizar meu ecossistema';return true;}
 

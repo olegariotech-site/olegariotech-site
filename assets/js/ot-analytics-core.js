@@ -510,10 +510,10 @@
       style.id = 'ot-ecosystem-style';
       style.textContent = [
         '.ot-ecosystem{padding-top:44px;padding-bottom:44px}',
-        '.ot-ecosystem__shell{position:relative;display:grid;grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr);gap:30px;padding:38px;border:1px solid rgba(103,232,249,.18);border-radius:var(--radius);background:radial-gradient(circle at 12% 8%,rgba(37,99,235,.18),transparent 38%),radial-gradient(circle at 92% 90%,rgba(168,85,247,.13),transparent 36%),rgba(8,7,22,.84);box-shadow:var(--shadow);overflow:hidden}',
+        '.ot-ecosystem__shell{position:relative;display:grid;grid-template-columns:minmax(340px,.9fr) minmax(0,1.1fr);gap:30px;padding:38px;border:1px solid rgba(103,232,249,.18);border-radius:var(--radius);background:radial-gradient(circle at 12% 8%,rgba(37,99,235,.18),transparent 38%),radial-gradient(circle at 92% 90%,rgba(168,85,247,.13),transparent 36%),rgba(8,7,22,.84);box-shadow:var(--shadow);overflow:hidden}',
         '.ot-ecosystem__shell::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(90deg,transparent,#000 45%,#000)}',
         '.ot-ecosystem__copy,.ot-ecosystem__grid{position:relative;z-index:1}',
-        '.ot-ecosystem__title{margin:10px 0 15px;font-family:"Space Grotesk",sans-serif;font-size:clamp(2.15rem,3.5vw,3.65rem);line-height:.98;letter-spacing:-.045em}',
+        '.ot-ecosystem__title{margin:10px 0 15px;font-family:"Space Grotesk",sans-serif;font-size:clamp(2.05rem,3.2vw,3.35rem);line-height:.98;letter-spacing:-.045em}',
         '.ot-ecosystem__copy p{margin:0;color:var(--muted);font-size:.98rem;line-height:1.75}',
         '.ot-ecosystem__status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:8px 11px;border:1px solid rgba(37,211,102,.2);border-radius:999px;background:rgba(37,211,102,.065);color:#86efac;font-family:"Share Tech Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase}',
         '.ot-ecosystem__status::before{content:"";width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 14px rgba(37,211,102,.78)}',
