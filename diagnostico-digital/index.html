@@ -31,6 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/ot-consent.css?v=1">
+  <link rel="stylesheet" href="/assets/css/ot-diagnostic-v2.css?v=1">
   <script>
     window.OT_GA_ID='G-0YXCH58MXD';
     window.dataLayer=window.dataLayer||[];
@@ -43,7 +44,7 @@
       wait_for_update:500
     });
   </script>
-  <script src="/assets/js/ot-analytics.js?v=3" defer></script>
+  <script src="/assets/js/ot-analytics.js?v=4" defer></script>
   <style>
     :root{--bg:#050008;--panel:rgba(10,8,28,.86);--line:rgba(103,232,249,.16);--text:#f6f7ff;--muted:#c1c7dc;--ice:#67e8f9;--ice2:#22d3ee;--violet:#8b5cf6;--purple:#a855f7;--amber:#f5c56c;--green:#25d366;--shadow:0 34px 100px rgba(0,0,0,.72);--w:1180px}
     *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{min-height:100svh;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}a{text-decoration:none;color:inherit}button,input{font:inherit}button{cursor:pointer}img{max-width:100%;display:block}.skip-link{position:fixed;top:12px;left:16px;z-index:100;padding:12px 16px;border-radius:10px;background:var(--ice);color:#020b12;font-weight:900;transform:translateY(-180%);transition:transform .2s}.skip-link:focus{transform:translateY(0)}
@@ -73,14 +74,40 @@
           <div>
             <span class="eyebrow">Diagnóstico digital gratuito</span>
             <h1 class="title" id="diagnostic-title">Seu negócio está pronto para <span class="hl">gerar oportunidades pelo WhatsApp?</span></h1>
-            <p class="lead">Responda 4 perguntas rápidas e receba um diagnóstico inicial sobre sua presença digital antes de continuar pelo WhatsApp.</p>
+            <p class="lead">Responda 5 perguntas rápidas e veja seus principais sinais digitais sendo montados em tempo real.</p>
+
+            <div class="live-diagnostic" aria-label="Painel inicial do diagnóstico digital">
+              <div class="live-head">
+                <div><span>Digital Pulse</span><strong>Seu painel ao vivo</strong></div>
+                <span class="live-state">atualiza a cada resposta</span>
+              </div>
+              <div class="signal-list">
+                <div class="signal-row" data-signal="presenca" data-label="Presença" data-score="0">
+                  <span>Presença</span><div class="signal-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span class="signal-value">—</span>
+                </div>
+                <div class="signal-row" data-signal="site" data-label="Site" data-score="0">
+                  <span>Site</span><div class="signal-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span class="signal-value">—</span>
+                </div>
+                <div class="signal-row" data-signal="google" data-label="Google" data-score="0">
+                  <span>Google</span><div class="signal-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span class="signal-value">—</span>
+                </div>
+                <div class="signal-row" data-signal="whatsapp" data-label="WhatsApp" data-score="0">
+                  <span>WhatsApp</span><div class="signal-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span class="signal-value">—</span>
+                </div>
+                <div class="signal-row" data-signal="dados" data-label="Dados" data-score="0">
+                  <span>Dados</span><div class="signal-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span class="signal-value">—</span>
+                </div>
+              </div>
+              <p class="live-note"><strong>Indicador inicial:</strong> baseado nas suas respostas. A análise completa acontece na conversa com a OT.</p>
+            </div>
+
             <div class="quick-proof" role="list" aria-label="Benefícios">
-              <div class="proof" role="listitem"><b>1 minuto</b><span>Rápido, simples e direto.</span></div>
-              <div class="proof" role="listitem"><b>Gratuito</b><span>Sem compromisso ou enrolação.</span></div>
-              <div class="proof" role="listitem"><b>WhatsApp</b><span>Resultado com próximos passos.</span></div>
+              <div class="proof" role="listitem"><b>1 minuto</b><span>Cinco sinais rápidos.</span></div>
+              <div class="proof" role="listitem"><b>Gratuito</b><span>Sem compromisso.</span></div>
+              <div class="proof" role="listitem"><b>Prático</b><span>Prioridade + próximos passos.</span></div>
             </div>
             <div class="copy-actions">
-              <a class="btn b-ice" href="#quiz" data-start-link>Fazer meu diagnóstico gratuito →</a>
+              <a class="btn b-ice" href="#quiz" data-start-link>Começar diagnóstico →</a>
               <a class="btn b-wa" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conheci%20a%20Olegario%20Tech%20pelo%20diagn%C3%B3stico%20digital%20gratuito%20e%20quero%20entender%20o%20que%20posso%20melhorar%20no%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Fale com a OT</a>
             </div>
           </div>
@@ -88,61 +115,95 @@
         </div>
 
         <div class="quiz-panel" id="quiz" role="region" aria-label="Perguntas do diagnóstico">
-          <div class="progress" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div class="bar" id="bar"></div></div>
+          <div class="quiz-head"><span>diagnóstico interativo</span><span id="stepLabel">sinal 1 de 5</span></div>
+          <div class="progress" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div class="bar" id="bar"></div></div>
 
           <div class="step active" data-step="0">
-            <div class="kicker">Pergunta 1 de 4</div>
-            <h2 class="question">Qual é o tipo do seu negócio?</h2>
-            <p class="hint">Isso ajuda a direcionar o diagnóstico para a sua realidade.</p>
-            <div class="opts" data-name="negocio">
-              <button class="opt" type="button" data-value="Negócio local">Negócio local</button>
-              <button class="opt" type="button" data-value="Serviço profissional">Serviço profissional</button>
-              <button class="opt" type="button" data-value="Produto digital">Produto digital</button>
-              <button class="opt" type="button" data-value="Loja, adega, barbearia ou clínica">Loja, adega, barbearia ou clínica</button>
+            <div class="kicker">Pergunta 1 de 5</div>
+            <h2 class="question">Qual é sua prioridade agora?</h2>
+            <p class="hint">Escolha o que mais faria diferença para o negócio neste momento.</p>
+            <div class="opts" data-name="objetivo">
+              <button class="opt" type="button" data-value="Gerar mais contatos"><span>Gerar mais contatos</span></button>
+              <button class="opt" type="button" data-value="Parecer mais profissional"><span>Parecer mais profissional</span></button>
+              <button class="opt" type="button" data-value="Vender produto ou serviço"><span>Vender melhor produto ou serviço</span></button>
+              <button class="opt" type="button" data-value="Organizar meu digital"><span>Organizar meu digital</span></button>
             </div>
           </div>
 
           <div class="step" data-step="1">
-            <div class="kicker">Pergunta 2 de 4</div>
-            <h2 class="question">Hoje você já tem site ou landing page?</h2>
-            <p class="hint">Não tem problema se ainda depende só do Instagram ou WhatsApp.</p>
+            <div class="kicker">Pergunta 2 de 5</div>
+            <h2 class="question">Como está sua presença digital hoje?</h2>
+            <p class="hint">Isso atualiza os sinais de presença e site no painel.</p>
             <div class="opts" data-name="estrutura">
-              <button class="opt" type="button" data-value="Ainda não tenho site">Ainda não tenho site</button>
-              <button class="opt" type="button" data-value="Tenho site, mas está antigo">Tenho site, mas está antigo</button>
-              <button class="opt" type="button" data-value="Tenho Instagram e WhatsApp">Tenho Instagram e WhatsApp</button>
-              <button class="opt" type="button" data-value="Tenho página, mas não gera contato">Tenho página, mas não gera contato</button>
+              <button class="opt" type="button" data-value="Só Instagram e WhatsApp"><span>Dependo de Instagram e WhatsApp</span></button>
+              <button class="opt" type="button" data-value="Tenho site, mas está antigo"><span>Tenho site, mas está antigo</span></button>
+              <button class="opt" type="button" data-value="Tenho site profissional atualizado"><span>Tenho site profissional atualizado</span></button>
+              <button class="opt" type="button" data-value="Tenho site + páginas para campanhas"><span>Tenho site + páginas para campanhas</span></button>
             </div>
             <div class="nav"><button class="ghost" type="button" data-back>Voltar</button></div>
           </div>
 
           <div class="step" data-step="2">
-            <div class="kicker">Pergunta 3 de 4</div>
-            <h2 class="question">O que você mais quer melhorar agora?</h2>
-            <p class="hint">Escolha o principal ponto. Depois podemos aprofundar no WhatsApp.</p>
-            <div class="opts" data-name="objetivo">
-              <button class="opt" type="button" data-value="Gerar mais contatos">Gerar mais contatos</button>
-              <button class="opt" type="button" data-value="Parecer mais profissional">Parecer mais profissional</button>
-              <button class="opt" type="button" data-value="Vender produto ou serviço">Vender produto ou serviço</button>
-              <button class="opt" type="button" data-value="Criar página para campanha">Criar página para campanha</button>
+            <div class="kicker">Pergunta 3 de 5</div>
+            <h2 class="question">Quando alguém busca sua empresa no Google...</h2>
+            <p class="hint">Pense em perfil, avaliações, páginas e busca local.</p>
+            <div class="opts" data-name="google">
+              <button class="opt" type="button" data-value="Quase não apareço"><span>Quase não apareço</span></button>
+              <button class="opt" type="button" data-value="Tenho perfil, mas pouco movimento"><span>Tenho perfil, mas pouco movimento</span></button>
+              <button class="opt" type="button" data-value="Apareço e recebo avaliações"><span>Apareço e recebo avaliações</span></button>
+              <button class="opt" type="button" data-value="Tenho perfil + SEO e Search Console"><span>Tenho perfil + SEO e Search Console</span></button>
             </div>
             <div class="nav"><button class="ghost" type="button" data-back>Voltar</button></div>
           </div>
 
           <div class="step" data-step="3">
-            <div class="kicker">Pergunta 4 de 4</div>
+            <div class="kicker">Pergunta 4 de 5</div>
+            <h2 class="question">Como funciona seu WhatsApp comercial?</h2>
+            <p class="hint">O objetivo é entender se o atendimento já trabalha junto com o restante do digital.</p>
+            <div class="opts" data-name="whatsapp">
+              <button class="opt" type="button" data-value="Uso número comum sem estrutura"><span>Uso número comum sem estrutura</span></button>
+              <button class="opt" type="button" data-value="Tenho WhatsApp Business básico"><span>Tenho WhatsApp Business básico</span></button>
+              <button class="opt" type="button" data-value="Uso mensagens, catálogo ou etiquetas"><span>Uso mensagens, catálogo ou etiquetas</span></button>
+              <button class="opt" type="button" data-value="Está integrado ao site e às campanhas"><span>Está integrado ao site e às campanhas</span></button>
+            </div>
+            <div class="nav"><button class="ghost" type="button" data-back>Voltar</button></div>
+          </div>
+
+          <div class="step" data-step="4">
+            <div class="kicker">Pergunta 5 de 5</div>
+            <h2 class="question">Você acompanha o que acontece no digital?</h2>
+            <p class="hint">Visitas, buscas, cliques e origem dos contatos ajudam a sair do achismo.</p>
+            <div class="opts" data-name="dados">
+              <button class="opt" type="button" data-value="Não acompanho dados"><span>Não acompanho dados</span></button>
+              <button class="opt" type="button" data-value="Olho só curtidas e seguidores"><span>Olho só curtidas e seguidores</span></button>
+              <button class="opt" type="button" data-value="Vejo Analytics ou relatórios às vezes"><span>Vejo Analytics ou relatórios às vezes</span></button>
+              <button class="opt" type="button" data-value="Uso Analytics, Search Console e eventos"><span>Uso Analytics, Search Console e eventos</span></button>
+            </div>
+            <div class="nav"><button class="ghost" type="button" data-back>Voltar</button></div>
+          </div>
+
+          <div class="step" data-step="5">
+            <div class="kicker">Último passo</div>
             <h2 class="question">Como podemos chamar seu negócio?</h2>
-            <p class="hint">Pode ser o nome da empresa, segmento ou uma descrição simples.</p>
+            <p class="hint">Opcional. Serve apenas para deixar sua mensagem no WhatsApp contextualizada.</p>
+            <div class="finalize-card"><b>Seu painel já foi montado.</b><span>Agora vamos transformar os sinais em uma prioridade inicial e levar o contexto para a conversa.</span></div>
             <input class="field" id="nomeNegocio" name="business_name" type="text" placeholder="Ex: barbearia, adega, clínica, loja..." autocomplete="organization" maxlength="120">
             <div class="nav"><button class="ghost" type="button" data-back>Voltar</button><button class="finish" type="button" data-finish>Ver meu diagnóstico</button></div>
           </div>
 
-          <div class="step" data-step="4">
+          <div class="step" data-step="6">
             <div class="kicker">Resultado inicial</div>
-            <h2 class="question">Seu diagnóstico inicial está pronto.</h2>
-            <p class="hint">Vou receber suas respostas e consigo te orientar com mais precisão sobre site, landing page e presença digital.</p>
-            <div class="result-box" id="summary" aria-live="polite"><strong>Resumo:</strong> presença digital em análise.</div>
+            <h2 class="question">Seu cenário digital ganhou forma.</h2>
+            <p class="hint">Este é um indicador inicial baseado nas respostas. A próxima etapa é entender contexto, objetivo e prioridade com a OT.</p>
+            <div class="result-priority">
+              <small>Prioridade identificada</small>
+              <strong id="priorityTitle">Organizar presença digital</strong>
+              <p id="priorityText">Vamos transformar seus sinais em uma rota de ação.</p>
+              <div class="result-score"><span>Sinal geral do ecossistema</span><b id="overallScore">—</b></div>
+            </div>
+            <div class="result-box" id="summary" aria-live="polite"><strong>Seus sinais:</strong> diagnóstico em análise.</div>
             <a class="wa-big" id="waLink" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conclu%C3%AD%20o%20diagn%C3%B3stico%20digital%20da%20Olegario%20Tech%20e%20quero%20entender%20os%20pr%C3%B3ximos%20passos%20para%20melhorar%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener noreferrer">Receber meu plano de ação no WhatsApp →</a>
-            <p class="small">Sem compromisso. A ideia é entender seu momento e mostrar o caminho mais simples.</p>
+            <p class="small">Sem compromisso. O painel é um autodiagnóstico inicial, não uma auditoria técnica completa.</p>
             <div class="nav"><button class="ghost" type="button" data-restart>Refazer</button><a class="ghost" href="/">Ver site oficial</a></div>
           </div>
         </div>
@@ -156,54 +217,7 @@
     </footer>
   </div>
 
-  <script>
-  (function(){
-    'use strict';
-    const steps=[...document.querySelectorAll('.step')];
-    const bar=document.getElementById('bar');
-    const progress=document.querySelector('.progress');
-    const answers={};
-    let current=0;
-    const phone='5511912459144';
-    function show(i){
-      current=Math.max(0,Math.min(i,steps.length-1));
-      steps.forEach((s,idx)=>s.classList.toggle('active',idx===current));
-      const value=Math.min(current,4);
-      if(bar) bar.style.width=((value/4)*100)+'%';
-      if(progress) progress.setAttribute('aria-valuenow',String(value));
-      if(window.matchMedia('(max-width:980px)').matches){document.getElementById('quiz')?.scrollIntoView({behavior:'smooth',block:'center'});}
-    }
-    function next(){show(current+1)}
-    document.querySelectorAll('[data-start-link]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();show(0)}));
-    document.querySelectorAll('[data-back]').forEach(btn=>btn.addEventListener('click',()=>show(current-1)));
-    document.querySelectorAll('[data-restart]').forEach(btn=>btn.addEventListener('click',()=>{Object.keys(answers).forEach(k=>delete answers[k]);document.querySelectorAll('.opt.selected').forEach(o=>o.classList.remove('selected'));const f=document.getElementById('nomeNegocio');if(f)f.value='';show(0)}));
-    document.querySelectorAll('.opts').forEach(group=>{
-      group.addEventListener('click',e=>{
-        const btn=e.target.closest('.opt');
-        if(!btn)return;
-        group.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
-        btn.classList.add('selected');
-        answers[group.dataset.name]=btn.dataset.value||btn.textContent.trim();
-        setTimeout(next,160);
-      });
-    });
-    function escapeHtml(value){return String(value).replace(/[&<>'"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[s]));}
-    function finish(){
-      const name=(document.getElementById('nomeNegocio')?.value||'').trim();
-      answers.nome=name||'Ainda não informado';
-      const summary=document.getElementById('summary');
-      const text='Olá%2C%20OT!%20Conclu%C3%AD%20a%20an%C3%A1lise%20gratuita%20no%20site%20da%20Olegario%20Tech%20e%20quero%20conversar%20sobre%20como%20melhorar%20minha%20presen%C3%A7a%20digital.%0A%0A'+
-        'Tipo de negócio: '+encodeURIComponent(answers.negocio||'Não informado')+'%0A'+
-        'Estrutura atual: '+encodeURIComponent(answers.estrutura||'Não informado')+'%0A'+
-        'Principal objetivo: '+encodeURIComponent(answers.objetivo||'Não informado')+'%0A'+
-        'Nome/segmento: '+encodeURIComponent(answers.nome||'Não informado');
-      const link=document.getElementById('waLink');
-      if(link) link.href='https://wa.me/'+phone+'?text='+text;
-      if(summary){summary.innerHTML='<strong>Resumo:</strong><br>Negócio: '+escapeHtml(answers.negocio||'Não informado')+'<br>Estrutura: '+escapeHtml(answers.estrutura||'Não informado')+'<br>Objetivo: '+escapeHtml(answers.objetivo||'Não informado')+'<br>Nome/segmento: '+escapeHtml(answers.nome||'Não informado');}
-      show(4);
-    }
-    document.querySelectorAll('[data-finish]').forEach(btn=>btn.addEventListener('click',finish));
-  })();
-  </script>
+  <script src="/assets/js/ot-diagnostic-v2.js?v=1" defer></script>
+
 </body>
 </html>
