@@ -1,0 +1,120 @@
+name: Solution Configurator preview
+
+on:
+  push:
+    branches:
+      - feature/ot-solution-configurator
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-configurator
+          cd /tmp/ot-configurator
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http.log
+          exit 1
+      - name: Validate configurator
+        shell: bash
+        run: |
+          mkdir -p configurator-artifacts
+          cat > /tmp/ot-configurator/capture.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+          async function dismiss(page){
+            const accept=page.getByRole('button',{name:'Aceitar tudo'});
+            if(await accept.count()){await accept.click();await page.waitForTimeout(180);}
+          }
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(page);
+            await page.locator('#solucoes').scrollIntoViewIfNeeded();
+            await page.waitForTimeout(500);
+
+            const initial=await page.evaluate(()=>({
+              stage:document.getElementById('solutionStage')?.classList.contains('is-configurator'),
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              head:!!document.querySelector('.solution-configurator-head'),
+              modules:[...document.querySelectorAll('.solution-configurator-head__modules span')].map(x=>x.textContent.trim()),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!initial.stage||initial.mode!=='presenca'||initial.modules.length!==4||initial.overflow>1)throw new Error('Initial state failed '+JSON.stringify(initial));
+            await page.screenshot({path:'configurator-artifacts/01-presenca-1440.png',fullPage:false});
+
+            await page.getByRole('tab',{name:/Preciso vender uma oferta/i}).click();
+            await page.waitForTimeout(620);
+            const oferta=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              meta:document.querySelector('#solutionMedia .solution-meta')?.textContent,
+              modules:[...document.querySelectorAll('.solution-configurator-head__modules span')].map(x=>x.textContent.trim()),
+              selected:document.querySelector('.choice-tab[data-solution="oferta"]')?.getAttribute('aria-selected')
+            }));
+            if(oferta.mode!=='oferta'||oferta.selected!=='true'||!oferta.meta?.includes('mensuração'))throw new Error('Oferta state failed '+JSON.stringify(oferta));
+            await page.screenshot({path:'configurator-artifacts/02-oferta-1440.png',fullPage:false});
+
+            await page.getByRole('tab',{name:/Meu digital está todo solto/i}).click();
+            await page.waitForTimeout(620);
+            const digital=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              meta:document.querySelector('#solutionMedia .solution-meta')?.textContent,
+              route:document.querySelector('.solution-configurator-head__route b')?.textContent,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(digital.mode!=='digital'||!digital.meta?.includes('busca')||digital.overflow>1)throw new Error('Digital state failed '+JSON.stringify(digital));
+            await page.screenshot({path:'configurator-artifacts/03-digital-1440.png',fullPage:false});
+
+            await page.mouse.move(1090,560);
+            await page.waitForTimeout(180);
+            const pointer=await page.evaluate(()=>({
+              mx:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-mx').trim(),
+              my:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-my').trim()
+            }));
+            if(pointer.mx==='0'||pointer.mx==='')throw new Error('Pointer response failed '+JSON.stringify(pointer));
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(mobile);
+            await mobile.locator('#solucoes').scrollIntoViewIfNeeded();
+            await mobile.waitForTimeout(400);
+            const mobileCheck=await mobile.evaluate(()=>({
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              head:!!document.querySelector('.solution-configurator-head'),
+              transform:getComputedStyle(document.querySelector('.solution-screen')).transform,
+              mode:document.getElementById('solutionStage')?.dataset.configMode
+            }));
+            if(mobileCheck.overflow>1||!mobileCheck.head||mobileCheck.mode!=='presenca')throw new Error('Mobile failed '+JSON.stringify(mobileCheck));
+            await mobile.screenshot({path:'configurator-artifacts/04-mobile-390.png',fullPage:false});
+
+            fs.writeFileSync('configurator-artifacts/diagnostics.json',JSON.stringify({initial,oferta,digital,pointer,mobileCheck},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-configurator/capture.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: solution-configurator-preview
+          path: configurator-artifacts/
+          retention-days: 7
