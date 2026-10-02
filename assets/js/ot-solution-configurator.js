@@ -75,13 +75,11 @@
   }
 
   const observer=new MutationObserver(mutations=>{
-    if(mutations.some(m=>m.type==='attributes'&&m.attributeName==='data-solution')||
-       mutations.some(m=>m.type==='childList'&&m.target===media)){
+    if(mutations.some(m=>m.type==='attributes'&&m.attributeName==='data-solution')){
       decorate();
     }
   });
   observer.observe(content,{attributes:true,attributeFilter:['data-solution']});
-  observer.observe(media,{childList:true});
 
   document.querySelectorAll('[data-solution]').forEach(btn=>{
     btn.addEventListener('click',()=>setTimeout(decorate,0));
