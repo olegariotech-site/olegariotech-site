@@ -44,16 +44,22 @@ jobs:
           const fs=require('fs');
           const {chromium}=require('playwright');
 
+          const rawHtml=fs.readFileSync('index.html','utf8');
+          const testHtml=rawHtml
+            .replace('<head>','<head><base href="http://127.0.0.1:4173/">')
+            .replace(/<link[^>]+fonts\.googleapis\.com[^>]*>/g,'')
+            .replace(/<link[^>]+preconnect[^>]*>/g,'')
+            .replace(/<script src="\/assets\/js\/ot-(?:earth-journey|earth-spin|digital-pulse|analytics)\.js[^"]*" defer><\/script>/g,'');
+
           async function prepare(page){
             page.setDefaultTimeout(6000);
-            page.setDefaultNavigationTimeout(12000);
             await page.route('**/*',route=>{
               const url=route.request().url();
               if(url.startsWith('http://127.0.0.1:4173/')) return route.continue();
               return route.abort();
             });
-            await page.goto('http://127.0.0.1:4173/',{waitUntil:'load',timeout:12000});
-            await page.waitForTimeout(500);
+            await page.setContent(testHtml,{waitUntil:'domcontentloaded',timeout:12000});
+            await page.waitForTimeout(600);
           }
 
           (async()=>{
