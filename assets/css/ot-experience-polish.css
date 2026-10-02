@@ -1,0 +1,135 @@
+/* OT Experience 2.0 — final motion orchestration and performance polish */
+html.ot-experience-ready .section[data-experience-section]{
+  position:relative;
+}
+html.ot-experience-ready .section[data-experience-section] .section-label,
+html.ot-experience-ready .section[data-experience-section] .section-title,
+html.ot-experience-ready .section[data-experience-section] .section-copy{
+  transition:opacity .55s ease,transform .65s cubic-bezier(.16,1,.3,1);
+}
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .section-label,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .section-title,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .section-copy{
+  opacity:.72;
+  transform:translateY(10px);
+}
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .section-label,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .section-title,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .section-copy{
+  opacity:1;
+  transform:none;
+}
+
+/* Panels arrive with one shared rhythm instead of unrelated animations. */
+html.ot-experience-ready #projetos .project-stage,
+html.ot-experience-ready .delivery-panel,
+html.ot-experience-ready #metodo .method-grid,
+html.ot-experience-ready #sobre .about-grid,
+html.ot-experience-ready .ot-ecosystem__shell,
+html.ot-experience-ready #faq .faq-list,
+html.ot-experience-ready #contato .cta-box{
+  transition:opacity .55s ease,transform .7s cubic-bezier(.16,1,.3,1),border-color .35s ease,box-shadow .35s ease;
+}
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .project-stage,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .delivery-panel,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .method-grid,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .about-grid,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .ot-ecosystem__shell,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .faq-list,
+html.ot-experience-ready .section[data-experience-section]:not(.is-experience-seen) .cta-box{
+  opacity:.9;
+  transform:translateY(12px);
+}
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .project-stage,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .delivery-panel,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .method-grid,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .about-grid,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .ot-ecosystem__shell,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .faq-list,
+html.ot-experience-ready .section[data-experience-section].is-experience-seen .cta-box{
+  opacity:1;
+  transform:none;
+}
+
+/* Keep continuous decorative motion asleep when the related chapter is outside the viewport. */
+#solucoes .solution-config-status i,
+#solucoes .solution-scan::before,
+#solucoes .solution-route-flow,
+#ecossistema .ot-pulse-network__runner,
+#ecossistema .ot-pulse-hub::after,
+#ecossistema .ot-ecosystem__status::after,
+.hero .planet{
+  animation-play-state:paused!important;
+}
+#solucoes.is-experience-active .solution-config-status i,
+#solucoes.is-experience-active .solution-scan::before,
+#solucoes.is-experience-active .solution-route-flow,
+#ecossistema.is-experience-active .ot-pulse-network__runner,
+#ecossistema.is-experience-active .ot-pulse-hub::after,
+#ecossistema.is-experience-active .ot-ecosystem__status::after,
+.hero.is-experience-active .planet{
+  animation-play-state:running!important;
+}
+html.ot-page-hidden #solucoes .solution-config-status i,
+html.ot-page-hidden #solucoes .solution-scan::before,
+html.ot-page-hidden #solucoes .solution-route-flow,
+html.ot-page-hidden #ecossistema .ot-pulse-network__runner,
+html.ot-page-hidden #ecossistema .ot-pulse-hub::after,
+html.ot-page-hidden #ecossistema .ot-ecosystem__status::after,
+html.ot-page-hidden .hero .planet{
+  animation-play-state:paused!important;
+}
+
+/* Lighter motion budget for modest desktops while preserving the visual language. */
+html.ot-motion-lite #solucoes .solution-scan::before,
+html.ot-motion-lite #ecossistema .ot-pulse-network__runner,
+html.ot-motion-lite #ecossistema .ot-pulse-hub::after,
+html.ot-motion-lite #ecossistema .ot-ecosystem__status::after{
+  animation:none!important;
+}
+html.ot-motion-lite #solucoes .solution-route-flow{
+  animation-duration:.2s!important;
+}
+html.ot-motion-lite .earth-journey__globe{
+  filter:drop-shadow(0 0 24px rgba(69,171,232,.18));
+}
+
+/* Rendering containment for the heavier visual panels. */
+#solucoes .solution-media,
+#projetos .project-stage,
+.delivery-panel,
+#metodo .method-grid,
+.ot-ecosystem__shell{
+  contain:paint;
+}
+
+@media(max-width:900px){
+  html.ot-experience-ready .section[data-experience-section] .section-label,
+  html.ot-experience-ready .section[data-experience-section] .section-title,
+  html.ot-experience-ready .section[data-experience-section] .section-copy,
+  html.ot-experience-ready #projetos .project-stage,
+  html.ot-experience-ready .delivery-panel,
+  html.ot-experience-ready #metodo .method-grid,
+  html.ot-experience-ready #sobre .about-grid,
+  html.ot-experience-ready .ot-ecosystem__shell,
+  html.ot-experience-ready #faq .faq-list,
+  html.ot-experience-ready #contato .cta-box{
+    transition-duration:.35s;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html.ot-experience-ready .section[data-experience-section] .section-label,
+  html.ot-experience-ready .section[data-experience-section] .section-title,
+  html.ot-experience-ready .section[data-experience-section] .section-copy,
+  html.ot-experience-ready #projetos .project-stage,
+  html.ot-experience-ready .delivery-panel,
+  html.ot-experience-ready #metodo .method-grid,
+  html.ot-experience-ready #sobre .about-grid,
+  html.ot-experience-ready .ot-ecosystem__shell,
+  html.ot-experience-ready #faq .faq-list,
+  html.ot-experience-ready #contato .cta-box{
+    transition:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+}
