@@ -27,17 +27,6 @@ jobs:
           npm install playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Serve branch
-        shell: bash
-        run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http-fast.log 2>&1 &
-          for i in {1..30}; do
-            if curl -fsS http://127.0.0.1:4173/assets/js/ot-solution-configurator.js >/dev/null; then exit 0; fi
-            sleep 1
-          done
-          cat /tmp/ot-http-fast.log
-          exit 1
-
       - name: Isolated functional and visual test
         shell: bash
         run: |
@@ -51,6 +40,8 @@ jobs:
           const styleMatch=source.match(/<style>([\s\S]*?)<\/style>/);
           if(!styleMatch) throw new Error('Base styles not found');
           const baseCss=styleMatch[1];
+          const configCss=fs.readFileSync('assets/css/ot-solution-configurator.css','utf8');
+          const configJs=fs.readFileSync('assets/js/ot-solution-configurator.js','utf8');
 
           const markup=`
           <section class="section choice-section" id="solucoes">
@@ -78,9 +69,7 @@ jobs:
           const lab=`<!doctype html><html lang="pt-BR"><head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width,initial-scale=1">
-            <base href="http://127.0.0.1:4173/">
-            <style>${baseCss}</style>
-            <link rel="stylesheet" href="/assets/css/ot-solution-configurator.css?v=1">
+            <style>${baseCss}\n${configCss}</style>
           </head><body>
             <main class="page">${markup}</main>
             <script>
@@ -95,20 +84,20 @@ jobs:
               function renderSolution(key){
                 const item=solutions[key];
                 solutionContent.innerHTML='<span class="solution-index">'+item.index+'</span><h3>'+item.title+'</h3><p>'+item.text+'</p><ul class="solution-list">'+item.bullets.map(b=>'<li>'+b+'</li>').join('')+'</ul><a class="btn btn-primary" href="#">'+item.cta+'</a>';
-                solutionMedia.innerHTML='<div class="solution-screen"><img src="'+item.desktop+'" alt=""></div><div class="solution-phone"><img src="'+item.mobile+'" alt=""></div><div class="solution-meta">responsive · WhatsApp · SEO local</div>';
+                solutionMedia.innerHTML='<div class="solution-screen"><div style="aspect-ratio:16/10;background:linear-gradient(135deg,#0b1830,#29134a 60%,#0b2634)"></div></div><div class="solution-phone"><div style="aspect-ratio:9/18;background:linear-gradient(180deg,#11182b,#251244)"></div></div><div class="solution-meta">responsive · WhatsApp · SEO local</div>';
                 solutionContent.dataset.solution=key;
                 buttons.forEach(btn=>{const active=btn.dataset.solution===key;btn.classList.toggle('is-active',active);btn.setAttribute('aria-selected',active?'true':'false')});
               }
               buttons.forEach(btn=>btn.addEventListener('click',()=>renderSolution(btn.dataset.solution)));
               renderSolution('presenca');
             <\/script>
-            <script src="/assets/js/ot-solution-configurator.js?v=1"><\/script>
+            <script>${configJs}<\/script>
           </body></html>`;
 
           async function prepare(page){
             page.setDefaultTimeout(6000);
-            await page.setContent(lab,{waitUntil:'load',timeout:12000});
-            await page.waitForTimeout(350);
+            await page.setContent(lab,{waitUntil:'domcontentloaded',timeout:8000});
+            await page.waitForTimeout(180);
           }
 
           (async()=>{
