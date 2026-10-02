@@ -98,7 +98,13 @@ async function run(name,viewport,options={}) {
     await page.locator(`.project-tab[data-project="${key}"]`).click();
     await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
     await page.locator('#projectStage').scrollIntoViewIfNeeded();
-    assert.equal(await page.locator('#projectStage .project-image > img').evaluate(img=>getComputedStyle(img).objectFit),'contain');
+    const coverImage=page.locator('#projectStage .project-image > img');
+    if(await coverImage.count())assert.equal(await coverImage.evaluate(img=>getComputedStyle(img).objectFit),'contain');
+    else{
+      assert.equal(await page.locator('#projectStage .case-cover').count(),1);
+      assert.ok(await page.locator('#projectStage .case-cover').isVisible());
+      if(key==='advocacia')assert.match(await page.locator('.case-cover__title').innerText(),/Advocacia estratégica/);
+    }
     await noOverflow();
     if(key==='advocacia'||key==='acai')await page.locator('#projectStage').screenshot({path:`${output}/${name}-project-full-${key}.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
   }
