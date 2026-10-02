@@ -54,6 +54,8 @@ async function run(name,viewport,options={}) {
     }
   }
   await capture('01-hero');
+  assert.equal(await page.locator('#prova .ot-proof-strip__cases a').count(),4,'proof strip has four real projects');
+  assert.ok((await page.locator('#prova .ot-proof-strip__cases').innerText()).includes('Adega São Marcos'),'proof strip includes Adega São Marcos');
   if(options.reduced)assert.ok(await page.evaluate(()=>document.querySelector('#prova').getBoundingClientRect().top>=document.querySelector('.hero-proof').getBoundingClientRect().bottom),'proof strip clears hero content');
   for(const [label,amount] of [['02-particles',.30],['03-wave',.72]]){
     await page.evaluate(amount=>scrollTo(0,innerHeight*amount),amount);
