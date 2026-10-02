@@ -52,9 +52,8 @@ jobs:
             page.setDefaultTimeout(5000);
             page.setDefaultNavigationTimeout(12000);
             await page.route(/^https:\/\//,route=>route.abort());
-            await page.goto('http://127.0.0.1:4173/',{waitUntil:'commit',timeout:12000});
-            await page.waitForSelector('#solutionStage',{state:'attached',timeout:10000});
-            await page.waitForTimeout(900);
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:12000});
+            await page.waitForTimeout(700);
             await dismiss(page);
             await page.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await page.waitForTimeout(500);
@@ -103,9 +102,8 @@ jobs:
             mobile.setDefaultTimeout(5000);
             mobile.setDefaultNavigationTimeout(12000);
             await mobile.route(/^https:\/\//,route=>route.abort());
-            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'commit',timeout:12000});
-            await mobile.waitForSelector('#solutionStage',{state:'attached',timeout:10000});
-            await mobile.waitForTimeout(700);
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:12000});
+            await mobile.waitForTimeout(650);
             await dismiss(mobile);
             await mobile.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await mobile.waitForTimeout(400);
