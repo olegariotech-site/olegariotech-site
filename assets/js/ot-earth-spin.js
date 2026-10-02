@@ -1,248 +1,234 @@
-/* Digital Pulse prototype: daylight Earth morphs into a particle globe on desktop scroll. */
+/* A single renderer: photographic Earth -> continental points -> a perspective wave.
+   The same particles travel between shapes. 2D preserves the story when WebGL is unavailable. */
 (() => {
+  'use strict';
   const earth = document.getElementById('earthJourney');
-  const canvas = earth?.querySelector('.earth-journey__canvas');
+  let canvas = earth?.querySelector('.earth-journey__canvas');
   if (!earth || !canvas) return;
-
-  const mobile = matchMedia('(max-width:900px)');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  const compact = matchMedia('(max-width:900px)');
   const memory = Number(navigator.deviceMemory || 8);
-  const cores = Number(navigator.hardwareConcurrency || 8);
-  const lowPower = memory <= 4 && cores <= 4;
-  const veryLowPower = memory <= 2 || cores <= 2;
-  const frameInterval = lowPower ? 50 : 33;
-  const canLoad = () => !mobile.matches && !reduced.matches && !navigator.connection?.saveData && !veryLowPower;
-  let requested = false, ready = false, renderer, scene, camera, globeGroup, photoMaterial, particles, particleMaterial;
-  let frame = 0, last = 0;
-  const radiansPerMs = Math.PI * 2 / 42000; // One complete, seamless turn every 42 seconds.
+  const lite = !!navigator.connection?.saveData || memory <= 4 || compact.matches;
+  const frameMs = lite ? 50 : 33;
+  const clamp = v => Math.min(1, Math.max(0, v));
+  const state = () => ({
+    pulse: +earth.dataset.pulse || 0, morph: +earth.dataset.morph || 0,
+    opacity: +earth.dataset.opacity || 0, x: +earth.dataset.centerX || innerWidth * .78,
+    y: +earth.dataset.centerY || innerHeight * .5, diameter: +earth.dataset.diameter || 540,
+    rail: +earth.dataset.rail || 0
+  });
+  let frame = 0, last = 0, angle = -Math.PI / 6, mode = '', requested = false;
+  let renderer, scene, camera, photo, points, material, atmosphere;
+  let ctx, fallbackPhoto, fallbackPoints = [];
+  let disposed = false;
+  const textureURL = '/assets/img/orbit/nasa-blue-marble-map-2048.webp';
 
-  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-
-  function stop() {
-    if (frame) cancelAnimationFrame(frame);
-    frame = 0;
-    last = 0;
-  }
-
-  function pulseState(now) {
-    const pulse = clamp(parseFloat(earth.dataset.pulse || '0') || 0);
-    const spread = clamp(parseFloat(earth.dataset.spread || '0') || 0);
-    if (photoMaterial) photoMaterial.opacity = 1 - pulse * .88;
-    if (particleMaterial) {
-      particleMaterial.uniforms.uTime.value = now * .001;
-      particleMaterial.uniforms.uOpacity.value = pulse * .96;
-      particleMaterial.uniforms.uSpread.value = spread;
+  function sample(image, width = 384, height = 192, step = 2) {
+    const buffer = document.createElement('canvas');
+    buffer.width = width; buffer.height = height;
+    const context = buffer.getContext('2d', {willReadFrequently:true});
+    if (!context) return [];
+    context.drawImage(image, 0, 0, width, height);
+    const pixels = context.getImageData(0, 0, width, height).data;
+    const result = [];
+    for (let y = 0; y < height; y += step) {
+      for (let x = 0; x < width; x += step) {
+        const offset = (y * width + x) * 4;
+        const r = pixels[offset], g = pixels[offset + 1], b = pixels[offset + 2];
+        const ocean = b > r * 1.14 && b > g * 1.04;
+        const cloud = Math.max(r,g,b) - Math.min(r,g,b) < 18 && r > 188;
+        if (ocean && (x + y * 3) % 14 !== 0) continue;
+        if (cloud && (x + y) % 8 !== 0) continue;
+        const lon = x / width * Math.PI * 2 - Math.PI;
+        const lat = Math.PI * .5 - y / height * Math.PI;
+        result.push([Math.cos(lat) * Math.cos(lon), Math.sin(lat), -Math.cos(lat) * Math.sin(lon), (x * .173 + y * .311) % (Math.PI * 2)]);
+      }
     }
-    if (particles) particles.visible = pulse > .015;
-    earth.classList.toggle('is-pulse', pulse > .08);
+    return result;
   }
-
-  function draw(now) {
-    if (!frame) return;
-    if (now - last >= frameInterval) {
-      const delta = last ? Math.min(90, now - last) : frameInterval;
-      globeGroup.rotation.y = (globeGroup.rotation.y + delta * radiansPerMs) % (Math.PI * 2);
-      pulseState(now);
-      renderer.render(scene, camera);
+  function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
+  function run(now) {
+    if (!frame || disposed) return;
+    if (now - last >= frameMs) {
+      const delta = last ? Math.min(now - last, 100) : frameMs;
+      angle = (angle + delta * Math.PI * 2 / 42000) % (Math.PI * 2);
+      draw(now);
       last = now;
     }
-    frame = requestAnimationFrame(draw);
+    frame = requestAnimationFrame(run);
   }
-
   function sync() {
-    const enabled = ready && canLoad();
-    earth.classList.toggle('is-spinning', enabled);
-    if (enabled && earth.dataset.animate === 'true' && !document.hidden) {
-      if (!frame) frame = requestAnimationFrame(draw);
-    } else {
-      earth.classList.remove('is-pulse');
-      stop();
-    }
+    if (!mode) return;
+    const enabled = !reduced.matches && earth.dataset.animate === 'true' && !document.hidden;
+    if (enabled) { if (!frame) frame = requestAnimationFrame(run); }
+    else { stop(); draw(performance.now()); }
   }
-
   function resize() {
-    if (!ready) return;
-    const size = Math.min(620, Math.max(280, Math.round(earth.clientWidth)));
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower ? 1 : 1.25));
-    renderer.setSize(size, size, false);
-    renderer.render(scene, camera);
-  }
-
-  function createParticleGlobe(image) {
-    try {
-      const sample = document.createElement('canvas');
-      const width = lowPower ? 240 : 320, height = lowPower ? 120 : 160, step = lowPower ? 3 : 2;
-      sample.width = width; sample.height = height;
-      const ctx = sample.getContext('2d', {willReadFrequently:true});
-      if (!ctx) return;
-      ctx.drawImage(image, 0, 0, width, height);
-      const pixels = ctx.getImageData(0, 0, width, height).data;
-      const positions = [], phases = [];
-
-      for (let y = 0; y < height; y += step) {
-        for (let x = 0; x < width; x += step) {
-          const i = (y * width + x) * 4;
-          const r = pixels[i], g = pixels[i + 1], b = pixels[i + 2], a = pixels[i + 3];
-          if (a < 20) continue;
-
-          const max = Math.max(r, g, b), min = Math.min(r, g, b);
-          const luma = (r + g + b) / 3;
-          const ocean = b > 72 && b > r * 1.14 && b > g * 1.04;
-          const cloud = max - min < 18 && max > 188;
-          let keep = !ocean && luma > 28;
-          // Keep a very small amount of bright cloud structure so the globe does not look cut out.
-          if (cloud) keep = ((x + y) % 10 === 0);
-          if (!keep) continue;
-
-          const u = x / (width - 1);
-          const v = y / (height - 1);
-          const lon = u * Math.PI * 2 - Math.PI;
-          const lat = Math.PI / 2 - v * Math.PI;
-          const radius = 1.012;
-          const cosLat = Math.cos(lat);
-          positions.push(
-            radius * cosLat * Math.cos(lon),
-            radius * Math.sin(lat),
-            -radius * cosLat * Math.sin(lon)
-          );
-          phases.push((x * .173 + y * .311) % (Math.PI * 2));
-        }
-      }
-
-      if (positions.length < 900) return;
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(phases, 1));
-
-      particleMaterial = new THREE.ShaderMaterial({
-        transparent:true,
-        depthWrite:false,
-        blending:THREE.AdditiveBlending,
-        uniforms:{
-          uTime:{value:0},
-          uOpacity:{value:0},
-          uSpread:{value:0},
-          uPointSize:{value:1.18},
-          uColorA:{value:new THREE.Color(0x67e8f9)},
-          uColorB:{value:new THREE.Color(0xa855f7)}
-        },
-        vertexShader:`
-          attribute float aPhase;
-          uniform float uTime;
-          uniform float uOpacity;
-          uniform float uSpread;
-          uniform float uPointSize;
-          varying float vAlpha;
-          varying float vMix;
-          void main(){
-            vec3 normalDir = normalize(position);
-            float breathe = sin(uTime * 1.25 + aPhase) * 0.006;
-            float ripple = sin(uTime * 1.8 + position.y * 9.0 + position.x * 5.0) * 0.004;
-            float burst = uSpread * (0.035 + 0.05 * sin(aPhase * 1.7 + uTime * 0.9));
-            vec3 p = position + normalDir * (breathe + ripple + burst);
-            float drift = uSpread * uSpread * 0.045 * sin(aPhase * 2.3 + uTime * 0.45);
-            p += vec3(drift, drift * 0.35, -drift * 0.25);
-            vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
-            gl_Position = projectionMatrix * mvPosition;
-            gl_PointSize = uPointSize * (5.4 / max(1.0, -mvPosition.z));
-            vAlpha = uOpacity * (0.78 + 0.22 * sin(aPhase + uTime * 0.25));
-            vMix = clamp(position.y * 0.55 + 0.5, 0.0, 1.0);
-          }
-        `,
-        fragmentShader:`
-          uniform vec3 uColorA;
-          uniform vec3 uColorB;
-          varying float vAlpha;
-          varying float vMix;
-          void main(){
-            float d = distance(gl_PointCoord, vec2(0.5));
-            if(d > 0.5) discard;
-            float core = 1.0 - smoothstep(0.08, 0.34, d);
-            float halo = 1.0 - smoothstep(0.18, 0.5, d);
-            vec3 color = mix(uColorA, uColorB, vMix);
-            gl_FragColor = vec4(color, (core * 0.88 + halo * 0.34) * vAlpha);
-          }
-        `
-      });
-
-      particles = new THREE.Points(geometry, particleMaterial);
-      particles.frustumCulled = false;
-      particles.visible = false;
-      globeGroup.add(particles);
-      document.documentElement.classList.add('has-digital-pulse');
-    } catch (error) {
-      particles = null;
-      particleMaterial = null;
+    if (mode === 'webgl') {
+      renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lite ? 1 : 1.4));
+      renderer.setSize(innerWidth, innerHeight, false);
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+    } else if (ctx) {
+      const ratio = Math.min(devicePixelRatio || 1, 1.25);
+      canvas.width = Math.round(innerWidth * ratio); canvas.height = Math.round(innerHeight * ratio);
+      ctx.setTransform(ratio,0,0,ratio,0,0);
     }
+    if (mode) draw(performance.now());
   }
-
+  function draw(now) {
+    const s = state();
+    if (mode === 'webgl') {
+      const worldHeight = 2 * Math.tan(Math.PI / 9) * 6;
+      const unit = worldHeight / innerHeight;
+      const radius = s.diameter * .5 * unit;
+      const anchorX = (s.x - innerWidth * .5) * unit;
+      const anchorY = (innerHeight * .5 - s.y) * unit;
+      photo.position.set(anchorX, anchorY, 0);
+      photo.scale.setScalar(radius);
+      photo.rotation.y = angle; photo.rotation.z = -.09;
+      photo.material.opacity = (1 - s.pulse) * (1 - s.morph);
+      photo.visible = photo.material.opacity > .005;
+      atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.015);
+      atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * .24;
+      material.uniforms.uTime.value = now * .001;
+      material.uniforms.uRotation.value = angle;
+      material.uniforms.uRadius.value = radius;
+      material.uniforms.uAnchor.value.set(anchorX,anchorY,0);
+      material.uniforms.uWaveWidth.value = (innerWidth - s.rail) * unit * 1.22;
+      material.uniforms.uWaveCenter.value = s.rail * .5 * unit;
+      material.uniforms.uWaveY.value = -worldHeight * .16;
+      material.uniforms.uMorph.value = s.morph;
+      material.uniforms.uOpacity.value = s.pulse;
+      renderer.render(scene,camera);
+    } else if (ctx) draw2D(now,s);
+  }
+  function draw2D(now,s) {
+    const w = innerWidth, h = innerHeight, time = now * .001;
+    ctx.clearRect(0,0,w,h);
+    const radius = s.diameter * .5;
+    if (fallbackPhoto && s.pulse < 1) {
+      ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
+      ctx.drawImage(fallbackPhoto,s.x-radius,s.y-radius,s.diameter,s.diameter);
+    }
+    ctx.globalCompositeOperation = 'lighter';
+    const count = fallbackPoints.length;
+    const columns = Math.ceil(Math.sqrt(count * 1.85));
+    const rows = Math.ceil(count / columns);
+    for (let i = 0; i < count; i++) {
+      const p = fallbackPoints[i];
+      const x = p[0] * Math.cos(angle) + p[2] * Math.sin(angle);
+      const z = -p[0] * Math.sin(angle) + p[2] * Math.cos(angle);
+      const u = (i % columns) / Math.max(1,columns-1), v = Math.floor(i/columns)/Math.max(1,rows-1);
+      const waveX = s.rail + (w-s.rail) * (-.12 + u*1.24);
+      const depth = .35 + v*.65;
+      const waveY = h*.53 + v*h*.43 + Math.sin(u*10+time*.65+v*5)*h*.065*depth + Math.cos(u*17-v*8+time*.4)*h*.022;
+      const px = s.x + x*radius*(1-s.morph) + (waveX-s.x)*s.morph;
+      const py = s.y - p[1]*radius*(1-s.morph) + (waveY-s.y)*s.morph;
+      const alpha = s.pulse * ((1-s.morph)*Math.max(0,z*.6+.3) + s.morph*(.22+depth*.5));
+      if (alpha < .01) continue;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = v > .62 ? '#a78bfa' : '#67e8f9';
+      const size = (lite ? 1.1 : 1.35) * (.7 + depth*.5);
+      ctx.fillRect(px,py,size,size);
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+  function fallback() {
+    if (renderer) renderer.dispose();
+    const replacement = document.createElement('canvas');
+    replacement.className = canvas.className; replacement.setAttribute('aria-hidden','true');
+    canvas.replaceWith(replacement); canvas = replacement;
+    ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const map = new Image();
+    map.onload = () => {
+      try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
+      // A deterministic surface still works if texture sampling is unavailable.
+      if (!fallbackPoints.length) for(let i=0;i<1200;i++) {
+        const lat = Math.acos(1 - 2*(i+.5)/1200), lon = i*2.399963;
+        fallbackPoints.push([Math.sin(lat)*Math.cos(lon),Math.cos(lat),Math.sin(lat)*Math.sin(lon),lon]);
+      }
+      const image = new Image();
+      image.onload = () => { fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.onerror = () => { mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.src='/assets/img/orbit/nasa-blue-marble-south-america.webp';
+    };
+    map.onerror = () => { /* CSS image remains readable if the map cannot load. */ };
+    map.src=textureURL;
+  }
   function init() {
     try {
-      renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true, powerPreference:'low-power'});
-      renderer.setClearColor(0x000000, 0);
-      renderer.outputEncoding = THREE.sRGBEncoding;
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(35, 1, .1, 100);
-      camera.position.z = 3.5;
-      scene.add(new THREE.AmbientLight(0xffffff, .75));
-      const sun = new THREE.DirectionalLight(0xe5f4ff, 1.05);
-      sun.position.set(-2, 2.5, 4); scene.add(sun);
-      const rim = new THREE.DirectionalLight(0x76c7ff, .35);
-      rim.position.set(2, -1, -2); scene.add(rim);
-
-      globeGroup = new THREE.Group();
-      globeGroup.rotation.y = -Math.PI / 6; // The Americas face the visitor first.
-      globeGroup.rotation.z = -.09;
-      scene.add(globeGroup);
-
-      new THREE.TextureLoader().load('/assets/img/orbit/nasa-blue-marble-map-2048.webp', texture => {
-        texture.encoding = THREE.sRGBEncoding;
-        photoMaterial = new THREE.MeshPhongMaterial({
-          map:texture,
-          shininess:3,
-          specular:0x192c44,
-          transparent:true,
-          opacity:1
-        });
-        const photoSphere = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 48), photoMaterial);
-        globeGroup.add(photoSphere);
-        createParticleGlobe(texture.image);
-        ready = true;
-        resize();
-        pulseState(performance.now());
-        sync();
-      }, undefined, () => {
-        stop();
-        renderer.dispose();
-      });
-    } catch (error) {
-      stop();
-      earth.classList.remove('is-spinning','is-pulse');
-    }
+      const context = canvas.getContext('webgl2', {alpha:true,antialias:!lite,powerPreference:'low-power'}) || canvas.getContext('webgl', {alpha:true,antialias:!lite,powerPreference:'low-power'});
+      if (!context) { fallback(); return; }
+      renderer = new THREE.WebGLRenderer({canvas,context,alpha:true,antialias:!lite,powerPreference:'low-power'});
+      renderer.setClearColor(0x000000,0); renderer.outputEncoding=THREE.sRGBEncoding;
+      scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,100); camera.position.z=6;
+      scene.add(new THREE.AmbientLight(0xffffff,.95));
+      const sun = new THREE.DirectionalLight(0xeaf6ff,1.05); sun.position.set(-3,3,5); scene.add(sun);
+      new THREE.TextureLoader().load(textureURL, texture => {
+        try {
+          texture.encoding=THREE.sRGBEncoding;
+          photo = new THREE.Mesh(new THREE.SphereGeometry(1,48,32),new THREE.MeshPhongMaterial({map:texture,transparent:true,shininess:2,depthWrite:false}));
+          scene.add(photo);
+          atmosphere = new THREE.Mesh(new THREE.SphereGeometry(1,40,24),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.BackSide,blending:THREE.AdditiveBlending,uniforms:{uOpacity:{value:.24}},vertexShader:'varying vec3 vNormal; varying vec3 vView; void main(){vec4 p=modelViewMatrix*vec4(position,1.);vNormal=normalize(normalMatrix*normal);vView=normalize(-p.xyz);gl_Position=projectionMatrix*p;}',fragmentShader:'uniform float uOpacity; varying vec3 vNormal; varying vec3 vView; void main(){float rim=pow(1.-abs(dot(vNormal,vView)),3.);gl_FragColor=vec4(.28,.70,1.,rim*uOpacity);}'}));
+          scene.add(atmosphere);
+          const data = sample(texture.image,lite?256:512,lite?128:256,2);
+          if (!data.length) throw new Error('Empty Earth texture');
+          const positions=[], targets=[], phases=[];
+          const cols=Math.ceil(Math.sqrt(data.length*1.8)), rows=Math.ceil(data.length/cols);
+          data.forEach((p,i)=>{positions.push(p[0],p[1],p[2]);phases.push(p[3]);targets.push((i%cols)/Math.max(1,cols-1)-.5,Math.floor(i/cols)/Math.max(1,rows-1));});
+          const geometry=new THREE.BufferGeometry();
+          geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+          geometry.setAttribute('aTarget',new THREE.Float32BufferAttribute(targets,2));
+          geometry.setAttribute('aPhase',new THREE.Float32BufferAttribute(phases,1));
+          material=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uTime:{value:0},uRotation:{value:angle},uRadius:{value:1},uAnchor:{value:new THREE.Vector3()},uMorph:{value:0},uOpacity:{value:0},uWaveWidth:{value:6},uWaveCenter:{value:0},uWaveY:{value:-1}},vertexShader:`
+            attribute vec2 aTarget; attribute float aPhase;
+            uniform float uTime,uRotation,uRadius,uMorph,uOpacity,uWaveWidth,uWaveCenter,uWaveY;
+            uniform vec3 uAnchor; varying float vAlpha,vColor;
+            void main(){
+              float c=cos(uRotation),s=sin(uRotation);
+              vec3 globe=vec3(position.x*c+position.z*s,position.y,-position.x*s+position.z*c);
+              float breath=sin(aPhase+uTime*.8)*.009;
+              globe=globe*(uRadius+breath)+uAnchor;
+              float x=aTarget.x*uWaveWidth;
+              float y=sin(x*1.7+uTime*.65+aTarget.y*3.)*.26+cos(x*2.7-aTarget.y*5.+uTime*.35)*.09;
+              vec3 wave=vec3(x+uWaveCenter,uWaveY+y-aTarget.y*.65,(aTarget.y-.5)*4.2);
+              vec3 p=mix(globe,wave,uMorph);
+              vec4 mv=modelViewMatrix*vec4(p,1.);
+              gl_Position=projectionMatrix*mv;
+              gl_PointSize=clamp(1.9*(6./max(1.,-mv.z)),.7,3.8);
+              float edge=smoothstep(0.,.08,aTarget.x+.5)*(1.-smoothstep(.92,1.,aTarget.x+.5));
+              float front=clamp((-position.x*s+position.z*c)*.7+.35,.08,1.);
+              vAlpha=uOpacity*mix(front,edge*(.38+aTarget.y*.5),uMorph);
+              vColor=mix(position.y*.45+.5,aTarget.y,uMorph);
+            }`,fragmentShader:`
+              varying float vAlpha,vColor;
+              void main(){float d=distance(gl_PointCoord,vec2(.5));if(d>.5)discard;
+              float a=(1.-smoothstep(.05,.5,d))*vAlpha;
+              vec3 color=mix(vec3(.40,.91,.98),vec3(.66,.43,.96),clamp(vColor,0.,1.));
+              gl_FragColor=vec4(color,a);}
+            `});
+          points=new THREE.Points(geometry,material); points.frustumCulled=false; scene.add(points);
+          mode='webgl'; earth.dataset.renderer=mode; earth.dataset.particleCount=String(data.length);
+          earth.classList.add('is-rendering'); resize(); sync();
+        } catch { fallback(); }
+      },undefined,fallback);
+    } catch { fallback(); }
   }
-
   function load() {
-    if (requested || !canLoad()) return;
-    requested = true;
+    if (requested || reduced.matches) return;
+    requested=true;
     if (window.THREE) { init(); return; }
-    const script = document.createElement('script');
-    script.src = '/assets/js/vendor/three-r128.min.js';
-    script.onload = init;
-    document.head.appendChild(script);
+    const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
+    script.onload=init; script.onerror=fallback; document.head.appendChild(script);
   }
-
-  earth.addEventListener('ot-earth-visibility', sync);
-  document.addEventListener('visibilitychange', sync);
-  addEventListener('resize', resize, {passive:true});
-  mobile.addEventListener('change', () => {load(); sync();});
-  reduced.addEventListener('change', () => {load(); sync();});
-  canvas.addEventListener('webglcontextlost', event => {
-    event.preventDefault();
-    stop();
-    earth.classList.remove('is-spinning','is-pulse');
-  });
-  canvas.addEventListener('webglcontextrestored', () => {
-    if (ready) { resize(); sync(); }
-  });
+  earth.addEventListener('ot-earth-visibility',sync);
+  addEventListener('resize',resize,{passive:true});
+  document.addEventListener('visibilitychange',sync);
+  reduced.addEventListener('change',()=>{load();sync();});
+  compact.addEventListener('change',resize);
+  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
+  addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();});
+  addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});
   load();
 })();
