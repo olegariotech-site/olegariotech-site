@@ -123,7 +123,7 @@ jobs:
             }
             await page.screenshot({path:'polish-artifacts/03-ecosystem-active-1440.png',fullPage:false});
 
-            await center(page,'#faq');
+            await center(page,'#projetos');
             const ecoPaused=await page.evaluate(()=>({
               active:document.getElementById('ecossistema')?.classList.contains('is-experience-active'),
               runnerPlay:document.querySelector('.ot-pulse-network__runner')?getComputedStyle(document.querySelector('.ot-pulse-network__runner')).animationPlayState:null
