@@ -39,7 +39,7 @@ async function run(name,viewport,options={}) {
   if(!options.reduced){assert.ok(+earthState.morph>.1,'wave morph advances');if(options.fallback)assert.equal(earthState.renderer,'canvas2d');else assert.equal(earthState.renderer,'webgl');}
   await page.locator('#solucoes').scrollIntoViewIfNeeded();
   for(const [label,key,nodeCount] of [['MINHA EMPRESA NÃO PARECE PROFISSIONAL','presenca',3],['PRECISO VENDER UMA OFERTA','oferta',3],['MEU DIGITAL ESTÁ TODO SOLTO','digital',4]]){
-    await page.getByRole('tab',{name:new RegExp(label)}).click();
+    await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
     await page.waitForFunction(key=>document.querySelector('#solutionStage').dataset.route===key,key);
     assert.equal(await page.locator('.solution-blueprint__node').count(),nodeCount);
     const last=page.locator('.solution-blueprint__node').last();
@@ -50,14 +50,14 @@ async function run(name,viewport,options={}) {
     await page.locator('#solutionStage').scrollIntoViewIfNeeded();
     await capture('04-solution-'+key);
     // Repeated selection must not duplicate the blueprint.
-    await page.getByRole('tab',{name:new RegExp(label)}).click();
+    await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
     assert.equal(await page.locator('.solution-blueprint').count(),1);
   }
   const firstNode=page.locator('.solution-blueprint__node').first();
   await firstNode.focus();await page.keyboard.press('Enter');
   assert.equal(await firstNode.getAttribute('aria-pressed'),'true');
   await page.locator('#projetos').scrollIntoViewIfNeeded();
-  await page.getByRole('tab',{name:'K.L Transporte NOVO'}).click();
+  await page.getByRole('tab',{name:'K.L Transporte',exact:true}).click();
   assert.equal(await page.locator('#projectStage h3').innerText(),'K.L Transporte Express');
   assert.equal(await page.locator('#projectStage a').first().getAttribute('href'),'https://kltransporteexpress.com.br/');
   await capture('05-project');

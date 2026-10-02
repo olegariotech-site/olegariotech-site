@@ -89,6 +89,7 @@
       photo.material.opacity = (1 - s.pulse) * (1 - s.morph);
       photo.visible = photo.material.opacity > .005;
       atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.015);
+      atmosphere.visible = s.morph < .25;
       atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * .24;
       material.uniforms.uTime.value = now * .001;
       material.uniforms.uRotation.value = angle;

@@ -20,8 +20,8 @@
     const target = visual.getBoundingClientRect();
     const solutionRect = solutions.getBoundingClientRect();
     const rail = mobile.matches ? 0 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail')) || 250;
-    const diameter = mobile.matches ? Math.min(w * .78, 390) : Math.min(w * .42, h * .76, 680);
-    const baseX = mobile.matches ? w * .80 : Math.min(target.left + target.width * .54, w - diameter * .5 - 22);
+    const diameter = mobile.matches ? Math.min(w * .78, 390) : Math.min(w * .35, h * .66, 560);
+    const baseX = mobile.matches ? w * .80 : Math.min(target.left + target.width * .54, w - diameter * .60 - 32);
     const baseY = mobile.matches ? Math.min(h * .48, 390) : target.top + target.height * .5;
     const travel = Math.max(h * .8, heroRect.height - h * .28);
     const progress = reduced.matches ? 0 : clamp(-heroRect.top / travel);
