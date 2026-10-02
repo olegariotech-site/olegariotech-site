@@ -1,0 +1,96 @@
+name: Digital Pulse journey preview
+
+on:
+  push:
+    branches:
+      - feature/ot-digital-pulse-journey
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-journey
+          cd /tmp/ot-journey
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http.log
+          exit 1
+      - name: Capture journey states
+        shell: bash
+        run: |
+          mkdir -p visual-artifacts
+          cat > /tmp/ot-journey/capture.cjs <<'NODE'
+          const fs = require('fs');
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({headless:true,args:['--use-angle=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
+            const page = await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
+            await page.goto('http://127.0.0.1:4173/', {waitUntil:'networkidle'});
+            await page.waitForTimeout(1300);
+            const accept=page.getByRole('button',{name:'Aceitar tudo'});
+            if(await accept.count()){await accept.click();await page.waitForTimeout(250);}
+
+            async function shot(name, selector, ratio){
+              const el=page.locator(selector);
+              await el.scrollIntoViewIfNeeded();
+              const box=await el.boundingBox();
+              if(box){
+                await page.evaluate(({top,height,ratio})=>window.scrollTo(0,window.scrollY+top-innerHeight*ratio),{top:box.y,height:box.height,ratio});
+              }
+              await page.waitForTimeout(650);
+              await page.screenshot({path:`visual-artifacts/${name}.png`,fullPage:false});
+            }
+
+            await shot('01-method-enter-1440','#metodo',0.72);
+            await shot('02-method-progress-1440','#metodo',0.48);
+            await shot('03-ecosystem-enter-1440','#ecossistema',0.74);
+            await shot('04-ecosystem-live-1440','#ecossistema',0.46);
+
+            const diagnostics=await page.evaluate(()=>({
+              journeyClass:document.documentElement.classList.contains('has-digital-pulse-journey'),
+              methodProgress:getComputedStyle(document.querySelector('#metodo .method-grid')).getPropertyValue('--method-pulse').trim(),
+              built:[...document.querySelectorAll('#metodo .method-card')].filter(x=>x.classList.contains('is-pulse-built')).length,
+              ecosystem:!!document.getElementById('ecossistema'),
+              network:!!document.querySelector('.ot-pulse-network'),
+              live:[...document.querySelectorAll('.ot-ecosystem__card')].filter(x=>x.classList.contains('is-pulse-live')).length,
+              ecoProgress:document.querySelector('.ot-ecosystem__shell')?.style.getPropertyValue('--ecosystem-pulse')||null
+            }));
+            fs.writeFileSync('visual-artifacts/diagnostics.json',JSON.stringify(diagnostics,null,2));
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await mobile.waitForTimeout(900);
+            const ma=mobile.getByRole('button',{name:'Aceitar tudo'});
+            if(await ma.count()){await ma.click();await mobile.waitForTimeout(200);}
+            await mobile.locator('#metodo').scrollIntoViewIfNeeded();
+            await mobile.waitForTimeout(300);
+            await mobile.screenshot({path:'visual-artifacts/05-mobile-method-390.png',fullPage:false});
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-journey/capture.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: digital-pulse-journey-preview
+          path: visual-artifacts/
+          retention-days: 7
