@@ -89,12 +89,26 @@
       const r=stage.getBoundingClientRect();
       const x=((event.clientX-r.left)/Math.max(1,r.width)-.5)*2;
       const y=((event.clientY-r.top)/Math.max(1,r.height)-.5)*2;
-      stage.style.setProperty('--config-mx',Math.max(-1,Math.min(1,x)).toFixed(3));
-      stage.style.setProperty('--config-my',Math.max(-1,Math.min(1,y)).toFixed(3));
+      const sx=Math.max(-1,Math.min(1,x));
+      const sy=Math.max(-1,Math.min(1,y));
+      stage.style.setProperty('--config-x-pct',(sx*3).toFixed(2)+'%');
+      stage.style.setProperty('--config-y-pct',(sy*3).toFixed(2)+'%');
+      stage.style.setProperty('--config-x-px',(sx*4).toFixed(2)+'px');
+      stage.style.setProperty('--config-y-px',(sy*3).toFixed(2)+'px');
+      stage.style.setProperty('--config-rot-y',(sx*1.8).toFixed(2)+'deg');
+      stage.style.setProperty('--config-rot-x',(sy*-1.15).toFixed(2)+'deg');
+      stage.style.setProperty('--config-phone-x',(sx*-6).toFixed(2)+'px');
+      stage.style.setProperty('--config-phone-y',(sy*-4).toFixed(2)+'px');
     },{passive:true});
     stage.addEventListener('pointerleave',()=>{
-      stage.style.setProperty('--config-mx','0');
-      stage.style.setProperty('--config-my','0');
+      stage.style.setProperty('--config-x-pct','0%');
+      stage.style.setProperty('--config-y-pct','0%');
+      stage.style.setProperty('--config-x-px','0px');
+      stage.style.setProperty('--config-y-px','0px');
+      stage.style.setProperty('--config-rot-y','0deg');
+      stage.style.setProperty('--config-rot-x','0deg');
+      stage.style.setProperty('--config-phone-x','0px');
+      stage.style.setProperty('--config-phone-y','0px');
     },{passive:true});
   }
 
