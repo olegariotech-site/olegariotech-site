@@ -1,0 +1,158 @@
+name: Solution Configurator smoke test
+
+on:
+  push:
+    branches:
+      - feature/ot-solution-configurator
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-config-fast
+          cd /tmp/ot-config-fast
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Isolated functional and visual test
+        shell: bash
+        run: |
+          export PW_TEST_SCREENSHOT_NO_FONTS_READY=1
+          mkdir -p configurator-fast-artifacts
+          cat > /tmp/ot-config-fast/check.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+
+          const source=fs.readFileSync('index.html','utf8');
+          const styleMatch=source.match(/<style>([\s\S]*?)<\/style>/);
+          if(!styleMatch) throw new Error('Base styles not found');
+          const baseCss=styleMatch[1];
+          const configCss=fs.readFileSync('assets/css/ot-solution-configurator.css','utf8');
+          const configJs=fs.readFileSync('assets/js/ot-solution-configurator.js','utf8');
+
+          const markup=`
+          <section class="section choice-section" id="solucoes">
+            <div class="inner">
+              <div class="choice-heading">
+                <span class="section-label">Escolha pela sua necessidade</span>
+                <h2 class="section-title">O que está travando seu <span class="accent">digital hoje?</span></h2>
+                <p class="section-copy">Escolha a situação que mais parece com o seu negócio. A OT mostra a rota mais direta para resolver.</p>
+              </div>
+              <div class="choice-tabs" role="tablist" aria-label="Escolha sua necessidade">
+                <button class="choice-tab is-active" type="button" role="tab" aria-selected="true" data-solution="presenca"><strong>Minha empresa não parece profissional</strong><span>Falta confiança antes do primeiro contato.</span></button>
+                <button class="choice-tab" type="button" role="tab" aria-selected="false" data-solution="oferta"><strong>Preciso vender uma oferta</strong><span>A página precisa transformar interesse em ação.</span></button>
+                <button class="choice-tab" type="button" role="tab" aria-selected="false" data-solution="digital"><strong>Meu digital está todo solto</strong><span>Site, WhatsApp, conteúdo e dados não trabalham juntos.</span></button>
+                <button class="choice-tab" type="button" role="tab" aria-selected="false"><strong>Quero ver prova real</strong><span>Conheça projetos entregues e em operação.</span></button>
+              </div>
+              <article class="solution-stage" id="solutionStage" aria-live="polite">
+                <div class="solution-layout">
+                  <div class="solution-content" id="solutionContent"></div>
+                  <div class="solution-media" id="solutionMedia" aria-hidden="true"></div>
+                </div>
+              </article>
+            </div>
+          </section>`;
+
+          const lab=`<!doctype html><html lang="pt-BR"><head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>${baseCss}\n${configCss}</style>
+          </head><body>
+            <main class="page">${markup}</main>
+            <script>
+              const solutions={
+                presenca:{index:'01 · solução',title:'Fortalecer sua marca antes do primeiro contato',text:'Sua presença digital precisa gerar confiança antes de o cliente chamar no WhatsApp.',bullets:['Marca e apresentação coerentes','Site rápido e responsivo','WhatsApp no contexto certo','SEO local e presença no Google'],cta:'Quero profissionalizar meu digital',desktop:'/assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop-brand-v2.webp',mobile:'/assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile-brand-v2.webp'},
+                oferta:{index:'02 · solução',title:'Transformar uma oferta em conversa',text:'Organizamos promessa, prova e chamada para ação para o cliente entender rápido por que deve falar com você.',bullets:['Copy comercial da oferta','Seções objetivas e persuasivas','CTA para WhatsApp','Medição de cliques e leads'],cta:'Quero vender melhor minha oferta',desktop:'/assets/img/projetos/adega/adega-sao-marcos-card-desktop-brand-v2.webp',mobile:'/assets/img/projetos/adega/adega-sao-marcos-card-mobile-brand-v2.webp'},
+                digital:{index:'03 · solução',title:'Fazer o digital trabalhar na mesma direção',text:'Site, WhatsApp, criativos, busca e dados deixam de ser peças soltas e passam a sustentar a mesma estratégia.',bullets:['Diagnóstico da presença digital','Site e páginas comerciais','WhatsApp e fluxo de atendimento','Google Analytics e Search Console'],cta:'Quero organizar meu ecossistema',desktop:'/assets/img/projetos/mini-mercado/mini-mercado-emporio-card-desktop-brand-v2.webp',mobile:'/assets/img/projetos/mini-mercado/mini-mercado-emporio-card-mobile-brand-v2.webp'}
+              };
+              const solutionContent=document.getElementById('solutionContent');
+              const solutionMedia=document.getElementById('solutionMedia');
+              const buttons=[...document.querySelectorAll('.choice-tab[data-solution]')];
+              function renderSolution(key){
+                const item=solutions[key];
+                solutionContent.innerHTML='<span class="solution-index">'+item.index+'</span><h3>'+item.title+'</h3><p>'+item.text+'</p><ul class="solution-list">'+item.bullets.map(b=>'<li>'+b+'</li>').join('')+'</ul><a class="btn btn-primary" href="#">'+item.cta+'</a>';
+                solutionMedia.innerHTML='<div class="solution-screen"><div style="aspect-ratio:16/10;background:linear-gradient(135deg,#0b1830,#29134a 60%,#0b2634)"></div></div><div class="solution-phone"><div style="aspect-ratio:9/18;background:linear-gradient(180deg,#11182b,#251244)"></div></div><div class="solution-meta">responsive · WhatsApp · SEO local</div>';
+                solutionContent.dataset.solution=key;
+                buttons.forEach(btn=>{const active=btn.dataset.solution===key;btn.classList.toggle('is-active',active);btn.setAttribute('aria-selected',active?'true':'false')});
+              }
+              buttons.forEach(btn=>btn.addEventListener('click',()=>renderSolution(btn.dataset.solution)));
+              renderSolution('presenca');
+            <\/script>
+            <script>${configJs}<\/script>
+          </body></html>`;
+
+          async function prepare(page){
+            page.setDefaultTimeout(6000);
+            await page.setContent(lab,{waitUntil:'domcontentloaded',timeout:8000});
+            await page.waitForTimeout(180);
+          }
+
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+            await prepare(page);
+
+            const base=await page.evaluate(()=>({
+              configurator:document.getElementById('solutionStage')?.classList.contains('is-configurator')||false,
+              mode:document.getElementById('solutionStage')?.dataset.configMode||null,
+              modules:[...document.querySelectorAll('.solution-configurator-head__modules span')].map(x=>x.textContent.trim()),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!base.configurator||base.mode!=='presenca'||base.modules.length!==4||base.overflow>1) throw new Error('base failed '+JSON.stringify(base));
+
+            await page.evaluate(()=>document.querySelector('[data-solution="oferta"]')?.click());
+            await page.waitForTimeout(250);
+            const oferta=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              selected:document.querySelector('[data-solution="oferta"]')?.getAttribute('aria-selected'),
+              meta:document.querySelector('.solution-meta')?.textContent||''
+            }));
+            if(oferta.mode!=='oferta'||oferta.selected!=='true'||!oferta.meta.includes('mensuração')) throw new Error('oferta failed '+JSON.stringify(oferta));
+
+            await page.evaluate(()=>document.querySelector('[data-solution="digital"]')?.click());
+            await page.waitForTimeout(250);
+            const digital=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              route:document.querySelector('.solution-configurator-head__route b')?.textContent||'',
+              meta:document.querySelector('.solution-meta')?.textContent||''
+            }));
+            if(digital.mode!=='digital'||!digital.route.includes('Rota 03')||!digital.meta.includes('busca')) throw new Error('digital failed '+JSON.stringify(digital));
+            await page.screenshot({path:'configurator-fast-artifacts/desktop-digital-1440.png',fullPage:true,animations:'disabled',timeout:5000});
+
+            await page.setViewportSize({width:390,height:844});
+            await page.evaluate(()=>document.querySelector('[data-solution="presenca"]')?.click());
+            await page.waitForTimeout(220);
+            const mobileState=await page.evaluate(()=>({
+              configurator:document.getElementById('solutionStage')?.classList.contains('is-configurator')||false,
+              mode:document.getElementById('solutionStage')?.dataset.configMode||null,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              screenTransform:getComputedStyle(document.querySelector('.solution-screen')).transform
+            }));
+            if(!mobileState.configurator||mobileState.mode!=='presenca'||mobileState.overflow>1) throw new Error('mobile failed '+JSON.stringify(mobileState));
+            await page.screenshot({path:'configurator-fast-artifacts/mobile-presenca-390.png',fullPage:true,animations:'disabled',timeout:5000});
+            console.log('CONFIGURATOR_OK',JSON.stringify({base,oferta,digital,mobileState}));
+
+            fs.writeFileSync('configurator-fast-artifacts/diagnostics.json',JSON.stringify({base,oferta,digital,mobileState},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-config-fast/check.cjs
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: solution-configurator-smoke-test
+          path: configurator-fast-artifacts/
+          retention-days: 7
