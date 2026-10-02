@@ -1,0 +1,189 @@
+name: Experience polish preview
+
+on:
+  push:
+    branches:
+      - feature/ot-experience-polish
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-polish
+          cd /tmp/ot-polish
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http.log
+          exit 1
+      - name: Validate rhythm and motion budget
+        shell: bash
+        run: |
+          mkdir -p polish-artifacts
+          cat > /tmp/ot-polish/capture.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+
+          async function dismiss(page){
+            const accept=page.getByRole('button',{name:'Aceitar tudo'});
+            if(await accept.count()){await accept.click();await page.waitForTimeout(180);}
+          }
+
+          async function center(page,selector){
+            await page.locator(selector).scrollIntoViewIfNeeded();
+            await page.evaluate(sel=>{
+              const el=document.querySelector(sel);
+              if(!el)return;
+              const r=el.getBoundingClientRect();
+              window.scrollTo(0,window.scrollY+r.top-innerHeight*.18);
+            },selector);
+            await page.waitForTimeout(420);
+          }
+
+          (async()=>{
+            const browser=await chromium.launch({headless:true,args:['--use-angle=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
+            const errors=[];
+            const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
+            page.on('pageerror',e=>errors.push(String(e)));
+            page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(page);
+            await page.waitForTimeout(1000);
+
+            const initial=await page.evaluate(()=>({
+              ready:document.documentElement.classList.contains('ot-experience-ready'),
+              budget:document.body.dataset.motionBudget,
+              heroActive:document.getElementById('inicio')?.classList.contains('is-experience-active'),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              earthSpin:document.getElementById('earthJourney')?.classList.contains('is-spinning')||false
+            }));
+            if(!initial.ready||initial.budget!=='full'||initial.overflow>1) throw new Error('Initial state '+JSON.stringify(initial));
+
+            await center(page,'#solucoes');
+            const solutionActive=await page.evaluate(()=>({
+              active:document.getElementById('solucoes')?.classList.contains('is-experience-active'),
+              seen:document.getElementById('solucoes')?.classList.contains('is-experience-seen'),
+              scanPlay:getComputedStyle(document.querySelector('.solution-scan'),'::before').animationPlayState,
+              routePlay:getComputedStyle(document.querySelector('.solution-route-flow')).animationPlayState
+            }));
+            if(!solutionActive.active||!solutionActive.seen||solutionActive.scanPlay!=='running'||solutionActive.routePlay!=='running'){
+              throw new Error('Solution active '+JSON.stringify(solutionActive));
+            }
+            await page.screenshot({path:'polish-artifacts/01-solutions-active-1440.png',fullPage:false});
+
+            await center(page,'#projetos');
+            const solutionPaused=await page.evaluate(()=>({
+              solutionActive:document.getElementById('solucoes')?.classList.contains('is-experience-active'),
+              scanPlay:getComputedStyle(document.querySelector('.solution-scan'),'::before').animationPlayState,
+              projectSeen:document.getElementById('projetos')?.classList.contains('is-experience-seen')
+            }));
+            if(solutionPaused.solutionActive||solutionPaused.scanPlay!=='paused'||!solutionPaused.projectSeen){
+              throw new Error('Solution pause '+JSON.stringify(solutionPaused));
+            }
+
+            await center(page,'#metodo');
+            const method=await page.evaluate(()=>({
+              active:document.getElementById('metodo')?.classList.contains('is-experience-active'),
+              seen:document.getElementById('metodo')?.classList.contains('is-experience-seen'),
+              built:document.querySelectorAll('#metodo .method-card.is-pulse-built').length,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!method.active||!method.seen||method.overflow>1) throw new Error('Method '+JSON.stringify(method));
+            await page.screenshot({path:'polish-artifacts/02-method-rhythm-1440.png',fullPage:false});
+
+            await page.waitForSelector('#ecossistema',{timeout:5000});
+            await center(page,'#ecossistema');
+            const ecosystem=await page.evaluate(()=>({
+              active:document.getElementById('ecossistema')?.classList.contains('is-experience-active'),
+              seen:document.getElementById('ecossistema')?.classList.contains('is-experience-seen'),
+              runnerPlay:document.querySelector('.ot-pulse-network__runner')?getComputedStyle(document.querySelector('.ot-pulse-network__runner')).animationPlayState:null,
+              statusPlay:getComputedStyle(document.querySelector('.ot-ecosystem__status'),'::after').animationPlayState
+            }));
+            if(!ecosystem.active||!ecosystem.seen||ecosystem.runnerPlay!=='running'||ecosystem.statusPlay!=='running'){
+              throw new Error('Ecosystem '+JSON.stringify(ecosystem));
+            }
+            await page.screenshot({path:'polish-artifacts/03-ecosystem-active-1440.png',fullPage:false});
+
+            await center(page,'#faq');
+            const ecoPaused=await page.evaluate(()=>({
+              active:document.getElementById('ecossistema')?.classList.contains('is-experience-active'),
+              runnerPlay:document.querySelector('.ot-pulse-network__runner')?getComputedStyle(document.querySelector('.ot-pulse-network__runner')).animationPlayState:null
+            }));
+            if(ecoPaused.active||ecoPaused.runnerPlay!=='paused') throw new Error('Ecosystem pause '+JSON.stringify(ecoPaused));
+
+            // Modest desktop: preserve the experience but switch to the lighter motion budget.
+            const lite=await browser.newPage({viewport:{width:1366,height:768},deviceScaleFactor:1});
+            await lite.addInitScript(()=>{
+              Object.defineProperty(navigator,'deviceMemory',{configurable:true,get:()=>4});
+              Object.defineProperty(navigator,'hardwareConcurrency',{configurable:true,get:()=>4});
+            });
+            await lite.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(lite);
+            await lite.waitForTimeout(1000);
+            const liteState=await lite.evaluate(()=>({
+              classLite:document.documentElement.classList.contains('ot-motion-lite'),
+              budget:document.body.dataset.motionBudget,
+              earthSpin:document.getElementById('earthJourney')?.classList.contains('is-spinning')||false,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!liteState.classLite||liteState.budget!=='lite'||liteState.overflow>1) throw new Error('Lite budget '+JSON.stringify(liteState));
+            await lite.screenshot({path:'polish-artifacts/04-lite-desktop-1366.png',fullPage:false});
+
+            // Very constrained desktop: WebGL Earth is skipped, photographic fallback remains.
+            const veryLite=await browser.newPage({viewport:{width:1024,height:768},deviceScaleFactor:1});
+            await veryLite.addInitScript(()=>{
+              Object.defineProperty(navigator,'deviceMemory',{configurable:true,get:()=>2});
+              Object.defineProperty(navigator,'hardwareConcurrency',{configurable:true,get:()=>2});
+            });
+            await veryLite.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(veryLite);
+            await veryLite.waitForTimeout(700);
+            const veryLiteState=await veryLite.evaluate(()=>({
+              spin:document.getElementById('earthJourney')?.classList.contains('is-spinning')||false,
+              fallback:!!document.querySelector('#earthJourney img'),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(veryLiteState.spin||!veryLiteState.fallback||veryLiteState.overflow>1) throw new Error('Very lite fallback '+JSON.stringify(veryLiteState));
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+            await dismiss(mobile);
+            await mobile.waitForTimeout(500);
+            const mobileState=await mobile.evaluate(()=>({
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              earthDisplay:getComputedStyle(document.getElementById('earthJourney')).display,
+              ready:document.documentElement.classList.contains('ot-experience-ready')
+            }));
+            if(mobileState.overflow>1||mobileState.earthDisplay!=='none'||!mobileState.ready) throw new Error('Mobile '+JSON.stringify(mobileState));
+            await mobile.screenshot({path:'polish-artifacts/05-mobile-390.png',fullPage:false});
+
+            if(errors.length) throw new Error('Console errors '+JSON.stringify(errors));
+            fs.writeFileSync('polish-artifacts/diagnostics.json',JSON.stringify({initial,solutionActive,solutionPaused,method,ecosystem,ecoPaused,liteState,veryLiteState,mobileState},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-polish/capture.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: experience-polish-preview
+          path: polish-artifacts/
+          retention-days: 7
