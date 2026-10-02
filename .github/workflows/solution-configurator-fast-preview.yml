@@ -1,0 +1,125 @@
+name: Solution Configurator fast preview
+
+on:
+  push:
+    branches:
+      - feature/ot-solution-configurator
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-config-fast
+          cd /tmp/ot-config-fast
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http-fast.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http-fast.log
+          exit 1
+      - name: Functional and visual smoke test
+        shell: bash
+        run: |
+          export PW_TEST_SCREENSHOT_NO_FONTS_READY=1
+          mkdir -p configurator-fast-artifacts
+          cat > /tmp/ot-config-fast/check.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+
+          async function prepare(page){
+            page.setDefaultTimeout(6000);
+            page.setDefaultNavigationTimeout(12000);
+            await page.route('**/*',route=>{
+              const url=route.request().url();
+              if(url.startsWith('http://127.0.0.1:4173/')) return route.continue();
+              return route.abort();
+            });
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'load',timeout:12000});
+            await page.waitForTimeout(500);
+          }
+
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+            await prepare(page);
+
+            const base=await page.evaluate(()=>({
+              url:location.href,
+              stage:!!document.getElementById('solutionStage'),
+              configurator:document.getElementById('solutionStage')?.classList.contains('is-configurator')||false,
+              mode:document.getElementById('solutionStage')?.dataset.configMode||null,
+              modules:[...document.querySelectorAll('.solution-configurator-head__modules span')].map(x=>x.textContent.trim()),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!base.stage||!base.configurator||base.mode!=='presenca'||base.modules.length!==4||base.overflow>1){
+              throw new Error('base failed '+JSON.stringify(base));
+            }
+
+            await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="oferta"]')?.click());
+            await page.waitForTimeout(300);
+            const oferta=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              selected:document.querySelector('.choice-tab[data-solution="oferta"]')?.getAttribute('aria-selected'),
+              meta:document.querySelector('#solutionMedia .solution-meta')?.textContent||''
+            }));
+            if(oferta.mode!=='oferta'||oferta.selected!=='true'||!oferta.meta.includes('mensuração')){
+              throw new Error('oferta failed '+JSON.stringify(oferta));
+            }
+
+            await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="digital"]')?.click());
+            await page.waitForTimeout(300);
+            const digital=await page.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              route:document.querySelector('.solution-configurator-head__route b')?.textContent||'',
+              meta:document.querySelector('#solutionMedia .solution-meta')?.textContent||''
+            }));
+            if(digital.mode!=='digital'||!digital.route.includes('Rota 03')||!digital.meta.includes('busca')){
+              throw new Error('digital failed '+JSON.stringify(digital));
+            }
+
+            await page.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'instant',block:'start'}));
+            await page.waitForTimeout(100);
+            await page.screenshot({path:'configurator-fast-artifacts/desktop-digital-1440.png',fullPage:false,animations:'disabled',timeout:3000}).catch(()=>{});
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await prepare(mobile);
+            const mobileState=await mobile.evaluate(()=>({
+              mode:document.getElementById('solutionStage')?.dataset.configMode,
+              configurator:document.getElementById('solutionStage')?.classList.contains('is-configurator')||false,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!mobileState.configurator||mobileState.mode!=='presenca'||mobileState.overflow>1){
+              throw new Error('mobile failed '+JSON.stringify(mobileState));
+            }
+            await mobile.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'instant',block:'start'}));
+            await mobile.waitForTimeout(100);
+            await mobile.screenshot({path:'configurator-fast-artifacts/mobile-presenca-390.png',fullPage:false,animations:'disabled',timeout:3000}).catch(()=>{});
+
+            fs.writeFileSync('configurator-fast-artifacts/diagnostics.json',JSON.stringify({base,oferta,digital,mobileState},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-config-fast/check.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: solution-configurator-fast-preview
+          path: configurator-fast-artifacts/
+          retention-days: 7
