@@ -16,7 +16,7 @@
   document.body.dataset.motionBudget=lite?'lite':'full';
 
   const ids=['inicio','solucoes','projetos','metodo','sobre','produtos','faq','ecossistema','contato'];
-  const observed=new WeakSet();
+  let observed=new WeakSet();
   let observer;
 
   function register(section){
