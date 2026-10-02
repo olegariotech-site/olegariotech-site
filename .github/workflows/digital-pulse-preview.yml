@@ -62,15 +62,20 @@ jobs:
             });
 
             await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-            await page.waitForTimeout(1800);
+            await page.waitForTimeout(1200);
+            const accept = page.getByRole('button', { name: 'Aceitar tudo' });
+            if (await accept.count()) {
+              await accept.click();
+              await page.waitForTimeout(350);
+            }
 
             const heroHeight = await page.locator('#inicio').evaluate(el => el.offsetHeight);
             const states = [
               ['00-hero-start', 0],
-              ['01-pulse-enter', 0.16],
-              ['02-pulse-strong', 0.34],
-              ['03-pulse-spread', 0.49],
-              ['04-pulse-return', 0.66]
+              ['01-pulse-enter', 0.12],
+              ['02-pulse-strong', 0.26],
+              ['03-pulse-spread', 0.36],
+              ['04-pulse-return', 0.52]
             ];
 
             const diagnostics = [];
@@ -103,7 +108,12 @@ jobs:
               deviceScaleFactor: 1
             });
             await mobile.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
-            await mobile.waitForTimeout(1000);
+            await mobile.waitForTimeout(800);
+            const mobileAccept = mobile.getByRole('button', { name: 'Aceitar tudo' });
+            if (await mobileAccept.count()) {
+              await mobileAccept.click();
+              await mobile.waitForTimeout(250);
+            }
             diagnostics.push({
               name: 'mobile-fallback',
               ...(await mobile.evaluate(() => {
