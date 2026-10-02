@@ -50,8 +50,11 @@ jobs:
             const browser=await chromium.launch({headless:true});
             const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
             page.setDefaultTimeout(5000);
-            await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
-            await page.waitForTimeout(1200);
+            page.setDefaultNavigationTimeout(12000);
+            await page.route(/^https:\/\//,route=>route.abort());
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'commit',timeout:12000});
+            await page.waitForSelector('#solutionStage',{state:'attached',timeout:10000});
+            await page.waitForTimeout(900);
             await dismiss(page);
             await page.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await page.waitForTimeout(500);
@@ -98,8 +101,11 @@ jobs:
 
             const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
             mobile.setDefaultTimeout(5000);
-            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
-            await mobile.waitForTimeout(900);
+            mobile.setDefaultNavigationTimeout(12000);
+            await mobile.route(/^https:\/\//,route=>route.abort());
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'commit',timeout:12000});
+            await mobile.waitForSelector('#solutionStage',{state:'attached',timeout:10000});
+            await mobile.waitForTimeout(700);
             await dismiss(mobile);
             await mobile.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await mobile.waitForTimeout(400);
