@@ -130,6 +130,7 @@ jobs:
               meta:document.querySelector('.solution-meta')?.textContent||''
             }));
             if(digital.mode!=='digital'||!digital.route.includes('Rota 03')||!digital.meta.includes('busca')) throw new Error('digital failed '+JSON.stringify(digital));
+            await page.screenshot({path:'configurator-fast-artifacts/desktop-digital-1440.png',fullPage:true,animations:'disabled',timeout:5000});
 
             await page.setViewportSize({width:390,height:844});
             await page.evaluate(()=>document.querySelector('[data-solution="presenca"]')?.click());
@@ -141,6 +142,7 @@ jobs:
               screenTransform:getComputedStyle(document.querySelector('.solution-screen')).transform
             }));
             if(!mobileState.configurator||mobileState.mode!=='presenca'||mobileState.overflow>1) throw new Error('mobile failed '+JSON.stringify(mobileState));
+            await page.screenshot({path:'configurator-fast-artifacts/mobile-presenca-390.png',fullPage:true,animations:'disabled',timeout:5000});
             console.log('CONFIGURATOR_OK',JSON.stringify({base,oferta,digital,mobileState}));
 
             fs.writeFileSync('configurator-fast-artifacts/diagnostics.json',JSON.stringify({base,oferta,digital,mobileState},null,2));
