@@ -53,10 +53,10 @@
 
     const progress = ease(clamp(-heroRect.top / Math.max(1, heroRect.height * .84)));
     // Digital Pulse prototype: photographic Earth -> particle globe -> controlled dispersion -> photo again.
-    const pulseIn = ease(clamp((progress - .04) / .34));
-    const pulseOut = ease(clamp((progress - .62) / .30));
+    const pulseIn = ease(clamp((progress - .015) / .20));
+    const pulseOut = ease(clamp((progress - .36) / .18));
     const pulse = pulseIn * (1 - pulseOut);
-    const spread = ease(clamp((progress - .28) / .38)) * (1 - pulseOut);
+    const spread = ease(clamp((progress - .18) / .18)) * (1 - pulseOut);
     setPulse(pulse, spread);
     let x = (innerWidth - 106 - baseX) * progress;
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - height);
@@ -71,7 +71,7 @@
       const rect = section.getBoundingClientRect();
       return rect.top < height * .82 && rect.bottom > height * .18;
     });
-    if (reading) opacity = Math.min(opacity, .11);
+    if (reading && pulse < .08) opacity = Math.min(opacity, .11);
 
     const ctaRect = cta.getBoundingClientRect();
     const ctaProgress = ease(clamp((height * .9 - ctaRect.top) / (height * .7)));
@@ -89,7 +89,7 @@
     earth.style.setProperty('--earth-y', `${y.toFixed(1)}px`);
     earth.style.setProperty('--earth-scale', scale.toFixed(3));
     earth.style.setProperty('--earth-opacity', opacity.toFixed(3));
-    setAnimation(opacity > .16);
+    setAnimation(opacity > .16 || pulse > .04);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   addEventListener('scroll', schedule, { passive: true });
