@@ -1,74 +1,13 @@
-/* A single photographic Earth travels behind the home page, clear of the content. */
+/* Full-viewport scene behind the content, with a photographic no-WebGL/no-motion reserve. */
 .page{position:relative;z-index:1}
-.earth-journey{
-  position:fixed;z-index:0;left:var(--earth-left,78vw);top:var(--earth-top,49vh);
-  width:clamp(390px,48vw,760px);aspect-ratio:1;pointer-events:none;
-  transform:translate(-50%,-50%) translate3d(var(--earth-x,0px),var(--earth-y,0px),0);
-  opacity:var(--earth-opacity,0);will-change:transform,opacity;transition:opacity .4s ease;
-}
-.earth-journey__globe{
-  position:relative;width:100%;height:100%;transform:scale(var(--earth-scale,1));
-  filter:drop-shadow(0 0 34px rgba(69,171,232,.27));
-  transition:filter .5s ease;
-}
-.earth-journey.is-pulse .earth-journey__globe{
-  filter:drop-shadow(0 0 42px rgba(103,232,249,.28)) drop-shadow(0 0 68px rgba(168,85,247,.16));
-}
-.earth-journey__globe::before{
-  content:"";position:absolute;inset:6%;border-radius:50%;
-  box-shadow:0 0 58px 8px rgba(60,155,227,.14),inset 0 0 20px rgba(99,191,249,.22);
-}
-.earth-journey__globe::after{
-  content:"";position:absolute;inset:1%;border-radius:50%;pointer-events:none;opacity:0;
-  background:radial-gradient(circle,transparent 56%,rgba(103,232,249,.08) 70%,rgba(168,85,247,.12) 74%,transparent 78%);
-  transition:opacity .45s ease;
-}
-.earth-journey.is-pulse .earth-journey__globe::after{opacity:1}
-.earth-journey img{
-  display:block;width:100%;height:100%;object-fit:contain;
-  -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-  mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-  filter:brightness(1.16) saturate(1.14);
-}
-.earth-journey__canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;transition:opacity .65s ease}
-.earth-journey.is-spinning .earth-journey__canvas{opacity:1}
-.earth-journey.is-spinning img{opacity:0;transition:opacity .65s ease}
-.hero .planet-fallback{
-  display:block;object-fit:contain;border-radius:50%;
-  -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-  mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-  filter:brightness(1.22) saturate(1.14);
-}
+.earth-journey{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:var(--earth-opacity,1)}
+.earth-journey__globe{position:absolute;inset:0}
+.earth-journey__canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0}
+.earth-journey.is-rendering .earth-journey__canvas{opacity:1}
+.earth-journey__globe>img{position:absolute;left:var(--earth-left,78vw);top:var(--earth-top,50vh);width:var(--earth-size,540px);height:var(--earth-size,540px);max-width:none;object-fit:contain;transform:translate(-50%,-50%);opacity:1;filter:brightness(1.15) saturate(1.08);mask-image:radial-gradient(circle,#000 40%,rgba(0,0,0,.95) 45%,transparent 49%)}
+.earth-journey.is-rendering .earth-journey__globe>img{opacity:0}
 .has-earth-journey .hero .planet-wrap{display:none}
-/* The journey passes behind the CTA; its copy and controls retain contrast. */
-.cta-box{position:relative;isolation:isolate}
-@media(min-width:901px) and (max-width:1150px){.earth-journey{width:41vw}}
-@media(max-width:900px){
-  .earth-journey{display:none}
-  .has-earth-journey .hero .planet-wrap,.hero .planet-wrap{
-    display:block;width:min(470px,110vw);right:-40%;top:59%;
-    transform:translateY(-50%);opacity:1;filter:drop-shadow(0 0 32px rgba(69,171,232,.2));
-  }
-  .hero .planet-wrap::before,.hero .planet-wrap::after{display:none}
-  .hero .planet-fallback{
-    display:block;object-fit:contain;border-radius:50%;
-    -webkit-mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-    mask-image:radial-gradient(circle,#000 41%,rgba(0,0,0,.95) 45%,transparent 49%);
-    filter:brightness(1.22) saturate(1.14);
-  }
-  .hero .hero-visual{opacity:.7}
-  .cta-box{overflow:hidden}
-  .cta-box::before{
-    content:"";position:absolute;z-index:-1;width:290px;aspect-ratio:1;right:-120px;bottom:-135px;
-    background:url('/assets/img/orbit/nasa-blue-marble-south-america.webp') center/contain no-repeat;
-    opacity:.17;border-radius:50%;
-    -webkit-mask-image:radial-gradient(circle,#000 42%,transparent 49%);
-    mask-image:radial-gradient(circle,#000 42%,transparent 49%);
-  }
-}
-@media(max-width:420px){.hero .planet-wrap{width:min(450px,118vw);right:-46%;top:62%}.hero .hero-visual{opacity:.53}}
-@media(prefers-reduced-motion:reduce){
-  .earth-journey{will-change:auto}
-  .earth-journey__canvas{display:none}
-  .hero .planet-wrap{transition:none;animation:none}
-}
+.earth-journey::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#050008 0%,transparent 26%,transparent 92%,#050008 100%);pointer-events:none}
+@media(min-width:901px){.earth-journey::after{left:var(--rail);background:linear-gradient(90deg,rgba(5,0,8,.8),transparent 54%)}}
+@media(max-width:900px){.earth-journey{opacity:calc(var(--earth-opacity,1) * .52)}.hero .hero-visual{opacity:1!important}.hero .hero-visual::after{display:none}.earth-journey::after{background:linear-gradient(90deg,rgba(5,0,8,.85),transparent 92%)}}
+@media(prefers-reduced-motion:reduce){.earth-journey__canvas{display:none!important}.earth-journey.is-rendering .earth-journey__globe>img{opacity:1}.earth-journey{transition:none}}
