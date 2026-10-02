@@ -39,6 +39,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p configurator-artifacts
+          export PW_TEST_SCREENSHOT_NO_FONTS_READY=1
           cat > /tmp/ot-configurator/capture.cjs <<'NODE'
           const fs=require('fs');
           const {chromium}=require('playwright');
@@ -66,7 +67,7 @@ jobs:
               overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
             }));
             if(!initial.stage||initial.mode!=='presenca'||initial.modules.length!==4||initial.overflow>1)throw new Error('Initial state failed '+JSON.stringify(initial));
-            await page.screenshot({path:'configurator-artifacts/01-presenca-1440.png',fullPage:false});
+            await page.screenshot({path:'configurator-artifacts/01-presenca-1440.png',fullPage:false,animations:'disabled',timeout:5000});
 
             await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="oferta"]')?.click());
             await page.waitForTimeout(620);
@@ -77,7 +78,7 @@ jobs:
               selected:document.querySelector('.choice-tab[data-solution="oferta"]')?.getAttribute('aria-selected')
             }));
             if(oferta.mode!=='oferta'||oferta.selected!=='true'||!oferta.meta?.includes('mensuração'))throw new Error('Oferta state failed '+JSON.stringify(oferta));
-            await page.screenshot({path:'configurator-artifacts/02-oferta-1440.png',fullPage:false});
+            await page.screenshot({path:'configurator-artifacts/02-oferta-1440.png',fullPage:false,animations:'disabled',timeout:5000});
 
             await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="digital"]')?.click());
             await page.waitForTimeout(620);
@@ -88,7 +89,7 @@ jobs:
               overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
             }));
             if(digital.mode!=='digital'||!digital.meta?.includes('busca')||digital.overflow>1)throw new Error('Digital state failed '+JSON.stringify(digital));
-            await page.screenshot({path:'configurator-artifacts/03-digital-1440.png',fullPage:false});
+            await page.screenshot({path:'configurator-artifacts/03-digital-1440.png',fullPage:false,animations:'disabled',timeout:5000});
 
             await page.mouse.move(1090,560);
             await page.waitForTimeout(180);
@@ -114,7 +115,7 @@ jobs:
               mode:document.getElementById('solutionStage')?.dataset.configMode
             }));
             if(mobileCheck.overflow>1||!mobileCheck.head||mobileCheck.mode!=='presenca')throw new Error('Mobile failed '+JSON.stringify(mobileCheck));
-            await mobile.screenshot({path:'configurator-artifacts/04-mobile-390.png',fullPage:false});
+            await mobile.screenshot({path:'configurator-artifacts/04-mobile-390.png',fullPage:false,animations:'disabled',timeout:5000});
 
             fs.writeFileSync('configurator-artifacts/diagnostics.json',JSON.stringify({initial,oferta,digital,pointer,mobileCheck},null,2));
             await browser.close();
