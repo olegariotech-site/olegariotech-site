@@ -21,11 +21,6 @@
     return true;
   }
 
-  function pathBetween(x1, y1, x2, y2) {
-    const bend = Math.max(34, Math.abs(x2 - x1) * .34);
-    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} C ${(x1 + bend).toFixed(1)} ${y1.toFixed(1)}, ${(x2 - bend * .55).toFixed(1)} ${y2.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
-  }
-
   function buildNetwork() {
     ecosystem = document.getElementById('ecossistema');
     shell = ecosystem?.querySelector('.ot-ecosystem__shell');
@@ -58,6 +53,15 @@
     return true;
   }
 
+  function appendNetworkPath(group, d, className, index, delay = 0) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('class', className);
+    path.setAttribute('d', d);
+    path.dataset.index = String(index);
+    if (delay) path.style.animationDelay = `${delay.toFixed(2)}s`;
+    group.appendChild(path);
+  }
+
   function layoutNetwork() {
     if (!shell || !svg || !hub || innerWidth <= 1100) return;
     const shellRect = shell.getBoundingClientRect();
@@ -65,8 +69,19 @@
     const copyRect = copy?.getBoundingClientRect();
     if (!copyRect) return;
 
-    const startX = copyRect.right - shellRect.left + 7;
-    const startY = Math.min(shellRect.height * .57, copyRect.top - shellRect.top + copyRect.height * .58);
+    const rects = cards.map(card => card.getBoundingClientRect());
+    const leftRects = rects.filter((_, index) => index % 2 === 0);
+    const rightRects = rects.filter((_, index) => index % 2 === 1);
+    if (!leftRects.length || !rightRects.length) return;
+
+    const leftX = leftRects[0].left - shellRect.left - 8;
+    const rightX = rightRects[0].left - shellRect.left - 8;
+    const leftYs = leftRects.map(r => r.top - shellRect.top + r.height * .5);
+    const rightYs = rightRects.map(r => r.top - shellRect.top + r.height * .5);
+    const topRailY = Math.max(18, Math.min(...rects.map(r => r.top - shellRect.top)) - 12);
+    const startX = Math.min(leftX - 26, copyRect.right - shellRect.left + 9);
+    const startY = leftYs[Math.floor(leftYs.length / 2)];
+
     hub.style.left = `${startX}px`;
     hub.style.top = `${startY}px`;
 
@@ -76,27 +91,29 @@
     const runner = svg.querySelector('[data-pulse-runner]');
     base.textContent = ''; active.textContent = ''; runner.textContent = '';
 
-    cards.forEach((card, index) => {
-      const r = card.getBoundingClientRect();
-      const endX = r.left - shellRect.left + 1;
-      const endY = r.top - shellRect.top + r.height * .5;
-      const d = pathBetween(startX, startY, endX, endY);
-      const basePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      basePath.setAttribute('class', 'ot-pulse-network__base');
-      basePath.setAttribute('d', d);
-      base.appendChild(basePath);
+    const segments = [];
+    segments.push(`M ${startX.toFixed(1)} ${startY.toFixed(1)} L ${leftX.toFixed(1)} ${startY.toFixed(1)}`);
+    segments.push(`M ${leftX.toFixed(1)} ${Math.min(...leftYs).toFixed(1)} L ${leftX.toFixed(1)} ${Math.max(...leftYs).toFixed(1)}`);
 
-      const activePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      activePath.setAttribute('class', 'ot-pulse-network__active');
-      activePath.setAttribute('d', d);
-      activePath.dataset.index = String(index);
-      active.appendChild(activePath);
+    leftRects.forEach((r, i) => {
+      const y = leftYs[i];
+      const x = r.left - shellRect.left + 1;
+      segments.push(`M ${leftX.toFixed(1)} ${y.toFixed(1)} L ${x.toFixed(1)} ${y.toFixed(1)}`);
+    });
 
-      const runnerPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      runnerPath.setAttribute('class', 'ot-pulse-network__runner');
-      runnerPath.setAttribute('d', d);
-      runnerPath.style.animationDelay = `${(-index * .34).toFixed(2)}s`;
-      runner.appendChild(runnerPath);
+    segments.push(`M ${leftX.toFixed(1)} ${Math.min(...leftYs).toFixed(1)} L ${leftX.toFixed(1)} ${topRailY.toFixed(1)} L ${rightX.toFixed(1)} ${topRailY.toFixed(1)} L ${rightX.toFixed(1)} ${Math.min(...rightYs).toFixed(1)}`);
+    segments.push(`M ${rightX.toFixed(1)} ${Math.min(...rightYs).toFixed(1)} L ${rightX.toFixed(1)} ${Math.max(...rightYs).toFixed(1)}`);
+
+    rightRects.forEach((r, i) => {
+      const y = rightYs[i];
+      const x = r.left - shellRect.left + 1;
+      segments.push(`M ${rightX.toFixed(1)} ${y.toFixed(1)} L ${x.toFixed(1)} ${y.toFixed(1)}`);
+    });
+
+    segments.forEach((d, index) => {
+      appendNetworkPath(base, d, 'ot-pulse-network__base', index);
+      appendNetworkPath(active, d, 'ot-pulse-network__active', index);
+      appendNetworkPath(runner, d, 'ot-pulse-network__runner', index, -index * .22);
     });
     syncPathLengths();
   }
@@ -107,7 +124,7 @@
     [...svg.querySelectorAll('.ot-pulse-network__active')].forEach((path, index) => {
       const len = path.getTotalLength();
       path.style.strokeDasharray = String(len);
-      const local = clamp((progress * 1.22) - index * .055);
+      const local = clamp((progress * 1.18) - index * .042);
       path.style.strokeDashoffset = String(len * (1 - local));
     });
   }
@@ -139,7 +156,7 @@
       if (svg && innerWidth > 1100) {
         [...svg.querySelectorAll('.ot-pulse-network__active')].forEach((path, index) => {
           const len = path.getTotalLength();
-          const local = clamp((p * 1.22) - index * .055);
+          const local = clamp((p * 1.18) - index * .042);
           path.style.strokeDasharray = String(len);
           path.style.strokeDashoffset = String(len * (1 - local));
         });
