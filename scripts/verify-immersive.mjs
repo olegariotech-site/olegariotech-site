@@ -31,6 +31,7 @@ async function run(name,viewport,options={}) {
   async function noOverflow(){assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,name+' overflow');}
   async function capture(label){await page.waitForTimeout(250);await noOverflow();await page.screenshot({path:`${output}/${name}-${label}.png`});}
   await capture('01-hero');
+  if(options.reduced)assert.ok(await page.evaluate(()=>document.querySelector('#prova').getBoundingClientRect().top>=document.querySelector('.hero-proof').getBoundingClientRect().bottom),'proof strip clears hero content');
   for(const [label,amount] of [['02-particles',.30],['03-wave',.72]]){
     await page.evaluate(amount=>scrollTo(0,innerHeight*amount),amount);
     await capture(label);
@@ -42,6 +43,8 @@ async function run(name,viewport,options={}) {
     await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
     await page.waitForFunction(key=>document.querySelector('#solutionStage').dataset.route===key,key);
     assert.equal(await page.locator('.solution-blueprint__node').count(),nodeCount);
+    assert.ok(await page.locator('#solutionMedia').isVisible(),'project imagery stays visible');
+    await page.waitForFunction(()=>[...document.querySelectorAll('#solutionMedia img')].every(img=>img.complete&&img.naturalWidth>0));
     const last=page.locator('.solution-blueprint__node').last();
     await last.click();
     assert.equal(await last.getAttribute('aria-pressed'),'true');
@@ -49,7 +52,7 @@ async function run(name,viewport,options={}) {
     assert.ok(detail.length>60);
     await page.locator('#solutionStage').scrollIntoViewIfNeeded();
     await capture('04-solution-'+key);
-    await page.locator('#solutionStage').screenshot({path:`${output}/${name}-solution-full-${key}.png`});
+    await page.locator('#solutionStage').screenshot({path:`${output}/${name}-solution-full-${key}.png`,style:'.mobile-header,.mobile-nav,.experience-controls{visibility:hidden!important}'});
     // Repeated selection must not duplicate the blueprint.
     await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
     assert.equal(await page.locator('.solution-blueprint').count(),1);
@@ -66,17 +69,20 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#metodo .method-card').count(),4);
   assert.equal(await page.locator('.ot-method-build').count(),1);
   await capture('06-method');
-  await page.locator('.method-scene').screenshot({path:`${output}/${name}-method-full.png`});
+  await page.locator('.method-scene').screenshot({path:`${output}/${name}-method-full.png`,style:'.mobile-header,.mobile-nav,.experience-controls{visibility:hidden!important}'});
   await page.locator('#ecossistema').scrollIntoViewIfNeeded();
   await capture('07-ecosystem');
   if(viewport.width>1100&&!options.reduced)assert.ok(await page.locator('.ot-pulse-network path').count()>0);
   await page.locator('#contato').scrollIntoViewIfNeeded();
   await capture('08-contact');
-  await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(150);
+  await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+  await page.waitForFunction(()=>+document.querySelector('#earthJourney').dataset.morph===0,{},{timeout:5000});
   assert.equal(+await page.locator('#earthJourney').getAttribute('data-morph'),0);
   if(options.reduced){assert.equal(await page.locator('.earth-journey__canvas').evaluate(e=>getComputedStyle(e).display),'none');}
   assert.deepEqual(errors,[],name+' runtime errors');
   report.push({name,viewport,renderer:earthState.renderer||'static',checks:'passed',errors});
+  await writeFile(`${output}/report.json`,JSON.stringify(report,null,2));
+  console.log(name+': passed');
   await context.close();
 }
 try{

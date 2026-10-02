@@ -27,7 +27,7 @@
   #solucoes .solution-stage{padding:28px 0 0}
   #solucoes .solution-layout{display:flex;flex-direction:column;gap:24px}
   #solucoes .solution-content,#solucoes .solution-media,.solution-blueprint{width:100%}
-  #solucoes .solution-media{min-height:0;margin:0 0 20px}
+  #solucoes .solution-media{display:block;min-height:0;margin:0 0 20px}
   #solucoes .solution-screen{transform:none}
   #solucoes .solution-phone{right:0}
   .solution-blueprint__nodes{gap:6px}

@@ -63,6 +63,7 @@ html.has-immersive-universe #contato .cta-box{background:radial-gradient(ellipse
 @media(prefers-reduced-motion:reduce){
   html.has-immersive-universe .hero{min-height:100svh}
   html.has-immersive-universe .hero-grid{position:relative}
+  html.has-immersive-universe .ot-proof-strip{margin-top:0}
   .ot-method-build [data-build]{stroke-dashoffset:0;opacity:1;transition:none}
   html.has-immersive-universe .ot-pulse-network__runner{animation:none}
 }
