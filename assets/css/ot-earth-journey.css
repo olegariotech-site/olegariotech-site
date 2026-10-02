@@ -9,5 +9,5 @@
 .has-earth-journey .hero .planet-wrap{display:none}
 .earth-journey::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#050008 0%,transparent 26%,transparent 92%,#050008 100%);pointer-events:none}
 @media(min-width:901px){.earth-journey::after{left:var(--rail);background:linear-gradient(90deg,rgba(5,0,8,.8),transparent 54%)}}
-@media(max-width:900px){.earth-journey{opacity:calc(var(--earth-opacity,1) * .6)}.hero .hero-visual{opacity:1!important}.hero .hero-visual::after{display:none}.earth-journey::after{background:linear-gradient(90deg,rgba(5,0,8,.85),transparent 92%)}}
+@media(max-width:900px){.earth-journey{opacity:calc(var(--earth-opacity,1) * .52)}.hero .hero-visual{opacity:1!important}.hero .hero-visual::after{display:none}.earth-journey::after{background:linear-gradient(90deg,rgba(5,0,8,.85),transparent 92%)}}
 @media(prefers-reduced-motion:reduce){.earth-journey__canvas{display:none!important}.earth-journey.is-rendering .earth-journey__globe>img{opacity:1}.earth-journey{transition:none}}
