@@ -14,10 +14,10 @@
   document.head.appendChild(footerCss);
 
   var core=document.createElement('script');
-  core.src='/assets/js/ot-analytics-core.js?v=4';core.async=false;
+  core.src='/assets/js/ot-analytics-core.js?v=5';core.async=false;
   core.onload=function(){
     var v2=document.createElement('script');
-    v2.src='/assets/js/ot-v2.js?v=4';v2.async=false;
+    v2.src='/assets/js/ot-v2.js?v=5';v2.async=false;
     v2.onload=function(){
       var mobile=document.createElement('script');
       mobile.src='/assets/js/ot-mobile-v3.js?v=1';mobile.async=false;
