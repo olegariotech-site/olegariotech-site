@@ -14,6 +14,10 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const ease = value => value * value * (3 - 2 * value);
   let baseX = 0, baseY = 0, frame = 0;
+  function setPulse(pulse = 0, spread = 0) {
+    earth.dataset.pulse = clamp(pulse).toFixed(3);
+    earth.dataset.spread = clamp(spread).toFixed(3);
+  }
   function setAnimation(active) {
     const next = String(active);
     if (earth.dataset.animate !== next) {
@@ -34,10 +38,11 @@
 
   function update() {
     frame = 0;
-    if (mobile.matches) { setAnimation(false); return; }
+    if (mobile.matches) { setPulse(0, 0); setAnimation(false); return; }
     const height = innerHeight;
     const heroRect = hero.getBoundingClientRect();
     if (reduced.matches) {
+      setPulse(0, 0);
       setAnimation(false);
       earth.style.setProperty('--earth-x', '0px');
       earth.style.setProperty('--earth-y', '0px');
@@ -47,6 +52,12 @@
     }
 
     const progress = ease(clamp(-heroRect.top / Math.max(1, heroRect.height * .84)));
+    // Digital Pulse prototype: photographic Earth -> particle globe -> controlled dispersion -> photo again.
+    const pulseIn = ease(clamp((progress - .04) / .34));
+    const pulseOut = ease(clamp((progress - .62) / .30));
+    const pulse = pulseIn * (1 - pulseOut);
+    const spread = ease(clamp((progress - .28) / .38)) * (1 - pulseOut);
+    setPulse(pulse, spread);
     let x = (innerWidth - 106 - baseX) * progress;
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - height);
     const pageProgress = clamp(scrollY / maxScroll);
