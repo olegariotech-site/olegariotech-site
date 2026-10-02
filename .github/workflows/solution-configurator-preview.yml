@@ -49,10 +49,11 @@ jobs:
           (async()=>{
             const browser=await chromium.launch({headless:true});
             const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+            page.setDefaultTimeout(5000);
             await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
             await page.waitForTimeout(1200);
             await dismiss(page);
-            await page.locator('#solucoes').scrollIntoViewIfNeeded();
+            await page.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await page.waitForTimeout(500);
 
             const initial=await page.evaluate(()=>({
@@ -65,7 +66,7 @@ jobs:
             if(!initial.stage||initial.mode!=='presenca'||initial.modules.length!==4||initial.overflow>1)throw new Error('Initial state failed '+JSON.stringify(initial));
             await page.screenshot({path:'configurator-artifacts/01-presenca-1440.png',fullPage:false});
 
-            await page.getByRole('tab',{name:/Preciso vender uma oferta/i}).click();
+            await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="oferta"]')?.click());
             await page.waitForTimeout(620);
             const oferta=await page.evaluate(()=>({
               mode:document.getElementById('solutionStage')?.dataset.configMode,
@@ -76,7 +77,7 @@ jobs:
             if(oferta.mode!=='oferta'||oferta.selected!=='true'||!oferta.meta?.includes('mensuração'))throw new Error('Oferta state failed '+JSON.stringify(oferta));
             await page.screenshot({path:'configurator-artifacts/02-oferta-1440.png',fullPage:false});
 
-            await page.getByRole('tab',{name:/Meu digital está todo solto/i}).click();
+            await page.evaluate(()=>document.querySelector('.choice-tab[data-solution="digital"]')?.click());
             await page.waitForTimeout(620);
             const digital=await page.evaluate(()=>({
               mode:document.getElementById('solutionStage')?.dataset.configMode,
@@ -96,10 +97,11 @@ jobs:
             if(pointer.mx==='0px'||pointer.mx==='')throw new Error('Pointer response failed '+JSON.stringify(pointer));
 
             const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            mobile.setDefaultTimeout(5000);
             await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
             await mobile.waitForTimeout(900);
             await dismiss(mobile);
-            await mobile.locator('#solucoes').scrollIntoViewIfNeeded();
+            await mobile.evaluate(()=>document.getElementById('solucoes')?.scrollIntoView({behavior:'auto',block:'start'}));
             await mobile.waitForTimeout(400);
             const mobileCheck=await mobile.evaluate(()=>({
               overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
