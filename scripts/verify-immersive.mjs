@@ -123,8 +123,8 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#metodo').getAttribute('data-method-focus'),'3');
   await capture('06-method');
   await page.locator('.method-scene').screenshot({path:`${output}/${name}-method-full.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
-  await page.locator('#ecossistema').scrollIntoViewIfNeeded();
-  await page.waitForFunction(()=>!document.querySelector('#metodo').classList.contains('is-method-active'));
+  await page.locator('#ecossistema').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));
+  await page.waitForFunction(()=>!document.querySelector('#metodo').classList.contains('is-method-active'),null,{timeout:5000});
   assert.equal(await page.locator('.build-runner').evaluate(e=>getComputedStyle(e).animationPlayState),'paused','method animation pauses offscreen');
   await capture('07-ecosystem');
   if(viewport.width>1100&&!options.reduced)assert.ok(await page.locator('.ot-pulse-network path').count()>0);
