@@ -1,0 +1,126 @@
+name: Diagnostico V2 preview
+
+on:
+  push:
+    branches:
+      - feature/ot-diagnostico-v2
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        shell: bash
+        run: |
+          mkdir -p /tmp/ot-diagnostic
+          cd /tmp/ot-diagnostic
+          npm init -y
+          npm install playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve branch
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-http.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/diagnostico-digital/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ot-http.log
+          exit 1
+      - name: Validate diagnostic journey
+        shell: bash
+        run: |
+          mkdir -p diagnostic-artifacts
+          cat > /tmp/ot-diagnostic/capture.cjs <<'NODE'
+          const fs=require('fs');
+          const {chromium}=require('playwright');
+          async function dismiss(page){
+            const accept=page.getByRole('button',{name:'Aceitar tudo'});
+            if(await accept.count()){await accept.click();await page.waitForTimeout(180);}
+          }
+          async function choose(page,text){
+            await page.getByRole('button',{name:text}).click();
+            await page.waitForTimeout(260);
+          }
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+            await page.goto('http://127.0.0.1:4173/diagnostico-digital/',{waitUntil:'networkidle'});
+            await dismiss(page);
+            await page.screenshot({path:'diagnostic-artifacts/01-initial-1440.png',fullPage:false});
+
+            const initial=await page.evaluate(()=>({
+              panel:!!document.querySelector('.live-diagnostic'),
+              steps:document.querySelectorAll('.step').length,
+              max:document.querySelector('.progress')?.getAttribute('aria-valuemax'),
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(!initial.panel||initial.steps!==7||initial.max!=='5'||initial.overflow>1) throw new Error('Initial diagnostic structure failed '+JSON.stringify(initial));
+
+            await choose(page,'Gerar mais contatos');
+            await choose(page,'Dependo de Instagram e WhatsApp');
+            let scores=await page.evaluate(()=>({
+              presenca:document.querySelector('[data-signal="presenca"]')?.dataset.score,
+              site:document.querySelector('[data-signal="site"]')?.dataset.score,
+              state:document.querySelector('.live-state')?.textContent
+            }));
+            if(scores.presenca!=='2'||scores.site!=='1') throw new Error('Presence/site signals failed '+JSON.stringify(scores));
+            await page.screenshot({path:'diagnostic-artifacts/02-panel-live-1440.png',fullPage:false});
+
+            await choose(page,'Quase não apareço');
+            await choose(page,'Tenho WhatsApp Business básico');
+            await choose(page,'Não acompanho dados');
+            await page.locator('#nomeNegocio').fill('Empresa Teste');
+            await page.getByRole('button',{name:'Ver meu diagnóstico'}).click();
+            await page.waitForTimeout(350);
+
+            const result=await page.evaluate(()=>({
+              priority:document.getElementById('priorityTitle')?.textContent,
+              score:document.getElementById('overallScore')?.textContent,
+              href:document.getElementById('waLink')?.getAttribute('href'),
+              active:document.querySelector('.step.active')?.dataset.step,
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+            }));
+            if(result.active!=='6'||!result.priority||!result.score||!result.href?.includes('wa.me/5511912459144')||result.overflow>1) throw new Error('Result failed '+JSON.stringify(result));
+            await page.screenshot({path:'diagnostic-artifacts/03-result-1440.png',fullPage:false});
+
+            const laptop=await browser.newPage({viewport:{width:1366,height:768},deviceScaleFactor:1});
+            await laptop.goto('http://127.0.0.1:4173/diagnostico-digital/',{waitUntil:'networkidle'});
+            await dismiss(laptop);
+            const laptopCheck=await laptop.evaluate(()=>({
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              bodyOverflow:getComputedStyle(document.body).overflowY,
+              cardHeight:document.querySelector('.diagnostic-card')?.getBoundingClientRect().height
+            }));
+            if(laptopCheck.overflow>1) throw new Error('Laptop overflow '+JSON.stringify(laptopCheck));
+            await laptop.screenshot({path:'diagnostic-artifacts/04-laptop-1366x768.png',fullPage:false});
+
+            const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+            await mobile.goto('http://127.0.0.1:4173/diagnostico-digital/',{waitUntil:'networkidle'});
+            await dismiss(mobile);
+            const mobileCheck=await mobile.evaluate(()=>({
+              overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+              columns:getComputedStyle(document.querySelector('.diagnostic-card')).gridTemplateColumns,
+              panel:!!document.querySelector('.live-diagnostic')
+            }));
+            if(mobileCheck.overflow>1||!mobileCheck.panel) throw new Error('Mobile layout failed '+JSON.stringify(mobileCheck));
+            await mobile.screenshot({path:'diagnostic-artifacts/05-mobile-390.png',fullPage:false});
+
+            fs.writeFileSync('diagnostic-artifacts/diagnostics.json',JSON.stringify({initial,scores,result,laptopCheck,mobileCheck},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1);});
+          NODE
+          node /tmp/ot-diagnostic/capture.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-v2-preview
+          path: diagnostic-artifacts/
+          retention-days: 7
