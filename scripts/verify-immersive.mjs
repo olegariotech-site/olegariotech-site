@@ -49,6 +49,7 @@ async function run(name,viewport,options={}) {
     assert.ok(detail.length>60);
     await page.locator('#solutionStage').scrollIntoViewIfNeeded();
     await capture('04-solution-'+key);
+    await page.locator('#solutionStage').screenshot({path:`${output}/${name}-solution-full-${key}.png`});
     // Repeated selection must not duplicate the blueprint.
     await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
     assert.equal(await page.locator('.solution-blueprint').count(),1);
@@ -57,7 +58,7 @@ async function run(name,viewport,options={}) {
   await firstNode.focus();await page.keyboard.press('Enter');
   assert.equal(await firstNode.getAttribute('aria-pressed'),'true');
   await page.locator('#projetos').scrollIntoViewIfNeeded();
-  await page.getByRole('tab',{name:'K.L Transporte',exact:true}).click();
+  await page.getByRole('tab',{name:/K\.L Transporte/i}).click();
   assert.equal(await page.locator('#projectStage h3').innerText(),'K.L Transporte Express');
   assert.equal(await page.locator('#projectStage a').first().getAttribute('href'),'https://kltransporteexpress.com.br/');
   await capture('05-project');
@@ -65,6 +66,7 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#metodo .method-card').count(),4);
   assert.equal(await page.locator('.ot-method-build').count(),1);
   await capture('06-method');
+  await page.locator('.method-scene').screenshot({path:`${output}/${name}-method-full.png`});
   await page.locator('#ecossistema').scrollIntoViewIfNeeded();
   await capture('07-ecosystem');
   if(viewport.width>1100&&!options.reduced)assert.ok(await page.locator('.ot-pulse-network path').count()>0);
