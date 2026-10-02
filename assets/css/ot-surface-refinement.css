@@ -1,0 +1,48 @@
+/* Preserve every brand footer; depth belongs to the frame, never to a cropped image. */
+#solucoes .solution-media{min-height:0;margin:18px 12px 24px 0;perspective:1100px}
+#solucoes .solution-screen{border-radius:20px;border-color:rgba(174,188,220,.23);background:#090712;overflow:hidden;transform:rotateX(var(--surface-rx,0deg)) rotateY(var(--surface-ry,0deg)) translateY(var(--surface-dy,0px));transition:box-shadow .4s,border-color .4s;box-shadow:0 20px 45px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.025)}
+#solucoes .solution-screen img{display:block;width:100%;height:auto;aspect-ratio:1586/992;object-fit:contain}
+#solucoes .solution-screen::after{background:radial-gradient(ellipse at var(--surface-light-x,50%) var(--surface-light-y,50%),rgba(172,218,255,.06),transparent 55%);opacity:0;transition:opacity .35s}
+#solucoes .is-surface-active .solution-screen{border-color:rgba(103,232,249,.42);box-shadow:0 28px 55px rgba(0,0,0,.45),0 0 32px rgba(103,232,249,.065)}
+#solucoes .is-surface-active .solution-screen::after{opacity:1}
+#solucoes .solution-phone{width:22%;right:-8px;bottom:-12px;border:4px solid #171622;border-radius:15px;transform:translate3d(calc(var(--surface-dx,0px) * -1.3),calc(var(--surface-dy,0px) * -.7),0) rotateY(var(--surface-ry,0deg));box-shadow:0 14px 30px rgba(0,0,0,.65)}
+#solucoes .solution-phone img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:contain}
+#projetos .project-image{transform:perspective(1200px) rotateX(var(--surface-rx,0deg)) rotateY(var(--surface-ry,0deg)) translateY(var(--surface-dy,0px));box-shadow:0 20px 48px rgba(0,0,0,.28);transition:box-shadow .4s,border-color .4s}
+#projetos .project-image>img{object-fit:contain;transform:none!important}
+#projetos .project-image::after{background:radial-gradient(ellipse at var(--surface-light-x,50%) var(--surface-light-y,50%),rgba(172,218,255,.05),transparent 60%);border-color:rgba(255,255,255,.1)}
+#projetos .project-image.is-surface-active{border-color:rgba(103,232,249,.38);box-shadow:0 30px 58px rgba(0,0,0,.4),0 0 28px rgba(103,232,249,.065)}
+/* The entrance animation owns opacity only, leaving pointer perspective free. */
+#projetos .project-stage.fade-in .project-image{animation:otSurfaceReveal .5s ease both}
+@keyframes otSurfaceReveal{from{opacity:.35}to{opacity:1}}
+
+#metodo .ot-method-build{perspective:1000px;isolation:isolate;background:radial-gradient(ellipse at var(--surface-light-x,50%) var(--surface-light-y,50%),rgba(103,232,249,.11),transparent 68%)}
+#metodo .ot-method-build svg{position:relative;z-index:1;transform:rotateX(calc(5deg + var(--surface-rx,0deg))) rotateY(calc(-8deg + var(--surface-ry,0deg)));stroke-width:1.5;filter:drop-shadow(0 0 8px rgba(103,232,249,.22))}
+#metodo .build-energy{opacity:var(--method-energy,0)}
+#metodo .build-depth{stroke:rgba(103,232,249,.21);fill:rgba(103,232,249,.025);stroke-width:1}
+#metodo .build-scan{stroke:rgba(103,232,249,.5);stroke-width:1;animation:otBuildScan 5s ease-in-out infinite;animation-play-state:paused}
+#metodo .build-runner{stroke:#a78bfa;stroke-width:2;stroke-dasharray:18 700;stroke-dashoffset:720;animation:otBuildTrace 6s linear infinite;animation-play-state:paused}
+#metodo .build-beacon{fill:#8ceafa;stroke:none;animation:otBuildBeacon 3.8s ease-in-out infinite;animation-play-state:paused}
+#metodo .build-beacon:nth-child(2){animation-delay:-1.3s}
+#metodo .build-beacon:nth-child(3){animation-delay:-2.6s}
+#metodo.is-method-active .build-scan,#metodo.is-method-active .build-runner,#metodo.is-method-active .build-beacon{animation-play-state:running}
+html.ot-page-hidden #metodo .build-scan,html.ot-page-hidden #metodo .build-runner,html.ot-page-hidden #metodo .build-beacon{animation-play-state:paused}
+#metodo[data-method-focus="1"] [data-build="1"],#metodo[data-method-focus="2"] [data-build="2"],#metodo[data-method-focus="3"] [data-build="3"],#metodo[data-method-focus="4"] [data-build="4"]{stroke-width:2.5;filter:drop-shadow(0 0 6px currentColor)}
+#metodo .method-card{transition:border-color .35s,background .35s}
+html.has-immersive-universe #metodo .method-card:hover{background:linear-gradient(180deg,rgba(103,232,249,.045),transparent);border-top-color:#a78bfa}
+@keyframes otBuildScan{0%,100%{transform:translateY(0);opacity:.08}50%{transform:translateY(155px);opacity:.65}}
+@keyframes otBuildTrace{to{stroke-dashoffset:0}}
+@keyframes otBuildBeacon{0%,100%{opacity:.3}50%{opacity:1}}
+@media(max-width:900px),(hover:none),(pointer:coarse){
+  #solucoes .solution-screen,#projetos .project-image{transform:none}
+  #solucoes .solution-media{margin:0 8px 16px 0;width:calc(100% - 8px)}
+  #solucoes .solution-phone{width:23%;right:-8px;transform:none}
+  #metodo .ot-method-build svg{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  #solucoes .solution-screen,#solucoes .solution-phone,#projetos .project-image,#metodo .ot-method-build svg{transform:none!important;transition:none}
+  #projetos .project-stage.fade-in .project-image{animation:none}
+  #metodo .build-scan,#metodo .build-runner{display:none}
+  #metodo .build-beacon{animation:none;opacity:.65}
+}
+#metodo.is-method-lite .build-scan,#metodo.is-method-lite .build-runner{display:none}
+#metodo.is-method-lite .build-beacon{animation:none}

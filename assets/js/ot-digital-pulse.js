@@ -23,16 +23,24 @@
       build.className = 'ot-method-build';
       build.setAttribute('aria-hidden', 'true');
       build.innerHTML = `<svg viewBox="0 0 400 340" aria-hidden="true">
+        <defs><clipPath id="otMethodBody"><rect x="53" y="79" width="294" height="189" rx="4"/></clipPath></defs>
+        <g class="build-depth"><rect x="68" y="29" width="296" height="224" rx="10"/><path d="m52 45 16-16M348 45l16-16M348 269l16-16M52 269l16-16"/></g>
         <g class="build-content"><rect x="52" y="45" width="296" height="224" rx="10"/><path d="M52 78h296"/></g>
         <g data-build="1"><rect pathLength="1" x="52" y="45" width="296" height="224" rx="10"/><path pathLength="1" d="M52 78h296M68 61h2M80 61h2M92 61h2"/></g>
         <g data-build="2"><path pathLength="1" d="M80 106h100M80 118h73M80 141h116M80 151h96M80 161h106"/><rect pathLength="1" x="226" y="102" width="92" height="82" rx="4"/><path pathLength="1" d="m226 165 28-30 20 18 25-34 19 25"/></g>
         <g data-build="3"><rect pathLength="1" x="80" y="192" width="108" height="25" rx="5"/><path pathLength="1" d="M96 205h65M80 240h48M151 240h47M221 240h97"/></g>
         <g data-build="4"><path pathLength="1" d="M200 269v26h100v-45M115 269v41h-50v-92"/><circle pathLength="1" cx="300" cy="243" r="6"/><circle pathLength="1" cx="65" cy="212" r="6"/><path pathLength="1" d="m278 302 9 9 20-20"/></g>
+        <g class="build-energy">
+          <g clip-path="url(#otMethodBody)"><path class="build-scan" d="M54 90h292"/></g>
+          <path class="build-runner" d="M115 269v41h-50v-92M200 269v26h100v-45"/>
+          <g><circle class="build-beacon" cx="65" cy="212" r="2.5"/><circle class="build-beacon" cx="300" cy="243" r="2.5"/><circle class="build-beacon" cx="134" cy="205" r="2"/></g>
+        </g>
       </svg>`;
       methodGrid.before(wrapper);
       wrapper.append(build, methodGrid);
     }
     methodGrid.classList.add('ot-pulse-method');
+    method.classList.toggle('is-method-lite', saveData);
     methodCards.forEach((card, index) => card.dataset.pulseStep = String(index + 1));
     return true;
   }
@@ -152,6 +160,8 @@
     if (method && methodGrid && methodCards?.length) {
       const r = method.getBoundingClientRect();
       const p = ease(clamp((h * .78 - r.top) / Math.max(1, r.height * .72)));
+      method.classList.toggle('is-method-active', r.top < h * .85 && r.bottom > 0 && !document.hidden && !reduced.matches);
+      method.style.setProperty('--method-energy', p.toFixed(3));
       methodGrid.style.setProperty('--method-pulse', p.toFixed(3));
       methodCards = [...methodGrid.querySelectorAll('.method-card')];
       method.querySelectorAll('[data-build]').forEach(group => {
@@ -215,6 +225,8 @@
       setTimeout(() => observer.disconnect(), 8000);
     }
 
+    document.addEventListener('visibilitychange', schedule);
+    reduced.addEventListener('change', schedule);
     addEventListener('scroll', schedule, {passive:true});
     addEventListener('resize', () => {
       if (buildNetwork()) layoutNetwork();
