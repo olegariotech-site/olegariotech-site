@@ -89,10 +89,10 @@ jobs:
             await page.mouse.move(1090,560);
             await page.waitForTimeout(180);
             const pointer=await page.evaluate(()=>({
-              mx:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-mx').trim(),
-              my:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-my').trim()
+              mx:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-x-px').trim(),
+              my:getComputedStyle(document.getElementById('solutionStage')).getPropertyValue('--config-y-px').trim()
             }));
-            if(pointer.mx==='0'||pointer.mx==='')throw new Error('Pointer response failed '+JSON.stringify(pointer));
+            if(pointer.mx==='0px'||pointer.mx==='')throw new Error('Pointer response failed '+JSON.stringify(pointer));
 
             const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
             await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});\n            await mobile.waitForTimeout(900);
