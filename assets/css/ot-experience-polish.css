@@ -94,15 +94,6 @@ html.ot-motion-lite .earth-journey__globe{
   filter:drop-shadow(0 0 24px rgba(69,171,232,.18));
 }
 
-/* Rendering containment for the heavier visual panels. */
-#solucoes .solution-media,
-#projetos .project-stage,
-.delivery-panel,
-#metodo .method-grid,
-.ot-ecosystem__shell{
-  contain:paint;
-}
-
 @media(max-width:900px){
   html.ot-experience-ready .section[data-experience-section] .section-label,
   html.ot-experience-ready .section[data-experience-section] .section-title,
