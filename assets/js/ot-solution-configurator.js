@@ -60,15 +60,6 @@
   }
   const observer=new MutationObserver(decorate);
   observer.observe(content,{attributes:true,attributeFilter:['data-solution']});
-  // Media is rebuilt by the existing renderer; the blueprint remains its sibling.
-  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
-  media.addEventListener('pointermove',event=>{
-    if(event.pointerType!=='mouse'||innerWidth<=900||reduced.matches)return;
-    const rect=media.getBoundingClientRect();
-    const x=(event.clientX-rect.left)/rect.width-.5,y=(event.clientY-rect.top)/rect.height-.5;
-    media.style.setProperty('--preview-x',`${(x*3).toFixed(2)}deg`);
-    media.style.setProperty('--preview-y',`${(-y*2).toFixed(2)}deg`);
-  },{passive:true});
-  media.addEventListener('pointerleave',()=>{media.style.setProperty('--preview-x','0deg');media.style.setProperty('--preview-y','0deg');});
+  // Pointer depth is shared with the portfolio and method in ot-surface-motion.js.
   decorate();
 })();

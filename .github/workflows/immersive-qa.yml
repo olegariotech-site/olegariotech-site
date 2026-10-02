@@ -24,7 +24,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Validate JavaScript
         run: |
-          for file in assets/js/ot-earth-journey.js assets/js/ot-earth-spin.js assets/js/ot-digital-pulse.js assets/js/ot-solution-configurator.js; do node --check "$file"; done
+          for file in assets/js/ot-earth-journey.js assets/js/ot-earth-spin.js assets/js/ot-digital-pulse.js assets/js/ot-solution-configurator.js assets/js/ot-surface-motion.js; do node --check "$file"; done
       - name: Verify motion, controls and responsive layout
         env:
           OT_QA_OUTPUT: /tmp/ot-immersive-qa
