@@ -47,7 +47,7 @@
     ecossistema:{title:'Integrar canais e evoluir o ecossistema',text:'Sua base já tem bons sinais. O próximo ganho está em conectar presença, atendimento, busca e mensuração.'}
   };
 
-  function show(i){
+  function show(i,shouldScroll=true){
     current=Math.max(0,Math.min(i,steps.length-1));
     steps.forEach((s,idx)=>s.classList.toggle('active',idx===current));
     const answered=Math.min(current,5);
@@ -57,7 +57,7 @@
       progress.setAttribute('aria-valuenow',String(answered));
     }
     if(stepLabel) stepLabel.textContent=current<5?('sinal '+(current+1)+' de 5'):(current===5?'finalização':'resultado');
-    if(matchMedia('(max-width:980px)').matches){
+    if(shouldScroll&&matchMedia('(max-width:980px)').matches){
       document.getElementById('quiz')?.scrollIntoView({behavior:'smooth',block:'start'});
     }
   }
@@ -184,5 +184,5 @@
   document.querySelectorAll('[data-finish]').forEach(btn=>btn.addEventListener('click',finish));
   renderSignals();
   updateLiveState();
-  show(0);
+  show(0,false);
 })();
