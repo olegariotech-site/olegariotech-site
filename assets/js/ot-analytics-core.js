@@ -362,7 +362,7 @@
       const finish = event.target.closest('[data-finish]');
       if (finish) {
         track('diagnostico_concluido', {
-          completed_steps: 4,
+          completed_steps: 5,
           cta_location: 'diagnostico'
         });
       }
