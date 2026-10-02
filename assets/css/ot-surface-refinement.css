@@ -1,6 +1,6 @@
 /* Preserve every brand footer; depth belongs to the frame, never to a cropped image. */
 #solucoes .solution-media{min-height:0;margin:18px 12px 24px 0;perspective:1100px}
-#solucoes .solution-screen{border-radius:20px;border-color:rgba(174,188,220,.23);background:#090712;overflow:hidden;transform:rotateX(var(--surface-rx,0deg)) rotateY(var(--surface-ry,-1deg)) translateY(var(--surface-dy,0px));transition:box-shadow .4s,border-color .4s;box-shadow:0 20px 45px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.025)}
+#solucoes .solution-screen{border-radius:20px;border-color:rgba(174,188,220,.23);background:#090712;overflow:hidden;transform:rotateX(var(--surface-rx,0deg)) rotateY(var(--surface-ry,0deg)) translateY(var(--surface-dy,0px));transition:box-shadow .4s,border-color .4s;box-shadow:0 20px 45px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.025)}
 #solucoes .solution-screen img{display:block;width:100%;height:auto;aspect-ratio:1586/992;object-fit:contain}
 #solucoes .solution-screen::after{background:radial-gradient(ellipse at var(--surface-light-x,50%) var(--surface-light-y,50%),rgba(172,218,255,.06),transparent 55%);opacity:0;transition:opacity .35s}
 #solucoes .is-surface-active .solution-screen{border-color:rgba(103,232,249,.42);box-shadow:0 28px 55px rgba(0,0,0,.45),0 0 32px rgba(103,232,249,.065)}

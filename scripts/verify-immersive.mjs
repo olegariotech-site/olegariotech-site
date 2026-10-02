@@ -35,10 +35,17 @@ async function run(name,viewport,options={}) {
   async function pointerDepth(selector,label) {
     const surface=page.locator(selector);
     await surface.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(350);
     const box=await surface.boundingBox();
-    await page.mouse.move(box.x+box.width*.78,Math.max(90,box.y+box.height*.3));
+    await page.mouse.move(1,1);
+    await page.mouse.move(box.x+box.width*.78,Math.max(90,box.y+box.height*.3),{steps:12});
     if(viewport.width>900&&!options.reduced){
-      await page.waitForFunction(selector=>Math.abs(parseFloat(document.querySelector(selector).style.getPropertyValue('--surface-ry'))||0)>.1,selector);
+      try{
+        await page.waitForFunction(selector=>Math.abs(parseFloat(document.querySelector(selector).style.getPropertyValue('--surface-ry'))||0)>.1,selector,{timeout:5000});
+      }catch(error){
+        console.log(await page.evaluate(({selector,box})=>({selector,box,pointer:matchMedia('(hover:hover) and (pointer:fine) and (min-width:901px)').matches,hidden:document.hidden,saveData:navigator.connection?.saveData,surface:document.querySelector(selector).outerHTML.slice(0,600),hit:document.elementFromPoint(box.x+box.width*.78,Math.max(90,box.y+box.height*.3))?.outerHTML.slice(0,200)}),{selector,box}));
+        await capture(label+'-failed-pointer');throw error;
+      }
       await capture(label+'-pointer');
       await page.mouse.move(1,1);
       await page.waitForFunction(selector=>!document.querySelector(selector).style.getPropertyValue('--surface-ry'),selector,{timeout:3000});
