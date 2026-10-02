@@ -123,11 +123,20 @@ jobs:
             }
             await page.screenshot({path:'polish-artifacts/03-ecosystem-active-1440.png',fullPage:false});
 
-            await center(page,'#projetos');
-            const ecoPaused=await page.evaluate(()=>({
-              active:document.getElementById('ecossistema')?.classList.contains('is-experience-active'),
-              runnerPlay:document.querySelector('.ot-pulse-network__runner')?getComputedStyle(document.querySelector('.ot-pulse-network__runner')).animationPlayState:null
-            }));
+            await page.evaluate(()=>window.scrollTo(0,0));
+            await page.waitForTimeout(500);
+            const ecoPaused=await page.evaluate(()=>{
+              const eco=document.getElementById('ecossistema');
+              const r=eco?.getBoundingClientRect();
+              return {
+                active:eco?.classList.contains('is-experience-active'),
+                runnerPlay:document.querySelector('.ot-pulse-network__runner')?getComputedStyle(document.querySelector('.ot-pulse-network__runner')).animationPlayState:null,
+                top:r?.top,
+                bottom:r?.bottom,
+                scrollY:window.scrollY,
+                viewport:innerHeight
+              };
+            });
             if(ecoPaused.active||ecoPaused.runnerPlay!=='paused') throw new Error('Ecosystem pause '+JSON.stringify(ecoPaused));
 
             // Modest desktop: preserve the experience but switch to the lighter motion budget.
