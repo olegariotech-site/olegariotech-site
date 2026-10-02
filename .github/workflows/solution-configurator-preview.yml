@@ -49,7 +49,8 @@ jobs:
           (async()=>{
             const browser=await chromium.launch({headless:true});
             const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
-            await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});\n            await page.waitForTimeout(1200);
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
+            await page.waitForTimeout(1200);
             await dismiss(page);
             await page.locator('#solucoes').scrollIntoViewIfNeeded();
             await page.waitForTimeout(500);
@@ -95,7 +96,8 @@ jobs:
             if(pointer.mx==='0px'||pointer.mx==='')throw new Error('Pointer response failed '+JSON.stringify(pointer));
 
             const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
-            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});\n            await mobile.waitForTimeout(900);
+            await mobile.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
+            await mobile.waitForTimeout(900);
             await dismiss(mobile);
             await mobile.locator('#solucoes').scrollIntoViewIfNeeded();
             await mobile.waitForTimeout(400);
