@@ -90,13 +90,13 @@ jobs:
             }
             await page.screenshot({path:'polish-artifacts/01-solutions-active-1440.png',fullPage:false});
 
-            await center(page,'#projetos');
+            await center(page,'#metodo');
             const solutionPaused=await page.evaluate(()=>({
               solutionActive:document.getElementById('solucoes')?.classList.contains('is-experience-active'),
               scanPlay:getComputedStyle(document.querySelector('.solution-scan'),'::before').animationPlayState,
-              projectSeen:document.getElementById('projetos')?.classList.contains('is-experience-seen')
+              methodSeen:document.getElementById('metodo')?.classList.contains('is-experience-seen')
             }));
-            if(solutionPaused.solutionActive||solutionPaused.scanPlay!=='paused'||!solutionPaused.projectSeen){
+            if(solutionPaused.solutionActive||solutionPaused.scanPlay!=='paused'||!solutionPaused.methodSeen){
               throw new Error('Solution pause '+JSON.stringify(solutionPaused));
             }
 
