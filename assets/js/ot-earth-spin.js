@@ -6,7 +6,12 @@
 
   const mobile = matchMedia('(max-width:900px)');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
-  const canLoad = () => !mobile.matches && !reduced.matches && !navigator.connection?.saveData;
+  const memory = Number(navigator.deviceMemory || 8);
+  const cores = Number(navigator.hardwareConcurrency || 8);
+  const lowPower = memory <= 4 && cores <= 4;
+  const veryLowPower = memory <= 2 || cores <= 2;
+  const frameInterval = lowPower ? 50 : 33;
+  const canLoad = () => !mobile.matches && !reduced.matches && !navigator.connection?.saveData && !veryLowPower;
   let requested = false, ready = false, renderer, scene, camera, globeGroup, photoMaterial, particles, particleMaterial;
   let frame = 0, last = 0;
   const radiansPerMs = Math.PI * 2 / 42000; // One complete, seamless turn every 42 seconds.
@@ -34,8 +39,8 @@
 
   function draw(now) {
     if (!frame) return;
-    if (now - last >= 33) {
-      const delta = last ? Math.min(80, now - last) : 33;
+    if (now - last >= frameInterval) {
+      const delta = last ? Math.min(90, now - last) : frameInterval;
       globeGroup.rotation.y = (globeGroup.rotation.y + delta * radiansPerMs) % (Math.PI * 2);
       pulseState(now);
       renderer.render(scene, camera);
@@ -58,7 +63,7 @@
   function resize() {
     if (!ready) return;
     const size = Math.min(620, Math.max(280, Math.round(earth.clientWidth)));
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.25));
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower ? 1 : 1.25));
     renderer.setSize(size, size, false);
     renderer.render(scene, camera);
   }
@@ -66,7 +71,7 @@
   function createParticleGlobe(image) {
     try {
       const sample = document.createElement('canvas');
-      const width = 320, height = 160, step = 2;
+      const width = lowPower ? 240 : 320, height = lowPower ? 120 : 160, step = lowPower ? 3 : 2;
       sample.width = width; sample.height = height;
       const ctx = sample.getContext('2d', {willReadFrequently:true});
       if (!ctx) return;
