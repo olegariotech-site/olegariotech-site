@@ -17,36 +17,52 @@
 
   const ids=['inicio','solucoes','projetos','metodo','sobre','produtos','faq','ecossistema','contato'];
   let observed=new WeakSet();
+  let sections=[];
   let observer;
+  let activeFrame=0;
+
+  function refreshActive(){
+    activeFrame=0;
+    const h=innerHeight||1;
+    sections=sections.filter(section=>section?.isConnected);
+    for(const section of sections){
+      const r=section.getBoundingClientRect();
+      const active=r.top<h*.92&&r.bottom>h*.08;
+      section.classList.toggle('is-experience-active',active);
+      if(active)section.classList.add('is-experience-seen');
+    }
+  }
+
+  function scheduleActive(){
+    if(!activeFrame)activeFrame=requestAnimationFrame(refreshActive);
+  }
 
   function register(section){
     if(!section||observed.has(section))return;
     observed.add(section);
+    sections.push(section);
     section.dataset.experienceSection='true';
-
-    if(reduced.matches){
-      section.classList.add('is-experience-seen','is-experience-active');
-      return;
-    }
     observer?.observe(section);
+    scheduleActive();
   }
 
   function setupObserver(){
     observer?.disconnect();
-    observer=new IntersectionObserver(entries=>{
-      for(const entry of entries){
-        const section=entry.target;
-        const active=entry.isIntersecting&&entry.intersectionRatio>.06;
-        section.classList.toggle('is-experience-active',active);
-        if(active)section.classList.add('is-experience-seen');
-        section.style.setProperty('--experience-ratio',entry.intersectionRatio.toFixed(3));
-      }
-    },{
-      root:null,
-      rootMargin:'-8% 0px -10% 0px',
-      threshold:[0,.06,.16,.32,.55]
-    });
+    if('IntersectionObserver' in window){
+      observer=new IntersectionObserver(entries=>{
+        for(const entry of entries){
+          const section=entry.target;
+          if(entry.isIntersecting&&entry.intersectionRatio>.04)section.classList.add('is-experience-seen');
+          section.style.setProperty('--experience-ratio',entry.intersectionRatio.toFixed(3));
+        }
+      },{
+        root:null,
+        rootMargin:'-8% 0px -10% 0px',
+        threshold:[0,.04,.16,.32,.55]
+      });
+    }
     ids.map(id=>document.getElementById(id)).forEach(register);
+    refreshActive();
   }
 
   function registerDynamic(){
@@ -54,13 +70,9 @@
     if(ecosystem)register(ecosystem);
   }
 
-  if('IntersectionObserver' in window)setupObserver();
-  else ids.map(id=>document.getElementById(id)).forEach(section=>{
-    if(section){
-      section.dataset.experienceSection='true';
-      section.classList.add('is-experience-seen','is-experience-active');
-    }
-  });
+  setupObserver();
+  addEventListener('scroll',scheduleActive,{passive:true});
+  addEventListener('resize',scheduleActive,{passive:true});
 
   if(!document.getElementById('ecossistema')){
     const mutation=new MutationObserver(()=>{
@@ -73,16 +85,9 @@
 
   reduced.addEventListener('change',()=>{
     if(reduced.matches){
-      observer?.disconnect();
-      ids.map(id=>document.getElementById(id)).forEach(section=>{
-        if(section)section.classList.add('is-experience-seen','is-experience-active');
-      });
-      registerDynamic();
-    }else{
-      observed=new WeakSet();
-      setupObserver();
-      registerDynamic();
+      sections.forEach(section=>section.classList.add('is-experience-seen'));
     }
+    scheduleActive();
   });
 
   const syncVisibility=()=>root.classList.toggle('ot-page-hidden',document.hidden);
