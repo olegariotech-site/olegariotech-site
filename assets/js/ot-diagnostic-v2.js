@@ -5,6 +5,7 @@
   const bar=document.getElementById('bar');
   const progress=document.querySelector('.progress');
   const stepLabel=document.getElementById('stepLabel');
+  const liveState=document.querySelector('.live-state');
   const answers={};
   const scores={presenca:null,site:null,google:null,whatsapp:null,dados:null};
   const phone='5511912459144';
@@ -79,12 +80,19 @@
     });
   }
 
+  function updateLiveState(){
+    if(!liveState)return;
+    const read=Object.values(scores).filter(v=>Number(v)>0).length;
+    liveState.textContent=read?read+'/5 sinais lidos':(answers.objetivo?'objetivo definido':'aguardando respostas');
+  }
+
   function applyScore(groupName,value){
     const update=scoreMap[groupName]?.[value];
-    if(!update)return;
+    if(!update){updateLiveState();return;}
     const changed=[];
     Object.entries(update).forEach(([key,score])=>{scores[key]=score;changed.push(key);});
     renderSignals(changed);
+    updateLiveState();
   }
 
   function routeForResult(){
@@ -114,6 +122,7 @@
     document.querySelectorAll('.opt.selected').forEach(o=>o.classList.remove('selected'));
     const f=document.getElementById('nomeNegocio');if(f)f.value='';
     renderSignals();
+    updateLiveState();
     show(0);
   }));
 
@@ -174,5 +183,6 @@
 
   document.querySelectorAll('[data-finish]').forEach(btn=>btn.addEventListener('click',finish));
   renderSignals();
+  updateLiveState();
   show(0);
 })();
