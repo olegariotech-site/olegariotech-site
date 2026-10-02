@@ -5,12 +5,18 @@
 .solution-stage.is-configurator{
   --config-accent:#67e8f9;
   --config-accent-2:#8b5cf6;
-  --config-mx:0;
-  --config-my:0;
+  --config-x-pct:0%;
+  --config-y-pct:0%;
+  --config-x-px:0px;
+  --config-y-px:0px;
+  --config-rot-y:0deg;
+  --config-rot-x:0deg;
+  --config-phone-x:0px;
+  --config-phone-y:0px;
   min-height:540px;
   padding-top:24px;
   background:
-    radial-gradient(circle at calc(74% + var(--config-mx) * 3%) calc(18% + var(--config-my) * 3%),color-mix(in srgb,var(--config-accent) 16%,transparent),transparent 31%),
+    radial-gradient(circle at calc(74% + var(--config-x-pct)) calc(18% + var(--config-y-pct)),color-mix(in srgb,var(--config-accent) 16%,transparent),transparent 31%),
     radial-gradient(circle at 16% 86%,color-mix(in srgb,var(--config-accent-2) 12%,transparent),transparent 34%),
     linear-gradient(145deg,rgba(13,11,33,.96),rgba(7,7,20,.93));
   transition:border-color .45s ease,background .6s ease,box-shadow .45s ease;
@@ -138,9 +144,9 @@
 .solution-stage.is-configurator .solution-screen{
   transform:
     perspective(1100px)
-    rotateY(calc(-7deg + var(--config-mx) * 1.8deg))
-    rotateX(calc(2deg - var(--config-my) * 1.15deg))
-    translate3d(calc(var(--config-mx) * 4px),calc(var(--config-my) * 3px),0);
+    rotateY(calc(-7deg + var(--config-rot-y)))
+    rotateX(calc(2deg + var(--config-rot-x)))
+    translate3d(var(--config-x-px),var(--config-y-px),0);
   border-color:color-mix(in srgb,var(--config-accent) 18%,rgba(255,255,255,.1));
   box-shadow:
     0 28px 80px rgba(0,0,0,.58),
@@ -148,7 +154,7 @@
   transition:transform .16s ease-out,border-color .45s ease,box-shadow .45s ease;
 }
 .solution-stage.is-configurator .solution-phone{
-  transform:translate3d(calc(var(--config-mx) * -6px),calc(var(--config-my) * -4px),28px);
+  transform:translate3d(var(--config-phone-x),var(--config-phone-y),28px);
   border-color:color-mix(in srgb,var(--config-accent-2) 18%,#12131c);
   transition:transform .18s ease-out,border-color .45s ease;
 }
