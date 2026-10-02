@@ -56,7 +56,7 @@
     if(moduleWrap) moduleWrap.innerHTML=route.modules.map(item=>'<span>'+item+'</span>').join('');
 
     const meta=media.querySelector('.solution-meta');
-    if(meta) meta.textContent=route.meta;
+    if(meta && meta.textContent!==route.meta) meta.textContent=route.meta;
 
     if(key!==currentKey && animate && !reduced.matches){
       stage.classList.remove('is-switching');
@@ -77,7 +77,7 @@
   new MutationObserver(()=>{
     const key=content.dataset.solution||currentKey||'presenca';
     const meta=media.querySelector('.solution-meta');
-    if(meta && routes[key]) meta.textContent=routes[key].meta;
+    if(meta && routes[key] && meta.textContent!==routes[key].meta) meta.textContent=routes[key].meta;
   }).observe(media,{childList:true,subtree:true});
 
   document.querySelectorAll('.choice-tab[data-solution],.desktop-rail [data-solution]').forEach(btn=>{
