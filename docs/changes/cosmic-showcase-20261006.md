@@ -1,36 +1,36 @@
-# Cosmic showcase — approved implementation scope
+# Cosmic showcase — reference contract
 
-Reference: concept approved by Alexandre on 2026-10-06. Source image in the conversation: `exec-9d4772a1-8d83-4f82-a7c5-c7540b7ade36.png`.
+Reference: visual approved by Alexandre and reaffirmed with `image(20261006-171426).png` on 2026-10-06.
 
-## Design decisions
+## Composition
 
-- Keep the current navigation and section order. The reference is a composition guide, not permission to replace the commercial rail or remove the solutions journey.
-- Keep every approved headline, project description, challenge, strategy, deliverable, testimonial and destination. Hero casing follows the concept; literal text does not change.
-- Use the existing Space Grotesk/Inter/Share Tech Mono families and dark/cyan/violet tokens. Primary buttons in the hero and cases use cyan; the rest of the site keeps its established controls.
-- Enlarge the existing rotating NASA sphere and refine atmosphere, orbit geometry and scroll position. The real NASA texture is deliberately retained rather than substituting the illustrative concept globe.
-- Add an 81 KB generated stardust background and a restrained procedural ribbon. The existing sphere-to-wave renderer remains the scroll narrative. No extra frontend dependencies.
-- Case panels put full images beside stable copy, with challenge/strategy rows and existing deliverables across the lower panel. Approved reviews remain visible. Existing tabs retain click and keyboard operation, with labelled tabpanel semantics.
-- Reuse the approved Açaí cover locally to remove its external image dependency. No visual edits to the source cover.
-- Keep the MP3, loop, volume rules, click-to-enable, pause/resume and synchronized states. Restore the mobile sound control and retain desktop access within projects.
+- Compact 64 px icon rail on desktop. Existing commercial route buttons remain native and retain their accessible names; labels are also visible on focus and hover. Official brand moves to the top bar, followed by Início, Soluções, Projetos and Método. Diagnosis and WhatsApp destinations remain available.
+- Hero uses a compact three-line Inter display, cyan/violet emphasis, native cyan action, and the full approved supporting copy. Secondary route feedback stays available to assistive technology.
+- Hero flows directly into projects, as in the reaffirmed reference. Solutions move after the case showcase, followed by the existing real-project proof strip. No section is removed; subsequent content remains intact.
+- The photographic globe uses a NASA cloud-bearing Blue Marble map plus a thresholded NASA city-light layer, directional shading and a narrow cyan atmosphere. Orthographic projection preserves a circular globe and predictable framing. Desktop rotation and the existing sphere-to-particles-to-wave transition remain.
+- A denser organic cyan/violet ribbon connects the hero to the case heading. Rendering pauses offscreen/when hidden; reduced motion and mobile remain static. No frontend dependencies are added.
+- Cases use real approved client materials and full approved copy. Real/concept groups, ratings, reviews, links, deliverables and keyboard tabs remain. K.L is initially selected to match the reference.
+- Sound retains the same MP3, loop, volume, click activation, synchronized control state, pause/resume logic and accessible controls on desktop/mobile.
 
-## Responsive and motion contract
+## Responsive contract
 
-Desktop: large editorial typography, framed cases, subtle pointer depth and one sphere-to-wave scroll timeline. Short desktop viewports scale the hero title to preserve CTA visibility.
+Desktop uses the compact icon rail, wide editorial opening, luminous globe to the right and side-by-side case media/copy. The hero remains short enough to reveal the next section.
 
-Mobile: text and CTA first, globe in a dedicated block, vertically stacked case panels, 44 px sound control, static atmospheric motion. No hover-only content.
+Mobile puts text/actions before the globe, uses stacked cases and keeps the 44 px sound button. Header and bottom navigation retain native controls.
 
-Reduced motion: static globe fallback, no perspective effects, stationary decorative ribbon. Hidden/offscreen pages stop continuous atmospheric rendering.
+Reduced motion and no-WebGL use an optimized transparent still rendered from the same NASA textures and lighting. The no-WebGL renderer keeps the particle transition; reduced motion does not animate.
 
 ## Fidelity ledger
 
-| Reference point | Implementation | Intentional adaptation |
+| Reference evidence | Implementation evidence | Deliberate content accommodation |
 | --- | --- | --- |
-| Dark canvas and cyan/violet emphasis | Scope-specific palette, cyan primary actions, violet proof heading | Existing global navigation colors preserved |
-| Three-line commercial headline | Same three lines and approved wording, sentence case, fluid display scale | Scales with viewport height on short screens |
-| Planet at the right with luminous edge | Existing NASA sphere enlarged, atmospheric rim and orbits | Existing real texture retained instead of the illustrative concept's clouds/lights |
-| Particle continuity | Initial ribbon joins the existing morph to the perspective wave | Solutions remain between hero and projects |
-| Large case image beside text | Framed media, stable title, challenge/strategy rows, visible actions | Real client assets and approved longer copy replace illustrative content |
-| Labels and proof | Existing real/concept groups and reviews preserved | Deliverables remain as a lower row instead of being omitted |
-| Controls | Native links/buttons and labelled tabpanel | Existing sound controls and navigation stay in the experience |
+| Narrow icon rail and top section links | 64 px rail, official wordmark, native section anchors | Existing commercial routes, diagnosis and WhatsApp are retained |
+| Strong three-line sentence-case display | Inter display with compact leading and cyan/violet business line | Every approved commercial word remains |
+| Cloud-bearing luminous Earth | NASA cloud map, night lights, shading, narrow atmosphere | Real geography replaces the illustrative concept rendering |
+| Cyan/violet particle sweep | Organic ribbon at the foot of the globe, joining the scroll renderer | Static atmospheric treatment on mobile/reduced motion |
+| Projects immediately follow the opening | Hero → projects → solutions → proof strip | All original sections are retained |
+| Large case media beside clear text | Framed client imagery with stable title and challenge/strategy rows | Original client materials, longer approved copy, reviews and deliverables determine panel height |
+| Four real-project tabs | Real-project and concept groups remain distinct and keyboard accessible | Two approved concept projects remain available |
+| Immersive experience | Native controls plus existing synchronized audio | User-required sound controls remain visible |
 
-Validation evidence is recorded in the pull request. Screenshots and temporary QA outputs are kept outside the repository.
+Validation and screenshots are recorded in PR #81. Temporary QA artifacts remain outside the repository.

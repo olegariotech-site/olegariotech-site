@@ -78,6 +78,20 @@ async function run(name,viewport,options={}) {
       assert.equal(await surface.evaluate(e=>e.style.getPropertyValue('--surface-ry')),'','touch/reduced surface stays stable');
     }
   }
+  assert.equal(await page.locator('#inicio').evaluate(e=>e.nextElementSibling.id),'projetos','projects follow the opening as in the approved visual');
+  assert.equal(await page.locator('#prova').evaluate(e=>e.previousElementSibling.id),'solucoes','proof remains after solutions');
+  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'kl','reference case selected initially');
+  if(viewport.width>900){
+    assert.equal(Math.round((await page.locator('.desktop-rail').boundingBox()).width),64,'compact rail frees the hero composition');
+    const route=page.locator('.desktop-rail .rail-btn').first();
+    await page.locator('.skip-link').focus();await page.keyboard.press('Tab');
+    assert.ok(await route.evaluate(e=>e===document.activeElement),'keyboard reaches the first compact route');
+    assert.equal(await route.locator('span').last().evaluate(e=>getComputedStyle(e).opacity),'1','route name is visible on keyboard focus');
+    await page.locator('.top-nav a[href="#solucoes"]').click();await page.waitForTimeout(200);
+    assert.ok((await page.locator('#solucoes').boundingBox()).y<viewport.height,'top navigation reaches solutions');
+    await page.locator('.top-nav a[href="#inicio"]').click();await page.waitForTimeout(200);
+    assert.ok((await page.locator('#inicio').boundingBox()).y>=-1,'top navigation returns to opening');
+  }
   await capture('01-hero');
   await verifyAudio();
   const primary=await page.locator('#inicio .btn-primary').boundingBox();

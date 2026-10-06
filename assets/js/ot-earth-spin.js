@@ -18,10 +18,10 @@
     rail: +earth.dataset.rail || 0
   });
   let frame = 0, last = 0, angle = -Math.PI / 6, mode = '', requested = false;
-  let renderer, scene, camera, photo, points, material, atmosphere;
+  let renderer, scene, camera, photo, points, material, atmosphere, cityLights;
   let ctx, fallbackPhoto, fallbackPoints = [];
   let disposed = false;
-  const textureURL = '/assets/img/orbit/nasa-blue-marble-map-2048.webp';
+  const textureURL = '/assets/img/orbit/nasa-blue-marble-clouds-2048.webp';
 
   function sample(image, width = 384, height = 192, step = 2) {
     const buffer = document.createElement('canvas');
@@ -67,7 +67,10 @@
     if (mode === 'webgl') {
       renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lite ? 1 : 1.4));
       renderer.setSize(innerWidth, innerHeight, false);
-      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      const worldHeight = 2 * Math.tan(Math.PI / 9) * 6;
+      camera.left = -worldHeight * innerWidth / innerHeight * .5;
+      camera.right = -camera.left; camera.top = worldHeight * .5; camera.bottom = -camera.top;
+      camera.updateProjectionMatrix();
     } else if (ctx) {
       const ratio = Math.min(devicePixelRatio || 1, 1.25);
       canvas.width = Math.round(innerWidth * ratio); canvas.height = Math.round(innerHeight * ratio);
@@ -88,9 +91,10 @@
       photo.rotation.y = angle; photo.rotation.z = -.09;
       photo.material.opacity = (1 - s.pulse) * (1 - s.morph);
       photo.visible = photo.material.opacity > .005;
-      atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.035);
+      if(cityLights){cityLights.position.copy(photo.position);cityLights.scale.setScalar(radius*1.001);cityLights.rotation.copy(photo.rotation);cityLights.material.uniforms.uOpacity.value=photo.material.opacity;cityLights.visible=photo.visible;}
+      atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.018);
       atmosphere.visible = s.morph < .25;
-      atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * .6;
+      atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * 1.2;
       material.uniforms.uTime.value = now * .001;
       material.uniforms.uRotation.value = angle;
       material.uniforms.uRadius.value = radius;
@@ -111,7 +115,7 @@
       ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
       ctx.save();
       ctx.beginPath(); ctx.arc(s.x,s.y,radius*.98,0,Math.PI*2); ctx.clip();
-      ctx.filter = 'brightness(1.2) saturate(1.08)';
+      ctx.filter = 'none';
       ctx.drawImage(fallbackPhoto,s.x-radius,s.y-radius,s.diameter,s.diameter);
       ctx.restore();
     }
@@ -156,7 +160,7 @@
       const image = new Image();
       image.onload = () => { fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
       image.onerror = () => { mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
-      image.src='/assets/img/orbit/nasa-blue-marble-south-america.webp';
+      image.src='/assets/img/orbit/ot-earth-atmosphere-static-v2.webp';
     };
     map.onerror = () => { /* CSS image remains readable if the map cannot load. */ };
     map.src=textureURL;
@@ -167,14 +171,18 @@
       if (!context) { fallback(); return; }
       renderer = new THREE.WebGLRenderer({canvas,context,alpha:true,antialias:!lite,powerPreference:'low-power'});
       renderer.setClearColor(0x000000,0); renderer.outputEncoding=THREE.sRGBEncoding;
-      scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,100); camera.position.z=6;
-      scene.add(new THREE.AmbientLight(0xffffff,.65));
-      const sun = new THREE.DirectionalLight(0xeaf6ff,1.05); sun.position.set(3,3,5); scene.add(sun);
+      scene = new THREE.Scene(); camera = new THREE.OrthographicCamera(-1,1,1,-1,.1,100); camera.position.z=6;
+      scene.add(new THREE.AmbientLight(0x6498ef,.2));
+      const sun = new THREE.DirectionalLight(0xd1eaff,1.55); sun.position.set(3,5,2); scene.add(sun);
       new THREE.TextureLoader().load(textureURL, texture => {
         try {
           texture.encoding=THREE.sRGBEncoding;
-          photo = new THREE.Mesh(new THREE.SphereGeometry(1,48,32),new THREE.MeshPhongMaterial({map:texture,transparent:true,shininess:2,depthWrite:false}));
+          photo = new THREE.Mesh(new THREE.SphereGeometry(1,64,48),new THREE.MeshPhongMaterial({map:texture,transparent:true,shininess:14,specular:0x174470,depthWrite:false}));
           scene.add(photo);
+          new THREE.TextureLoader().load('/assets/img/orbit/nasa-city-lights-2048.webp',lights=>{
+            if(disposed){lights.dispose();return;}
+            cityLights=new THREE.Mesh(new THREE.SphereGeometry(1,64,48),new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uLights:{value:lights},uOpacity:{value:1}},vertexShader:'varying vec2 vUv; varying vec3 vNormal; void main(){vUv=uv;vNormal=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform sampler2D uLights;uniform float uOpacity;varying vec2 vUv;varying vec3 vNormal;void main(){vec3 tex=texture2D(uLights,vUv).rgb;float intensity=max(tex.r,max(tex.g,tex.b));float cities=smoothstep(.27,.78,intensity);float night=1.-smoothstep(-.2,.75,dot(normalize(vNormal),normalize(vec3(3.,5.,2.))));gl_FragColor=vec4(1.,.72,.34,cities*(.18+night*.82)*uOpacity);}' }));scene.add(cityLights);draw(performance.now());
+          });
           atmosphere = new THREE.Mesh(new THREE.SphereGeometry(1,40,24),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.BackSide,blending:THREE.AdditiveBlending,uniforms:{uOpacity:{value:.24}},vertexShader:'varying vec3 vNormal; varying vec3 vView; void main(){vec4 p=modelViewMatrix*vec4(position,1.);vNormal=normalize(normalMatrix*normal);vView=normalize(-p.xyz);gl_Position=projectionMatrix*p;}',fragmentShader:'uniform float uOpacity; varying vec3 vNormal; varying vec3 vView; void main(){float rim=pow(1.-abs(dot(vNormal,vView)),3.);gl_FragColor=vec4(.28,.70,1.,rim*uOpacity);}'}));
           scene.add(atmosphere);
           const data = sample(texture.image,lite?256:512,lite?128:256,2);
@@ -233,7 +241,7 @@
   reduced.addEventListener('change',()=>{load();sync();});
   compact.addEventListener('change',resize);
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
-  addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();});
+  addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
   addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});
   load();
 })();

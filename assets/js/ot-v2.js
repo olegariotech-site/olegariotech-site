@@ -18,7 +18,7 @@
     var section=document.createElement('section');
     section.id='prova';section.className='ot-proof-strip';section.setAttribute('aria-label','Projetos reais da Olegario Tech');
     section.innerHTML='<div class="inner ot-proof-strip__inner"><div class="ot-proof-strip__lead"><span>Projetos reais em operação</span><strong>Antes de prometer, mostramos o que já colocamos no ar.</strong></div><div class="ot-proof-strip__cases"><a href="#projetos" data-proof-case="Açaí do Dudu" data-project="acai"><b>Açaí do Dudu</b><span>Marca + site + presença digital</span></a><a href="#projetos" data-proof-case="K.L Transporte" data-project="kl"><b>K.L Transporte</b><span>Site + SEO local + WhatsApp</span></a><a href="#projetos" data-proof-case="Adega São Marcos" data-project="adega"><b>Adega São Marcos</b><span>Site + delivery + WhatsApp</span></a><a href="#projetos" data-proof-case="Cíntia Advocacia" data-project="advocacia"><b>Cíntia Advocacia</b><span>Presença profissional + autoridade</span></a></div></div>';
-    hero.insertAdjacentElement('afterend',section);
+    (document.getElementById('solucoes') || hero).insertAdjacentElement('afterend',section);
   }
 
   function tuneHero(){
@@ -53,7 +53,7 @@
 
   function tuneProjects(){
     var headerCta=document.querySelector('#projetos .projects-head .btn');if(headerCta)headerCta.textContent='Quero um projeto assim';
-    try{if(typeof projects!=='undefined'&&projects.acai){projects.acai.label='Projeto entregue · Marca + ecossistema digital';projects.acai.text='Projeto concluído e entregue. A OT organizou a marca e construiu uma presença digital pronta para vender confiança antes do primeiro contato.';projects.acai.points=['Desafio · organizar marca e presença digital antes fragmentadas','OT entregou · identidade, logotipo, site, mobile, WhatsApp e mensuração','Agora · projeto publicado, entregue e preparado para evolução contínua'];if(typeof renderProject==='function')renderProject('acai');}}catch(e){}
+    try{if(typeof projects!=='undefined'&&projects.acai){projects.acai.label='Projeto entregue · Marca + ecossistema digital';projects.acai.text='Projeto concluído e entregue. A OT organizou a marca e construiu uma presença digital pronta para vender confiança antes do primeiro contato.';projects.acai.points=['Desafio · organizar marca e presença digital antes fragmentadas','OT entregou · identidade, logotipo, site, mobile, WhatsApp e mensuração','Agora · projeto publicado, entregue e preparado para evolução contínua'];if(typeof renderProject==='function')renderProject(document.querySelector('.project-tab.is-active')?.dataset.project || 'acai');}}catch(e){}
   }
 
   function tuneMethod(){
