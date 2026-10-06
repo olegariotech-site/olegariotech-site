@@ -1,6 +1,6 @@
 /* The approved concept is the composition contract: compact rail, open hero, luminous Earth. */
 @media (min-width:901px) {
-  :root { --rail: 64px; --top: 60px; }
+  html:root { --rail: 64px; --top: 60px; }
   .desktop-rail { padding: 80px 10px 20px; background: rgba(9,8,25,.88); }
   .desktop-rail>.brand,.desktop-rail>.rail-label,.desktop-rail>.rail-contact { display: none; }
   .rail-nav { gap: 16px; }
@@ -11,15 +11,15 @@
   .desktop-rail .rail-btn.is-active .rail-icon { color: var(--ice); }
   .desktop-rail .rail-btn>span:last-child { position: absolute; left: 54px; width: max-content; max-width: 220px; padding: 10px 14px; border: 1px solid var(--line-soft); border-radius: 10px; background: #090616; font: 500 .8rem/1.4 'Inter',sans-serif; text-transform: none; letter-spacing: 0; opacity: 0; pointer-events: none; }
   .desktop-rail .rail-btn:hover>span:last-child,.desktop-rail .rail-btn:focus-visible>span:last-child { opacity: 1; }
-  .topbar { justify-content: flex-start; gap: 72px; padding: 0 32px; background: linear-gradient(180deg,rgba(5,0,8,.9),rgba(5,0,8,0)); backdrop-filter: none; }
+  .topbar { justify-content: flex-start; gap: 72px; padding: 0 32px; background: linear-gradient(180deg,rgba(9,6,22,.94),rgba(9,6,22,.88)); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(174,181,202,.08); }
   .topbar .brand { flex-shrink: 0; text-transform: none; letter-spacing: -.04em; font-size: 1.2rem; }
   .topbar .brand img { width: 24px; height: 28px; }
   .topbar .brand-text { display: flex; gap: 4px; }
   .topbar .brand-text b { letter-spacing: inherit; color: inherit; }
   .top-nav { flex: 1; gap: 32px; }
   .top-nav a { font: 400 .78rem/1.4 'Inter',sans-serif; text-transform: none; letter-spacing: 0; }
-  .top-nav a[href='#inicio'] { position: relative; color: var(--ice); }
-  .top-nav a[href='#inicio']::after { content: ''; position: absolute; inset: auto 0 -10px; height: 2px; background: var(--ice); }
+  .top-nav a.is-active { position: relative; color: var(--ice); }
+  .top-nav a.is-active::after { content: ''; position: absolute; inset: auto 0 -10px; height: 2px; background: var(--ice); }
   .top-nav a[href='/diagnostico-digital/'] { margin-left: auto; }
   .top-nav .top-contact { min-height: 36px; padding-inline: 14px; font-size: .73rem; }
 }
@@ -205,4 +205,69 @@ html.has-immersive-universe #projetos { padding: 0 32px 96px; }
   html.has-immersive-universe #inicio .hero-grid { position: relative; }
   #inicio .btn,#projetos .btn,#projetos .project-tab { transition: none; }
   .earth-journey__orbits { display: none; }
+}
+
+/* Cross-device contracts: safe reading zones and targeted inter-section rhythm. */
+:root { --ot-header-height: var(--top); --ot-nav-height: 0px; }
+html { scroll-padding-top: var(--ot-header-height); scroll-padding-bottom: calc(var(--ot-nav-height) + 16px); }
+body[data-page="home"] .section,body[data-page="home"] #solutionStage { scroll-margin-top: 16px; }
+body[data-page="home"] :is(a,button):focus-visible { scroll-margin-block: calc(var(--ot-header-height) + 16px) calc(var(--ot-nav-height) + 16px); }
+@media (min-width:901px) {
+  html.has-immersive-universe #projetos { padding-bottom: 64px; }
+  html.has-immersive-universe #solucoes { padding-top: 56px; padding-bottom: 64px; }
+  html.has-immersive-universe .delivery-section { padding-block: 54px; }
+  html.has-immersive-universe #metodo,html.has-immersive-universe #sobre,html.has-immersive-universe #faq { padding-block: 64px; }
+}
+@media (max-width:900px) {
+  :root { --ot-safe-top: env(safe-area-inset-top,0px); --ot-safe-bottom: env(safe-area-inset-bottom,0px); --ot-nav-height: calc(66px + var(--ot-safe-bottom)); --ot-carousel-gap: 12px; }
+  body[data-page="home"] { padding-bottom: 0; }
+  body[data-page="home"] .mobile-header { height: calc(var(--top) + var(--ot-safe-top)); padding-top: var(--ot-safe-top); transition: height .22s ease; }
+  body[data-page="home"] .mobile-header.is-compact { height: calc(60px + var(--ot-safe-top)); }
+  body[data-page="home"] .mobile-header .brand img { transition: width .22s ease,height .22s ease; }
+  body[data-page="home"] .mobile-header.is-compact .brand img { width: 28px; height: 32px; }
+  body[data-page="home"] .mobile-header .brand { min-height: 44px; }
+  body[data-page="home"] .mobile-header .mobile-cta { min-height: 44px; }
+  body[data-page="home"] .mobile-audio-toggle { flex-basis: 44px; width: 44px; height: 44px; }
+  body[data-page="home"] .mobile-nav { height: var(--ot-nav-height); min-height: var(--ot-nav-height); padding: 7px 8px calc(7px + var(--ot-safe-bottom)); }
+  html body[data-page="home"] .footer { padding-bottom: calc(var(--ot-nav-height) + 24px); }
+  html.has-immersive-universe #projetos { padding-bottom: 44px; }
+  html.has-immersive-universe #solucoes { padding-top: 34px; padding-bottom: 44px; }
+  html.has-immersive-universe .delivery-section { padding-block: 44px; }
+  html.has-immersive-universe #metodo,html.has-immersive-universe #sobre,html.has-immersive-universe #faq { padding-block: 44px; }
+  /* One full card plus 32px of the next. Category labels remain above their rail. */
+  body[data-page="home"] .choice-tabs,body[data-page="home"] .products-rail,body[data-page="home"] .ot-proof-strip__cases,body[data-page="home"] #projetos .project-tab-rail {
+    gap: var(--ot-carousel-gap); overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: 4px; overscroll-behavior-x: contain; padding: 4px 4px 12px; scrollbar-width: none;
+  }
+  body[data-page="home"] .choice-tab,body[data-page="home"] .product,body[data-page="home"] .ot-proof-strip__cases>a { flex: 0 0 calc(100% - 44px); scroll-snap-align: start; }
+  body[data-page="home"] #projetos .project-tabs { display: flex; flex-direction: column; gap: 12px; overflow: visible; }
+  body[data-page="home"] #projetos .project-tab-group { display: block; width: 100%; border-left: 0; padding: 0; }
+  body[data-page="home"] #projetos .project-tab-rail { display: flex; width: 100%; min-width: 0; }
+  body[data-page="home"] #projetos .project-tab-group__label { display: block; padding: 0 4px 6px; }
+  body[data-page="home"] #projetos .project-tab { flex: 0 0 calc(100% - 44px); scroll-snap-align: start; white-space: normal; text-align: left; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body[data-page="home"] .mobile-header,body[data-page="home"] .mobile-header .brand img { transition: none; transition-duration: 0s !important; }
+}
+
+@media (min-width:901px) and (max-height:800px) {
+  html.has-immersive-universe #metodo,html.has-immersive-universe #sobre,html.has-immersive-universe #faq { padding-block: 48px; }
+}
+@media (min-width:901px) and (max-height:680px) {
+  html.has-immersive-universe #metodo,html.has-immersive-universe #sobre,html.has-immersive-universe #faq { padding-block: 40px; }
+}
+@media (max-width:900px) {
+  html.has-immersive-universe #contato { padding-top: 44px; }
+  #metodo .ot-method-build { min-height: 0; }
+  #metodo .ot-method-build svg { min-height: 0; max-height: 100%; }
+}
+@media (max-width:900px) {
+  body[data-page="home"] .page { padding-top: calc(var(--top) + var(--ot-safe-top)); }
+}
+/* Anchor each hidden accessible label to its own tab, including inside mobile scrollports. */
+#projetos .project-tab { position: relative; }
+
+.project-tab-rail { display: contents; }
+#projetos .section-title .accent { -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (max-width:900px) {
+  body[data-page="home"] #projetos .project-tab { border: 1px solid var(--line-soft); background-color: rgba(255,255,255,.03); }
 }
