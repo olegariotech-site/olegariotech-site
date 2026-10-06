@@ -20,22 +20,22 @@
     const target = visual.getBoundingClientRect();
     const solutionRect = solutions.getBoundingClientRect();
     const rail = mobile.matches ? 0 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail')) || 250;
-    const diameter = mobile.matches ? Math.min(w * .78, 390) : Math.min(w * .35, h * .66, 560);
-    const baseX = mobile.matches ? w * .88 : Math.min(target.left + target.width * .54, w - diameter * .60 - 32);
-    const baseY = mobile.matches ? Math.min(h * .54, 430) : target.top + target.height * .5;
+    const diameter = mobile.matches ? Math.min(target.width * .9, 410) : Math.min((w - rail) * .48, h * .76, 700);
+    const baseX = mobile.matches ? target.left + target.width * .5 : Math.min(target.left + target.width * .56, w - diameter * .55 - 24);
+    const baseY = target.top + target.height * .5;
     const travel = Math.max(h * .8, heroRect.height - h * .28);
-    const progress = reduced.matches ? 0 : clamp(-heroRect.top / travel);
+    const progress = reduced.matches || mobile.matches ? 0 : clamp(-heroRect.top / travel);
     const pulse = smooth((progress - .06) / .30);
     const morph = smooth((progress - .32) / .48);
     const fade = smooth((h * (mobile.matches ? .50 : .80) - solutionRect.top) / (h * .48));
-    const visible = heroRect.bottom > 0 || solutionRect.top > h * .28;
+    const visible = heroRect.bottom > 0 && heroRect.top < h || !mobile.matches && solutionRect.top > h * .28;
     const opacity = visible ? 1 - fade : 0;
     const cx = baseX + pointerX * (1 - morph) * 12;
     const cy = baseY + pointerY * (1 - morph) * 9;
     const next = {
       progress: progress.toFixed(4), pulse: pulse.toFixed(4), morph: morph.toFixed(4),
       opacity: opacity.toFixed(4), centerX: cx.toFixed(1), centerY: cy.toFixed(1),
-      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches)
+      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches && !mobile.matches)
     };
     Object.assign(earth.dataset, next);
     earth.style.setProperty('--earth-left', `${cx}px`);
@@ -53,6 +53,10 @@
   document.addEventListener('visibilitychange', schedule);
   reduced.addEventListener('change', schedule);
   mobile.addEventListener('change', schedule);
+  // Font loading can change the dedicated mobile globe block after the first frame.
+  document.fonts?.ready.then(schedule);
+  const layoutObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
+  layoutObserver?.observe(hero); layoutObserver?.observe(visual);
   // Pointer movement never controls scrolling or text; touch remains a normal page.
   hero.addEventListener('pointermove', event => {
     if (event.pointerType !== 'mouse' || mobile.matches || reduced.matches) return;

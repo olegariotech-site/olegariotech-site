@@ -88,9 +88,9 @@
       photo.rotation.y = angle; photo.rotation.z = -.09;
       photo.material.opacity = (1 - s.pulse) * (1 - s.morph);
       photo.visible = photo.material.opacity > .005;
-      atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.015);
+      atmosphere.position.copy(photo.position); atmosphere.scale.setScalar(radius * 1.035);
       atmosphere.visible = s.morph < .25;
-      atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * .24;
+      atmosphere.material.uniforms.uOpacity.value = (1 - s.morph) * .6;
       material.uniforms.uTime.value = now * .001;
       material.uniforms.uRotation.value = angle;
       material.uniforms.uRadius.value = radius;
@@ -109,7 +109,11 @@
     const radius = s.diameter * .5;
     if (fallbackPhoto && s.pulse < 1) {
       ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(s.x,s.y,radius*.98,0,Math.PI*2); ctx.clip();
+      ctx.filter = 'brightness(1.2) saturate(1.08)';
       ctx.drawImage(fallbackPhoto,s.x-radius,s.y-radius,s.diameter,s.diameter);
+      ctx.restore();
     }
     ctx.globalCompositeOperation = 'lighter';
     const count = fallbackPoints.length;
@@ -164,8 +168,8 @@
       renderer = new THREE.WebGLRenderer({canvas,context,alpha:true,antialias:!lite,powerPreference:'low-power'});
       renderer.setClearColor(0x000000,0); renderer.outputEncoding=THREE.sRGBEncoding;
       scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,100); camera.position.z=6;
-      scene.add(new THREE.AmbientLight(0xffffff,.95));
-      const sun = new THREE.DirectionalLight(0xeaf6ff,1.05); sun.position.set(-3,3,5); scene.add(sun);
+      scene.add(new THREE.AmbientLight(0xffffff,.65));
+      const sun = new THREE.DirectionalLight(0xeaf6ff,1.05); sun.position.set(3,3,5); scene.add(sun);
       new THREE.TextureLoader().load(textureURL, texture => {
         try {
           texture.encoding=THREE.sRGBEncoding;

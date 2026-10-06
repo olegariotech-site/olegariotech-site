@@ -1,15 +1,27 @@
 // End-to-end regression checks for the scroll narrative, real route controls, and fallbacks.
-import { chromium } from 'playwright';
+const { chromium } = await import(process.env.OT_PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 const base = process.env.OT_TEST_URL || 'http://127.0.0.1:4173';
 const output = process.env.OT_QA_OUTPUT || '/tmp/ot-immersive-qa';
 await mkdir(output, {recursive:true});
-const browser = await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const browser = await chromium.launch({executablePath:process.env.OT_CHROME_EXECUTABLE || undefined,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 const report=[];
+const fontCache=new Map();
 const expectedHero=['Sites que','geram','negócios.'];
 async function run(name,viewport,options={}) {
+  if(process.env.OT_QA_SCENARIOS&&!process.env.OT_QA_SCENARIOS.split(',').includes(name))return;
   const context=await browser.newContext({viewport,reducedMotion:options.reduced?'reduce':'no-preference'});
+  // Optional QA transport for managed environments where Chromium cannot use the host proxy.
+  if(process.env.OT_QA_PROXY_FONTS==='1')await context.route(/^https:\/\/fonts\.(googleapis|gstatic)\.com\//,async route=>{
+    const url=route.request().url();
+    if(!fontCache.has(url))fontCache.set(url,(async()=>{
+      const response=await fetch(url,{headers:{'User-Agent':route.request().headers()['user-agent']},signal:AbortSignal.timeout(20000)});
+      if(!response.ok)throw new Error(`Font transport: ${response.status} ${url}`);
+      return {body:Buffer.from(await response.arrayBuffer()),contentType:response.headers.get('content-type')||'application/octet-stream'};
+    })());
+    try{await route.fulfill(await fontCache.get(url));}catch(error){fontCache.delete(url);await route.abort('failed');}
+  });
   if(options.fallback) await context.addInitScript(()=>{
     const original=HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext=function(type,...args){if(type==='webgl'||type==='webgl2')return null;return original.call(this,type,...args);};
@@ -17,7 +29,7 @@ async function run(name,viewport,options={}) {
   const page=await context.newPage();
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  page.on('console',msg=>{if(msg.type()==='error'&& !msg.text().includes('fonts.googleapis'))errors.push(msg.text());});
+  page.on('console',msg=>{if(msg.type()==='error')errors.push(`${msg.text()} (${msg.location().url})`);});
   const response=await page.goto(base,{waitUntil:'networkidle'});
   assert.equal(response.status(),200);
   await page.getByRole('button',{name:'Recusar opcionais',exact:true}).click();
@@ -32,6 +44,19 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#projetos h2').innerText(),'Prova antes da promessa.');
   async function noOverflow(){assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,name+' overflow');}
   async function capture(label){await page.waitForTimeout(250);await noOverflow();await page.screenshot({path:`${output}/${name}-${label}.png`});}
+  async function verifyAudio() {
+    const control=page.locator(viewport.width>900?'.desktop-audio-toggle':'.mobile-audio-toggle');
+    assert.ok(await control.isVisible(),'sound control remains visible');
+    assert.notEqual(await control.getAttribute('aria-hidden'),'true','sound control stays accessible');
+    await control.click();
+    await page.waitForFunction(()=>{const audio=document.getElementById('backgroundAudio');return !audio.paused&&audio.currentTime>.15&&[...document.querySelectorAll('.audio-toggle')].every(e=>e.getAttribute('aria-pressed')==='true');});
+    assert.equal(await control.getAttribute('aria-pressed'),'true');
+    assert.equal(await control.getAttribute('aria-label'),'Desativar som');
+    assert.ok(await page.locator('#backgroundAudio').evaluate(audio=>audio.loop&&audio.currentSrc.endsWith('/assets/audio/background.mp3')));
+    await control.click();
+    assert.equal(await control.getAttribute('aria-pressed'),'false');
+    assert.ok(await page.locator('#backgroundAudio').evaluate(audio=>audio.paused&&audio.muted));
+  }
   async function pointerDepth(selector,label) {
     const surface=page.locator(selector);
     await surface.scrollIntoViewIfNeeded();
@@ -54,6 +79,14 @@ async function run(name,viewport,options={}) {
     }
   }
   await capture('01-hero');
+  await verifyAudio();
+  const primary=await page.locator('#inicio .btn-primary').boundingBox();
+  assert.ok(primary.x>=0&&primary.x+primary.width<=viewport.width,'primary action fits the viewport');
+  if(viewport.width>900)assert.ok(primary.y+primary.height<=viewport.height,'desktop primary action visible in first viewport');
+  else {
+    const copy=await page.locator('#inicio .hero-copy').boundingBox(),visual=await page.locator('#inicio .hero-visual').boundingBox();
+    assert.ok(visual.y>=copy.y+copy.height,'mobile globe has its own block below commercial copy');
+  }
   assert.equal(await page.locator('#prova .ot-proof-strip__cases a').count(),4,'proof strip has four real projects');
   assert.ok((await page.locator('#prova .ot-proof-strip__cases').innerText()).includes('Adega São Marcos'),'proof strip includes Adega São Marcos');
   if(options.reduced)assert.ok(await page.evaluate(()=>document.querySelector('#prova').getBoundingClientRect().top>=document.querySelector('.hero-proof').getBoundingClientRect().bottom),'proof strip clears hero content');
@@ -62,7 +95,11 @@ async function run(name,viewport,options={}) {
     await capture(label);
   }
   const earthState=await page.locator('#earthJourney').evaluate(e=>({...e.dataset}));
-  if(!options.reduced){assert.ok(+earthState.morph>.1,'wave morph advances');if(options.fallback)assert.equal(earthState.renderer,'canvas2d');else assert.equal(earthState.renderer,'webgl');}
+  if(!options.reduced){
+    if(viewport.width>900)assert.ok(+earthState.morph>.1,'desktop wave morph advances');
+    else {assert.equal(+earthState.morph,0,'mobile globe stays static');assert.equal(earthState.animate,'false');}
+    if(options.fallback)assert.equal(earthState.renderer,'canvas2d');else assert.equal(earthState.renderer,'webgl');
+  }
   await page.locator('#solucoes').scrollIntoViewIfNeeded();
   for(const [label,key,nodeCount] of [['MINHA EMPRESA NÃO PARECE PROFISSIONAL','presenca',3],['PRECISO VENDER UMA OFERTA','oferta',3],['MEU DIGITAL ESTÁ TODO SOLTO','digital',4]]){
     await page.getByRole('tab',{name:new RegExp(label,'i')}).click();
@@ -92,10 +129,16 @@ async function run(name,viewport,options={}) {
   assert.equal(await firstNode.getAttribute('aria-pressed'),'true');
   await page.locator('#projetos').scrollIntoViewIfNeeded();
   await page.getByRole('tab',{name:/K\.L Transporte/i}).click();
+  await verifyAudio();
   assert.equal(await page.locator('#projectStage h3').innerText(),'K.L Transporte Express');
   assert.equal(await page.locator('#projectStage a').first().getAttribute('href'),'https://kltransporteexpress.com.br/');
   await pointerDepth('#projectStage .project-image','project');
   await capture('05-project');
+  const selected=page.locator('.project-tab.is-active');
+  await selected.focus();await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'adega','keyboard switches cases');
+  await page.keyboard.press('Home');
+  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
   for(const key of ['acai','adega','advocacia','navalha','mercado']){
     await page.locator(`.project-tab[data-project="${key}"]`).click();
     await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
@@ -108,6 +151,13 @@ async function run(name,viewport,options={}) {
       if(key==='advocacia')assert.match(await page.locator('.case-cover__title').innerText(),/Advocacia estratégica/);
     }
     await noOverflow();
+    const title=page.locator('#projectStage h3');
+    assert.ok(await title.evaluate(e=>{
+      const range=document.createRange();range.selectNodeContents(e);
+      const text=range.getBoundingClientRect(),panel=e.closest('.project-stage').getBoundingClientRect();
+      return text.left>=panel.left&&text.right<=panel.right&&text.top>=panel.top&&text.bottom<=panel.bottom;
+    }),'case title stays inside the panel: '+key);
+    assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
     if(key==='advocacia'||key==='acai')await page.locator('#projectStage').screenshot({path:`${output}/${name}-project-full-${key}.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
   }
   await page.locator('#metodo').scrollIntoViewIfNeeded();
@@ -150,6 +200,7 @@ try{
   await run('mobile',{width:390,height:844});
   await run('small-mobile',{width:360,height:780});
   await run('reduced-motion',{width:1440,height:900},{reduced:true});
+  await run('mobile-reduced-motion',{width:390,height:844},{reduced:true});
   await run('no-webgl',{width:1440,height:900},{fallback:true});
   await writeFile(`${output}/report.json`,JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));
