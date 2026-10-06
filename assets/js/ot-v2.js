@@ -56,14 +56,6 @@
     try{if(typeof projects!=='undefined'&&projects.acai){projects.acai.label='Projeto entregue · Marca + ecossistema digital';projects.acai.text='Projeto concluído e entregue. A OT organizou a marca e construiu uma presença digital pronta para vender confiança antes do primeiro contato.';projects.acai.points=['Desafio · organizar marca e presença digital antes fragmentadas','OT entregou · identidade, logotipo, site, mobile, WhatsApp e mensuração','Agora · projeto publicado, entregue e preparado para evolução contínua'];if(typeof renderProject==='function')renderProject(document.querySelector('.project-tab.is-active')?.dataset.project || 'acai');}}catch(e){}
   }
 
-  function tuneMethod(){
-    var title=document.querySelector('#metodo .section-title');if(title)title.innerHTML='Não começamos pelo <span class="accent">site.</span>';
-    setText('#metodo .section-copy','Começamos pelo negócio. Entendemos o problema, definimos a direção, implantamos e acompanhamos a presença digital.');
-    var data=[['01','Diagnóstico','Entendemos negócio, cliente, oferta e objetivo.'],['02','Direção','Definimos a estrutura visual e comercial que faz sentido.'],['03','Implantação','Criamos marca, páginas, integrações e colocamos no ar.'],['04','Presença contínua','Medimos, ajustamos e evoluímos conforme o negócio cresce.']];
-    var cards=[].slice.call(document.querySelectorAll('#metodo .method-card'));cards.forEach(function(card,i){if(i>=4){card.remove();return;}var d=data[i],b=card.querySelector('b'),strong=card.querySelector('strong'),p=card.querySelector('p');if(b)b.textContent=d[0];if(strong)strong.textContent=d[1];if(p)p.textContent=d[2];});
-    var items=[].slice.call(document.querySelectorAll('#metodo .method-item'));items.forEach(function(item,i){if(i>=4){item.remove();return;}var d=data[i],toggle=item.querySelector('.method-toggle span'),p=item.querySelector('.method-panel p');if(toggle)toggle.innerHTML='<b>'+d[0]+'</b>'+d[1];if(p)p.textContent=d[2];});
-  }
-
   function tuneAbout(){
     var label=document.querySelector('#sobre .section-label');if(label)label.textContent='Tecnologia + experiência comercial';
     var paragraphs=document.querySelectorAll('#sobre .about-grid p');if(paragraphs[0])paragraphs[0].textContent='A Olegario Tech combina tecnologia com experiência comercial real. Não pensamos só em layout: pensamos no que o cliente vê, entende, sente e faz depois.';if(paragraphs[1])paragraphs[1].textContent='A estratégia nasce do diagnóstico e vira uma estrutura digital que organiza marca, oferta, atendimento e mensuração para gerar novas oportunidades.';
@@ -84,7 +76,7 @@
     document.addEventListener('click',function(e){var link=e.target.closest('a[href*="wa.me/"]');if(!link)return;var a={};try{a=JSON.parse(sessionStorage.getItem('ot_attribution')||'{}');}catch(err){}if(Object.keys(a).length)safeTrack('lead_attribution',a);},true);
   }
 
-  function enhanceHome(){tuneHero();installProofStrip();tuneSolutions();tuneProjects();tuneMethod();tuneAbout();tuneProducts();tuneFinalCta();if(!tuneEcosystem()){var obs=new MutationObserver(function(){if(tuneEcosystem())obs.disconnect();});obs.observe(document.body,{childList:true,subtree:true});}installHomeTracking();}
+  function enhanceHome(){tuneHero();installProofStrip();tuneSolutions();tuneProjects();tuneAbout();tuneProducts();tuneFinalCta();if(!tuneEcosystem()){var obs=new MutationObserver(function(){if(tuneEcosystem())obs.disconnect();});obs.observe(document.body,{childList:true,subtree:true});}installHomeTracking();}
 
   function diagnosticRecommendation(objective){if(/Gerar mais contatos/i.test(objective))return 'Organizar uma página comercial com prova, oferta clara e um caminho direto para o WhatsApp.';if(/Parecer mais profissional/i.test(objective))return 'Fortalecer marca, apresentação e presença digital para gerar confiança antes do primeiro contato.';if(/Vender produto ou serviço/i.test(objective))return 'Estruturar a oferta com benefícios, prova e chamadas para ação que levem o cliente à conversa certa.';if(/Criar página para campanha/i.test(objective))return 'Criar uma landing page focada em uma única campanha, com mensagem objetiva e mensuração dos contatos.';return 'Organizar sua presença digital para que marca, página e WhatsApp trabalhem na mesma direção.';}
 

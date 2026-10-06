@@ -407,3 +407,7 @@ When instructions conflict, use this order:
 6. external inspiration.
 
 If a proposed change conflicts with this hierarchy, stop and report the conflict before implementing it.
+
+## 19. Cross-device corrections
+
+The approved cosmic version remains the composition baseline. Apply the project's own cross-device contracts in `docs/design-system/patterns.md`: Safe Header Zone, DOM-order Scrollspy, Mobile Vertical Rhythm, Fixed Navigation Clearance, Consistent Carousel Peek, Safe-area Mobile, Cross-device QA and Reference Fidelity. These contracts refine behavior and legibility; they do not authorize another redesign or changes to commercial content.
