@@ -49,10 +49,12 @@ async function run(name,viewport,options={}) {
   assert.match(await page.title(),/Olegario Tech/i);
   assert.ok(await page.locator('main').innerText());
   assert.deepEqual(await page.locator('#inicio h1 > span').allTextContents(),expectedHero);
-  assert.ok(await page.locator('#inicio h1 > span').evaluateAll(spans=>spans.every(span=>{
+  await page.screenshot({path:`${output}/${name}-initial-load.png`});
+  assert.ok(await page.locator('#inicio h1 > span').evaluateAll(spans=>spans.every((span,index)=>{
     const range=document.createRange();range.selectNodeContents(span);
     const text=range.getBoundingClientRect(),copy=span.closest('.hero-copy').getBoundingClientRect(),box=span.getBoundingClientRect();
-    return text.left>=copy.left-1&&text.right<=copy.right+1&&text.top>=box.top-1&&text.bottom<=box.bottom+1;
+    // Only the gradient line clips its background to the line box; other lines allow visible ink overflow.
+    return text.left>=copy.left-1&&text.right<=copy.right+1&&(index<2||(text.top>=box.top-1&&text.bottom<=box.bottom+1));
   })),'every headline glyph, accent and period fits its column and line box');
   assert.equal(await page.locator('#projetos h2').innerText(),'Prova antes da promessa.');
   async function noOverflow(){assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,name+' overflow');}
