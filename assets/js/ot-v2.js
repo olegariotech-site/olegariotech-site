@@ -52,9 +52,10 @@
     try{if(typeof solutions!=='undefined'){
       solutions.presenca.title='Fortalecer sua marca antes do primeiro contato';solutions.presenca.text='Sua presença digital precisa gerar confiança antes de o cliente chamar no WhatsApp.';solutions.presenca.bullets=['Marca e apresentação coerentes','Site rápido e responsivo','WhatsApp no contexto certo','SEO local e presença no Google','Estrutura pronta para medir e evoluir'];solutions.presenca.cta='Quero profissionalizar meu digital';
       solutions.oferta.title='Transformar uma oferta em conversa';solutions.oferta.text='Organizamos promessa, prova e chamada para ação para o cliente entender rápido por que deve falar com você.';solutions.oferta.cta='Quero vender melhor minha oferta';
-      solutions.digital.title='Fazer o digital trabalhar na mesma direção';solutions.digital.text='Site, WhatsApp, criativos, busca e dados deixam de ser peças soltas e passam a sustentar a mesma estratégia.';solutions.digital.cta='Quero organizar meu ecossistema';if(typeof renderSolution==='function')renderSolution('presenca',false);
+      // Solution 03 is owned by solutions.digital and projects.ripamonti in index.html.
+      if(typeof renderSolution==='function')renderSolution(selectedSolution,false);
     }}catch(e){}
-    var solutionContent=document.getElementById('solutionContent');function markLead(){var link=solutionContent&&solutionContent.querySelector('a[href*="wa.me/"]');if(link)link.setAttribute('data-generate-lead','');}markLead();if(solutionContent)new MutationObserver(markLead).observe(solutionContent,{childList:true,subtree:true});
+    // Lead attributes are rendered synchronously with the CTA; no observer or extra click handler.
   }
 
   function tuneProjects(){

@@ -18,10 +18,10 @@
       ['Contato','Medição de cliques e leads','A chamada para ação conecta o interesse ao atendimento e permite acompanhar os contatos iniciados.','chat']
     ]},
     digital:{label:'As peças do seu digital trabalhando juntas',nodes:[
-      ['Site','Site e páginas comerciais','Uma base organizada apresenta sua empresa e direciona cada visitante para a informação certa.','site'],
-      ['Google','Google Analytics e Search Console','Busca e indexação ajudam sua empresa a ser descoberta por quem procura seus serviços.','search'],
-      ['Dados','Manutenção e crescimento','A mensuração mostra como os visitantes usam a estrutura e orienta os próximos ajustes.','data'],
-      ['WhatsApp','WhatsApp e fluxo de atendimento','Mensagens contextualizadas tornam mais simples continuar a conversa com o seu negócio.','chat']
+      ['Site','Site responsivo com foco comercial.','Uma base organizada apresenta sua empresa e direciona cada visitante para a informação certa.','site'],
+      ['Presença local','Presença local e organização das informações.','Localização, horários e informações organizadas ajudam o cliente a encontrar e conhecer o seu negócio.','search'],
+      ['Evolução','Estrutura preparada para medir e evoluir.','Uma base organizada permite planejar a mensuração e orientar os próximos ajustes conforme o negócio cresce.','data'],
+      ['WhatsApp','WhatsApp integrado à jornada do cliente.','Mensagens contextualizadas tornam mais simples continuar a conversa com o seu negócio.','chat']
     ]}
   };
   const paths={brand:'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8 12 3 3 5-6"/>',site:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M7 13h5M7 16h9"/>',chat:'<path d="M20 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.1-4.3A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 9h8M8 13h5"/>',offer:'<path d="M3 12V5h7l11 11-5 5Z"/><circle cx="7" cy="8" r="1"/>',search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',data:'<path d="M5 20V12M12 20V4M19 20V8"/>'};
