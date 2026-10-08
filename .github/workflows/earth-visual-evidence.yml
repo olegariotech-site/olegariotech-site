@@ -1,0 +1,50 @@
+name: PR 91 Earth visual evidence
+on:
+  push:
+    branches: ['review/pr-91-earth-video']
+    paths:
+      - 'scripts/record-earth-evidence.mjs'
+      - '.github/workflows/earth-visual-evidence.yml'
+permissions:
+  contents: write
+concurrency:
+  group: pr-91-earth-evidence
+  cancel-in-progress: false
+jobs:
+  record:
+    if: github.repository == 'olegariotech-site/olegariotech-site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare the existing browser QA runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+          command -v ffmpeg
+      - name: Record the unchanged PR 91 application
+        env:
+          OT_EARTH_EVIDENCE: /tmp/ot-earth-evidence
+        run: node scripts/record-earth-evidence.mjs
+      - name: Upload recording and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-91-earth-1440x900
+          path: /tmp/ot-earth-evidence
+          retention-days: 30
+      - name: Save evidence only on the review branch
+        run: |
+          mkdir -p docs/reviews/ot-premium-v2-gate-b/earth-validation
+          cp /tmp/ot-earth-evidence/earth-home-1440x900.mp4 /tmp/ot-earth-evidence/report.json /tmp/ot-earth-evidence/README.md /tmp/ot-earth-evidence/hero-start.jpg /tmp/ot-earth-evidence/particles.jpg /tmp/ot-earth-evidence/waves.jpg /tmp/ot-earth-evidence/premium-v2.jpg docs/reviews/ot-premium-v2-gate-b/earth-validation/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/reviews/ot-premium-v2-gate-b/earth-validation
+          git commit -m 'Attach real WebGL Earth, scroll and audio evidence for PR 91'
+          git push origin HEAD:refs/heads/review/pr-91-earth-video
