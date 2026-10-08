@@ -30,3 +30,31 @@ jobs:
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          output: ./codeql-sarif-diagnostics
+
+      # Temporary diagnostic: print only rule IDs and locations, never source code.
+      - name: Diagnose PR security findings
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          for path in sorted(Path("codeql-sarif-diagnostics").glob("*.sarif")):
+              data = json.loads(path.read_text(encoding="utf-8"))
+              for run in data.get("runs", []):
+                  rules = {rule.get("id"): rule for rule in run.get("tool", {}).get("driver", {}).get("rules", [])}
+                  results = run.get("results", [])
+                  print(f"CodeQL findings: {len(results)} in {path.name}")
+                  for result in results[:100]:
+                      rule_id = result.get("ruleId", "unknown")
+                      rule = rules.get(rule_id, {})
+                      severity = rule.get("properties", {}).get("security-severity", "")
+                      locations = result.get("locations", [])
+                      physical = locations[0].get("physicalLocation", {}) if locations else {}
+                      uri = physical.get("artifactLocation", {}).get("uri", "unknown")
+                      region = physical.get("region", {})
+                      line = region.get("startLine", "?")
+                      print(f"RULE {rule_id} | SECURITY_SEVERITY {severity} | FILE {uri} | LINE {line}")
+          PY
