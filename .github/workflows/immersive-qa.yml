@@ -28,6 +28,7 @@ jobs:
       - name: Verify motion, controls and responsive layout
         env:
           OT_QA_OUTPUT: /tmp/ot-immersive-qa
+          OT_QA_FOCUS: projects
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/ot-preview.log 2>&1 &
           node scripts/verify-immersive.mjs
