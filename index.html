@@ -339,7 +339,7 @@
             <a data-generate-lead class="btn btn-ghost" href="${leadHref}" target="_blank" rel="noopener noreferrer">Quero uma estrutura parecida</a>
           </div>
         </div>
-        <div class="project-deliverables"><span class="section-label">Principais entregas</span><ul class="project-points">${p.points.map(point=>`<li>${point}</li>`).join('')}</ul></div>`;
+        <div class="project-deliverables"><span class="section-label">${key==='navalha'?'O que a demonstração apresenta':'Principais entregas'}</span><ul class="project-points">${p.points.map(point=>`<li>${point}</li>`).join('')}</ul></div>`;
       projectStage.classList.add('fade-in');
       projectStage.dataset.project=key;
       projectStage.setAttribute('aria-labelledby',`project-tab-${key}`);
@@ -351,6 +351,11 @@
         btn.setAttribute('aria-controls','projectStage');
         btn.tabIndex=active?0:-1;
       });
+      if(innerWidth<=900){
+        const tab=projectTabs.find(btn=>btn.dataset.project===key),rail=tab.parentElement;
+        const item=tab.getBoundingClientRect(),bounds=rail.getBoundingClientRect();
+        if(item.left<bounds.left+4||item.right>bounds.right-4)rail.scrollLeft+=item.left-bounds.left-4;
+      }
     }
     projectTabs.forEach((btn,index)=>{
       btn.addEventListener('click',()=>renderProject(btn.dataset.project));

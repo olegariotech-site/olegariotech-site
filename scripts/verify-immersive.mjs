@@ -131,6 +131,9 @@ async function run(name,viewport,options={}) {
       assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key);
       assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
       assert.equal(await page.locator('.project-tab[aria-selected="true"]').count(),1);
+      if(viewport.width<=900)assert.ok(await page.locator('.project-tab.is-active').evaluate(tab=>{
+        const item=tab.getBoundingClientRect(),rail=tab.parentElement.getBoundingClientRect();return item.left>=rail.left-1&&item.right<=rail.right+1;
+      }),'the selected mobile tab remains visible');
       await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
       assert.ok((await page.locator('#projectStage h3').innerText()).length>3);
       assert.equal(await page.locator('#projectStage .project-story article').count(),2);
