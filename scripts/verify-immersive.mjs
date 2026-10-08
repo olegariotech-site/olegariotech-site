@@ -2,11 +2,14 @@
 const { chromium } = await import(process.env.OT_PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
-import { Script } from 'node:vm';
+import { spawnSync } from 'node:child_process';
 // Validate the actual inline entry point: a broken template literal disables every control.
 const source=await readFile(new URL('../index.html',import.meta.url),'utf8');
 for(const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
-  if(!/type=["']application\/ld\+json["']/.test(match[1])&&match[2].trim())new Script(match[2],{filename:'index.html inline script'});
+  if(/type=["']application\/ld\+json["']/.test(match[1])||!match[2].trim())continue;
+  // Node parses --check input without executing it; no dynamic eval/vm.Script.
+  const syntax=spawnSync(process.execPath,['--check'],{input:match[2],encoding:'utf8'});
+  assert.equal(syntax.status,0,`Invalid index.html inline JavaScript: ${syntax.stderr||syntax.error?.message||syntax.signal||'unknown syntax check failure'}`);
 }
 const base = process.env.OT_TEST_URL || 'http://127.0.0.1:4173';
 const output = process.env.OT_QA_OUTPUT || '/tmp/ot-immersive-qa';
