@@ -1,0 +1,67 @@
+# Arquivos adicionados
+
+Todos os arquivos deste PR são novos. Nenhum arquivo existente de produção foi alterado. O artefato offline é reconstruído e não versionado.
+
+61 arquivos novos:
+
+- `.github/workflows/premium-v2-preview-qa.yml`
+- `docs/prototypes/ot-premium-v2-showroom/.gitignore`
+- `docs/prototypes/ot-premium-v2-showroom/DECISIONS.md`
+- `docs/prototypes/ot-premium-v2-showroom/FILES.md`
+- `docs/prototypes/ot-premium-v2-showroom/README.md`
+- `docs/prototypes/ot-premium-v2-showroom/assets/acai-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/acai-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/acai-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/adega-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/adega-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/adega-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/advocacia-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/advocacia-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/advocacia-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/font-sources.json`
+- `docs/prototypes/ot-premium-v2-showroom/assets/inter-OFL.txt`
+- `docs/prototypes/ot-premium-v2-showroom/assets/inter.woff2`
+- `docs/prototypes/ot-premium-v2-showroom/assets/kl-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/kl-identity.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/kl-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/kl-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/media.json`
+- `docs/prototypes/ot-premium-v2-showroom/assets/navalha-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/ripamonti-thumb.webp`
+- `docs/prototypes/ot-premium-v2-showroom/assets/share-tech-mono-OFL.txt`
+- `docs/prototypes/ot-premium-v2-showroom/assets/share-tech-mono.woff2`
+- `docs/prototypes/ot-premium-v2-showroom/assets/sources.json`
+- `docs/prototypes/ot-premium-v2-showroom/assets/space-grotesk-OFL.txt`
+- `docs/prototypes/ot-premium-v2-showroom/assets/space-grotesk.woff2`
+- `docs/prototypes/ot-premium-v2-showroom/build.mjs`
+- `docs/prototypes/ot-premium-v2-showroom/bundle.mjs`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/before-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/before-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/before-tablet.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/comparison-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/comparison-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/comparison-tablet.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/context-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1366.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1440.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1920.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/focus-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-360.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-390.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-430.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/report.json`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/ripamonti-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/ripamonti-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/scope-audit.json`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/second-desktop-acai.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/second-mobile-acai.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/tablet-768.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/viewport-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/viewport-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/index.html`
+- `docs/prototypes/ot-premium-v2-showroom/page.template.html`
+- `docs/prototypes/ot-premium-v2-showroom/projects.generated.mjs`
+- `docs/prototypes/ot-premium-v2-showroom/showroom.css`
+- `docs/prototypes/ot-premium-v2-showroom/showroom.mjs`
+- `docs/prototypes/ot-premium-v2-showroom/templates.mjs`
+- `docs/prototypes/ot-premium-v2-showroom/verify.mjs`

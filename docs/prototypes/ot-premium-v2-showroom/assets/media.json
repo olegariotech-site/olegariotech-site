@@ -1,0 +1,128 @@
+{
+  "acai": {
+    "desktop": "./assets/acai-desktop.webp",
+    "mobile": "./assets/acai-mobile.webp",
+    "width": 1440,
+    "height": 1000,
+    "mobileWidth": 390,
+    "mobileHeight": 1258,
+    "brand": {
+      "desktop": "/assets/img/projetos/acai/acai-do-dudu-link-preview-v2.jpg",
+      "mobile": "/assets/img/projetos/acai/acai-do-dudu-link-preview-v2.jpg",
+      "width": 1200,
+      "height": 630,
+      "mobileWidth": 1200,
+      "mobileHeight": 630
+    },
+    "thumbnail": {
+      "src": "./assets/acai-thumb.webp",
+      "width": 192,
+      "height": 101,
+      "original": "/assets/img/projetos/acai/acai-do-dudu-link-preview-v2.jpg"
+    }
+  },
+  "kl": {
+    "desktop": "./assets/kl-desktop.webp",
+    "mobile": "./assets/kl-mobile.webp",
+    "width": 1440,
+    "height": 1000,
+    "mobileWidth": 390,
+    "mobileHeight": 1145,
+    "brand": {
+      "desktop": "./assets/kl-identity.webp",
+      "mobile": "./assets/kl-identity.webp",
+      "width": 695,
+      "height": 436,
+      "mobileWidth": 695,
+      "mobileHeight": 436
+    },
+    "thumbnail": {
+      "src": "./assets/kl-thumb.webp",
+      "width": 192,
+      "height": 144,
+      "original": "/assets/img/projetos/kl/caminhao-estrada.webp"
+    }
+  },
+  "adega": {
+    "desktop": "./assets/adega-desktop.webp",
+    "mobile": "./assets/adega-mobile.webp",
+    "width": 1440,
+    "height": 1000,
+    "mobileWidth": 390,
+    "mobileHeight": 844,
+    "brand": {
+      "desktop": "/assets/img/projetos/adega/adega-sao-marcos-card-desktop-brand-v2.webp",
+      "mobile": "/assets/img/projetos/adega/adega-sao-marcos-card-mobile-brand-v2.webp",
+      "width": 1586,
+      "height": 992,
+      "mobileWidth": 1122,
+      "mobileHeight": 1402
+    },
+    "thumbnail": {
+      "src": "./assets/adega-thumb.webp",
+      "width": 192,
+      "height": 120,
+      "original": "/assets/img/projetos/adega/adega-sao-marcos-card-desktop-brand-v2.webp"
+    }
+  },
+  "advocacia": {
+    "desktop": "./assets/advocacia-desktop.webp",
+    "mobile": "./assets/advocacia-mobile.webp",
+    "width": 1440,
+    "height": 1000,
+    "mobileWidth": 390,
+    "mobileHeight": 844,
+    "brand": {
+      "desktop": "/assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop-brand-v2.webp",
+      "mobile": "/assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-mobile-brand-v2.webp",
+      "width": 1586,
+      "height": 992,
+      "mobileWidth": 1122,
+      "mobileHeight": 1402
+    },
+    "thumbnail": {
+      "src": "./assets/advocacia-thumb.webp",
+      "width": 192,
+      "height": 120,
+      "original": "/assets/img/projetos/advocacia/cintia-almeida-gomes-advocacia-card-desktop-brand-v2.webp"
+    }
+  },
+  "ripamonti": {
+    "desktop": "/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+    "mobile": "/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+    "width": 1440,
+    "height": 1000,
+    "mobileWidth": 390,
+    "mobileHeight": 844,
+    "brand": {
+      "desktop": "/assets/img/projetos/ripamonti/armazem-ripamonti-case-cover-v1.webp",
+      "mobile": "/assets/img/projetos/ripamonti/armazem-ripamonti-case-cover-v1.webp",
+      "width": 1200,
+      "height": 630,
+      "mobileWidth": 1200,
+      "mobileHeight": 630
+    },
+    "thumbnail": {
+      "src": "./assets/ripamonti-thumb.webp",
+      "width": 192,
+      "height": 101,
+      "original": "/assets/img/projetos/ripamonti/armazem-ripamonti-case-cover-v1.webp"
+    }
+  },
+  "navalha": {
+    "brand": {
+      "desktop": "/assets/img/projetos/navalha/navalha-prime-experience-card-desktop-brand-v2.webp",
+      "mobile": "/assets/img/projetos/navalha/navalha-prime-experience-card-mobile-brand-v2.webp",
+      "width": 1586,
+      "height": 992,
+      "mobileWidth": 1122,
+      "mobileHeight": 1402
+    },
+    "thumbnail": {
+      "src": "./assets/navalha-thumb.webp",
+      "width": 192,
+      "height": 120,
+      "original": "/assets/img/projetos/navalha/navalha-prime-experience-card-desktop-brand-v2.webp"
+    }
+  }
+}

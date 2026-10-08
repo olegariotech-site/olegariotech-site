@@ -1,0 +1,342 @@
+{
+  "baseCommit": "4f2550af3e0211b54d4694de6d2e6fce80442dfd",
+  "browserPath": "Browser plugin not available; existing Playwright runner",
+  "scenarios": [
+    {
+      "engine": "chromium",
+      "width": 1366,
+      "height": 768,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 56,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 56,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1920,
+      "height": 1080,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 64,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "height": 1024,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 56,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 360,
+      "height": 800,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 64,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 96,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 176,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "reduced": true,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 120,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 128,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    }
+  ],
+  "links": [
+    {
+      "key": "acai",
+      "type": "published project",
+      "url": "https://acaidodudu.com.br/",
+      "passed": true
+    },
+    {
+      "key": "acai",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20A%C3%A7a%C3%AD%20do%20Dudu%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "kl",
+      "type": "published project",
+      "url": "https://kltransporteexpress.com.br/",
+      "passed": true
+    },
+    {
+      "key": "kl",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20K.L%20Transporte%20Express%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "adega",
+      "type": "published project",
+      "url": "https://adegasaomarcos.com.br/",
+      "passed": true
+    },
+    {
+      "key": "adega",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Adega%20S%C3%A3o%20Marcos%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "advocacia",
+      "type": "published project",
+      "url": "https://cintiaalmeidaadvocacia.com.br/",
+      "passed": true
+    },
+    {
+      "key": "advocacia",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20C%C3%ADntia%20Almeida%20Gomes%20Advocacia%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "ripamonti",
+      "type": "published project",
+      "url": "https://armazemripamonti.com.br/",
+      "passed": true
+    },
+    {
+      "key": "ripamonti",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Armaz%C3%A9m%20Ripamonti%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "navalha",
+      "type": "published project",
+      "url": "https://olegariotech-site.github.io/navalha-prime-experience/",
+      "passed": true
+    },
+    {
+      "key": "navalha",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Navalha%20Prime%20Experience%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    }
+  ],
+  "performance": [
+    {
+      "path": "/",
+      "width": 1440,
+      "height": 900,
+      "runs": [
+        {
+          "lcpMs": 6744,
+          "cls": 0.17694,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 1412247
+        },
+        {
+          "lcpMs": 296,
+          "cls": 0.17426,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 1412247
+        },
+        {
+          "lcpMs": 292,
+          "cls": 0.1729,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 1412247
+        }
+      ],
+      "conditions": "3 cold contexts, same browser/viewport, local HTTP without artificial network/CPU throttling, consent denied and reduced motion. Encoded bodies from Resource Timing; external fonts excluded from byte total."
+    },
+    {
+      "path": "/docs/prototypes/ot-premium-v2-showroom/",
+      "width": 1440,
+      "height": 900,
+      "runs": [
+        {
+          "lcpMs": 124,
+          "cls": 0.01773,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 460957
+        },
+        {
+          "lcpMs": 120,
+          "cls": 0.01773,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 460957
+        },
+        {
+          "lcpMs": 112,
+          "cls": 0.01772,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 460957
+        }
+      ],
+      "conditions": "3 cold contexts, same browser/viewport, local HTTP without artificial network/CPU throttling, consent denied and reduced motion. Encoded bodies from Resource Timing; external fonts excluded from byte total."
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "height": 844,
+      "runs": [
+        {
+          "lcpMs": 140,
+          "cls": 0.66145,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 973149
+        },
+        {
+          "lcpMs": 140,
+          "cls": 0.66214,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 973149
+        },
+        {
+          "lcpMs": 152,
+          "cls": 0.6622,
+          "jsBodyBytes": 100534,
+          "localBodyBytes": 973149
+        }
+      ],
+      "conditions": "3 cold contexts, same browser/viewport, local HTTP without artificial network/CPU throttling, consent denied and reduced motion. Encoded bodies from Resource Timing; external fonts excluded from byte total."
+    },
+    {
+      "path": "/docs/prototypes/ot-premium-v2-showroom/",
+      "width": 390,
+      "height": 844,
+      "runs": [
+        {
+          "lcpMs": 72,
+          "cls": 0.02792,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 410809
+        },
+        {
+          "lcpMs": 76,
+          "cls": 0.02792,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 410809
+        },
+        {
+          "lcpMs": 68,
+          "cls": 0.02792,
+          "jsBodyBytes": 21818,
+          "localBodyBytes": 410809
+        }
+      ],
+      "conditions": "3 cold contexts, same browser/viewport, local HTTP without artificial network/CPU throttling, consent denied and reduced motion. Encoded bodies from Resource Timing; external fonts excluded from byte total."
+    }
+  ],
+  "limitations": [
+    "Engine simulation on Linux; no physical Safari/iPhone or real WhatsApp send.",
+    "Isolated prototype intentionally loads no analytics; production tracking is unchanged.",
+    "Performance compares a complete home with an isolated section; it is not a prediction of the future integration.",
+    "Zoom exercised with CSS zoom 200% plus narrow viewports; native Safari pinch/browser chrome remain untested."
+  ],
+  "noJavaScriptInitialCase": true,
+  "offlineArtifactPassed": true,
+  "cssZoom200": true,
+  "productionFilesUnchanged": true,
+  "changedFiles": [
+    ".github/workflows/premium-v2-preview-qa.yml",
+    "docs/prototypes/ot-premium-v2-showroom/.gitignore",
+    "docs/prototypes/ot-premium-v2-showroom/DECISIONS.md",
+    "docs/prototypes/ot-premium-v2-showroom/assets/acai-desktop.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/acai-mobile.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/acai-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/adega-desktop.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/adega-mobile.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/adega-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/advocacia-desktop.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/advocacia-mobile.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/advocacia-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/font-sources.json",
+    "docs/prototypes/ot-premium-v2-showroom/assets/inter-OFL.txt",
+    "docs/prototypes/ot-premium-v2-showroom/assets/inter.woff2",
+    "docs/prototypes/ot-premium-v2-showroom/assets/kl-desktop.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/kl-identity.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/kl-mobile.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/kl-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/media.json",
+    "docs/prototypes/ot-premium-v2-showroom/assets/navalha-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/ripamonti-thumb.webp",
+    "docs/prototypes/ot-premium-v2-showroom/assets/share-tech-mono-OFL.txt",
+    "docs/prototypes/ot-premium-v2-showroom/assets/share-tech-mono.woff2",
+    "docs/prototypes/ot-premium-v2-showroom/assets/sources.json",
+    "docs/prototypes/ot-premium-v2-showroom/assets/space-grotesk-OFL.txt",
+    "docs/prototypes/ot-premium-v2-showroom/assets/space-grotesk.woff2",
+    "docs/prototypes/ot-premium-v2-showroom/build.mjs",
+    "docs/prototypes/ot-premium-v2-showroom/bundle.mjs",
+    "docs/prototypes/ot-premium-v2-showroom/index.html",
+    "docs/prototypes/ot-premium-v2-showroom/page.template.html",
+    "docs/prototypes/ot-premium-v2-showroom/projects.generated.mjs",
+    "docs/prototypes/ot-premium-v2-showroom/showroom.css",
+    "docs/prototypes/ot-premium-v2-showroom/showroom.mjs",
+    "docs/prototypes/ot-premium-v2-showroom/templates.mjs",
+    "docs/prototypes/ot-premium-v2-showroom/verify.mjs"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "base": "4f2550af3e0211b54d4694de6d2e6fce80442dfd",
+  "originalFilesVerified": 165,
+  "existingFileDifferences": [],
+  "productionUnchanged": true,
+  "initialMarkupTab": "acai",
+  "effectiveBootProject": "kl",
+  "prototypeInitial": "kl",
+  "proofMethod": "Every existing tracked blob is byte-identical to base; all review and QA code is new and isolated.",
+  "screenshots": "Same viewports and initial case K.L; full-section captures. Fixed production chrome hidden only in local capture, never in source. Pair order: current main left, prototype right. Actual aspect ratios retained."
+}
