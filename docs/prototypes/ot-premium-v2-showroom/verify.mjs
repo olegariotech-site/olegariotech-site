@@ -52,7 +52,9 @@ async function configure(context,{baseline=false}={}){
   });
   await context.route(/https:\/\/(wa\.me|acaidodudu\.com\.br|kltransporteexpress\.com\.br|adegasaomarcos\.com\.br|cintiaalmeidaadvocacia\.com\.br|armazemripamonti\.com\.br|olegariotech-site\.github\.io|www\.google\.com)\//,route=>route.fulfill({contentType:'text/html',body:'<!doctype html><title>QA link destination</title>'}));
 }
-async function decode(page){await page.locator('img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())))}
+// Offscreen lazy thumbnails need not load until the rail exposes them (WebKit).
+// Decode eager media and already-loaded images; each selected thumbnail is checked below.
+async function decode(page){await page.locator('img').evaluateAll(images=>Promise.all(images.filter(image=>image.loading!=='lazy'||image.complete).map(image=>image.decode())))}
 async function overflow(page){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'No document horizontal overflow');}
 async function select(page,key,touch=false){
   const tab=page.locator(`[role=tab][data-project="${key}"]`);
@@ -60,6 +62,7 @@ async function select(page,key,touch=false){
   await page.waitForFunction(k=>document.querySelector('#projectStage').dataset.project===k&&!document.querySelector('#projectStage').hasAttribute('aria-busy'),key);
   await decode(page);
   await page.waitForTimeout(280);
+  await tab.locator('img').evaluate(image=>image.decode());
   assert.equal(await page.locator('[role=tab][aria-selected=true]').count(),1);
   assert.equal(await page.locator(`[data-project="${key}"][role=tab]`).getAttribute('aria-selected'),'true');
 }
