@@ -4,7 +4,7 @@
   if (document.body?.dataset.page !== 'home') return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const pointer = matchMedia('(hover:hover) and (pointer:fine) and (min-width:901px)');
-  const selector = '#solutionMedia, #projectStage .project-image, .ot-method-build';
+  const selector = '#solutionMedia, .ot-method-build';
   const allowed = () => pointer.matches && !reduced.matches && !navigator.connection?.saveData && !document.hidden;
   let active = null, rect = null, frame = 0, last = 0;
   let x = 0, y = 0, targetX = 0, targetY = 0;

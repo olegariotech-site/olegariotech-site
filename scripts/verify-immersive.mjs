@@ -26,6 +26,7 @@ for(const code of inlineScripts){
 const report=[];
 const fontCache=new Map();
 const expectedHero=['Sites que','geram','negócios.'];
+async function selectedProject(page){await page.waitForFunction(()=>!document.getElementById('projectStage').hasAttribute('aria-busy'));return page.locator('#projectStage').getAttribute('data-selected-project');}
 async function run(name,viewport,options={}) {
   if(process.env.OT_QA_SCENARIOS&&!process.env.OT_QA_SCENARIOS.split(',').includes(name))return;
   const context=await browser.newContext({viewport,reducedMotion:options.reduced?'reduce':'no-preference'});
@@ -127,7 +128,7 @@ async function run(name,viewport,options={}) {
     assert.equal(await page.locator('#prova .ot-proof-case__rating').count(),3);
     for(const key of keys){
       await page.locator(`#prova a[data-project="${key}"]`).click();
-      assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key);
+      assert.equal(await selectedProject(page),key);
     }
     await page.locator('#prova .ot-proof-strip__cases').evaluate(e=>{e.scrollLeft=0;});
     await page.locator('#prova').scrollIntoViewIfNeeded();
@@ -139,7 +140,7 @@ async function run(name,viewport,options={}) {
     await captureSection('#prova','proof-rail');
     for(const key of [...keys,'navalha']){
       await page.locator(`.project-tab[data-project="${key}"]`).click();
-      assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key);
+      assert.equal(await selectedProject(page),key);
       assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
       assert.equal(await page.locator('.project-tab[aria-selected="true"]').count(),1);
       if(viewport.width<=900)assert.ok(await page.locator('.project-tab.is-active').evaluate(tab=>{
@@ -147,33 +148,33 @@ async function run(name,viewport,options={}) {
       }),'the selected mobile tab remains visible');
       await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
       assert.ok((await page.locator('#projectStage h3').innerText()).length>3);
-      assert.equal(await page.locator('#projectStage .project-story article').count(),2);
-      assert.ok(await page.locator('#projectStage .project-points li').count()>2);
-      const actions=page.locator('#projectStage .project-actions a');
+      assert.equal(await page.locator('#projectStage .story-content dd').count(),2);
+      assert.ok(await page.locator('#projectStage .case-deliverables li').count()>2);
+      const actions=page.locator('#projectStage .case-actions a');
       assert.equal(await actions.count(),2);
       const title=await page.locator('#projectStage h3').innerText();
       assert.ok(decodeURIComponent(await actions.last().getAttribute('href')).includes(title));
-      const testimonial=page.locator('#projectStage .project-testimonial');
+      const testimonial=page.locator('#projectStage .case-testimonial');
       assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0);
       if(key==='ripamonti'){
         assert.equal(await actions.first().getAttribute('href'),'https://armazemripamonti.com.br/');
         assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
         assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
-        assert.ok((await page.locator('#projectStage .project-image>img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
-        await captureSection('#projectStage .project-testimonial','evandro-review');
+        assert.ok((await page.locator('#projectStage .case-screen img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
+        await captureSection('#projectStage .case-testimonial','evandro-review');
       }
-      if(key==='navalha')assert.match(await page.locator('.project-media-caption').innerText(),/Conceito \/ demonstração OT/);
+      if(key==='navalha')assert.match(await page.locator('.case-status').innerText(),/Conceito \/ demonstração OT/i);
       await noOverflow();
       if(['acai','ripamonti'].includes(key))await captureSection('#projetos','project-full-'+key);
     }
     await page.locator('.project-tab.is-active').focus();
-    await page.keyboard.press('Home');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
-    await page.keyboard.press('ArrowRight');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'kl');
-    await page.keyboard.press('ArrowLeft');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
-    await page.keyboard.press('End');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'navalha');
+    await page.keyboard.press('Home');assert.equal(await selectedProject(page),'acai');
+    await page.keyboard.press('ArrowRight');assert.equal(await selectedProject(page),'kl');
+    await page.keyboard.press('ArrowLeft');assert.equal(await selectedProject(page),'acai');
+    await page.keyboard.press('End');assert.equal(await selectedProject(page),'navalha');
     assert.equal(await page.locator('.project-tab.is-active').evaluate(e=>e===document.activeElement),true);
     if(options.reduced){
-      assert.equal(await page.locator('#projectStage .project-image').evaluate(e=>getComputedStyle(e).transform),'none');
+      assert.equal(await page.locator('#projectStage .case-screen').evaluate(e=>getComputedStyle(e).transform),'none');
       assert.equal(await page.locator('#projectStage .project-copy').evaluate(e=>getComputedStyle(e).animationName),'none');
     }
     assert.deepEqual(errors,[],name+' runtime errors');assert.deepEqual(notFound,[],name+' missing resources');
@@ -182,12 +183,13 @@ async function run(name,viewport,options={}) {
   }
   assert.equal(await page.locator('#inicio').evaluate(e=>e.nextElementSibling.id),'projetos','projects follow the opening as in the approved visual');
   assert.equal(await page.locator('#prova').evaluate(e=>e.previousElementSibling.id),'solucoes','proof remains after solutions');
-  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'kl','reference case selected initially');
+  assert.equal(await selectedProject(page),'kl','reference case selected initially');
   if(viewport.width>900){
     assert.equal(Math.round((await page.locator('.desktop-rail').boundingBox()).width),64,'compact rail frees the hero composition');
     const route=page.locator('.desktop-rail .rail-btn').first();
     await page.locator('.skip-link').focus();await page.keyboard.press('Tab');
     assert.ok(await route.evaluate(e=>e===document.activeElement),'keyboard reaches the first compact route');
+    await page.waitForFunction(()=>getComputedStyle(document.querySelector('.desktop-rail .rail-btn span:last-child')).opacity==='1');
     assert.equal(await route.locator('span').last().evaluate(e=>getComputedStyle(e).opacity),'1','route name is visible on keyboard focus');
     await page.locator('.top-nav a[href="#solucoes"]').click();await page.waitForTimeout(200);
     assert.ok((await page.locator('#solucoes').boundingBox()).y<viewport.height,'top navigation reaches solutions');
@@ -208,7 +210,7 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#prova .ot-proof-case__rating').count(),3,'only the three approved Google reviews show stars');
   for(const key of ['acai','kl','adega','advocacia','ripamonti']){
     await page.locator(`#prova a[data-project="${key}"]`).click();
-    assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key,'rail selects the real case: '+key);
+    assert.equal(await selectedProject(page),key,'rail selects the real case: '+key);
   }
   await page.locator('#prova .ot-proof-strip__cases').evaluate(e=>{e.scrollLeft=0;});
   await page.locator('#prova').scrollIntoViewIfNeeded();
@@ -264,24 +266,19 @@ async function run(name,viewport,options={}) {
   await verifyAudio();
   assert.equal(await page.locator('#projectStage h3').innerText(),'K.L Transporte Express');
   assert.equal(await page.locator('#projectStage a').first().getAttribute('href'),'https://kltransporteexpress.com.br/');
-  await pointerDepth('#projectStage .project-image','project');
   await capture('05-project');
   const selected=page.locator('.project-tab.is-active');
   await selected.focus();await page.keyboard.press('ArrowRight');
-  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'adega','keyboard switches cases');
+  assert.equal(await selectedProject(page),'adega','keyboard switches cases');
   await page.keyboard.press('Home');
-  assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
+  assert.equal(await selectedProject(page),'acai');
   for(const key of ['acai','adega','advocacia','ripamonti','navalha']){
     await page.locator(`.project-tab[data-project="${key}"]`).click();
+    assert.equal(await selectedProject(page),key);
     await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
     await page.locator('#projectStage').scrollIntoViewIfNeeded();
-    const coverImage=page.locator('#projectStage .project-image > img');
+    const coverImage=page.locator('#projectStage .case-screen img');
     if(await coverImage.count())assert.equal(await coverImage.evaluate(img=>getComputedStyle(img).objectFit),'contain');
-    else{
-      assert.equal(await page.locator('#projectStage .case-cover').count(),1);
-      assert.ok(await page.locator('#projectStage .case-cover').isVisible());
-      if(key==='advocacia')assert.match(await page.locator('.case-cover__title').innerText(),/Advocacia estratégica/);
-    }
     await noOverflow();
     const title=page.locator('#projectStage h3');
     assert.ok(await title.evaluate(e=>{
@@ -290,12 +287,12 @@ async function run(name,viewport,options={}) {
       return text.left>=panel.left&&text.right<=panel.right&&text.top>=panel.top&&text.bottom<=panel.bottom;
     }),'case title stays inside the panel: '+key);
     assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
-    const testimonial=page.locator('#projectStage .project-testimonial');
+    const testimonial=page.locator('#projectStage .case-testimonial');
     assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0,'approved social proof only: '+key);
     if(key==='ripamonti'){
       assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
       assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
-      assert.ok((await page.locator('#projectStage .project-image>img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
+      assert.ok((await page.locator('#projectStage .case-screen img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
       await testimonial.screenshot({path:`${output}/${name}-evandro-review.png`});
     }
     const contact=page.locator('#projectStage [data-generate-lead]');

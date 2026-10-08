@@ -1,0 +1,20 @@
+{
+  "baseCommit": "4f2550af3e0211b54d4694de6d2e6fce80442dfd",
+  "gateACommit": "8144b9755b675e632957814faac135a995badccc",
+  "trackedBaselineFiles": 165,
+  "unchangedFiles": 156,
+  "modifiedExistingFiles": [
+    ".github/workflows/immersive-qa.yml",
+    "assets/css/ot-cosmic-showcase.css",
+    "assets/css/ot-experience-polish.css",
+    "assets/css/ot-project-cases.css",
+    "assets/css/ot-surface-refinement.css",
+    "assets/css/ot-v2.css",
+    "assets/js/ot-surface-motion.js",
+    "index.html",
+    "scripts/verify-immersive.mjs"
+  ],
+  "nonPortfolioCSSPreserved": true,
+  "canonicalCatalogAndProtectedInlineCodeVerifiedBy": "scripts/verify-showroom.mjs",
+  "originalGateABranchUntouched": true
+}

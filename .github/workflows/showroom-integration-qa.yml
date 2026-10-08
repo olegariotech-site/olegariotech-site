@@ -1,0 +1,46 @@
+name: Gate B integrated showroom QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'assets/css/ot-*.css'
+      - 'assets/js/ot-*.js'
+      - 'assets/js/ot-*.mjs'
+      - 'assets/img/projetos/showroom-v2/**'
+      - 'scripts/build-showroom.mjs'
+      - 'scripts/verify-showroom.mjs'
+      - '.github/workflows/showroom-integration-qa.yml'
+permissions:
+  contents: read
+jobs:
+  complete-home:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the existing browser test runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium webkit
+      - name: Validate canonical HTML and module syntax
+        run: |
+          node --check assets/js/ot-project-showroom.mjs
+          node --check scripts/verify-showroom.mjs
+          node scripts/build-showroom.mjs --check
+      - name: Verify the complete home in Chromium and WebKit
+        env:
+          OT_QA_OUTPUT: /tmp/ot-gate-b-qa
+          OT_QA_ENGINES: chromium,webkit
+        run: node scripts/verify-showroom.mjs
+      - name: Upload home comparisons and regression report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-premium-v2-gate-b-review
+          path: /tmp/ot-gate-b-qa
+          retention-days: 30
