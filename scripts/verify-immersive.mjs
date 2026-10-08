@@ -1,7 +1,13 @@
 // End-to-end regression checks for the scroll narrative, real route controls, and fallbacks.
 const { chromium } = await import(process.env.OT_PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { Script } from 'node:vm';
+// Validate the actual inline entry point: a broken template literal disables every control.
+const source=await readFile(new URL('../index.html',import.meta.url),'utf8');
+for(const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
+  if(!/type=["']application\/ld\+json["']/.test(match[1])&&match[2].trim())new Script(match[2],{filename:'index.html inline script'});
+}
 const base = process.env.OT_TEST_URL || 'http://127.0.0.1:4173';
 const output = process.env.OT_QA_OUTPUT || '/tmp/ot-immersive-qa';
 await mkdir(output, {recursive:true});
@@ -28,8 +34,10 @@ async function run(name,viewport,options={}) {
   });
   const page=await context.newPage();
   const errors=[];
+  const notFound=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('console',msg=>{if(msg.type()==='error')errors.push(`${msg.text()} (${msg.location().url})`);});
+  page.on('response',response=>{if(response.status()===404)notFound.push(response.url());});
   const response=await page.goto(base,{waitUntil:'networkidle'});
   assert.equal(response.status(),200);
   await page.getByRole('button',{name:'Recusar opcionais',exact:true}).click();
@@ -41,6 +49,11 @@ async function run(name,viewport,options={}) {
   assert.match(await page.title(),/Olegario Tech/i);
   assert.ok(await page.locator('main').innerText());
   assert.deepEqual(await page.locator('#inicio h1 > span').allTextContents(),expectedHero);
+  assert.ok(await page.locator('#inicio h1 > span').evaluateAll(spans=>spans.every(span=>{
+    const range=document.createRange();range.selectNodeContents(span);
+    const text=range.getBoundingClientRect(),copy=span.closest('.hero-copy').getBoundingClientRect(),box=span.getBoundingClientRect();
+    return text.left>=copy.left-1&&text.right<=copy.right+1&&text.top>=box.top-1&&text.bottom<=box.bottom+1;
+  })),'every headline glyph, accent and period fits its column and line box');
   assert.equal(await page.locator('#projetos h2').innerText(),'Prova antes da promessa.');
   async function noOverflow(){assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,name+' overflow');}
   async function capture(label){await page.waitForTimeout(250);await noOverflow();await page.screenshot({path:`${output}/${name}-${label}.png`});}
@@ -101,7 +114,23 @@ async function run(name,viewport,options={}) {
     const copy=await page.locator('#inicio .hero-copy').boundingBox(),visual=await page.locator('#inicio .hero-visual').boundingBox();
     assert.ok(visual.y>=copy.y+copy.height,'mobile globe has its own block below commercial copy');
   }
-  assert.equal(await page.locator('#prova .ot-proof-strip__cases a').count(),4,'proof strip has four real projects');
+  assert.equal(await page.locator('#prova .ot-proof-strip__cases a').count(),5,'proof strip has five real projects');
+  assert.equal(await page.locator('#prova .ot-proof-strip__cases img').count(),5,'each real project has a visual thumbnail');
+  assert.equal(await page.locator('#prova .ot-proof-case__rating').count(),3,'only the three approved Google reviews show stars');
+  for(const key of ['acai','kl','adega','advocacia','ripamonti']){
+    await page.locator(`#prova a[data-project="${key}"]`).click();
+    assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key,'rail selects the real case: '+key);
+  }
+  await page.locator('#prova .ot-proof-strip__cases').evaluate(e=>{e.scrollLeft=0;});
+  await page.locator('#prova').scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>[...document.querySelectorAll('#prova img')].every(img=>img.complete&&img.naturalWidth>0));
+  if(viewport.width<=900){
+    assert.ok(await page.locator('#prova .ot-proof-strip__cases').evaluate(rail=>{
+      const first=rail.children[0].getBoundingClientRect(),next=rail.children[1].getBoundingClientRect(),box=rail.getBoundingClientRect();
+      return first.left>=box.left&&first.right<=box.right&&next.left<box.right&&next.right>box.right&&rail.scrollWidth>rail.clientWidth;
+    }),'mobile rail shows one whole case and part of the next');
+  }
+  await page.locator('#prova').screenshot({path:`${output}/${name}-proof-rail.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
   assert.ok((await page.locator('#prova .ot-proof-strip__cases').innerText()).includes('Adega São Marcos'),'proof strip includes Adega São Marcos');
   if(options.reduced)assert.ok(await page.evaluate(()=>document.querySelector('#prova').getBoundingClientRect().top>=document.querySelector('.hero-proof').getBoundingClientRect().bottom),'proof strip clears hero content');
   for(const [label,amount] of [['02-particles',.30],['03-wave',.72]]){
@@ -153,7 +182,7 @@ async function run(name,viewport,options={}) {
   assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'adega','keyboard switches cases');
   await page.keyboard.press('Home');
   assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
-  for(const key of ['acai','adega','advocacia','navalha','mercado']){
+  for(const key of ['acai','adega','advocacia','ripamonti','navalha']){
     await page.locator(`.project-tab[data-project="${key}"]`).click();
     await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
     await page.locator('#projectStage').scrollIntoViewIfNeeded();
@@ -172,7 +201,17 @@ async function run(name,viewport,options={}) {
       return text.left>=panel.left&&text.right<=panel.right&&text.top>=panel.top&&text.bottom<=panel.bottom;
     }),'case title stays inside the panel: '+key);
     assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
-    if(key==='advocacia'||key==='acai')await page.locator('#projectStage').screenshot({path:`${output}/${name}-project-full-${key}.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
+    const testimonial=page.locator('#projectStage .project-testimonial');
+    assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0,'approved social proof only: '+key);
+    if(key==='ripamonti'){
+      assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+      assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
+      assert.ok((await page.locator('#projectStage .project-image>img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
+      await testimonial.screenshot({path:`${output}/${name}-evandro-review.png`});
+    }
+    const contact=page.locator('#projectStage [data-generate-lead]');
+    assert.ok(decodeURIComponent(await contact.getAttribute('href')).includes(await page.locator('#projectStage h3').innerText()),'contact message includes the active project');
+    if(key==='advocacia'||key==='acai'||key==='ripamonti')await page.locator('#projetos').screenshot({path:`${output}/${name}-project-full-${key}.png`,style:'.mobile-header,.mobile-nav,.experience-controls,.skip-link{visibility:hidden!important}'});
   }
   await page.locator('#metodo').scrollIntoViewIfNeeded();
   assert.equal(await page.locator('#metodo .method-card').count(),4);
@@ -201,7 +240,8 @@ async function run(name,viewport,options={}) {
   assert.equal(+await page.locator('#earthJourney').getAttribute('data-morph'),0);
   if(options.reduced){assert.equal(await page.locator('.earth-journey__canvas').evaluate(e=>getComputedStyle(e).display),'none');}
   assert.deepEqual(errors,[],name+' runtime errors');
-  report.push({name,viewport,renderer:earthState.renderer||'static',checks:'passed',errors});
+  assert.deepEqual(notFound,[],name+' missing resources');
+  report.push({name,viewport,renderer:earthState.renderer||'static',checks:'passed',errors,notFound});
   await writeFile(`${output}/report.json`,JSON.stringify(report,null,2));
   console.log(name+': passed');
   await context.close();
@@ -209,10 +249,14 @@ async function run(name,viewport,options={}) {
 try{
   await run('desktop',{width:1440,height:900});
   await run('notebook',{width:1366,height:768});
+  await run('desktop-1536',{width:1536,height:864});
+  await run('desktop-1600',{width:1600,height:900});
+  await run('desktop-1920',{width:1920,height:1080});
   await run('short-notebook',{width:1366,height:612});
   await run('tablet',{width:1024,height:768});
   await run('mobile',{width:390,height:844});
-  await run('small-mobile',{width:360,height:780});
+  await run('small-mobile',{width:360,height:800});
+  await run('large-mobile',{width:430,height:932});
   await run('reduced-motion',{width:1440,height:900},{reduced:true});
   await run('mobile-reduced-motion',{width:390,height:844},{reduced:true});
   await run('no-webgl',{width:1440,height:900},{fallback:true});
