@@ -33,8 +33,9 @@ try{
   assert.ok(await page.locator('main').innerText());assert.equal(await page.locator('vite-error-overlay,nextjs-portal').count(),0);
   report.title=await page.title();report.renderer=await page.locator('#earthJourney').getAttribute('data-renderer');
   assert.equal(await page.evaluate(()=>matchMedia('(prefers-reduced-motion:reduce)').matches),false);
-  // Observe the original renderer; the wrapper does not modify any object or uniform.
-  await page.evaluate(()=>{const original=THREE.WebGLRenderer.prototype.render;THREE.WebGLRenderer.prototype.render=function(scene,camera){const globe=scene.children.find(o=>o.isMesh&&o.material?.map);if(globe)window.__qaRotation={y:globe.rotation.y,at:performance.now()};return original.call(this,scene,camera)}});
+  // Observe the original mesh draw callback; do not modify objects or uniforms.
+  // r128 assigns renderer.render on the instance, while Mesh.onBeforeRender is inherited.
+  await page.evaluate(()=>{const original=THREE.Mesh.prototype.onBeforeRender;THREE.Mesh.prototype.onBeforeRender=function(...args){if(this.material?.map)window.__qaRotation={y:this.rotation.y,at:performance.now()};return original.apply(this,args)}});
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
   await page.waitForFunction(()=>window.__qaRotation&&document.getElementById('earthJourney').dataset.animate==='true');
   const button=page.locator('.desktop-audio-toggle');assert.ok(await button.isVisible());
