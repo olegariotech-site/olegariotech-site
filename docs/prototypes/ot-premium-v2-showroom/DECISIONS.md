@@ -31,7 +31,7 @@ Somente arquivos novos do protótipo e CI dedicado. Nenhum arquivo servido pela 
 | --- | --- | --- |
 | B: 58% mídia / 42% conteúdo | Grid 1.38/1, screenshot real ocupa a maior coluna; sem altura fixa | Mantido no desktop; stack até 900px. |
 | A: descoberta dinâmica | Um índice de cinco thumbnails e um grupo Conceito OT, teclado e snap manual | Sem repetir a rail da home ou acrescentar vitrine concorrente. |
-| Mobile: site próprio antes de narrativa | Source mobile em picture; captura completa de Açaí/K.L | Tela mais longa é deliberada para preservar imagem e copy do cliente. |
+| Mobile: cliente e ação antes da imagem | Nome, entrega e CTAs únicos antes da captura mobile | Prévia limitada, com expansão integral solicitada pelo visitante. |
 | Moldura + detalhe mobile | Chrome reduzido, controles de vista e device | Alternância aprovada pelo brief em lugar de sobreposição de telefone. |
 | Conteúdo comercial e prova | Mesmos registros, mensagens, três avaliações e entregas | Desafio/estratégia em details; testemunho e CTAs sempre visíveis. |
 | Seleção inicial | Runtime da main abre K.L; markup anterior ao JS marca Açaí | Preservar K.L, inclusive tab integralmente visível no mobile. |
@@ -39,3 +39,18 @@ Somente arquivos novos do protótipo e CI dedicado. Nenhum arquivo servido pela 
 | Motion | 260ms em seleção, hover 2px, loaded image antes de swap | Nenhum efeito contínuo; reduced motion instantâneo. |
 
 Capturas desktop, tablet, mobile, segundo case e foco foram inspecionadas. Não permanece achado P0/P1/P2 na demonstração. O limite da validação é o protótipo isolado: integração ao layout global, Terra/áudio e tracking continua sendo Gate B.
+
+## Refinamento solicitado após aprovação da direção artística
+
+Alvo preservado: PR #90 em `9393063`, B dominante e descoberta de A. Nenhum novo redesign. Fonte dos quatro ajustes: instrução expressa de Alexandre em 08/10/2026.
+
+| Ajuste | Decisão | Critério verificável |
+| --- | --- | --- |
+| Altura inicial mobile | Prévia entre 240 e 320px conforme a tela, com “Ver captura completa” / “Recolher captura” | Imagem local original mantém proporção e dimensão integral; `aria-expanded` e `aria-controls` acompanham o botão. Sem JS, imagem completa permanece disponível. |
+| Nome e acesso ao projeto | Bloco comercial precede a mídia no DOM e no layout até 900px; desktop mantém mídia à esquerda e narrativa à direita | Exatamente um link do projeto e um contato por case; mesmas URLs e mensagens. |
+| Presença do índice | Miniaturas desktop 64×72px (antes 48×56), nomes 12px, seleção com borda e marcador mais claros | Cinco projetos reais, conceito separado, manual/snap e roving tabindex preservados. Hover somente em dispositivos compatíveis. |
+| Entrega e prova | “Entrega OT” identifica o texto canônico; depoimento e disclosure permanecem legíveis | Catálogo, seis cases, três avaliações e `details` intactos. |
+| Estado responsivo | Um resolvedor para o dispositivo efetivo, usado por mídia e controles; HTML estático usa picture como fallback, JS controla uma fonte explícita; breakpoint volta ao modo automático | 600px usa mobile; 601px usa desktop. Exatamente um `aria-pressed=true`, controles ocultos saem da tabulação; foco é transferido antes da espera por imagem; no modo interativo, `hidden` é aplicado pela sincronização, sem ocultação antecipada por CSS. |
+| Corridas de carregamento | Pedidos de seleção e apresentação têm contadores independentes; seleção reavalia o dispositivo após decode | Redimensionar durante seleção/vista não restaura uma imagem antiga nem deixa `aria-busy` preso. |
+
+Expansão da imagem não recebe animação de altura: a mudança é solicitada pelo usuário, sem deformar o site ou mover texto continuamente. Recolher mantém o botão focado e visível. Troca de cliente conserva os 260ms aprovados e reduced motion. O Gate A permanece pendente de aceite visual final; nenhuma atividade do Gate B foi iniciada.

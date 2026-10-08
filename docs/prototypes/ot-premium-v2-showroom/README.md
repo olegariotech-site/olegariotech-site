@@ -26,17 +26,17 @@ Abra o arquivo gerado `preview-offline.html`. Ele incorpora mídias e fontes, us
 
 - K.L Transporte Express permanece como destaque inicial **efetivo** da home. O HTML anterior ao JS marca Açaí, mas a inicialização real chama `renderProject('kl')`; essa cadeia foi auditada e preservada. Açaí está acessível pelo primeiro seletor.
 - Cinco projetos reais: Açaí do Dudu, K.L Transporte Express, Adega São Marcos, Cíntia Almeida Gomes Advocacia e Armazém Ripamonti. O único conceito é Navalha Prime Experience, com destino e identificação próprios.
-- Website desktop em navegador discreto; no celular, screenshot mobile próprio antes da narrativa. Açaí/K.L incluem o HERO completo para não cortar o produto/veículos.
+- Website desktop em navegador discreto; no celular, nome, entrega e CTAs únicos precedem a captura. A prévia tem 240–320px de altura inicial, com opção de ver/recolher a imagem integral. Arquivos originais e proporções permanecem intactos.
 - Alternância Website / Identidade, mais Desktop / Mobile onde há espaço. A opção por alternância evita telas sobrepostas e mantém o nome e os CTAs livres.
 - Título, segmento, descrição, desafio, estratégia, entregas, três depoimentos existentes, autoria, fontes e URLs preservados. Nenhuma avaliação foi adicionada a K.L, Adega ou Navalha.
 - CTA de seção e dois CTAs de cada case mantêm os textos e destinos aprovados. WhatsApp oficial: `5511912459144`, com a mensagem atual contextualizada pelo nome canônico do projeto.
-- Índice horizontal manual com snap/peek, navegação por clique/toque/setas/Home/End, foco visível e estado real/conceito perceptível. A tab inicial aparece integralmente no mobile.
+- Índice horizontal manual com miniaturas desktop 64×72px, seleção mais evidente, snap/peek, clique/toque/setas/Home/End, foco visível e distinção real/conceito. A tab inicial aparece integralmente no mobile.
 - Troca de case aguarda a imagem sem apagar a história anterior; solicitações antigas não vencem a seleção mais recente. Mesma seleção preserva nós. Um único listener delegado cuida das vistas. Motion 260ms e hover até 2px; reduced motion remove ambos.
 - A faixa superior é apenas contexto de revisão, usando o asset estático original da Terra. Não simula uma nova home, não executa shaders, Terra ou áudio e não modifica esses componentes.
 
 ## Arquitetura e fonte de conteúdo
 
-`build.mjs` lê o literal JSON `projects` e a chamada de inicialização em `/index.html`. Gera `projects.generated.mjs` e o HTML inicial de K.L; `--check` rejeita snapshots desatualizados. Os dados não têm manutenção editorial paralela. `templates.mjs` serve tanto ao build estático quanto à troca no navegador, com escape de texto/atributos. Um único `tabpanel` recebe a história selecionada; anúncio breve de seleção fica fora do painel para evitar releitura repetitiva.
+`build.mjs` lê o literal JSON `projects` e a chamada de inicialização em `/index.html`. Gera `projects.generated.mjs` e o HTML inicial de K.L; `--check` rejeita snapshots desatualizados. Os dados não têm manutenção editorial paralela. `templates.mjs` serve tanto ao build estático quanto à troca no navegador, com escape de texto/atributos. Um único `tabpanel` recebe a história selecionada. DOM: apresentação e CTAs → mídia → prova/disclosure → entregas; o grid desktop mantém a composição de duas colunas. Um resolvedor de dispositivo sincroniza mídia, `aria-pressed`, visibilidade e expansão; resize invalida pedidos de mídia antigos e transfere foco antes de ocultar controles. A seleção reavalia o dispositivo após decode; anúncio breve de seleção fica fora do painel para evitar releitura repetitiva.
 
 `assets/media.json` contém **somente descritores de apresentação**. Pares novos foram capturados dos sites publicados; Ripamonti reutiliza os arquivos do PR #89. Thumbnails pequenas derivam dos assets canônicos, sem novo conteúdo fictício. A vista complementar K.L é uma captura da composição aprovada e inalterada de `renderProjectMedia()`.
 
@@ -53,6 +53,8 @@ Comparações usam o mesmo primeiro case, K.L, na `main` inalterada e na prévia
 | Comparativo desktop 1440×900 | [comparison-desktop.webp](evidence/comparison-desktop.webp) |
 | Comparativo tablet 768×1024 | [comparison-tablet.webp](evidence/comparison-tablet.webp) |
 | Comparativo mobile 390×844 | [comparison-mobile.webp](evidence/comparison-mobile.webp) |
+| Prévia anterior → refinamento atual | [Desktop](evidence/refinement-desktop.webp), [Tablet](evidence/refinement-tablet.webp), [Mobile](evidence/refinement-mobile.webp) |
+| Mobile com captura expandida | [expanded-mobile.webp](evidence/expanded-mobile.webp) |
 | Desktop 1366×768 / 1440×900 / 1920×1080 | [1366](evidence/desktop-1366.webp), [1440](evidence/desktop-1440.webp), [1920](evidence/desktop-1920.webp) |
 | Tablet 768×1024 | [tablet-768.webp](evidence/tablet-768.webp) |
 | Mobile 360×800 / 390×844 / 430×932 | [360](evidence/mobile-360.webp), [390](evidence/mobile-390.webp), [430](evidence/mobile-430.webp) |
@@ -83,6 +85,9 @@ OT_QA_ENGINES=chromium,webkit node docs/prototypes/ot-premium-v2-showroom/verify
 | Teclado, foco, clique e toque | Aprovado; setas, Home/End, Tab e links |
 | Troca rápida, reabertura e mesmas seleções | Aprovado; última solicitação vence |
 | Vistas Website/Identidade/Desktop/Mobile | Aprovado; copy e ações não são reconstruídas |
+| Expansão mobile e CTAs únicos | Aprovado; abrir/recolher por botão e teclado, estado acessível, imagem integral |
+| Breakpoints 600/601px e redimensionamentos | Aprovado localmente nos seis cases; fontes de imagem, foco e `aria-pressed` sincronizados |
+| Seleção/vista durante resize com imagens atrasadas | Aprovado localmente; nenhum pedido antigo vence o atual |
 | Imagens, proporção e documento sem overflow | Aprovado; zero imagem 404 |
 | Console e exceções | Zero erro no protótipo |
 | Reduced motion desktop/mobile | Aprovado; nenhuma animação ativa |
@@ -99,10 +104,10 @@ Workflow novo: **Premium V2 isolated preview QA**, com Chromium e WebKit simulad
 
 Três contextos frios por versão e viewport (1440×900 / 390×844), mesmo Chromium/Linux, HTTP local, consentimento negado e movimento reduzido. Sem throttling artificial. `report.json` traz LCP, CLS e corpos transferidos por Resource Timing. Event Timing registra o máximo de duração observado das interações de laboratório; **não é INP de campo**.
 
-Na execução local, a prévia transferiu aproximadamente **21,8 KB de JS**, versus **100,5 KB da home completa**. CLS mediano da prévia ficou abaixo de 0,03. A comparação inclui uma home completa de um lado e uma seção isolada do outro, com fontes externas da home excluídas dos totais de bytes: **não demonstra um ganho da futura home e não dispensa benchmark de integração**. O artefato offline incorpora todos os assets para revisão e não deve ser integrado como runtime.
+Na execução local refinada, a prévia transferiu aproximadamente **24,3 KB de JS**, versus **100,5 KB da home completa**. CLS mediano da prévia foi 0,018 no desktop e 0,057 no mobile, nas condições descritas em `report.json`; os dados são de laboratório. A comparação inclui uma home completa de um lado e uma seção isolada do outro, com fontes externas da home excluídas dos totais de bytes: **não demonstra um ganho da futura home e não dispensa benchmark de integração**. O artefato offline incorpora todos os assets para revisão e não deve ser integrado como runtime.
 
 ## Limitações e aprovação
 
 WebKit de CI é simulação em Linux; não certifica Safari/iPhone físicos, pinch zoom ou barras nativas. Zoom local usa CSS 200%, além das resoluções estreitas. Links são interceptados no teste: não houve envio real de WhatsApp nem conversão a servidores GA/Meta. A consulta live Refero não estava disponível por assinatura; a composição usa a direção já aprovada e os guias locais, conforme o ledger.
 
-**Pendente somente o aceite visual de Alexandre para Gate A.** Este PR não autoriza integração, merge ou publicação. Após o aceite, o Gate B terá plano de integração e nova validação de regressão/performance, com autorização separada.
+**Direção artística aprovada por Alexandre; pendente o aceite visual final do Gate A após estes quatro ajustes.** Este PR não autoriza integração, merge ou publicação. Após o aceite, o Gate B terá plano de integração e nova validação de regressão/performance, com autorização separada.

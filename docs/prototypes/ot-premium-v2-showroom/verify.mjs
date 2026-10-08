@@ -24,7 +24,7 @@ const server=createServer(async(req,res)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const base=`http://127.0.0.1:${server.address().port}`;
 const preview=base+'/'+dir+'/';
-const report={baseCommit:'4f2550af3e0211b54d4694de6d2e6fce80442dfd',browserPath:'Browser plugin not available; existing Playwright runner',scenarios:[],links:[],performance:[],limitations:['Engine simulation on Linux; no physical Safari/iPhone or real WhatsApp send.','Isolated prototype intentionally loads no analytics; production tracking is unchanged.','Performance compares a complete home with an isolated section; it is not a prediction of the future integration.']};
+const report={baseCommit:'4f2550af3e0211b54d4694de6d2e6fce80442dfd',browserPath:'Browser plugin not available; existing Playwright runner',scenarios:[],responsive:[],links:[],performance:[],limitations:['Engine simulation on Linux; no physical Safari/iPhone or real WhatsApp send.','Isolated prototype intentionally loads no analytics; production tracking is unchanged.','Performance compares a complete home with an isolated section; it is not a prediction of the future integration.']};
 const changed=execFileSync('git',['diff','--name-only',report.baseCommit],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.ok(changed.every(file=>file.startsWith(dir+'/')||file==='.github/workflows/premium-v2-preview-qa.yml'),'Production files must remain unchanged.');
 assert.equal(initial,'kl');
@@ -95,7 +95,35 @@ async function checkCase(page,key,width){
   assert.ok(actual.width>0&&actual.height>0);
   assert.ok(Math.abs(actual.box.width/actual.box.height-actual.width/actual.height)<.01,'Screen image retains its native ratio');
   if(key!=='navalha')assert.ok(actual.src.endsWith(width<=600?media[key].mobile.replace(/^\.\//,''):media[key].desktop.replace(/^\.\//,'')));
-  if(width<=600){const imageBox=await page.locator('.case-media').boundingBox(),copyBox=await page.locator('.case-copy').boundingBox();assert.ok(imageBox.y+imageBox.height<=copyBox.y,'Mobile image precedes narrative');}
+  assert.equal(await page.locator('#projectStage [data-project-link]').count(),1,'Published-project CTA is unique');
+  assert.equal(await page.locator('#projectStage [data-generate-lead]').count(),1,'Contact CTA is unique');
+  const device=width<=600?'mobile':'desktop';
+  assert.equal(await page.locator('.case-screen').getAttribute('data-view'),device);
+  if(key!=='navalha'){
+    assert.equal(await page.locator(`button[data-view=${device}]`).getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('button[data-view][aria-pressed=true]').count(),1);
+  }
+  if(width<=600){
+    const imageBox=await page.locator('.case-media').boundingBox(),copyBox=await page.locator('.case-copy').boundingBox(),action=await primary.boundingBox();
+    assert.ok(copyBox.y+copyBox.height<=imageBox.y,'Mobile identifies the client and delivery before the image');
+    assert.ok(action.y+action.height<=imageBox.y,'Published project is accessible before the image');
+    if(key!=='navalha'){
+      const toggle=page.locator('[data-expand]'),picture=page.locator('#caseCapture');
+      const collapsed=(await picture.boundingBox()).height;
+      assert.ok(collapsed<=320,'Initial mobile preview has a bounded height');
+      assert.equal(await toggle.getAttribute('aria-expanded'),'false');
+      assert.equal(await toggle.getAttribute('aria-controls'),'caseCapture');
+      await toggle.click();
+      assert.equal(await toggle.getAttribute('aria-expanded'),'true');
+      const full=(await picture.boundingBox()).height;
+      assert.ok(full>collapsed,'Full capture can be inspected');
+      assert.ok(Math.abs(full-(await screen.boundingBox()).height)<1,'Expanded capture is complete');
+      await toggle.focus();await page.keyboard.press('Space');
+      assert.equal(await toggle.getAttribute('aria-expanded'),'false');
+      assert.equal(await toggle.evaluate(el=>el===document.activeElement),true);
+      assert.equal(await page.locator('#projectStage [data-project-link]').count(),1);
+    }
+  }
   await overflow(page);
 }
 async function links(page){
@@ -166,9 +194,64 @@ async function scenario(browser,engine,width,height,{reduced=false}={}){
   if(engine==='chromium'&&width===1440&&!reduced)await links(page);
   await context.close();console.log('PASS',name);
 }
+async function responsive(browser,engine){
+  const context=await browser.newContext({viewport:{width:1440,height:900}});await configure(context);
+  // Slow image delivery exposes races between async view changes and breakpoints.
+  await context.route(/\/assets\/.*\.webp$/,async route=>{await new Promise(r=>setTimeout(r,120));await route.continue()});
+  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(preview);await decode(page);
+  async function state(width,key=initial,kind='website'){
+    const device=width<=600?'mobile':'desktop',set=kind==='brand'?media[key].brand:media[key];
+    await page.waitForFunction(({device,key,kind})=>{
+      const stage=document.querySelector('#projectStage'),screen=stage.querySelector('.case-screen');
+      return stage.dataset.project===key&&!stage.hasAttribute('aria-busy')&&screen.dataset.view===device&&screen.dataset.kind===kind;
+    },{device,key,kind});await decode(page);
+    const src=await page.locator('.case-screen img').evaluate(img=>img.currentSrc);
+    assert.ok(src.endsWith(set[device].replace(/^\.\//,'')),'Breakpoint uses the current device asset');
+    if(key!=='navalha'){
+      assert.equal(await page.locator(`button[data-view=${device}]`).getAttribute('aria-pressed'),'true');
+      assert.equal(await page.locator('button[data-view][aria-pressed=true]').count(),1);
+      assert.equal(await page.locator('.device-switch').isVisible(),width>600);
+      assert.equal(await page.locator('[data-expand]').isVisible(),width<=600&&kind==='website');
+      assert.equal(await page.locator('[data-expand]').getAttribute('aria-expanded'),'false');
+    }
+    await overflow(page);
+  }
+  for(const key of order){
+    await page.setViewportSize({width:1440,height:900});await select(page,key);
+    await state(1440,key,key==='navalha'?'brand':'website');
+    if(key!=='navalha'){
+      await page.locator('button[data-view=mobile]').click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.view==='mobile');
+      await page.locator('button[data-view=mobile]').focus();
+    }
+    await page.setViewportSize({width:390,height:844});await state(390,key,key==='navalha'?'brand':'website');
+    if(key!=='navalha'){
+      assert.equal(await page.locator('button[data-kind=website]').evaluate(el=>el===document.activeElement),true,'Focus transfers before hiding device controls');
+      await page.locator('[data-expand]').focus();await page.locator('[data-expand]').click();assert.equal(await page.locator('[data-expand]').getAttribute('aria-expanded'),'true');
+    }
+    await page.setViewportSize({width:601,height:900});await state(601,key,key==='navalha'?'brand':'website');
+    if(key!=='navalha')assert.equal(await page.locator('button[data-kind=website]').evaluate(el=>el===document.activeElement),true,'Focus transfers before hiding expansion');
+    await page.setViewportSize({width:600,height:900});await state(600,key,key==='navalha'?'brand':'website');
+    if(key!=='navalha'){
+      await page.locator('button[data-kind=brand]').click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='brand');
+      await page.setViewportSize({width:768,height:1024});await state(768,key,'brand');
+      await page.setViewportSize({width:430,height:932});await state(430,key,'brand');
+    }
+  }
+  await page.setViewportSize({width:1440,height:900});await page.reload();await state(1440);
+  await page.evaluate(()=>document.querySelector('button[data-view=mobile]').click());
+  await page.setViewportSize({width:390,height:844});await state(390);
+  await page.setViewportSize({width:1440,height:900});await state(1440);
+  await page.evaluate(()=>document.querySelector('[role=tab][data-project=acai]').click());
+  await page.setViewportSize({width:390,height:844});await state(390,'acai');
+  await page.locator('#projetos').screenshot({path:`${output}/${engine}-responsive-final.png`});
+  assert.deepEqual(errors,[]);await context.close();
+  report.responsive.push({engine,passed:true,projects:order.length,widths:[1440,390,601,600,768,430],delayedImagesMs:120,checks:['device source','unique aria-pressed','hidden controls','focus transfer','expansion reset','view and project races']});
+  console.log('PASS',engine+'-responsive-state');
+}
 async function noJS(browser){
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
-  const page=await context.newPage();await page.goto(preview);assert.equal(await page.locator('.case-copy h3').innerText(),projects[initial].title);assert.equal(await page.locator('.case-actions [data-generate-lead]').count(),1);await decode(page);await overflow(page);await context.close();report.noJavaScriptInitialCase=true;
+  const page=await context.newPage();await page.goto(preview);assert.equal(await page.locator('.case-copy h3').innerText(),projects[initial].title);assert.equal(await page.locator('.case-actions [data-generate-lead]').count(),1);await decode(page);await overflow(page);assert.equal(await page.locator('[data-expand]').isVisible(),false);assert.ok(Math.abs((await page.locator('#caseCapture').boundingBox()).height-(await page.locator('.case-screen img').boundingBox()).height)<1,'No-JS keeps the full capture available');await context.close();report.noJavaScriptInitialCase=true;
 }
 async function offline(browser){
   const context=await browser.newContext({viewport:{width:390,height:844}});
@@ -206,7 +289,7 @@ try{
     try{
       for(const [width,height] of [[1366,768],[1440,900],[1920,1080],[768,1024],[360,800],[390,844],[430,932]])await scenario(browser,engine,width,height);
       await scenario(browser,engine,1440,900,{reduced:true});await scenario(browser,engine,390,844,{reduced:true});
-      await noJS(browser);
+      await responsive(browser,engine);await noJS(browser);
       if(engine==='chromium'){await offline(browser);await zoom(browser);await performance(browser,1440,900);await performance(browser,390,844);}
     }finally{await browser.close()}
   }

@@ -7,5 +7,7 @@
   "effectiveBootProject": "kl",
   "prototypeInitial": "kl",
   "proofMethod": "Every existing tracked blob is byte-identical to base; all review and QA code is new and isolated.",
+  "previousPreview": "9393063440742fe6ca6fe488ff294b0efefca97e",
+  "heroContextUnchanged": true,
   "screenshots": "Same viewports and initial case K.L; full-section captures. Fixed production chrome hidden only in local capture, never in source. Pair order: current main left, prototype right. Actual aspect ratios retained."
 }

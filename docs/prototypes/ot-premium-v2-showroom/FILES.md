@@ -1,8 +1,8 @@
 # Arquivos adicionados
 
-Todos os arquivos deste PR são novos. Nenhum arquivo existente de produção foi alterado. O artefato offline é reconstruído e não versionado.
+Todos os arquivos deste PR são novos em relação à main. Nenhum arquivo existente de produção foi alterado. O artefato offline é reconstruído e não versionado.
 
-61 arquivos novos:
+65 arquivos:
 
 - `.github/workflows/premium-v2-preview-qa.yml`
 - `docs/prototypes/ot-premium-v2-showroom/.gitignore`
@@ -45,10 +45,14 @@ Todos os arquivos deste PR são novos. Nenhum arquivo existente de produção fo
 - `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1366.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1440.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/desktop-1920.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/expanded-mobile.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/focus-desktop.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-360.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-390.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/mobile-430.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/refinement-desktop.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/refinement-mobile.webp`
+- `docs/prototypes/ot-premium-v2-showroom/evidence/refinement-tablet.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/report.json`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/ripamonti-desktop.webp`
 - `docs/prototypes/ot-premium-v2-showroom/evidence/ripamonti-mobile.webp`
