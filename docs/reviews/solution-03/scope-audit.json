@@ -1,0 +1,19 @@
+{
+  "#inicio": true,
+  "#projetos": true,
+  "#metodo": true,
+  "#sobre": true,
+  "#produtos": true,
+  "#contato": true,
+  ".topbar": true,
+  ".mobile-header": true,
+  ".mobile-nav": true,
+  "#waFab": true,
+  "#backgroundAudio": true,
+  "meta[name=\"description\"]": true,
+  "meta[name=\"robots\"]": true,
+  "link[rel=\"canonical\"]": true,
+  "all_metadata_unchanged": true,
+  "old_desktop_preserved": true,
+  "old_mobile_preserved": true
+}

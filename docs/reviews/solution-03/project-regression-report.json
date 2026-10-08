@@ -1,0 +1,112 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "notebook",
+    "viewport": {
+      "width": 1366,
+      "height": 768
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "desktop-1600",
+    "viewport": {
+      "width": 1600,
+      "height": 900
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "desktop-1536",
+    "viewport": {
+      "width": 1536,
+      "height": 864
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "desktop-1920",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "small-mobile",
+    "viewport": {
+      "width": 360,
+      "height": 800
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "large-mobile",
+    "viewport": {
+      "width": 430,
+      "height": 932
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "mobile-reduced-motion",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "reducedMotion": true,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "reduced-motion",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "reducedMotion": true,
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  }
+]
