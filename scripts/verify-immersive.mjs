@@ -3,18 +3,26 @@ const { chromium } = await import(process.env.OT_PLAYWRIGHT_MODULE || 'playwrigh
 import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
-// Validate the actual inline entry point: a broken template literal disables every control.
+// Read the actual HTML so broken inline scripts fail QA before interaction tests.
 const source=await readFile(new URL('../index.html',import.meta.url),'utf8');
-for(const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
-  if(/type=["']application\/ld\+json["']/.test(match[1])||!match[2].trim())continue;
-  // Node parses --check input without executing it; no dynamic eval/vm.Script.
-  const syntax=spawnSync(process.execPath,['--check'],{input:match[2],encoding:'utf8'});
-  assert.equal(syntax.status,0,`Invalid index.html inline JavaScript: ${syntax.stderr||syntax.error?.message||syntax.signal||'unknown syntax check failure'}`);
-}
 const base = process.env.OT_TEST_URL || 'http://127.0.0.1:4173';
 const output = process.env.OT_QA_OUTPUT || '/tmp/ot-immersive-qa';
 await mkdir(output, {recursive:true});
 const browser = await chromium.launch({executablePath:process.env.OT_CHROME_EXECUTABLE || undefined,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+// Parse tags with the browser HTML parser; regex must not be used as an HTML tag filter.
+const syntaxPage=await browser.newPage();
+const inlineScripts=await syntaxPage.evaluate(markup=>{
+  const doc=new DOMParser().parseFromString(markup,'text/html');
+  return Array.from(doc.scripts)
+    .filter(script=>!script.src&&script.type.toLowerCase()!=='application/ld+json'&&script.textContent.trim())
+    .map(script=>script.textContent);
+},source);
+await syntaxPage.close();
+for(const code of inlineScripts){
+  // Parse using Node's --check, never execute dynamic source.
+  const syntax=spawnSync(process.execPath,['--check'],{input:code,encoding:'utf8'});
+  assert.equal(syntax.status,0,`Invalid index.html inline JavaScript: ${syntax.stderr||syntax.error?.message||syntax.signal||'unknown syntax check failure'}`);
+}
 const report=[];
 const fontCache=new Map();
 const expectedHero=['Sites que','geram','negócios.'];
