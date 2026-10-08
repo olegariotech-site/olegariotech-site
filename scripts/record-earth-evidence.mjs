@@ -5,7 +5,7 @@ import {readFile,writeFile,mkdir,stat,copyFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {resolve,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {chromium} from 'playwright';
+const {chromium}=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const output=process.env.OT_EARTH_EVIDENCE||'/tmp/ot-earth-evidence';
 const applicationCommit='8667ec5473c7f97525826f2a6a91c6067698db65';
@@ -13,7 +13,7 @@ const changed=execFileSync('git',['diff','--name-only',applicationCommit,'HEAD']
 assert.ok(changed.every(path=>path==='scripts/record-earth-evidence.mjs'||path==='.github/workflows/earth-visual-evidence.yml'||path.startsWith('docs/reviews/ot-premium-v2-gate-b/earth-validation/')),'Only review automation/evidence may differ from the approved PR application');
 await mkdir(resolve(output,'frames'),{recursive:true});
 const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.webp':'image/webp','.jpg':'image/jpeg','.mp3':'audio/mpeg','.svg':'image/svg+xml'};
-const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!file.startsWith(root+'/'))throw Error('Outside root');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end()}});
+const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw Error('Outside root');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end()}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const url=`http://127.0.0.1:${server.address().port}/`;
 const report={applicationCommit,reviewCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),url,viewport:{width:1440,height:900},browserPath:'Browser plugin not available; existing Playwright QA runner',reducedMotion:'no-preference',unchangedApplication:true,errors:[],notFound:[],samples:[],limitations:['WebGL rendered by SwiftShader in GitHub Ubuntu; this is browser rendering, not a simulated planet animation.','Audio is captured from the real HTMLAudioElement stream; physical speaker output is not certified.','No animation speed, application style, geometry, shader or timeline was changed. Only the review operator scrolls the page.']};
