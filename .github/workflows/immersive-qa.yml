@@ -8,6 +8,9 @@ on:
       - 'assets/js/ot-*.mjs'
       - 'scripts/verify-immersive.mjs'
       - 'scripts/verify-solutions.mjs'
+      - 'scripts/verify-showroom.mjs'
+      - 'scripts/build-showroom.mjs'
+      - '.github/workflows/showroom-integration-qa.yml'
       - '.github/workflows/immersive-qa.yml'
 permissions:
   contents: read

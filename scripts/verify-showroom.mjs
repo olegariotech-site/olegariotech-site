@@ -334,7 +334,11 @@ async function globalRegression(page,width,reduced){
   else{
     await page.waitForFunction(()=>!!document.getElementById('earthJourney').dataset.renderer);
     assert.ok(['webgl','canvas2d'].includes(await page.locator('#earthJourney').getAttribute('data-renderer')));
-    await page.evaluate(()=>scrollTo({top:innerHeight*.72,behavior:'instant'}));await page.waitForTimeout(250);
+    // The timeline is based on HERO height, which need not equal the viewport.
+    // Wait for its scroll commit instead of assuming a fixed GPU/frame duration.
+    await page.evaluate(()=>{const hero=document.getElementById('inicio'),box=hero.getBoundingClientRect();scrollTo({top:scrollY+box.top+box.height*.72,behavior:'instant'})});
+    if(width>900)await page.waitForFunction(()=>Number(document.getElementById('earthJourney').dataset.morph)>.1);
+    else await page.waitForFunction(()=>Number(document.getElementById('earthJourney').dataset.morph)===0);
     const morph=Number(await page.locator('#earthJourney').getAttribute('data-morph'));
     if(width>900)assert.ok(morph>.1);else assert.equal(morph,0);
   }

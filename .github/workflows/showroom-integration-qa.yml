@@ -15,7 +15,11 @@ permissions:
 jobs:
   complete-home:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,7 +30,7 @@ jobs:
       - name: Install the existing browser test runner
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1
-          npx playwright install --with-deps chromium webkit
+          npx playwright install --with-deps ${{ matrix.engine }}
       - name: Validate canonical HTML and module syntax
         run: |
           node --check assets/js/ot-project-showroom.mjs
@@ -35,12 +39,12 @@ jobs:
       - name: Verify the complete home in Chromium and WebKit
         env:
           OT_QA_OUTPUT: /tmp/ot-gate-b-qa
-          OT_QA_ENGINES: chromium,webkit
+          OT_QA_ENGINES: ${{ matrix.engine }}
         run: node scripts/verify-showroom.mjs
       - name: Upload home comparisons and regression report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ot-premium-v2-gate-b-review
+          name: ot-premium-v2-gate-b-${{ matrix.engine }}-review
           path: /tmp/ot-gate-b-qa
           retention-days: 30
