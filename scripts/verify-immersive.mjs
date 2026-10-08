@@ -50,6 +50,9 @@ async function run(name,viewport,options={}) {
   assert.ok(await page.locator('main').innerText());
   assert.deepEqual(await page.locator('#inicio h1 > span').allTextContents(),expectedHero);
   await page.screenshot({path:`${output}/${name}-initial-load.png`});
+  await writeFile(`${output}/${name}-headline-metrics.json`,JSON.stringify(await page.locator('#inicio h1 > span').evaluateAll(spans=>spans.map(span=>{
+    const range=document.createRange();range.selectNodeContents(span);return {text:span.textContent,ink:range.getBoundingClientRect().toJSON(),line:span.getBoundingClientRect().toJSON(),column:span.closest('.hero-copy').getBoundingClientRect().toJSON()};
+  })),null,2));
   assert.ok(await page.locator('#inicio h1 > span').evaluateAll(spans=>spans.every((span,index)=>{
     const range=document.createRange();range.selectNodeContents(span);
     const text=range.getBoundingClientRect(),copy=span.closest('.hero-copy').getBoundingClientRect(),box=span.getBoundingClientRect();
@@ -92,6 +95,76 @@ async function run(name,viewport,options={}) {
     }else{
       assert.equal(await surface.evaluate(e=>e.style.getPropertyValue('--surface-ry')),'','touch/reduced surface stays stable');
     }
+  }
+  // The project workflow covers every requested viewport without repeating unrelated sections.
+  if(process.env.OT_QA_FOCUS==='projects'){
+    const screenshotStyle='.topbar,.desktop-rail,.mobile-header,.mobile-nav,.experience-controls,.skip-link,.skip-link:focus,.skip-link:focus-visible{visibility:hidden!important}';
+    const captureSection=async(selector,file)=>{
+      await page.locator(selector).scrollIntoViewIfNeeded();
+      await page.waitForTimeout(260);
+      await noOverflow();
+      await page.locator(selector).screenshot({path:`${output}/${name}-${file}.png`,style:screenshotStyle});
+    };
+    await noOverflow();
+    await verifyAudio();
+    const primary=await page.locator('#inicio .btn-primary').boundingBox();
+    assert.ok(primary.x>=0&&primary.x+primary.width<=viewport.width);
+    if(viewport.width>900)assert.ok(primary.y+primary.height<=viewport.height);
+    const keys=['acai','kl','adega','advocacia','ripamonti'];
+    assert.equal(await page.locator('#prova a[data-project]').count(),5);
+    assert.equal(await page.locator('#prova img').count(),5);
+    assert.equal(await page.locator('#prova .ot-proof-case__rating').count(),3);
+    for(const key of keys){
+      await page.locator(`#prova a[data-project="${key}"]`).click();
+      assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key);
+    }
+    await page.locator('#prova .ot-proof-strip__cases').evaluate(e=>{e.scrollLeft=0;});
+    await page.locator('#prova').scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>[...document.querySelectorAll('#prova img')].every(img=>img.complete&&img.naturalWidth>0));
+    if(viewport.width<=900)assert.ok(await page.locator('#prova .ot-proof-strip__cases').evaluate(rail=>{
+      const first=rail.children[0].getBoundingClientRect(),next=rail.children[1].getBoundingClientRect(),box=rail.getBoundingClientRect();
+      return first.left>=box.left&&first.right<=box.right&&next.left<box.right&&next.right>box.right&&rail.scrollWidth>rail.clientWidth;
+    }),'mobile rail reveals the next case');
+    await captureSection('#prova','proof-rail');
+    for(const key of [...keys,'navalha']){
+      await page.locator(`.project-tab[data-project="${key}"]`).click();
+      assert.equal(await page.locator('#projectStage').getAttribute('data-project'),key);
+      assert.equal(await page.locator('#projectStage').getAttribute('aria-labelledby'),`project-tab-${key}`);
+      assert.equal(await page.locator('.project-tab[aria-selected="true"]').count(),1);
+      await page.waitForFunction(()=>[...document.querySelectorAll('#projectStage img')].every(img=>img.complete&&img.naturalWidth>0));
+      assert.ok((await page.locator('#projectStage h3').innerText()).length>3);
+      assert.equal(await page.locator('#projectStage .project-story article').count(),2);
+      assert.ok(await page.locator('#projectStage .project-points li').count()>2);
+      const actions=page.locator('#projectStage .project-actions a');
+      assert.equal(await actions.count(),2);
+      const title=await page.locator('#projectStage h3').innerText();
+      assert.ok(decodeURIComponent(await actions.last().getAttribute('href')).includes(title));
+      const testimonial=page.locator('#projectStage .project-testimonial');
+      assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0);
+      if(key==='ripamonti'){
+        assert.equal(await actions.first().getAttribute('href'),'https://armazemripamonti.com.br/');
+        assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+        assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
+        assert.ok((await page.locator('#projectStage .project-image>img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
+        await captureSection('#projectStage .project-testimonial','evandro-review');
+      }
+      if(key==='navalha')assert.match(await page.locator('.project-media-caption').innerText(),/Conceito \/ demonstração OT/);
+      await noOverflow();
+      if(['acai','ripamonti'].includes(key))await captureSection('#projetos','project-full-'+key);
+    }
+    await page.locator('.project-tab.is-active').focus();
+    await page.keyboard.press('Home');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
+    await page.keyboard.press('ArrowRight');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'kl');
+    await page.keyboard.press('ArrowLeft');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'acai');
+    await page.keyboard.press('End');assert.equal(await page.locator('#projectStage').getAttribute('data-project'),'navalha');
+    assert.equal(await page.locator('.project-tab.is-active').evaluate(e=>e===document.activeElement),true);
+    if(options.reduced){
+      assert.equal(await page.locator('#projectStage .project-image').evaluate(e=>getComputedStyle(e).transform),'none');
+      assert.equal(await page.locator('#projectStage .project-copy').evaluate(e=>getComputedStyle(e).animationName),'none');
+    }
+    assert.deepEqual(errors,[],name+' runtime errors');assert.deepEqual(notFound,[],name+' missing resources');
+    report.push({name,viewport,reducedMotion:!!options.reduced,checks:'passed',errors,notFound});
+    console.log(name+': passed');await context.close();return;
   }
   assert.equal(await page.locator('#inicio').evaluate(e=>e.nextElementSibling.id),'projetos','projects follow the opening as in the approved visual');
   assert.equal(await page.locator('#prova').evaluate(e=>e.previousElementSibling.id),'solucoes','proof remains after solutions');
@@ -249,6 +322,10 @@ async function run(name,viewport,options={}) {
   await context.close();
 }
 try{
+  if(process.env.OT_QA_FOCUS==='projects'){
+    const scenarios=[['desktop',{width:1440,height:900}],['notebook',{width:1366,height:768}],['desktop-1536',{width:1536,height:864}],['desktop-1600',{width:1600,height:900}],['desktop-1920',{width:1920,height:1080}],['mobile',{width:390,height:844}],['small-mobile',{width:360,height:800}],['large-mobile',{width:430,height:932}],['reduced-motion',{width:1440,height:900},{reduced:true}],['mobile-reduced-motion',{width:390,height:844},{reduced:true}]];
+    for(let i=0;i<scenarios.length;i+=2)await Promise.all(scenarios.slice(i,i+2).map(args=>run(...args)));
+  }else{
   await run('desktop',{width:1440,height:900});
   await run('notebook',{width:1366,height:768});
   await run('desktop-1536',{width:1536,height:864});
@@ -262,6 +339,7 @@ try{
   await run('reduced-motion',{width:1440,height:900},{reduced:true});
   await run('mobile-reduced-motion',{width:390,height:844},{reduced:true});
   await run('no-webgl',{width:1440,height:900},{fallback:true});
+  }
   await writeFile(`${output}/report.json`,JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

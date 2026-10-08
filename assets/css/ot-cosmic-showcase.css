@@ -276,7 +276,7 @@ body[data-page="home"] :is(a,button):focus-visible { scroll-margin-block: calc(v
 #inicio .hero-copy { min-width: 0; container-type: inline-size; }
 #inicio h1 { max-width: 100%; font-size: clamp(2.5rem,6.3vw,6.25rem); line-height: .94; }
 #inicio h1>span { overflow: visible; }
-#inicio h1>span.gradient-text { max-width: none; padding-block: .09em .06em; line-height: 1.06; }
+#inicio h1>span.gradient-text { max-width: none; padding-block: .12em .1em; line-height: 1.1; }
 @supports (font-size: 1cqi) {
   #inicio h1 { font-size: clamp(2.5rem,18cqi,6.25rem); }
 }
