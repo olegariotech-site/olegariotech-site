@@ -204,7 +204,16 @@ async function responsive(browser,engine){
     const device=width<=600?'mobile':'desktop',set=kind==='brand'?media[key].brand:media[key];
     await page.waitForFunction(({device,key,kind})=>{
       const stage=document.querySelector('#projectStage'),screen=stage.querySelector('.case-screen');
-      return stage.dataset.project===key&&!stage.hasAttribute('aria-busy')&&screen.dataset.view===device&&screen.dataset.kind===kind;
+      const devices=stage.querySelector('.device-switch'),expand=stage.querySelector('[data-expand]');
+      // A manually selected mobile asset can already match before matchMedia fires.
+      // Await the complete responsive commit, not only the image's device label.
+      const controlsReady=key==='navalha'||(
+        devices.hidden===(device==='mobile')&&expand.hidden===!(device==='mobile'&&kind==='website')&&
+        expand.getAttribute('aria-expanded')==='false'&&
+        stage.querySelector(`button[data-view="${device}"]`).getAttribute('aria-pressed')==='true'&&
+        stage.querySelectorAll('button[data-view][aria-pressed=true]').length===1
+      );
+      return stage.dataset.project===key&&!stage.hasAttribute('aria-busy')&&screen.dataset.view===device&&screen.dataset.kind===kind&&controlsReady;
     },{device,key,kind});await decode(page);
     const src=await page.locator('.case-screen img').evaluate(img=>img.currentSrc);
     assert.ok(src.endsWith(set[device].replace(/^\.\//,'')),'Breakpoint uses the current device asset');
