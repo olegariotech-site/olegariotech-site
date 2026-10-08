@@ -1,4 +1,5 @@
 name: PR 91 Earth visual evidence
+# This review branch records evidence only; it never deploys or updates main.
 on:
   push:
     branches: ['review/pr-91-earth-video']
