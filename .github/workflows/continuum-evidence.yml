@@ -1,0 +1,64 @@
+name: OT V2.2 native evidence
+# Review-only branch. Never deploys, merges or changes the application.
+on:
+  push:
+    branches: ['review/ot-v22-evidence']
+    paths:
+      - 'scripts/record-continuum-evidence.mjs'
+      - '.github/workflows/continuum-evidence.yml'
+permissions:
+  contents: write
+concurrency:
+  group: ot-v22-evidence
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare the existing browser QA runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y --no-install-recommends ffmpeg xvfb xauth
+      - name: Record unchanged desktop application, native 1440x900
+        env:
+          OT_MOVIE_OUTPUT: /tmp/ot-v22-evidence/desktop
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1440x900x24' node scripts/record-continuum-evidence.mjs
+      - name: Record unchanged mobile application, native 390x844
+        env:
+          OT_MOVIE_MOBILE: '1'
+          OT_MOVIE_OUTPUT: /tmp/ot-v22-evidence/mobile
+        run: xvfb-run --auto-servernum --server-args='-screen 0 390x844x24' node scripts/record-continuum-evidence.mjs
+      - name: Capture seven resolutions and before/after complete-home comparisons
+        env:
+          OT_CONTINUUM_OUTPUT: /tmp/ot-v22-evidence/visual
+        run: node scripts/verify-continuum.mjs
+      - name: Upload native footage, frames and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v22-native-evidence
+          path: /tmp/ot-v22-evidence
+          retention-days: 30
+      - name: Save evidence exclusively on the review branch
+        run: |
+          mkdir -p docs/reviews/ot-premium-v22/evidence
+          for view in desktop mobile; do
+            mkdir -p docs/reviews/ot-premium-v22/evidence/$view
+            cp /tmp/ot-v22-evidence/$view/ot-v22-*.mp4 /tmp/ot-v22-evidence/$view/report.json docs/reviews/ot-premium-v22/evidence/$view/
+            cp -r /tmp/ot-v22-evidence/$view/frames docs/reviews/ot-premium-v22/evidence/$view/
+          done
+          cp -r /tmp/ot-v22-evidence/visual docs/reviews/ot-premium-v22/evidence/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/reviews/ot-premium-v22/evidence
+          git commit -m 'Attach native V2.2 desktop/mobile journeys and complete-home comparisons'
+          git push origin HEAD:refs/heads/review/ot-v22-evidence
