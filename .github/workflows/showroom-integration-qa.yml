@@ -13,6 +13,9 @@ on:
       - 'scripts/measure-atmosphere.mjs'
       - 'scripts/measure-continuum.mjs'
       - 'scripts/verify-continuum.mjs'
+      - 'scripts/verify-cosmic-immersive.mjs'
+      - 'scripts/measure-cosmic-immersive.mjs'
+      - 'assets/img/orbit/hubble-ngc1300-*'
       - '.github/workflows/showroom-integration-qa.yml'
 permissions:
   contents: read
@@ -44,6 +47,8 @@ jobs:
           node --check scripts/measure-atmosphere.mjs
           node --check scripts/measure-continuum.mjs
           node --check scripts/verify-continuum.mjs
+          node --check scripts/verify-cosmic-immersive.mjs
+          node --check scripts/measure-cosmic-immersive.mjs
           node scripts/build-showroom.mjs --check
       - name: Verify the complete home in Chromium and WebKit
         env:
@@ -55,11 +60,11 @@ jobs:
           OT_ATMOSPHERE_OUTPUT: /tmp/ot-gate-b-qa/atmosphere
           OT_QA_ENGINES: ${{ matrix.engine }}
         run: node scripts/verify-atmosphere.mjs
-      - name: Verify the Cosmic Continuum journey and direct anchors
+      - name: Verify photographic galaxy, pointer response and original Earth continuation
         env:
-          OT_CONTINUUM_OUTPUT: /tmp/ot-gate-b-qa/continuum
+          OT_V23_OUTPUT: /tmp/ot-gate-b-qa/cosmic-immersive
           OT_QA_ENGINES: ${{ matrix.engine }}
-        run: node scripts/verify-continuum.mjs
+        run: node scripts/verify-cosmic-immersive.mjs
       - name: Upload home comparisons and regression report
         if: always()
         uses: actions/upload-artifact@v4
@@ -86,15 +91,15 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1
           npx playwright install --with-deps chromium
-      - name: Five cold samples in each version, viewport and motion condition
+      - name: Five V2.2 and V2.3 cold samples in each viewport and motion condition
         env:
-          OT_CONTINUUM_RENDERER: ${{ matrix.renderer }}
-          OT_CONTINUUM_OUTPUT: /tmp/ot-continuum-performance
-        run: node scripts/measure-continuum.mjs
+          OT_V23_RENDERER: ${{ matrix.renderer }}
+          OT_V23_OUTPUT: /tmp/ot-v23-performance
+        run: node scripts/measure-cosmic-immersive.mjs
       - name: Upload individual samples and layout shift attribution
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ot-v22-performance-${{ matrix.renderer }}
-          path: /tmp/ot-continuum-performance
+          name: ot-v23-performance-${{ matrix.renderer }}
+          path: /tmp/ot-v23-performance
           retention-days: 30
