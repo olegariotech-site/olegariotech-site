@@ -28,7 +28,7 @@
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
   const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.method-card,.ot-footer-v4';
-  let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
+  let width=0, height=0, frame=0, last=0, clock=0, finaleClock=0, measureFrame=0;
   let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null, galaxyImage=null, galaxyRequested=false;
   let pointer={x:.5,y:.5,tx:.5,ty:.5,active:false,energy:0}, travel=scrollY, velocity=0;
   let budget=1, slowFrames=0;
@@ -59,10 +59,15 @@
     const contact=bounds('#contato'),footer=bounds('.footer');
     if(contact&&footer){
       const finish=Math.max(contact.top,document.documentElement.scrollHeight-height);
+      const header=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ot-header-height'))||60;
+      const skyBottom=footer.bottom-footer.paddingBottom-finish;
+      const skyTop=Math.max(header+24,skyBottom-(compact.matches?420:560));
+      const skyEnd=Math.min(height-24,skyBottom);
+      const size=Math.min(compact.matches?width*1.23:width*.74,760,Math.max(160,skyEnd-skyTop-36)/.62);
       finale={start:compact.matches?finish-height*.95:contact.top-height*.7,
         approach:compact.matches?finish-height*.35:footer.top-height*.5,finish,
-        y:compact.matches?footer.bottom-footer.paddingBottom-210:Math.max(footer.top+350,finish+height*.36),
-        x:compact.matches?width*.5:width*.66};
+        y:finish+(skyTop+skyEnd)*.5,size,
+        x:compact.matches?width*.5:width*.62};
     }
     sync();
   }
@@ -87,18 +92,19 @@
     const density=.72+densityAt(scrollY+height*.55)*.28;
     for(let i=0;i<count;i++){
       const p=particles[i],drift=still?0:time*(.06+p.depth*.035);
-      const px=still?0:(pointer.x-.5)*p.depth*58,py=still?0:(pointer.y-.5)*p.depth*38;
+      const px=still?0:(pointer.x-.5)*p.depth*78,py=still?0:(pointer.y-.5)*p.depth*48;
       const u=p.x+Math.sin(drift+p.phase)*.034*p.depth;
-      const v=p.y+(still?0:Math.sin(drift*.7+p.phase)*.023+travel*.00010*p.depth);
+      // Unhurried downward stars, independent of scroll; no streaks or uniform snowfall.
+      const v=p.y+(still?0:time*(7+p.depth*21)/height+Math.sin(drift*.7+p.phase)*.010+travel*.00010*p.depth);
       const fieldX=rail+clamp(u)*(width-rail)+px,fieldY=((v%1+1)%1)*height+py;
       const orbit=p.phase+(still?0:time*.009),spread=i%3!==0?release:1;
       let x=mix(cx+Math.cos(orbit)*radius*(1.1+p.depth*.8),fieldX,spread);
       let y=mix(cy+Math.sin(orbit)*radius*(.65+p.depth*.75),fieldY,spread);
       let tx=0,ty=0;
       if(!still&&pointer.active){
-        const dx=x-pointer.x*width,dy=y-pointer.y*height,d=Math.hypot(dx,dy),range=180+p.depth*80;
-        const force=Math.pow(Math.max(0,1-d/range),2)*(28+p.depth*64)*(1+pointer.energy*.4);
-        if(d>1){tx=(dx/d-dy/d*.22)*force;ty=(dy/d+dx/d*.22)*force;}
+        const dx=x-pointer.x*width,dy=y-pointer.y*height,d=Math.hypot(dx,dy),range=210+p.depth*90;
+        const force=Math.pow(Math.max(0,1-d/range),2)*(42+p.depth*94)*(1+pointer.energy*.55);
+        if(d>1){tx=(dx/d-dy/d*.30)*force;ty=(dy/d+dx/d*.30)*force;}
       }
       p.ox=still?0:mix(p.ox,tx,.13);p.oy=still?0:mix(p.oy,ty,.13);
       x+=p.ox;y+=p.oy+(still?0:velocity*p.depth*.28);
@@ -193,24 +199,33 @@
     galaxy={parts,w,h,stars:stars.filter((_,i)=>i%Math.max(1,Math.ceil(stars.length/(compact.matches?64:144)))===0)};
     layer.dataset.galaxy='photographic';
   }
+  function galaxyMotion(still){
+    const time=still?0:finaleClock;
+    // Bounded differential precession keeps the photographed bar and arms connected.
+    return {time,turn:time*.009,middle:Math.sin(time*.27)*.032,outer:Math.sin(time*.18)*.074};
+  }
   function paintGalaxy(x,y,size,reveal,still){
     if(!galaxy)return;
+    const motion=galaxyMotion(still);
     const parallax=still?0:(pointer.x-.5)*10;
     context.save();context.translate(x+parallax,y+(still?0:(pointer.y-.5)*6));
-    // Core is the stable anatomical anchor. Arms precess at distinct restrained rates.
+    // The nucleus, middle disk and outer arms have visibly different trajectories.
     context.globalCompositeOperation='lighter';
     galaxy.parts.forEach((part,i)=>{
-      context.save();const a=still?0:Math.sin(clock*(i===1?.035:.023)+i)*[0,.012,.022][i];
-      context.rotate(a);context.globalAlpha=reveal*.91;
-      const breathe=still?1:1+Math.sin(clock*.05+i)*i*.0015;
+      context.save();const a=motion.turn+[0,motion.middle,motion.outer][i];
+      // Rotate within the inclined disk, not in screen space: the ellipse stays framed
+      // even after many orbits while the photographed structures move around its axis.
+      const c=Math.cos(a),s=Math.sin(a);context.transform(c,s*.56,-s/.56,c,0,0);context.globalAlpha=reveal*.91;
+      const breathe=still?1:1+Math.sin(motion.time*.20+i)*i*.003;
       context.drawImage(part,-size*.493*breathe,-size*galaxy.h/galaxy.w*.47*breathe,size*breathe,size*galaxy.h/galaxy.w*breathe);context.restore();
     });
     for(const s of galaxy.stars){
-      const a=still?0:clock*(.018+(1-s.depth)*.008),c=Math.cos(a),n=Math.sin(a);
-      const sx=(s.x*c-s.y*n)*size,sy=(s.x*n+s.y*c)*size;
-      context.globalAlpha=reveal*(.22+(still?.3:(Math.sin(clock*.7+s.phase)+1)*.16));
-      const r=.8+s.depth;context.drawImage(sprites[0],sx-r*2.5,sy-r*2.5,r*5,r*5);
+      const a=motion.time*(.042+(1-s.depth)*.020),c=Math.cos(a),n=Math.sin(a);
+      const sx=(s.x*c-s.y/.56*n)*size,sy=(s.x*n*.56+s.y*c)*size;
+      context.globalAlpha=reveal*(.34+(still?.3:(Math.sin(motion.time*.9+s.phase)+1)*.20));
+      const r=1+s.depth;context.drawImage(sprites[0],sx-r*2.5,sy-r*2.5,r*5,r*5);
     }
+    layer.dataset.galaxyMotion=JSON.stringify({turn:motion.turn,middle:motion.middle,outer:motion.outer});
     context.restore();
   }
   function globe(x,y,diameter,opacity) {
@@ -236,18 +251,31 @@
     }
     if(finale&&reveal>.001){
       const integration=span(scrollY,finale.approach,finale.finish);
-      const y=mix(height*.9,finale.y-scrollY,reveal),size=compact.matches?width*1.38:Math.min(width*.74,760);
+      // Keep the approach in view. Its destination is the reserved closing sky;
+      // using the distant document coordinate here hides the whole entry below the fold.
+      const y=mix(height*1.04,finale.y-finale.finish,integration),size=finale.size;
       paintGalaxy(finale.x,y,size,reveal,still);
-      // Native scroll moves the Earth along a shrinking orbit; time adds a slow orbit.
-      const t=still?.82:integration,angle=-2.75+t*5.9+(still?0:clock*.018);
-      const orbit=size*(.36*(1-t)+.038),ellipticity=.48;
-      const x=finale.x+Math.cos(angle)*orbit,yy=y+Math.sin(angle)*orbit*ellipticity;
-      // Preserve the original orbit and final size; give Earth a longer, calmer close-up.
-      const scaleProgress=still?t:t*t*(2-t);
-      const diameter=(compact.matches?142:235)*(1-scaleProgress*.83);
-      pose={x,y:yy,diameter,opacity:reveal*(1-t*.24),animate:!still};
+      const t=still?1:integration,motion=galaxyMotion(still);
+      const parallaxX=still?0:(pointer.x-.5)*10,parallaxY=still?0:(pointer.y-.5)*6;
+      // Dock inside the photographed right-hand arm, then orbit this local stellar region.
+      // This is an artistic Solar-System-scale orbit, not an Earth orbit around the nucleus.
+      const armAngle=motion.turn+motion.middle,c=Math.cos(armAngle),s=Math.sin(armAngle);
+      const armX=finale.x+parallaxX+size*(.225*c-.055/.56*s);
+      const armY=y+parallaxY+size*(.225*s*.56+.055*c);
+      const angle=-.65+(still?0:motion.time*.22),radius=size*.043;
+      const localX=armX+Math.cos(angle)*radius,localY=armY+Math.sin(angle)*radius*.58;
+      const approachAngle=-2.6+t*3.8;
+      const approachRadius=size*(.48-.13*t);
+      const arrivalX=finale.x+Math.cos(approachAngle)*approachRadius;
+      const arrivalY=y+Math.sin(approachAngle)*approachRadius*.52;
+      const docking=smooth((t-.18)/.82);
+      const x=mix(arrivalX,localX,docking),yy=mix(arrivalY,localY,docking);
+      const scaleProgress=t*t*(2-t),endDiameter=compact.matches?34:58;
+      const diameter=mix(compact.matches?142:235,endDiameter,scaleProgress);
+      pose={x,y:yy,diameter,opacity:reveal*mix(1,.91,t),animate:!still};
       layer.dataset.reveal=reveal.toFixed(3);layer.dataset.integration=integration.toFixed(3);
       layer.dataset.orbit=angle.toFixed(4);
+      layer.dataset.orbitRegion=JSON.stringify({x:armX,y:armY,radius,ellipse:.58,galaxyX:finale.x+parallaxX,galaxyY:y+parallaxY,size});
     }else{layer.dataset.reveal='0';layer.dataset.integration='0';}
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
@@ -272,7 +300,9 @@
   function tick(now) {
     const interval=compact.matches?66:33;
     if(now-last>=interval){
-      clock+=last?Math.min(now-last,100)/1000:interval/1000;
+      const delta=last?Math.min(now-last,100)/1000:interval/1000;
+      clock+=delta;
+      if(finale&&scrollY>finale.start)finaleClock+=delta;
       last=now;
       const before=performance.now();
       const difference=scrollY-travel;velocity=mix(velocity,difference,.15);travel=mix(travel,scrollY,.14);
