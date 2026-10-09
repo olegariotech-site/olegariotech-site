@@ -44,7 +44,10 @@ try{
   await session.send('Browser.setWindowBounds',{windowId:windowInfo.windowId,bounds:{windowState:'fullscreen'}});
   await page.waitForFunction(()=>innerWidth===1440&&innerHeight===900&&devicePixelRatio===1);
   report.windowBounds=(await session.send('Browser.getWindowBounds',{windowId:windowInfo.windowId})).bounds;
-  assert.equal(report.windowBounds.width,1440);assert.equal(report.windowBounds.height,900);
+  report.observedViewport=await page.evaluate(()=>({width:innerWidth,height:innerHeight,pixelRatio:devicePixelRatio}));
+  assert.deepEqual(report.observedViewport,{width:1440,height:900,pixelRatio:1});
+  // Linux fullscreen outer bounds can round by one pixel; the actual CSS viewport is exact.
+  assert.ok(Math.abs(report.windowBounds.width-1440)<=1&&Math.abs(report.windowBounds.height-900)<=1);
   const button=page.locator('.desktop-audio-toggle');assert.ok(await button.isVisible());
   assert.equal(await button.getAttribute('aria-label'),'Ativar som');assert.equal(await button.getAttribute('aria-pressed'),'false');
   await button.click();await page.waitForFunction(()=>{const a=document.getElementById('backgroundAudio');return !a.paused&&!a.muted&&a.currentTime>.2});
