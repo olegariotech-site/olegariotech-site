@@ -169,11 +169,13 @@
     const data=parts.map(c=>c.getContext('2d').createImageData(w,h));
     const stars=[];
     // Prepare in small one-time slices; never block a CTA with a whole-image pixel loop.
-    for(let first=0;first<h;first+=12){
-    await new Promise(done=>{
+    for(let first=0;first<h;){
+    const deadline=await new Promise(done=>{
       if(typeof requestIdleCallback==='function')requestIdleCallback(done,{timeout:100});else setTimeout(done,0);
     });
     if(document.hidden)await new Promise(done=>{const resume=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',resume);done();}};document.addEventListener('visibilitychange',resume);});
+    const started=performance.now();
+    do {
     for(let y=first;y<Math.min(h,first+12);y++)for(let x=0;x<w;x++){
       const i=(y*w+x)*4,dx=(x-w*.493)/(w*.5),dy=(y-h*.47)/(h*.5),r=Math.hypot(dx,dy);
       const edge=(1-smooth((r-.84)/.26))*smooth(x/(w*.055))*smooth((w-x)/(w*.055))*smooth(y/(h*.085))*smooth((h-y)/(h*.085));
@@ -184,6 +186,8 @@
         if(brightness>140&&src.data[i+2]>src.data[i]*.8)stars.push({x:x/w-.493,y:y/w-h/w*.47,phase:noise(x+y*w)*6.28,depth:.5+noise(x+y)*.5});
       }
     }
+    first+=12;
+    }while(first<h&&performance.now()-started<6&&(!deadline||deadline.timeRemaining()>2));
     }
     parts.forEach((c,i)=>c.getContext('2d').putImageData(data[i],0,0));
     galaxy={parts,w,h,stars:stars.filter((_,i)=>i%Math.max(1,Math.ceil(stars.length/(compact.matches?64:144)))===0)};
@@ -280,7 +284,7 @@
     // Fixed orbit layout boxes; transform alone reproduces the measured original geometry.
     earth.style.setProperty('--continuum-orbit-scale',String((Number(earth.dataset.diameter)||540)/540));
     if(document.hidden||hidden){stop();return;}
-    if(!galaxy&&finale&&scrollY>finale.start-height*.35)buildGalaxy();
+    if(!galaxy&&finale&&scrollY>finale.start-height*.75)buildGalaxy();
     if(reduced.matches||constrained()){stop();draw();}
     else if(!frame)frame=requestAnimationFrame(tick);
   }

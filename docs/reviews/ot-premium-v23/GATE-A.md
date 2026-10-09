@@ -31,3 +31,7 @@ Derivadas locais 2048 e 1024px WebP; carregamento próximo ao encerramento, sem 
 Sem dependência de produção. Densidade adaptativa, teto de DPR, pausa da aba oculta, sem loop estático. Medir V2.2 e V2.3 na home completa em condições iguais, identificando WebGL software/Canvas2D, motion/reduced, LCP, CLS com fontes de deslocamento, Event Timing e custo de submissão JS. Não confundir estes números com GPU física/INP de campo. Meta CLS <0,10 em cada amostra.
 
 Viewports: 1366×768, 1440×900, 1920×1080, 768×1024, 360×800, 390×844, 430×932. Chromium/WebKit, áudio, seis cases, links, navegação, resize, âncoras, imagem atrasada/indisponível, preferências e lifecycle. Browser plugin ausente; Playwright da suíte existente. Primeiro download dos browsers 1.62.1 falhou (ZIP inválido); runner local isolado 1.51.1, sempre a mesma versão no comparativo. CI usa runner do repositório.
+
+## Refinamento técnico após a primeira medição
+
+As amostras iniciais mostraram preparação monolítica da foto (até 411 ms) e custo de WebGL software no encerramento (até 848 ms em Event Timing). A decomposição agora usa pequenos blocos ociosos de 12 linhas. Na continuação, os pontos originais de dissolução ficam ocultos, o framebuffer é limpo e o mesmo renderer/shaders são recortados ao globo visível. A cadência terrestre da continuação é 66 ms; a cadência e a rotação originais do HERO permanecem intactas. O enquadramento final mantém a espiral abaixo do header nas telas baixas. Nenhuma métrica dessa primeira rodada foi removida; a entrega usa a comparação repetida da versão corrigida.

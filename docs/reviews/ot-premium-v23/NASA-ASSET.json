@@ -8,7 +8,7 @@
   "modifications": "Resize, compression, depth masks and artistic motion by Olegario Tech.",
   "files": [
     {
-      "path": "/tmp/ot-v23-source/opo0501a-original.jpg",
+      "sourceFileName": "opo0501a-original.jpg",
       "width": 6637,
       "height": 3787,
       "bytes": 13094774,
