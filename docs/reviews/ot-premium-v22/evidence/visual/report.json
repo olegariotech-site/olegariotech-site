@@ -1,0 +1,624 @@
+{
+  "incrementBytes": 6991,
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 1366,
+      "height": 768,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 1510,
+          "overflow": false,
+          "scroll": 0,
+          "height": 7758
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 1,
+          "overflow": false,
+          "scroll": 4157,
+          "height": 7758
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 5943,
+          "height": 7758
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.035,
+          "bright": 89859,
+          "overflow": false,
+          "scroll": 6690,
+          "height": 7758
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 78363,
+          "overflow": false,
+          "scroll": 6990,
+          "height": 7758
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.035,
+        "bright": 89932,
+        "overflow": false,
+        "scroll": 6690,
+        "height": 7758
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 1541,
+          "overflow": false,
+          "scroll": 0,
+          "height": 8008
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 3514,
+          "overflow": false,
+          "scroll": 4210,
+          "height": 8008
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 6030,
+          "height": 8008
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 6881,
+          "height": 8008
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 85852,
+          "overflow": false,
+          "scroll": 7108,
+          "height": 8008
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.074,
+        "bright": 99392,
+        "overflow": false,
+        "scroll": 6881,
+        "height": 8008
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1920,
+      "height": 1080,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 1804,
+          "overflow": false,
+          "scroll": 0,
+          "height": 8116
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 51169,
+          "overflow": false,
+          "scroll": 4146,
+          "height": 8116
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 5926,
+          "height": 8116
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.209,
+          "bright": 109240,
+          "overflow": false,
+          "scroll": 6907,
+          "height": 8116
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 88613,
+          "overflow": false,
+          "scroll": 7036,
+          "height": 8116
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.209,
+        "bright": 109273,
+        "overflow": false,
+        "scroll": 6907,
+        "height": 8116
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "height": 1024,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 0,
+          "height": 10579
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 5861,
+          "height": 10579
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 8245,
+          "height": 10579
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.48,
+          "bright": 40738,
+          "overflow": false,
+          "scroll": 9371,
+          "height": 10579
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 41543,
+          "overflow": false,
+          "scroll": 9555,
+          "height": 10579
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.48,
+        "bright": 40715,
+        "overflow": false,
+        "scroll": 9371,
+        "height": 10579
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 360,
+      "height": 800,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 0,
+          "height": 12092
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 6434,
+          "height": 12092
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 9789,
+          "height": 12092
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.479,
+          "bright": 19367,
+          "overflow": false,
+          "scroll": 11148,
+          "height": 12092
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 11466,
+          "overflow": false,
+          "scroll": 11292,
+          "height": 12092
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.479,
+        "bright": 19373,
+        "overflow": false,
+        "scroll": 11148,
+        "height": 12092
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 0,
+          "height": 11655
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 6110,
+          "height": 11655
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 9345,
+          "height": 11655
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.478,
+          "bright": 20610,
+          "overflow": false,
+          "scroll": 10659,
+          "height": 11655
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 12855,
+          "overflow": false,
+          "scroll": 10811,
+          "height": 11655
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.478,
+        "bright": 20616,
+        "overflow": false,
+        "scroll": 10659,
+        "height": 11655
+      },
+      "errors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "shots": [
+        {
+          "name": "hero",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 0,
+          "height": 11256
+        },
+        {
+          "name": "partial-earth",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 5798,
+          "height": 11256
+        },
+        {
+          "name": "galaxy-before",
+          "reveal": 0,
+          "integration": 0,
+          "bright": 0,
+          "overflow": false,
+          "scroll": 8908,
+          "height": 11256
+        },
+        {
+          "name": "galaxy-approach",
+          "reveal": 1,
+          "integration": 0.477,
+          "bright": 21632,
+          "overflow": false,
+          "scroll": 10156,
+          "height": 11256
+        },
+        {
+          "name": "galaxy-integrated",
+          "reveal": 1,
+          "integration": 1,
+          "bright": 15115,
+          "overflow": false,
+          "scroll": 10324,
+          "height": 11256
+        }
+      ],
+      "reverse": {
+        "reveal": 1,
+        "integration": 0.477,
+        "bright": 21604,
+        "overflow": false,
+        "scroll": 10156,
+        "height": 11256
+      },
+      "errors": [],
+      "notFound": []
+    }
+  ],
+  "anchors": [
+    {
+      "engine": "chromium",
+      "hash": "#contato",
+      "first": {
+        "reveal": 0,
+        "integration": 0,
+        "bright": 0,
+        "overflow": false,
+        "scroll": 9944,
+        "height": 11655
+      },
+      "reversible": true,
+      "orientationAndResize": true,
+      "reducedFinalLoopStopped": true
+    },
+    {
+      "engine": "chromium",
+      "hash": "#metodo",
+      "first": {
+        "reveal": 0,
+        "integration": 0,
+        "bright": 0,
+        "overflow": false,
+        "scroll": 5593,
+        "height": 11655
+      },
+      "reversible": true,
+      "orientationAndResize": true,
+      "reducedFinalLoopStopped": true
+    },
+    {
+      "engine": "chromium",
+      "hash": "#projetos",
+      "first": {
+        "reveal": 0,
+        "integration": 0,
+        "bright": 0,
+        "overflow": false,
+        "scroll": 894,
+        "height": 11655
+      },
+      "reversible": true,
+      "orientationAndResize": true,
+      "reducedFinalLoopStopped": true
+    }
+  ],
+  "comparisons": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "main",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "main",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "main",
+      "name": "method"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v21",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v21",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v21",
+      "name": "method"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v22",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v22",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "version": "v22",
+      "name": "method"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "main",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "main",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "main",
+      "name": "method"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v21",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v21",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v21",
+      "name": "method"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v22",
+      "name": "hero"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v22",
+      "name": "projects"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "version": "v22",
+      "name": "method"
+    }
+  ],
+  "pendingImages": {
+    "engine": "chromium",
+    "contentAndGalaxyRender": true,
+    "photoRecovers": true
+  },
+  "limitations": [
+    "Linux engine simulation, not a physical device or field performance certificate.",
+    "Screenshots show actual native page/canvas states; no compositing into the site."
+  ],
+  "passed": true
+}
