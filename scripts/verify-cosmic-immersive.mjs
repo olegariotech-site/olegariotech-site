@@ -43,6 +43,24 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    await go(p,y);if(name==='integrated')await end(p);const s=await state(p);assert.equal(s.overflow,false);assert.equal(s.canvasCount,1);assert.ok(s.painted>0);if(name==='integrated'){assert.equal(s.galaxy,'photographic');assert.ok(Number(s.integration)>.99);assert.ok(Number(s.reveal)>.99);assert.ok(s.painted>50000,'Recognizable photographic pixels')}
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
+  // Art-direction regression: the mid-orbit Earth holds its size longer, with the same final scale.
+  if(width===1440){
+   const finished=shots.find(shot=>shot.name==='integrated');
+   const finalPose=JSON.parse(finished.earth||'null');
+   assert.ok(finalPose,'Final Earth pose remains present');
+   assert.ok(Math.abs(finalPose.diameter-235*.17)<1,'Final Earth size remains unchanged');
+   const approach=bounds.footer-height*.5,finish=Math.max(bounds.contact,bounds.end);
+   await go(p,approach+(finish-approach)*.5);
+   const mid=await state(p),progress=Number(mid.integration),midPose=JSON.parse(mid.earth||'null');
+   assert.ok(progress>.46&&progress<.54,'Mid-orbit scroll position reached');
+   assert.ok(midPose,'Mid-orbit Earth pose remains present');
+   const original=235*(1-progress*.83);
+   const expected=235*(1-progress*progress*(2-progress)*.83);
+   assert.ok(Math.abs(midPose.diameter-expected)<1,'Size follows the smoother hold curve');
+   assert.ok(midPose.diameter>original+16,'Earth remains noticeably larger before the final approach');
+   await p.screenshot({path:out+'/'+prefix+'-earth-held-at-midpoint.png'});
+   report.interactions.push({engine,midOrbitProgress:progress,earthDiameterPx:midPose.diameter,previousDiameterPx:original,finalDiameterPx:finalPose.diameter});
+  }
   await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight)-height*.25);assert.ok(Number((await state(p)).integration)<1,'Native reverse scroll changes depth');await go(p,0);assert.equal((await state(p)).earthClass.includes('is-continuum'),false,'Original HERO regains ownership');assert.equal(Number((await state(p)).reveal),0);
   if(width===1440){
    await go(p,bounds.method);const settle=(await state(p)).draws;await p.waitForFunction(n=>window.__v23.draws>=n+32,settle);const before=await p.evaluate(()=>window.__v23.sprites);const target=before[15]||[1000,500];const frames=(await state(p)).draws;await p.mouse.move(target[0],target[1]);await p.waitForFunction(n=>window.__v23.draws>=n+12,frames);await p.waitForTimeout(150);const after=await p.evaluate(()=>window.__v23.sprites);const afterBySize=new Map(after.map(a=>[a[2].toFixed(6),a]));const distances=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b?Math.hypot(a[0]-b[0],a[1]-b[1]):0;});assert.ok(Math.max(...distances)>12,'Mouse causes perceptible real sprite displacement');
