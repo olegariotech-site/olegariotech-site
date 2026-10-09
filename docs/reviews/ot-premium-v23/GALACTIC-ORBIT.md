@@ -16,6 +16,8 @@ O espaço já reservado no rodapé passa a encerrar a página após seus links t
 
 Esta é uma representação artística do Sistema Solar em uma região de um braço galáctico, fora de escala; não uma simulação orbital da Terra ao redor do centro de NGC 1300. A fonte NASA/ESA, licença e créditos continuam os mesmos, documentados em `NASA-ASSET.json`.
 
+A rotação das camadas acontece no plano inclinado do disco: a elipse mantém seu enquadramento durante ciclos longos. A região terrestre usa a mesma projeção; sua trajetória acompanha o braço também após vários minutos.
+
 ## Preservação
 
 `ot-earth-spin.js` e `ot-earth-journey.js` permanecem byte a byte iguais à main recuperada. Geometria, texturas, shaders, rotação axial e HERO comercial não foram alterados. Conteúdo, showroom, projetos, depoimentos, método, soluções, CTAs, áudio, consentimento, GA4, SEO e acessibilidade permanecem.

@@ -213,7 +213,9 @@
     context.globalCompositeOperation='lighter';
     galaxy.parts.forEach((part,i)=>{
       context.save();const a=motion.turn+[0,motion.middle,motion.outer][i];
-      context.rotate(a);context.globalAlpha=reveal*.91;
+      // Rotate within the inclined disk, not in screen space: the ellipse stays framed
+      // even after many orbits while the photographed structures move around its axis.
+      const c=Math.cos(a),s=Math.sin(a);context.transform(c,s*.56,-s/.56,c,0,0);context.globalAlpha=reveal*.91;
       const breathe=still?1:1+Math.sin(motion.time*.20+i)*i*.003;
       context.drawImage(part,-size*.493*breathe,-size*galaxy.h/galaxy.w*.47*breathe,size*breathe,size*galaxy.h/galaxy.w*breathe);context.restore();
     });
@@ -258,8 +260,8 @@
       // Dock inside the photographed right-hand arm, then orbit this local stellar region.
       // This is an artistic Solar-System-scale orbit, not an Earth orbit around the nucleus.
       const armAngle=motion.turn+motion.middle,c=Math.cos(armAngle),s=Math.sin(armAngle);
-      const armX=finale.x+parallaxX+size*(.225*c-.055*s);
-      const armY=y+parallaxY+size*(.225*s+.055*c);
+      const armX=finale.x+parallaxX+size*(.225*c-.055/.56*s);
+      const armY=y+parallaxY+size*(.225*s*.56+.055*c);
       const angle=-.65+(still?0:motion.time*.22),radius=size*.043;
       const localX=armX+Math.cos(angle)*radius,localY=armY+Math.sin(angle)*radius*.58;
       const approachAngle=-2.6+t*3.8;
