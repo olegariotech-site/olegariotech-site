@@ -27,7 +27,7 @@
     ['#inicio',1], ['#projetos',.68], ['#solucoes',.58], ['#metodo',.64],
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
-  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.ot-footer-v4';
+  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.method-card,.ot-footer-v4';
   let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
   let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null, galaxyImage=null, galaxyRequested=false;
   let pointer={x:.5,y:.5,tx:.5,ty:.5,active:false,energy:0}, travel=scrollY, velocity=0;

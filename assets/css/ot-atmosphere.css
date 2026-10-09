@@ -33,3 +33,7 @@ body[data-page="home"] .ot-galaxy-credit{margin:0;padding:18px 32px 24px;text-al
 .ot-galaxy-credit a{color:#d9e8ff;text-decoration:underline;text-underline-offset:3px}
 .ot-galaxy-credit a:focus-visible{outline:2px solid #67e8f9;outline-offset:4px}
 @media(max-width:900px){body[data-page="home"] .ot-galaxy-credit{padding:16px 20px calc(90px + env(safe-area-inset-bottom,0px));min-height:164px}}
+
+/* Continuation is in front of space and behind every commercial surface. */
+html body[data-page="home"] .page{z-index:2}
+body[data-page="home"] .earth-journey.is-continuum ~ .page #metodo .method-card{background:rgba(8,6,16,.97)}
