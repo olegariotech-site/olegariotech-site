@@ -20,7 +20,7 @@ async function configure(context,mode='full'){
     window.__dustDraws=[];
     const clear=CanvasRenderingContext2D.prototype.clearRect;
     CanvasRenderingContext2D.prototype.clearRect=function(...args){
-      if(this.canvas.matches('.cosmic-scene')){const start=performance.now();queueMicrotask(()=>window.__dustDraws.push(performance.now()-start));}
+      if(this.canvas.matches('.cosmic-scene')&&args[0]===0&&args[1]===0){const start=performance.now();queueMicrotask(()=>window.__dustDraws.push(performance.now()-start));}
       return clear.apply(this,args);
     };
   },mode);

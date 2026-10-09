@@ -1,4 +1,4 @@
-/* V2.1: one atmospheric canvas follows the original Earth timeline, then the whole page.
+/* V2.2: Cosmic Continuum extends the existing atmospheric canvas and original timeline.
    No new globe renderer, scroll interception, asset, or animation framework. */
 (() => {
   'use strict';
@@ -27,9 +27,12 @@
     ['#inicio',1], ['#projetos',.68], ['#solucoes',.58], ['#metodo',.64],
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
-  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-card';
+  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-card,.footer-inner';
   let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
-  let anchors=[], reading=[], hidden=false;
+  let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null;
+  const photograph=earth.querySelector('.earth-journey__globe>img');
+  const span=(value,a,b)=>smooth((value-a)/Math.max(1,b-a));
+  photograph?.addEventListener('load',sync,{once:true});
 
   // Layout reads happen on layout changes, not inside the continuous paint loop.
   function measure() {
@@ -43,6 +46,12 @@
       const r=el.getBoundingClientRect();
       return {left:r.left-24,right:r.right+24,top:y+r.top-24,bottom:y+r.bottom+24};
     });
+    const bounds=selector=>{const el=document.querySelector(selector);if(!el)return null;const r=el.getBoundingClientRect();return {top:y+r.top,bottom:y+r.bottom};};
+    chapters=['#projetos','#metodo'].map(bounds).filter(Boolean).map(r=>r.bottom);
+    const contact=bounds('#contato'),footer=bounds('.footer');
+    if(contact&&footer)finale={start:contact.top-height*.7,approach:footer.top-height*.5,
+      finish:Math.max(contact.top,document.documentElement.scrollHeight-height),
+      y:footer.top+(compact.matches?150:210),x:width*(compact.matches?.64:.76)};
     sync();
   }
   function scheduleMeasure() { if(!measureFrame)measureFrame=requestAnimationFrame(measure); }
@@ -118,7 +127,73 @@
   }
   function draw() {
     context.clearRect(0,0,width,height);
-    dust(clock);ribbon(reduced.matches||constrained()?0:clock);
+    continuum();dust(clock);ribbon(reduced.matches||constrained()?0:clock);
+  }
+  // Cached procedural nebula, not a new scene renderer or third-party image.
+  function buildGalaxy() {
+    galaxy=document.createElement('canvas');
+    galaxy.width=Math.min(1400,Math.round(width*(compact.matches?1.6:1.1)));
+    galaxy.height=Math.round(galaxy.width*.58);
+    const g=galaxy.getContext('2d');if(!g){galaxy=null;return;}
+    const w=galaxy.width,h=galaxy.height;
+    const glow=(x,y,r,color,alpha)=>{
+      const gradient=g.createRadialGradient(x,y,0,x,y,r);
+      gradient.addColorStop(0,color);gradient.addColorStop(1,'transparent');
+      g.globalAlpha=alpha;g.fillStyle=gradient;g.fillRect(x-r,y-r,r*2,r*2);
+    };
+    g.save();g.translate(w*.47,h*.5);g.rotate(-.28);g.scale(1,.48);
+    glow(0,0,w*.42,'#343056',.32);
+    const steps=constrained()?26:compact.matches?46:68;
+    for(let arm=0;arm<3;arm++)for(let i=1;i<steps;i++){
+      const t=i/steps,r=w*(.025+t*.43),a=arm*Math.PI*2/3+t*5.1;
+      const x=Math.cos(a)*r*(arm===1?1.13:1),yy=Math.sin(a)*r;
+      glow(x,yy,w*(.012+t*.025),arm===1?'#694bc2':'#528bb3',(.15+Math.sin(t*Math.PI)*.22)*(1-t*.5));
+    }
+    const stars=constrained()?160:compact.matches?400:880;
+    for(let i=0;i<stars;i++){
+      const t=Math.pow(noise(i+680),.65),r=w*(.02+t*.43),arm=i%3;
+      const a=arm*Math.PI*2/3+t*5.1+(noise(i+1120)-.5)*(.17+t*.28);
+      const x=Math.cos(a)*r*(arm===1?1.13:1),yy=Math.sin(a)*r+(noise(i+1490)-.5)*w*.018;
+      g.globalAlpha=(.2+noise(i+1800)*.65)*(1-t*.45);
+      g.fillStyle=i%9===0?'#a78bfa':i%5===0?'#67e8f9':'#dceaf4';
+      const size=.55+noise(i+2010)*1.05;g.fillRect(x,yy,size,size*1.6);
+    }
+    glow(0,0,w*.08,'#d2e9f5',.36);glow(0,0,w*.028,'#edf6ff',.65);
+    g.restore();
+  }
+  function globe(x,y,diameter,opacity) {
+    if(!photograph?.complete||!photograph.naturalWidth)return;
+    context.globalAlpha=opacity;context.drawImage(photograph,x-diameter/2,y-diameter/2,diameter,diameter);context.globalAlpha=1;
+  }
+  function continuum() {
+    const still=reduced.matches||constrained(),center=scrollY+height*.55;
+    let partial=0;
+    for(const chapter of chapters){
+      const distance=Math.abs(center-chapter),range=height*.58;
+      partial=Math.max(partial,(1-smooth(distance/range))*.42);
+    }
+    const reveal=finale?span(scrollY,finale.start,finale.approach):0;
+    if(partial>.005&&reveal<.3){
+      const diameter=width*(compact.matches?1.3:.72);
+      globe(width+diameter*.31,height*.6,diameter,partial*(compact.matches?.7:1));
+    }
+    if(finale&&reveal>.001&&galaxy){
+      const integration=span(scrollY,finale.approach,finale.finish);
+      const y=mix(height*.9,finale.y-scrollY,reveal);
+      const drift=still?0:Math.sin(clock*.045)*2;
+      context.globalAlpha=reveal*.9;
+      context.drawImage(galaxy,finale.x-galaxy.width/2+drift,y-galaxy.height/2);
+      context.globalAlpha=1;
+      // A visible photographic Earth grows, then projects into depth; it never vanishes.
+      const growth=Math.sin(integration*Math.PI),base=compact.matches?86:150;
+      const diameter=mix(base,compact.matches?64:96,integration)+growth*(compact.matches?65:145);
+      globe(finale.x-galaxy.width*(.12-.04*integration),y+galaxy.height*(.15-.08*integration),diameter,reveal);
+      layer.dataset.reveal=reveal.toFixed(3);layer.dataset.integration=integration.toFixed(3);
+    }else{layer.dataset.reveal='0';layer.dataset.integration='0';}
+    // Quiet reading zones are real layout coordinates, cached outside the paint loop.
+    if(partial>.005||reveal>.001)for(const r of reading){
+      if(r.bottom>scrollY&&r.top<scrollY+height)context.clearRect(r.left,r.top-scrollY,r.right-r.left,r.bottom-r.top);
+    }
   }
   function stop() { if(frame)cancelAnimationFrame(frame);frame=last=0; }
   function tick(now) {
@@ -130,7 +205,10 @@
     frame=requestAnimationFrame(tick);
   }
   function sync() {
+    // Fixed orbit layout boxes; transform alone reproduces the measured original geometry.
+    earth.style.setProperty('--continuum-orbit-scale',String((Number(earth.dataset.diameter)||540)/540));
     if(document.hidden||hidden){stop();return;}
+    if(!galaxy&&finale&&scrollY>finale.start-height*.35)buildGalaxy();
     if(reduced.matches||constrained()){stop();draw();}
     else if(!frame)frame=requestAnimationFrame(tick);
   }
@@ -138,7 +216,7 @@
     width=innerWidth;height=innerHeight;
     const ratio=Math.min(devicePixelRatio||1,compact.matches||constrained()?1:1.3);
     canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
-    context.setTransform(ratio,0,0,ratio,0,0);measure();draw();
+    context.setTransform(ratio,0,0,ratio,0,0);galaxy=null;measure();draw();
   }
   // The original timeline already batches scroll/pointer updates into a single RAF.
   earth.addEventListener('ot-earth-visibility',sync);

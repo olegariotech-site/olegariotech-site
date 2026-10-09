@@ -9,3 +9,13 @@ body[data-page="home"] #solucoes .solution-case{border-color:rgba(174,181,202,.2
 /* Closing illumination is static: a resting place for the final commercial action. */
 body[data-page="home"] .footer{background:radial-gradient(ellipse at 76% 100%,rgba(103,232,249,.035),transparent 58%),linear-gradient(180deg,rgba(5,0,8,0),rgba(8,5,20,.62))}
 @media(prefers-reduced-motion:reduce){body[data-page="home"] #projetos .case-screen{transition:none}}
+
+/* V2.2: keep orbit geometry in transform space, never in a moving layout box.
+   Same centered ellipses as the approved CSS, including their secondary ring. */
+.earth-journey__orbits{left:0;top:0;width:669.6px;height:226.8px;transform:translate(calc(var(--earth-left,78vw) - 334.8px),calc(var(--earth-top,50vh) - 113.4px)) rotate(-24deg) scale(var(--continuum-orbit-scale,1))}
+/* Reserved from first paint: the finale lives above footer copy, never over its links. */
+body[data-page="home"] .footer::before{content:"";display:block;height:420px;pointer-events:none}
+@media(max-width:900px){
+  .earth-journey__orbits{width:604.8px;transform:translate(calc(var(--earth-left,78vw) - 302.4px),calc(var(--earth-top,50vh) - 113.4px)) rotate(-24deg) scale(var(--continuum-orbit-scale,1))}
+  body[data-page="home"] .footer::before{height:300px}
+}

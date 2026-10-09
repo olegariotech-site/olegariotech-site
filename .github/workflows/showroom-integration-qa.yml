@@ -11,6 +11,8 @@ on:
       - 'scripts/verify-showroom.mjs'
       - 'scripts/verify-atmosphere.mjs'
       - 'scripts/measure-atmosphere.mjs'
+      - 'scripts/measure-continuum.mjs'
+      - 'scripts/verify-continuum.mjs'
       - '.github/workflows/showroom-integration-qa.yml'
 permissions:
   contents: read
@@ -40,6 +42,8 @@ jobs:
           node --check assets/js/ot-cosmic-scene.js
           node --check scripts/verify-atmosphere.mjs
           node --check scripts/measure-atmosphere.mjs
+          node --check scripts/measure-continuum.mjs
+          node --check scripts/verify-continuum.mjs
           node scripts/build-showroom.mjs --check
       - name: Verify the complete home in Chromium and WebKit
         env:
@@ -51,15 +55,46 @@ jobs:
           OT_ATMOSPHERE_OUTPUT: /tmp/ot-gate-b-qa/atmosphere
           OT_QA_ENGINES: ${{ matrix.engine }}
         run: node scripts/verify-atmosphere.mjs
-      - name: Compare full-home performance with motion enabled
-        if: matrix.engine == 'chromium'
+      - name: Verify the Cosmic Continuum journey and direct anchors
         env:
-          OT_PERFORMANCE_OUTPUT: /tmp/ot-gate-b-qa/performance-motion
-        run: node scripts/measure-atmosphere.mjs
+          OT_CONTINUUM_OUTPUT: /tmp/ot-gate-b-qa/continuum
+          OT_QA_ENGINES: ${{ matrix.engine }}
+        run: node scripts/verify-continuum.mjs
       - name: Upload home comparisons and regression report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ot-premium-v2-gate-b-${{ matrix.engine }}-review
           path: /tmp/ot-gate-b-qa
+          retention-days: 30
+
+  continuum-performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        renderer: [webgl, canvas2d]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium for equivalent complete-home measurements
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Five cold samples in each version, viewport and motion condition
+        env:
+          OT_CONTINUUM_RENDERER: ${{ matrix.renderer }}
+          OT_CONTINUUM_OUTPUT: /tmp/ot-continuum-performance
+        run: node scripts/measure-continuum.mjs
+      - name: Upload individual samples and layout shift attribution
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v22-performance-${{ matrix.renderer }}
+          path: /tmp/ot-continuum-performance
           retention-days: 30

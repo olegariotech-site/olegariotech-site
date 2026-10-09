@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, feat/ot-premium-v21-atmosphere]
   schedule:
     - cron: '23 4 * * 1'
 
