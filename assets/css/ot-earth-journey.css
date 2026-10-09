@@ -4,7 +4,7 @@
 .earth-journey__globe{position:absolute;inset:0}
 .earth-journey__canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0}
 .earth-journey.is-rendering .earth-journey__canvas{opacity:1}
-.earth-journey__globe>img{position:absolute;left:var(--earth-left,78vw);top:var(--earth-top,50vh);width:var(--earth-size,540px);height:var(--earth-size,540px);max-width:none;object-fit:contain;transform:translate(-50%,-50%);opacity:1;filter:brightness(1.15) saturate(1.08);mask-image:radial-gradient(circle,#000 40%,rgba(0,0,0,.95) 45%,transparent 49%)}
+.earth-journey__globe>img{position:absolute;left:0;top:0;width:var(--earth-size,540px);height:var(--earth-size,540px);max-width:none;object-fit:contain;transform:translate(calc(var(--earth-left,78vw) - var(--earth-size,540px) * .5),calc(var(--earth-top,50vh) - var(--earth-size,540px) * .5));opacity:1;filter:brightness(1.15) saturate(1.08);mask-image:radial-gradient(circle,#000 40%,rgba(0,0,0,.95) 45%,transparent 49%)}
 .earth-journey.is-rendering .earth-journey__globe>img{opacity:0}
 .has-earth-journey .hero .planet-wrap{display:none}
 .earth-journey::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#050008 0%,transparent 26%,transparent 92%,#050008 100%);pointer-events:none}
