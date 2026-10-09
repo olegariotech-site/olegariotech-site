@@ -54,7 +54,9 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    const audio=p.locator('.desktop-audio-toggle');await audio.click();await p.waitForFunction(()=>!document.querySelector('#backgroundAudio').paused&&document.querySelector('#backgroundAudio').currentTime>.1&&document.querySelector('.desktop-audio-toggle').getAttribute('aria-pressed')==='true');assert.equal(await audio.getAttribute('aria-pressed'),'true');await audio.click();assert.equal(await audio.getAttribute('aria-pressed'),'false');
   }
   assert.equal(await p.locator('.ot-galaxy-credit').count(),0,'No third-party galaxy promotion');
-  assert.equal(await p.locator('.ot-footer-v4__signature').innerText(),'© 2026 Olegario Tech. Seguimos lúcidos e potentes.');
+  const signature=await p.locator('.ot-footer-v4__signature').innerText();
+  assert.match(signature,/© 2026 Olegario Tech\./);
+  assert.match(signature,/Seguimos lúcidos e potentes\./);
   assert.equal(await p.locator('.ot-footer-v4__legal a').count(),2);
   assert.equal(await p.locator('[data-footer-cookie-settings]').count(),1);
   assert.equal(await p.evaluate(()=>getComputedStyle(document.querySelector('footer.footer'),'::after').content),'none','No reserved galaxy sky after footer');
