@@ -8,6 +8,7 @@ on:
       - '.github/workflows/continuum-evidence.yml'
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: ot-v22-evidence
   cancel-in-progress: true
@@ -41,6 +42,23 @@ jobs:
         env:
           OT_CONTINUUM_OUTPUT: /tmp/ot-v22-evidence/visual
         run: node scripts/verify-continuum.mjs
+      - name: Wait for immutable equivalent-application performance artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in $(seq 1 30); do
+            count=$(gh api repos/olegariotech-site/olegariotech-site/actions/runs/37945899072/artifacts --jq '[.artifacts[] | select(.name | startswith("ot-v22-performance-"))] | length')
+            if [ "$count" = "2" ]; then exit 0; fi
+            sleep 10
+          done
+          exit 1
+      - name: Persist individual CI performance samples
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 37945899072
+          pattern: ot-v22-performance-*
+          path: /tmp/ot-v22-evidence/performance
       - name: Upload native footage, frames and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -56,7 +74,7 @@ jobs:
             cp /tmp/ot-v22-evidence/$view/ot-v22-*.mp4 /tmp/ot-v22-evidence/$view/report.json docs/reviews/ot-premium-v22/evidence/$view/
             cp -r /tmp/ot-v22-evidence/$view/frames docs/reviews/ot-premium-v22/evidence/$view/
           done
-          cp -r /tmp/ot-v22-evidence/visual docs/reviews/ot-premium-v22/evidence/
+          cp -r /tmp/ot-v22-evidence/visual /tmp/ot-v22-evidence/performance docs/reviews/ot-premium-v22/evidence/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add docs/reviews/ot-premium-v22/evidence

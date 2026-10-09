@@ -6,7 +6,7 @@ Prévia empilhada sobre PR #93 (V2.1), sem merge/publicação. [Auditoria e stor
 
 O mesmo canvas atmosférico V2.1 passa a apresentar curvas fotográficas da Terra nos intervalos, uma galáxia procedural assimétrica e uma Terra reconhecível no fechamento. O planeta cresce e depois ocupa um ponto menor em profundidade, sem desaparecer. A composição usa o bitmap aprovado já carregado no HERO e nenhum novo asset de produção. A galáxia é preparada em cache no resize; a pintura continua no relógio existente, limitado a 20/s desktop e 12,5/s mobile.
 
-A correção de CLS mantém os anéis originais: a caixa passa a ter dimensão estável, e posição/escala são atualizadas por transformações. Não há mudança no renderer nem na timeline da Terra. O espaço final é reservado no CSS desde a primeira pintura. Reduced motion, Save-Data/memória baixa e página oculta não mantêm loop atmosférico.
+A correção de CLS mantém os anéis originais: a caixa passa a ter dimensão estável, e posição/escala são atualizadas por transformações. Não há mudança no renderer nem na timeline da Terra. O espaço final é reservado no CSS desde a primeira pintura: antes dos textos do rodapé no desktop, depois dos links no mobile/tablet. A narrativa compacta usa o fim real da página, mantendo o planeta visível e o conteúdo comercial protegido. Reduced motion, Save-Data/memória baixa e página oculta não mantêm loop atmosférico.
 
 ## Arquivos e justificativas
 

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';import {createServer} from 'node:http';
 import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';import {spawn,execFileSync} from 'node:child_process';
 import {resolve,extname} from 'node:path';import {fileURLToPath} from 'node:url';
 const {chromium}=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
-const root=resolve(fileURLToPath(new URL('../',import.meta.url))),applicationCommit='c73b9203675dbf45c01bd0d7e277891dbc2adc26';
+const root=resolve(fileURLToPath(new URL('../',import.meta.url))),applicationCommit='7cd17105b329487e81adfdfad640629d43df54e2';
 const changed=execFileSync('git',['diff','--name-only',applicationCommit,'HEAD'],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.ok(changed.every(p=>p==='scripts/record-continuum-evidence.mjs'||p==='.github/workflows/continuum-evidence.yml'||p.startsWith('docs/reviews/ot-premium-v22/')),'Evidence branch cannot alter application');
 const mobile=process.env.OT_MOVIE_MOBILE==='1',width=mobile?390:1440,height=mobile?844:900,duration=58;
