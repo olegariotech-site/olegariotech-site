@@ -68,6 +68,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    const mid=await state(p),progress=Number(mid.integration),midPose=JSON.parse(mid.earth||'null');
    assert.ok(progress>.46&&progress<.54,'Mid-orbit scroll position reached');
    assert.ok(midPose,'Mid-orbit Earth pose remains present');
+   assert.ok(midPose.y-midPose.diameter/2>60&&midPose.y+midPose.diameter/2<height,'Approaching Earth is actually in view before docking');
    const original=235*(1-progress*.83);
    const expected=235+(58-235)*progress*progress*(2-progress);
    assert.ok(Math.abs(midPose.diameter-expected)<1,'Size follows the smoother hold curve');

@@ -249,7 +249,9 @@
     }
     if(finale&&reveal>.001){
       const integration=span(scrollY,finale.approach,finale.finish);
-      const y=mix(height*.9,finale.y-scrollY,reveal),size=finale.size;
+      // Keep the approach in view. Its destination is the reserved closing sky;
+      // using the distant document coordinate here hides the whole entry below the fold.
+      const y=mix(height*1.04,finale.y-finale.finish,integration),size=finale.size;
       paintGalaxy(finale.x,y,size,reveal,still);
       const t=still?1:integration,motion=galaxyMotion(still);
       const parallaxX=still?0:(pointer.x-.5)*10,parallaxY=still?0:(pointer.y-.5)*6;
