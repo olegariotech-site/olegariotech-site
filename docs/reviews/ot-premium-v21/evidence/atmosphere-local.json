@@ -1,0 +1,429 @@
+{
+  "browserPath": "Browser plugin not available; existing Playwright runner",
+  "viewports": [
+    {
+      "engine": "chromium",
+      "width": 1366,
+      "height": 768,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 10819,
+          "alpha": 373116,
+          "hash": 1151354727,
+          "width": 1366,
+          "height": 768
+        },
+        {
+          "label": "projects",
+          "painted": 665,
+          "alpha": 7730,
+          "hash": 3376979089,
+          "width": 1366,
+          "height": 768
+        },
+        {
+          "label": "solutions",
+          "painted": 630,
+          "alpha": 8071,
+          "hash": 3736871404,
+          "width": 1366,
+          "height": 768
+        },
+        {
+          "label": "method",
+          "painted": 666,
+          "alpha": 7778,
+          "hash": 1984127133,
+          "width": 1366,
+          "height": 768
+        },
+        {
+          "label": "closing",
+          "painted": 487,
+          "alpha": 2577,
+          "hash": 3990440132,
+          "width": 1366,
+          "height": 768
+        }
+      ],
+      "drawCount": 185,
+      "canvasJSSubmissionP95ms": 6.5,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 10931,
+          "alpha": 382615,
+          "hash": 2341721188,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "label": "projects",
+          "painted": 691,
+          "alpha": 8335,
+          "hash": 4184946686,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "label": "solutions",
+          "painted": 634,
+          "alpha": 7562,
+          "hash": 2360730879,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "label": "method",
+          "painted": 667,
+          "alpha": 8224,
+          "hash": 1676436327,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "label": "closing",
+          "painted": 525,
+          "alpha": 3383,
+          "hash": 2221048926,
+          "width": 1440,
+          "height": 900
+        }
+      ],
+      "drawCount": 121,
+      "canvasJSSubmissionP95ms": 3.8000000002793968,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1920,
+      "height": 1080,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 12119,
+          "alpha": 438196,
+          "hash": 2510122935,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "label": "projects",
+          "painted": 738,
+          "alpha": 10182,
+          "hash": 3385456543,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "label": "solutions",
+          "painted": 688,
+          "alpha": 8651,
+          "hash": 563316614,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "label": "method",
+          "painted": 688,
+          "alpha": 8995,
+          "hash": 3574658048,
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "label": "closing",
+          "painted": 625,
+          "alpha": 5548,
+          "hash": 2513091405,
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "drawCount": 94,
+      "canvasJSSubmissionP95ms": 5,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "height": 1024,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 210,
+          "alpha": 2867,
+          "hash": 2165552676,
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "label": "projects",
+          "painted": 202,
+          "alpha": 1867,
+          "hash": 3292987896,
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "label": "solutions",
+          "painted": 166,
+          "alpha": 1340,
+          "hash": 2646779875,
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "label": "method",
+          "painted": 200,
+          "alpha": 1884,
+          "hash": 2570656269,
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "label": "closing",
+          "painted": 148,
+          "alpha": 515,
+          "hash": 2758998692,
+          "width": 768,
+          "height": 1024
+        }
+      ],
+      "drawCount": 55,
+      "canvasJSSubmissionP95ms": 5.2000000001862645,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 360,
+      "height": 800,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 99,
+          "alpha": 514,
+          "hash": 4117658251,
+          "width": 360,
+          "height": 800
+        },
+        {
+          "label": "projects",
+          "painted": 169,
+          "alpha": 1439,
+          "hash": 1829283400,
+          "width": 360,
+          "height": 800
+        },
+        {
+          "label": "solutions",
+          "painted": 159,
+          "alpha": 1143,
+          "hash": 870226546,
+          "width": 360,
+          "height": 800
+        },
+        {
+          "label": "method",
+          "painted": 154,
+          "alpha": 804,
+          "hash": 473506305,
+          "width": 360,
+          "height": 800
+        },
+        {
+          "label": "closing",
+          "painted": 177,
+          "alpha": 713,
+          "hash": 1110719868,
+          "width": 360,
+          "height": 800
+        }
+      ],
+      "drawCount": 51,
+      "canvasJSSubmissionP95ms": 10,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 100,
+          "alpha": 667,
+          "hash": 437447206,
+          "width": 390,
+          "height": 844
+        },
+        {
+          "label": "projects",
+          "painted": 182,
+          "alpha": 1668,
+          "hash": 1201423847,
+          "width": 390,
+          "height": 844
+        },
+        {
+          "label": "solutions",
+          "painted": 160,
+          "alpha": 1225,
+          "hash": 4111414710,
+          "width": 390,
+          "height": 844
+        },
+        {
+          "label": "method",
+          "painted": 187,
+          "alpha": 1616,
+          "hash": 2717473667,
+          "width": 390,
+          "height": 844
+        },
+        {
+          "label": "closing",
+          "painted": 168,
+          "alpha": 673,
+          "hash": 4058945696,
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "drawCount": 54,
+      "canvasJSSubmissionP95ms": 7.100000000093132,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "samples": [
+        {
+          "label": "hero",
+          "painted": 471,
+          "alpha": 4363,
+          "hash": 1961092830,
+          "width": 430,
+          "height": 932
+        },
+        {
+          "label": "projects",
+          "painted": 191,
+          "alpha": 1800,
+          "hash": 439873059,
+          "width": 430,
+          "height": 932
+        },
+        {
+          "label": "solutions",
+          "painted": 169,
+          "alpha": 1268,
+          "hash": 3658243959,
+          "width": 430,
+          "height": 932
+        },
+        {
+          "label": "method",
+          "painted": 184,
+          "alpha": 1713,
+          "hash": 2858683136,
+          "width": 430,
+          "height": 932
+        },
+        {
+          "label": "closing",
+          "painted": 163,
+          "alpha": 672,
+          "hash": 3299102145,
+          "width": 430,
+          "height": 932
+        }
+      ],
+      "drawCount": 61,
+      "canvasJSSubmissionP95ms": 6.100000000093132,
+      "errors": [],
+      "consoleErrors": [],
+      "notFound": []
+    }
+  ],
+  "preferences": [
+    {
+      "engine": "chromium",
+      "mode": "reduce",
+      "stable": true,
+      "loopStopped": true
+    },
+    {
+      "engine": "chromium",
+      "mode": "saveData",
+      "stable": true,
+      "loopStopped": true
+    },
+    {
+      "engine": "chromium",
+      "mode": "lowMemory",
+      "stable": true,
+      "loopStopped": true
+    },
+    {
+      "engine": "chromium",
+      "mode": "visibility-and-resize",
+      "pauseResume": true,
+      "singleCanvas": true
+    }
+  ],
+  "limitations": [
+    "Linux engine simulation, no physical GPU/iPhone or speaker certification.",
+    "Document visibility is emulated for deterministic lifecycle validation.",
+    "Canvas duration measures JS submission, not GPU raster duration."
+  ],
+  "audio": {
+    "src": "/assets/audio/background.mp3",
+    "loop": true,
+    "volume": 0.25,
+    "paused": false,
+    "togglePreserved": true
+  },
+  "timeline": [
+    {
+      "engine": "chromium",
+      "renderer": "canvas2d",
+      "rotation": null,
+      "phases": [
+        {
+          "name": "particles",
+          "pulse": 0.8605,
+          "morph": 0,
+          "opacity": 1
+        },
+        {
+          "name": "waves",
+          "pulse": 1,
+          "morph": 0.8675,
+          "opacity": 0.963
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

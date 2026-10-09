@@ -1,0 +1,245 @@
+{
+  "baseCommit": "cef32459b58c3ce779e526a4e6ef7b76e74f8c67",
+  "browserPath": "Browser plugin not available; existing Playwright runner",
+  "scenarios": [
+    {
+      "engine": "chromium",
+      "width": 1366,
+      "height": 768,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 320,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 144,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1920,
+      "height": 1080,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 312,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "height": 1024,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 176,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 360,
+      "height": 800,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 136,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 112,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 232,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 900,
+      "reduced": true,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 416,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "passed": true,
+      "errors": [],
+      "notFound": [],
+      "externalRequests": 0,
+      "labInteractionMaxMs": 160,
+      "note": "Event Timing maximum observed duration in lab; not a field INP measurement."
+    }
+  ],
+  "responsive": [
+    {
+      "engine": "chromium",
+      "passed": true,
+      "projects": 6,
+      "widths": [
+        1440,
+        390,
+        601,
+        600,
+        768,
+        430
+      ],
+      "delayedImagesMs": 120,
+      "checks": [
+        "device source",
+        "unique aria-pressed",
+        "hidden controls",
+        "focus transfer",
+        "expansion reset",
+        "view and project races"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "key": "acai",
+      "type": "published project",
+      "url": "https://acaidodudu.com.br/",
+      "passed": true
+    },
+    {
+      "key": "acai",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20A%C3%A7a%C3%AD%20do%20Dudu%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "kl",
+      "type": "published project",
+      "url": "https://kltransporteexpress.com.br/",
+      "passed": true
+    },
+    {
+      "key": "kl",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20K.L%20Transporte%20Express%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "adega",
+      "type": "published project",
+      "url": "https://adegasaomarcos.com.br/",
+      "passed": true
+    },
+    {
+      "key": "adega",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Adega%20S%C3%A3o%20Marcos%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "advocacia",
+      "type": "published project",
+      "url": "https://cintiaalmeidaadvocacia.com.br/",
+      "passed": true
+    },
+    {
+      "key": "advocacia",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20C%C3%ADntia%20Almeida%20Gomes%20Advocacia%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "ripamonti",
+      "type": "published project",
+      "url": "https://armazemripamonti.com.br/",
+      "passed": true
+    },
+    {
+      "key": "ripamonti",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Armaz%C3%A9m%20Ripamonti%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    },
+    {
+      "key": "navalha",
+      "type": "published project",
+      "url": "https://olegariotech-site.github.io/navalha-prime-experience/",
+      "passed": true
+    },
+    {
+      "key": "navalha",
+      "type": "contextual WhatsApp",
+      "url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20case%20Navalha%20Prime%20Experience%20no%20site%20e%20quero%20entender%20uma%20estrutura%20parecida%20para%20o%20meu%20neg%C3%B3cio.",
+      "passed": true
+    }
+  ],
+  "performance": [],
+  "limitations": [
+    "Engine simulation on Linux; no physical Safari/iPhone, real speaker output or WhatsApp send.",
+    "Real consent and analytics implementation exercised against intercepted tag/network destinations.",
+    "Performance compares the complete baseline and integrated home under equivalent lab conditions; not field INP.",
+    "Focused QA parts only: scenarios, responsive, nojs, analytics, zoom; omitted parts are not asserted by this report.",
+    "CSS zoom 200% inherits baseline header/footer overflow; no added overflow from the showroom. Actual seven responsive viewports have zero overflow. CSS zoom does not emulate native browser zoom or Safari pinch."
+  ],
+  "noJavaScriptInitialCase": true,
+  "analytics": [
+    {
+      "engine": "chromium",
+      "denied": true,
+      "granted": true,
+      "revoked": true,
+      "uniqueLead": true,
+      "uniqueProjectClick": true,
+      "controlsEmitNoSelection": true,
+      "proofRail": true
+    }
+  ],
+  "cssZoom200": {
+    "baselineOverflow": 396,
+    "integratedOverflow": 396,
+    "noAdditionalOverflow": true
+  },
+  "protectedMarkupAndCodeUnchanged": true,
+  "changedFiles": [
+    ".github/workflows/showroom-integration-qa.yml",
+    "assets/js/ot-cosmic-scene.js",
+    "index.html",
+    "scripts/verify-showroom.mjs"
+  ]
+}

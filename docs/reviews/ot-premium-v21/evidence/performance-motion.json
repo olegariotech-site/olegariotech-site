@@ -1,0 +1,698 @@
+{
+  "baseline": "cef32459b58c3ce779e526a4e6ef7b76e74f8c67",
+  "conditions": "Full home, movement enabled; 3 alternating cold contexts per version/viewport, same Chromium, local HTTP transport, denied consent, warmed font transport only; no CPU/network throttling. Renderer recorded per run; no GPU/phone or field-performance certification. No concurrent test suite during measurement.",
+  "runs": [
+    {
+      "version": "before",
+      "width": 1440,
+      "height": 900,
+      "run": 0,
+      "initial": {
+        "lcp": 412,
+        "cls": 0.046377731473030544,
+        "resourceBytes": 2435387,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        179.6011580000013,
+        172.31936999999743,
+        106.25994200000059
+      ],
+      "maxEventTimingMs": 384,
+      "longTasks": [
+        {
+          "start": 115.5,
+          "duration": 128
+        },
+        {
+          "start": 261.89999999990687,
+          "duration": 124
+        },
+        {
+          "start": 431.39999999990687,
+          "duration": 99
+        },
+        {
+          "start": 531.2999999998137,
+          "duration": 84
+        },
+        {
+          "start": 617.8999999999069,
+          "duration": 132
+        },
+        {
+          "start": 794.6999999999534,
+          "duration": 56
+        },
+        {
+          "start": 904.7999999998137,
+          "duration": 67
+        },
+        {
+          "start": 981.6999999999534,
+          "duration": 67
+        },
+        {
+          "start": 1095.3999999999069,
+          "duration": 67
+        },
+        {
+          "start": 1166.5,
+          "duration": 62
+        },
+        {
+          "start": 1277.7999999998137,
+          "duration": 57
+        },
+        {
+          "start": 1503.3999999999069,
+          "duration": 55
+        },
+        {
+          "start": 1630.0999999998603,
+          "duration": 50
+        },
+        {
+          "start": 1680.2999999998137,
+          "duration": 50
+        },
+        {
+          "start": 1792.5,
+          "duration": 66
+        },
+        {
+          "start": 1921.8999999999069,
+          "duration": 52
+        },
+        {
+          "start": 1975,
+          "duration": 52
+        },
+        {
+          "start": 2075.6999999999534,
+          "duration": 53
+        },
+        {
+          "start": 2129.2999999998137,
+          "duration": 50
+        },
+        {
+          "start": 2180.0999999998603,
+          "duration": 51
+        },
+        {
+          "start": 2329.7999999998137,
+          "duration": 60
+        },
+        {
+          "start": 2439.399999999907,
+          "duration": 69
+        },
+        {
+          "start": 2508.899999999907,
+          "duration": 86
+        },
+        {
+          "start": 2596.2999999998137,
+          "duration": 59
+        },
+        {
+          "start": 2655.5999999998603,
+          "duration": 51
+        },
+        {
+          "start": 2827.5,
+          "duration": 58
+        },
+        {
+          "start": 2886.1999999999534,
+          "duration": 57
+        },
+        {
+          "start": 2944.6999999999534,
+          "duration": 54
+        },
+        {
+          "start": 3301.7999999998137,
+          "duration": 61
+        },
+        {
+          "start": 3365.7999999998137,
+          "duration": 57
+        },
+        {
+          "start": 3425.5,
+          "duration": 52
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 31.5999999998603
+    },
+    {
+      "version": "after",
+      "width": 1440,
+      "height": 900,
+      "run": 0,
+      "initial": {
+        "lcp": 552,
+        "cls": 0.04267056403362866,
+        "resourceBytes": 2439744,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        175.92752299999847,
+        196.22886799999833,
+        207.27168800000072
+      ],
+      "maxEventTimingMs": 528,
+      "longTasks": [
+        {
+          "start": 75.30000000004657,
+          "duration": 149
+        },
+        {
+          "start": 248.89999999990687,
+          "duration": 199
+        },
+        {
+          "start": 528.5999999998603,
+          "duration": 95
+        },
+        {
+          "start": 646.6999999999534,
+          "duration": 94
+        },
+        {
+          "start": 749.5999999998603,
+          "duration": 82
+        },
+        {
+          "start": 900.5999999998603,
+          "duration": 160
+        },
+        {
+          "start": 3047.8000000000466,
+          "duration": 220
+        },
+        {
+          "start": 4803,
+          "duration": 68
+        },
+        {
+          "start": 4967,
+          "duration": 69
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 17,
+      "canvasJSSubmissionP95ms": 6.899999999906868
+    },
+    {
+      "version": "before",
+      "width": 1440,
+      "height": 900,
+      "run": 1,
+      "initial": {
+        "lcp": 360,
+        "cls": 0.04267056403362866,
+        "resourceBytes": 2435387,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        153.8360859999957,
+        106.96014000000287,
+        96.39423700000043
+      ],
+      "maxEventTimingMs": 344,
+      "longTasks": [
+        {
+          "start": 71.69999999995343,
+          "duration": 115
+        },
+        {
+          "start": 203.69999999995343,
+          "duration": 107
+        },
+        {
+          "start": 381.80000000004657,
+          "duration": 72
+        },
+        {
+          "start": 454,
+          "duration": 76
+        },
+        {
+          "start": 588.8000000000466,
+          "duration": 64
+        },
+        {
+          "start": 697.3000000000466,
+          "duration": 52
+        },
+        {
+          "start": 847.6999999999534,
+          "duration": 54
+        },
+        {
+          "start": 903.8000000000466,
+          "duration": 57
+        },
+        {
+          "start": 2503.899999999907,
+          "duration": 51
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 30.0999999998603
+    },
+    {
+      "version": "after",
+      "width": 1440,
+      "height": 900,
+      "run": 1,
+      "initial": {
+        "lcp": 412,
+        "cls": 0.04267056403362866,
+        "resourceBytes": 2439744,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        207.23307699999714,
+        242.09081899999728,
+        192.28055400000449
+      ],
+      "maxEventTimingMs": 392,
+      "longTasks": [
+        {
+          "start": 67.5,
+          "duration": 139
+        },
+        {
+          "start": 228.19999999995343,
+          "duration": 132
+        },
+        {
+          "start": 437.39999999990687,
+          "duration": 84
+        },
+        {
+          "start": 635.8999999999069,
+          "duration": 58
+        },
+        {
+          "start": 2576.399999999907,
+          "duration": 357
+        },
+        {
+          "start": 4338.100000000093,
+          "duration": 112
+        },
+        {
+          "start": 4552.600000000093,
+          "duration": 92
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 18,
+      "canvasJSSubmissionP95ms": 6.800000000046566
+    },
+    {
+      "version": "before",
+      "width": 1440,
+      "height": 900,
+      "run": 2,
+      "initial": {
+        "lcp": 372,
+        "cls": 0.04267056403362866,
+        "resourceBytes": 2435387,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        151.62332700000115,
+        94.32242199999746,
+        130.1850110000014
+      ],
+      "maxEventTimingMs": 360,
+      "longTasks": [
+        {
+          "start": 60,
+          "duration": 117
+        },
+        {
+          "start": 202.5,
+          "duration": 114
+        },
+        {
+          "start": 348.10000000009313,
+          "duration": 140
+        },
+        {
+          "start": 520.1999999999534,
+          "duration": 60
+        },
+        {
+          "start": 582.6999999999534,
+          "duration": 85
+        },
+        {
+          "start": 702.1000000000931,
+          "duration": 134
+        },
+        {
+          "start": 841.5,
+          "duration": 59
+        },
+        {
+          "start": 901.4000000001397,
+          "duration": 59
+        },
+        {
+          "start": 1057.6999999999534,
+          "duration": 52
+        },
+        {
+          "start": 1113.3000000000466,
+          "duration": 57
+        },
+        {
+          "start": 1172.1000000000931,
+          "duration": 68
+        },
+        {
+          "start": 1243.9000000001397,
+          "duration": 67
+        },
+        {
+          "start": 1512,
+          "duration": 52
+        },
+        {
+          "start": 1564.6000000000931,
+          "duration": 59
+        },
+        {
+          "start": 2131.600000000093,
+          "duration": 53
+        },
+        {
+          "start": 2227.4000000001397,
+          "duration": 49
+        },
+        {
+          "start": 2405.9000000001397,
+          "duration": 50
+        },
+        {
+          "start": 2765.100000000093,
+          "duration": 92
+        },
+        {
+          "start": 2858.1999999999534,
+          "duration": 54
+        },
+        {
+          "start": 3018.8000000000466,
+          "duration": 51
+        },
+        {
+          "start": 3082.9000000001397,
+          "duration": 51
+        },
+        {
+          "start": 3189.8000000000466,
+          "duration": 52
+        },
+        {
+          "start": 3291.100000000093,
+          "duration": 58
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 32.9000000001397
+    },
+    {
+      "version": "after",
+      "width": 1440,
+      "height": 900,
+      "run": 2,
+      "initial": {
+        "lcp": 444,
+        "cls": 0.04267056403362866,
+        "resourceBytes": 2439744,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        156.84149500000058,
+        153.52952400000504,
+        143.60734100000263
+      ],
+      "maxEventTimingMs": 424,
+      "longTasks": [
+        {
+          "start": 66.69999999995343,
+          "duration": 136
+        },
+        {
+          "start": 223.69999999995343,
+          "duration": 168
+        },
+        {
+          "start": 442.10000000009313,
+          "duration": 101
+        },
+        {
+          "start": 608.1999999999534,
+          "duration": 288
+        },
+        {
+          "start": 974.8000000000466,
+          "duration": 66
+        },
+        {
+          "start": 4860.600000000093,
+          "duration": 57
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 16,
+      "canvasJSSubmissionP95ms": 5.600000000093132
+    },
+    {
+      "version": "before",
+      "width": 390,
+      "height": 844,
+      "run": 0,
+      "initial": {
+        "lcp": 360,
+        "cls": 0.30025458205778216,
+        "resourceBytes": 1783665,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        90.85737199999858,
+        76.65134699999908,
+        66.8739659999992
+      ],
+      "maxEventTimingMs": 344,
+      "longTasks": [
+        {
+          "start": 46.5,
+          "duration": 143
+        },
+        {
+          "start": 210.9000000001397,
+          "duration": 203
+        },
+        {
+          "start": 2416.8000000000466,
+          "duration": 82
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 27
+    },
+    {
+      "version": "after",
+      "width": 390,
+      "height": 844,
+      "run": 0,
+      "initial": {
+        "lcp": 332,
+        "cls": 0.30025458205778216,
+        "resourceBytes": 1788022,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        94.97557100000267,
+        82.4030000000057,
+        72.3003619999945
+      ],
+      "maxEventTimingMs": 312,
+      "longTasks": [
+        {
+          "start": 80,
+          "duration": 128
+        },
+        {
+          "start": 225.69999999995343,
+          "duration": 107
+        },
+        {
+          "start": 496.80000000004657,
+          "duration": 56
+        },
+        {
+          "start": 2322.5,
+          "duration": 66
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 12,
+      "canvasJSSubmissionP95ms": 4.400000000139698
+    },
+    {
+      "version": "before",
+      "width": 390,
+      "height": 844,
+      "run": 1,
+      "initial": {
+        "lcp": 236,
+        "cls": 0.30025458205778216,
+        "resourceBytes": 1783665,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        112.19923500000732,
+        58.76442199999292,
+        111.99381899999571
+      ],
+      "maxEventTimingMs": 224,
+      "longTasks": [
+        {
+          "start": 42.5999999998603,
+          "duration": 108
+        },
+        {
+          "start": 167.30000000004657,
+          "duration": 115
+        },
+        {
+          "start": 438.80000000004657,
+          "duration": 56
+        },
+        {
+          "start": 2287,
+          "duration": 74
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 21.100000000093132
+    },
+    {
+      "version": "after",
+      "width": 390,
+      "height": 844,
+      "run": 1,
+      "initial": {
+        "lcp": 312,
+        "cls": 0.301031483698931,
+        "resourceBytes": 1788022,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        189.50787500001024,
+        157.460533999998,
+        266.0704470000055
+      ],
+      "maxEventTimingMs": 296,
+      "longTasks": [
+        {
+          "start": 56,
+          "duration": 200
+        },
+        {
+          "start": 454.69999999995343,
+          "duration": 63
+        },
+        {
+          "start": 4279.500000000233,
+          "duration": 66
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 12,
+      "canvasJSSubmissionP95ms": 5
+    },
+    {
+      "version": "before",
+      "width": 390,
+      "height": 844,
+      "run": 2,
+      "initial": {
+        "lcp": 384,
+        "cls": 0.30025458205778216,
+        "resourceBytes": 1783665,
+        "documentBytes": 89207,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        133.27067899999383,
+        57.1564759999892,
+        95.83201699999336
+      ],
+      "maxEventTimingMs": 344,
+      "longTasks": [
+        {
+          "start": 120.60000000009313,
+          "duration": 164
+        },
+        {
+          "start": 589.5,
+          "duration": 62
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 0,
+      "canvasJSSubmissionP95ms": 28.300000000279397
+    },
+    {
+      "version": "after",
+      "width": 390,
+      "height": 844,
+      "run": 2,
+      "initial": {
+        "lcp": 228,
+        "cls": 0.28328995141968316,
+        "resourceBytes": 1788022,
+        "documentBytes": 89274,
+        "renderer": "canvas2d"
+      },
+      "projectRenderReadyMs": [
+        169.1502799999871,
+        162.34088200000406,
+        107.30728900000395
+      ],
+      "maxEventTimingMs": 216,
+      "longTasks": [
+        {
+          "start": 55.8000000002794,
+          "duration": 105
+        },
+        {
+          "start": 383.10000000009313,
+          "duration": 51
+        },
+        {
+          "start": 3166.8000000002794,
+          "duration": 64
+        }
+      ],
+      "drawsBeyondHeroPerSecond": 12,
+      "canvasJSSubmissionP95ms": 5.2000000001862645
+    }
+  ]
+}

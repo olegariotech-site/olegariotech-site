@@ -1,0 +1,27 @@
+{
+  "baseCommit": "cef32459b58c3ce779e526a4e6ef7b76e74f8c67",
+  "existingFiles": 214,
+  "byteIdentical": 210,
+  "modifiedExisting": [
+    ".github/workflows/showroom-integration-qa.yml",
+    "assets/js/ot-cosmic-scene.js",
+    "index.html",
+    "scripts/verify-showroom.mjs"
+  ],
+  "protectedSha256": {
+    "assets/js/ot-earth-journey.js": "f9be2415dbf426617b3139629d111647b580ddac5d43e23e639092d95947437b",
+    "assets/js/ot-earth-spin.js": "a9b3f8376365305a18d50530572cdbe3b0b8b13e80c68daa71454dfda9187d34",
+    "assets/js/ot-project-showroom.mjs": "6c320648a257f75cc27fff300b242fd2d3bf07541ca05546552135b22aae6d82",
+    "assets/js/ot-v2.js": "b238a9d4518e9bf30ef94b387f89a03ffa225b6937c34bb98b1a5b35f200e38a",
+    "assets/js/ot-analytics.js": "6df0bdb1a003bfa32d2abf03bacbdeaa0eb0248aefecd7d5abd0fbc5f56b7550",
+    "assets/js/ot-analytics-core.js": "12cf7fd94d5e75fdbfe5d0b598fd95598b232a93e1ecacb30c7a093e7d63bb05",
+    "assets/js/ot-solution-configurator.js": "351559a68556b0a4d726615b5b982d9cdc433d40d64998abe60f8f9c893b6553",
+    "assets/js/ot-mobile-v3.js": "a2d36502a076440f0a9b9e6f0d1ce155c9d4eab5ac39f55df0993a277ba935da",
+    "assets/js/ot-experience-polish.js": "8144f5732925c14cd2cf96c85a471d57794182909d57b8a608024e19f1a00e52",
+    "assets/js/ot-digital-pulse.js": "e97e50c2d7ba5712c27c2c23034880c0e84231e0c08c700e12b40f5369bc0359",
+    "assets/css/ot-solution-case.css": "e1ce6c525bd9d9f94a6ee90c0a4a6f02bf6d3278103edd1dedbefb92d10ec727",
+    "assets/css/ot-cosmic-showcase.css": "d0e81607d3dc171261c6ca9f2984907b78683238c1ced0c90c7163226f66dd44",
+    "DESIGN.md": "f8f2a8e5ec4b46ca79daec271eb36875d5c44d412e98a0a22c31538002852300"
+  },
+  "note": "No approved images, Earth source, catalog, inline commercial/audio code, analytics, navigation, SEO, consent, typography or markup of sections modified. index.html changes only add atmosphere CSS and update its existing JS cache key."
+}

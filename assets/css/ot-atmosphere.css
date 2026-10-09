@@ -1,0 +1,11 @@
+/* V2.1 is a quiet continuation of the approved OT canvas, not a second visual identity. */
+.ot-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict}
+.ot-atmosphere .cosmic-scene{position:absolute;inset:0;width:100%;height:100%}
+/* Media stays opaque and faithful; atmosphere is visible in the space around the work. */
+body[data-page="home"] #projetos .case-stage{background:linear-gradient(125deg,rgba(103,232,249,.025),transparent 42%),rgba(9,6,22,.96);border-color:rgba(174,181,202,.24)}
+body[data-page="home"] #projetos .case-screen{transition:border-color 220ms ease-out}
+body[data-page="home"] #projetos.is-experience-active .case-screen{border-color:rgba(174,211,225,.3)}
+body[data-page="home"] #solucoes .solution-case{border-color:rgba(174,181,202,.24)}
+/* Closing illumination is static: a resting place for the final commercial action. */
+body[data-page="home"] .footer{background:radial-gradient(ellipse at 76% 100%,rgba(103,232,249,.035),transparent 58%),linear-gradient(180deg,rgba(5,0,8,0),rgba(8,5,20,.62))}
+@media(prefers-reduced-motion:reduce){body[data-page="home"] #projetos .case-screen{transition:none}}
