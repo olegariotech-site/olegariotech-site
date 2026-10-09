@@ -74,11 +74,14 @@ html.has-immersive-universe .ot-proof-strip { margin-top: 0; }
 .earth-journey { background: linear-gradient(90deg,#050008 0%,rgba(5,0,8,.85) 38%,rgba(5,0,8,.25) 72%),url('/assets/img/orbit/ot-cosmic-stardust-v1.webp') center/cover no-repeat; }
 .earth-journey__globe>img { mask-image: none; filter: none; }
 .earth-journey::before {
-  /* Keep the pseudo-element's box fixed. Change only the painted gradient
-     position and radius so the hero geometry never counts as layout shift. */
+  /* Fixed layout box; only the painted background size and origin change.
+     Reproduces the original globe aura without moving this pseudo-element. */
   content: ''; position: absolute; inset: 0;
   width: 100%; height: 100%; transform: none;
-  background: radial-gradient(circle calc(var(--earth-size,540px) * .55) at var(--earth-left,78vw) var(--earth-top,50vh),transparent 58%,rgba(80,200,255,.08) 61%,rgba(115,230,255,.6) 64%,rgba(0,164,255,.25) 66%,transparent 71%);
+  background-image: radial-gradient(circle,transparent 58%,rgba(80,200,255,.08) 61%,rgba(115,230,255,.6) 64%,rgba(0,164,255,.25) 66%,transparent 71%);
+  background-repeat: no-repeat;
+  background-size: calc(var(--earth-size,540px) * 1.1) calc(var(--earth-size,540px) * 1.1);
+  background-position: calc(var(--earth-left,78vw) - var(--earth-size,540px) * .55) calc(var(--earth-top,50vh) - var(--earth-size,540px) * .55);
   opacity: var(--earth-photo,1); pointer-events: none;
 }
 .earth-journey__orbits {
