@@ -532,7 +532,8 @@
   },
   "frameCount": 345,
   "duration": 11.5,
-  "timeline": [
+  "passed": true,
+  "operatorTimeline": [
     {
       "seconds": "0–4.5",
       "state": "Complete rotating Earth in the original HERO, real audio on"
@@ -550,5 +551,13 @@
       "state": "Passage into integrated Premium V2 showroom"
     }
   ],
-  "passed": true
+  "visualReview": {
+    "recordingTimecodesSeconds": {
+      "hero": 0.2,
+      "particles": 9.1,
+      "waves": 10.9,
+      "showroom": 11.4
+    },
+    "note": "Quadros extraídos do MP4 nativo. Os tempos das amostras e de operatorTimeline pertencem ao relógio do operador; não são timecodes do vídeo. Captura direta sem aceleração, com baixa fluidez do renderer por software."
+  }
 }
