@@ -1,0 +1,52 @@
+name: OT V2.1 motion evidence
+# This review branch records evidence only; it never deploys or updates main.
+on:
+  push:
+    branches: ['review/ot-v21-motion']
+    paths:
+      - 'scripts/record-earth-evidence.mjs'
+      - '.github/workflows/earth-visual-evidence.yml'
+permissions:
+  contents: write
+concurrency:
+  group: ot-v21-motion-evidence
+  cancel-in-progress: false
+jobs:
+  record:
+    if: github.repository == 'olegariotech-site/olegariotech-site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare the existing browser QA runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y --no-install-recommends ffmpeg xvfb xauth
+          command -v ffmpeg
+      - name: Record the unchanged V2.1 PR application
+        env:
+          OT_EARTH_EVIDENCE: /tmp/ot-earth-evidence
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1440x900x24' node scripts/record-earth-evidence.mjs
+      - name: Upload recording and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v21-journey-1440x900
+          path: /tmp/ot-earth-evidence
+          retention-days: 30
+      - name: Save evidence only on the review branch
+        run: |
+          mkdir -p docs/reviews/ot-premium-v21/motion
+          cp /tmp/ot-earth-evidence/ot-v21-journey-1440x900.mp4 /tmp/ot-earth-evidence/report.json /tmp/ot-earth-evidence/README.md /tmp/ot-earth-evidence/hero-start.jpg /tmp/ot-earth-evidence/method-end.jpg docs/reviews/ot-premium-v21/motion/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/reviews/ot-premium-v21/motion
+          git commit -m 'Attach real WebGL Earth, atmosphere and audio evidence for PR 93'
+          git push origin HEAD:refs/heads/review/ot-v21-motion
