@@ -9,6 +9,8 @@ on:
       - 'assets/img/projetos/showroom-v2/**'
       - 'scripts/build-showroom.mjs'
       - 'scripts/verify-showroom.mjs'
+      - 'scripts/verify-atmosphere.mjs'
+      - 'scripts/measure-atmosphere.mjs'
       - '.github/workflows/showroom-integration-qa.yml'
 permissions:
   contents: read
@@ -35,12 +37,25 @@ jobs:
         run: |
           node --check assets/js/ot-project-showroom.mjs
           node --check scripts/verify-showroom.mjs
+          node --check assets/js/ot-cosmic-scene.js
+          node --check scripts/verify-atmosphere.mjs
+          node --check scripts/measure-atmosphere.mjs
           node scripts/build-showroom.mjs --check
       - name: Verify the complete home in Chromium and WebKit
         env:
           OT_QA_OUTPUT: /tmp/ot-gate-b-qa
           OT_QA_ENGINES: ${{ matrix.engine }}
         run: node scripts/verify-showroom.mjs
+      - name: Verify continuous atmosphere and motion preferences
+        env:
+          OT_ATMOSPHERE_OUTPUT: /tmp/ot-gate-b-qa/atmosphere
+          OT_QA_ENGINES: ${{ matrix.engine }}
+        run: node scripts/verify-atmosphere.mjs
+      - name: Compare full-home performance with motion enabled
+        if: matrix.engine == 'chromium'
+        env:
+          OT_PERFORMANCE_OUTPUT: /tmp/ot-gate-b-qa/performance-motion
+        run: node scripts/measure-atmosphere.mjs
       - name: Upload home comparisons and regression report
         if: always()
         uses: actions/upload-artifact@v4

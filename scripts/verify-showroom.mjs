@@ -29,19 +29,19 @@ const baselineRoot=process.env.OT_BASELINE_DIR;
 let baselineServer,baselineDirectory;
 async function closeBaseline(){baselineServer?.close();if(baselineDirectory)execFileSync('git',['worktree','remove','--force',baselineDirectory],{cwd:root});}
 
-const report={baseCommit:'4f2550af3e0211b54d4694de6d2e6fce80442dfd',browserPath:'Browser plugin not available; existing Playwright runner',scenarios:[],responsive:[],links:[],performance:[],limitations:['Engine simulation on Linux; no physical Safari/iPhone, real speaker output or WhatsApp send.','Real consent and analytics implementation exercised against intercepted tag/network destinations.','Performance compares the complete baseline and integrated home under equivalent lab conditions; not field INP.']};
+const report={baseCommit:process.env.OT_BASELINE_COMMIT||'cef32459b58c3ce779e526a4e6ef7b76e74f8c67',browserPath:'Browser plugin not available; existing Playwright runner',scenarios:[],responsive:[],links:[],performance:[],limitations:['Engine simulation on Linux; no physical Safari/iPhone, real speaker output or WhatsApp send.','Real consent and analytics implementation exercised against intercepted tag/network destinations.','Performance compares the complete baseline and integrated home under equivalent lab conditions; not field INP.']};
 const source=await readFile(resolve(root,'index.html'),'utf8');
 const baselineSource=execFileSync('git',['show',report.baseCommit+':index.html'],{cwd:root,encoding:'utf8'});
 const projects=JSON.parse(source.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
 assert.deepEqual(projects,JSON.parse(baselineSource.match(/const projects=(\{[\s\S]*?\n\});/)[1]),'Approved project catalog is unchanged.');
 const changed=execFileSync('git',['diff','--name-only',report.baseCommit],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.equal(initial,'kl');assert.equal(order.length,6);
-// Byte-identical protected markup and canonical solution configuration.
+// V2.1 owns only the cosmic atmosphere; protected Earth, commercial markup and audio remain byte-identical.
 for(const id of ['inicio','solucoes','metodo','sobre','produtos','faq','contato']){
   const section=new RegExp('<section[^>]+id="'+id+'"[\\s\\S]*?</section>');
   assert.equal(source.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved');
 }
-for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
+for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
   assert.equal(await readFile(resolve(root,path),'utf8'),execFileSync('git',['show',report.baseCommit+':'+path],{cwd:root,encoding:'utf8'}),path+' preserved');
 }
 const stripRenderer=text=>text.replace(/    function renderProjectMedia\([\s\S]*?(?=    const mobileLinks=)/,'').replace(/    \/\/ Compatibility entry point[^\n]*\n    function renderProject[^\n]*\n\n/,'');

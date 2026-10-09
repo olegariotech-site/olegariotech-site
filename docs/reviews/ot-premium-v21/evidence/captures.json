@@ -1,0 +1,242 @@
+[
+  {
+    "file": "before-1366x768-hero.webp",
+    "source": "before-hero-1366x768.png",
+    "width": 1366,
+    "height": 768,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 108064
+  },
+  {
+    "file": "after-1366x768-hero.webp",
+    "source": "atmosphere/chromium-1366x768-hero.png",
+    "width": 1366,
+    "height": 768,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 99286
+  },
+  {
+    "file": "before-1440x900-hero.webp",
+    "source": "before-hero-1440x900.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 122310
+  },
+  {
+    "file": "after-1440x900-hero.webp",
+    "source": "atmosphere/chromium-1440x900-hero.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 112342
+  },
+  {
+    "file": "before-1920x1080-hero.webp",
+    "source": "before-hero-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 152864
+  },
+  {
+    "file": "after-1920x1080-hero.webp",
+    "source": "atmosphere/chromium-1920x1080-hero.png",
+    "width": 1920,
+    "height": 1080,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 140678
+  },
+  {
+    "file": "before-768x1024-hero.webp",
+    "source": "before-hero-768x1024.png",
+    "width": 768,
+    "height": 1024,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 51456
+  },
+  {
+    "file": "after-768x1024-hero.webp",
+    "source": "atmosphere/chromium-768x1024-hero.png",
+    "width": 768,
+    "height": 1024,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 51292
+  },
+  {
+    "file": "before-360x800-hero.webp",
+    "source": "before-hero-360x800.png",
+    "width": 360,
+    "height": 800,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 32130
+  },
+  {
+    "file": "after-360x800-hero.webp",
+    "source": "atmosphere/chromium-360x800-hero.png",
+    "width": 360,
+    "height": 800,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 31992
+  },
+  {
+    "file": "before-390x844-hero.webp",
+    "source": "before-hero-390x844.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 36340
+  },
+  {
+    "file": "after-390x844-hero.webp",
+    "source": "atmosphere/chromium-390x844-hero.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 36162
+  },
+  {
+    "file": "before-430x932-hero.webp",
+    "source": "before-hero-430x932.png",
+    "width": 430,
+    "height": 932,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 42314
+  },
+  {
+    "file": "after-430x932-hero.webp",
+    "source": "atmosphere/chromium-430x932-hero.png",
+    "width": 430,
+    "height": 932,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 42114
+  },
+  {
+    "file": "before-1440x900-method.webp",
+    "source": "before-method-1440x900.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 36452
+  },
+  {
+    "file": "after-1440x900-method.webp",
+    "source": "atmosphere/chromium-1440x900-method.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 39294
+  },
+  {
+    "file": "before-1440x900-closing.webp",
+    "source": "before-closing-1440x900.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 43274
+  },
+  {
+    "file": "after-1440x900-closing.webp",
+    "source": "atmosphere/chromium-1440x900-closing.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 43678
+  },
+  {
+    "file": "before-390x844-method.webp",
+    "source": "before-method-390x844.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 23694
+  },
+  {
+    "file": "after-390x844-method.webp",
+    "source": "atmosphere/chromium-390x844-method.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 23612
+  },
+  {
+    "file": "before-390x844-closing.webp",
+    "source": "before-closing-390x844.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 20236
+  },
+  {
+    "file": "after-390x844-closing.webp",
+    "source": "atmosphere/chromium-390x844-closing.png",
+    "width": 390,
+    "height": 844,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 20270
+  },
+  {
+    "file": "before-1440x900-kl.webp",
+    "source": "complete-home/before-1440x900-kl.png",
+    "width": 1376,
+    "height": 1152,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 74260
+  },
+  {
+    "file": "after-1440x900-kl.webp",
+    "source": "complete-home/chromium-1440x900-kl.png",
+    "width": 1376,
+    "height": 1152,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 76124
+  },
+  {
+    "file": "before-390x844-acai.webp",
+    "source": "complete-home/before-390x844-acai.png",
+    "width": 390,
+    "height": 1944,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 49354
+  },
+  {
+    "file": "after-390x844-acai.webp",
+    "source": "complete-home/chromium-390x844-acai.png",
+    "width": 390,
+    "height": 1944,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 50108
+  },
+  {
+    "file": "before-390x844-ripamonti.webp",
+    "source": "complete-home/before-390x844-ripamonti.png",
+    "width": 390,
+    "height": 2029,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 53560
+  },
+  {
+    "file": "after-390x844-ripamonti.webp",
+    "source": "complete-home/chromium-390x844-ripamonti.png",
+    "width": 390,
+    "height": 2029,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 54890
+  },
+  {
+    "file": "after-1440x900-particles.webp",
+    "source": "atmosphere/chromium-1440x900-particles.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 86056
+  },
+  {
+    "file": "after-1440x900-waves.webp",
+    "source": "atmosphere/chromium-1440x900-waves.png",
+    "width": 1440,
+    "height": 900,
+    "encoding": "WebP quality 78, original dimensions",
+    "bytes": 78502
+  }
+]
