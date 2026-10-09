@@ -19,10 +19,10 @@ async function configure(c,{mode='full'}={}){
   if(mode==='lowMemory')Object.defineProperty(navigator,'deviceMemory',{configurable:true,value:4});
   const get=HTMLCanvasElement.prototype.getContext;
   if(mode==='canvas2d')HTMLCanvasElement.prototype.getContext=function(type,...a){return type==='webgl'||type==='webgl2'?null:get.call(this,type,...a)};
-  window.__v23={draws:0,sprites:[],poses:[]};
+  window.__v23={draws:0,sprites:[],poses:[],photoTransforms:[]};
   const clear=CanvasRenderingContext2D.prototype.clearRect,image=CanvasRenderingContext2D.prototype.drawImage;
-  CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.matches('.cosmic-scene')){window.__v23.draws++;window.__v23.sprites=[];}return clear.apply(this,a)};
-  CanvasRenderingContext2D.prototype.drawImage=function(...a){if(this.canvas.matches('.cosmic-scene')&&a[0]?.width===32&&a.length===5)window.__v23.sprites.push(a.slice(1));return image.apply(this,a)};
+  CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.matches('.cosmic-scene')){window.__v23.draws++;window.__v23.sprites=[];window.__v23.photoTransforms=[];}return clear.apply(this,a)};
+  CanvasRenderingContext2D.prototype.drawImage=function(...a){if(this.canvas.matches('.cosmic-scene')&&a.length===5){if(a[0]?.width===32)window.__v23.sprites.push(a.slice(1));else if(a[0]?.width>=1024){const m=this.getTransform();window.__v23.photoTransforms.push({angle:Math.atan2(m.b,m.a),width:a[3],height:a[4]});}}return image.apply(this,a)};
  },mode);
  if(process.env.OT_QA_PROXY_FONTS==='1')await c.route(/^https:\/\/fonts\.(googleapis|gstatic)\.com\//,async r=>{const u=r.request().url();if(!fonts.has(u))fonts.set(u,(async()=>{const f=await fetch(u,{headers:{'User-Agent':r.request().headers()['user-agent']},signal:AbortSignal.timeout(20000)});assert.ok(f.ok,'Real font transport');return{body:Buffer.from(await f.arrayBuffer()),contentType:f.headers.get('content-type')}})());await r.fulfill(await fonts.get(u))});
 }
@@ -43,28 +43,46 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    await go(p,y);if(name==='integrated')await end(p);const s=await state(p);assert.equal(s.overflow,false);assert.equal(s.canvasCount,1);assert.ok(s.painted>0);if(name==='integrated'){assert.equal(s.galaxy,'photographic');assert.ok(Number(s.integration)>.99);assert.ok(Number(s.reveal)>.99);assert.ok(s.painted>50000,'Recognizable photographic pixels')}
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
-  // Art-direction regression: the mid-orbit Earth holds its size longer, with the same final scale.
+  // Visual behavior regression: dock in a lateral arm and keep orbiting at native scroll end.
   if(width===1440){
    const finished=shots.find(shot=>shot.name==='integrated');
    const finalPose=JSON.parse(finished.earth||'null');
    assert.ok(finalPose,'Final Earth pose remains present');
-   assert.ok(Math.abs(finalPose.diameter-235*.17)<1,'Final Earth size remains unchanged');
+   assert.ok(Math.abs(finalPose.diameter-58)<1,'Final Earth remains recognizable at orbital scale');
+   const region=JSON.parse(finished.orbitRegion),radius=Math.hypot((finalPose.x-region.x)/region.radius,(finalPose.y-region.y)/(region.radius*region.ellipse));
+   assert.ok(Math.abs(radius-1)<.03,'Earth lies on the local lateral-arm orbit');
+   assert.ok(Math.hypot(finalPose.x-region.galaxyX,finalPose.y-region.galaxyY)>region.size*.17,'Earth stays away from the galactic nucleus');
+   assert.ok(finalPose.y-finalPose.diameter/2>60&&finalPose.y+finalPose.diameter/2<height,'Final Earth is visible, not hidden beneath the footer');
+   const firstPhoto=await p.evaluate(()=>window.__v23.photoTransforms),fixedScroll=await p.evaluate(()=>scrollY);
+   await p.waitForTimeout(5000);
+   const orbited=await state(p),nextPose=JSON.parse(orbited.earth),nextPhoto=await p.evaluate(()=>window.__v23.photoTransforms);
+   assert.equal(await p.evaluate(()=>scrollY),fixedScroll,'Orbital finale does not need or force scrolling');
+   assert.ok(Math.hypot(nextPose.x-finalPose.x,nextPose.y-finalPose.y)>15,'Earth continues orbiting after scrolling stops');
+   assert.equal(firstPhoto.length,3);assert.equal(nextPhoto.length,3);
+   const turns=nextPhoto.map((a,i)=>a.angle-firstPhoto[i].angle);
+   assert.ok(Math.max(...turns.map(Math.abs))>.025,'Photographic arms actually move on the rendered canvas');
+   assert.ok(Math.abs(turns[2]-turns[0])>.008,'Movement is differential, not only whole-photo rotation');
+   await p.screenshot({path:out+'/'+prefix+'-orbit-after-five-seconds.png'});
    const approach=bounds.footer-height*.5,finish=Math.max(bounds.contact,bounds.end);
    await go(p,approach+(finish-approach)*.5);
    const mid=await state(p),progress=Number(mid.integration),midPose=JSON.parse(mid.earth||'null');
    assert.ok(progress>.46&&progress<.54,'Mid-orbit scroll position reached');
    assert.ok(midPose,'Mid-orbit Earth pose remains present');
    const original=235*(1-progress*.83);
-   const expected=235*(1-progress*progress*(2-progress)*.83);
+   const expected=235+(58-235)*progress*progress*(2-progress);
    assert.ok(Math.abs(midPose.diameter-expected)<1,'Size follows the smoother hold curve');
-   assert.ok(midPose.diameter>original+16,'Earth remains noticeably larger before the final approach');
+   assert.ok(midPose.diameter>original+16,'Earth remains noticeably larger before docking');
    await p.screenshot({path:out+'/'+prefix+'-earth-held-at-midpoint.png'});
-   report.interactions.push({engine,midOrbitProgress:progress,earthDiameterPx:midPose.diameter,previousDiameterPx:original,finalDiameterPx:finalPose.diameter});
+   report.interactions.push({engine,midOrbitProgress:progress,earthDiameterPx:midPose.diameter,previousDiameterPx:original,finalDiameterPx:finalPose.diameter,fixedScrollEarthDisplacementPx:Math.hypot(nextPose.x-finalPose.x,nextPose.y-finalPose.y),photographicLayerTurns:turns});
   }
   await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight)-height*.25);assert.ok(Number((await state(p)).integration)<1,'Native reverse scroll changes depth');await go(p,0);assert.equal((await state(p)).earthClass.includes('is-continuum'),false,'Original HERO regains ownership');assert.equal(Number((await state(p)).reveal),0);
   if(width===1440){
-   await go(p,bounds.method);const settle=(await state(p)).draws;await p.waitForFunction(n=>window.__v23.draws>=n+32,settle);const before=await p.evaluate(()=>window.__v23.sprites);const target=before[15]||[1000,500];const frames=(await state(p)).draws;await p.mouse.move(target[0],target[1]);await p.waitForFunction(n=>window.__v23.draws>=n+12,frames);await p.waitForTimeout(150);const after=await p.evaluate(()=>window.__v23.sprites);const afterBySize=new Map(after.map(a=>[a[2].toFixed(6),a]));const distances=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b?Math.hypot(a[0]-b[0],a[1]-b[1]):0;});assert.ok(Math.max(...distances)>12,'Mouse causes perceptible real sprite displacement');
-   await p.mouse.move(1400,80,{steps:18});await p.waitForTimeout(450);await p.screenshot({path:out+'/'+engine+'-mouse-reaction.png'});report.interactions.push({engine,mouseMaxDisplacementPx:Math.max(...distances),spritesCompared:Math.min(before.length,after.length)});
+   await go(p,bounds.method);const settle=(await state(p)).draws;await p.waitForFunction(n=>window.__v23.draws>=n+32,settle);
+   const fallingBefore=await p.evaluate(()=>window.__v23.sprites);await p.waitForTimeout(1000);const before=await p.evaluate(()=>window.__v23.sprites);
+   const bySize=new Map(before.map(a=>[a[2].toFixed(6),a]));const fall=fallingBefore.map(a=>{const b=bySize.get(a[2].toFixed(6));return b?b[1]-a[1]:null}).filter(d=>d!==null&&Math.abs(d)<height*.5).sort((a,b)=>a-b);
+   const medianFall=fall[Math.floor(fall.length*.5)];assert.ok(medianFall>6,'Real stars move down without scroll or pointer input');
+   const target=before.find(a=>a[0]>width*.6&&a[1]>120&&a[1]<height*.7)||before[15]||[1000,500];const frames=(await state(p)).draws;await p.mouse.move(target[0]-24,target[1]-20);await p.waitForFunction(n=>window.__v23.draws>=n+12,frames);await p.waitForTimeout(150);const after=await p.evaluate(()=>window.__v23.sprites);const afterBySize=new Map(after.map(a=>[a[2].toFixed(6),a]));const distances=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b&&Math.abs(a[1]-b[1])<height*.5?Math.hypot(a[0]-b[0],a[1]-b[1]):0;});const horizontal=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b?Math.abs(a[0]-b[0]):0});assert.ok(Math.max(...horizontal)>20,'Mouse gives real sideways displacement independent of falling');
+   await p.mouse.move(1400,80,{steps:18});await p.waitForTimeout(450);await p.screenshot({path:out+'/'+engine+'-mouse-reaction.png'});report.interactions.push({engine,mouseMaxDisplacementPx:Math.max(...distances),mouseHorizontalPx:Math.max(...horizontal),medianFallPxPerSecond:medianFall,spritesCompared:Math.min(before.length,after.length)});
    await end(p);if((await state(p)).renderer==='webgl'){
     await p.evaluate(()=>{const f=THREE.Mesh.prototype.onBeforeRender;THREE.Mesh.prototype.onBeforeRender=function(...a){if(this.material?.map)window.__v23.poses.push({angle:this.rotation.y,x:this.position.x,y:this.position.y,scale:this.scale.x});return f.apply(this,a)}});await p.waitForTimeout(1600);const poses=await p.evaluate(()=>window.__v23.poses);assert.ok(poses.length>=3&&poses.at(-1).angle>poses[0].angle,'Original Earth really rotates in the finale');report.interactions.push({engine,rotationRadians:poses.at(-1).angle-poses[0].angle,poses});
    }
