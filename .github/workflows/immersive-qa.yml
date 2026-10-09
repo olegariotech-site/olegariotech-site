@@ -5,8 +5,12 @@ on:
       - 'index.html'
       - 'assets/css/ot-*.css'
       - 'assets/js/ot-*.js'
+      - 'assets/js/ot-*.mjs'
       - 'scripts/verify-immersive.mjs'
       - 'scripts/verify-solutions.mjs'
+      - 'scripts/verify-showroom.mjs'
+      - 'scripts/build-showroom.mjs'
+      - '.github/workflows/showroom-integration-qa.yml'
       - '.github/workflows/immersive-qa.yml'
 permissions:
   contents: read
@@ -26,6 +30,8 @@ jobs:
       - name: Validate JavaScript
         run: |
           for file in assets/js/ot-earth-journey.js assets/js/ot-earth-spin.js assets/js/ot-digital-pulse.js assets/js/ot-solution-configurator.js assets/js/ot-surface-motion.js; do node --check "$file"; done
+          node --check assets/js/ot-project-showroom.mjs
+          node scripts/build-showroom.mjs --check
       - name: Verify motion, controls and responsive layout
         env:
           OT_QA_OUTPUT: /tmp/ot-immersive-qa

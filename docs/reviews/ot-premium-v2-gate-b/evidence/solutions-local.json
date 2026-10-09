@@ -1,0 +1,303 @@
+[
+  {
+    "name": "solution-1366x768",
+    "viewport": {
+      "width": 1366,
+      "height": 768
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+      "natural": [
+        1440,
+        1000
+      ],
+      "box": [
+        606,
+        421
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-1440x900",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+      "natural": [
+        1440,
+        1000
+      ],
+      "box": [
+        606,
+        421
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-1920x1080",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+      "natural": [
+        1440,
+        1000
+      ],
+      "box": [
+        606,
+        421
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-768x1024",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+      "natural": [
+        1440,
+        1000
+      ],
+      "box": [
+        688,
+        478
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-360x800",
+    "viewport": {
+      "width": 360,
+      "height": 800
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+      "natural": [
+        390,
+        844
+      ],
+      "box": [
+        296,
+        641
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-390x844",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+      "natural": [
+        390,
+        844
+      ],
+      "box": [
+        326,
+        705
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-430x932",
+    "viewport": {
+      "width": 430,
+      "height": 932
+    },
+    "reducedMotion": false,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+      "natural": [
+        390,
+        844
+      ],
+      "box": [
+        366,
+        792
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-1440x900-reduced",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "reducedMotion": true,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+      "natural": [
+        1440,
+        1000
+      ],
+      "box": [
+        606,
+        421
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "solution-390x844-reduced",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "reducedMotion": true,
+    "checks": "passed",
+    "media": {
+      "src": "http://127.0.0.1:45799/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+      "natural": [
+        390,
+        844
+      ],
+      "box": [
+        326,
+        705
+      ],
+      "fit": "contain"
+    },
+    "cta": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "analyticsClick": 1,
+    "events": {
+      "leads": [
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        }
+      ],
+      "clicks": 1,
+      "meta": 1
+    }
+  },
+  {
+    "analyticsClick": 2,
+    "events": {
+      "leads": [
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        },
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        }
+      ],
+      "clicks": 2,
+      "meta": 2
+    }
+  },
+  {
+    "analyticsClick": 3,
+    "events": {
+      "leads": [
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        },
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        },
+        {
+          "page_path": "/",
+          "page_title": "Olegario Tech | Sites e páginas de venda que geram negócios",
+          "cta_text": "Quero um projeto assim",
+          "cta_location": "solucoes",
+          "destination_url": "https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vi%20o%20projeto%20Armaz%C3%A9m%20Ripamonti%20na%20Solu%C3%A7%C3%A3o%2003%20e%20quero%20avaliar%20uma%20estrutura%20semelhante%20para%20minha%20empresa.",
+          "lead_source": "site_olegario_tech",
+          "method": "whatsapp"
+        }
+      ],
+      "clicks": 3,
+      "meta": 3
+    }
+  },
+  {
+    "externalLink": "passed",
+    "note": "Destination routing verified without sending messages or production analytics. Live site availability and capture verified separately."
+  }
+]

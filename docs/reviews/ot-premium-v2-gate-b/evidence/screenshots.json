@@ -1,0 +1,401 @@
+[
+  {
+    "file": "home-1366x768.webp",
+    "beforePNG": "before-1366x768-home.png",
+    "afterPNG": "chromium-1366x768-home.png",
+    "originalDimensions": [
+      [
+        1366,
+        7189
+      ],
+      [
+        1366,
+        7338
+      ]
+    ],
+    "reviewDimensions": [
+      2024,
+      5416
+    ],
+    "bytes": 680478,
+    "sha256": "ab8888af79f30fdead4cea8a6c33025732efd7f6547c67544d096c99a09cdfdb"
+  },
+  {
+    "file": "home-1440x900.webp",
+    "beforePNG": "before-1440x900-home.png",
+    "afterPNG": "chromium-1440x900-home.png",
+    "originalDimensions": [
+      [
+        1440,
+        7440
+      ],
+      [
+        1440,
+        7588
+      ]
+    ],
+    "reviewDimensions": [
+      2024,
+      5313
+    ],
+    "bytes": 657884,
+    "sha256": "eee5dec3282b99bb19859369ee1b423bc4d21f95640377c734eaa1d6f117364e"
+  },
+  {
+    "file": "home-1920x1080.webp",
+    "beforePNG": "before-1920x1080-home.png",
+    "afterPNG": "chromium-1920x1080-home.png",
+    "originalDimensions": [
+      [
+        1920,
+        7562
+      ],
+      [
+        1920,
+        7696
+      ]
+    ],
+    "reviewDimensions": [
+      2024,
+      4052
+    ],
+    "bytes": 446930,
+    "sha256": "23cddb6fb4b60e565d572ec9868e637f9eab7079959e112aa6b8e484c6476354"
+  },
+  {
+    "file": "home-768x1024.webp",
+    "beforePNG": "before-768x1024-home.png",
+    "afterPNG": "chromium-768x1024-home.png",
+    "originalDimensions": [
+      [
+        768,
+        10157
+      ],
+      [
+        768,
+        10259
+      ]
+    ],
+    "reviewDimensions": [
+      1560,
+      10303
+    ],
+    "bytes": 920876,
+    "sha256": "2fcf2fa21633723e9a66f38aff519db4f06393e6e0f64d761d3193e47e546e6b"
+  },
+  {
+    "file": "home-360x800.webp",
+    "beforePNG": "before-360x800-home.png",
+    "afterPNG": "chromium-360x800-home.png",
+    "originalDimensions": [
+      [
+        360,
+        11503
+      ],
+      [
+        360,
+        11772
+      ]
+    ],
+    "reviewDimensions": [
+      744,
+      11816
+    ],
+    "bytes": 655242,
+    "sha256": "b752882da7adfd7849ff063d290f1f95b5b0c18f494f204198dbc421eb02c53e"
+  },
+  {
+    "file": "home-390x844.webp",
+    "beforePNG": "before-390x844-home.png",
+    "afterPNG": "chromium-390x844-home.png",
+    "originalDimensions": [
+      [
+        390,
+        11069
+      ],
+      [
+        390,
+        11335
+      ]
+    ],
+    "reviewDimensions": [
+      804,
+      11379
+    ],
+    "bytes": 673182,
+    "sha256": "77cd0e41da0e847eada47487083f45253de0b5303b1f534f8896a218f64350cd"
+  },
+  {
+    "file": "home-430x932.webp",
+    "beforePNG": "before-430x932-home.png",
+    "afterPNG": "chromium-430x932-home.png",
+    "originalDimensions": [
+      [
+        430,
+        10725
+      ],
+      [
+        430,
+        10936
+      ]
+    ],
+    "reviewDimensions": [
+      884,
+      10980
+    ],
+    "bytes": 704890,
+    "sha256": "ea1511f74f13283724b434ee28b6b5a7157732b7af92967fd976f6f733705663"
+  },
+  {
+    "file": "kl-desktop.webp",
+    "beforePNG": "before-1440x900-kl.png",
+    "afterPNG": "chromium-1440x900-kl.png",
+    "originalDimensions": [
+      [
+        1376,
+        1004
+      ],
+      [
+        1376,
+        1152
+      ]
+    ],
+    "reviewDimensions": [
+      2776,
+      1196
+    ],
+    "bytes": 159808,
+    "sha256": "13b1ae8a7e353d356175db903c818afcc9a29e8b627ac4c21327afc53f08a08e"
+  },
+  {
+    "file": "acai-desktop.webp",
+    "beforePNG": "before-1440x900-acai.png",
+    "afterPNG": "chromium-1440x900-acai.png",
+    "originalDimensions": [
+      [
+        1376,
+        1055
+      ],
+      [
+        1376,
+        1125
+      ]
+    ],
+    "reviewDimensions": [
+      2776,
+      1169
+    ],
+    "bytes": 179928,
+    "sha256": "23ea87ec74d157953fd817d9e8b5e8f6535db1e1b787b9c9d7cfb30a0711622b"
+  },
+  {
+    "file": "ripamonti-desktop.webp",
+    "beforePNG": "before-1440x900-ripamonti.png",
+    "afterPNG": "chromium-1440x900-ripamonti.png",
+    "originalDimensions": [
+      [
+        1376,
+        1073
+      ],
+      [
+        1376,
+        1152
+      ]
+    ],
+    "reviewDimensions": [
+      2776,
+      1196
+    ],
+    "bytes": 159968,
+    "sha256": "8e5d14fae44e9762afbf34e2f7dee874ac8c214d63f4073ac64527f9d94442cc"
+  },
+  {
+    "file": "passage-desktop.webp",
+    "beforePNG": "before-1440x900-passage.png",
+    "afterPNG": "chromium-1440x900-passage.png",
+    "originalDimensions": [
+      [
+        1440,
+        900
+      ],
+      [
+        1440,
+        900
+      ]
+    ],
+    "reviewDimensions": [
+      2904,
+      944
+    ],
+    "bytes": 208470,
+    "sha256": "f8592213a15ce67386fb57a7a471d03c561487cbd5c8e3c0dce7c00e2105aa53"
+  },
+  {
+    "file": "kl-tablet.webp",
+    "beforePNG": "before-768x1024-kl.png",
+    "afterPNG": "chromium-768x1024-kl.png",
+    "originalDimensions": [
+      [
+        768,
+        1488
+      ],
+      [
+        768,
+        1590
+      ]
+    ],
+    "reviewDimensions": [
+      1560,
+      1634
+    ],
+    "bytes": 149818,
+    "sha256": "e404d66ec8f63a70fa269bb0e49312848354719b3d52aa9e03b547a6e75e779d"
+  },
+  {
+    "file": "acai-tablet.webp",
+    "beforePNG": "before-768x1024-acai.png",
+    "afterPNG": "chromium-768x1024-acai.png",
+    "originalDimensions": [
+      [
+        768,
+        1620
+      ],
+      [
+        768,
+        1694
+      ]
+    ],
+    "reviewDimensions": [
+      1560,
+      1738
+    ],
+    "bytes": 169332,
+    "sha256": "1025ef8f0b2aeacefd6e1a2f72433c240d96f6f96788ec578873a7f48ace5300"
+  },
+  {
+    "file": "ripamonti-tablet.webp",
+    "beforePNG": "before-768x1024-ripamonti.png",
+    "afterPNG": "chromium-768x1024-ripamonti.png",
+    "originalDimensions": [
+      [
+        768,
+        1660
+      ],
+      [
+        768,
+        1721
+      ]
+    ],
+    "reviewDimensions": [
+      1560,
+      1765
+    ],
+    "bytes": 149274,
+    "sha256": "2e7ffb014f712578d7c0e6c1934b8022af9b7e8648e34f6cdcb980997c464952"
+  },
+  {
+    "file": "passage-tablet.webp",
+    "beforePNG": "before-768x1024-passage.png",
+    "afterPNG": "chromium-768x1024-passage.png",
+    "originalDimensions": [
+      [
+        768,
+        1024
+      ],
+      [
+        768,
+        1024
+      ]
+    ],
+    "reviewDimensions": [
+      1560,
+      1068
+    ],
+    "bytes": 101342,
+    "sha256": "96cb38691e525014c595c86ba45039a86308da06785074cf7346aed750f119a2"
+  },
+  {
+    "file": "kl-mobile.webp",
+    "beforePNG": "before-390x844-kl.png",
+    "afterPNG": "chromium-390x844-kl.png",
+    "originalDimensions": [
+      [
+        390,
+        1503
+      ],
+      [
+        390,
+        1770
+      ]
+    ],
+    "reviewDimensions": [
+      804,
+      1814
+    ],
+    "bytes": 95970,
+    "sha256": "7f952c173c471983bb4ae7a40715c153c39b1aa9a3bbfea6a502ccd38d3c2fcc"
+  },
+  {
+    "file": "acai-mobile.webp",
+    "beforePNG": "before-390x844-acai.png",
+    "afterPNG": "chromium-390x844-acai.png",
+    "originalDimensions": [
+      [
+        390,
+        1576
+      ],
+      [
+        390,
+        1944
+      ]
+    ],
+    "reviewDimensions": [
+      804,
+      1988
+    ],
+    "bytes": 103374,
+    "sha256": "81099a51faa32328d82282301ccb000bdb650837ddb7036a2657d74ee197d10d"
+  },
+  {
+    "file": "ripamonti-mobile.webp",
+    "beforePNG": "before-390x844-ripamonti.png",
+    "afterPNG": "chromium-390x844-ripamonti.png",
+    "originalDimensions": [
+      [
+        390,
+        1668
+      ],
+      [
+        390,
+        2029
+      ]
+    ],
+    "reviewDimensions": [
+      804,
+      2073
+    ],
+    "bytes": 106096,
+    "sha256": "da8ce97661ff9bcea2b09f8fac5d2796220ac15cf3f17e62dc8d0b916f85f80c"
+  },
+  {
+    "file": "passage-mobile.webp",
+    "beforePNG": "before-390x844-passage.png",
+    "afterPNG": "chromium-390x844-passage.png",
+    "originalDimensions": [
+      [
+        390,
+        844
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "reviewDimensions": [
+      804,
+      888
+    ],
+    "bytes": 67408,
+    "sha256": "ad8cc30c39e363858a98d6faaefd44f48cb2d70ef4b42176b0c2e09ec5ace885"
+  }
+]

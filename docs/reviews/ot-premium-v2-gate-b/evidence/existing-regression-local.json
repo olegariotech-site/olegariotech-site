@@ -1,0 +1,35 @@
+[
+  {
+    "name": "reduced-motion",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "renderer": "static",
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "mobile-reduced-motion",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "renderer": "static",
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  },
+  {
+    "name": "no-webgl",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "renderer": "canvas2d",
+    "checks": "passed",
+    "errors": [],
+    "notFound": []
+  }
+]
