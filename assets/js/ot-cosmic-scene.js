@@ -61,7 +61,7 @@
       const finish=Math.max(contact.top,document.documentElement.scrollHeight-height);
       finale={start:compact.matches?finish-height*.95:contact.top-height*.7,
         approach:compact.matches?finish-height*.35:footer.top-height*.5,finish,
-        y:compact.matches?footer.bottom-footer.paddingBottom-210:footer.top+350,
+        y:compact.matches?footer.bottom-footer.paddingBottom-210:Math.max(footer.top+350,finish+height*.36),
         x:compact.matches?width*.5:width*.66};
     }
     sync();
@@ -154,12 +154,12 @@
   function buildGalaxy() {
     if(galaxyRequested)return;galaxyRequested=true;
     const image=new Image();galaxyImage=image;image.decoding='async';
-    image.onload=()=>{prepareGalaxy(image);sync();};
+    image.onload=()=>{prepareGalaxy(image).then(sync).catch(()=>{layer.dataset.galaxy='unavailable';sync();});};
     image.onerror=()=>{layer.dataset.galaxy='unavailable';sync();};
     image.src='/assets/img/orbit/hubble-ngc1300-'+(compact.matches||constrained()?'1024':'2048')+'-v1.webp';
     layer.dataset.galaxy='loading';
   }
-  function prepareGalaxy(image){
+  async function prepareGalaxy(image){
     if(!image?.naturalWidth)return;
     const w=Math.min(image.naturalWidth,compact.matches||constrained()?1024:1600),h=Math.round(w*image.naturalHeight/image.naturalWidth);
     const buffer=document.createElement('canvas');buffer.width=w;buffer.height=h;
@@ -168,15 +168,22 @@
     const parts=[0,1,2].map(()=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;});
     const data=parts.map(c=>c.getContext('2d').createImageData(w,h));
     const stars=[];
-    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    // Prepare in small one-time slices; never block a CTA with a whole-image pixel loop.
+    for(let first=0;first<h;first+=12){
+    await new Promise(done=>{
+      if(typeof requestIdleCallback==='function')requestIdleCallback(done,{timeout:100});else setTimeout(done,0);
+    });
+    if(document.hidden)await new Promise(done=>{const resume=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',resume);done();}};document.addEventListener('visibilitychange',resume);});
+    for(let y=first;y<Math.min(h,first+12);y++)for(let x=0;x<w;x++){
       const i=(y*w+x)*4,dx=(x-w*.493)/(w*.5),dy=(y-h*.47)/(h*.5),r=Math.hypot(dx,dy);
       const edge=(1-smooth((r-.84)/.26))*smooth(x/(w*.055))*smooth((w-x)/(w*.055))*smooth(y/(h*.085))*smooth((h-y)/(h*.085));
       const core=1-smooth((r-.15)/.34),outer=smooth((r-.54)/.25),middle=Math.max(0,1-core-outer);
-      for(let k=0;k<3;k++){data[k].data[i]=src.data[i];data[k].data[i+1]=src.data[i+1];data[k].data[i+2]=src.data[i+2];data[k].data[i+3]=Math.round(edge*[core,middle,outer][k]*255);}
+      for(let k=0;k<3;k++){data[k].data[i]=src.data[i];data[k].data[i+1]=src.data[i+1];data[k].data[i+2]=src.data[i+2];data[k].data[i+3]=Math.round(edge*(k===0?core:k===1?middle:outer)*255);}
       if(x%5===0&&y%5===0&&r>.27&&r<.95){
         const brightness=(src.data[i]+src.data[i+1]+src.data[i+2])/3;
         if(brightness>140&&src.data[i+2]>src.data[i]*.8)stars.push({x:x/w-.493,y:y/w-h/w*.47,phase:noise(x+y*w)*6.28,depth:.5+noise(x+y)*.5});
       }
+    }
     }
     parts.forEach((c,i)=>c.getContext('2d').putImageData(data[i],0,0));
     galaxy={parts,w,h,stars:stars.filter((_,i)=>i%Math.max(1,Math.ceil(stars.length/(compact.matches?64:144)))===0)};

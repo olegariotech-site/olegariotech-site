@@ -25,7 +25,7 @@ for(const version of ['v22','v23']){
 const args=['--no-zygote',...(requestedRenderer==='canvas2d'?['--disable-webgl']:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'])];
 const browser=await chromium.launch({executablePath:process.env.OT_CHROME_EXECUTABLE||undefined,args});
 const fonts=new Map();
-const report={refs,samples,requestedRenderer,conditions:'Complete homes; five interleaved cold browser contexts per version, viewport and motion preference; same browser/HTTP transport; denied consent; no CPU/network throttling or concurrent suite. Font transport cache warmed outside browser, genuine production fonts; browser resource cache remains cold. Software WebGL is identified separately from Canvas2D. Timing is lab evidence, not field INP or a physical-device certification.',runs:[]};
+const report={refs,samples,requestedRenderer,conditions:'Complete homes; five interleaved cold browser contexts per version, viewport and motion preference; same browser/HTTP transport; denied consent; no CPU/network throttling or concurrent suite. Shared genuine font transport cache outside browser; first sample includes its warm-up, browser resource cache remains cold. Software WebGL is identified separately from Canvas2D. Timing is lab evidence, not field INP or a physical-device certification.',runs:[]};
 try{
 for(const [width,height] of [[1440,900],[390,844]])for(const reduced of [false,true])for(let sample=0;sample<samples;sample++)for(const [version,port] of versions){
  const c=await browser.newContext({viewport:{width,height},reducedMotion:reduced?'reduce':'no-preference'});

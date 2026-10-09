@@ -51,13 +51,24 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= frameMs) {
+    if (now - last >= (continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
       angle = (angle + delta * Math.PI * 2 / 42000) % (Math.PI * 2);
-      draw(now);
+      renderFrame(now);
       last = now;
     }
     frame = requestAnimationFrame(run);
+  }
+  function renderFrame(now) {
+    if (mode !== 'webgl' || !continuation) { draw(now); return; }
+    // The same original shaders, clipped to the visible continuation globe.
+    // Clear the old pose first so a moving orbit cannot leave framebuffer trails.
+    renderer.setScissorTest(false); renderer.clear();
+    const s=continuation,pad=8,r=s.diameter*.53+pad;
+    const x=Math.max(0,s.x-r),y=Math.max(0,innerHeight-s.y-r);
+    const w=Math.max(0,Math.min(innerWidth,s.x+r)-x),h=Math.max(0,Math.min(innerHeight,innerHeight-s.y+r)-y);
+    renderer.setScissor(x,y,w,h);renderer.setScissorTest(true);
+    draw(now);renderer.setScissorTest(false);
   }
   function sync() {
     if (!mode) return;
@@ -260,6 +271,7 @@
     // Dataset remains owned by the original timeline. Do not rewrite its hero values.
     const p=Number(earth.dataset.opacity)<.005?event.detail:null;
     continuation=p?{...p,pulse:0,morph:0,rail:0}:null;
+    if(points)points.visible=!continuation;
     earth.classList.toggle('is-continuum',!!continuation);
     earth.style.setProperty('--continuum-opacity',String(p?.opacity||0));
     sync();
