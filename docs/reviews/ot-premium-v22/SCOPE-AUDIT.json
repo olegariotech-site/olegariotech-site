@@ -1,0 +1,85 @@
+{
+  "base": "3c5a507807874e7a95f6b51085bd521668210ac0",
+  "applicationHead": "a1a4057863ba741d392a70999f10ca1646b28d61",
+  "videoApplication": "7cd17105b329487e81adfdfad640629d43df54e2",
+  "performanceApplication": "c73b9203675dbf45c01bd0d7e277891dbc2adc26",
+  "productionIdenticalAcrossEvidenceCommits": true,
+  "protected": [
+    {
+      "path": "assets/js/ot-earth-spin.js",
+      "byteIdentical": true,
+      "sha256": "a9b3f8376365305a18d50530572cdbe3b0b8b13e80c68daa71454dfda9187d34"
+    },
+    {
+      "path": "assets/js/ot-earth-journey.js",
+      "byteIdentical": true,
+      "sha256": "f9be2415dbf426617b3139629d111647b580ddac5d43e23e639092d95947437b"
+    },
+    {
+      "path": "assets/js/ot-v2.js",
+      "byteIdentical": true,
+      "sha256": "b238a9d4518e9bf30ef94b387f89a03ffa225b6937c34bb98b1a5b35f200e38a"
+    },
+    {
+      "path": "assets/js/ot-project-showroom.mjs",
+      "byteIdentical": true,
+      "sha256": "6c320648a257f75cc27fff300b242fd2d3bf07541ca05546552135b22aae6d82"
+    },
+    {
+      "path": "assets/js/ot-analytics.js",
+      "byteIdentical": true,
+      "sha256": "6df0bdb1a003bfa32d2abf03bacbdeaa0eb0248aefecd7d5abd0fbc5f56b7550"
+    },
+    {
+      "path": "assets/js/ot-analytics-core.js",
+      "byteIdentical": true,
+      "sha256": "12cf7fd94d5e75fdbfe5d0b598fd95598b232a93e1ecacb30c7a093e7d63bb05"
+    },
+    {
+      "path": "assets/js/ot-solution-configurator.js",
+      "byteIdentical": true,
+      "sha256": "351559a68556b0a4d726615b5b982d9cdc433d40d64998abe60f8f9c893b6553"
+    },
+    {
+      "path": "assets/js/ot-mobile-v3.js",
+      "byteIdentical": true,
+      "sha256": "a2d36502a076440f0a9b9e6f0d1ce155c9d4eab5ac39f55df0993a277ba935da"
+    },
+    {
+      "path": "assets/js/ot-footer-v4.js",
+      "byteIdentical": true,
+      "sha256": "6c82d2f0f6514e49c625e1f386cf46d4daae7f5776f234a15a5091b5b4aa57f2"
+    },
+    {
+      "path": "assets/css/ot-cosmic-showcase.css",
+      "byteIdentical": true,
+      "sha256": "d0e81607d3dc171261c6ca9f2984907b78683238c1ced0c90c7163226f66dd44"
+    },
+    {
+      "path": "assets/css/ot-solution-case.css",
+      "byteIdentical": true,
+      "sha256": "e1ce6c525bd9d9f94a6ee90c0a4a6f02bf6d3278103edd1dedbefb92d10ec727"
+    },
+    {
+      "path": "assets/audio/background.mp3",
+      "byteIdentical": true,
+      "sha256": "e2ea85ab4197b8afcb60212eb8173c422c804707a7ab6d1478386a28dfbc3927"
+    },
+    {
+      "path": "DESIGN.md",
+      "byteIdentical": true,
+      "sha256": "f8f2a8e5ec4b46ca79daec271eb36875d5c44d412e98a0a22c31538002852300"
+    },
+    {
+      "path": "404.html",
+      "byteIdentical": true,
+      "sha256": "6411abd4c188e864b2eb76e7640cf6fbcfe756ed0528bd4ee43737e7fddb7c38"
+    },
+    {
+      "path": "sitemap.xml",
+      "byteIdentical": true,
+      "sha256": "8ad7fde900b7b02573d5f6ca2727c4311ac9570ad046bdb293d1c39f161d7e67"
+    }
+  ],
+  "productionIncrementBytes": 6991
+}
