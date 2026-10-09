@@ -67,7 +67,7 @@ jobs:
         run: node scripts/verify-cosmic-immersive.mjs
       - name: Upload home comparisons and regression report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ot-premium-v2-gate-b-${{ matrix.engine }}-review
           path: /tmp/ot-gate-b-qa
@@ -98,7 +98,7 @@ jobs:
         run: node scripts/measure-cosmic-immersive.mjs
       - name: Upload individual samples and layout shift attribution
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ot-v23-performance-${{ matrix.renderer }}
           path: /tmp/ot-v23-performance

@@ -42,7 +42,7 @@ jobs:
           node scripts/verify-solutions.mjs
       - name: Upload review captures
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ot-immersive-review
           path: /tmp/ot-immersive-qa
