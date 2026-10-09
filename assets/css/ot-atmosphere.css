@@ -17,5 +17,10 @@ body[data-page="home"] .footer{background:radial-gradient(ellipse at 76% 100%,rg
 body[data-page="home"] .footer::before{content:"";display:block;height:420px;pointer-events:none}
 @media(max-width:900px){
   .earth-journey__orbits{width:604.8px;transform:translate(calc(var(--earth-left,78vw) - 302.4px),calc(var(--earth-top,50vh) - 113.4px)) rotate(-24deg) scale(var(--continuum-orbit-scale,1))}
-  body[data-page="home"] .footer::before{height:300px}
+  body[data-page="home"] .footer::before{display:none}
+  body[data-page="home"] .footer::after{content:"";display:block;height:320px;pointer-events:none}
 }
+
+/* The legacy footer skin is injected late. Keep copy sheltered, expose only the reserved sky. */
+html body[data-page="home"] .footer{background:linear-gradient(180deg,transparent 380px,rgba(3,3,8,.92) 480px)}
+@media(max-width:900px){html body[data-page="home"] .footer{background:transparent}html body[data-page="home"] .footer .ot-footer-v4{background:rgba(3,3,8,.92)}}

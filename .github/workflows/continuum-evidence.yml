@@ -10,7 +10,7 @@ permissions:
   contents: write
 concurrency:
   group: ot-v22-evidence
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   record:
     runs-on: ubuntu-latest

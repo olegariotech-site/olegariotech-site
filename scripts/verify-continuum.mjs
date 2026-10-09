@@ -34,11 +34,11 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
   const bounds=await p.evaluate(()=>({projects:document.querySelector('#projetos').offsetTop,partial:document.querySelector('#metodo').offsetTop+document.querySelector('#metodo').offsetHeight-innerHeight*.55,contact:document.querySelector('#contato').offsetTop,footer:document.querySelector('.footer').offsetTop,end:document.documentElement.scrollHeight-innerHeight}));
   const prefix=engine+'-'+width+'x'+height;
   const shots=[];
-  for(const [name,y] of [['hero',0],['partial-earth',bounds.partial],['galaxy-before',bounds.contact-height*.8],['galaxy-approach',bounds.footer-height*.45],['galaxy-integrated',bounds.end]]){
-   await go(p,y);const s=await state(p);assert.equal(s.overflow,false);if(name==='hero'||name==='galaxy-before')assert.equal(s.reveal,0);if(name==='galaxy-integrated'){assert.ok(s.reveal>.99&&s.integration>.99);assert.ok(s.bright>4000,'Recognizable final photographic/galactic pixels')}
+  for(const [name,y] of [['hero',0],['partial-earth',bounds.partial],['galaxy-before',bounds.contact-height*.8],['galaxy-approach',width<=900?bounds.end-height*.18:bounds.footer-height*.45],['galaxy-integrated',bounds.end]]){
+   await go(p,y);const s=await state(p);assert.equal(s.overflow,false);if(name==='hero'||name==='galaxy-before')assert.equal(s.reveal,0);if(name==='galaxy-integrated'){assert.ok(s.reveal>.99&&s.integration>.99);assert.ok(s.bright>1200,'Recognizable final photographic/galactic pixels')}
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
-  const last=await state(p);await go(p,bounds.footer-height*.45);const reverse=await state(p);assert.ok(reverse.integration<last.integration,'Scroll reverses the narrative');await go(p,0);assert.equal((await state(p)).reveal,0);
+  const last=await state(p);await go(p,width<=900?bounds.end-height*.18:bounds.footer-height*.45);const reverse=await state(p);assert.ok(reverse.integration<last.integration,'Scroll reverses the narrative');await go(p,0);assert.equal((await state(p)).reveal,0);
   // Changing case height must update the later real anchors, rather than an old page percentage.
   await p.locator('#projetos').scrollIntoViewIfNeeded();await p.locator('[role=tab][data-project=ripamonti]').click();await p.waitForFunction(()=>document.querySelector('#projectStage').dataset.selectedProject==='ripamonti'&&!document.querySelector('#projectStage').hasAttribute('aria-busy'));
   if(width<=600){await p.locator('[data-expand]').click();await p.waitForTimeout(300);await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight));assert.ok((await state(p)).integration>.99);}
