@@ -242,7 +242,9 @@
       const t=still?.82:integration,angle=-2.75+t*5.9+(still?0:clock*.018);
       const orbit=size*(.36*(1-t)+.038),ellipticity=.48;
       const x=finale.x+Math.cos(angle)*orbit,yy=y+Math.sin(angle)*orbit*ellipticity;
-      const diameter=(compact.matches?142:235)*(1-t*.83);
+      // Preserve the original orbit and final size; give Earth a longer, calmer close-up.
+      const scaleProgress=still?t:t*t*(2-t);
+      const diameter=(compact.matches?142:235)*(1-scaleProgress*.83);
       pose={x,y:yy,diameter,opacity:reveal*(1-t*.24),animate:!still};
       layer.dataset.reveal=reveal.toFixed(3);layer.dataset.integration=integration.toFixed(3);
       layer.dataset.orbit=angle.toFixed(4);
