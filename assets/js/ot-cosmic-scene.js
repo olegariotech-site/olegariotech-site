@@ -27,7 +27,7 @@
     ['#inicio',1], ['#projetos',.68], ['#solucoes',.58], ['#metodo',.64],
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
-  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-card,.footer-inner';
+  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-card,.ot-footer-v4';
   let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
   let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null;
   const photograph=earth.querySelector('.earth-journey__globe>img');
@@ -192,8 +192,18 @@
     }else{layer.dataset.reveal='0';layer.dataset.integration='0';}
     // Quiet reading zones are real layout coordinates, cached outside the paint loop.
     if(partial>.005||reveal>.001)for(const r of reading){
-      if(r.bottom>scrollY&&r.top<scrollY+height)context.clearRect(r.left,r.top-scrollY,r.right-r.left,r.bottom-r.top);
+      if(r.bottom>scrollY-40&&r.top<scrollY+height+40)quietReading(r);
     }
+  }
+  function quietReading(r) {
+    const x=r.left,y=r.top-scrollY,w=r.right-r.left,h=r.bottom-r.top,f=40;
+    context.save();context.globalCompositeOperation='destination-out';context.globalAlpha=.97;
+    context.fillStyle='#000';context.fillRect(x,y,w,h);
+    for(const [x1,y1,x2,y2,bx,by,bw,bh] of [
+      [x,y,x-f,y,x-f,y,f,h],[x+w,y,x+w+f,y,x+w,y,f,h],
+      [x,y,x,y-f,x-f,y-f,w+f*2,f],[x,y+h,x,y+h+f,x-f,y+h,w+f*2,f]
+    ]){const fade=context.createLinearGradient(x1,y1,x2,y2);fade.addColorStop(0,'#000');fade.addColorStop(1,'transparent');context.fillStyle=fade;context.fillRect(bx,by,bw,bh);}
+    context.restore();
   }
   function stop() { if(frame)cancelAnimationFrame(frame);frame=last=0; }
   function tick(now) {

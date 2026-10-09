@@ -35,7 +35,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
   const prefix=engine+'-'+width+'x'+height;
   const shots=[];
   for(const [name,y] of [['hero',0],['partial-earth',bounds.partial],['galaxy-before',bounds.contact-height*.8],['galaxy-approach',bounds.footer-height*.45],['galaxy-integrated',bounds.end]]){
-   await go(p,y);const s=await state(p);assert.equal(s.overflow,false);if(name==='hero'||name==='galaxy-before')assert.equal(s.reveal,0);if(name==='galaxy-integrated'){assert.ok(s.reveal>.99&&s.integration>.99);assert.ok(s.bright>4000,'Recognizable final photographic/galactic pixels')}
+   await go(p,y);const s=await state(p);assert.equal(s.overflow,false);if(name==='hero'||name==='galaxy-before')assert.equal(s.reveal,0);if(name==='galaxy-integrated'){assert.ok(s.reveal>.99&&s.integration>.99);assert.ok(s.bright>1200,'Recognizable final photographic/galactic pixels')}
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
   const last=await state(p);await go(p,bounds.footer-height*.45);const reverse=await state(p);assert.ok(reverse.integration<last.integration,'Scroll reverses the narrative');await go(p,0);assert.equal((await state(p)).reveal,0);
