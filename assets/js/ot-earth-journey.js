@@ -54,8 +54,13 @@
   document.addEventListener('visibilitychange', schedule);
   reduced.addEventListener('change', schedule);
   mobile.addEventListener('change', schedule);
-  // Font loading can change the dedicated mobile globe block after the first frame.
-  document.fonts?.ready.then(schedule);
+  // Show the decorative glow only after font-dependent HERO geometry is settled.
+  // This avoids counting its initial repositioning as a visible layout shift.
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => { update(); earth.classList.add('is-geometry-ready'); });
+  } else {
+    earth.classList.add('is-geometry-ready');
+  }
   const layoutObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
   layoutObserver?.observe(hero); layoutObserver?.observe(visual);
   // Pointer movement never controls scrolling or text; touch remains a normal page.
