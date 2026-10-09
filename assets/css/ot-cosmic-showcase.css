@@ -130,6 +130,9 @@ html.has-immersive-universe #projetos { padding: 0 32px 96px; }
   html.has-immersive-universe #inicio .hero-visual { position: relative; inset: auto; width: 100%; min-height: 310px; height: clamp(310px,65vw,460px); margin-top: 8px; display: block; flex-shrink: 0; }
   .earth-journey { opacity: var(--earth-opacity,1); }
   .earth-journey::after { background: none; }
+  /* Decorative glow becomes visible at its final mobile position after font layout. */
+  .earth-journey::before { visibility: hidden; }
+  .earth-journey.is-geometry-ready::before { visibility: visible; }
   .earth-journey__orbits { width: calc(var(--earth-size,300px) * 1.12); border-color: rgba(103,232,249,.2); }
   html.has-immersive-universe #projetos { padding: 56px 20px 72px; }
   #projetos .section-title { font-size: clamp(2rem,8.5vw,3.25rem); }
