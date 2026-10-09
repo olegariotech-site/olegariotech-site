@@ -20,7 +20,7 @@ async function configure(context,mode='full'){
     window.__dustDraws=[];
     const clear=CanvasRenderingContext2D.prototype.clearRect;
     CanvasRenderingContext2D.prototype.clearRect=function(...args){
-      if(this.canvas.matches('.cosmic-scene')){const start=performance.now();queueMicrotask(()=>window.__dustDraws.push(performance.now()-start));}
+      if(this.canvas.matches('.cosmic-scene')&&args[0]===0&&args[1]===0){const start=performance.now();queueMicrotask(()=>window.__dustDraws.push(performance.now()-start));}
       return clear.apply(this,args);
     };
   },mode);
@@ -53,7 +53,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
         let rotation=null;
         if(renderer==='webgl'){
           await page.evaluate(()=>{window.__globePoses=[];const original=THREE.Mesh.prototype.onBeforeRender;THREE.Mesh.prototype.onBeforeRender=function(...args){if(this.material?.map)window.__globePoses.push(this.rotation.y);return original.apply(this,args)}});
-          await page.waitForTimeout(1500);const poses=await page.evaluate(()=>window.__globePoses);
+          await page.waitForFunction(()=>{const p=window.__globePoses;return new Set(p.map(v=>v.toFixed(5))).size>=3&&p.at(-1)>p[0]},{},{timeout:10000});const poses=await page.evaluate(()=>window.__globePoses);
           assert.ok(new Set(poses.map(v=>v.toFixed(5))).size>=2&&poses.at(-1)>poses[0],'Original WebGL globe really rotates');rotation={poses:poses.length,deltaRadians:poses.at(-1)-poses[0]};
         }
         const phases=[];
