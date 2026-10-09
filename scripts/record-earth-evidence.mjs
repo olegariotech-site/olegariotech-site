@@ -1,8 +1,8 @@
 // Review-only recording: the application remains byte-identical to PR #91.
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {readFile,writeFile,mkdir,stat,copyFile} from 'node:fs/promises';
-import {execFileSync} from 'node:child_process';
+import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';
+import {execFileSync,spawn} from 'node:child_process';
 import {resolve,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const {chromium}=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
@@ -19,7 +19,7 @@ const url=`http://127.0.0.1:${server.address().port}/`;
 const report={applicationCommit,reviewCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),url,viewport:{width:1440,height:900},browserPath:'Browser plugin not available; existing Playwright QA runner',reducedMotion:'no-preference',unchangedApplication:true,errors:[],notFound:[],samples:[],limitations:['WebGL rendered by SwiftShader in GitHub Ubuntu; this is browser rendering, not a simulated planet animation.','Audio is captured from the real HTMLAudioElement stream; physical speaker output is not certified.','No animation speed, application style, geometry, shader or timeline was changed. Only the review operator scrolls the page.']};
 let browser,session;
 try{
-  browser=await chromium.launch({executablePath:process.env.OT_CHROME_EXECUTABLE||undefined,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+  browser=await chromium.launch({headless:false,executablePath:process.env.OT_CHROME_EXECUTABLE||undefined,args:['--kiosk','--start-fullscreen','--window-position=0,0','--window-size=1440,900','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
   report.browserVersion=browser.version();
   const context=await browser.newContext({viewport:report.viewport,deviceScaleFactor:1,reducedMotion:'no-preference'});
   await context.addInitScript(()=>localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'})));
@@ -38,6 +38,11 @@ try{
   await page.evaluate(()=>{const original=THREE.Mesh.prototype.onBeforeRender;THREE.Mesh.prototype.onBeforeRender=function(...args){if(this.material?.map)window.__qaRotation={y:this.rotation.y,at:performance.now()};return original.apply(this,args)}});
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
   await page.waitForFunction(()=>window.__qaRotation&&document.getElementById('earthJourney').dataset.animate==='true');
+  session=await context.newCDPSession(page);
+  const windowInfo=await session.send('Browser.getWindowForTarget');
+  await session.send('Browser.setWindowBounds',{windowId:windowInfo.windowId,bounds:{windowState:'fullscreen'}});
+  report.windowBounds=(await session.send('Browser.getWindowBounds',{windowId:windowInfo.windowId})).bounds;
+  assert.equal(report.windowBounds.width,1440);assert.equal(report.windowBounds.height,900);
   const button=page.locator('.desktop-audio-toggle');assert.ok(await button.isVisible());
   assert.equal(await button.getAttribute('aria-label'),'Ativar som');assert.equal(await button.getAttribute('aria-pressed'),'false');
   await button.click();await page.waitForFunction(()=>{const a=document.getElementById('backgroundAudio');return !a.paused&&!a.muted&&a.currentTime>.2});
@@ -50,17 +55,11 @@ try{
   await page.screenshot({path:resolve(output,'hero-start.jpg'),type:'jpeg',quality:90});
   // Capture the decoded, real audio stream without rerouting the element playback.
   await page.evaluate(async()=>{const a=document.getElementById('backgroundAudio'),stream=a.captureStream();if(!stream.getAudioTracks().length)throw Error('No audio track');const audioContext=new AudioContext(),source=audioContext.createMediaStreamSource(stream),analyser=audioContext.createAnalyser();source.connect(analyser);await audioContext.resume();const chunks=[],recorder=new MediaRecorder(stream,{mimeType:'audio/webm'});recorder.ondataavailable=e=>chunks.push(e.data);window.__qaSound={audioContext,analyser,chunks,recorder,stream};});
-  session=await context.newCDPSession(page);
-  const frames=[],pending=[];
-  let epoch;
-  session.on('Page.screencastFrame',event=>{
-    const index=frames.length,file=resolve(output,'frames',String(index).padStart(5,'0')+'.jpg');
-    frames.push({file,timestamp:event.metadata.timestamp,relative:event.metadata.timestamp-epoch});
-    pending.push(writeFile(file,Buffer.from(event.data,'base64')));
-    session.send('Page.screencastFrameAck',{sessionId:event.sessionId}).catch(()=>{});
-  });
-  epoch=await page.evaluate(()=>Date.now()/1000);
-  await session.send('Page.startScreencast',{format:'jpeg',quality:86,maxWidth:1440,maxHeight:900,everyNthFrame:1});
+  // Capture the real virtual desktop separately, without forcing CDP JPEG paints.
+  const recording=spawn('ffmpeg',['-y','-loglevel','info','-f','x11grab','-framerate','30','-video_size','1440x900','-i',process.env.DISPLAY,'-t','11.5','-an','-c:v','libx264','-preset','ultrafast','-crf','19','-pix_fmt','yuv420p',resolve(output,'desktop-raw.mp4')]);
+  let recorderLog='';
+  const finished=new Promise((resolve,reject)=>{recording.on('error',reject);recording.on('close',code=>code===0?resolve():reject(Error('Desktop recording failed: '+recorderLog.slice(-1000))))});
+  await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Desktop recorder did not start')),10000);recording.stderr.on('data',data=>{recorderLog+=data.toString();if(recorderLog.includes('Input #0')){clearTimeout(timer);resolve()}});recording.on('error',reject)});
   await page.evaluate(async()=>{
     const start=performance.now(),heroHeight=document.getElementById('inicio').getBoundingClientRect().height;
     const target=document.getElementById('projetos').getBoundingClientRect().top+scrollY-90;
@@ -71,18 +70,18 @@ try{
       function step(now){
         const t=(now-start)/1000;
         let y=0;
-        if(t>=3.8&&t<6)y=heroHeight*.26*smooth((t-3.8)/2.2);
-        else if(t>=6&&t<7.8)y=heroHeight*(.26+(.63-.26)*smooth((t-6)/1.8));
-        else if(t>=7.8&&t<8.7)y=heroHeight*.63;
-        else if(t>=8.7&&t<10.3)y=heroHeight*.63+(target-heroHeight*.63)*smooth((t-8.7)/1.6);
-        else if(t>=10.3)y=target;
+        if(t>=4.5&&t<6.5)y=heroHeight*.26*smooth((t-4.5)/2);
+        else if(t>=6.5&&t<8.3)y=heroHeight*(.26+(.63-.26)*smooth((t-6.5)/1.8));
+        else if(t>=8.3&&t<9.1)y=heroHeight*.63;
+        else if(t>=9.1&&t<10.6)y=heroHeight*.63+(target-heroHeight*.63)*smooth((t-9.1)/1.5);
+        else if(t>=10.6)y=target;
         scrollTo({top:y,behavior:'instant'});
         if(t-lastSample>=.1){lastSample=t;const e=document.getElementById('earthJourney'),a=document.getElementById('backgroundAudio'),samples=new Float32Array(window.__qaSound.analyser.fftSize);window.__qaSound.analyser.getFloatTimeDomainData(samples);window.__qaTimeline.push({t,scrollY,rotation:window.__qaRotation?.y,progress:Number(e.dataset.progress),pulse:Number(e.dataset.pulse),morph:Number(e.dataset.morph),opacity:Number(e.dataset.opacity),wave:e.classList.contains('is-wave'),audioTime:a.currentTime,audioRms:Math.sqrt(samples.reduce((n,v)=>n+v*v,0)/samples.length),soundButton:document.querySelector('.desktop-audio-toggle').getAttribute('aria-pressed')});}
         if(t<11.5)requestAnimationFrame(step);else resolve();
       }requestAnimationFrame(step);
     });
   });
-  await session.send('Page.stopScreencast');await Promise.all(pending);
+  await finished;
   report.samples=await page.evaluate(()=>window.__qaTimeline);
   const audioData=await page.evaluate(async()=>{const s=window.__qaSound;await new Promise(r=>{s.recorder.onstop=r;s.recorder.stop()});const blob=new Blob(s.chunks,{type:'audio/webm'});return await new Promise(r=>{const reader=new FileReader();reader.onload=()=>r(reader.result.split(',')[1]);reader.readAsDataURL(blob)})});
   await writeFile(resolve(output,'real-audio.webm'),Buffer.from(audioData,'base64'));
@@ -93,25 +92,19 @@ try{
   report.audio.maxRms=Math.max(...report.samples.map(s=>s.audioRms));
   await button.click();assert.equal(await button.getAttribute('aria-pressed'),'false');assert.equal(await button.getAttribute('aria-label'),'Ativar som');
   report.audio.off=await page.locator('#backgroundAudio').evaluate(a=>({paused:a.paused,muted:a.muted}));assert.deepEqual(report.audio.off,{paused:true,muted:true});
-  const rotation=report.samples.filter(s=>s.t<3.7).map(s=>s.rotation);
+  const rotation=report.samples.filter(s=>s.t<4.4).map(s=>s.rotation);
   report.rotationDeltaRadians=rotation.at(-1)-rotation[0];assert.ok(report.rotationDeltaRadians>.25,'Original rendered globe actually rotates');
   assert.ok(report.samples.some(s=>s.pulse>.55&&s.morph<.2),'Globe becomes continental particles');
   assert.ok(report.samples.some(s=>s.wave&&s.morph>.7&&s.opacity>.1),'Wave stage is visibly present');
   assert.equal(await page.locator('#projetos h2').innerText(),'Prova antes da promessa.');assert.equal(await page.locator('#projectStage').getAttribute('data-selected-project'),'kl');
   const box=await page.locator('#projectStage').boundingBox();assert.ok(box.y<900&&box.y+box.height>90,'Integrated showroom appears in the recording');
   assert.deepEqual(report.errors,[]);assert.deepEqual(report.notFound,[]);
-  assert.ok(frames.length>=40,'Enough real screencast frames to show continuous motion');
-  // Preserve the native frame timestamps; no speed-up or synthetic animation.
-  const origin=frames[0].timestamp;
-  const normalized=frames.map(f=>({...f,t:f.timestamp-origin}));
-  const concat=normalized.map((f,i)=>`file '${f.file}'\nduration ${i+1<normalized.length?Math.max(.001,normalized[i+1].t-f.t):.1}`).join('\n')+'\n'+`file '${normalized.at(-1).file}'\n`;
-  await writeFile(resolve(output,'frames.txt'),concat);
-  execFileSync('ffmpeg',['-y','-loglevel','error','-f','concat','-safe','0','-i',resolve(output,'frames.txt'),'-i',resolve(output,'real-audio.webm'),'-t','11.5','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-vf','fps=30','-c:a','aac','-b:a','128k','-movflags','+faststart',resolve(output,'earth-home-1440x900.mp4')]);
-  for(const [name,time] of [['particles',5.9],['waves',8.2]]){
-    const nearest=normalized.reduce((best,f)=>Math.abs(f.t-time)<Math.abs(best.t-time)?f:best,normalized[0]);await copyFile(nearest.file,resolve(output,name+'.jpg'));
-  }
-  report.frameCount=frames.length;report.frameTimestampSpan=normalized.at(-1).t;report.duration=11.5;report.timeline=[{seconds:'0–3.8',state:'Complete rotating Earth in the original HERO, real audio on'},{seconds:'3.8–6',state:'Scroll into continental particles'},{seconds:'6–8.7',state:'Perspective waves'},{seconds:'8.7–11.5',state:'Passage into integrated Premium V2 showroom'}];
+  execFileSync('ffmpeg',['-y','-loglevel','error','-i',resolve(output,'desktop-raw.mp4'),'-i',resolve(output,'real-audio.webm'),'-t','11.5','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-movflags','+faststart',resolve(output,'earth-home-1440x900.mp4')]);
+  for(const [name,time] of [['particles',6.4],['waves',8.7]])execFileSync('ffmpeg',['-y','-loglevel','error','-ss',String(time),'-i',resolve(output,'earth-home-1440x900.mp4'),'-frames:v','1',resolve(output,name+'.jpg')]);
+  report.video=JSON.parse(execFileSync('ffprobe',['-v','quiet','-show_streams','-show_format','-of','json',resolve(output,'earth-home-1440x900.mp4')],{encoding:'utf8'}));
+  const track=report.video.streams.find(s=>s.codec_type==='video');assert.equal(track.width,1440);assert.equal(track.height,900);assert.ok(Number(report.video.format.duration)>=8&&Number(report.video.format.duration)<=12);
+  report.frameCount=Number(track.nb_frames);report.duration=Number(report.video.format.duration);report.timeline=[{seconds:'0–4.5',state:'Complete rotating Earth in the original HERO, real audio on'},{seconds:'4.5–6.5',state:'Scroll into continental particles'},{seconds:'6.5–9.1',state:'Perspective waves'},{seconds:'9.1–11.5',state:'Passage into integrated Premium V2 showroom'}];
   report.passed=true;await writeFile(resolve(output,'report.json'),JSON.stringify(report,null,2));
-  await writeFile(resolve(output,'README.md'),`# Terra — validação visual do PR #91\n\nGravação real de **11,5 segundos**, viewport **1440 × 900**, Chromium ${report.browserVersion}, WebGL/SwiftShader e movimento habilitado. A aplicação é byte-idêntica ao commit **${applicationCommit}**; esta branch contém apenas automação e evidências de revisão.\n\n[Assistir ao vídeo com áudio real](./earth-home-1440x900.mp4) · [Dados e assertions](./report.json)\n\n0–3,8s: Terra inteira e rotação original. 3,8–6s: partículas. 6–8,7s: ondas. 8,7–11,5s: vitrine Premium V2 integrada. Sem aceleração do filme ou da Terra; timestamps nativos preservados.\n\nÁudio: clique no botão original ativa playback, volume desktop 0,25, loop e MP3 aprovados; o relógio avança e há sinal decodificado não nulo. O filme contém o stream real do elemento. Segundo clique pausa/muta e restaura ARIA/label. Nenhuma certificação de saída física de alto-falante. Zero erros JS/imagens 404.\n\nRenderer, shaders, geometria, estilos, conteúdo e código de áudio não foram alterados. O fallback sem WebGL mantém a foto inicial estática por comportamento já existente, e reduced motion/mobile também desabilitam rotação.\n\nSem merge ou publicação. PR #91 permanece em rascunho para aprovação de Alexandre.\n`);
-  console.log(JSON.stringify({passed:true,renderer:report.renderer,rotationDeltaRadians:report.rotationDeltaRadians,frameCount:frames.length,duration:report.duration,audio:report.audio}));
-}catch(error){report.failure=error.stack;await writeFile(resolve(output,'report.json'),JSON.stringify(report,null,2));throw error}finally{await browser?.close();server.close();}
+  await writeFile(resolve(output,'README.md'),`# Terra — validação visual do PR #91\n\nGravação real de **11,5 segundos**, viewport **1440 × 900**, Chromium ${report.browserVersion}, WebGL/SwiftShader e movimento habilitado. A aplicação é byte-idêntica ao commit **${applicationCommit}**; esta branch contém apenas automação e evidências de revisão.\n\n[Assistir ao vídeo com áudio real](./earth-home-1440x900.mp4) · [Dados e assertions](./report.json)\n\n0–4,5s: Terra inteira e rotação original. 4,5–6,5s: partículas. 6,5–9,1s: ondas. 9,1–11,5s: vitrine Premium V2 integrada. Captura direta do desktop virtual, sem aceleração do filme ou da Terra.\n\nÁudio: clique no botão original ativa playback, volume desktop 0,25, loop e MP3 aprovados; o relógio avança e há sinal decodificado não nulo. O filme contém o stream real do elemento. Segundo clique pausa/muta e restaura ARIA/label. Nenhuma certificação de saída física de alto-falante. Zero erros JS/imagens 404.\n\nRenderer, shaders, geometria, estilos, conteúdo e código de áudio não foram alterados. O fallback sem WebGL mantém a foto inicial estática por comportamento já existente, e reduced motion/mobile também desabilitam rotação.\n\nSem merge ou publicação. PR #91 permanece em rascunho para aprovação de Alexandre.\n`);
+  console.log(JSON.stringify({passed:true,renderer:report.renderer,rotationDeltaRadians:report.rotationDeltaRadians,frameCount:report.frameCount,duration:report.duration,audio:report.audio}));
+}catch(error){report.failure=error.stack;await writeFile(resolve(output,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({renderer:report.renderer,rotation:report.rotationDeltaRadians,geometry:report.geometry,windowBounds:report.windowBounds,samples:report.samples.filter((_,i)=>i%8===0),errors:report.errors}));throw error}finally{await browser?.close();server.close();}
