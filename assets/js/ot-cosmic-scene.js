@@ -1,5 +1,4 @@
-/* V2.3: one atmospheric canvas, original Earth renderer and native scroll.
-   Hubble NGC 1300 / NASA, ESA, Hubble Heritage (STScI/AURA), CC BY 4.0. */
+/* Atmospheric particles and the original Earth journey; no extra footer scene. */
 (() => {
   'use strict';
   const earth = document.getElementById('earthJourney');
@@ -28,8 +27,8 @@
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
   const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.method-card,.ot-footer-v4';
-  let width=0, height=0, frame=0, last=0, clock=0, finaleClock=0, measureFrame=0;
-  let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null, galaxyImage=null, galaxyRequested=false;
+  let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
+  let anchors=[], reading=[], hidden=false, chapters=[];
   let pointer={x:.5,y:.5,tx:.5,ty:.5,active:false,energy:0}, travel=scrollY, velocity=0;
   let budget=1, slowFrames=0;
   const luminous=[];
@@ -39,7 +38,6 @@
     g.fillStyle=fade;g.fillRect(0,0,32,32);return c;
   });
   const photograph=earth.querySelector('.earth-journey__globe>img');
-  const span=(value,a,b)=>smooth((value-a)/Math.max(1,b-a));
   photograph?.addEventListener('load',sync,{once:true});
 
   // Layout reads happen on layout changes, not inside the continuous paint loop.
@@ -56,19 +54,6 @@
     });
     const bounds=selector=>{const el=document.querySelector(selector);if(!el)return null;const r=el.getBoundingClientRect();return {top:y+r.top,bottom:y+r.bottom,paddingBottom:parseFloat(getComputedStyle(el).paddingBottom)||0};};
     chapters=['#projetos','#metodo'].map(bounds).filter(Boolean).map(r=>r.bottom);
-    const contact=bounds('#contato'),footer=bounds('.footer');
-    if(contact&&footer){
-      const finish=Math.max(contact.top,document.documentElement.scrollHeight-height);
-      const header=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ot-header-height'))||60;
-      const skyBottom=footer.bottom-footer.paddingBottom-finish;
-      const skyTop=Math.max(header+24,skyBottom-(compact.matches?420:560));
-      const skyEnd=Math.min(height-24,skyBottom);
-      const size=Math.min(compact.matches?width*1.23:width*.74,760,Math.max(160,skyEnd-skyTop-36)/.62);
-      finale={start:compact.matches?finish-height*.95:contact.top-height*.7,
-        approach:compact.matches?finish-height*.35:footer.top-height*.5,finish,
-        y:finish+(skyTop+skyEnd)*.5,size,
-        x:compact.matches?width*.5:width*.62};
-    }
     sync();
   }
   function scheduleMeasure() { if(!measureFrame)measureFrame=requestAnimationFrame(measure); }
@@ -156,78 +141,6 @@
     context.clearRect(0,0,width,height);
     continuum();dust(clock);ribbon(reduced.matches||constrained()?0:clock);
   }
-  // Decompose the real photograph once: nucleus, disk and outer arms overlap softly.
-  function buildGalaxy() {
-    if(galaxyRequested)return;galaxyRequested=true;
-    const image=new Image();galaxyImage=image;image.decoding='async';
-    image.onload=()=>{prepareGalaxy(image).then(sync).catch(()=>{layer.dataset.galaxy='unavailable';sync();});};
-    image.onerror=()=>{layer.dataset.galaxy='unavailable';sync();};
-    image.src='/assets/img/orbit/hubble-ngc1300-'+(compact.matches||constrained()?'1024':'2048')+'-v1.webp';
-    layer.dataset.galaxy='loading';
-  }
-  async function prepareGalaxy(image){
-    if(!image?.naturalWidth)return;
-    const w=Math.min(image.naturalWidth,compact.matches||constrained()?1024:1600),h=Math.round(w*image.naturalHeight/image.naturalWidth);
-    const buffer=document.createElement('canvas');buffer.width=w;buffer.height=h;
-    const g=buffer.getContext('2d',{willReadFrequently:true});if(!g)return;
-    g.drawImage(image,0,0,w,h);const src=g.getImageData(0,0,w,h);
-    const parts=[0,1,2].map(()=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;});
-    const data=parts.map(c=>c.getContext('2d').createImageData(w,h));
-    const stars=[];
-    // Prepare in small one-time slices; never block a CTA with a whole-image pixel loop.
-    for(let first=0;first<h;){
-    const deadline=await new Promise(done=>{
-      if(typeof requestIdleCallback==='function')requestIdleCallback(done,{timeout:100});else setTimeout(done,0);
-    });
-    if(document.hidden)await new Promise(done=>{const resume=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',resume);done();}};document.addEventListener('visibilitychange',resume);});
-    const started=performance.now();
-    do {
-    for(let y=first;y<Math.min(h,first+12);y++)for(let x=0;x<w;x++){
-      const i=(y*w+x)*4,dx=(x-w*.493)/(w*.5),dy=(y-h*.47)/(h*.5),r=Math.hypot(dx,dy);
-      const edge=(1-smooth((r-.84)/.26))*smooth(x/(w*.055))*smooth((w-x)/(w*.055))*smooth(y/(h*.085))*smooth((h-y)/(h*.085));
-      const core=1-smooth((r-.15)/.34),outer=smooth((r-.54)/.25),middle=Math.max(0,1-core-outer);
-      for(let k=0;k<3;k++){data[k].data[i]=src.data[i];data[k].data[i+1]=src.data[i+1];data[k].data[i+2]=src.data[i+2];data[k].data[i+3]=Math.round(edge*(k===0?core:k===1?middle:outer)*255);}
-      if(x%5===0&&y%5===0&&r>.27&&r<.95){
-        const brightness=(src.data[i]+src.data[i+1]+src.data[i+2])/3;
-        if(brightness>140&&src.data[i+2]>src.data[i]*.8)stars.push({x:x/w-.493,y:y/w-h/w*.47,phase:noise(x+y*w)*6.28,depth:.5+noise(x+y)*.5});
-      }
-    }
-    first+=12;
-    }while(first<h&&performance.now()-started<6&&(!deadline||deadline.timeRemaining()>2));
-    }
-    parts.forEach((c,i)=>c.getContext('2d').putImageData(data[i],0,0));
-    galaxy={parts,w,h,stars:stars.filter((_,i)=>i%Math.max(1,Math.ceil(stars.length/(compact.matches?64:144)))===0)};
-    layer.dataset.galaxy='photographic';
-  }
-  function galaxyMotion(still){
-    const time=still?0:finaleClock;
-    // Bounded differential precession keeps the photographed bar and arms connected.
-    return {time,turn:time*.009,middle:Math.sin(time*.27)*.032,outer:Math.sin(time*.18)*.074};
-  }
-  function paintGalaxy(x,y,size,reveal,still){
-    if(!galaxy)return;
-    const motion=galaxyMotion(still);
-    const parallax=still?0:(pointer.x-.5)*10;
-    context.save();context.translate(x+parallax,y+(still?0:(pointer.y-.5)*6));
-    // The nucleus, middle disk and outer arms have visibly different trajectories.
-    context.globalCompositeOperation='lighter';
-    galaxy.parts.forEach((part,i)=>{
-      context.save();const a=motion.turn+[0,motion.middle,motion.outer][i];
-      // Rotate within the inclined disk, not in screen space: the ellipse stays framed
-      // even after many orbits while the photographed structures move around its axis.
-      const c=Math.cos(a),s=Math.sin(a);context.transform(c,s*.56,-s/.56,c,0,0);context.globalAlpha=reveal*.91;
-      const breathe=still?1:1+Math.sin(motion.time*.20+i)*i*.003;
-      context.drawImage(part,-size*.493*breathe,-size*galaxy.h/galaxy.w*.47*breathe,size*breathe,size*galaxy.h/galaxy.w*breathe);context.restore();
-    });
-    for(const s of galaxy.stars){
-      const a=motion.time*(.042+(1-s.depth)*.020),c=Math.cos(a),n=Math.sin(a);
-      const sx=(s.x*c-s.y/.56*n)*size,sy=(s.x*n*.56+s.y*c)*size;
-      context.globalAlpha=reveal*(.34+(still?.3:(Math.sin(motion.time*.9+s.phase)+1)*.20));
-      const r=1+s.depth;context.drawImage(sprites[0],sx-r*2.5,sy-r*2.5,r*5,r*5);
-    }
-    layer.dataset.galaxyMotion=JSON.stringify({turn:motion.turn,middle:motion.middle,outer:motion.outer});
-    context.restore();
-  }
   function globe(x,y,diameter,opacity) {
     if(!photograph?.complete||!photograph.naturalWidth)return;
     context.globalAlpha=opacity;context.drawImage(photograph,x-diameter/2,y-diameter/2,diameter,diameter);context.globalAlpha=1;
@@ -242,47 +155,18 @@
     const still=reduced.matches||constrained(),center=scrollY+height*.55;
     let partial=0,chapterIndex=0;
     chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*.88)))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
-    const reveal=finale?span(scrollY,finale.start,finale.approach):0;
     let pose=null;
-    if(partial>.005&&reveal<.15&&Number(earth.dataset.opacity)<.005){
+    if(partial>.005&&Number(earth.dataset.opacity)<.005){
       const diameter=width*(compact.matches?1.12:.56),entrance=partial/.75;
       const x=width+diameter*(.32-.40*entrance),y=height*(.59+chapterIndex*.08);
       pose={x,y,diameter,opacity:partial,animate:!still};
     }
-    if(finale&&reveal>.001){
-      const integration=span(scrollY,finale.approach,finale.finish);
-      // Keep the approach in view. Its destination is the reserved closing sky;
-      // using the distant document coordinate here hides the whole entry below the fold.
-      const y=mix(height*1.04,finale.y-finale.finish,integration),size=finale.size;
-      paintGalaxy(finale.x,y,size,reveal,still);
-      const t=still?1:integration,motion=galaxyMotion(still);
-      const parallaxX=still?0:(pointer.x-.5)*10,parallaxY=still?0:(pointer.y-.5)*6;
-      // Dock inside the photographed right-hand arm, then orbit this local stellar region.
-      // This is an artistic Solar-System-scale orbit, not an Earth orbit around the nucleus.
-      const armAngle=motion.turn+motion.middle,c=Math.cos(armAngle),s=Math.sin(armAngle);
-      const armX=finale.x+parallaxX+size*(.225*c-.055/.56*s);
-      const armY=y+parallaxY+size*(.225*s*.56+.055*c);
-      const angle=-.65+(still?0:motion.time*.22),radius=size*.043;
-      const localX=armX+Math.cos(angle)*radius,localY=armY+Math.sin(angle)*radius*.58;
-      const approachAngle=-2.6+t*3.8;
-      const approachRadius=size*(.48-.13*t);
-      const arrivalX=finale.x+Math.cos(approachAngle)*approachRadius;
-      const arrivalY=y+Math.sin(approachAngle)*approachRadius*.52;
-      const docking=smooth((t-.18)/.82);
-      const x=mix(arrivalX,localX,docking),yy=mix(arrivalY,localY,docking);
-      const scaleProgress=t*t*(2-t),endDiameter=compact.matches?34:58;
-      const diameter=mix(compact.matches?142:235,endDiameter,scaleProgress);
-      pose={x,y:yy,diameter,opacity:reveal*mix(1,.91,t),animate:!still};
-      layer.dataset.reveal=reveal.toFixed(3);layer.dataset.integration=integration.toFixed(3);
-      layer.dataset.orbit=angle.toFixed(4);
-      layer.dataset.orbitRegion=JSON.stringify({x:armX,y:armY,radius,ellipse:.58,galaxyX:finale.x+parallaxX,galaxyY:y+parallaxY,size});
-    }else{layer.dataset.reveal='0';layer.dataset.integration='0';}
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
     layer.dataset.earth=pose?JSON.stringify(pose):'';
     if(pose&&still){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
     else setEarth(pose);
-    if(partial>.005||reveal>.001)for(const r of reading){
+    if(partial>.005)for(const r of reading){
       if(r.bottom>scrollY-40&&r.top<scrollY+height+40)quietReading(r);
     }
   }
@@ -302,7 +186,6 @@
     if(now-last>=interval){
       const delta=last?Math.min(now-last,100)/1000:interval/1000;
       clock+=delta;
-      if(finale&&scrollY>finale.start)finaleClock+=delta;
       last=now;
       const before=performance.now();
       const difference=scrollY-travel;velocity=mix(velocity,difference,.15);travel=mix(travel,scrollY,.14);
@@ -316,7 +199,6 @@
     // Fixed orbit layout boxes; transform alone reproduces the measured original geometry.
     earth.style.setProperty('--continuum-orbit-scale',String((Number(earth.dataset.diameter)||540)/540));
     if(document.hidden||hidden){stop();return;}
-    if(!galaxy&&finale&&scrollY>finale.start-height*.75)buildGalaxy();
     if(reduced.matches||constrained()){stop();draw();}
     else if(!frame)frame=requestAnimationFrame(tick);
   }
