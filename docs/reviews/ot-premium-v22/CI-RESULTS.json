@@ -1,0 +1,144 @@
+{
+  "applicationHead": "a1a4057863ba741d392a70999f10ca1646b28d61",
+  "approval": "Draft only; Alexandre visual/functional approval pending; no merge or publication.",
+  "runs": [
+    {
+      "id": 37952956020,
+      "name": "CodeQL",
+      "head": "a1a4057863ba741d392a70999f10ca1646b28d61",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956020",
+      "status": "completed",
+      "conclusion": "success",
+      "started": "2026-10-09T15:36:09Z",
+      "updated": "2026-10-09T15:37:11Z"
+    },
+    {
+      "id": 37952956022,
+      "name": "Immersive home QA",
+      "head": "a1a4057863ba741d392a70999f10ca1646b28d61",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956022",
+      "status": "completed",
+      "conclusion": "success",
+      "started": "2026-10-09T15:36:09Z",
+      "updated": "2026-10-09T15:45:22Z"
+    },
+    {
+      "id": 37952956178,
+      "name": "Gate B integrated showroom QA",
+      "head": "a1a4057863ba741d392a70999f10ca1646b28d61",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178",
+      "status": "completed",
+      "conclusion": "success",
+      "started": "2026-10-09T15:36:09Z",
+      "updated": "2026-10-09T15:55:43Z"
+    }
+  ],
+  "checks": [
+    {
+      "name": "CodeQL",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/runs/113896530392"
+    },
+    {
+      "name": "complete-home (chromium)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178/job/113896176115"
+    },
+    {
+      "name": "complete-home (webkit)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178/job/113896176066"
+    },
+    {
+      "name": "continuum-performance (canvas2d)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178/job/113896175991"
+    },
+    {
+      "name": "continuum-performance (webgl)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178/job/113896175477"
+    },
+    {
+      "name": "visual-and-functional",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956022/job/113896175216"
+    },
+    {
+      "name": "Analyze JavaScript",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956020/job/113896174681"
+    }
+  ],
+  "journeyEvidence": {
+    "chromium": [
+      "2026-10-09T15:37:53.4323760Z PASS chromium-1366x768",
+      "2026-10-09T15:40:06.7405304Z PASS chromium-1440x900",
+      "2026-10-09T15:42:07.2426487Z PASS chromium-1920x1080",
+      "2026-10-09T15:43:45.8117258Z PASS chromium-768x1024",
+      "2026-10-09T15:44:22.1985557Z PASS chromium-360x800",
+      "2026-10-09T15:44:51.9315980Z PASS chromium-390x844",
+      "2026-10-09T15:45:26.7153377Z PASS chromium-430x932",
+      "2026-10-09T15:46:12.4396610Z PASS chromium-1440x900-reduced",
+      "2026-10-09T15:46:27.4373902Z PASS chromium-390x844-reduced",
+      "2026-10-09T15:47:13.0850879Z PASS chromium-responsive-state",
+      "2026-10-09T15:47:19.3605478Z PASS chromium-consent-and-analytics",
+      "2026-10-09T15:48:33.6480442Z All integrated home showroom checks passed.",
+      "2026-10-09T15:50:51.0840121Z {\"passed\":true,\"viewports\":7,\"preferenceScenarios\":4}",
+      "2026-10-09T15:50:52.1606239Z chromium: native journey viewports",
+      "2026-10-09T15:53:22.6435238Z chromium: direct anchors and orientation",
+      "2026-10-09T15:53:35.6392356Z chromium: complete-home comparisons",
+      "2026-10-09T15:55:27.2420902Z chromium: held photograph and recovery",
+      "2026-10-09T15:55:33.4504290Z {\"passed\":true,\"viewports\":7,\"anchors\":3,\"comparisons\":18,\"incrementBytes\":6991}"
+    ],
+    "webkit": [
+      "2026-10-09T15:37:42.0789150Z PASS webkit-1366x768",
+      "2026-10-09T15:38:15.8489653Z PASS webkit-1440x900",
+      "2026-10-09T15:38:54.7996576Z PASS webkit-1920x1080",
+      "2026-10-09T15:39:19.3855135Z PASS webkit-768x1024",
+      "2026-10-09T15:39:37.6636531Z PASS webkit-360x800",
+      "2026-10-09T15:39:55.8183585Z PASS webkit-390x844",
+      "2026-10-09T15:40:14.9797325Z PASS webkit-430x932",
+      "2026-10-09T15:40:38.8068394Z PASS webkit-1440x900-reduced",
+      "2026-10-09T15:40:54.4064363Z PASS webkit-390x844-reduced",
+      "2026-10-09T15:41:14.8629070Z PASS webkit-responsive-state",
+      "2026-10-09T15:41:23.2762150Z PASS webkit-consent-and-analytics",
+      "2026-10-09T15:41:23.3438100Z All integrated home showroom checks passed.",
+      "2026-10-09T15:42:38.1817376Z {\"passed\":true,\"viewports\":7,\"preferenceScenarios\":4}",
+      "2026-10-09T15:42:39.3290693Z webkit: native journey viewports",
+      "2026-10-09T15:43:35.5457326Z webkit: direct anchors and orientation",
+      "2026-10-09T15:43:49.5448837Z webkit: complete-home comparisons",
+      "2026-10-09T15:44:20.9538483Z webkit: held photograph and recovery",
+      "2026-10-09T15:44:23.8188394Z {\"passed\":true,\"viewports\":7,\"anchors\":3,\"comparisons\":18,\"incrementBytes\":6991}"
+    ]
+  },
+  "performance": {
+    "primaryFullAttributionRun": 37945899072,
+    "confirmationRun": 37952956178,
+    "primarySamples": 120,
+    "confirmationSamples": 120,
+    "v22PrimaryInitialAndWholeJourneyCLSMax": 0.008924163210000582,
+    "v22ConfirmationInitialCLSMax": 0.008924163210000582
+  },
+  "nativeEvidenceRuns": [
+    37947029635,
+    37949800440
+  ],
+  "previousWebKitTimeout": {
+    "run": 37949666436,
+    "job": 113884857155,
+    "outcome": "Timed out during the held-photo scenario; test font wait and route cleanup corrected; unchanged production application passed on the final head."
+  },
+  "limitations": [
+    "Linux WebKit and emulated touch do not certify physical Safari/iPhone.",
+    "Software WebGL and synthetic Event Timing are not field GPU/INP certification.",
+    "Audio stream validated; physical speaker output not certified."
+  ]
+}

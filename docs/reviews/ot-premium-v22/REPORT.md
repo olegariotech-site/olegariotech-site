@@ -96,9 +96,16 @@ Regressões pequenas reportadas: LCP +16 ms no Canvas2D desktop; +4 ms no WebGL 
 
 [Resumo com todas as amostras individuais](PERFORMANCE-SUMMARY.json) · [Raw WebGL](evidence/performance/ot-v22-performance-webgl/performance-webgl.json) · [Raw Canvas2D](evidence/performance/ot-v22-performance-canvas2d/performance-canvas2d.json) · [Run imutável de performance](https://github.com/olegariotech-site/olegariotech-site/actions/runs/37945899072)
 
+A cabeça final `a1a4057` recebeu uma segunda bateria independente de **120 cargas frias**, com ambos os jobs aprovados. Os snapshots iniciais emitidos pelo CI confirmam **CLS máximo V2.2 de 0,008924**, em todas as condições. Medianas mobile com motion: main/V2.1/V2.2 **0,369749/0,369749/0,008924** nos dois renderers; desktop **0,056797/0,056797/0,004372**. LCP variou entre máquinas, como esperado no laboratório: WebGL desktop 180/180/184 ms, mobile 164/168/164 ms; Canvas2D desktop 280/292/284 ms, mobile 232/228/228 ms. Não substituir os dados completos da bateria anterior por estes números nem juntar condições diferentes. [120 snapshots de confirmação da cabeça final](PERFORMANCE-CONFIRMATION.json) · [Run final e artefatos completos](https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178).
+
 ## Testes e segurança
 
-Status dos workflows da cabeça final será atualizado ao encerrar a execução. Não há recomendação de publicação automática.
+**Todos os checks da cabeça `a1a4057` aprovados.** Sem merge/publicação; aceite visual e funcional ainda depende de Alexandre.
+
+- [Gate B integrado — Chromium, WebKit e performance WebGL/Canvas2D: success](https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956178).
+- [Immersive home QA: success](https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956022).
+- [CodeQL / Analyze JavaScript: success](https://github.com/olegariotech-site/olegariotech-site/actions/runs/37952956020).
+- Cada engine confirma **sete viewports, três âncoras diretas e 18 comparativos**, além das regressões comerciais e preferências. [Resultados e trechos de logs preservados](CI-RESULTS.json).
 
 Cobertura executada: sete resoluções; seis projetos e trocas rápidas; Website/Identidade, Desktop/Mobile e expansão; conteúdos/depoimentos/disclosure; teclado/foco; atalhos diretos, scroll inverso, resize/orientação e retorno ao topo; fotografia bloqueada/recuperação; motion dinâmico, Save-Data/memória baixa, pausa/reentrada; HERO/Terra/áudio; soluções/Método/navegação; links, mensagens WhatsApp, consentimento/analytics sem duplicação; console/404/overflow. Suite local V2.2: sete viewports, três atalhos, 18 comparativos, aprovada. Evidência CI da composição: [report](evidence/visual/report.json).
 
