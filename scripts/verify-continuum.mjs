@@ -28,6 +28,7 @@ async function state(page){return page.evaluate(()=>{const layer=document.queryS
 try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
  const browser=await pw[engine].launch(engine==='chromium'?{executablePath:process.env.OT_CHROME_EXECUTABLE||undefined,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{});
  try{
+ console.log(engine+': native journey viewports');
  for(const [width,height] of JSON.parse(process.env.OT_CONTINUUM_VIEWPORTS||'[[1366,768],[1440,900],[1920,1080],[768,1024],[360,800],[390,844],[430,932]]')){
   const c=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});await configure(c);const p=await c.newPage(),errors=[],notFound=[];
   p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()===404)notFound.push(r.url())});await p.goto(urls.v22);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(500);
@@ -45,6 +46,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
   assert.deepEqual(errors,[]);assert.deepEqual(notFound,[]);report.views.push({engine,width,height,shots,reverse,errors,notFound});await c.close();
  }
  // Direct anchors are computed from actual layout, including cold load at the footer.
+ console.log(engine+': direct anchors and orientation');
  for(const hash of ['#contato','#metodo','#projetos']){
   const c=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await configure(c);const p=await c.newPage();await p.goto(urls.v22+hash);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(700);const first=await state(p);assert.equal(first.overflow,false);
   await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight));assert.ok((await state(p)).integration>.99);
@@ -54,13 +56,24 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium').split(',')){
   report.anchors.push({engine,hash,first,reversible:true,orientationAndResize:true,reducedFinalLoopStopped:true});await c.close();
  }
  // Real home comparisons, before and after, rather than an isolated prototype.
+ console.log(engine+': complete-home comparisons');
  for(const [width,height] of [[1440,900],[390,844]])for(const version of ['main','v21','v22']){
   const c=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});await configure(c);const p=await c.newPage();await p.goto(urls[version]);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(400);
   for(const [name,selector] of [['hero','#inicio'],['projects','#projetos'],['method','#metodo']]){if(name==='hero')await go(p,0);else await p.locator(selector).scrollIntoViewIfNeeded();await p.waitForTimeout(300);await p.screenshot({path:out+'/'+engine+'-'+width+'x'+height+'-'+version+'-'+name+'.png'});report.comparisons.push({engine,width,height,version,name})}
   await c.close();
  }
  // A delayed approved photo never prevents dust/galaxy or commercial content from rendering.
- const c=await browser.newContext({viewport:{width:1440,height:900}});await configure(c);let release;const gate=new Promise(r=>release=r);await c.route('**/ot-earth-atmosphere-static-v2.webp',async r=>{await gate;await r.continue()});const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(urls.v22,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.OTProjectShowroom&&document.querySelector('.footer').dataset.otFooterV4==='1'&&document.querySelector('link[href*="ot-footer-v4"]')?.sheet);await p.evaluate(()=>document.fonts.ready);await p.locator('.case-screen img').evaluate(img=>img.decode());await p.waitForTimeout(300);await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight));assert.ok((await state(p)).bright>1000);assert.match(await p.locator('#contato h2').innerText(),/Seu digital/);release();await p.waitForFunction(()=>document.querySelector('.earth-journey__globe>img').complete);assert.deepEqual(errors,[]);report.pendingImages={engine,contentAndGalaxyRender:true,photoRecovers:true};await c.close();
+ console.log(engine+': held photograph and recovery');
+ const c=await browser.newContext({viewport:{width:1440,height:900}});await configure(c);let release;const gate=new Promise(r=>release=r);
+ try{
+  await c.route('**/ot-earth-atmosphere-static-v2.webp',async r=>{await gate;await r.continue()});const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(urls.v22,{waitUntil:'domcontentloaded'});
+  await p.waitForFunction(()=>window.OTProjectShowroom&&document.querySelector('.footer').dataset.otFooterV4==='1'&&document.querySelector('link[href*="ot-footer-v4"]')?.sheet);
+  // WebKit can keep fonts.ready pending until window.load, which is intentionally blocked
+  // by this photo. Explicitly load the real commercial font faces without releasing it.
+  await p.evaluate(()=>Promise.race([Promise.all(['400 16px Inter','600 16px "Space Grotesk"','400 16px "Share Tech Mono"'].map(face=>document.fonts.load(face))),new Promise((_,reject)=>setTimeout(()=>reject(Error('Commercial fonts did not load while photograph was held')),15000))]));
+  await p.locator('.case-screen img').evaluate(img=>img.decode());await p.waitForTimeout(300);await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight));assert.ok((await state(p)).bright>1000);assert.match(await p.locator('#contato h2').innerText(),/Seu digital/);
+  release();await p.waitForFunction(()=>document.querySelector('.earth-journey__globe>img').complete);assert.deepEqual(errors,[]);report.pendingImages={engine,contentAndGalaxyRender:true,photoRecovers:true};
+ }finally{release();await c.close()}
  }finally{await browser.close()}
 }
 report.passed=true;console.log(JSON.stringify({passed:true,viewports:report.views.length,anchors:report.anchors.length,comparisons:report.comparisons.length,incrementBytes:increment}));
