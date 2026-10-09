@@ -14,13 +14,26 @@ body[data-page="home"] .footer{background:radial-gradient(ellipse at 76% 100%,rg
    Same centered ellipses as the approved CSS, including their secondary ring. */
 .earth-journey__orbits{left:0;top:0;width:669.6px;height:226.8px;transform:translate(calc(var(--earth-left,78vw) - 334.8px),calc(var(--earth-top,50vh) - 113.4px)) rotate(-24deg) scale(var(--continuum-orbit-scale,1))}
 /* Reserved from first paint: the finale lives above footer copy, never over its links. */
-body[data-page="home"] .footer::before{content:"";display:block;height:420px;pointer-events:none}
+body[data-page="home"] .footer::before{content:"";display:block;height:560px;pointer-events:none}
 @media(max-width:900px){
   .earth-journey__orbits{width:604.8px;transform:translate(calc(var(--earth-left,78vw) - 302.4px),calc(var(--earth-top,50vh) - 113.4px)) rotate(-24deg) scale(var(--continuum-orbit-scale,1))}
   body[data-page="home"] .footer::before{display:none}
-  body[data-page="home"] .footer::after{content:"";display:block;height:320px;pointer-events:none}
+  body[data-page="home"] .footer::after{content:"";display:block;height:420px;pointer-events:none}
 }
 
 /* The legacy footer skin is injected late. Keep copy sheltered, expose only the reserved sky. */
-html body[data-page="home"] .footer{background:linear-gradient(180deg,transparent 380px,rgba(3,3,8,.92) 480px)}
+html body[data-page="home"] .footer{background:linear-gradient(180deg,transparent 520px,rgba(3,3,8,.92) 620px)}
 @media(max-width:900px){html body[data-page="home"] .footer{background:transparent}html body[data-page="home"] .footer .ot-footer-v4{background:rgba(3,3,8,.92)}}
+
+/* One original Earth renderer; during continuation its surrounding hero skin recedes. */
+html body[data-page="home"] .earth-journey.is-continuum{opacity:var(--continuum-opacity,0);background:none;z-index:1;clip-path:inset(var(--ot-header-height,72px) 0 var(--ot-nav-height,0px) 0)}
+.earth-journey.is-continuum::before,.earth-journey.is-continuum::after,.earth-journey.is-continuum .earth-journey__orbits{display:none}
+.earth-journey.is-continuum .earth-journey__globe>img{opacity:0}
+body[data-page="home"] .ot-galaxy-credit{margin:0;padding:18px 32px 24px;text-align:center;font:400 12px/1.6 Inter,sans-serif;color:#aeb5ca;background:#050008;min-height:80px;box-sizing:border-box}
+.ot-galaxy-credit a{color:#d9e8ff;text-decoration:underline;text-underline-offset:3px}
+.ot-galaxy-credit a:focus-visible{outline:2px solid #67e8f9;outline-offset:4px}
+@media(max-width:900px){body[data-page="home"] .ot-galaxy-credit{padding:16px 20px calc(90px + env(safe-area-inset-bottom,0px));min-height:164px}}
+
+/* Continuation is in front of space and behind every commercial surface. */
+html body[data-page="home"] .page{z-index:2}
+body[data-page="home"] .earth-journey.is-continuum ~ .page #metodo .method-card{background:rgba(8,6,16,.97)}

@@ -1,5 +1,5 @@
-/* V2.2: Cosmic Continuum extends the existing atmospheric canvas and original timeline.
-   No new globe renderer, scroll interception, asset, or animation framework. */
+/* V2.3: one atmospheric canvas, original Earth renderer and native scroll.
+   Hubble NGC 1300 / NASA, ESA, Hubble Heritage (STScI/AURA), CC BY 4.0. */
 (() => {
   'use strict';
   const earth = document.getElementById('earthJourney');
@@ -19,17 +19,25 @@
   const layer = document.createElement('div');
   layer.className = 'ot-atmosphere'; layer.setAttribute('aria-hidden','true');
   earth.after(layer); layer.append(canvas);
-  const particles = Array.from({length:128},(_,i) => ({
+  const particles = Array.from({length:384},(_,i) => ({
     x:noise(i+1), y:noise(i+310), depth:.18+noise(i+420)*.82,
-    phase:noise(i+80)*Math.PI*2, size:.45+noise(i+150)*.9
+    phase:noise(i+80)*Math.PI*2, size:.55+noise(i+150)*1.25, ox:0, oy:0
   }));
   const profiles = [
     ['#inicio',1], ['#projetos',.68], ['#solucoes',.58], ['#metodo',.64],
     ['#sobre',.48], ['#ecossistema',.5], ['#faq',.34], ['#contato',.42], ['.footer',.22]
   ];
-  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.ot-footer-v4';
+  const readingSelector = '.hero-copy,.projects-head,.case-copy,.case-followup,.solution-content,.choice-heading,.section-copy,.faq-list,.cta-box,.about-grid,.method-scene,.method-card,.ot-footer-v4';
   let width=0, height=0, frame=0, last=0, clock=0, measureFrame=0;
-  let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null;
+  let anchors=[], reading=[], hidden=false, chapters=[], finale=null, galaxy=null, galaxyImage=null, galaxyRequested=false;
+  let pointer={x:.5,y:.5,tx:.5,ty:.5,active:false,energy:0}, travel=scrollY, velocity=0;
+  let budget=1, slowFrames=0;
+  const luminous=[];
+  const sprites=['#d9e8ff','#67e8f9','#a78bfa'].map(color=>{
+    const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d');
+    const fade=g.createRadialGradient(16,16,0,16,16,16);fade.addColorStop(0,color);fade.addColorStop(.14,color);fade.addColorStop(.5,color+'55');fade.addColorStop(1,color+'00');
+    g.fillStyle=fade;g.fillRect(0,0,32,32);return c;
+  });
   const photograph=earth.querySelector('.earth-journey__globe>img');
   const span=(value,a,b)=>smooth((value-a)/Math.max(1,b-a));
   photograph?.addEventListener('load',sync,{once:true});
@@ -53,8 +61,8 @@
       const finish=Math.max(contact.top,document.documentElement.scrollHeight-height);
       finale={start:compact.matches?finish-height*.95:contact.top-height*.7,
         approach:compact.matches?finish-height*.35:footer.top-height*.5,finish,
-        y:compact.matches?footer.bottom-footer.paddingBottom-160:footer.top+210,
-        x:width*(compact.matches?.64:.76)};
+        y:compact.matches?footer.bottom-footer.paddingBottom-210:Math.max(footer.top+350,finish+height*.36),
+        x:compact.matches?width*.5:width*.66};
     }
     sync();
   }
@@ -69,35 +77,44 @@
     return anchors[anchors.length-1].density;
   }
   function dust(time) {
-    const rail=Number(earth.dataset.rail)||0;
-    const opacity=Number(earth.dataset.opacity)||0, pulse=Number(earth.dataset.pulse)||0;
+    const still=reduced.matches||constrained(),rail=Number(earth.dataset.rail)||0;
+    const opacity=Number(earth.dataset.opacity)||0,pulse=Number(earth.dataset.pulse)||0;
     const release=smooth(1-opacity*(1-pulse*.65));
-    const cx=Number(earth.dataset.centerX)||width*.78, cy=Number(earth.dataset.centerY)||height*.5;
+    const cx=Number(earth.dataset.centerX)||width*.78,cy=Number(earth.dataset.centerY)||height*.5;
     const radius=(Number(earth.dataset.diameter)||540)*.5;
-    const still=reduced.matches||constrained();
-    const scroll=still?0:scrollY;
-    const count=constrained()?24:compact.matches?44:particles.length;
-    const density=densityAt(scrollY+height*.55);
-    // Coherent eddies, different depths and no uniform vertical velocity: dust, not rain.
+    const count=Math.round((constrained()?40:compact.matches?132:particles.length)*budget);
+    layer.dataset.particles=String(count);luminous.length=0;
+    const density=.72+densityAt(scrollY+height*.55)*.28;
     for(let i=0;i<count;i++){
-      const p=particles[i], near=i%3!==0;
-      const drift=still?0:time*(.045+p.depth*.035);
-      const u=p.x+Math.sin(drift+p.phase)*.018*p.depth;
-      const v=p.y+(still?0:Math.sin(drift*.7+p.phase)*.012+scroll*.000035*p.depth);
-      const fieldX=rail+clamp(u)*(width-rail);
-      const fieldY=((v%1+1)%1)*height;
-      const orbit=p.phase+(still?0:time*.009);
-      const haloX=cx+Math.cos(orbit)*radius*(1.1+p.depth*.8);
-      const haloY=cy+Math.sin(orbit)*radius*(.65+p.depth*.75);
-      const spread=near?release:1;
-      const x=mix(haloX,fieldX,spread),y=mix(haloY,fieldY,spread);
+      const p=particles[i],drift=still?0:time*(.06+p.depth*.035);
+      const px=still?0:(pointer.x-.5)*p.depth*58,py=still?0:(pointer.y-.5)*p.depth*38;
+      const u=p.x+Math.sin(drift+p.phase)*.034*p.depth;
+      const v=p.y+(still?0:Math.sin(drift*.7+p.phase)*.023+travel*.00010*p.depth);
+      const fieldX=rail+clamp(u)*(width-rail)+px,fieldY=((v%1+1)%1)*height+py;
+      const orbit=p.phase+(still?0:time*.009),spread=i%3!==0?release:1;
+      let x=mix(cx+Math.cos(orbit)*radius*(1.1+p.depth*.8),fieldX,spread);
+      let y=mix(cy+Math.sin(orbit)*radius*(.65+p.depth*.75),fieldY,spread);
+      let tx=0,ty=0;
+      if(!still&&pointer.active){
+        const dx=x-pointer.x*width,dy=y-pointer.y*height,d=Math.hypot(dx,dy),range=180+p.depth*80;
+        const force=Math.pow(Math.max(0,1-d/range),2)*(28+p.depth*64)*(1+pointer.energy*.4);
+        if(d>1){tx=(dx/d-dy/d*.22)*force;ty=(dy/d+dx/d*.22)*force;}
+      }
+      p.ox=still?0:mix(p.ox,tx,.13);p.oy=still?0:mix(p.oy,ty,.13);
+      x+=p.ox;y+=p.oy+(still?0:velocity*p.depth*.28);
       if(x<rail||x>width||y<0||y>height)continue;
       const inReading=reading.some(r=>x>=r.left&&x<=r.right&&y+scrollY>=r.top&&y+scrollY<=r.bottom);
-      const edge=.22+smooth((x-rail)/Math.max(1,width-rail))*.78;
-      const alpha=(.16+p.depth*.29)*density*edge*(inReading ? .16 : 1)*(compact.matches ? .7 : 1);
+      const alpha=(.30+p.depth*.5)*density*(inReading?.22:1)*(compact.matches?.82:1);
       context.globalAlpha=alpha;
-      context.fillStyle=i%7===0?'#a78bfa':i%3===0?'#67e8f9':'#c5d8ee';
-      context.beginPath(); context.arc(x,y,p.size*(.65+p.depth*.6),0,Math.PI*2); context.fill();
+      const size=p.size*(.7+p.depth*.65),sprite=i%15===0?2:i%8===0?1:0;
+      context.drawImage(sprites[sprite],x-size*3,y-size*3,size*6,size*6);
+      if(i%4===0&&!inReading)luminous.push({x,y,alpha});
+    }
+    // Sparse short links, never a full mesh. Deep stars remain unconnected.
+    context.strokeStyle='#9cc1de';context.lineWidth=.55;
+    for(let i=0;i<Math.min(36,luminous.length);i++){
+      const a=luminous[i],b=luminous[(i+7)%luminous.length],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d>35&&d<140){context.globalAlpha=.11*(1-d/160);context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();}
     }
     context.globalAlpha=1;
   }
@@ -133,68 +150,110 @@
     context.clearRect(0,0,width,height);
     continuum();dust(clock);ribbon(reduced.matches||constrained()?0:clock);
   }
-  // Cached procedural nebula, not a new scene renderer or third-party image.
+  // Decompose the real photograph once: nucleus, disk and outer arms overlap softly.
   function buildGalaxy() {
-    galaxy=document.createElement('canvas');
-    galaxy.width=Math.min(1400,Math.round(width*(compact.matches?1.6:1.1)));
-    galaxy.height=Math.round(galaxy.width*.58);
-    const g=galaxy.getContext('2d');if(!g){galaxy=null;return;}
-    const w=galaxy.width,h=galaxy.height;
-    const glow=(x,y,r,color,alpha)=>{
-      const gradient=g.createRadialGradient(x,y,0,x,y,r);
-      gradient.addColorStop(0,color);gradient.addColorStop(1,'transparent');
-      g.globalAlpha=alpha;g.fillStyle=gradient;g.fillRect(x-r,y-r,r*2,r*2);
-    };
-    g.save();g.translate(w*.47,h*.5);g.rotate(-.28);g.scale(1,.48);
-    glow(0,0,w*.42,'#343056',.32);
-    const steps=constrained()?26:compact.matches?46:68;
-    for(let arm=0;arm<3;arm++)for(let i=1;i<steps;i++){
-      const t=i/steps,r=w*(.025+t*.43)*(arm===2?.72:1),a=arm*Math.PI*2/3+t*4.6+Math.sin(t*11+arm)*.12;
-      const x=Math.cos(a)*r*(arm===1?1.13:1),yy=Math.sin(a)*r;
-      glow(x,yy,w*(.018+t*.045),arm===1?'#694bc2':'#528bb3',(.16+Math.sin(t*Math.PI)*.22)*(1-t*.5)*(arm===2?.42:1));
+    if(galaxyRequested)return;galaxyRequested=true;
+    const image=new Image();galaxyImage=image;image.decoding='async';
+    image.onload=()=>{prepareGalaxy(image).then(sync).catch(()=>{layer.dataset.galaxy='unavailable';sync();});};
+    image.onerror=()=>{layer.dataset.galaxy='unavailable';sync();};
+    image.src='/assets/img/orbit/hubble-ngc1300-'+(compact.matches||constrained()?'1024':'2048')+'-v1.webp';
+    layer.dataset.galaxy='loading';
+  }
+  async function prepareGalaxy(image){
+    if(!image?.naturalWidth)return;
+    const w=Math.min(image.naturalWidth,compact.matches||constrained()?1024:1600),h=Math.round(w*image.naturalHeight/image.naturalWidth);
+    const buffer=document.createElement('canvas');buffer.width=w;buffer.height=h;
+    const g=buffer.getContext('2d',{willReadFrequently:true});if(!g)return;
+    g.drawImage(image,0,0,w,h);const src=g.getImageData(0,0,w,h);
+    const parts=[0,1,2].map(()=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;});
+    const data=parts.map(c=>c.getContext('2d').createImageData(w,h));
+    const stars=[];
+    // Prepare in small one-time slices; never block a CTA with a whole-image pixel loop.
+    for(let first=0;first<h;){
+    const deadline=await new Promise(done=>{
+      if(typeof requestIdleCallback==='function')requestIdleCallback(done,{timeout:100});else setTimeout(done,0);
+    });
+    if(document.hidden)await new Promise(done=>{const resume=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',resume);done();}};document.addEventListener('visibilitychange',resume);});
+    const started=performance.now();
+    do {
+    for(let y=first;y<Math.min(h,first+12);y++)for(let x=0;x<w;x++){
+      const i=(y*w+x)*4,dx=(x-w*.493)/(w*.5),dy=(y-h*.47)/(h*.5),r=Math.hypot(dx,dy);
+      const edge=(1-smooth((r-.84)/.26))*smooth(x/(w*.055))*smooth((w-x)/(w*.055))*smooth(y/(h*.085))*smooth((h-y)/(h*.085));
+      const core=1-smooth((r-.15)/.34),outer=smooth((r-.54)/.25),middle=Math.max(0,1-core-outer);
+      for(let k=0;k<3;k++){data[k].data[i]=src.data[i];data[k].data[i+1]=src.data[i+1];data[k].data[i+2]=src.data[i+2];data[k].data[i+3]=Math.round(edge*(k===0?core:k===1?middle:outer)*255);}
+      if(x%5===0&&y%5===0&&r>.27&&r<.95){
+        const brightness=(src.data[i]+src.data[i+1]+src.data[i+2])/3;
+        if(brightness>140&&src.data[i+2]>src.data[i]*.8)stars.push({x:x/w-.493,y:y/w-h/w*.47,phase:noise(x+y*w)*6.28,depth:.5+noise(x+y)*.5});
+      }
     }
-    const stars=constrained()?160:compact.matches?680:1500;
-    for(let i=0;i<stars;i++){
-      const t=Math.pow(noise(i+680),1.35),r=w*(.02+t*.43)*(i%3===2?.72:1),arm=i%3;
-      const a=arm*Math.PI*2/3+t*4.6+Math.sin(t*11+arm)*.12+(noise(i+1120)-.5)*(.35+t*.8);
-      const x=Math.cos(a)*r*(arm===1?1.13:1),yy=Math.sin(a)*r+(noise(i+1490)-.5)*w*(.025+t*.08);
-      g.globalAlpha=(.2+noise(i+1800)*.65)*(1-t*.45)*(arm===2?.5:1);
-      g.fillStyle=i%9===0?'#a78bfa':i%5===0?'#67e8f9':'#dceaf4';
-      const size=.65+noise(i+2010)*1.15;g.fillRect(x,yy,size,size*1.6);
+    first+=12;
+    }while(first<h&&performance.now()-started<6&&(!deadline||deadline.timeRemaining()>2));
     }
-    glow(0,0,w*.13,'#869dbb',.22);glow(0,0,w*.08,'#d2e9f5',.4);glow(0,0,w*.028,'#edf6ff',.65);
-    g.restore();
+    parts.forEach((c,i)=>c.getContext('2d').putImageData(data[i],0,0));
+    galaxy={parts,w,h,stars:stars.filter((_,i)=>i%Math.max(1,Math.ceil(stars.length/(compact.matches?64:144)))===0)};
+    layer.dataset.galaxy='photographic';
+  }
+  function paintGalaxy(x,y,size,reveal,still){
+    if(!galaxy)return;
+    const parallax=still?0:(pointer.x-.5)*10;
+    context.save();context.translate(x+parallax,y+(still?0:(pointer.y-.5)*6));
+    // Core is the stable anatomical anchor. Arms precess at distinct restrained rates.
+    context.globalCompositeOperation='lighter';
+    galaxy.parts.forEach((part,i)=>{
+      context.save();const a=still?0:Math.sin(clock*(i===1?.035:.023)+i)*[0,.012,.022][i];
+      context.rotate(a);context.globalAlpha=reveal*.91;
+      const breathe=still?1:1+Math.sin(clock*.05+i)*i*.0015;
+      context.drawImage(part,-size*.493*breathe,-size*galaxy.h/galaxy.w*.47*breathe,size*breathe,size*galaxy.h/galaxy.w*breathe);context.restore();
+    });
+    for(const s of galaxy.stars){
+      const a=still?0:clock*(.018+(1-s.depth)*.008),c=Math.cos(a),n=Math.sin(a);
+      const sx=(s.x*c-s.y*n)*size,sy=(s.x*n+s.y*c)*size;
+      context.globalAlpha=reveal*(.22+(still?.3:(Math.sin(clock*.7+s.phase)+1)*.16));
+      const r=.8+s.depth;context.drawImage(sprites[0],sx-r*2.5,sy-r*2.5,r*5,r*5);
+    }
+    context.restore();
   }
   function globe(x,y,diameter,opacity) {
     if(!photograph?.complete||!photograph.naturalWidth)return;
     context.globalAlpha=opacity;context.drawImage(photograph,x-diameter/2,y-diameter/2,diameter,diameter);context.globalAlpha=1;
   }
+  let continuationKey='';
+  function setEarth(pose){
+    const key=pose?[pose.x.toFixed(1),pose.y.toFixed(1),pose.diameter.toFixed(1),pose.opacity.toFixed(3),pose.animate].join(','):'none';
+    if(key===continuationKey)return;continuationKey=key;
+    earth.dispatchEvent(new CustomEvent('ot-earth-continuum',{detail:pose}));
+  }
   function continuum() {
     const still=reduced.matches||constrained(),center=scrollY+height*.55;
-    let partial=0;
-    for(const chapter of chapters){
-      const distance=Math.abs(center-chapter),range=height*.58;
-      partial=Math.max(partial,(1-smooth(distance/range))*.32);
-    }
+    let partial=0,chapterIndex=0;
+    chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*.88)))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
     const reveal=finale?span(scrollY,finale.start,finale.approach):0;
-    if(partial>.005&&reveal<.3){
-      const diameter=width*(compact.matches?1.3:.72);
-      globe(width+diameter*.4,height*.6,diameter,partial*(compact.matches?.7:1));
+    let pose=null;
+    if(partial>.005&&reveal<.15&&Number(earth.dataset.opacity)<.005){
+      const diameter=width*(compact.matches?1.12:.56),entrance=partial/.75;
+      const x=width+diameter*(.32-.40*entrance),y=height*(.59+chapterIndex*.08);
+      pose={x,y,diameter,opacity:partial,animate:!still};
     }
-    if(finale&&reveal>.001&&galaxy){
+    if(finale&&reveal>.001){
       const integration=span(scrollY,finale.approach,finale.finish);
-      const y=mix(height*.9,finale.y-scrollY,reveal);
-      const drift=still?0:Math.sin(clock*.045)*2;
-      context.globalAlpha=reveal*.9;
-      context.drawImage(galaxy,finale.x-galaxy.width/2+drift,y-galaxy.height/2);
-      context.globalAlpha=1;
-      // A visible photographic Earth grows, then projects into depth; it never vanishes.
-      const growth=Math.sin(integration*Math.PI),base=compact.matches?86:150;
-      const diameter=mix(base,compact.matches?64:96,integration)+growth*(compact.matches?65:145);
-      globe(finale.x-galaxy.width*(.12-.04*integration),y+galaxy.height*(compact.matches?-.02:.15-.08*integration),diameter,reveal);
+      const y=mix(height*.9,finale.y-scrollY,reveal),size=compact.matches?width*1.38:Math.min(width*.74,760);
+      paintGalaxy(finale.x,y,size,reveal,still);
+      // Native scroll moves the Earth along a shrinking orbit; time adds a slow orbit.
+      const t=still?.82:integration,angle=-2.75+t*5.9+(still?0:clock*.018);
+      const orbit=size*(.36*(1-t)+.038),ellipticity=.48;
+      const x=finale.x+Math.cos(angle)*orbit,yy=y+Math.sin(angle)*orbit*ellipticity;
+      // Preserve the original orbit and final size; give Earth a longer, calmer close-up.
+      const scaleProgress=still?t:t*t*(2-t);
+      const diameter=(compact.matches?142:235)*(1-scaleProgress*.83);
+      pose={x,y:yy,diameter,opacity:reveal*(1-t*.24),animate:!still};
       layer.dataset.reveal=reveal.toFixed(3);layer.dataset.integration=integration.toFixed(3);
+      layer.dataset.orbit=angle.toFixed(4);
     }else{layer.dataset.reveal='0';layer.dataset.integration='0';}
-    // Quiet reading zones are real layout coordinates, cached outside the paint loop.
+    // The original hero always wins. Only one terrestrial image/renderer is visible.
+    if(Number(earth.dataset.opacity)>.005)pose=null;
+    layer.dataset.earth=pose?JSON.stringify(pose):'';
+    if(pose&&still){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
+    else setEarth(pose);
     if(partial>.005||reveal>.001)for(const r of reading){
       if(r.bottom>scrollY-40&&r.top<scrollY+height+40)quietReading(r);
     }
@@ -211,10 +270,15 @@
   }
   function stop() { if(frame)cancelAnimationFrame(frame);frame=last=0; }
   function tick(now) {
-    const interval=compact.matches?80:50;
+    const interval=compact.matches?66:33;
     if(now-last>=interval){
       clock+=last?Math.min(now-last,100)/1000:interval/1000;
-      last=now;draw();
+      last=now;
+      const before=performance.now();
+      const difference=scrollY-travel;velocity=mix(velocity,difference,.15);travel=mix(travel,scrollY,.14);
+      pointer.x=mix(pointer.x,pointer.tx,.12);pointer.y=mix(pointer.y,pointer.ty,.12);pointer.energy*=.88;
+      draw();
+      if(performance.now()-before>interval*.5){if(++slowFrames>18){budget=Math.max(.42,budget*.82);slowFrames=0;}}else slowFrames=Math.max(0,slowFrames-1);
     }
     frame=requestAnimationFrame(tick);
   }
@@ -222,7 +286,7 @@
     // Fixed orbit layout boxes; transform alone reproduces the measured original geometry.
     earth.style.setProperty('--continuum-orbit-scale',String((Number(earth.dataset.diameter)||540)/540));
     if(document.hidden||hidden){stop();return;}
-    if(!galaxy&&finale&&scrollY>finale.start-height*.35)buildGalaxy();
+    if(!galaxy&&finale&&scrollY>finale.start-height*.75)buildGalaxy();
     if(reduced.matches||constrained()){stop();draw();}
     else if(!frame)frame=requestAnimationFrame(tick);
   }
@@ -230,10 +294,17 @@
     width=innerWidth;height=innerHeight;
     const ratio=Math.min(devicePixelRatio||1,compact.matches||constrained()?1:1.3);
     canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
-    context.setTransform(ratio,0,0,ratio,0,0);galaxy=null;measure();draw();
+    context.setTransform(ratio,0,0,ratio,0,0);measure();draw();
   }
   // The original timeline already batches scroll/pointer updates into a single RAF.
   earth.addEventListener('ot-earth-visibility',sync);
+  document.addEventListener('pointermove',event=>{
+    if(event.pointerType!=='mouse'||reduced.matches||constrained())return;
+    const x=event.clientX/Math.max(1,width),y=event.clientY/Math.max(1,height);
+    pointer.energy=Math.min(1,pointer.energy+Math.hypot(x-pointer.tx,y-pointer.ty)*8);
+    pointer.tx=x;pointer.ty=y;pointer.active=true;
+  },{passive:true});
+  document.addEventListener('pointerleave',()=>{pointer.active=false;pointer.tx=pointer.ty=.5;},{passive:true});
   addEventListener('resize',resize,{passive:true});
   document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',resize);compact.addEventListener('change',resize);

@@ -1,0 +1,32 @@
+{
+  "source": "https://cdn.esahubble.org/archives/images/large/opo0501a.jpg",
+  "record": "https://esahubble.org/images/opo0501a/",
+  "nasa": "https://science.nasa.gov/asset/hubble/barred-spiral-galaxy-ngc-1300/",
+  "license": "CC BY 4.0",
+  "licenseSource": "https://esahubble.org/copyright/",
+  "credit": "NASA, ESA, and The Hubble Heritage Team (STScI/AURA); Acknowledgment: P. Knezek (WIYN)",
+  "modifications": "Resize, compression, depth masks and artistic motion by Olegario Tech.",
+  "files": [
+    {
+      "sourceFileName": "opo0501a-original.jpg",
+      "width": 6637,
+      "height": 3787,
+      "bytes": 13094774,
+      "sha256": "2545384bea9e6d6c1bf15031cb1a20548a4e4b66edbfd61e5a9a33c5f52065b7"
+    },
+    {
+      "path": "assets/img/orbit/hubble-ngc1300-2048-v1.webp",
+      "width": 2048,
+      "height": 1168,
+      "bytes": 418444,
+      "sha256": "187618a7a86121f4d153375bd2c5b93410e237932adc5ed935bc3ed81caf4f99"
+    },
+    {
+      "path": "assets/img/orbit/hubble-ngc1300-1024-v1.webp",
+      "width": 1024,
+      "height": 584,
+      "bytes": 72426,
+      "sha256": "5a792e8e8525d22ec86c4f461a55b9b4678acb234ae998e2425520d09c94d29e"
+    }
+  ]
+}

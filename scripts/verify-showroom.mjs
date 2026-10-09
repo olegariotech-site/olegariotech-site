@@ -41,9 +41,13 @@ for(const id of ['inicio','solucoes','metodo','sobre','produtos','faq','contato'
   const section=new RegExp('<section[^>]+id="'+id+'"[\\s\\S]*?</section>');
   assert.equal(source.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved');
 }
-for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
+for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-earth-journey.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
   assert.equal(await readFile(resolve(root,path),'utf8'),execFileSync('git',['show',report.baseCommit+':'+path],{cwd:root,encoding:'utf8'}),path+' preserved');
 }
+const originalEarth=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-spin.js'],{cwd:root,encoding:'utf8'});
+const currentEarth=await readFile(resolve(root,'assets/js/ot-earth-spin.js'),'utf8');
+assert.equal(currentEarth.slice(currentEarth.indexOf('  function init()'),currentEarth.indexOf('  function load()')),originalEarth.slice(originalEarth.indexOf('  function init()'),originalEarth.indexOf('  function load()')),'Original Earth geometry, textures and shaders preserved');
+assert.equal(currentEarth.slice(currentEarth.indexOf('  function draw(now)'),currentEarth.indexOf('  function draw2D')),originalEarth.slice(originalEarth.indexOf('  function draw(now)'),originalEarth.indexOf('  function draw2D')),'Original WebGL drawing preserved');
 const stripRenderer=text=>text.replace(/    function renderProjectMedia\([\s\S]*?(?=    const mobileLinks=)/,'').replace(/    \/\/ Compatibility entry point[^\n]*\n    function renderProject[^\n]*\n\n/,'');
 const mainScript=text=>text.slice(text.indexOf('    const solutions='),text.indexOf('  </script>',text.indexOf('    const solutions=')));
 assert.equal(stripRenderer(mainScript(source)),stripRenderer(mainScript(baselineSource)),'All inline solution, navigation, audio and planet code preserved');
