@@ -21,7 +21,8 @@ let browser,session;
 try{
   browser=await chromium.launch({headless:false,executablePath:process.env.OT_CHROME_EXECUTABLE||undefined,args:['--kiosk','--start-fullscreen','--window-position=0,0','--window-size=1440,900','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
   report.browserVersion=browser.version();
-  const context=await browser.newContext({viewport:report.viewport,deviceScaleFactor:1,reducedMotion:'no-preference'});
+  // Use the native fullscreen viewport. Emulated viewport resizing can race with kiosk bounds.
+  const context=await browser.newContext({viewport:null,reducedMotion:'no-preference'});
   await context.addInitScript(()=>localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'})));
   const page=await context.newPage();
   page.on('pageerror',e=>report.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text())});page.on('response',r=>{if(r.status()===404)report.notFound.push(r.url())});
@@ -41,6 +42,7 @@ try{
   session=await context.newCDPSession(page);
   const windowInfo=await session.send('Browser.getWindowForTarget');
   await session.send('Browser.setWindowBounds',{windowId:windowInfo.windowId,bounds:{windowState:'fullscreen'}});
+  await page.waitForFunction(()=>innerWidth===1440&&innerHeight===900&&devicePixelRatio===1);
   report.windowBounds=(await session.send('Browser.getWindowBounds',{windowId:windowInfo.windowId})).bounds;
   assert.equal(report.windowBounds.width,1440);assert.equal(report.windowBounds.height,900);
   const button=page.locator('.desktop-audio-toggle');assert.ok(await button.isVisible());
