@@ -40,7 +40,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
   const bounds=await p.evaluate(()=>{const y=s=>{const r=document.querySelector(s).getBoundingClientRect();return scrollY+r.top};return{method:y('#metodo'),partial:y('#metodo')+document.querySelector('#metodo').offsetHeight-innerHeight*.55,contact:y('#contato'),footer:y('.footer'),end:document.documentElement.scrollHeight-innerHeight}});
   const prefix=engine+'-'+width+'x'+height,shots=[];
   for(const [name,y] of [['hero',0],['partial-earth',bounds.partial],['approach',width<=900?bounds.end-height*.20:bounds.footer-height*.40],['integrated',bounds.end]]){
-   await go(p,y);if(name==='integrated')await end(p);const s=await state(p);assert.equal(s.overflow,false);assert.equal(s.canvasCount,1);assert.ok(s.painted>0);if(name==='integrated'){assert.equal(s.galaxy,undefined,'No galactic card remains');assert.ok(s.painted>0,'Atmosphere remains active');assert.equal(assets.length,0,'No galaxy asset request at page bottom')}
+   await go(p,y);if(name==='integrated')await end(p);const s=await state(p);assert.equal(s.overflow,false);assert.equal(s.canvasCount,1);assert.ok(s.painted>0);assert.equal(s.particleStyle,'hybrid-constellation');assert.ok(Number(s.triangleParticles)>0,'Triangular stardust is active');if(name==='integrated'){assert.equal(s.galaxy,undefined,'No galactic card remains');assert.ok(s.painted>0,'Atmosphere remains active');assert.equal(assets.length,0,'No galaxy asset request at page bottom')}
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
   await go(p,0);assert.equal((await state(p)).earthClass.includes('is-continuum'),false,'Original HERO regains ownership');
@@ -51,6 +51,16 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    const medianFall=fall[Math.floor(fall.length*.5)];assert.ok(medianFall>6,'Real stars move down without scroll or pointer input');
    const target=before.find(a=>a[0]>width*.6&&a[1]>120&&a[1]<height*.7)||before[15]||[1000,500];const frames=(await state(p)).draws;await p.mouse.move(target[0]-24,target[1]-20);await p.waitForFunction(n=>window.__v23.draws>=n+12,frames);await p.waitForTimeout(150);const after=await p.evaluate(()=>window.__v23.sprites);const afterBySize=new Map(after.map(a=>[a[2].toFixed(6),a]));const distances=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b&&Math.abs(a[1]-b[1])<height*.5?Math.hypot(a[0]-b[0],a[1]-b[1]):0;});const horizontal=before.map(a=>{const b=afterBySize.get(a[2].toFixed(6));return b?Math.abs(a[0]-b[0]):0});assert.ok(Math.max(...horizontal)>20,'Mouse gives real sideways displacement independent of falling');
    await p.mouse.move(1400,80,{steps:18});await p.waitForTimeout(450);await p.screenshot({path:out+'/'+engine+'-mouse-reaction.png'});report.interactions.push({engine,mouseMaxDisplacementPx:Math.max(...distances),mouseHorizontalPx:Math.max(...horizontal),medianFallPxPerSecond:medianFall,spritesCompared:Math.min(before.length,after.length)});
+   // V2.4 is intentionally section-specific: the HERO/footer stay diffuse.
+   const methodMiddle=await p.evaluate(()=>{const r=document.querySelector('#metodo').getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.55});
+   await go(p,methodMiddle);
+   const constellationStart=await state(p);
+   assert.ok(Number(constellationStart.constellation)>.15,'Soft particle constellation forms around the Method');
+   await p.screenshot({path:out+'/'+engine+'-v24-constellation-method.png'});
+   await p.waitForTimeout(1100);
+   const constellationEnd=await state(p);
+   assert.notEqual(constellationStart.hash,constellationEnd.hash,'Constellation continues moving without scroll');
+   report.interactions.push({engine,feature:'v24-hybrid-constellation',triangles:Number(constellationStart.triangleParticles),intensity:Number(constellationStart.constellation),animated:true});
    const audio=p.locator('.desktop-audio-toggle');await audio.click();await p.waitForFunction(()=>!document.querySelector('#backgroundAudio').paused&&document.querySelector('#backgroundAudio').currentTime>.1&&document.querySelector('.desktop-audio-toggle').getAttribute('aria-pressed')==='true');assert.equal(await audio.getAttribute('aria-pressed'),'true');await audio.click();assert.equal(await audio.getAttribute('aria-pressed'),'false');
   }
   assert.equal(await p.locator('.ot-galaxy-credit').count(),0,'No third-party galaxy promotion');
