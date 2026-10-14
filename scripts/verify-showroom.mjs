@@ -183,6 +183,19 @@ async function scenario(browser,engine,width,height,{reduced=false}={}){
   const name=`${engine}-${width}x${height}${reduced?'-reduced':''}`;
   await captureHome(page,`${name}-home`);await globalRegression(page,width,reduced);await select(page,initial);
   await passage(page,`${name}-passage`);
+  // V2.5: four commercial pillars, one contextual CTA and transparent scope.
+  const deliverables=page.locator('.delivery-section');
+  assert.equal(await deliverables.locator('.delivery-item').count(),4,'Four non-duplicated OT capabilities');
+  assert.deepEqual(await deliverables.locator('.delivery-item b').allInnerTexts(),['Experiência digital','Acabamento técnico','Presença e autoridade','Resultados e evolução']);
+  assert.match(await deliverables.innerText(),/404/);
+  assert.match(await deliverables.innerText(),/sitemap/);
+  assert.match(await deliverables.innerText(),/escopo contratado/);
+  assert.equal(await deliverables.locator('.delivery-actions a').count(),1,'One diagnosis action in deliverables');
+  assert.equal(await deliverables.locator('.delivery-actions a').getAttribute('href'),'/diagnostico-digital/');
+  assert.ok((await deliverables.locator('.delivery-actions a').boundingBox()).height>=44,'Diagnosis CTA has a touch-friendly target');
+  assert.ok(await deliverables.locator('.delivery-item').evaluateAll(items=>items.every(el=>el.scrollHeight<=el.clientHeight+2)),'All deliverable copy fits inside each panel');
+  await overflow(page);
+  if(width===1440||width===390){await deliverables.scrollIntoViewIfNeeded();await deliverables.screenshot({path:`${output}/${name}-v25-entregas.png`});}
   await captureSection(page,`${name}-${initial}`);
   await page.evaluate(()=>scrollTo({top:document.getElementById('projetos').offsetTop,behavior:'instant'}));
   await page.screenshot({path:`${output}/${name}-viewport.png`});
