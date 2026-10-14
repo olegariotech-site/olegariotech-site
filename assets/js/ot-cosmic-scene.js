@@ -1,4 +1,4 @@
-/* Atmospheric particles and the original Earth journey; no extra footer scene. */
+/* OT V2.4: subtle hybrid constellations, original Earth journey, one canvas. */
 (() => {
   'use strict';
   const earth = document.getElementById('earthJourney');
@@ -37,6 +37,15 @@
     const fade=g.createRadialGradient(16,16,0,16,16,16);fade.addColorStop(0,color);fade.addColorStop(.14,color);fade.addColorStop(.5,color+'55');fade.addColorStop(1,color+'00');
     g.fillStyle=fade;g.fillRect(0,0,32,32);return c;
   });
+  // Outlined, tiny triangles are prerendered, just like the existing light sprites.
+  // No extra canvas layer, WebGL library or large DOM particle collection.
+  const triangles=['#67e8f9','#a78bfa','#ffb829'].map(color=>{
+    const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d');
+    g.strokeStyle=color;g.lineWidth=1.35;g.lineJoin='round';g.shadowColor=color;g.shadowBlur=4;
+    g.beginPath();g.moveTo(16,8);g.lineTo(23,22);g.lineTo(9,22);g.closePath();g.stroke();
+    return c;
+  });
+  sprites.push(...triangles);
   const photograph=earth.querySelector('.earth-journey__globe>img');
   photograph?.addEventListener('load',sync,{once:true});
 
@@ -46,7 +55,7 @@
     const y=scrollY;
     anchors=profiles.map(([selector,density]) => {
       const el=document.querySelector(selector); if(!el)return null;
-      const r=el.getBoundingClientRect(); return {y:y+r.top+r.height*.5,density};
+      const r=el.getBoundingClientRect(); return {selector,y:y+r.top+r.height*.5,density};
     }).filter(Boolean).sort((a,b)=>a.y-b.y);
     reading=[...page.querySelectorAll(readingSelector)].map(el => {
       const r=el.getBoundingClientRect();
@@ -73,15 +82,32 @@
     const cx=Number(earth.dataset.centerX)||width*.78,cy=Number(earth.dataset.centerY)||height*.5;
     const radius=(Number(earth.dataset.diameter)||540)*.5;
     const count=Math.round((constrained()?40:compact.matches?132:particles.length)*budget);
-    layer.dataset.particles=String(count);luminous.length=0;
-    const density=.72+densityAt(scrollY+height*.55)*.28;
+    layer.dataset.particles=String(count);
+    layer.dataset.triangleParticles=String(Math.ceil(count/7));
+    layer.dataset.particleStyle='hybrid-constellation';
+    luminous.length=0;
+    const centerY=scrollY+height*.55;
+    const density=.72+densityAt(centerY)*.28;
+    // Only form a faint flowing signature near Solutions / Method, not in the HERO
+    // or the commercial footer. Its position never changes document geometry.
+    const proximity=anchors.reduce((max,a)=>a.selector==='#solucoes'||a.selector==='#metodo'
+      ?Math.max(max,smooth(1-Math.abs(centerY-a.y)/(height*1.3))):max,0);
+    const formation=still?0:proximity*.52;
+    layer.dataset.constellation=formation.toFixed(3);
     for(let i=0;i<count;i++){
       const p=particles[i],drift=still?0:time*(.06+p.depth*.035);
       const px=still?0:(pointer.x-.5)*p.depth*78,py=still?0:(pointer.y-.5)*p.depth*48;
       const u=p.x+Math.sin(drift+p.phase)*.034*p.depth;
       // Unhurried downward stars, independent of scroll; no streaks or uniform snowfall.
       const v=p.y+(still?0:time*(7+p.depth*21)/height+Math.sin(drift*.7+p.phase)*.010+travel*.00010*p.depth);
-      const fieldX=rail+clamp(u)*(width-rail)+px,fieldY=((v%1+1)%1)*height+py;
+      let fieldX=rail+clamp(u)*(width-rail)+px,fieldY=((v%1+1)%1)*height+py;
+      if(formation>.001&&i%6===0){
+        const uWave=noise(i+1050),scatter=noise(i+1110);
+        const waveX=rail+(width-rail)*(.54+uWave*.38);
+        const waveY=height*(.44+Math.sin(uWave*6.2+time*.11)*.15+(scatter-.5)*.22);
+        const gather=formation*(.58+.42*p.depth);
+        fieldX=mix(fieldX,waveX,gather);fieldY=mix(fieldY,waveY,gather);
+      }
       const orbit=p.phase+(still?0:time*.009),spread=i%3!==0?release:1;
       let x=mix(cx+Math.cos(orbit)*radius*(1.1+p.depth*.8),fieldX,spread);
       let y=mix(cy+Math.sin(orbit)*radius*(.65+p.depth*.75),fieldY,spread);
@@ -96,8 +122,10 @@
       if(x<rail||x>width||y<0||y>height)continue;
       const inReading=reading.some(r=>x>=r.left&&x<=r.right&&y+scrollY>=r.top&&y+scrollY<=r.bottom);
       const alpha=(.30+p.depth*.5)*density*(inReading?.22:1)*(compact.matches?.82:1);
-      context.globalAlpha=alpha;
-      const size=p.size*(.7+p.depth*.65),sprite=i%15===0?2:i%8===0?1:0;
+      const triangular=i%7===0;
+      context.globalAlpha=alpha*(triangular?.73:1);
+      const size=p.size*(.7+p.depth*.65);
+      const sprite=triangular?(i%49===0?5:i%2===0?3:4):i%15===0?2:i%8===0?1:0;
       context.drawImage(sprites[sprite],x-size*3,y-size*3,size*6,size*6);
       if(i%4===0&&!inReading)luminous.push({x,y,alpha});
     }
