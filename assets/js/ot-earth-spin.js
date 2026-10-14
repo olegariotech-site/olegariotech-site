@@ -53,7 +53,7 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= (continuation ? compact.matches ? 50 : 66 : frameMs)) {
+    if (now - last >= (compact.matches ? 50 : continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
       angle = (angle + delta * Math.PI * 2 / (compact.matches ? 28000 : 42000)) % (Math.PI * 2);
       renderFrame(now);
@@ -277,7 +277,7 @@
     } catch { fallback(); }
   }
   function load() {
-    if (requested || reduced.matches) return;
+    if (requested || reduced.matches || (compact.matches && mobileRestricted())) return;
     requested=true;
     if (window.THREE) { init(); return; }
     const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
@@ -300,7 +300,7 @@
   document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',()=>{load();sync();});
   compact.addEventListener('change',resize);
-  navigator.connection?.addEventListener('change',sync);
+  navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
   addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
   addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});

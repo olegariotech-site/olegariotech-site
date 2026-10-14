@@ -178,6 +178,19 @@
     context.globalAlpha=opacity;context.drawImage(photograph,x-diameter/2,y-diameter/2,diameter,diameter);context.globalAlpha=1;
   }
   let continuationKey='';
+  let readingMaskKey='';
+  function protectMobileReading(active){
+    const key=compact.matches&&active?[width,height,scrollY,reading.map(r=>[r.left,r.right,r.top,r.bottom].join(',')).join(';')].join(':'):'';
+    if(key===readingMaskKey)return;readingMaskKey=key;
+    if(!key){earth.style.removeProperty('mask-image');earth.style.removeProperty('-webkit-mask-image');return;}
+    // The original renderer has its own canvas. The atmospheric reading veil
+    // alone cannot dim it, so mobile continuation shares those cached read zones.
+    // Rebuild only on scroll/layout changes, never on globe rotation.
+    const rectangles=reading.filter(r=>r.bottom>scrollY-40&&r.top<scrollY+height+40).map(r=>`<rect x="${r.left}" y="${r.top-scrollY}" width="${r.right-r.left}" height="${r.bottom-r.top}"/>`).join('');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><defs><filter id="soft"><feGaussianBlur stdDeviation="14"/></filter><mask id="read" maskUnits="userSpaceOnUse" x="0" y="0" width="${width}" height="${height}"><rect width="100%" height="100%" fill="white"/><g fill="black" opacity=".97" filter="url(#soft)">${rectangles}</g></mask></defs><rect width="100%" height="100%" fill="white" mask="url(#read)"/></svg>`;
+    const mask=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    earth.style.setProperty('mask-image',mask);earth.style.setProperty('-webkit-mask-image',mask);
+  }
   function setEarth(pose){
     const key=pose?[pose.x.toFixed(1),pose.y.toFixed(1),pose.diameter.toFixed(1),pose.opacity.toFixed(3),pose.animate].join(','):'none';
     if(key===continuationKey)return;continuationKey=key;
@@ -195,6 +208,7 @@
     }
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
+    protectMobileReading(!!pose);
     layer.dataset.earth=pose?JSON.stringify(pose):'';
     if(pose&&still){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
     else setEarth(pose);
