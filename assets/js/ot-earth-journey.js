@@ -8,7 +8,9 @@
   if (!earth || !hero || !visual || !solutions) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const mobile = matchMedia('(max-width:900px)');
-  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  // 4 GiB is an approximate capability signal, not a reason to disable a globe.
+  // The renderer gives this tier a smaller frame budget; severe limits stay static.
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 2 || Number(navigator.hardwareConcurrency || 4) <= 2;
   const clamp = v => Math.min(1, Math.max(0, v));
   const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
   let frame = 0, pointerX = 0, pointerY = 0;

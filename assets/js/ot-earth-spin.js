@@ -10,7 +10,8 @@
   const memory = Number(navigator.deviceMemory || 8);
   const lite = !!navigator.connection?.saveData || memory <= 4 || compact.matches;
   const frameMs = lite ? 50 : 33;
-  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 2 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  const mobileFrameMs = () => memory <= 4 ? 66 : 50;
   const clamp = v => Math.min(1, Math.max(0, v));
   let continuation = null;
   const state = () => continuation || ({
@@ -24,7 +25,7 @@
   let ctx, fallbackPhoto, fallbackSurface, fallbackPoints = [];
   const fallbackFrames = new Map();
   let mobileBlend;
-  let disposed = false;
+  let disposed = false, suspended = false;
   const textureURL = '/assets/img/orbit/nasa-blue-marble-clouds-2048.webp';
 
   function sample(image, width = 384, height = 192, step = 2) {
@@ -53,7 +54,7 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= (compact.matches ? 50 : continuation ? 66 : frameMs)) {
+    if (now - last >= (compact.matches ? mobileFrameMs() : continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
       angle = (angle + delta * Math.PI * 2 / (compact.matches ? 28000 : 42000)) % (Math.PI * 2);
       renderFrame(now);
@@ -74,7 +75,7 @@
   }
   function sync() {
     if (!mode) return;
-    const enabled = !reduced.matches && (!compact.matches || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
+    const enabled = !disposed && !suspended && !reduced.matches && (!compact.matches || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
     if (enabled) { if (!frame) frame = requestAnimationFrame(run); }
     else { stop(); draw(performance.now()); }
   }
@@ -198,7 +199,10 @@
     if (!ctx) return;
     const map = new Image();
     map.onload = () => {
+      if (disposed) return;
       try{const c=document.createElement('canvas');c.width=compact.matches?512:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
+      // A static photograph cannot substitute for failed mobile surface sampling.
+      if (compact.matches && !fallbackSurface) { requested=false; earth.dataset.renderer='static'; return; }
       try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
       // A deterministic surface still works if texture sampling is unavailable.
       if (!fallbackPoints.length) for(let i=0;i<1200;i++) {
@@ -206,11 +210,11 @@
         fallbackPoints.push([Math.sin(lat)*Math.cos(lon),Math.cos(lat),Math.sin(lat)*Math.sin(lon),lon]);
       }
       const image = new Image();
-      image.onload = () => { fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
-      image.onerror = () => { mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.onload = () => { if(disposed)return; fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.onerror = () => { if(disposed)return; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
       image.src='/assets/img/orbit/ot-earth-atmosphere-static-v2.webp';
     };
-    map.onerror = () => { /* CSS image remains readable if the map cannot load. */ };
+    map.onerror = () => { requested=false; earth.dataset.renderer='static'; /* CSS photo remains available; visibility/focus may retry. */ };
     map.src=textureURL;
   }
   function init() {
@@ -277,7 +281,7 @@
     } catch { fallback(); }
   }
   function load() {
-    if (requested || reduced.matches || (compact.matches && mobileRestricted())) return;
+    if (requested || disposed || suspended || document.hidden || reduced.matches || (compact.matches && mobileRestricted())) return;
     requested=true;
     if (window.THREE) { init(); return; }
     const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
@@ -296,13 +300,15 @@
     if(Number(earth.dataset.opacity)>.005){continuation=null;earth.classList.remove('is-continuum');}
     sync();
   });
-  addEventListener('resize',resize,{passive:true});
-  document.addEventListener('visibilitychange',sync);
+  function resume() { load(); resize(); sync(); }
+  addEventListener('resize',()=>{resize();sync();},{passive:true});
+  document.addEventListener('visibilitychange',()=>{load();sync();});
+  addEventListener('focus',resume);
   reduced.addEventListener('change',()=>{load();sync();});
-  compact.addEventListener('change',resize);
+  compact.addEventListener('change',resume);
   navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
-  addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
-  addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});
+  addEventListener('pagehide',event=>{suspended=true;stop();if(event.persisted)return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
+  addEventListener('pageshow',event=>{if(event.persisted){suspended=false;resume();}});
   load();
 })();
