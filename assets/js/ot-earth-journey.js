@@ -8,6 +8,7 @@
   if (!earth || !hero || !visual || !solutions) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const mobile = matchMedia('(max-width:900px)');
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
   const clamp = v => Math.min(1, Math.max(0, v));
   const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
   let frame = 0, pointerX = 0, pointerY = 0;
@@ -20,7 +21,7 @@
     const target = visual.getBoundingClientRect();
     const solutionRect = solutions.getBoundingClientRect();
     const rail = mobile.matches ? 0 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail')) || 250;
-    const diameter = mobile.matches ? Math.min(target.width * .9, 410) : Math.min((w - rail) * .45, target.height * 1.05, 610);
+    const diameter = mobile.matches ? Math.min(target.width * 1.04, target.height * 1.02, 560) : Math.min((w - rail) * .45, target.height * 1.05, 610);
     const baseX = mobile.matches ? target.left + target.width * .5 : Math.min(target.left + target.width * .52, w - diameter * .53 - 40);
     const baseY = target.top + target.height * (mobile.matches ? .5 : .48);
     const travel = Math.max(1,heroRect.height * .9);
@@ -35,7 +36,7 @@
     const next = {
       progress: progress.toFixed(4), pulse: pulse.toFixed(4), morph: morph.toFixed(4),
       opacity: opacity.toFixed(4), centerX: cx.toFixed(1), centerY: cy.toFixed(1),
-      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches && !mobile.matches)
+      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches && (!mobile.matches || (!mobileRestricted() && cy + diameter * .5 > 0 && cy - diameter * .5 < h)))
     };
     next.ribbonFloor = String((hero.querySelector('.hero-proof')?.getBoundingClientRect().bottom || 0) + 40);
     Object.assign(earth.dataset, next);
@@ -54,6 +55,7 @@
   document.addEventListener('visibilitychange', schedule);
   reduced.addEventListener('change', schedule);
   mobile.addEventListener('change', schedule);
+  navigator.connection?.addEventListener('change', schedule);
   // Font loading can change the dedicated mobile globe block after the first frame.
   document.fonts?.ready.then(schedule);
   const layoutObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;

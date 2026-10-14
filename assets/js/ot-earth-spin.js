@@ -10,6 +10,7 @@
   const memory = Number(navigator.deviceMemory || 8);
   const lite = !!navigator.connection?.saveData || memory <= 4 || compact.matches;
   const frameMs = lite ? 50 : 33;
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
   const clamp = v => Math.min(1, Math.max(0, v));
   let continuation = null;
   const state = () => continuation || ({
@@ -22,6 +23,7 @@
   let renderer, scene, camera, photo, points, material, atmosphere, cityLights;
   let ctx, fallbackPhoto, fallbackSurface, fallbackPoints = [];
   const fallbackFrames = new Map();
+  let mobileBlend;
   let disposed = false;
   const textureURL = '/assets/img/orbit/nasa-blue-marble-clouds-2048.webp';
 
@@ -51,9 +53,9 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= (continuation ? 66 : frameMs)) {
+    if (now - last >= (compact.matches ? 50 : continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
-      angle = (angle + delta * Math.PI * 2 / 42000) % (Math.PI * 2);
+      angle = (angle + delta * Math.PI * 2 / (compact.matches ? 28000 : 42000)) % (Math.PI * 2);
       renderFrame(now);
       last = now;
     }
@@ -72,7 +74,7 @@
   }
   function sync() {
     if (!mode) return;
-    const enabled = !reduced.matches && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
+    const enabled = !reduced.matches && (!compact.matches || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
     if (enabled) { if (!frame) frame = requestAnimationFrame(run); }
     else { stop(); draw(performance.now()); }
   }
@@ -124,7 +126,9 @@
     const w = innerWidth, h = innerHeight, time = now * .001;
     ctx.clearRect(0,0,w,h);
     const radius = s.diameter * .5;
-    const continuedPhoto=continuation?fallbackSphere():null;
+    // Mobile uses the same spherical surface in the HERO and continuation, with
+    // interpolated cached frames; desktop keeps its approved fallback unchanged.
+    const continuedPhoto=continuation||(compact.matches&&!reduced.matches&&!mobileRestricted())?fallbackSphere():null;
     if ((continuedPhoto||fallbackPhoto) && s.pulse < 1) {
       ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
       ctx.save();
@@ -134,7 +138,7 @@
       ctx.restore();
     }
     ctx.globalCompositeOperation = 'lighter';
-    const count = fallbackPoints.length;
+    const count = compact.matches && s.pulse < .01 ? 0 : fallbackPoints.length;
     const columns = Math.ceil(Math.sqrt(count * 1.85));
     const rows = Math.ceil(count / columns);
     for (let i = 0; i < count; i++) {
@@ -156,22 +160,34 @@
     }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   }
-  // Only continuation poses use this spherical fallback. Original HERO stays identical.
+  // Desktop uses the original continuation fallback. Mobile blends nearby surface
+  // frames instead of regenerating a full spherical projection on every paint.
   function fallbackSphere(){
     if(!fallbackSurface)return null;
-    const step=Math.round(angle*32/(Math.PI*2));
-    if(fallbackFrames.has(step))return fallbackFrames.get(step);
-    const size=lite?112:176,c=document.createElement('canvas');c.width=c.height=size;
+    if(!compact.matches)return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
+    const phase=((angle/(Math.PI*2)%1)+1)%1*64,step=Math.floor(phase),blend=phase-step;
+    const a=fallbackSphereFrame(step,64,176),b=fallbackSphereFrame((step+1)%64,64,176);
+    if(!mobileBlend){mobileBlend=document.createElement('canvas');mobileBlend.width=mobileBlend.height=176;}
+    const g=mobileBlend.getContext('2d');g.clearRect(0,0,176,176);
+    // Fade the first frame before adding the second, retaining a solid silhouette.
+    g.globalCompositeOperation='copy';g.globalAlpha=1-blend;g.drawImage(a,0,0);
+    g.globalCompositeOperation='lighter';g.globalAlpha=blend;g.drawImage(b,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=1;
+    return mobileBlend;
+  }
+  function fallbackSphereFrame(step,steps,size){
+    const key=steps+':'+step;
+    if(fallbackFrames.has(key))return fallbackFrames.get(key);
+    const c=document.createElement('canvas');c.width=c.height=size;
     const g=c.getContext('2d'),out=g.createImageData(size,size),src=fallbackSurface;
     for(let y=0;y<size;y++)for(let x=0;x<size;x++){
       const nx=(x+.5)/size*2-1,ny=1-(y+.5)/size*2,d=nx*nx+ny*ny;if(d>1)continue;
-      const z=Math.sqrt(1-d),lon=Math.atan2(nx,z)+step/32*Math.PI*2;
+      const z=Math.sqrt(1-d),lon=Math.atan2(nx,z)+step/steps*Math.PI*2;
       const u=((lon/Math.PI/2+.5)%1+1)%1,v=Math.acos(ny)/Math.PI;
-      const k=(Math.min(127,Math.floor(v*128))*256+Math.floor(u*256))*4,i=(y*size+x)*4;
+      const k=(Math.min(src.height-1,Math.floor(v*src.height))*src.width+Math.floor(u*src.width))*4,i=(y*size+x)*4;
       const light=.3+.7*Math.max(0,nx*.38+ny*.55+z*.75),rim=.5+.5*Math.sqrt(z);
       out.data[i]=src.data[k]*light*rim;out.data[i+1]=src.data[k+1]*light*rim;out.data[i+2]=src.data[k+2]*light*rim;out.data[i+3]=255;
     }
-    g.putImageData(out,0,0);if(fallbackFrames.size>=6)fallbackFrames.delete(fallbackFrames.keys().next().value);fallbackFrames.set(step,c);return c;
+    g.putImageData(out,0,0);if(fallbackFrames.size>=6)fallbackFrames.delete(fallbackFrames.keys().next().value);fallbackFrames.set(key,c);return c;
   }
   function fallback() {
     if (renderer) renderer.dispose();
@@ -182,7 +198,7 @@
     if (!ctx) return;
     const map = new Image();
     map.onload = () => {
-      try{const c=document.createElement('canvas');c.width=256;c.height=128;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,256,128);fallbackSurface=g.getImageData(0,0,256,128);}catch{fallbackSurface=null;}
+      try{const c=document.createElement('canvas');c.width=compact.matches?512:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
       try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
       // A deterministic surface still works if texture sampling is unavailable.
       if (!fallbackPoints.length) for(let i=0;i<1200;i++) {
@@ -261,7 +277,7 @@
     } catch { fallback(); }
   }
   function load() {
-    if (requested || reduced.matches) return;
+    if (requested || reduced.matches || (compact.matches && mobileRestricted())) return;
     requested=true;
     if (window.THREE) { init(); return; }
     const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
@@ -284,6 +300,7 @@
   document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',()=>{load();sync();});
   compact.addEventListener('change',resize);
+  navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
   addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
   addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});

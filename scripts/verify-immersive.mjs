@@ -231,7 +231,7 @@ async function run(name,viewport,options={}) {
   const earthState=await page.locator('#earthJourney').evaluate(e=>({...e.dataset}));
   if(!options.reduced){
     if(viewport.width>900)assert.ok(+earthState.morph>.1,'desktop wave morph advances');
-    else {assert.equal(+earthState.morph,0,'mobile globe stays static');assert.equal(earthState.animate,'false');}
+    else {assert.equal(+earthState.morph,0,'mobile keeps its photographic globe instead of the desktop morph');assert.equal(earthState.animate,'true','mobile globe rotates when it is in view');}
     if(options.fallback)assert.equal(earthState.renderer,'canvas2d');else assert.equal(earthState.renderer,'webgl');
   }
   await page.locator('#solucoes').scrollIntoViewIfNeeded();

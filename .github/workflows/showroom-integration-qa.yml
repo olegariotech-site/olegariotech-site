@@ -20,6 +20,36 @@ on:
 permissions:
   contents: read
 jobs:
+  mobile-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install mobile engine runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Verify native mobile profile, globe, touch, reading and protections
+        env:
+          OT_QA_ENGINES: ${{ matrix.engine }}
+          OT_V23_VIEWPORTS: '[[390,844]]'
+          OT_V23_OUTPUT: /tmp/ot-v26-mobile
+        run: node scripts/verify-cosmic-immersive.mjs
+      - name: Upload mobile evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v26-mobile-${{ matrix.engine }}
+          path: /tmp/ot-v26-mobile
+          retention-days: 30
+
   complete-home:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -95,6 +125,7 @@ jobs:
         env:
           OT_V23_RENDERER: ${{ matrix.renderer }}
           OT_V23_OUTPUT: /tmp/ot-v23-performance
+          OT_V23_BASELINE_REF: ${{ github.event.pull_request.base.sha }}
         run: node scripts/measure-cosmic-immersive.mjs
       - name: Upload individual samples and layout shift attribution
         if: always()

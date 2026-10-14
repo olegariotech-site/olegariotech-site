@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 const {chromium}=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
-const refs={v22:'8339f397f982536442d885b801cff3c1296374ad'};
+const refs={v22:process.env.OT_V23_BASELINE_REF||'8339f397f982536442d885b801cff3c1296374ad'};
 const temporary=[],servers=[],versions=[];
 const output=process.env.OT_V23_OUTPUT||'/tmp/ot-v23-performance';await mkdir(output,{recursive:true});
 const samples=Number(process.env.OT_V23_SAMPLES||5);

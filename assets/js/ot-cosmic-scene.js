@@ -9,7 +9,8 @@
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const compact = matchMedia('(max-width:900px)');
   const connection = navigator.connection;
-  const constrained = () => !!connection?.saveData || Number(navigator.deviceMemory || 8) <= 4;
+  const constrained = () => !!connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || (compact.matches && Number(navigator.hardwareConcurrency || 4) <= 2);
+  const mobileCount = () => Number(navigator.deviceMemory || 8) >= 8 && Number(navigator.hardwareConcurrency || 4) >= 6 ? 240 : 208;
   const clamp = v => Math.max(0, Math.min(1, v));
   const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
   const noise = i => { const value = Math.sin(i * 127.1 + 311.7) * 43758.5453; return value - Math.floor(value); };
@@ -20,7 +21,8 @@
   earth.after(layer); layer.append(canvas);
   const particles = Array.from({length:384},(_,i) => ({
     x:noise(i+1), y:noise(i+310), depth:.18+noise(i+420)*.82,
-    phase:noise(i+80)*Math.PI*2, size:.55+noise(i+150)*1.25, ox:0, oy:0
+    phase:noise(i+80)*Math.PI*2, size:.55+noise(i+150)*1.25, ox:0, oy:0,
+    wave:noise(i+1050),scatter:noise(i+1110)
   }));
   const profiles = [
     ['#inicio',1], ['#projetos',.68], ['#solucoes',.58], ['#metodo',.64],
@@ -31,6 +33,7 @@
   let anchors=[], reading=[], hidden=false, chapters=[];
   let pointer={x:.5,y:.5,tx:.5,ty:.5,active:false,energy:0}, travel=scrollY, velocity=0;
   let budget=1, slowFrames=0;
+  let touchId=null, touchUntil=0;
   const luminous=[];
   const sprites=['#d9e8ff','#67e8f9','#a78bfa'].map(color=>{
     const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d');
@@ -81,10 +84,11 @@
     const release=smooth(1-opacity*(1-pulse*.65));
     const cx=Number(earth.dataset.centerX)||width*.78,cy=Number(earth.dataset.centerY)||height*.5;
     const radius=(Number(earth.dataset.diameter)||540)*.5;
-    const count=Math.round((constrained()?40:compact.matches?132:particles.length)*budget);
+    const count=Math.round((constrained()?40:compact.matches?mobileCount():particles.length)*budget);
     layer.dataset.particles=String(count);
     layer.dataset.triangleParticles=String(Math.ceil(count/7));
     layer.dataset.particleStyle='hybrid-constellation';
+    layer.dataset.intensity=constrained()?'static':compact.matches?'mobile':'desktop';
     luminous.length=0;
     const centerY=scrollY+height*.55;
     const density=.72+densityAt(centerY)*.28;
@@ -92,7 +96,7 @@
     // or the commercial footer. Its position never changes document geometry.
     const proximity=anchors.reduce((max,a)=>a.selector==='#solucoes'||a.selector==='#metodo'
       ?Math.max(max,smooth(1-Math.abs(centerY-a.y)/(height*1.3))):max,0);
-    const formation=still?0:proximity*.52;
+    const formation=still?0:proximity*(compact.matches?.66:.52);
     layer.dataset.constellation=formation.toFixed(3);
     for(let i=0;i<count;i++){
       const p=particles[i],drift=still?0:time*(.06+p.depth*.035);
@@ -101,8 +105,8 @@
       // Unhurried downward stars, independent of scroll; no streaks or uniform snowfall.
       const v=p.y+(still?0:time*(7+p.depth*21)/height+Math.sin(drift*.7+p.phase)*.010+travel*.00010*p.depth);
       let fieldX=rail+clamp(u)*(width-rail)+px,fieldY=((v%1+1)%1)*height+py;
-      if(formation>.001&&i%6===0){
-        const uWave=noise(i+1050),scatter=noise(i+1110);
+      if(formation>.001&&i%(compact.matches?4:6)===0){
+        const uWave=p.wave,scatter=p.scatter;
         const waveX=rail+(width-rail)*(.54+uWave*.38);
         const waveY=height*(.44+Math.sin(uWave*6.2+time*.11)*.15+(scatter-.5)*.22);
         const gather=formation*(.58+.42*p.depth);
@@ -113,18 +117,18 @@
       let y=mix(cy+Math.sin(orbit)*radius*(.65+p.depth*.75),fieldY,spread);
       let tx=0,ty=0;
       if(!still&&pointer.active){
-        const dx=x-pointer.x*width,dy=y-pointer.y*height,d=Math.hypot(dx,dy),range=210+p.depth*90;
-        const force=Math.pow(Math.max(0,1-d/range),2)*(42+p.depth*94)*(1+pointer.energy*.55);
+        const dx=x-pointer.x*width,dy=y-pointer.y*height,d=Math.hypot(dx,dy),range=compact.matches?110+p.depth*65:210+p.depth*90;
+        const force=Math.pow(Math.max(0,1-d/range),2)*(compact.matches?12+p.depth*30:42+p.depth*94)*(1+pointer.energy*.55);
         if(d>1){tx=(dx/d-dy/d*.30)*force;ty=(dy/d+dx/d*.30)*force;}
       }
       p.ox=still?0:mix(p.ox,tx,.13);p.oy=still?0:mix(p.oy,ty,.13);
       x+=p.ox;y+=p.oy+(still?0:velocity*p.depth*.28);
       if(x<rail||x>width||y<0||y>height)continue;
       const inReading=reading.some(r=>x>=r.left&&x<=r.right&&y+scrollY>=r.top&&y+scrollY<=r.bottom);
-      const alpha=(.30+p.depth*.5)*density*(inReading?.22:1)*(compact.matches?.82:1);
+      const alpha=(.30+p.depth*.5)*density*(inReading?.22:1);
       const triangular=i%7===0;
       context.globalAlpha=alpha*(triangular?.73:1);
-      const size=p.size*(.7+p.depth*.65);
+      const size=p.size*(.7+p.depth*.65)*(compact.matches?1.14:1);
       const sprite=triangular?(i%49===0?5:i%2===0?3:4):i%15===0?2:i%8===0?1:0;
       context.drawImage(sprites[sprite],x-size*3,y-size*3,size*6,size*6);
       if(i%4===0&&!inReading)luminous.push({x,y,alpha});
@@ -133,7 +137,7 @@
     context.strokeStyle='#9cc1de';context.lineWidth=.55;
     for(let i=0;i<Math.min(36,luminous.length);i++){
       const a=luminous[i],b=luminous[(i+7)%luminous.length],d=Math.hypot(a.x-b.x,a.y-b.y);
-      if(d>35&&d<140){context.globalAlpha=.11*(1-d/160);context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();}
+      if(d>35&&d<140){context.globalAlpha=(compact.matches?.11+formation*.12:.11)*(1-d/160);context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();}
     }
     context.globalAlpha=1;
   }
@@ -174,6 +178,19 @@
     context.globalAlpha=opacity;context.drawImage(photograph,x-diameter/2,y-diameter/2,diameter,diameter);context.globalAlpha=1;
   }
   let continuationKey='';
+  let readingMaskKey='';
+  function protectMobileReading(active){
+    const key=compact.matches&&active?[width,height,scrollY,reading.map(r=>[r.left,r.right,r.top,r.bottom].join(',')).join(';')].join(':'):'';
+    if(key===readingMaskKey)return;readingMaskKey=key;
+    if(!key){earth.style.removeProperty('mask-image');earth.style.removeProperty('-webkit-mask-image');return;}
+    // The original renderer has its own canvas. The atmospheric reading veil
+    // alone cannot dim it, so mobile continuation shares those cached read zones.
+    // Rebuild only on scroll/layout changes, never on globe rotation.
+    const rectangles=reading.filter(r=>r.bottom>scrollY-40&&r.top<scrollY+height+40).map(r=>`<rect x="${r.left}" y="${r.top-scrollY}" width="${r.right-r.left}" height="${r.bottom-r.top}"/>`).join('');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><defs><filter id="soft"><feGaussianBlur stdDeviation="14"/></filter><mask id="read" maskUnits="userSpaceOnUse" x="0" y="0" width="${width}" height="${height}"><rect width="100%" height="100%" fill="white"/><g fill="black" opacity=".97" filter="url(#soft)">${rectangles}</g></mask></defs><rect width="100%" height="100%" fill="white" mask="url(#read)"/></svg>`;
+    const mask=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    earth.style.setProperty('mask-image',mask);earth.style.setProperty('-webkit-mask-image',mask);
+  }
   function setEarth(pose){
     const key=pose?[pose.x.toFixed(1),pose.y.toFixed(1),pose.diameter.toFixed(1),pose.opacity.toFixed(3),pose.animate].join(','):'none';
     if(key===continuationKey)return;continuationKey=key;
@@ -182,15 +199,16 @@
   function continuum() {
     const still=reduced.matches||constrained(),center=scrollY+height*.55;
     let partial=0,chapterIndex=0;
-    chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*.88)))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
+    chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*(compact.matches?1.1:.88))))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
     let pose=null;
     if(partial>.005&&Number(earth.dataset.opacity)<.005){
-      const diameter=width*(compact.matches?1.12:.56),entrance=partial/.75;
-      const x=width+diameter*(.32-.40*entrance),y=height*(.59+chapterIndex*.08);
+      const diameter=width*(compact.matches?1.24:.56),entrance=partial/.75;
+      const x=width+diameter*(.32-(compact.matches?.46:.40)*entrance),y=height*(.59+chapterIndex*.08);
       pose={x,y,diameter,opacity:partial,animate:!still};
     }
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
+    protectMobileReading(!!pose);
     layer.dataset.earth=pose?JSON.stringify(pose):'';
     if(pose&&still){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
     else setEarth(pose);
@@ -210,7 +228,7 @@
   }
   function stop() { if(frame)cancelAnimationFrame(frame);frame=last=0; }
   function tick(now) {
-    const interval=compact.matches?66:33;
+    const interval=compact.matches?50:33;
     if(now-last>=interval){
       const delta=last?Math.min(now-last,100)/1000:interval/1000;
       clock+=delta;
@@ -218,6 +236,7 @@
       const before=performance.now();
       const difference=scrollY-travel;velocity=mix(velocity,difference,.15);travel=mix(travel,scrollY,.14);
       pointer.x=mix(pointer.x,pointer.tx,.12);pointer.y=mix(pointer.y,pointer.ty,.12);pointer.energy*=.88;
+      if(compact.matches&&touchUntil&&now>touchUntil){touchId=null;touchUntil=0;pointer.active=false;pointer.tx=pointer.ty=.5;}
       draw();
       if(performance.now()-before>interval*.5){if(++slowFrames>18){budget=Math.max(.42,budget*.82);slowFrames=0;}}else slowFrames=Math.max(0,slowFrames-1);
     }
@@ -232,7 +251,8 @@
   }
   function resize() {
     width=innerWidth;height=innerHeight;
-    const ratio=Math.min(devicePixelRatio||1,compact.matches||constrained()?1:1.3);
+    if(!compact.matches&&touchUntil){touchId=null;touchUntil=0;pointer.active=false;pointer.tx=pointer.ty=.5;}
+    const ratio=Math.min(devicePixelRatio||1,constrained()?1:compact.matches?1.2:1.3);
     canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
     context.setTransform(ratio,0,0,ratio,0,0);measure();draw();
   }
@@ -244,6 +264,21 @@
     pointer.energy=Math.min(1,pointer.energy+Math.hypot(x-pointer.tx,y-pointer.ty)*8);
     pointer.tx=x;pointer.ty=y;pointer.active=true;
   },{passive:true});
+  // Observe native touch gestures; no overlay, capture, prevention or CTA handler.
+  const touchControl='a,button,input,textarea,select,[role="button"],[role="tab"],.case-screen,.case-tabs,.solution-choices';
+  function touch(event){
+    if(!compact.matches||event.pointerType!=='touch'||!event.isPrimary||reduced.matches||constrained())return;
+    if(event.type==='pointerdown'){
+      if(event.target.closest(touchControl))return;
+      touchId=event.pointerId;
+    }else if(event.pointerId!==touchId)return;
+    pointer.tx=event.clientX/Math.max(1,width);pointer.ty=event.clientY/Math.max(1,height);
+    pointer.active=true;pointer.energy=.3;touchUntil=performance.now()+650;
+    layer.dataset.touchReactions=String((Number(layer.dataset.touchReactions)||0)+1);
+  }
+  document.addEventListener('pointerdown',touch,{passive:true});
+  document.addEventListener('pointermove',touch,{passive:true});
+  for(const type of ['pointerup','pointercancel'])document.addEventListener(type,event=>{if(event.pointerId===touchId){touchId=null;touchUntil=performance.now()+300;}},{passive:true});
   document.addEventListener('pointerleave',()=>{pointer.active=false;pointer.tx=pointer.ty=.5;},{passive:true});
   addEventListener('resize',resize,{passive:true});
   document.addEventListener('visibilitychange',sync);
@@ -251,6 +286,9 @@
   connection?.addEventListener('change',resize);
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(scheduleMeasure):null;
   observer?.observe(page);
+  // Native mobile engines can redistribute height between sections without a
+  // reliable page resize. Keep constellation anchors and reading masks current.
+  for(const [selector] of profiles){const section=document.querySelector(selector);if(section)observer?.observe(section);}
   document.fonts?.ready.then(scheduleMeasure);
   addEventListener('pagehide',()=>{hidden=true;stop();if(measureFrame)cancelAnimationFrame(measureFrame);measureFrame=0;});
   addEventListener('pageshow',()=>{hidden=false;scheduleMeasure();});
