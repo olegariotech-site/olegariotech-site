@@ -167,9 +167,10 @@
     if(!fallbackSurface)return null;
     if(!compact.matches)return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
     const phase=((angle/(Math.PI*2)%1)+1)%1*64,step=Math.floor(phase),blend=phase-step;
-    const a=fallbackSphereFrame(step,64,176),b=fallbackSphereFrame((step+1)%64,64,176);
-    if(!mobileBlend){mobileBlend=document.createElement('canvas');mobileBlend.width=mobileBlend.height=176;}
-    const g=mobileBlend.getContext('2d');g.clearRect(0,0,176,176);
+    // Keep the enlarged V2.6 globe legible without projecting viewport-sized frames.
+    const size=256,a=fallbackSphereFrame(step,64,size),b=fallbackSphereFrame((step+1)%64,64,size);
+    if(!mobileBlend){mobileBlend=document.createElement('canvas');mobileBlend.width=mobileBlend.height=size;}
+    const g=mobileBlend.getContext('2d');g.clearRect(0,0,size,size);
     // Fade the first frame before adding the second, retaining a solid silhouette.
     g.globalCompositeOperation='copy';g.globalAlpha=1-blend;g.drawImage(a,0,0);
     g.globalCompositeOperation='lighter';g.globalAlpha=blend;g.drawImage(b,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=1;
