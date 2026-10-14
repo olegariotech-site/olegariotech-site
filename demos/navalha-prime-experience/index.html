@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navalha Prime Barber Club | Demo Olegario Tech</title>
+  <meta name="description" content="Demo premium de site para barbearias com agendamento, profissionais, serviços, assinaturas e integração com AppBarber ou WhatsApp." />
+  <meta name="theme-color" content="#050505" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" id="progress"></div>
+
+  <div class="preloader" id="preloader">
+    <div class="preloader-mark">NP</div>
+    <p>Reservando sua cadeira...</p>
+  </div>
+
+  <header class="header" id="header">
+    <a class="logo" href="#top" aria-label="Navalha Prime">
+      <span>Navalha</span><strong>Prime</strong>
+    </a>
+    <nav>
+      <a href="#experiencia">Experiência</a>
+      <a href="#agendamento">Agenda</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#barbeiros">Barbeiros</a>
+      <a href="#planos">Planos</a>
+    </nav>
+    <a class="btn small" data-link="appBarber" href="#">Agendar agora</a>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="razor-line"></div>
+        <div class="hero-orb orb-a"></div>
+        <div class="hero-orb orb-b"></div>
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow reveal">Demo premium Olegario Tech • Valinhos/SP</p>
+          <h1 class="reveal">Sua presença começa no corte.</h1>
+          <p class="lead reveal">Uma experiência cinematográfica para o cliente escolher serviço, barbeiro e horário sem enrolação — antes de cair no AppBarber, Trinks ou WhatsApp.</p>
+          <div class="actions reveal">
+            <a class="btn primary magnetic" data-link="appBarber" href="#">Reservar minha cadeira</a>
+            <a class="btn ghost magnetic" href="#agendamento">Ver experiência</a>
+          </div>
+          <div class="hero-stats reveal">
+            <span><strong>4.9★</strong> avaliação demo</span>
+            <span><strong>+1.800</strong> atendimentos</span>
+            <span><strong>2</strong> unidades fictícias</span>
+          </div>
+        </div>
+
+        <aside class="availability-card reveal">
+          <span class="live-dot"></span>
+          <p>Hoje</p>
+          <h2>Horários disponíveis</h2>
+          <div class="time-row"><button>14:30</button><button>16:00</button><button>18:20</button></div>
+          <a data-link="appBarber" href="#">Abrir agenda oficial →</a>
+        </aside>
+      </div>
+
+      <div class="marquee" aria-hidden="true"><span>Corte • Barba • Degradê • Navalha • Assinatura • WhatsApp • AppBarber • Agenda Premium •</span></div>
+    </section>
+
+    <section class="section" id="experiencia">
+      <div class="container split">
+        <div>
+          <p class="eyebrow reveal">O ponto cego do mercado</p>
+          <h2 class="title reveal">O app agenda. Mas o site precisa vender vontade.</h2>
+        </div>
+        <div class="text-block reveal">
+          <p>AppBarber, Trinks e WhatsApp são motores de operação. A camada premium da Olegario Tech entra antes: posicionamento, atmosfera, barbeiros, serviços, planos, prova social e CTAs que aquecem o cliente.</p>
+          <p class="gold">Projeto demonstrativo: marca, nomes, telefones e endereços são fictícios.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section booking" id="agendamento">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow reveal">Funil visual</p>
+          <h2 class="title reveal">Escolha serviço. Escolha barbeiro. Reserve horário.</h2>
+          <p class="subtitle reveal">A agenda oficial continua existindo. Só que agora o cliente chega nela muito mais decidido.</p>
+        </div>
+
+        <div class="booking-shell reveal">
+          <div class="phone">
+            <div class="phone-top"><span></span><span></span><span></span></div>
+            <div class="booking-step active" data-step="1">
+              <small>Passo 1</small><h3>Escolha sua experiência</h3>
+              <div class="choice-grid" id="serviceChoices"></div>
+            </div>
+            <div class="booking-step" data-step="2">
+              <small>Passo 2</small><h3>Escolha seu profissional</h3>
+              <div class="choice-grid compact" id="barberChoices"></div>
+            </div>
+            <div class="booking-step" data-step="3">
+              <small>Passo 3</small><h3>Horários disponíveis hoje</h3>
+              <div class="choice-grid compact"><button class="choice selected">14:30</button><button class="choice">16:00</button><button class="choice">18:20</button><button class="choice">19:40</button></div>
+              <a class="btn primary full" data-link="appBarber" href="#">Continuar no AppBarber</a>
+              <a class="btn ghost full" data-link="whatsappBarbearia" href="#">Finalizar pelo WhatsApp</a>
+            </div>
+          </div>
+          <div class="booking-copy">
+            <p class="eyebrow">Conversão sem atrito</p>
+            <h3>O cliente entende, deseja e só depois é enviado para a agenda oficial.</h3>
+            <ul>
+              <li>CTA fixo no mobile para quem decide no impulso.</li>
+              <li>Serviços por intenção, não lista infinita.</li>
+              <li>Barbeiros como autoridade, não apenas nomes.</li>
+              <li>Planos vendidos como recorrência, economia e presença.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Serviços com curadoria</p>
+          <h2 class="title reveal">Guiar decisão é melhor que despejar opções.</h2>
+        </div>
+        <div class="cards-grid" id="servicesGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="barbeiros">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow reveal">Profissionais em destaque</p>
+          <h2 class="title reveal">O cliente escolhe quem vai cuidar da presença dele.</h2>
+        </div>
+        <div class="barber-track" id="barbersTrack"></div>
+      </div>
+    </section>
+
+    <section class="section" id="planos">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Recorrência</p>
+          <h2 class="title reveal">Transforme cliente eventual em cliente mensal.</h2>
+        </div>
+        <div class="plans-grid" id="plansGrid"></div>
+      </div>
+    </section>
+
+    <section class="section gallery">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow reveal">Prova visual</p>
+          <h2 class="title reveal">Resultado que aparece no espelho. E nas fotos.</h2>
+        </div>
+        <div class="gallery-grid">
+          <div class="gallery-card reveal"><span>Degradê navalhado</span></div>
+          <div class="gallery-card tall reveal"><span>Barba premium</span></div>
+          <div class="gallery-card reveal"><span>Corte executivo</span></div>
+          <div class="gallery-card wide reveal"><span>Antes e depois</span></div>
+          <div class="gallery-card reveal"><span>Toalha quente</span></div>
+          <div class="gallery-card reveal"><span>Ambiente club</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section proof">
+      <div class="container proof-grid">
+        <div class="score reveal"><span>4.9</span><p>★★★★★</p><small>Avaliação demonstrativa</small></div>
+        <div class="testimonials" id="testimonialsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="unidades">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Unidades fictícias</p>
+          <h2 class="title reveal">Valinhos como cenário. Dados 100% demo.</h2>
+        </div>
+        <div class="unit-grid" id="unitsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section olegario" id="olegario-tech">
+      <div class="container final-panel reveal">
+        <p class="eyebrow">Para donos de barbearia</p>
+        <h2>Sua barbearia já tem agenda. Agora precisa de uma experiência que faça o cliente querer agendar.</h2>
+        <p>Criamos sites premium integrados ao AppBarber, Trinks, WhatsApp ou à plataforma que você já usa. O app cuida da operação. A Olegario Tech cuida da primeira impressão.</p>
+        <a class="btn primary magnetic" data-link="whatsappOlegarioTech" href="#">Quero um site assim para minha barbearia</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Navalha Prime Barber Club — marca fictícia para demonstração comercial.</p>
+    <p>Experiência criada por Olegario Tech.</p>
+  </footer>
+
+  <a class="floating-cta" data-link="appBarber" href="#">Agendar agora</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
