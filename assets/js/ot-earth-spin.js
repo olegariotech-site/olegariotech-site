@@ -201,7 +201,7 @@
     const map = new Image();
     map.onload = () => {
       if (disposed) return;
-      try{const c=document.createElement('canvas');c.width=compact.matches?512:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
+      try{const c=document.createElement('canvas');c.width=compact.matches?1024:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
       // A static photograph cannot substitute for failed mobile surface sampling.
       if (compact.matches && !fallbackSurface) { requested=false; earth.dataset.renderer='static'; return; }
       try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
@@ -309,7 +309,9 @@
   compact.addEventListener('change',resume);
   navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
-  addEventListener('pagehide',event=>{suspended=true;stop();if(event.persisted)return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
-  addEventListener('pageshow',event=>{if(event.persisted){suspended=false;resume();}});
+  // On mobile, pause the host's document without destroying its renderer. A real
+  // unload releases the document's resources; a retained WebView can resume either flag.
+  addEventListener('pagehide',event=>{suspended=true;stop();if(event.persisted||compact.matches)return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
+  addEventListener('pageshow',()=>{if(!disposed){suspended=false;resume();}});
   load();
 })();
