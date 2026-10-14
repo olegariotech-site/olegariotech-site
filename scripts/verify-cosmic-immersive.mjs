@@ -17,6 +17,7 @@ async function configure(c,{mode='full'}={}){
   localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
   if(mode==='saveData')Object.defineProperty(navigator,'connection',{configurable:true,value:{saveData:true,addEventListener(){}}});
   if(mode==='lowMemory')Object.defineProperty(navigator,'deviceMemory',{configurable:true,value:4});
+  if(mode==='lowCPU')Object.defineProperty(navigator,'hardwareConcurrency',{configurable:true,value:2});
   const get=HTMLCanvasElement.prototype.getContext;
   if(mode==='canvas2d')HTMLCanvasElement.prototype.getContext=function(type,...a){return type==='webgl'||type==='webgl2'?null:get.call(this,type,...a)};
   window.__v23={draws:0,sprites:[],poses:[],photoTransforms:[]};
@@ -34,7 +35,8 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
  const b=await pw[engine].launch(engine==='chromium'?{args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{});
  try{
  for(const [width,height] of JSON.parse(process.env.OT_V23_VIEWPORTS||'[[1366,768],[1440,900],[1920,1080],[768,1024],[360,800],[390,844],[430,932]]')){
-  const c=await b.newContext({viewport:{width,height},hasTouch:width<=900});await configure(c);const p=await c.newPage(),errors=[],notFound=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()===404)notFound.push(r.url())});p.on('request',r=>{if(r.url().includes('hubble-ngc1300'))assets.push(r.url())});
+  const device=width<=600?pw.devices[engine==='webkit'?'iPhone 13':'Pixel 7']:{};
+  const c=await b.newContext({...device,viewport:{width,height},hasTouch:width<=900});await configure(c);const p=await c.newPage(),errors=[],notFound=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()===404)notFound.push(r.url())});p.on('request',r=>{if(r.url().includes('hubble-ngc1300'))assets.push(r.url())});
   await p.goto(url);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(500);
   assert.match(await p.title(),/Olegario Tech/);assert.equal(await p.locator('vite-error-overlay,nextjs-portal').count(),0);assert.equal(assets.length,0,'Removed gallery image must never be requested');
   const bounds=await p.evaluate(()=>{const y=s=>{const r=document.querySelector(s).getBoundingClientRect();return scrollY+r.top};return{method:y('#metodo'),partial:y('#metodo')+document.querySelector('#metodo').offsetHeight-innerHeight*.55,contact:y('#contato'),footer:y('.footer'),end:document.documentElement.scrollHeight-innerHeight}});
@@ -64,6 +66,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    for(const selector of ['#solucoes','#metodo']){
     const middle=await p.evaluate(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.55},selector);
     await go(p,middle);assert.ok(Number((await state(p)).constellation)>.6,'Mobile constellation forms in '+selector);
+    if(selector==='#metodo')assert.ok(await p.evaluate(()=>getComputedStyle(document.querySelector('#earthJourney')).maskImage!=='none'),'Mobile continuation protects reading with its own mask');
     await p.screenshot({path:out+'/'+prefix+'-v26-'+selector.slice(1)+'.png'});
    }
    const reactions=()=>p.evaluate(()=>Number(document.querySelector('.ot-atmosphere').dataset.touchReactions)||0);
@@ -105,7 +108,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
   assert.equal(assets.length,0,'No NASA galactic image request');assert.deepEqual(errors,[]);assert.deepEqual(notFound,[]);report.views.push({engine,width,height,shots,assets,errors,notFound});await c.close();console.log(engine+' '+width+'x'+height+' passed');
   if(baseline){const c=await b.newContext({viewport:{width,height}});await configure(c);const p=await c.newPage();await p.goto(baseline);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(500);await p.screenshot({path:out+'/'+prefix+'-v22-hero.png'});await go(p,await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight));await p.waitForTimeout(500);await p.screenshot({path:out+'/'+prefix+'-v22-integrated.png'});report.comparisons.push({engine,width,height,baseline:true});await c.close()}
  }
- for(const mode of ['reduce','saveData','lowMemory','canvas2d']){
+ for(const mode of ['reduce','saveData','lowMemory','lowCPU','canvas2d']){
   const c=await b.newContext({viewport:{width:390,height:844},reducedMotion:mode==='reduce'?'reduce':'no-preference'});await configure(c,{mode});const p=await c.newPage();await p.goto(url);await p.evaluate(()=>document.fonts.ready);await end(p);const first=await state(p);await p.waitForTimeout(1000);const last=await state(p);if(mode!=='canvas2d'){assert.equal(last.draws,first.draws,'No static animation loop');assert.equal(last.hash,first.hash,'Static preference honored')}else{assert.equal(last.renderer,'canvas2d');assert.ok(last.draws>first.draws);}
   if(mode!=='canvas2d'){
    await go(p,await p.evaluate(()=>{const r=document.querySelector('#inicio .hero-visual').getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.5}));
