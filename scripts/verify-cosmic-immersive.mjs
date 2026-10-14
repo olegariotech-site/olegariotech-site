@@ -65,7 +65,12 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    assert.ok(Number((await state(p)).particles)>=200,'Mobile atmosphere is richer than 132 particles');
    for(const selector of ['#solucoes','#metodo']){
     const middle=await p.evaluate(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.55},selector);
-    await go(p,middle);assert.ok(Number((await state(p)).constellation)>.6,'Mobile constellation forms in '+selector);
+    await go(p,middle);
+    await p.waitForFunction(()=>Number(document.querySelector('.ot-atmosphere').dataset.constellation)>.6,{},{timeout:3000}).catch(async error=>{
+      console.log('MOBILE_CONSTELLATION_GEOMETRY',JSON.stringify(await p.evaluate(selector=>{const r=document.querySelector(selector).getBoundingClientRect(),c=document.querySelector('.cosmic-scene');return{selector,scrollY,innerWidth,innerHeight,sectionTop:r.top,sectionHeight:r.height,canvasWidth:c.width,canvasHeight:c.height,formation:document.querySelector('.ot-atmosphere').dataset.constellation}},selector)));
+      await p.screenshot({path:out+'/'+prefix+'-v26-failed-'+selector.slice(1)+'.png'});throw error;
+    });
+    assert.ok(Number((await state(p)).constellation)>.6,'Mobile constellation forms in '+selector);
     if(selector==='#metodo')assert.ok(await p.evaluate(()=>getComputedStyle(document.querySelector('#earthJourney')).maskImage!=='none'),'Mobile continuation protects reading with its own mask');
     await p.screenshot({path:out+'/'+prefix+'-v26-'+selector.slice(1)+'.png'});
    }

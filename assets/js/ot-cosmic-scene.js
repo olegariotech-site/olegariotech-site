@@ -286,6 +286,9 @@
   connection?.addEventListener('change',resize);
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(scheduleMeasure):null;
   observer?.observe(page);
+  // Native mobile engines can redistribute height between sections without a
+  // reliable page resize. Keep constellation anchors and reading masks current.
+  for(const [selector] of profiles){const section=document.querySelector(selector);if(section)observer?.observe(section);}
   document.fonts?.ready.then(scheduleMeasure);
   addEventListener('pagehide',()=>{hidden=true;stop();if(measureFrame)cancelAnimationFrame(measureFrame);measureFrame=0;});
   addEventListener('pageshow',()=>{hidden=false;scheduleMeasure();});
