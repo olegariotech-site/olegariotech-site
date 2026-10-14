@@ -95,6 +95,7 @@ jobs:
         env:
           OT_V23_RENDERER: ${{ matrix.renderer }}
           OT_V23_OUTPUT: /tmp/ot-v23-performance
+          OT_V23_BASELINE_REF: ${{ github.event.pull_request.base.sha }}
         run: node scripts/measure-cosmic-immersive.mjs
       - name: Upload individual samples and layout shift attribution
         if: always()

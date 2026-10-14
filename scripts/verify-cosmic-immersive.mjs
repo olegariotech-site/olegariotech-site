@@ -34,7 +34,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
  const b=await pw[engine].launch(engine==='chromium'?{args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{});
  try{
  for(const [width,height] of JSON.parse(process.env.OT_V23_VIEWPORTS||'[[1366,768],[1440,900],[1920,1080],[768,1024],[360,800],[390,844],[430,932]]')){
-  const c=await b.newContext({viewport:{width,height},hasTouch:width<=600});await configure(c);const p=await c.newPage(),errors=[],notFound=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()===404)notFound.push(r.url())});p.on('request',r=>{if(r.url().includes('hubble-ngc1300'))assets.push(r.url())});
+  const c=await b.newContext({viewport:{width,height},hasTouch:width<=900});await configure(c);const p=await c.newPage(),errors=[],notFound=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()===404)notFound.push(r.url())});p.on('request',r=>{if(r.url().includes('hubble-ngc1300'))assets.push(r.url())});
   await p.goto(url);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(500);
   assert.match(await p.title(),/Olegario Tech/);assert.equal(await p.locator('vite-error-overlay,nextjs-portal').count(),0);assert.equal(assets.length,0,'Removed gallery image must never be requested');
   const bounds=await p.evaluate(()=>{const y=s=>{const r=document.querySelector(s).getBoundingClientRect();return scrollY+r.top};return{method:y('#metodo'),partial:y('#metodo')+document.querySelector('#metodo').offsetHeight-innerHeight*.55,contact:y('#contato'),footer:y('.footer'),end:document.documentElement.scrollHeight-innerHeight}});
@@ -44,6 +44,38 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
    await p.screenshot({path:out+'/'+prefix+'-'+name+'.png'});shots.push({name,...s});
   }
   await go(p,0);assert.equal((await state(p)).earthClass.includes('is-continuum'),false,'Original HERO regains ownership');
+  if(width<=900){
+   // V2.6: real mobile globe rotation, richer field, section-specific signatures,
+   // native touch feedback and controls that remain independent of the particles.
+   const globeY=await p.evaluate(()=>{const r=document.querySelector('#inicio .hero-visual').getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.5});
+   await go(p,globeY);
+   await p.waitForFunction(()=>document.querySelector('#earthJourney').dataset.animate==='true'&&!!document.querySelector('#earthJourney').dataset.renderer);
+   const geometry=await p.evaluate(()=>{const e=document.querySelector('#earthJourney'),r=document.querySelector('#inicio .hero-visual').getBoundingClientRect();return{diameter:+e.dataset.diameter,old:Math.min(r.width*.9,410),renderer:e.dataset.renderer}});
+   assert.ok(geometry.diameter>geometry.old,'Mobile Earth gains presence in its dedicated visual block');
+   if(geometry.renderer==='webgl'){
+    await p.evaluate(()=>{window.__mobileGlobeAngles=[];const before=THREE.Mesh.prototype.onBeforeRender;THREE.Mesh.prototype.onBeforeRender=function(...args){if(this.material?.map)window.__mobileGlobeAngles.push(this.rotation.y);return before.apply(this,args)}});
+    await p.waitForFunction(()=>window.__mobileGlobeAngles.length>2&&window.__mobileGlobeAngles.at(-1)>window.__mobileGlobeAngles[0]+.05);
+   }else{
+    const hash=()=>p.evaluate(()=>{const c=document.querySelector('.earth-journey__canvas'),d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let h=2166136261;for(let i=0;i<d.length;i+=13)h=Math.imul(h^d[i],16777619);return h>>>0});
+    const first=await hash();await p.waitForTimeout(800);assert.notEqual(await hash(),first,'Fallback mobile Earth really rotates');
+   }
+   await p.screenshot({path:out+'/'+prefix+'-v26-mobile-globe.png'});
+   assert.ok(Number((await state(p)).particles)>=200,'Mobile atmosphere is richer than 132 particles');
+   for(const selector of ['#solucoes','#metodo']){
+    const middle=await p.evaluate(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.55},selector);
+    await go(p,middle);assert.ok(Number((await state(p)).constellation)>.6,'Mobile constellation forms in '+selector);
+    await p.screenshot({path:out+'/'+prefix+'-v26-'+selector.slice(1)+'.png'});
+   }
+   const reactions=()=>p.evaluate(()=>Number(document.querySelector('.ot-atmosphere').dataset.touchReactions)||0);
+   await p.touchscreen.tap(width*.3,140);assert.ok(await reactions()>0,'Native touch triggers a short atmospheric reaction');
+   await p.waitForTimeout(600);const before=await reactions();await p.locator('.mobile-audio-toggle').tap();
+   await p.waitForFunction(()=>!document.querySelector('#backgroundAudio').paused&&document.querySelector('#backgroundAudio').currentTime>.1);
+   assert.equal(await reactions(),before,'Audio tap is excluded from atmospheric touch');await p.locator('.mobile-audio-toggle').tap();
+   await p.waitForFunction(()=>document.querySelector('#backgroundAudio').paused);
+   await p.locator('.mobile-nav a[href="#solucoes"]').tap();await p.waitForFunction(()=>document.querySelector('.mobile-nav a[href="#solucoes"]').getAttribute('aria-current')==='location');
+   assert.equal(await reactions(),before,'Navigation taps are excluded from atmospheric touch');
+   report.interactions.push({engine,width,height,feature:'v26-mobile-parity',...geometry,rotating:true,touchAndAudio:true});
+  }
   if(width===1440){
    await go(p,bounds.method);const settle=(await state(p)).draws;await p.waitForFunction(n=>window.__v23.draws>=n+32,settle);
    const fallingBefore=await p.evaluate(()=>window.__v23.sprites);await p.waitForTimeout(1000);const before=await p.evaluate(()=>window.__v23.sprites);
@@ -75,6 +107,10 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
  }
  for(const mode of ['reduce','saveData','lowMemory','canvas2d']){
   const c=await b.newContext({viewport:{width:390,height:844},reducedMotion:mode==='reduce'?'reduce':'no-preference'});await configure(c,{mode});const p=await c.newPage();await p.goto(url);await p.evaluate(()=>document.fonts.ready);await end(p);const first=await state(p);await p.waitForTimeout(1000);const last=await state(p);if(mode!=='canvas2d'){assert.equal(last.draws,first.draws,'No static animation loop');assert.equal(last.hash,first.hash,'Static preference honored')}else{assert.equal(last.renderer,'canvas2d');assert.ok(last.draws>first.draws);}
+  if(mode!=='canvas2d'){
+   await go(p,await p.evaluate(()=>{const r=document.querySelector('#inicio .hero-visual').getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.5}));
+   assert.equal(await p.locator('#earthJourney').getAttribute('data-animate'),'false','Restricted mobile HERO remains static');
+  }
   if(mode==='reduce'){await p.emulateMedia({reducedMotion:'no-preference'});await p.waitForTimeout(700);assert.ok((await state(p)).draws>last.draws);await p.emulateMedia({reducedMotion:'reduce'});await p.waitForTimeout(700);const n=(await state(p)).draws;await p.waitForTimeout(400);assert.equal((await state(p)).draws,n);}
   await p.screenshot({path:out+'/'+engine+'-'+mode+'-finale.png'});report.preferences.push({engine,mode,first,last});await c.close();
  }

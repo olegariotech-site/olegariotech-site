@@ -131,7 +131,7 @@ html.has-immersive-universe #projetos { padding: 0 32px 96px; }
   #inicio .hero-actions .btn { width: 100%; }
   #inicio .hero-proof { gap: 8px 12px; }
   #inicio .hero-proof span { font-size: .7rem; }
-  html.has-immersive-universe #inicio .hero-visual { position: relative; inset: auto; width: 100%; min-height: 310px; height: clamp(310px,65vw,460px); margin-top: 8px; display: block; flex-shrink: 0; }
+  html.has-immersive-universe #inicio .hero-visual { position: relative; inset: auto; width: 100%; min-height: 350px; height: clamp(350px,86vw,520px); margin-top: 8px; display: block; flex-shrink: 0; }
   .earth-journey { opacity: var(--earth-opacity,1); }
   .earth-journey::after { background: none; }
   .earth-journey__orbits { width: calc(var(--earth-size,300px) * 1.12); border-color: rgba(103,232,249,.2); }
