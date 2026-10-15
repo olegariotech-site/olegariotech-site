@@ -7,8 +7,10 @@
   if (!earth || !canvas) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const compact = matchMedia('(max-width:900px)');
+  const coarse = matchMedia('(pointer:coarse)');
+  const mobileHost = () => compact.matches || coarse.matches;
   const memory = Number(navigator.deviceMemory || 8);
-  const lite = !!navigator.connection?.saveData || memory <= 4 || compact.matches;
+  const lite = !!navigator.connection?.saveData || memory <= 4 || mobileHost();
   const frameMs = lite ? 50 : 33;
   const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 2 || Number(navigator.hardwareConcurrency || 4) <= 2;
   const mobileFrameMs = () => memory <= 4 ? 66 : 50;
@@ -54,9 +56,9 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= (compact.matches ? mobileFrameMs() : continuation ? 66 : frameMs)) {
+    if (now - last >= (mobileHost() ? mobileFrameMs() : continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
-      angle = (angle + delta * Math.PI * 2 / (compact.matches ? 28000 : 42000)) % (Math.PI * 2);
+      angle = (angle + delta * Math.PI * 2 / (mobileHost() ? 28000 : 42000)) % (Math.PI * 2);
       renderFrame(now);
       last = now;
     }
@@ -75,7 +77,7 @@
   }
   function sync() {
     if (!mode) return;
-    const enabled = !disposed && !suspended && !reduced.matches && (!compact.matches || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
+    const enabled = !disposed && !suspended && !reduced.matches && (!mobileHost() || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
     if (enabled) { if (!frame) frame = requestAnimationFrame(run); }
     else { stop(); draw(performance.now()); }
   }
@@ -129,7 +131,7 @@
     const radius = s.diameter * .5;
     // Mobile uses the same spherical surface in the HERO and continuation, with
     // interpolated cached frames; desktop keeps its approved fallback unchanged.
-    const continuedPhoto=continuation||(compact.matches&&!reduced.matches&&!mobileRestricted())?fallbackSphere():null;
+    const continuedPhoto=continuation||(mobileHost()&&!reduced.matches&&!mobileRestricted())?fallbackSphere():null;
     if ((continuedPhoto||fallbackPhoto) && s.pulse < 1) {
       ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
       ctx.save();
@@ -139,7 +141,7 @@
       ctx.restore();
     }
     ctx.globalCompositeOperation = 'lighter';
-    const count = compact.matches && s.pulse < .01 ? 0 : fallbackPoints.length;
+    const count = mobileHost() && s.pulse < .01 ? 0 : fallbackPoints.length;
     const columns = Math.ceil(Math.sqrt(count * 1.85));
     const rows = Math.ceil(count / columns);
     for (let i = 0; i < count; i++) {
@@ -165,7 +167,7 @@
   // frames instead of regenerating a full spherical projection on every paint.
   function fallbackSphere(){
     if(!fallbackSurface)return null;
-    if(!compact.matches)return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
+    if(!mobileHost())return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
     const phase=((angle/(Math.PI*2)%1)+1)%1*64,step=Math.floor(phase),blend=phase-step;
     // Keep the enlarged V2.6 globe legible without projecting viewport-sized frames.
     const size=256,a=fallbackSphereFrame(step,64,size),b=fallbackSphereFrame((step+1)%64,64,size);
@@ -201,9 +203,9 @@
     const map = new Image();
     map.onload = () => {
       if (disposed) return;
-      try{const c=document.createElement('canvas');c.width=compact.matches?1024:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
+      try{const c=document.createElement('canvas');c.width=mobileHost()?1024:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
       // A static photograph cannot substitute for failed mobile surface sampling.
-      if (compact.matches && !fallbackSurface) { requested=false; earth.dataset.renderer='static'; return; }
+      if (mobileHost() && !fallbackSurface) { requested=false; earth.dataset.renderer='static'; return; }
       try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
       // A deterministic surface still works if texture sampling is unavailable.
       if (!fallbackPoints.length) for(let i=0;i<1200;i++) {
@@ -282,7 +284,7 @@
     } catch { fallback(); }
   }
   function load() {
-    if (requested || disposed || suspended || document.hidden || reduced.matches || (compact.matches && mobileRestricted())) return;
+    if (requested || disposed || suspended || (mobileHost() && document.hidden) || reduced.matches || (mobileHost() && mobileRestricted())) return;
     requested=true;
     if (window.THREE) { init(); return; }
     const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
@@ -302,16 +304,16 @@
     sync();
   });
   function resume() { load(); resize(); sync(); }
-  addEventListener('resize',()=>{resize();sync();},{passive:true});
-  document.addEventListener('visibilitychange',()=>{load();sync();});
-  addEventListener('focus',resume);
+  addEventListener('resize',()=>{resize();if(mobileHost())sync();},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(mobileHost())load();sync();});
+  addEventListener('focus',()=>{if(mobileHost())resume();});
   reduced.addEventListener('change',()=>{load();sync();});
   compact.addEventListener('change',resume);
   navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
   // On mobile, pause the host's document without destroying its renderer. A real
   // unload releases the document's resources; a retained WebView can resume either flag.
-  addEventListener('pagehide',event=>{suspended=true;stop();if(event.persisted||compact.matches)return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
-  addEventListener('pageshow',()=>{if(!disposed){suspended=false;resume();}});
+  addEventListener('pagehide',()=>{suspended=true;stop();if(mobileHost())return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
+  addEventListener('pageshow',event=>{if(mobileHost()&&!disposed){suspended=false;resume();}else if(event.persisted){disposed=false;location.reload();}});
   load();
 })();

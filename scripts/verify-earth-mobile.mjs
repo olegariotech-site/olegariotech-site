@@ -58,6 +58,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
   if(profile.desktop)await p.waitForTimeout(500);else await hero(p);
   let evidence;
   if(profile.static){await p.waitForTimeout(500);const a=await snapshot(p);await p.waitForTimeout(800);const b=await snapshot(p);assert.equal(b.animate,'false');assert.equal(b.renderer,undefined);assert.equal(paints(b),paints(a));assert.ok(!resources.some(u=>u.includes('three-r128')||u.includes('nasa-blue-marble-clouds')),'Static preferences avoid render assets');evidence={first:a,last:b};}
+  if(profile.static){const original=p.viewportSize();await p.setViewportSize({width:915,height:412});await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.waitForTimeout(600);assert.equal((await snapshot(p)).animate,'false','Landscape preserves limited-device and preference protections');assert.equal((await snapshot(p)).renderer,undefined);await p.setViewportSize(original);await hero(p);}
   else{
    await p.waitForFunction(()=>['webgl','canvas2d'].includes(document.querySelector('#earthJourney').dataset.renderer));if(profile.canvas)assert.equal((await snapshot(p)).renderer,'canvas2d');
    await hook(p);await p.screenshot({path:out+'/'+engine+'-'+profile.name+'-t0.png'});
@@ -73,7 +74,9 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
     // Section centres can be outside those windows on a short iPhone viewport.
     for(const selector of ['#projetos','#metodo']){await p.evaluate(selector=>{const r=document.querySelector(selector).getBoundingClientRect();scrollTo({top:scrollY+r.bottom-innerHeight*.55,behavior:'instant'})},selector);await p.waitForFunction(()=>document.querySelector('#earthJourney').classList.contains('is-continuum'));await p.waitForTimeout(250);await motion(p,1100)}
     await p.evaluate(()=>scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));await p.waitForTimeout(700);const stopped=await snapshot(p);await p.waitForTimeout(500);assert.equal(paints(await snapshot(p)),paints(stopped),'Offscreen Earth stops');await hero(p);await motion(p,1100);
-    await p.setViewportSize({width:915,height:412});await p.waitForTimeout(400);await p.setViewportSize({width:412,height:915});await hero(p);await motion(p,1100);
+    await p.setViewportSize({width:915,height:412});await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.waitForFunction(()=>document.querySelector('#earthJourney').dataset.animate==='true'&&Number(document.querySelector('#earthJourney').dataset.morph)<.01);await motion(p,1100);
+    await p.evaluate(()=>dispatchEvent(new PageTransitionEvent('pagehide',{persisted:false})));await p.waitForTimeout(300);const landscapePaused=await snapshot(p);await p.waitForTimeout(500);assert.equal(paints(await snapshot(p)),paints(landscapePaused));await p.evaluate(()=>dispatchEvent(new PageTransitionEvent('pageshow',{persisted:false})));await motion(p,1100);
+    await p.setViewportSize({width:412,height:915});await hero(p);await motion(p,1100);
     assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     await p.locator('.mobile-audio-toggle').tap();await p.waitForFunction(()=>!document.querySelector('#backgroundAudio').paused);await p.locator('.mobile-audio-toggle').tap();assert.equal(await p.locator('.mobile-audio-toggle').getAttribute('aria-pressed'),'false');
     await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.locator('#inicio a[href="/diagnostico-digital/"]').tap();await p.waitForURL('**/diagnostico-digital/');assert.ok(await p.locator('h1').innerText(),'Approved diagnosis CTA opens its actual destination');

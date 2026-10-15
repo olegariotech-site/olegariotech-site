@@ -7,6 +7,7 @@
   const page = document.querySelector('body[data-page="home"] .page');
   if (!context || !page) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  const coarse = matchMedia('(pointer:coarse)');
   const compact = matchMedia('(max-width:900px)');
   const connection = navigator.connection;
   const constrained = () => !!connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || (compact.matches && Number(navigator.hardwareConcurrency || 4) <= 2);
@@ -200,7 +201,7 @@
     const still=reduced.matches||constrained(),center=scrollY+height*.55;
     // Earth has its own frame budget. Keep 4 GiB stardust static while allowing
     // the same rotating surface to continue between the commercial chapters.
-    const earthStill=compact.matches?reduced.matches||!!connection?.saveData||Number(navigator.deviceMemory||8)<=2||Number(navigator.hardwareConcurrency||4)<=2:still;
+    const earthStill=compact.matches||coarse.matches?reduced.matches||!!connection?.saveData||Number(navigator.deviceMemory||8)<=2||Number(navigator.hardwareConcurrency||4)<=2:still;
     let partial=0,chapterIndex=0;
     chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*(compact.matches?1.1:.88))))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
     let pose=null;
