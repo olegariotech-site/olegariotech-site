@@ -117,7 +117,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
   const c=await b.newContext({viewport:{width:390,height:844},reducedMotion:mode==='reduce'?'reduce':'no-preference'});await configure(c,{mode});const p=await c.newPage();await p.goto(url);await p.evaluate(()=>document.fonts.ready);await end(p);const first=await state(p);await p.waitForTimeout(1000);const last=await state(p);if(mode!=='canvas2d'){assert.equal(last.draws,first.draws,'No static animation loop');assert.equal(last.hash,first.hash,'Static preference honored')}else{assert.equal(last.renderer,'canvas2d');assert.ok(last.draws>first.draws);}
   if(mode!=='canvas2d'){
    await go(p,await p.evaluate(()=>{const r=document.querySelector('#inicio .hero-visual').getBoundingClientRect();return scrollY+r.top+r.height*.5-innerHeight*.5}));
-   assert.equal(await p.locator('#earthJourney').getAttribute('data-animate'),'false','Restricted mobile HERO remains static');
+   assert.equal(await p.locator('#earthJourney').getAttribute('data-animate'),mode==='lowMemory'?'true':'false','4 GiB Earth rotates; severe limits and user preferences remain static');
   }
   if(mode==='reduce'){await p.emulateMedia({reducedMotion:'no-preference'});await p.waitForTimeout(700);assert.ok((await state(p)).draws>last.draws);await p.emulateMedia({reducedMotion:'reduce'});await p.waitForTimeout(700);const n=(await state(p)).draws;await p.waitForTimeout(400);assert.equal((await state(p)).draws,n);}
   await p.screenshot({path:out+'/'+engine+'-'+mode+'-finale.png'});report.preferences.push({engine,mode,first,last});await c.close();

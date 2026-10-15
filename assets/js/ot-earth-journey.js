@@ -8,7 +8,11 @@
   if (!earth || !hero || !visual || !solutions) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const mobile = matchMedia('(max-width:900px)');
-  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  const coarse = matchMedia('(pointer:coarse)');
+  const mobileHost = () => mobile.matches || coarse.matches;
+  // 4 GiB is an approximate capability signal, not a reason to disable a globe.
+  // The renderer gives this tier a smaller frame budget; severe limits stay static.
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 2 || Number(navigator.hardwareConcurrency || 4) <= 2;
   const clamp = v => Math.min(1, Math.max(0, v));
   const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
   let frame = 0, pointerX = 0, pointerY = 0;
@@ -36,7 +40,7 @@
     const next = {
       progress: progress.toFixed(4), pulse: pulse.toFixed(4), morph: morph.toFixed(4),
       opacity: opacity.toFixed(4), centerX: cx.toFixed(1), centerY: cy.toFixed(1),
-      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches && (!mobile.matches || (!mobileRestricted() && cy + diameter * .5 > 0 && cy - diameter * .5 < h)))
+      diameter: diameter.toFixed(1), rail: String(rail), animate: String(opacity > .005 && !document.hidden && !reduced.matches && (!mobileHost() || (!mobileRestricted() && cy + diameter * .5 > 0 && cy - diameter * .5 < h)))
     };
     next.ribbonFloor = String((hero.querySelector('.hero-proof')?.getBoundingClientRect().bottom || 0) + 40);
     Object.assign(earth.dataset, next);

@@ -7,6 +7,7 @@
   const page = document.querySelector('body[data-page="home"] .page');
   if (!context || !page) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  const coarse = matchMedia('(pointer:coarse)');
   const compact = matchMedia('(max-width:900px)');
   const connection = navigator.connection;
   const constrained = () => !!connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || (compact.matches && Number(navigator.hardwareConcurrency || 4) <= 2);
@@ -198,19 +199,22 @@
   }
   function continuum() {
     const still=reduced.matches||constrained(),center=scrollY+height*.55;
+    // Earth has its own frame budget. Keep 4 GiB stardust static while allowing
+    // the same rotating surface to continue between the commercial chapters.
+    const earthStill=compact.matches||coarse.matches?reduced.matches||!!connection?.saveData||Number(navigator.deviceMemory||8)<=2||Number(navigator.hardwareConcurrency||4)<=2:still;
     let partial=0,chapterIndex=0;
     chapters.forEach((chapter,i)=>{const visible=(1-smooth(Math.abs(center-chapter)/(height*(compact.matches?1.1:.88))))*.75;if(visible>partial){partial=visible;chapterIndex=i;}});
     let pose=null;
     if(partial>.005&&Number(earth.dataset.opacity)<.005){
       const diameter=width*(compact.matches?1.24:.56),entrance=partial/.75;
       const x=width+diameter*(.32-(compact.matches?.46:.40)*entrance),y=height*(.59+chapterIndex*.08);
-      pose={x,y,diameter,opacity:partial,animate:!still};
+      pose={x,y,diameter,opacity:partial,animate:!earthStill};
     }
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
     protectMobileReading(!!pose);
     layer.dataset.earth=pose?JSON.stringify(pose):'';
-    if(pose&&still){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
+    if(pose&&earthStill){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
     else setEarth(pose);
     if(partial>.005)for(const r of reading){
       if(r.bottom>scrollY-40&&r.top<scrollY+height+40)quietReading(r);

@@ -14,12 +14,43 @@ on:
       - 'scripts/measure-continuum.mjs'
       - 'scripts/verify-continuum.mjs'
       - 'scripts/verify-cosmic-immersive.mjs'
+      - 'scripts/verify-earth-mobile.mjs'
       - 'scripts/measure-cosmic-immersive.mjs'
       - 'assets/img/orbit/hubble-ngc1300-*'
       - '.github/workflows/showroom-integration-qa.yml'
 permissions:
   contents: read
 jobs:
+  earth-rotation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install native engine for mobile Earth regression
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Prove surface motion, fallback, 4 GiB budget and resume
+        env:
+          OT_QA_ENGINES: ${{ matrix.engine }}
+          OT_EARTH_VIDEO: '1'
+          OT_EARTH_OUTPUT: /tmp/ot-v261-earth
+        run: node scripts/verify-earth-mobile.mjs
+      - name: Upload Earth motion videos, frames and numeric proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v261-earth-${{ matrix.engine }}
+          path: /tmp/ot-v261-earth
+          retention-days: 30
+
   mobile-parity:
     runs-on: ubuntu-latest
     timeout-minutes: 10

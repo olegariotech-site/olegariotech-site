@@ -7,10 +7,13 @@
   if (!earth || !canvas) return;
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const compact = matchMedia('(max-width:900px)');
+  const coarse = matchMedia('(pointer:coarse)');
+  const mobileHost = () => compact.matches || coarse.matches;
   const memory = Number(navigator.deviceMemory || 8);
-  const lite = !!navigator.connection?.saveData || memory <= 4 || compact.matches;
+  const lite = !!navigator.connection?.saveData || memory <= 4 || mobileHost();
   const frameMs = lite ? 50 : 33;
-  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 4 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  const mobileRestricted = () => !!navigator.connection?.saveData || Number(navigator.deviceMemory || 8) <= 2 || Number(navigator.hardwareConcurrency || 4) <= 2;
+  const mobileFrameMs = () => memory <= 4 ? 66 : 50;
   const clamp = v => Math.min(1, Math.max(0, v));
   let continuation = null;
   const state = () => continuation || ({
@@ -24,7 +27,7 @@
   let ctx, fallbackPhoto, fallbackSurface, fallbackPoints = [];
   const fallbackFrames = new Map();
   let mobileBlend;
-  let disposed = false;
+  let disposed = false, suspended = false;
   const textureURL = '/assets/img/orbit/nasa-blue-marble-clouds-2048.webp';
 
   function sample(image, width = 384, height = 192, step = 2) {
@@ -53,9 +56,9 @@
   function stop() { if (frame) cancelAnimationFrame(frame); frame = 0; last = 0; }
   function run(now) {
     if (!frame || disposed) return;
-    if (now - last >= (compact.matches ? 50 : continuation ? 66 : frameMs)) {
+    if (now - last >= (mobileHost() ? mobileFrameMs() : continuation ? 66 : frameMs)) {
       const delta = last ? Math.min(now - last, 100) : frameMs;
-      angle = (angle + delta * Math.PI * 2 / (compact.matches ? 28000 : 42000)) % (Math.PI * 2);
+      angle = (angle + delta * Math.PI * 2 / (mobileHost() ? 28000 : 42000)) % (Math.PI * 2);
       renderFrame(now);
       last = now;
     }
@@ -74,7 +77,7 @@
   }
   function sync() {
     if (!mode) return;
-    const enabled = !reduced.matches && (!compact.matches || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
+    const enabled = !disposed && !suspended && !reduced.matches && (!mobileHost() || !mobileRestricted()) && (continuation?.animate || earth.dataset.animate === 'true') && !document.hidden;
     if (enabled) { if (!frame) frame = requestAnimationFrame(run); }
     else { stop(); draw(performance.now()); }
   }
@@ -128,7 +131,7 @@
     const radius = s.diameter * .5;
     // Mobile uses the same spherical surface in the HERO and continuation, with
     // interpolated cached frames; desktop keeps its approved fallback unchanged.
-    const continuedPhoto=continuation||(compact.matches&&!reduced.matches&&!mobileRestricted())?fallbackSphere():null;
+    const continuedPhoto=continuation||(mobileHost()&&!reduced.matches&&!mobileRestricted())?fallbackSphere():null;
     if ((continuedPhoto||fallbackPhoto) && s.pulse < 1) {
       ctx.globalAlpha = (1 - s.pulse) * (1 - s.morph);
       ctx.save();
@@ -138,7 +141,7 @@
       ctx.restore();
     }
     ctx.globalCompositeOperation = 'lighter';
-    const count = compact.matches && s.pulse < .01 ? 0 : fallbackPoints.length;
+    const count = mobileHost() && s.pulse < .01 ? 0 : fallbackPoints.length;
     const columns = Math.ceil(Math.sqrt(count * 1.85));
     const rows = Math.ceil(count / columns);
     for (let i = 0; i < count; i++) {
@@ -164,11 +167,12 @@
   // frames instead of regenerating a full spherical projection on every paint.
   function fallbackSphere(){
     if(!fallbackSurface)return null;
-    if(!compact.matches)return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
+    if(!mobileHost())return fallbackSphereFrame(Math.round(angle*32/(Math.PI*2)),32,lite?112:176);
     const phase=((angle/(Math.PI*2)%1)+1)%1*64,step=Math.floor(phase),blend=phase-step;
-    const a=fallbackSphereFrame(step,64,176),b=fallbackSphereFrame((step+1)%64,64,176);
-    if(!mobileBlend){mobileBlend=document.createElement('canvas');mobileBlend.width=mobileBlend.height=176;}
-    const g=mobileBlend.getContext('2d');g.clearRect(0,0,176,176);
+    // Keep the enlarged V2.6 globe legible without projecting viewport-sized frames.
+    const size=256,a=fallbackSphereFrame(step,64,size),b=fallbackSphereFrame((step+1)%64,64,size);
+    if(!mobileBlend){mobileBlend=document.createElement('canvas');mobileBlend.width=mobileBlend.height=size;}
+    const g=mobileBlend.getContext('2d');g.clearRect(0,0,size,size);
     // Fade the first frame before adding the second, retaining a solid silhouette.
     g.globalCompositeOperation='copy';g.globalAlpha=1-blend;g.drawImage(a,0,0);
     g.globalCompositeOperation='lighter';g.globalAlpha=blend;g.drawImage(b,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=1;
@@ -198,7 +202,10 @@
     if (!ctx) return;
     const map = new Image();
     map.onload = () => {
-      try{const c=document.createElement('canvas');c.width=compact.matches?512:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
+      if (disposed) return;
+      try{const c=document.createElement('canvas');c.width=mobileHost()?1024:256;c.height=c.width/2;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(map,0,0,c.width,c.height);fallbackSurface=g.getImageData(0,0,c.width,c.height);}catch{fallbackSurface=null;}
+      // A static photograph cannot substitute for failed mobile surface sampling.
+      if (mobileHost() && !fallbackSurface) { requested=false; earth.dataset.renderer='static'; return; }
       try { fallbackPoints = sample(map,192,96,2); } catch { fallbackPoints = []; }
       // A deterministic surface still works if texture sampling is unavailable.
       if (!fallbackPoints.length) for(let i=0;i<1200;i++) {
@@ -206,11 +213,11 @@
         fallbackPoints.push([Math.sin(lat)*Math.cos(lon),Math.cos(lat),Math.sin(lat)*Math.sin(lon),lon]);
       }
       const image = new Image();
-      image.onload = () => { fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
-      image.onerror = () => { mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.onload = () => { if(disposed)return; fallbackPhoto = image; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
+      image.onerror = () => { if(disposed)return; mode='canvas2d'; earth.dataset.renderer=mode; earth.classList.add('is-rendering'); resize(); sync(); };
       image.src='/assets/img/orbit/ot-earth-atmosphere-static-v2.webp';
     };
-    map.onerror = () => { /* CSS image remains readable if the map cannot load. */ };
+    map.onerror = () => { requested=false; earth.dataset.renderer='static'; /* CSS photo remains available; visibility/focus may retry. */ };
     map.src=textureURL;
   }
   function init() {
@@ -277,7 +284,7 @@
     } catch { fallback(); }
   }
   function load() {
-    if (requested || reduced.matches || (compact.matches && mobileRestricted())) return;
+    if (requested || disposed || suspended || (mobileHost() && document.hidden) || reduced.matches || (mobileHost() && mobileRestricted())) return;
     requested=true;
     if (window.THREE) { init(); return; }
     const script=document.createElement('script'); script.src='/assets/js/vendor/three-r128.min.js';
@@ -296,13 +303,17 @@
     if(Number(earth.dataset.opacity)>.005){continuation=null;earth.classList.remove('is-continuum');}
     sync();
   });
-  addEventListener('resize',resize,{passive:true});
-  document.addEventListener('visibilitychange',sync);
+  function resume() { load(); resize(); sync(); }
+  addEventListener('resize',()=>{resize();if(mobileHost())sync();},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(mobileHost())load();sync();});
+  addEventListener('focus',()=>{if(mobileHost())resume();});
   reduced.addEventListener('change',()=>{load();sync();});
-  compact.addEventListener('change',resize);
+  compact.addEventListener('change',resume);
   navigator.connection?.addEventListener('change',()=>{load();sync();});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();mode='';earth.classList.remove('is-rendering');fallback();});
-  addEventListener('pagehide',()=>{disposed=true;stop();renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
-  addEventListener('pageshow',event=>{if(event.persisted){disposed=false;location.reload();}});
+  // On mobile, pause the host's document without destroying its renderer. A real
+  // unload releases the document's resources; a retained WebView can resume either flag.
+  addEventListener('pagehide',()=>{suspended=true;stop();if(mobileHost())return;disposed=true;renderer?.dispose();points?.geometry.dispose();material?.dispose();photo?.geometry.dispose();photo?.material.map?.dispose();photo?.material.dispose();atmosphere?.geometry.dispose();atmosphere?.material.dispose();cityLights?.geometry.dispose();cityLights?.material.uniforms.uLights.value.dispose();cityLights?.material.dispose();});
+  addEventListener('pageshow',event=>{if(mobileHost()&&!disposed){suspended=false;resume();}else if(event.persisted){disposed=false;location.reload();}});
   load();
 })();
