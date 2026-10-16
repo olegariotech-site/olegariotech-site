@@ -1,0 +1,199 @@
+[
+  {
+    "key": "acai",
+    "device": "desktop",
+    "source": "https://acaidodudu.com.br/",
+    "title": "Açaí do Dudu | Açaí, milk-shakes e sorvetes em Valinhos",
+    "capturedAt": "2026-10-08T20:07:51.335Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "imageDimensions": [
+      1440,
+      1000
+    ],
+    "file": "assets/acai-desktop.webp",
+    "bytes": 128354,
+    "sha256": "c4befeffbdc2314dd44529ed47a479925a9fded126b8922db3ff599ea9d42d09",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "acai",
+    "device": "mobile",
+    "source": "https://acaidodudu.com.br/",
+    "title": "Açaí do Dudu | Açaí, milk-shakes e sorvetes em Valinhos",
+    "capturedAt": "2026-10-08T20:14:26.325Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imageDimensions": [
+      390,
+      1258
+    ],
+    "file": "assets/acai-mobile.webp",
+    "bytes": 73390,
+    "sha256": "6941354512d86bc46d710a96f91d3ffd1cdaf650d23bbb9af8b62533a375ddc7",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "kl",
+    "device": "desktop",
+    "source": "https://kltransporteexpress.com.br/",
+    "title": "K.L Transporte Express | Motoboy, Utilitários e Fretes em Campinas-SP",
+    "capturedAt": "2026-10-08T20:08:56.094Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "imageDimensions": [
+      1440,
+      1000
+    ],
+    "file": "assets/kl-desktop.webp",
+    "bytes": 130654,
+    "sha256": "0a157f54bf03250feaed6b5c90252dabbd5f7068c72084f54daa430acdae0e5b",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "kl",
+    "device": "mobile",
+    "source": "https://kltransporteexpress.com.br/",
+    "title": "K.L Transporte Express | Motoboy, Utilitários e Fretes em Campinas-SP",
+    "capturedAt": "2026-10-08T20:14:54.841Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imageDimensions": [
+      390,
+      1145
+    ],
+    "file": "assets/kl-mobile.webp",
+    "bytes": 80506,
+    "sha256": "4bb450826f2ab5e78ef1044be97d43207095ffcfa39c19d760ee3218754c44a4",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "adega",
+    "device": "desktop",
+    "source": "https://adegasaomarcos.com.br/",
+    "title": "Chopp Sempre Gelado | Adega São Marcos",
+    "capturedAt": "2026-10-08T20:14:15.547Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "imageDimensions": [
+      1440,
+      1000
+    ],
+    "file": "assets/adega-desktop.webp",
+    "bytes": 62174,
+    "sha256": "a93988edda1a8511afbfd8c8814215ecb554392804d7eefef7f725e3733f91d7",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "adega",
+    "device": "mobile",
+    "source": "https://adegasaomarcos.com.br/",
+    "title": "Chopp Sempre Gelado | Adega São Marcos",
+    "capturedAt": "2026-10-08T20:15:09.441Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imageDimensions": [
+      390,
+      844
+    ],
+    "file": "assets/adega-mobile.webp",
+    "bytes": 40068,
+    "sha256": "09df1faafd27a6ffc27316107c4049884504caa79e44fadd012f24a6a8b0a9e2",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "advocacia",
+    "device": "desktop",
+    "source": "https://cintiaalmeidaadvocacia.com.br/",
+    "title": "Cíntia Almeida Gomes Advocacia | Valinhos e região de Campinas",
+    "capturedAt": "2026-10-08T20:10:59.116Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "imageDimensions": [
+      1440,
+      1000
+    ],
+    "file": "assets/advocacia-desktop.webp",
+    "bytes": 95136,
+    "sha256": "a5599c9fadb23125975b20013c5d95124ae09705fdaaab5ce43c18575efcfbba",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "advocacia",
+    "device": "mobile",
+    "source": "https://cintiaalmeidaadvocacia.com.br/",
+    "title": "Cíntia Almeida Gomes Advocacia | Valinhos e região de Campinas",
+    "capturedAt": "2026-10-08T20:11:21.053Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imageDimensions": [
+      390,
+      844
+    ],
+    "file": "assets/advocacia-mobile.webp",
+    "bytes": 48198,
+    "sha256": "b9942e86c053330a55544b78951c47a82a8a41834f0d915e6099b852d2a1e995",
+    "method": "Unmodified published page captured in Chromium. Essential/rejected cookies; mobile Açaí/K.L include the complete hero below the original viewport; Adega age gate dismissed for portfolio capture. No purchase, messages or analytics sent."
+  },
+  {
+    "key": "ripamonti",
+    "device": "desktop",
+    "source": "https://armazemripamonti.com.br/",
+    "capturedAt": "2026-10-08 (existing PR #89 screenshot)",
+    "imageDimensions": [
+      1440,
+      1000
+    ],
+    "file": "/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp",
+    "bytes": 109996,
+    "sha256": "7252423d10feaa8cfaefb57f6f56f272ed77b4aa0e6f6e9c0d167c5f9ec5b14b",
+    "method": "Reuse of the approved real screenshots introduced by PR #89; no duplicate file."
+  },
+  {
+    "key": "ripamonti",
+    "device": "mobile",
+    "source": "https://armazemripamonti.com.br/",
+    "capturedAt": "2026-10-08 (existing PR #89 screenshot)",
+    "imageDimensions": [
+      390,
+      844
+    ],
+    "file": "/assets/img/projetos/ripamonti/armazem-ripamonti-site-mobile-v1.webp",
+    "bytes": 39588,
+    "sha256": "2252d5cb3e32ba05b3a549dea0ef87fd08c9c1177f53ef2291791b6bd468c972",
+    "method": "Reuse of the approved real screenshots introduced by PR #89; no duplicate file."
+  },
+  {
+    "key": "navalha",
+    "source": {
+      "desktop": "/assets/img/projetos/navalha/navalha-prime-experience-card-desktop-brand-v2.webp",
+      "mobile": "/assets/img/projetos/navalha/navalha-prime-experience-card-mobile-brand-v2.webp",
+      "width": 1586,
+      "height": 992,
+      "mobileWidth": 1122,
+      "mobileHeight": 1402
+    },
+    "method": "Existing approved demonstration visuals; explicitly labeled as concept, never as client screenshot."
+  },
+  {
+    "key": "kl",
+    "file": "assets/kl-identity.webp",
+    "method": "Capture of approved renderProjectMedia cover on unchanged main, 1440×900; real client assets, complementary identity view."
+  }
+]
