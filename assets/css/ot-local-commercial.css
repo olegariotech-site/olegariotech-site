@@ -1,0 +1,92 @@
+/* OT | Commercial SEO locations — Valinhos + Campinas. Isolated from immersive home. */
+:root{color-scheme:dark;--lc-bg:#050008;--lc-text:#f5f5ff;--lc-muted:#b7bed0;--lc-cyan:#67e8f9;--lc-blue:#38bdf8;--lc-purple:#a78bfa;--lc-line:rgba(174,195,255,.16);--lc-panel:rgba(15,12,34,.74);--lc-w:1200px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--lc-bg);scroll-padding-top:100px}
+body{margin:0;min-width:300px;color:var(--lc-text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.56;background:radial-gradient(ellipse 70% 45% at 83% 5%,rgba(98,70,181,.16),transparent 65%),radial-gradient(ellipse 45% 26% at 8% 50%,rgba(33,143,173,.08),transparent 70%),#050008;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--lc-cyan);outline-offset:5px}
+.lc-skip{position:absolute;left:16px;top:-100px;z-index:99;background:var(--lc-cyan);color:#060714;padding:12px 16px;border-radius:12px;font-weight:800}
+.lc-skip:focus{top:12px}
+.lc-shell{width:min(var(--lc-w),calc(100% - 48px));margin-inline:auto}
+.lc-header{position:sticky;top:0;z-index:40;background:rgba(6,4,17,.87);backdrop-filter:blur(20px);border-bottom:1px solid var(--lc-line)}
+.lc-nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.lc-brand{display:flex;gap:12px;align-items:center;font:700 1.05rem "Space Grotesk",sans-serif;letter-spacing:-.02em;white-space:nowrap}
+.lc-brand img{width:38px;height:42px;object-fit:contain}
+.lc-navlinks{display:flex;gap:24px;align-items:center;font-size:.84rem;font-weight:700;color:#c1c4d8}
+.lc-navlinks a{transition:color .2s}
+.lc-navlinks a:hover,.lc-navlinks [aria-current="page"]{color:var(--lc-cyan)}
+.lc-navcta{padding:11px 19px;border-radius:999px;border:1px solid rgba(103,232,249,.4);color:var(--lc-cyan)!important}
+.lc-breadcrumb{padding-top:28px;font-size:.8rem;color:#adb5c9;display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.lc-breadcrumb a{text-decoration:underline;text-underline-offset:3px}
+.lc-breadcrumb span[aria-hidden]{color:var(--lc-purple)}
+.lc-hero{position:relative;isolation:isolate;min-height:650px;display:grid;grid-template-columns:minmax(0,1.09fr) minmax(320px,.91fr);align-items:center;gap:62px;padding:56px 0 78px}
+.lc-hero:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 56% 45%,rgba(103,232,249,.045),transparent 33%);z-index:-1}
+.lc-eyebrow{display:flex;align-items:center;gap:12px;color:var(--lc-cyan);font:700 .72rem "Share Tech Mono",monospace;letter-spacing:.16em;text-transform:uppercase}
+.lc-eyebrow:before{content:"";width:27px;height:1px;background:var(--lc-cyan);box-shadow:0 0 14px var(--lc-cyan)}
+.lc-hero h1{margin:20px 0 22px;font:700 clamp(3rem,5.6vw,5.7rem)/.99 "Space Grotesk",sans-serif;letter-spacing:-.068em;max-width:770px;overflow-wrap:normal}
+.lc-gradient{background:linear-gradient(110deg,#67e8f9 0%,#4f9efb 45%,#af71f8 93%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.lc-intro{max-width:650px;color:#c9cbdc;font-size:clamp(1rem,1.25vw,1.14rem);line-height:1.74;margin:0}
+.lc-buttons{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:30px}
+.lc-btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:50px;padding:13px 22px;border-radius:14px;border:1px solid var(--lc-line);font-weight:800;font-size:.9rem;line-height:1.35;text-align:center;transition:transform .2s,border-color .2s,background .2s}
+.lc-btn:hover{transform:translateY(-2px)}
+.lc-btn-primary{color:#06131a;background:linear-gradient(120deg,#67e8f9,#2bd5e9);border-color:transparent;box-shadow:0 14px 34px rgba(34,211,238,.16)}
+.lc-btn-secondary{background:rgba(255,255,255,.035);color:#fff}
+.lc-btn-secondary:hover{border-color:rgba(103,232,249,.6)}
+.lc-micro{margin-top:20px;display:flex;gap:8px 16px;flex-wrap:wrap;font-size:.75rem;color:#bbc0d4}
+.lc-micro span:before{content:"✓";color:var(--lc-cyan);margin-right:7px}
+.lc-orbit{position:relative;aspect-ratio:1/1;border-radius:50%;display:grid;place-items:center;isolation:isolate}
+.lc-orbit:before{content:"";position:absolute;inset:1%;border:1px solid rgba(103,232,249,.25);border-radius:50%;transform:rotate(-22deg) scaleX(1.15);box-shadow:0 0 90px rgba(66,92,190,.14)}
+.lc-orbit:after{content:"";position:absolute;inset:18%;border-radius:50%;box-shadow:0 0 110px 62px rgba(31,119,206,.19);z-index:-1}
+.lc-orbit>img{width:min(100%,540px);height:auto;filter:drop-shadow(0 0 28px rgba(69,176,251,.32));aspect-ratio:1/1;object-fit:contain}
+.lc-orbit-caption{position:absolute;right:-3%;bottom:4%;max-width:275px;background:rgba(13,14,35,.91);padding:17px 21px;border:1px solid rgba(103,232,249,.32);border-radius:18px;box-shadow:0 20px 45px rgba(0,0,0,.32);backdrop-filter:blur(12px);font-size:.81rem;line-height:1.5;color:#cfd3e4}
+.lc-orbit-caption strong{display:block;color:var(--lc-text);font:700 1rem "Space Grotesk",sans-serif;margin-bottom:5px}
+.lc-rule{border:0;border-top:1px solid var(--lc-line);margin:0}
+.lc-section{padding:88px 0}
+.lc-section-heading{max-width:815px;margin-bottom:34px}
+.lc-label{font:700 .73rem "Share Tech Mono",monospace;color:var(--lc-cyan);letter-spacing:.16em;text-transform:uppercase}
+.lc-section h2{margin:12px 0 16px;font:700 clamp(2rem,3.5vw,3.25rem)/1.07 "Space Grotesk",sans-serif;letter-spacing:-.045em}
+.lc-section-heading p,.lc-body{color:var(--lc-muted);max-width:850px;margin:0;font-size:1rem;line-height:1.76}
+.lc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.lc-card{min-width:0;padding:28px;border-radius:24px;border:1px solid var(--lc-line);background:linear-gradient(155deg,rgba(23,19,51,.79),rgba(8,8,25,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.lc-card-number{font:700 .84rem "Share Tech Mono",monospace;letter-spacing:.08em;color:var(--lc-cyan)}
+.lc-card h3{font:700 1.4rem/1.2 "Space Grotesk",sans-serif;letter-spacing:-.028em;margin:18px 0 11px}
+.lc-card p{color:var(--lc-muted);margin:0;font-size:.94rem;line-height:1.7}
+.lc-section-alt{background:linear-gradient(180deg,rgba(9,7,24,.2),rgba(18,13,39,.6),rgba(9,7,24,.2))}
+.lc-split{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+.lc-principles{display:grid;gap:13px}
+.lc-principle{display:flex;gap:18px;padding:20px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--lc-line)}
+.lc-step{width:39px;height:39px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(103,232,249,.09);color:var(--lc-cyan);font:700 .8rem "Share Tech Mono",monospace}
+.lc-principle h3{margin:0 0 6px;font:700 1.12rem "Space Grotesk",sans-serif}
+.lc-principle p{margin:0;color:var(--lc-muted);font-size:.91rem;line-height:1.67}
+.lc-cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.lc-case{min-width:0;border-radius:24px;border:1px solid var(--lc-line);background:rgba(12,11,29,.9);overflow:hidden;display:flex;flex-direction:column}
+.lc-case-media{background:radial-gradient(circle at 50% 40%,rgba(49,87,140,.3),rgba(5,5,15,.9));aspect-ratio:1.75;overflow:hidden}
+.lc-case-media img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .45s}
+.lc-case:hover img{transform:scale(1.025)}
+.lc-case-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.lc-case .lc-label{color:#abbde5;font-size:.66rem}
+.lc-case h3{font:700 1.5rem "Space Grotesk",sans-serif;margin:9px 0}
+.lc-case p{color:var(--lc-muted);margin:0 0 17px;font-size:.91rem;line-height:1.7;flex:1}
+.lc-text-link{color:var(--lc-cyan);font-weight:800;font-size:.91rem;align-self:flex-start}
+.lc-text-link:hover{text-decoration:underline;text-underline-offset:4px}
+.lc-bullet{display:grid;gap:11px;margin:24px 0 0;padding:0;list-style:none}
+.lc-bullet li{padding:0 0 0 24px;position:relative;color:#c9cde0}
+.lc-bullet li:before{content:"↗";position:absolute;left:0;color:var(--lc-cyan)}
+.lc-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.lc-faq details{padding:23px;border:1px solid var(--lc-line);border-radius:17px;background:rgba(255,255,255,.035)}
+.lc-faq summary{font-weight:800;cursor:pointer;line-height:1.46}
+.lc-faq details p{margin:14px 0 0;color:var(--lc-muted);font-size:.93rem;line-height:1.72}
+.lc-callout{display:grid;grid-template-columns:1.4fr auto;gap:34px;align-items:center;padding:40px 44px;border:1px solid rgba(103,232,249,.3);border-radius:30px;background:radial-gradient(circle at 92% 0,rgba(103,232,249,.12),transparent 34%),linear-gradient(120deg,rgba(22,18,56,.82),rgba(5,10,24,.9))}
+.lc-callout h2{margin:12px 0;font:700 clamp(1.9rem,3.3vw,2.8rem)/1.1 "Space Grotesk",sans-serif;letter-spacing:-.04em}
+.lc-callout p{color:var(--lc-muted);margin:0;max-width:670px;line-height:1.76}
+.lc-footer{border-top:1px solid var(--lc-line);padding:35px 0 44px;color:#bbc1d4}
+.lc-footer-inner{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
+.lc-footer-links{display:flex;gap:11px 20px;flex-wrap:wrap;justify-content:flex-end;font-size:.85rem}
+.lc-footer-links a:hover{color:var(--lc-cyan)}
+.lc-footer-copy{font-size:.78rem;margin-top:12px;color:#909ab2}
+@media (max-width:980px){.lc-navlinks{gap:14px}.lc-hero{gap:24px;min-height:590px;grid-template-columns:1.15fr .85fr}.lc-hero h1{font-size:clamp(2.7rem,5.5vw,4.7rem)}.lc-orbit-caption{right:-4%;bottom:0}.lc-split{gap:24px}.lc-card{padding:22px}}
+@media (max-width:760px){.lc-shell{width:min(100% - 32px,var(--lc-w))}.lc-nav{min-height:67px}.lc-navlinks a:not(.lc-navcta){display:none}.lc-hero{display:flex;flex-direction:column;align-items:stretch;min-height:unset;padding:42px 0 54px;gap:8px}.lc-hero h1{font-size:clamp(2.65rem,11.5vw,4.3rem);max-width:650px}.lc-orbit{width:min(90%,420px);align-self:center;margin-top:5px}.lc-orbit-caption{right:-2%;bottom:1%;max-width:215px;padding:13px 15px}.lc-grid{grid-template-columns:1fr}.lc-split{grid-template-columns:1fr;gap:26px}.lc-cases{grid-template-columns:1fr}.lc-faq{grid-template-columns:1fr}.lc-section{padding:58px 0}.lc-callout{grid-template-columns:1fr;padding:29px 24px}.lc-footer-inner{flex-direction:column}.lc-footer-links{justify-content:flex-start}}
+@media (max-width:440px){.lc-brand{font-size:.93rem}.lc-brand img{width:31px;height:36px}.lc-navcta{font-size:.73rem;padding:10px 12px}.lc-breadcrumb{padding-top:18px}.lc-hero h1{letter-spacing:-.06em}.lc-buttons{flex-direction:column;align-items:stretch}.lc-btn{width:100%}.lc-orbit{width:min(93%,345px)}.lc-orbit-caption{right:-2%;bottom:-3%;max-width:196px;font-size:.72rem}.lc-section h2{font-size:2rem}.lc-card{padding:22px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
