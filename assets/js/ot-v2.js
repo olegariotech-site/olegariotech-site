@@ -29,7 +29,6 @@
 
   function tuneHero(){
     setText('.hero-brandline','Consultoria digital com cabeça de vendas');
-    setText('.hero-sub','A OT organiza marca, site, WhatsApp, Google e dados para transformar presença digital em oportunidade comercial.');
     var actions=document.querySelector('.hero .hero-actions');
     if(actions){
       var primary=actions.querySelector('.btn-primary');
@@ -44,7 +43,6 @@
 
   function tuneSolutions(){
     var heading=document.querySelector('.choice-heading .section-title');if(heading)heading.innerHTML='O que está travando seu <span class="accent">digital hoje?</span>';
-    setText('.choice-heading .section-copy','Escolha a situação que mais parece com o seu negócio. A OT mostra a rota mais direta para resolver.');
     var map={presenca:['Minha empresa não parece profissional','Falta confiança antes do primeiro contato.'],oferta:['Preciso vender uma oferta','A página precisa transformar interesse em ação.'],digital:['Meu digital está todo solto','Site, WhatsApp, conteúdo e dados não trabalham juntos.']};
     document.querySelectorAll('.choice-tab[data-solution]').forEach(function(btn){var item=map[btn.dataset.solution];if(!item)return;var strong=btn.querySelector('strong'),span=btn.querySelector('span');if(strong)strong.textContent=item[0];if(span)span.textContent=item[1];});
     var proofTab=document.querySelector('.choice-tab[data-scroll="projetos"]');if(proofTab){var s=proofTab.querySelector('strong'),p=proofTab.querySelector('span');if(s)s.textContent='Quero ver prova real';if(p)p.textContent='Conheça projetos entregues e em operação.';}

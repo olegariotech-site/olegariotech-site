@@ -64,9 +64,22 @@ for(const id of ['inicio','solucoes','metodo','sobre','produtos','faq','contato'
   const section=new RegExp('<section[^>]+id="'+id+'"[\\s\\S]*?</section>');
   assert.equal(approvedSeoNormalized.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved (approved SEO copy only)');
 }
-for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
+for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
   assert.equal(await readFile(resolve(root,path),'utf8'),execFileSync('git',['show',report.baseCommit+':'+path],{cwd:root,encoding:'utf8'}),path+' preserved');
 }
+// V2 SEO copy hotfix: the published HTML is the sole source of truth for the home\'s static commercial copy.
+// Retain the strict legacy gate for ot-v2.js, allowing only the removal of these exact two stale text overwrites.
+const originalV2=execFileSync('git',['show',report.baseCommit+':assets/js/ot-v2.js'],{cwd:root,encoding:'utf8'});
+const obsoleteOverrides=[
+  "    setText('.hero-sub','A OT organiza marca, site, WhatsApp, Google e dados para transformar presença digital em oportunidade comercial.');\n",
+  "    setText('.choice-heading .section-copy','Escolha a situação que mais parece com o seu negócio. A OT mostra a rota mais direta para resolver.');\n"
+];
+let approvedV2=originalV2;
+for(const obsolete of obsoleteOverrides){
+  assert.equal(approvedV2.split(obsolete).length-1,1,'Legacy SEO text override exists exactly once in baseline');
+  approvedV2=approvedV2.replace(obsolete,'');
+}
+assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),approvedV2,'Runtime keeps baseline behavior except removal of obsolete SEO copy overwrites');
 const originalEarth=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-spin.js'],{cwd:root,encoding:'utf8'});
 const currentEarth=await readFile(resolve(root,'assets/js/ot-earth-spin.js'),'utf8');
 const originalTimeline=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-journey.js'],{cwd:root,encoding:'utf8'});
@@ -201,6 +214,8 @@ async function scenario(browser,engine,width,height,{reduced=false}={}){
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});page.on('response',r=>{if(r.status()===404)notFound.push(r.url())});page.on('request',r=>{if(!r.url().startsWith(base)&&!/https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(r.url()))external.push(r.url())});
   assert.equal((await page.goto(preview,{waitUntil:'networkidle'})).status(),200);await ready(page);await page.evaluate(()=>document.fonts.ready);await decode(page);
   assert.match(await page.title(),/Olegario Tech/);assert.equal(page.url(),preview);
+  assert.equal(await page.locator('#inicio .hero-sub').innerText(),'Criação de sites profissionais em Valinhos e Campinas, com SEO local, WhatsApp e visão comercial para gerar oportunidades.','SEO hero copy remains correct after ot-v2.js completes');
+  assert.equal(await page.locator('#solucoes .choice-heading .section-copy').innerText(),'Criamos sites profissionais e páginas de venda para empresas de Valinhos e Campinas. Escolha a situação que mais combina com seu negócio.','SEO solutions copy remains correct after ot-v2.js completes');
   assert.equal(await page.locator('#projetos h2').innerText(),'Prova antes da promessa.');
   assert.equal(await page.locator('#projetos [role=tab]').count(),6);assert.equal(await page.locator('.case-rail [role=tab]').count(),5);
   assert.equal(await page.locator('#projectStage').getAttribute('data-selected-project'),initial);
