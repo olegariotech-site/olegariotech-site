@@ -36,10 +36,33 @@ const projects=JSON.parse(source.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
 assert.deepEqual(projects,JSON.parse(baselineSource.match(/const projects=(\{[\s\S]*?\n\});/)[1]),'Approved project catalog is unchanged.');
 const changed=execFileSync('git',['diff','--name-only',report.baseCommit],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.equal(initial,'kl');assert.equal(order.length,6);
-// V2.1 owns only the cosmic atmosphere; protected Earth, commercial markup and audio remain byte-identical.
+// SEO commercial home, stage 1: accept only the approved copy edits in protected sections.
+// Normalize these explicit phrases back to the approved baseline before strict markup comparison.
+// Any structural, CTA, interactive or unrelated text change must still fail this guard.
+const approvedSeoCopy=[
+  {
+    previous:'<p class="hero-sub">A OT organiza marca, site, WhatsApp, Google e dados para transformar presença digital em oportunidade comercial.</p>',
+    current:'<p class="hero-sub">Criação de sites profissionais em Valinhos e Campinas, com SEO local, WhatsApp e visão comercial para gerar oportunidades.</p>'
+  },
+  {
+    previous:'<p class="section-copy">Escolha a situação que mais parece com o seu negócio. A OT mostra a rota mais direta para resolver.</p>',
+    current:'<p class="section-copy">Criamos sites profissionais e páginas de venda para empresas de Valinhos e Campinas. Escolha a situação que mais combina com seu negócio.</p>'
+  },
+  {
+    previous:'<summary>Vocês atendem Valinhos, Campinas e região?</summary><div class="faq-answer">Sim. A atuação tem foco em Valinhos, Campinas, Vinhedo e região, com projetos digitais para negócios locais, serviços profissionais e operações comerciais.</div>',
+    current:'<summary>A OT cria sites para empresas de Valinhos e Campinas?</summary><div class="faq-answer">Sim. Criamos sites profissionais, landing pages e páginas de venda para empresas em Valinhos e Campinas, com atendimento a Vinhedo e região. Começamos pelo diagnóstico para definir a solução adequada.</div>'
+  }
+];
+let approvedSeoNormalized=source;
+for(const {previous,current} of approvedSeoCopy){
+  assert.ok(baselineSource.includes(previous),'Approved SEO baseline phrase is present');
+  assert.equal(approvedSeoNormalized.split(current).length-1,1,'Approved SEO phrase appears exactly once');
+  approvedSeoNormalized=approvedSeoNormalized.replace(current,previous);
+}
+// The strict preservation gate remains active for all commercial markup except the 3 copy changes above.
 for(const id of ['inicio','solucoes','metodo','sobre','produtos','faq','contato']){
   const section=new RegExp('<section[^>]+id="'+id+'"[\\s\\S]*?</section>');
-  assert.equal(source.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved');
+  assert.equal(approvedSeoNormalized.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved (approved SEO copy only)');
 }
 for(const path of ['assets/js/ot-analytics-core.js','assets/js/ot-solution-configurator.js','assets/js/ot-mobile-v3.js','assets/js/ot-v2.js','assets/css/ot-solution-case.css','DESIGN.md']){
   assert.equal(await readFile(resolve(root,path),'utf8'),execFileSync('git',['show',report.baseCommit+':'+path],{cwd:root,encoding:'utf8'}),path+' preserved');
