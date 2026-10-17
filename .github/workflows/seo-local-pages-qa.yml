@@ -1,0 +1,45 @@
+name: OT SEO local pages QA
+on:
+  pull_request:
+    paths:
+      - 'criacao-de-sites-valinhos/**'
+      - 'criacao-de-sites-campinas/**'
+      - 'assets/css/ot-local-commercial.css'
+      - 'index.html'
+      - 'sitemap.xml'
+      - 'scripts/verify-local-pages.mjs'
+      - '.github/workflows/seo-local-pages-qa.yml'
+permissions:
+  contents: read
+jobs:
+  verify-local-pages:
+    name: Visual and SEO local pages (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Validate test syntax
+        run: node --check scripts/verify-local-pages.mjs
+      - name: Check commercial local pages and capture previews
+        env:
+          OT_LOCAL_QA_ENGINE: ${{ matrix.engine }}
+          OT_LOCAL_QA_OUTPUT: /tmp/ot-seo-local-pages
+        run: node scripts/verify-local-pages.mjs
+      - name: Upload screenshots and SEO report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-seo-local-${{ matrix.engine }}-review
+          path: /tmp/ot-seo-local-pages
+          retention-days: 30
