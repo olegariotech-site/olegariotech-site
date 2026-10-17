@@ -81,6 +81,13 @@ try{
       assert.ok(info.description.includes(s.city),'Meta description targets city');
       assert.ok(info.cards>=2,'Real portfolio case cards exist');
       assert.ok(info.ctaHeight>=44,'CTA touch target');
+      if(info.scrollWidth>info.viewportWidth+2){
+        const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(node=>{
+          const r=node.getBoundingClientRect();
+          return {tag:node.tagName.toLowerCase(),className:String(node.className||'').slice(0,120),left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)};
+        }).filter(x=>x.left<-3||x.right>innerWidth+3).sort((a,b)=>b.right-a.right).slice(0,15));
+        console.error('Horizontal overflow diagnostics',JSON.stringify({city:s.city,profile,width,height,offenders},null,2));
+      }
       assert.ok(info.scrollWidth<=info.viewportWidth+2,'No horizontal overflow in '+profile+' '+s.city+' ('+info.scrollWidth+' vs '+info.viewportWidth+')');
       assert.ok(info.links.some(x=>x.href==='/diagnostico-digital/'),'Diagnostic CTA available');
       assert.ok(info.links.some(x=>x.href.includes('wa.me/')),'WhatsApp CTA available');
