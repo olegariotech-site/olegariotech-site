@@ -36,3 +36,15 @@ Useful lessons currently under study:
 - **Adobe Spectrum** — component anatomy, variants, states, accessibility and usage guidance.
 
 OT should combine principles, not visual identities.
+
+
+## Operational design intelligence
+
+The design system defines **how OT components should behave**.
+
+The adjacent `docs/design-intelligence/` library defines **which composition/pattern to choose for a given client problem**.
+
+Use both:
+
+- Design System = consistency.
+- Design Intelligence = selection and composition.
