@@ -9,7 +9,7 @@ owner: "Olegario Tech"
 
 This file is the visual source of truth for the Olegario Tech website.
 
-Before creating, redesigning, or materially changing any interface, read this file and the supporting documents in `docs/design-system/`.
+Before creating, redesigning, or materially changing any interface, read this file, the supporting documents in `docs/design-system/`, and — for new composition or pattern selection — the operational library in `docs/design-intelligence/`.
 
 The current website remains the baseline. This design system formalizes what already works, removes inconsistency, and defines how new UI should be added. It is not permission to redesign approved areas.
 
@@ -54,6 +54,24 @@ The system may study public design analyses such as Framer, Linear, Apple and Ad
 Do not copy third-party brand identity, proprietary fonts, assets, layouts, or distinctive visual signatures.
 
 Reference material is inspiration. Olegario Tech remains its own system.
+
+### Operational reference workflow
+
+Do not ask external references to decide the identity of a project.
+
+Use `docs/design-intelligence/` to answer a narrower question:
+
+> Which proven pattern best solves the current design/commercial problem?
+
+The operational library separates:
+
+- source/reference;
+- pattern function;
+- client/project fit;
+- adaptation rules;
+- anti-patterns.
+
+When creating a new section, start from the commercial/design job, use the selection matrix to choose a pattern, then adapt it to the current brand. Never begin by choosing a brand to imitate.
 
 ## 3. Existing OT visual language
 
@@ -403,11 +421,8 @@ When instructions conflict, use this order:
 2. approved commercial content and brand decisions;
 3. `DESIGN.md`;
 4. `docs/design-system/`;
-5. existing implementation;
-6. external inspiration.
+5. `docs/design-intelligence/`;
+6. existing implementation;
+7. external inspiration.
 
 If a proposed change conflicts with this hierarchy, stop and report the conflict before implementing it.
-
-## 19. Cross-device corrections
-
-The approved cosmic version remains the composition baseline. Apply the project's own cross-device contracts in `docs/design-system/patterns.md`: Safe Header Zone, DOM-order Scrollspy, Mobile Vertical Rhythm, Fixed Navigation Clearance, Consistent Carousel Peek, Safe-area Mobile, Cross-device QA and Reference Fidelity. These contracts refine behavior and legibility; they do not authorize another redesign or changes to commercial content.
