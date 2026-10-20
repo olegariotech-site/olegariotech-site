@@ -43,8 +43,13 @@ on:
         required: false
         type: boolean
         default: true
+      enforce_performance:
+        description: Fail the job when Lighthouse performance is below min_performance. Keep false until the project has a trusted lab baseline.
+        required: false
+        type: boolean
+        default: false
       min_performance:
-        description: Minimum Lighthouse performance score from 0 to 1.
+        description: Minimum Lighthouse performance score from 0 to 1 when enforce_performance is enabled.
         required: false
         type: number
         default: 0.80
@@ -82,6 +87,7 @@ jobs:
       OT_PRIMARY_SELECTOR: ${{ inputs.primary_selector }}
       OT_FAIL_CONSOLE: ${{ inputs.fail_on_console_errors }}
       OT_STRICT_AXE: ${{ inputs.strict_axe }}
+      OT_ENFORCE_PERFORMANCE: ${{ inputs.enforce_performance }}
       OT_MIN_PERFORMANCE: ${{ inputs.min_performance }}
       OT_MIN_ACCESSIBILITY: ${{ inputs.min_accessibility }}
       OT_MIN_BEST_PRACTICES: ${{ inputs.min_best_practices }}
@@ -405,10 +411,13 @@ jobs:
 
           const failures = [];
           const rows = [];
+          const enforcePerformance = process.env.OT_ENFORCE_PERFORMANCE === 'true';
+
           for (const [key, min] of Object.entries(thresholds)) {
             const score = lh.categories[key]?.score ?? 0;
-            rows.push([key, score, min]);
-            if (score < min) failures.push(`${key}: ${score.toFixed(2)} < ${min.toFixed(2)}`);
+            const blocking = key !== 'performance' || enforcePerformance;
+            rows.push([key, score, min, blocking]);
+            if (blocking && score < min) failures.push(`${key}: ${score.toFixed(2)} < ${min.toFixed(2)}`);
           }
 
           const lcp = lh.audits['largest-contentful-paint']?.numericValue;
@@ -418,14 +427,14 @@ jobs:
             '',
             '## OT Site Quality — Lighthouse lab diagnostic',
             '',
-            '| Category | Score | Minimum |',
-            '|---|---:|---:|',
-            ...rows.map(([k,s,m]) => `| ${k} | ${s.toFixed(2)} | ${m.toFixed(2)} |`),
+            '| Category | Score | Minimum | Mode |',
+            '|---|---:|---:|---|',
+            ...rows.map(([k,s,m,blocking]) => `| ${k} | ${s.toFixed(2)} | ${m.toFixed(2)} | ${blocking ? 'blocking' : 'diagnostic'} |`),
             '',
             `Lab LCP: ${Number.isFinite(lcp) ? (lcp / 1000).toFixed(2) + ' s' : 'n/a'}`,
             `Lab CLS: ${Number.isFinite(cls) ? cls.toFixed(3) : 'n/a'}`,
             '',
-            '> Lighthouse is diagnostic lab evidence. It does not prove field Core Web Vitals pass status.',
+            `> Performance enforcement: ${enforcePerformance ? 'ON' : 'OFF (diagnostic only)'}. Lighthouse is lab evidence and does not prove field Core Web Vitals pass status.`,
           ].join('\n') + '\n');
 
           if (failures.length) {
