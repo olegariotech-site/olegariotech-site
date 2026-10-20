@@ -440,10 +440,14 @@ jobs:
             `| Broken internal links | ${report.brokenInternalLinks.length} |`,
             `| Console/page-error groups | ${report.warnings.filter(w => w.type === 'console-errors').length} |`,
             `| Possible clipping warnings | ${report.warnings.filter(w => w.type === 'possible-clipping').length} |`,
+            `| Pending/broken visible images (diagnostic) | ${report.warnings.filter(w => w.type === 'unloaded-visual-images').reduce((total, item) => total + item.images.length, 0)} |`,
             '',
             '> Browser screenshots and JSON evidence are uploaded as artifacts.',
           ];
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          for (const warning of report.warnings.filter(item => item.type === 'unloaded-visual-images')) {
+            console.warn(`Visual media pending/broken on ${warning.engine}/${warning.viewport}: ${warning.images.length} image(s). See browser-audit.json.`);
+          }
 
           if (report.failures.length) {
             console.error(report.failures.join('\n'));
