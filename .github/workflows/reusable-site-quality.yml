@@ -1,0 +1,453 @@
+name: OT Site Quality
+
+on:
+  workflow_call:
+    inputs:
+      serve_dir:
+        description: Directory to serve when no custom start command is provided.
+        required: false
+        type: string
+        default: "."
+      start_command:
+        description: Optional command that starts the site locally.
+        required: false
+        type: string
+        default: ""
+      site_url:
+        description: Optional deployed URL. When set, local serving is skipped.
+        required: false
+        type: string
+        default: ""
+      url_path:
+        description: Path appended to the local server URL.
+        required: false
+        type: string
+        default: "/"
+      port:
+        description: Local port.
+        required: false
+        type: number
+        default: 4173
+      primary_selector:
+        description: Optional selector for the primary CTA that must be visible.
+        required: false
+        type: string
+        default: ""
+      fail_on_console_errors:
+        description: Fail when browser console/page errors are observed.
+        required: false
+        type: boolean
+        default: false
+      strict_axe:
+        description: Fail on serious or critical axe violations.
+        required: false
+        type: boolean
+        default: true
+      enforce_performance:
+        description: Fail the job when Lighthouse performance is below min_performance. Keep false until the project has a trusted lab baseline.
+        required: false
+        type: boolean
+        default: false
+      min_performance:
+        description: Minimum Lighthouse performance score from 0 to 1 when enforce_performance is enabled.
+        required: false
+        type: number
+        default: 0.80
+      min_accessibility:
+        description: Minimum Lighthouse accessibility score from 0 to 1.
+        required: false
+        type: number
+        default: 0.95
+      min_best_practices:
+        description: Minimum Lighthouse best-practices score from 0 to 1.
+        required: false
+        type: number
+        default: 0.90
+      min_seo:
+        description: Minimum Lighthouse SEO score from 0 to 1.
+        required: false
+        type: number
+        default: 0.90
+
+permissions:
+  contents: read
+
+jobs:
+  site-quality:
+    name: Site quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      OT_PORT: ${{ inputs.port }}
+      OT_SERVE_DIR: ${{ inputs.serve_dir }}
+      OT_START_COMMAND: ${{ inputs.start_command }}
+      OT_SITE_URL: ${{ inputs.site_url }}
+      OT_URL_PATH: ${{ inputs.url_path }}
+      OT_PRIMARY_SELECTOR: ${{ inputs.primary_selector }}
+      OT_FAIL_CONSOLE: ${{ inputs.fail_on_console_errors }}
+      OT_STRICT_AXE: ${{ inputs.strict_axe }}
+      OT_ENFORCE_PERFORMANCE: ${{ inputs.enforce_performance }}
+      OT_MIN_PERFORMANCE: ${{ inputs.min_performance }}
+      OT_MIN_ACCESSIBILITY: ${{ inputs.min_accessibility }}
+      OT_MIN_BEST_PRACTICES: ${{ inputs.min_best_practices }}
+      OT_MIN_SEO: ${{ inputs.min_seo }}
+
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Prepare quality runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUALITY_DIR="$RUNNER_TEMP/ot-site-quality"
+          mkdir -p "$QUALITY_DIR"
+          cd "$QUALITY_DIR"
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright @axe-core/playwright lighthouse >/dev/null
+          npx playwright install --with-deps chromium webkit >/dev/null
+          mkdir -p "$GITHUB_WORKSPACE/ot-quality-artifacts"
+
+      - name: Resolve target URL
+        id: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "$OT_SITE_URL" ]]; then
+            TARGET="$OT_SITE_URL"
+          else
+            PATH_PART="$OT_URL_PATH"
+            [[ "$PATH_PART" == /* ]] || PATH_PART="/$PATH_PART"
+            TARGET="http://127.0.0.1:${OT_PORT}${PATH_PART}"
+          fi
+          echo "url=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "Target: $TARGET"
+
+      - name: Start local site
+        if: ${{ inputs.site_url == '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "$OT_START_COMMAND" ]]; then
+            ( eval "$OT_START_COMMAND" ) >"$RUNNER_TEMP/ot-site.log" 2>&1 &
+          else
+            test -d "$OT_SERVE_DIR"
+            python3 -m http.server "$OT_PORT" --directory "$OT_SERVE_DIR" >"$RUNNER_TEMP/ot-site.log" 2>&1 &
+          fi
+
+      - name: Wait for site
+        shell: bash
+        env:
+          TARGET_URL: ${{ steps.target.outputs.url }}
+        run: |
+          set -euo pipefail
+          for attempt in {1..60}; do
+            if curl -fsSL --max-time 5 "$TARGET_URL" >/dev/null; then
+              echo "Site is reachable."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Site did not become reachable: $TARGET_URL"
+          if [[ -f "$RUNNER_TEMP/ot-site.log" ]]; then
+            cat "$RUNNER_TEMP/ot-site.log"
+          fi
+          exit 1
+
+      - name: Create browser audit
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/ot-site-quality/audit.mjs" <<'EOF'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { chromium, webkit } from 'playwright';
+          import AxeBuilder from '@axe-core/playwright';
+
+          const baseUrl = process.env.TARGET_URL;
+          const artifactDir = path.resolve(process.env.GITHUB_WORKSPACE, 'ot-quality-artifacts');
+          const primarySelector = process.env.OT_PRIMARY_SELECTOR || '';
+          const failConsole = process.env.OT_FAIL_CONSOLE === 'true';
+          const strictAxe = process.env.OT_STRICT_AXE !== 'false';
+
+          const engines = { chromium, webkit };
+          const viewports = [
+            { name: 'desktop', width: 1440, height: 900 },
+            { name: 'mobile', width: 390, height: 844 },
+          ];
+
+          const report = {
+            target: baseUrl,
+            generatedAt: new Date().toISOString(),
+            results: [],
+            brokenInternalLinks: [],
+            failures: [],
+            warnings: [],
+          };
+
+          const normalize = (url) => {
+            const u = new URL(url);
+            u.hash = '';
+            return u.href;
+          };
+
+          for (const [engineName, engine] of Object.entries(engines)) {
+            const browser = await engine.launch({ headless: true });
+            try {
+              for (const viewport of viewports) {
+                const context = await browser.newContext({ viewport });
+                const page = await context.newPage();
+                const consoleErrors = [];
+                const pageErrors = [];
+
+                page.on('console', msg => {
+                  if (msg.type() === 'error') consoleErrors.push(msg.text());
+                });
+                page.on('pageerror', error => pageErrors.push(String(error)));
+
+                const response = await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+                if (!response || response.status() >= 400) {
+                  report.failures.push(`${engineName}/${viewport.name}: navigation failed`);
+                }
+
+                await page.waitForTimeout(500);
+
+                const layout = await page.evaluate(() => {
+                  const root = document.documentElement;
+                  const horizontalOverflow = root.scrollWidth > root.clientWidth + 2;
+                  const clipped = [...document.querySelectorAll('h1,h2,h3,a,button')]
+                    .filter(el => {
+                      const style = getComputedStyle(el);
+                      const rect = el.getBoundingClientRect();
+                      if (rect.width === 0 || rect.height === 0) return false;
+                      if (el.hasAttribute('data-allow-clipping')) return false;
+                      const clips = ['hidden', 'clip'].includes(style.overflowX);
+                      return clips && el.scrollWidth > el.clientWidth + 2;
+                    })
+                    .slice(0, 20)
+                    .map(el => ({
+                      tag: el.tagName.toLowerCase(),
+                      text: (el.textContent || '').trim().slice(0, 120),
+                    }));
+                  return {
+                    horizontalOverflow,
+                    clipped,
+                    title: document.title,
+                    lang: document.documentElement.lang || '',
+                  };
+                });
+
+                if (layout.horizontalOverflow) {
+                  report.failures.push(`${engineName}/${viewport.name}: horizontal overflow`);
+                }
+                if (layout.clipped.length) {
+                  report.warnings.push({
+                    type: 'possible-clipping',
+                    engine: engineName,
+                    viewport: viewport.name,
+                    elements: layout.clipped,
+                  });
+                }
+
+                let primaryVisible = null;
+                if (primarySelector) {
+                  const locator = page.locator(primarySelector).first();
+                  primaryVisible = await locator.count() > 0 && await locator.isVisible();
+                  if (!primaryVisible) {
+                    report.failures.push(`${engineName}/${viewport.name}: primary CTA not visible for selector ${primarySelector}`);
+                  }
+                }
+
+                const axe = await new AxeBuilder({ page })
+                  .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+                  .analyze();
+
+                const severeAxe = axe.violations.filter(v => ['serious', 'critical'].includes(v.impact));
+                if (strictAxe && severeAxe.length) {
+                  report.failures.push(`${engineName}/${viewport.name}: ${severeAxe.length} serious/critical axe violation(s)`);
+                }
+
+                if (failConsole && (consoleErrors.length || pageErrors.length)) {
+                  report.failures.push(`${engineName}/${viewport.name}: console/page errors observed`);
+                } else if (consoleErrors.length || pageErrors.length) {
+                  report.warnings.push({
+                    type: 'console-errors',
+                    engine: engineName,
+                    viewport: viewport.name,
+                    consoleErrors,
+                    pageErrors,
+                  });
+                }
+
+                const screenshot = path.join(artifactDir, `${engineName}-${viewport.name}.png`);
+                await page.screenshot({ path: screenshot, fullPage: true });
+
+                report.results.push({
+                  engine: engineName,
+                  viewport: viewport.name,
+                  layout,
+                  primaryVisible,
+                  axe: {
+                    violations: axe.violations.map(v => ({
+                      id: v.id,
+                      impact: v.impact,
+                      help: v.help,
+                      helpUrl: v.helpUrl,
+                      nodes: v.nodes.length,
+                      details: v.nodes.slice(0, 20).map(node => ({
+                        target: node.target,
+                        html: node.html,
+                        failureSummary: node.failureSummary,
+                      })),
+                    })),
+                    seriousOrCritical: severeAxe.length,
+                  },
+                  consoleErrors,
+                  pageErrors,
+                  screenshot: path.basename(screenshot),
+                });
+
+                if (engineName === 'chromium' && viewport.name === 'desktop') {
+                  const hrefs = await page.locator('a[href]').evaluateAll((anchors) =>
+                    anchors.map(a => a.href).filter(Boolean)
+                  );
+                  const origin = new URL(baseUrl).origin;
+                  const internal = [...new Set(hrefs.map(normalize))]
+                    .filter(href => new URL(href).origin === origin)
+                    .filter(href => !new URL(href).pathname.match(/\.(pdf|zip|jpg|jpeg|png|webp|svg|mp4|webm)$/i))
+                    .slice(0, 60);
+
+                  for (const href of internal) {
+                    try {
+                      const res = await fetch(href, { redirect: 'follow' });
+                      if (res.status >= 400) {
+                        report.brokenInternalLinks.push({ href, status: res.status });
+                      }
+                    } catch (error) {
+                      report.brokenInternalLinks.push({ href, error: String(error) });
+                    }
+                  }
+                }
+
+                await context.close();
+              }
+            } finally {
+              await browser.close();
+            }
+          }
+
+          if (report.brokenInternalLinks.length) {
+            report.failures.push(`${report.brokenInternalLinks.length} broken internal link(s)`);
+          }
+
+          fs.writeFileSync(
+            path.join(artifactDir, 'browser-audit.json'),
+            JSON.stringify(report, null, 2)
+          );
+
+          const lines = [
+            '## OT Site Quality — Browser audit',
+            '',
+            `Target: \`${baseUrl}\``,
+            '',
+            '| Check | Result |',
+            '|---|---|',
+            `| Browser/viewports | ${report.results.length} combinations |`,
+            `| Horizontal overflow | ${report.results.some(r => r.layout.horizontalOverflow) ? 'FAIL' : 'PASS'} |`,
+            `| Serious/critical axe violations | ${report.results.reduce((n,r) => n + r.axe.seriousOrCritical, 0)} |`,
+            `| Broken internal links | ${report.brokenInternalLinks.length} |`,
+            `| Console/page-error groups | ${report.warnings.filter(w => w.type === 'console-errors').length} |`,
+            `| Possible clipping warnings | ${report.warnings.filter(w => w.type === 'possible-clipping').length} |`,
+            '',
+            '> Browser screenshots and JSON evidence are uploaded as artifacts.',
+          ];
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+
+          if (report.failures.length) {
+            console.error(report.failures.join('\n'));
+            process.exit(1);
+          }
+          EOF
+
+      - name: Run browser, mobile and accessibility audit
+        shell: bash
+        env:
+          TARGET_URL: ${{ steps.target.outputs.url }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/ot-site-quality"
+          node audit.mjs
+
+      - name: Run Lighthouse diagnostic
+        shell: bash
+        env:
+          TARGET_URL: ${{ steps.target.outputs.url }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/ot-site-quality"
+          npx lighthouse "$TARGET_URL"             --quiet             --output=json             --output-path="$GITHUB_WORKSPACE/ot-quality-artifacts/lighthouse.json"             --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage"
+
+      - name: Enforce Lighthouse category budgets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'EOF'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const reportPath = path.join(process.env.GITHUB_WORKSPACE, 'ot-quality-artifacts', 'lighthouse.json');
+          const lh = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+
+          const thresholds = {
+            performance: Number(process.env.OT_MIN_PERFORMANCE),
+            accessibility: Number(process.env.OT_MIN_ACCESSIBILITY),
+            'best-practices': Number(process.env.OT_MIN_BEST_PRACTICES),
+            seo: Number(process.env.OT_MIN_SEO),
+          };
+
+          const failures = [];
+          const rows = [];
+          const enforcePerformance = process.env.OT_ENFORCE_PERFORMANCE === 'true';
+
+          for (const [key, min] of Object.entries(thresholds)) {
+            const score = lh.categories[key]?.score ?? 0;
+            const blocking = key !== 'performance' || enforcePerformance;
+            rows.push([key, score, min, blocking]);
+            if (blocking && score < min) failures.push(`${key}: ${score.toFixed(2)} < ${min.toFixed(2)}`);
+          }
+
+          const lcp = lh.audits['largest-contentful-paint']?.numericValue;
+          const cls = lh.audits['cumulative-layout-shift']?.numericValue;
+
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+            '',
+            '## OT Site Quality — Lighthouse lab diagnostic',
+            '',
+            '| Category | Score | Minimum | Mode |',
+            '|---|---:|---:|---|',
+            ...rows.map(([k,s,m,blocking]) => `| ${k} | ${s.toFixed(2)} | ${m.toFixed(2)} | ${blocking ? 'blocking' : 'diagnostic'} |`),
+            '',
+            `Lab LCP: ${Number.isFinite(lcp) ? (lcp / 1000).toFixed(2) + ' s' : 'n/a'}`,
+            `Lab CLS: ${Number.isFinite(cls) ? cls.toFixed(3) : 'n/a'}`,
+            '',
+            `> Performance enforcement: ${enforcePerformance ? 'ON' : 'OFF (diagnostic only)'}. Lighthouse is lab evidence and does not prove field Core Web Vitals pass status.`,
+          ].join('\n') + '\n');
+
+          if (failures.length) {
+            console.error(failures.join('\n'));
+            process.exit(1);
+          }
+          EOF
+
+      - name: Upload OT quality evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ot-site-quality-evidence
+          path: ot-quality-artifacts/
+          if-no-files-found: warn
+          retention-days: 30
