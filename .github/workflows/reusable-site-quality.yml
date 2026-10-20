@@ -291,7 +291,13 @@ jobs:
                       id: v.id,
                       impact: v.impact,
                       help: v.help,
+                      helpUrl: v.helpUrl,
                       nodes: v.nodes.length,
+                      details: v.nodes.slice(0, 20).map(node => ({
+                        target: node.target,
+                        html: node.html,
+                        failureSummary: node.failureSummary,
+                      })),
                     })),
                     seriousOrCritical: severeAxe.length,
                   },
