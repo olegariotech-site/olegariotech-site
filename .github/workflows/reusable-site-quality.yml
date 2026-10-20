@@ -39,7 +39,7 @@ on:
         type: boolean
         default: false
       stabilize_visual_capture:
-        description: Optional screenshot preparation: scroll through the page to trigger deferred content, return to top, await fonts, and report unloaded visible images.
+        description: "Optional screenshot preparation to trigger deferred content, return to top, await fonts, and report unloaded visible images."
         required: false
         type: boolean
         default: false
