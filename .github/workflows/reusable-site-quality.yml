@@ -38,6 +38,11 @@ on:
         required: false
         type: boolean
         default: false
+      stabilize_visual_capture:
+        description: Optional screenshot preparation: scroll through the page to trigger deferred content, return to top, await fonts, and report unloaded visible images.
+        required: false
+        type: boolean
+        default: false
       strict_axe:
         description: Fail on serious or critical axe violations.
         required: false
@@ -87,6 +92,7 @@ jobs:
       OT_PRIMARY_SELECTOR: ${{ inputs.primary_selector }}
       OT_FAIL_CONSOLE: ${{ inputs.fail_on_console_errors }}
       OT_STRICT_AXE: ${{ inputs.strict_axe }}
+      OT_STABILIZE_CAPTURE: ${{ inputs.stabilize_visual_capture }}
       OT_ENFORCE_PERFORMANCE: ${{ inputs.enforce_performance }}
       OT_MIN_PERFORMANCE: ${{ inputs.min_performance }}
       OT_MIN_ACCESSIBILITY: ${{ inputs.min_accessibility }}
@@ -174,6 +180,7 @@ jobs:
           const primarySelector = process.env.OT_PRIMARY_SELECTOR || '';
           const failConsole = process.env.OT_FAIL_CONSOLE === 'true';
           const strictAxe = process.env.OT_STRICT_AXE !== 'false';
+          const stabilizeCapture = process.env.OT_STABILIZE_CAPTURE === 'true';
 
           const engines = { chromium, webkit };
           const viewports = [
@@ -284,6 +291,54 @@ jobs:
                   });
                 }
 
+                // An opt-in sweep avoids empty screenshots when intersection observers,
+                // lazy-loaded images, or fonts have not been triggered at DOMContentLoaded.
+                // It is intentionally non-blocking and does not alter QA gate policy.
+                const visualCapture = { stabilized: false, imageIssues: [] };
+                if (stabilizeCapture) {
+                  const step = Math.max(400, Math.floor(viewport.height * 0.8));
+                  let y = 0;
+                  for (let pass = 0; pass < 65; pass++) {
+                    const pageHeight = await page.evaluate(() => Math.max(
+                      document.documentElement.scrollHeight,
+                      document.body.scrollHeight
+                    ));
+                    if (y > Math.min(pageHeight, 30000)) break;
+                    await page.evaluate(nextY => window.scrollTo(0, nextY), y);
+                    await page.waitForTimeout(110);
+                    y += step;
+                  }
+                  await page.evaluate(() => window.scrollTo(0, 0));
+                  await page.evaluate(async () => {
+                    if (document.fonts?.ready) await document.fonts.ready;
+                  });
+                  await page.waitForTimeout(700);
+
+                  visualCapture.stabilized = true;
+                  visualCapture.imageIssues = await page.evaluate(() => [...document.images]
+                    .filter(img => {
+                      const rect = img.getBoundingClientRect();
+                      const style = getComputedStyle(img);
+                      return rect.width > 20 && rect.height > 20
+                        && style.display !== 'none' && style.visibility !== 'hidden'
+                        && (!img.complete || img.naturalWidth === 0);
+                    })
+                    .slice(0, 20)
+                    .map(img => ({
+                      src: img.currentSrc || img.src,
+                      alt: img.alt,
+                      reason: img.complete ? 'broken' : 'pending',
+                    })));
+                  if (visualCapture.imageIssues.length) {
+                    report.warnings.push({
+                      type: 'unloaded-visual-images',
+                      engine: engineName,
+                      viewport: viewport.name,
+                      images: visualCapture.imageIssues,
+                    });
+                  }
+                }
+
                 const screenshot = path.join(artifactDir, `${engineName}-${viewport.name}.png`);
                 await page.screenshot({ path: screenshot, fullPage: true });
 
@@ -310,6 +365,7 @@ jobs:
                   consoleErrors,
                   pageErrors,
                   screenshot: path.basename(screenshot),
+                  visualCapture,
                 });
 
                 if (engineName === 'chromium' && viewport.name === 'desktop') {
