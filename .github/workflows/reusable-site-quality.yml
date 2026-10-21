@@ -148,6 +148,7 @@ jobs:
           fi
 
       - name: Wait for site
+        id: site_ready
         shell: bash
         env:
           TARGET_URL: ${{ steps.target.outputs.url }}
@@ -465,6 +466,8 @@ jobs:
           node audit.mjs
 
       - name: Run Lighthouse diagnostic
+        id: lighthouse
+        if: ${{ !cancelled() && steps.site_ready.outcome == 'success' }}
         shell: bash
         env:
           TARGET_URL: ${{ steps.target.outputs.url }}
@@ -474,6 +477,7 @@ jobs:
           npx lighthouse "$TARGET_URL"             --quiet             --output=json             --output-path="$GITHUB_WORKSPACE/ot-quality-artifacts/lighthouse.json"             --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage"
 
       - name: Enforce Lighthouse category budgets
+        if: ${{ !cancelled() && steps.lighthouse.outcome == 'success' }}
         shell: bash
         run: |
           set -euo pipefail
