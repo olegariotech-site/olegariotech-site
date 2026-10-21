@@ -17,13 +17,13 @@
   core.src='/assets/js/ot-analytics-core.js?v=5';core.async=false;
   core.onload=function(){
     var v2=document.createElement('script');
-    v2.src='/assets/js/ot-v2.js?v=8';v2.async=false;
+    v2.src='/assets/js/ot-v2.js?v=9';v2.async=false;
     v2.onload=function(){
       var mobile=document.createElement('script');
       mobile.src='/assets/js/ot-mobile-v3.js?v=1';mobile.async=false;
       mobile.onload=function(){
         var footer=document.createElement('script');
-        footer.src='/assets/js/ot-footer-v4.js?v=1';footer.async=false;
+        footer.src='/assets/js/ot-footer-v4.js?v=2';footer.async=false;
         document.head.appendChild(footer);
       };
       document.head.appendChild(mobile);

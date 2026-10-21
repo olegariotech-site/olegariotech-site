@@ -51,8 +51,8 @@
               '<img src="/assets/img/brand/olegario-tech-logo-oficial.webp" alt="">'+
               '<span class="brand-text">Olegario <b>Tech</b></span>'+
             '</a>'+
-            '<strong>Consultoria digital com cabeça de vendas.</strong>'+
-            '<p>Marca, site, WhatsApp, Google e dados trabalhando para gerar oportunidades.</p>'+
+            '<strong>Soluções Digitais para Negócios.</strong>'+
+            '<p>Sites profissionais, identidade visual e SEO local. Diagnóstico primeiro, solução depois.</p>'+
             '<div class="ot-footer-v4__social">'+
               '<a data-social-network="instagram" href="'+instagram+'" target="_blank" rel="noopener noreferrer">'+socialIcon('instagram')+'<span>Instagram</span></a>'+
               '<a data-social-network="facebook" href="'+facebook+'" target="_blank" rel="noopener noreferrer">'+socialIcon('facebook')+'<span>Facebook</span></a>'+
