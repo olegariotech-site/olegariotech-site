@@ -59,7 +59,24 @@ for(const {previous,current} of approvedSeoCopy){
   assert.equal(approvedSeoNormalized.split(current).length-1,1,'Approved SEO phrase appears exactly once');
   approvedSeoNormalized=approvedSeoNormalized.replace(current,previous);
 }
-// The strict preservation gate remains active for all commercial markup except the 3 copy changes above.
+// Institutional positioning: normalize only the two explicitly approved textual edits.
+// All other markup in the protected sections remains subject to strict baseline comparison.
+const approvedInstitutionalCopy=[
+  {
+    previous:'<span class="hero-brandline">Consultoria digital com cabeça de vendas</span>',
+    current:'<span class="hero-brandline">Soluções Digitais para Negócios</span>'
+  },
+  {
+    previous:'<p>A Olegario Tech nasceu da união entre presença digital, execução prática e venda real. O site não é tratado como enfeite: ele organiza a oferta, gera confiança e prepara a conversa comercial.</p>',
+    current:'<p>A Olegario Tech desenvolve sites profissionais e soluções digitais para negócios. Unimos identidade visual, SEO local e visão comercial para organizar a presença online e facilitar o contato com clientes. Tudo começa pelo diagnóstico.</p>'
+  }
+];
+for(const {previous,current} of approvedInstitutionalCopy){
+  assert.ok(baselineSource.includes(previous),'Institutional baseline phrase is present');
+  assert.equal(approvedSeoNormalized.split(current).length-1,1,'Approved institutional copy appears exactly once');
+  approvedSeoNormalized=approvedSeoNormalized.replace(current,previous);
+}
+// The strict preservation gate remains active except for 3 SEO phrases and 2 institutional phrases.
 for(const id of ['inicio','solucoes','metodo','sobre','produtos','faq','contato']){
   const section=new RegExp('<section[^>]+id="'+id+'"[\\s\\S]*?</section>');
   assert.equal(approvedSeoNormalized.match(section)?.[0],baselineSource.match(section)?.[0],id+' markup preserved (approved SEO copy only)');
@@ -79,7 +96,11 @@ for(const obsolete of obsoleteOverrides){
   assert.equal(approvedV2.split(obsolete).length-1,1,'Legacy SEO text override exists exactly once in baseline');
   approvedV2=approvedV2.replace(obsolete,'');
 }
-assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),approvedV2,'Runtime keeps baseline behavior except removal of obsolete SEO copy overwrites');
+const previousBrandline="setText('.hero-brandline','Consultoria digital com cabeça de vendas');";
+const currentBrandline="setText('.hero-brandline','Soluções Digitais para Negócios');";
+assert.equal(approvedV2.split(previousBrandline).length-1,1,'Legacy Hero brandline appears exactly once in baseline');
+approvedV2=approvedV2.replace(previousBrandline,currentBrandline);
+assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),approvedV2,'Runtime keeps baseline behavior except approved SEO and institutional copy changes');
 const originalEarth=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-spin.js'],{cwd:root,encoding:'utf8'});
 const currentEarth=await readFile(resolve(root,'assets/js/ot-earth-spin.js'),'utf8');
 const originalTimeline=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-journey.js'],{cwd:root,encoding:'utf8'});
