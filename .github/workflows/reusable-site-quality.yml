@@ -305,11 +305,11 @@ jobs:
                       document.body.scrollHeight
                     ));
                     if (y > Math.min(pageHeight, 30000)) break;
-                    await page.evaluate(nextY => window.scrollTo(0, nextY), y);
+                    await page.evaluate(nextY => window.scrollTo({ top: nextY, behavior: 'instant' }), y);
                     await page.waitForTimeout(260);
                     y += step;
                   }
-                  await page.evaluate(() => window.scrollTo(0, 0));
+                  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
                   await page.evaluate(async () => {
                     if (document.fonts?.ready) await document.fonts.ready;
                   });
