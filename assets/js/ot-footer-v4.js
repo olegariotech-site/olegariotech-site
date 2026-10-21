@@ -51,7 +51,7 @@
               '<img src="/assets/img/brand/olegario-tech-logo-oficial.webp" alt="">'+
               '<span class="brand-text">Olegario <b>Tech</b></span>'+
             '</a>'+
-            '<strong>Soluções digitais para negócios.</strong>'+
+            '<strong>Soluções Digitais para Negócios.</strong>'+
             '<p>Sites profissionais, identidade visual e SEO local. Diagnóstico primeiro, solução depois.</p>'+
             '<div class="ot-footer-v4__social">'+
               '<a data-social-network="instagram" href="'+instagram+'" target="_blank" rel="noopener noreferrer">'+socialIcon('instagram')+'<span>Instagram</span></a>'+
