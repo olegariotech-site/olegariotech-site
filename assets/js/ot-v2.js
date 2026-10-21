@@ -28,7 +28,7 @@
   }
 
   function tuneHero(){
-    setText('.hero-brandline','Soluções digitais para negócios');
+    setText('.hero-brandline','Soluções Digitais para Negócios');
     var actions=document.querySelector('.hero .hero-actions');
     if(actions){
       var primary=actions.querySelector('.btn-primary');
