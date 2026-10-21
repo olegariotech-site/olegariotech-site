@@ -28,7 +28,7 @@
   }
 
   function tuneHero(){
-    setText('.hero-brandline','Consultoria digital com cabeça de vendas');
+    setText('.hero-brandline','Soluções digitais para negócios');
     var actions=document.querySelector('.hero .hero-actions');
     if(actions){
       var primary=actions.querySelector('.btn-primary');
