@@ -62,10 +62,12 @@ try{
   let probeTimer;
   try{const probe=await Promise.race([browser.newPage(),new Promise((_,reject)=>{probeTimer=setTimeout(()=>reject(new Error('Browser content process unavailable after 15s')),15000)})]);clearTimeout(probeTimer);await probe.setContent('<h1>OT engine probe</h1>');assert.equal(await probe.locator('h1').innerText(),'OT engine probe');await probe.close();}
   catch(error){clearTimeout(probeTimer);report.engines[name]={unavailable:error.message};await browser.close();continue;}
-  const runs=[];report.engines[name]={version:browser.version(),runs};
+  const runs=[],processEvents=[];let expectedClose=false;report.engines[name]={version:browser.version(),runs,processEvents};
+  browser.on('disconnected',()=>processEvents.push({event:'browser-disconnected',expected:expectedClose,at:new Date().toISOString()}));
   try{
    for(const width of (process.env.OT_QA_WIDTHS||'360,390,430,768,1366,1440,1920').split(',').map(Number)){
     const height=width<768?844:width===768?1024:900;const context=await browser.newContext({viewport:{width,height},hasTouch:width<=768,isMobile:name!=='firefox'&&width<768});await transport(context);const page=await context.newPage();
+    page.on('crash',()=>processEvents.push({event:'page-crash',width,at:new Date().toISOString()}));
     const errors=[],missing=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))missing.push(r.url());});
     await ready(page);const panel=await page.locator('#otConsent').boundingBox();
     if(width<=780){const cta=await page.locator('#inicio .btn-primary').boundingBox();assert.ok(panel.y>=cta.y+cta.height,'consent does not cover the main diagnosis CTA');assert.equal(await page.locator('#otConsent').getAttribute('role'),'region');}assert.ok(panel.height<height*.42,'compact initial consent');
@@ -113,7 +115,7 @@ try{
    await sp.locator('[data-consent-save]').click();await short.close();
    // Reduced motion changes at runtime must cancel the showroom animation.
    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await transport(context);const page=await context.newPage();await ready(page);await reject(page);await page.locator('#project-tab-acai').click();await selected(page,'acai');assert.equal(await page.locator('#projectStage').evaluate(e=>e.getAnimations().length),0);assert.equal(await page.locator('.earth-journey__canvas').evaluate(e=>getComputedStyle(e).display),'none');await context.close();
-  }finally{await browser.close();}
+  }finally{expectedClose=true;await browser.close();}
  }
  const browser=await pw.chromium.launch();try{
   const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await transport(nojs);const fallback=await nojs.newPage();await fallback.goto(base,{waitUntil:'networkidle'});assert.equal(await fallback.locator('.featured-project').count(),3);assert.equal(await fallback.locator('#projectStage h3').innerText(),projects.kl.title);assert.equal(await fallback.locator('[data-featured-project=acai]').getAttribute('href'),projects.acai.link);await nojs.close();
@@ -127,4 +129,4 @@ try{
  }finally{await browser.close();}
  for(const name of (process.env.OT_QA_ENGINES||'chromium,firefox,webkit').split(','))if(!report.engines[name]?.unavailable)assert.equal(report.engines[name]?.runs?.length,(process.env.OT_QA_WIDTHS?.split(',').length||7));if(process.env.OT_QA_REQUIRE_ENGINES==='1')for(const name of ['firefox','webkit'])assert.ok(report.engines[name]?.runs?.length===7,`${name} required`);
  report.passed=true;
-}catch(e){report.passed=false;report.failure=e.stack;throw e;}finally{await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));server.close();}
+}catch(e){report.passed=false;report.failure=e.stack;report.cgroupMemoryEvents=await readFile('/sys/fs/cgroup/memory.events','utf8').catch(()=>null);throw e;}finally{await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));server.close();}

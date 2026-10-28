@@ -80,6 +80,16 @@ As suítes legadas do showroom e da imersão mantêm seus testes de execução.
 A guarda de scripts inline examina o atributo `src` da tag de abertura, sem
 confundi-lo com strings de imagens dentro do próprio JavaScript. A exceção
 literal de Evandro é aplicada após extrair o script, preservando todo o resto.
+No teste legado de soluções, `decode()` era chamado com `currentSrc` ainda
+vazio em um `<picture>` recém-inserido. O diagnóstico registrou a imagem válida
+carregando logo em seguida. O teste agora rola até a mídia, aguarda fonte
+selecionada/carga/dimensões e continua exigindo decodificação, com limite de
+15 s. Nenhum erro de imagem é ignorado; código de produção não foi alterado.
+Um ciclo de CI também encerrou inesperadamente a página/processo WebKit em
+768 px, sem reproduzir esse encerramento na matriz local completa. A causa
+não foi atribuída à GPU ou ao ambiente sem evidência. O relatório de QA passa
+a registrar eventos de crash/desconexão e contadores de memória do cgroup em
+falha. A execução final e esse histórico devem ser considerados na revisão.
 WebKit no Linux não equivale a certificação em Safari/iPhone; o mesmo vale para
 emulação Android. Os destinos GA/Meta são interceptados nos testes.
 
