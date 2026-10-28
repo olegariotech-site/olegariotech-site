@@ -375,6 +375,21 @@
   }
 
   let consentReturnFocus = null;
+  const consentMobile = matchMedia('(max-width: 780px)');
+  function placeConsentBanner(banner, initial) {
+    const active = banner.contains(document.activeElement) ? document.activeElement : null;
+    const hero = document.querySelector('body[data-page="home"] #inicio');
+    const inline = initial && consentMobile.matches && Boolean(hero);
+    banner.classList.toggle('ot-consent--inline', inline);
+    banner.setAttribute('role', inline ? 'region' : 'dialog');
+    if (inline) { banner.removeAttribute('aria-modal'); hero.after(banner); }
+    else { banner.setAttribute('aria-modal', 'false'); document.body.appendChild(banner); }
+    active?.focus();
+  }
+  consentMobile.addEventListener('change', function () {
+    const banner = document.getElementById('otConsent');
+    if (banner && !banner.hidden) placeConsentBanner(banner, banner.dataset.initialNotice === 'true');
+  });
 
   function bannerTemplate() {
     return [
@@ -518,6 +533,8 @@
     const settings = document.getElementById('otConsentSettings');
     if (settings) settings.hidden = true;
     banner.hidden = false;
+    banner.dataset.initialNotice = String(!revisiting);
+    placeConsentBanner(banner, !revisiting);
     banner.querySelector('#otConsentPreferences').hidden = true;
     banner.querySelector('[data-consent-customize]').setAttribute('aria-expanded', 'false');
     banner.removeAttribute('aria-hidden');

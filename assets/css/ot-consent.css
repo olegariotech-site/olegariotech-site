@@ -171,3 +171,15 @@ body[data-page="home"] [data-footer-cookie-settings]{min-height:44px}
 [data-footer-cookie-settings]:focus-visible{outline:2px solid #67e8f9;outline-offset:4px}
 body:not([data-page="home"]) .ot-consent-settings{min-height:44px;font-size:.7rem}
 @media(min-width:901px){body[data-page="home"] .ot-footer-v4__legal{padding-right:80px}}
+
+/* First mobile visit: consent stays in the reading flow after the unchanged hero.
+   Reopening preferences retains the fixed panel and focus return to its trigger. */
+@media(max-width:780px){
+ .ot-consent.ot-consent--inline{position:relative;left:auto;bottom:auto;z-index:1;transform:none;width:calc(100% - 28px);max-width:680px;max-height:none;margin:0 auto 24px;box-shadow:none;transition:opacity .28s ease,visibility .28s}
+ .ot-consent.ot-consent--inline.is-visible{transform:none}
+ .ot-consent__actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .ot-consent__actions [data-consent-customize]{grid-column:auto}
+ .ot-consent__actions button{padding:8px 5px;min-height:48px;font-size:.75rem}
+ .ot-consent__copy>a{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){.ot-consent.ot-consent--inline{transition:none}}

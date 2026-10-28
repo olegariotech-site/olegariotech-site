@@ -15,7 +15,7 @@ const baseline=process.env.OT_BASELINE_COMMIT||'66db8f5169c30b0904667b56c03a8e9d
 const source=await readFile(resolve(root,'index.html'),'utf8');
 const before=execFileSync('git',['show',`${baseline}:index.html`],{cwd:root,encoding:'utf8'});
 const catalog=s=>JSON.parse(s.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
-const projects=catalog(source);assert.deepEqual(projects,catalog(before),'canonical editorial catalog and three reviews unchanged');
+const projects=catalog(source),approvedProjects=catalog(before);assert.equal(approvedProjects.ripamonti.testimonial.quote,'Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.');approvedProjects.ripamonti.testimonial.quote='Exatamente como eu queria .trabalho perfeito estou muito satisfeito';assert.deepEqual(projects,approvedProjects,'catalog unchanged except verified literal Ripamonti punctuation correction');
 const seo=html=>[...html.matchAll(/<title>[\s\S]*?<\/title>|<meta\b[^>]*>|<link\b[^>]*rel="canonical"[^>]*>/g)].map(m=>m[0]);
 assert.deepEqual(seo(source),seo(before),'home title, metadata and canonical unchanged');
 const section=(html,id)=>html.match(new RegExp(`<section[^>]*id="${id}"[\\s\\S]*?</section>`))[0];
@@ -30,10 +30,10 @@ assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),expectedV
 for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html','produtos/index.html','privacidade/index.html','cookies/index.html']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root,encoding:'utf8'});
  const current=await readFile(resolve(root,path),'utf8');
- assert.equal(current,original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=8').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=3'),`${path}: only shared asset cache versions changed`);
+ assert.equal(current,original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=9').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=4'),`${path}: only shared asset cache versions changed`);
 }
 const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.includes(' src='));
-assert.deepEqual(inline(source),inline(before),'inline commercial logic and structured data unchanged');
+assert.deepEqual(inline(source.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged');
 for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
@@ -46,7 +46,7 @@ const {default:AxeBuilder}=await import(process.env.OT_AXE_MODULE||'@axe-core/pl
 const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg'};
 const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw Error('path');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
-const report={baseline,browserPath:'Browser plugin not available; Playwright',engines:{},privacy:[],pages:[],limitations:['Linux engine simulations; no physical iPhone/Android, Safari chrome or real audio-output certification.','Known pre-existing contrast findings on mobile WhatsApp/footer are reported, not suppressed.','GA/Meta tag destinations intercepted; no real events sent.']};
+const report={baseline,browserPath:'Browser plugin not available; Playwright',engines:{},privacy:[],pages:[],limitations:['Linux engine simulations; no physical iPhone/Android, Safari chrome or real audio-output certification.','Automatic contrast checks cover exercised states; manual accessibility review is still required.','GA/Meta tag destinations intercepted; no real events sent.']};
 const fonts=new Map();
 async function transport(context){
  if(process.env.OT_QA_PROXY_FONTS==='1')await context.route(/^https:\/\/fonts\.(googleapis|gstatic)\.com\//,async route=>{const url=route.request().url();try{if(!fonts.has(url)){const response=await fetch(url,{signal:AbortSignal.timeout(20000)});assert.ok(response.ok);fonts.set(url,{body:Buffer.from(await response.arrayBuffer()),contentType:response.headers.get('content-type')});}await route.fulfill(fonts.get(url));}catch(e){fonts.delete(url);await route.abort();}});
@@ -65,9 +65,10 @@ try{
   const runs=[];report.engines[name]={version:browser.version(),runs};
   try{
    for(const width of (process.env.OT_QA_WIDTHS||'360,390,430,768,1366,1440,1920').split(',').map(Number)){
-    const height=width<768?844:width===768?1024:900;const context=await browser.newContext({viewport:{width,height}});await transport(context);const page=await context.newPage();
+    const height=width<768?844:width===768?1024:900;const context=await browser.newContext({viewport:{width,height},hasTouch:width<=768,isMobile:name!=='firefox'&&width<768});await transport(context);const page=await context.newPage();
     const errors=[],missing=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))missing.push(r.url());});
-    await ready(page);const panel=await page.locator('#otConsent').boundingBox();assert.ok(panel.height<height*.42,'compact initial consent');
+    await ready(page);const panel=await page.locator('#otConsent').boundingBox();
+    if(width<=780){const cta=await page.locator('#inicio .btn-primary').boundingBox();assert.ok(panel.y>=cta.y+cta.height,'consent does not cover the main diagnosis CTA');assert.equal(await page.locator('#otConsent').getAttribute('role'),'region');}assert.ok(panel.height<height*.42,'compact initial consent');
     assert.equal(await page.locator('#otConsentPreferences').isVisible(),false);assert.equal(await page.locator('[data-consent-analytics]').isChecked(),false);assert.equal(await page.locator('[data-consent-marketing]').isChecked(),false);
     if([390,1440].includes(width))await page.screenshot({path:`${output}/${name}-cookies-${width}.png`});
     await reject(page);await page.evaluate(()=>document.documentElement.style.scrollBehavior='auto');
@@ -85,7 +86,7 @@ try{
     }
     await page.locator('#project-tab-navalha').focus();await page.keyboard.press('Home');await selected(page,'acai');await page.keyboard.press('ArrowRight');await selected(page,'kl');await page.keyboard.press('End');await selected(page,'navalha');
     for(const key of ['acai','advocacia','ripamonti']){
-     const card=page.locator(`.featured-project:has([data-featured-project=${key}])`);assert.equal(await card.locator('blockquote').innerText(),`“${projects[key].testimonial.quote}”`);assert.equal(await card.locator('figcaption strong').innerText(),projects[key].testimonial.author);assert.equal(await card.locator('figcaption a').getAttribute('href'),projects[key].testimonial.source);
+     const card=page.locator(`.featured-project:has([data-featured-project=${key}])`);assert.equal(await card.locator('blockquote').innerText(),`“${projects[key].testimonial.quote}”`);assert.equal(await card.locator('figcaption strong').innerText(),projects[key].testimonial.author);assert.equal(await card.locator('figcaption a').getAttribute('href'),projects[key].testimonial.source);assert.match(await card.locator('figcaption a').getAttribute('aria-label'),/listagem geral/);
     }
     await page.locator('#project-tab-kl').click();await selected(page,'kl');await page.locator('#projectStage').getByRole('button',{name:'Identidade',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='brand');await page.locator('#projectStage').getByRole('button',{name:'Website',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='website');
     if(width>600){await page.getByRole('button',{name:'Mobile',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.view==='mobile');await page.getByRole('button',{name:'Desktop',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.view==='desktop');}
@@ -93,8 +94,7 @@ try{
     await sweep(page);
     const layout=await page.evaluate(()=>({width:document.documentElement.clientWidth,scrollWidth:document.documentElement.scrollWidth,broken:[...document.images].filter(i=>i.getBoundingClientRect().width>0&&i.complete&&!i.naturalWidth).map(i=>i.src),fonts:[...document.fonts].filter(f=>f.status==='error').map(f=>f.family)}));assert.equal(layout.scrollWidth,layout.width,'no horizontal overflow');assert.deepEqual(layout.broken,[],'all rendered images loaded');assert.deepEqual(layout.fonts,[]);
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();const violations=axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)}));
-    assert.deepEqual(violations.filter(v=>v.id!=='color-contrast'),[],'no structural accessibility violations');
-    for(const v of violations)for(const targets of v.nodes)assert.ok(targets.every(t=>/^\.mobile-cta|^\.ot-footer-v4__/.test(t)),'no new contrast defect: '+targets.join(','));
+    assert.deepEqual(violations,[],'no automatic WCAG A/AA violations in exercised state');
     if([390,768,1440].includes(width)){
      await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(350);await page.screenshot({path:`${output}/${name}-hero-${width}.png`});
      await page.locator('.featured-projects').scrollIntoViewIfNeeded();await page.waitForTimeout(350);await page.screenshot({path:`${output}/${name}-featured-${width}.png`});

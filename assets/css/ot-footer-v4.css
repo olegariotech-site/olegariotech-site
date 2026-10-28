@@ -18,14 +18,14 @@ body[data-page="home"] .footer .ot-footer-v4{width:min(var(--max),100%);margin:0
 .ot-footer-v4__nav a,.ot-footer-v4__contact>a:not(.ot-footer-v4__wa){width:max-content;max-width:100%;color:rgba(244,246,249,.77);font-size:.76rem;font-weight:650;line-height:1.38;transition:color .2s}
 .ot-footer-v4__nav a:hover,.ot-footer-v4__nav a:focus-visible,.ot-footer-v4__contact>a:not(.ot-footer-v4__wa):hover,.ot-footer-v4__contact>a:not(.ot-footer-v4__wa):focus-visible{color:#fff}
 .ot-footer-v4__contact{display:grid;gap:7px;justify-items:start}
-.ot-footer-v4__wa{min-height:38px;padding:0 14px 0 11px;margin-bottom:1px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;background:#25d366;color:#fff;font-size:.74rem;font-weight:850;box-shadow:0 7px 18px rgba(37,211,102,.13);transition:background .2s,transform .2s}
+.ot-footer-v4__wa{min-height:38px;padding:0 14px 0 11px;margin-bottom:1px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;background:#25d366;color:#03121d;font-size:.74rem;font-weight:850;box-shadow:0 7px 18px rgba(37,211,102,.13);transition:background .2s,transform .2s}
 .ot-footer-v4__wa:hover,.ot-footer-v4__wa:focus-visible{background:#20bd5a;transform:translateY(-1px)}
 .ot-footer-v4__wa-icon{display:grid;place-items:center;width:17px;height:17px}
 .ot-footer-v4__wa-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
 .ot-footer-v4__location{display:grid;gap:2px;margin-top:5px;color:rgba(235,237,242,.58);font-size:.70rem;line-height:1.38}
 .ot-footer-v4__location strong{color:rgba(244,246,249,.80);font-size:.73rem}
 .ot-footer-v4__bottom{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:20px;padding:12px 0 2px;border-top:1px solid rgba(255,255,255,.075)}
-.ot-footer-v4__signature{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;color:rgba(244,246,249,.43);font-size:.66rem}
+.ot-footer-v4__signature{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;color:#aeb5ca;font-size:.66rem}
 .ot-footer-v4__signature strong{color:rgba(244,246,249,.72);font-weight:700}
 .ot-footer-v4__legal{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px 14px;align-items:center}
 .ot-footer-v4__legal a,.ot-footer-v4__legal button{padding:0;border:0;background:none;color:rgba(244,246,249,.48);font:700 .64rem/1.35 Inter,system-ui,sans-serif;cursor:pointer}

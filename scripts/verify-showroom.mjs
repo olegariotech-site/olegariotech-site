@@ -33,7 +33,9 @@ const report={baseCommit:process.env.OT_BASELINE_COMMIT||'cef32459b58c3ce779e526
 const source=await readFile(resolve(root,'index.html'),'utf8');
 const baselineSource=execFileSync('git',['show',report.baseCommit+':index.html'],{cwd:root,encoding:'utf8'});
 const projects=JSON.parse(source.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
-assert.deepEqual(projects,JSON.parse(baselineSource.match(/const projects=(\{[\s\S]*?\n\});/)[1]),'Approved project catalog is unchanged.');
+const approvedProjects=JSON.parse(baselineSource.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
+if(source.includes('/assets/css/ot-premium-v3.css')&&projects.ripamonti.testimonial.quote==='Exatamente como eu queria .trabalho perfeito estou muito satisfeito'){assert.equal(approvedProjects.ripamonti.testimonial.quote,'Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.');approvedProjects.ripamonti.testimonial.quote='Exatamente como eu queria .trabalho perfeito estou muito satisfeito';}
+assert.deepEqual(projects,approvedProjects,'Approved catalog: only verified Ripamonti literal punctuation correction allowed.');
 const changed=execFileSync('git',['diff','--name-only',report.baseCommit],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.equal(initial,'kl');assert.equal(order.length,6);
 // V3 has explicit, narrower preservation contracts for its approved founder/consent/proof changes.
@@ -99,7 +101,7 @@ assert.equal(currentEarth.slice(currentEarth.indexOf('  function init()'),curren
 assert.equal(currentEarth.slice(currentEarth.indexOf('  function draw(now)'),currentEarth.indexOf('  function draw2D')),originalEarth.slice(originalEarth.indexOf('  function draw(now)'),originalEarth.indexOf('  function draw2D')),'Original WebGL drawing preserved');
 const stripRenderer=text=>text.replace(/    function renderProjectMedia\([\s\S]*?(?=    const mobileLinks=)/,'').replace(/    \/\/ Compatibility entry point[^\n]*\n    function renderProject[^\n]*\n\n/,'');
 const mainScript=text=>text.slice(text.indexOf('    const solutions='),text.indexOf('  </script>',text.indexOf('    const solutions=')));
-assert.equal(stripRenderer(mainScript(source)),stripRenderer(mainScript(baselineSource)),'All inline solution, navigation, audio and planet code preserved');
+assert.equal(stripRenderer(mainScript(source.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.'))),stripRenderer(mainScript(baselineSource)),'All inline solution, navigation, audio and planet code preserved');
 const fonts=new Map();
 async function configure(context,{baseline=false}={}){
   await context.addInitScript(()=>{

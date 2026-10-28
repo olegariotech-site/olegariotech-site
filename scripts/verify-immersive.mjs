@@ -158,7 +158,7 @@ async function run(name,viewport,options={}) {
       assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0);
       if(key==='ripamonti'){
         assert.equal(await actions.first().getAttribute('href'),'https://armazemripamonti.com.br/');
-        assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+        assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria .trabalho perfeito estou muito satisfeito”');
         assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
         assert.ok((await page.locator('#projectStage .case-screen img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
         await captureSection('#projectStage .case-testimonial','evandro-review');
@@ -290,7 +290,7 @@ async function run(name,viewport,options={}) {
     const testimonial=page.locator('#projectStage .case-testimonial');
     assert.equal(await testimonial.count(),['acai','advocacia','ripamonti'].includes(key)?1:0,'approved social proof only: '+key);
     if(key==='ripamonti'){
-      assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+      assert.equal(await testimonial.locator('blockquote').innerText(),'“Exatamente como eu queria .trabalho perfeito estou muito satisfeito”');
       assert.equal(await testimonial.locator('figcaption strong').innerText(),'Evandro Ripamonti');
       assert.ok((await page.locator('#projectStage .case-screen img').getAttribute('src')).startsWith('/assets/img/projetos/ripamonti/'));
       await testimonial.screenshot({path:`${output}/${name}-evandro-review.png`});
