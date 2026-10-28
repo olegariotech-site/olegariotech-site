@@ -374,14 +374,23 @@
     }, true);
   }
 
+  let consentReturnFocus = null;
+
   function bannerTemplate() {
     return [
-      '<section class="ot-consent" id="otConsent" role="dialog" aria-labelledby="otConsentTitle" aria-describedby="otConsentText">',
+      '<section class="ot-consent" id="otConsent" role="dialog" aria-modal="false" aria-labelledby="otConsentTitle" aria-describedby="otConsentText">',
       '  <div class="ot-consent__copy">',
       '    <span class="ot-consent__eyebrow">Privacidade e preferências</span>',
       '    <h2 id="otConsentTitle">Você escolhe como a OT mede e anuncia.</h2>',
       '    <p id="otConsentText">Análise e marketing são opcionais. O Google Analytics e o Pixel da Meta só carregam nas categorias autorizadas.</p>',
-      '    <div class="ot-consent__preferences" aria-label="Categorias de cookies">',
+      '    <a href="/privacidade/">Ler a política de privacidade</a>',
+      '  </div>',
+      '  <div class="ot-consent__actions">',
+      '    <button type="button" class="ot-consent__reject" data-consent-reject>Recusar opcionais</button>',
+      '    <button type="button" class="ot-consent__accept" data-consent-accept>Aceitar tudo</button>',
+      '    <button type="button" class="ot-consent__customize" data-consent-customize aria-expanded="false" aria-controls="otConsentPreferences">Personalizar</button>',
+      '  </div>',
+      '    <div class="ot-consent__preferences" id="otConsentPreferences" role="group" aria-label="Categorias de cookies" hidden>',
       '      <label class="ot-consent__option is-required">',
       '        <span><strong>Necessários</strong><small>Funcionamento e sua escolha de privacidade.</small></span>',
       '        <input type="checkbox" checked disabled aria-label="Cookies necessários sempre ativos">',
@@ -394,14 +403,8 @@
       '        <span><strong>Marketing</strong><small>Meta Pixel para anúncios, contatos e leads.</small></span>',
       '        <input type="checkbox" data-consent-marketing aria-label="Autorizar cookies de marketing">',
       '      </label>',
-      '    </div>',
-      '    <a href="/privacidade/">Ler a política de privacidade</a>',
-      '  </div>',
-      '  <div class="ot-consent__actions">',
-      '    <button type="button" class="ot-consent__reject" data-consent-reject>Recusar opcionais</button>',
       '    <button type="button" class="ot-consent__save" data-consent-save>Salvar escolhas</button>',
-      '    <button type="button" class="ot-consent__accept" data-consent-accept>Aceitar tudo</button>',
-      '  </div>',
+      '    </div>',
       '</section>'
     ].join('');
   }
@@ -426,9 +429,13 @@
     if (banner) {
       banner.classList.remove('is-visible');
       banner.setAttribute('aria-hidden', 'true');
+      banner.hidden = true;
     }
     document.body.classList.remove('ot-consent-open');
     ensureSettingsButton();
+    const destination = consentReturnFocus?.isConnected ? consentReturnFocus : document.getElementById('otConsentSettings');
+    if (destination && getComputedStyle(destination).display !== 'none') destination.focus({ preventScroll: true });
+    consentReturnFocus = null;
   }
 
   function applyConsent(preferences) {
@@ -466,6 +473,8 @@
 
   function openBanner() {
     let banner = document.getElementById('otConsent');
+    const revisiting = Boolean(banner);
+    consentReturnFocus = document.activeElement instanceof HTMLElement && document.activeElement !== document.body ? document.activeElement : null;
     if (!banner) {
       document.body.insertAdjacentHTML('beforeend', bannerTemplate());
       banner = document.getElementById('otConsent');
@@ -476,6 +485,23 @@
 
       banner.querySelector('[data-consent-reject]')?.addEventListener('click', function () {
         applyConsent({ analytics: 'denied', marketing: 'denied' });
+      });
+
+      const customize = banner.querySelector('[data-consent-customize]');
+      const preferences = banner.querySelector('#otConsentPreferences');
+      customize.addEventListener('click', function () {
+        const expanded = customize.getAttribute('aria-expanded') !== 'true';
+        customize.setAttribute('aria-expanded', String(expanded));
+        preferences.hidden = !expanded;
+        if (expanded) banner.querySelector('[data-consent-analytics]')?.focus();
+      });
+      banner.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !preferences.hidden) {
+          event.preventDefault();
+          preferences.hidden = true;
+          customize.setAttribute('aria-expanded', 'false');
+          customize.focus({ preventScroll: true });
+        }
       });
 
       banner.querySelector('[data-consent-save]')?.addEventListener('click', function () {
@@ -491,10 +517,13 @@
     syncBannerChoices(banner);
     const settings = document.getElementById('otConsentSettings');
     if (settings) settings.hidden = true;
+    banner.hidden = false;
+    banner.querySelector('#otConsentPreferences').hidden = true;
+    banner.querySelector('[data-consent-customize]').setAttribute('aria-expanded', 'false');
     banner.removeAttribute('aria-hidden');
     requestAnimationFrame(function () {
       banner.classList.add('is-visible');
-      banner.querySelector('[data-consent-save]')?.focus();
+      if (revisiting) banner.querySelector('[data-consent-customize]')?.focus({ preventScroll: true });
     });
     document.body.classList.add('ot-consent-open');
   }

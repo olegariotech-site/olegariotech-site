@@ -60,11 +60,8 @@
     var headerCta=document.querySelector('#projetos .projects-head .btn');if(headerCta)headerCta.textContent='Quero um projeto assim';
   }
 
-  function tuneAbout(){
-    var label=document.querySelector('#sobre .section-label');if(label)label.textContent='Tecnologia + experiência comercial';
-    var paragraphs=document.querySelectorAll('#sobre .about-grid p');if(paragraphs[0])paragraphs[0].textContent='A Olegario Tech combina tecnologia com experiência comercial real. Não pensamos só em layout: pensamos no que o cliente vê, entende, sente e faz depois.';if(paragraphs[1])paragraphs[1].textContent='A estratégia nasce do diagnóstico e vira uma estrutura digital que organiza marca, oferta, atendimento e mensuração para gerar novas oportunidades.';
-    var stats=document.querySelectorAll('#sobre .about-stats span');if(stats[0])stats[0].textContent='30+ anos em vendas';if(stats[1])stats[1].textContent='Projetos reais em operação';if(stats[2])stats[2].textContent='Valinhos · Campinas · Brasil';
-  }
+  // Institutional copy is owned by index.html. Do not overwrite the founder or local positioning.
+  function tuneAbout(){}
 
   function tuneProducts(){var section=document.getElementById('produtos');if(section)section.classList.add('ot-products-teaser');}
 
@@ -75,7 +72,7 @@
   function installHomeTracking(){
     var seen={};if('IntersectionObserver'in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting&&entry.intersectionRatio>=.35&&!seen[entry.target.id]){seen[entry.target.id]=true;safeTrack('view_section',{section_name:entry.target.id});}});},{threshold:[.35]});['inicio','prova','solucoes','projetos','metodo','sobre','ecossistema','contato'].forEach(function(id){var el=document.getElementById(id);if(el)observer.observe(el);});}
     var depths=[25,50,75,90],sent={};addEventListener('scroll',function(){var doc=document.documentElement,max=Math.max(1,doc.scrollHeight-innerHeight),pct=Math.round((scrollY/max)*100);depths.forEach(function(d){if(pct>=d&&!sent[d]){sent[d]=true;safeTrack('scroll_depth',{percent:d});}});},{passive:true});
-    document.addEventListener('click',function(e){var proof=e.target.closest('[data-proof-case]');if(!proof)return;var key=proof.dataset.project;if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case',{project_name:proof.dataset.proofCase});},true);
+    document.addEventListener('click',function(e){var proof=e.target.closest('[data-proof-case]');if(!proof)return;var key=proof.dataset.project;if(key&&window.OTProjectShowroom?.open){e.preventDefault();window.OTProjectShowroom.open(key);}else if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case',{project_name:proof.dataset.proofCase});},true);
     var params=new URLSearchParams(location.search),attribution={};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(params.get(k))attribution[k]=params.get(k).slice(0,100);});if(Object.keys(attribution).length){try{sessionStorage.setItem('ot_attribution',JSON.stringify(attribution));}catch(e){}}
     document.addEventListener('click',function(e){var link=e.target.closest('a[href*="wa.me/"]');if(!link)return;var a={};try{a=JSON.parse(sessionStorage.getItem('ot_attribution')||'{}');}catch(err){}if(Object.keys(a).length)safeTrack('lead_attribution',a);},true);
   }
