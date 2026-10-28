@@ -10,7 +10,8 @@ A mediana anterior de 480 → 744 ms não isolava a versão: o
 `scrollIntoViewIfNeeded()` deixava o painel em y≈908 na main e y≈564 na V3.
 Havia cargas de pintura visíveis diferentes. A atribuição antiga também usava
 a fase em que o observer entregava o evento, em vez do instante do evento.
-O registro histórico é preservado, mas não prova isoladamente uma regressão de 55%.
+Essa geometria foi registrada na reprodução da rotina anterior. O registro
+histórico é preservado, mas não prova isoladamente uma regressão de 55%.
 
 O novo laboratório usa Chromium 141 / Linux, 1440×900, HTTP local sem throttling,
 um navegador, contextos novos sequenciais e ordem intercalada. Fontes reais têm
@@ -76,6 +77,9 @@ versão, CTA sem obstrução, texto de privacidade, alvos iguais, teclado,
 personalização, ausência de tags antes de consentir, revogação, foco e axe.
 `verify-premium-v3.mjs` conserva a matriz de 21 combinações e contratos estáticos.
 As suítes legadas do showroom e da imersão mantêm seus testes de execução.
+A guarda de scripts inline examina o atributo `src` da tag de abertura, sem
+confundi-lo com strings de imagens dentro do próprio JavaScript. A exceção
+literal de Evandro é aplicada após extrair o script, preservando todo o resto.
 WebKit no Linux não equivale a certificação em Safari/iPhone; o mesmo vale para
 emulação Android. Os destinos GA/Meta são interceptados nos testes.
 

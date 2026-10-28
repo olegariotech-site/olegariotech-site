@@ -101,7 +101,7 @@ assert.equal(currentEarth.slice(currentEarth.indexOf('  function init()'),curren
 assert.equal(currentEarth.slice(currentEarth.indexOf('  function draw(now)'),currentEarth.indexOf('  function draw2D')),originalEarth.slice(originalEarth.indexOf('  function draw(now)'),originalEarth.indexOf('  function draw2D')),'Original WebGL drawing preserved');
 const stripRenderer=text=>text.replace(/    function renderProjectMedia\([\s\S]*?(?=    const mobileLinks=)/,'').replace(/    \/\/ Compatibility entry point[^\n]*\n    function renderProject[^\n]*\n\n/,'');
 const mainScript=text=>text.slice(text.indexOf('    const solutions='),text.indexOf('  </script>',text.indexOf('    const solutions=')));
-assert.equal(stripRenderer(mainScript(source.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.'))),stripRenderer(mainScript(baselineSource)),'All inline solution, navigation, audio and planet code preserved');
+assert.equal(stripRenderer(mainScript(source).replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),stripRenderer(mainScript(baselineSource)),'All inline solution, navigation, audio and planet code preserved');
 const fonts=new Map();
 async function configure(context,{baseline=false}={}){
   await context.addInitScript(()=>{

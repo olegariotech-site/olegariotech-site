@@ -32,8 +32,8 @@ for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-camp
  const current=await readFile(resolve(root,path),'utf8');
  assert.equal(current,original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=9').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=4'),`${path}: only shared asset cache versions changed`);
 }
-const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.includes(' src='));
-assert.deepEqual(inline(source.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged');
+const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.slice(0,t.indexOf('>')).includes(' src='));
+assert.deepEqual(inline(source).map(script=>script.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged');
 for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
