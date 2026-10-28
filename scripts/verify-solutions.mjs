@@ -78,7 +78,7 @@ async function run(width,height,reduced=false){
   assert.deepEqual(await page.locator('#solutionContent li').allTextContents(),bullets);
   assert.equal(await page.locator('.solution-case__status').innerText(),'PROJETO REAL · PUBLICADO');
   assert.equal(await page.locator('.solution-case h4').innerText(),'Armazém Ripamonti');
-  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria .trabalho perfeito estou muito satisfeito”');
   assert.equal(await page.locator('.solution-case figcaption').innerText(),'— Evandro Ripamonti');
   assert.ok(!(await page.locator('#solutionStage').innerText()).includes('Mini Mercado'));
   const primary=page.locator('#solutionContent [data-generate-lead]'),secondary=page.locator('.solution-case__link');

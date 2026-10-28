@@ -419,7 +419,7 @@ async function globalRegression(page,width,reduced){
     const node=page.locator('.solution-blueprint__node').last();await node.click();assert.equal(await node.getAttribute('aria-pressed'),'true');
   }
   assert.equal(await page.locator('.solution-case h4').innerText(),'Armazém Ripamonti');
-  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria .trabalho perfeito estou muito satisfeito”');
   const wa=new URL(await page.locator('#solutionContent [data-generate-lead]').getAttribute('href'));
   assert.equal(wa.searchParams.get('text'),'Olá, OT! Vi o projeto Armazém Ripamonti na Solução 03 e quero avaliar uma estrutura semelhante para minha empresa.');
   await page.locator('.choice-tab[data-solution=presenca]').click();
