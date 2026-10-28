@@ -1,6 +1,19 @@
 // Shared markup for the home build and runtime. Editorial content stays in index.html projects.
 export const escapeHTML=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export const order=['acai','kl','adega','advocacia','ripamonti','navalha'];
+// Featured proof reuses the same approved catalog; no second editorial dataset.
+export const featuredOrder=['acai','advocacia','ripamonti'];
+export function renderFeatured(projects){
+  return `<div class="featured-projects" aria-label="Três projetos reais em destaque">${featuredOrder.map(key=>{
+    const p=projects[key],review=p.testimonial;
+    return `<article class="featured-project" aria-labelledby="featured-${key}">
+      <div class="featured-project__visual"><img src="/assets/img/projetos/featured-v3/${key}.webp" alt="" width="768" height="533" loading="lazy" decoding="async" fetchpriority="low"></div>
+      <div class="featured-project__body"><span class="featured-project__status">Projeto real · ${escapeHTML(p.segment)}</span><h3 id="featured-${key}">${escapeHTML(p.title)}</h3>
+      <figure class="featured-project__review"><blockquote>“${escapeHTML(review.quote)}”</blockquote><figcaption><strong>${escapeHTML(review.author)}</strong><a href="${escapeHTML(review.source)}" target="_blank" rel="noopener noreferrer" aria-label="Ver listagem geral de avaliações da Olegario Tech no Google — ${escapeHTML(review.author)}">Avaliações da OT no Google ↗</a></figcaption></figure>
+      <a class="featured-project__open" data-featured-project="${key}" href="${escapeHTML(p.link)}" target="_blank" rel="noopener noreferrer">Ver projeto <span aria-hidden="true">↗</span></a></div>
+    </article>`;
+  }).join('')}</div>`;
+}
 export function renderTab(key,p,initial,asset){
   const thumb=asset.thumbnail;
   return `<button type="button" class="case-tab project-tab" id="project-tab-${key}" role="tab" aria-controls="projectStage" aria-selected="${key===initial}" tabindex="${key===initial?0:-1}" data-project="${key}"><img src="${escapeHTML(thumb.src)}" alt="" width="${thumb.width}" height="${thumb.height}" loading="lazy" decoding="async"><span><strong>${escapeHTML(p.title)}</strong><small>${key==='navalha'?'Conceito / demonstração':escapeHTML(p.segment)}</small></span></button>`;
@@ -25,7 +38,7 @@ export function renderCase(key,p,asset){
   const concept=key==='navalha';
   const leadText=`Olá, OT! Vi o case ${p.title} no site e quero entender uma estrutura parecida para o meu negócio.`;
   const leadHref=`https://wa.me/5511912459144?text=${encodeURIComponent(leadText)}`;
-  const testimonial=p.testimonial?`<figure class="case-testimonial"><div class="review-source"><span aria-label="Avaliação de cinco estrelas no Google">★★★★★</span><span>Avaliação no Google</span></div><blockquote>“${escapeHTML(p.testimonial.quote)}”</blockquote><figcaption><strong>${escapeHTML(p.testimonial.author)}</strong><a href="${escapeHTML(p.testimonial.source)}" target="_blank" rel="noopener noreferrer" aria-label="Ver avaliações da Olegario Tech no Google">Ver no Google ↗</a></figcaption></figure>`:'';
+  const testimonial=p.testimonial?`<figure class="case-testimonial"><div class="review-source"><span aria-label="Avaliação de cinco estrelas no Google">★★★★★</span><span>Avaliação no Google</span></div><blockquote>“${escapeHTML(p.testimonial.quote)}”</blockquote><figcaption><strong>${escapeHTML(p.testimonial.author)}</strong><a href="${escapeHTML(p.testimonial.source)}" target="_blank" rel="noopener noreferrer" aria-label="Ver listagem geral de avaliações da Olegario Tech no Google">Ver avaliações no Google ↗</a></figcaption></figure>`:'';
   return `<div class="case-copy project-copy">
     <span class="case-status"><i aria-hidden="true"></i>${concept?'CONCEITO / DEMONSTRAÇÃO OT':'PROJETO REAL · NO AR'}</span>
     <h3>${escapeHTML(p.title)}</h3>
@@ -303,6 +316,21 @@ addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=req
 // Hydrate the responsive picture and controls without rebuilding the initial story.
 stage.dataset.interactive='true';syncPresentation();syncTabs();
 
-window.OTProjectShowroom={select};
+async function open(key){
+  await select(key);
+  if(selected!==key)return;
+  stage.scrollIntoView({block:'start',behavior:'instant'});
+  stage.focus({preventScroll:true});
+}
+document.querySelectorAll('[data-featured-project]').forEach(link=>{
+  link.setAttribute('aria-controls','projectStage');
+  link.addEventListener('click',async event=>{
+    if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button!==0)return;
+    event.preventDefault();
+    const key=link.dataset.featuredProject;
+    await open(key);
+  });
+});
+window.OTProjectShowroom={select,open};
 }
 if(typeof document!=="undefined")initShowroom(projects);

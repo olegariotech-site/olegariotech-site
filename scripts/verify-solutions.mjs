@@ -46,6 +46,11 @@ async function noOverflow(page){assert.ok(await page.evaluate(()=>document.docum
 async function select(page,key){
   await page.locator(`.choice-tab[data-solution="${key}"]`).click();
   await page.waitForFunction(k=>document.querySelector('#solutionContent').dataset.solution===k&&document.querySelector('#solutionStage').dataset.route===k,key);
+  // A newly inserted <picture> may not have selected its source yet. Calling
+  // decode() while currentSrc is empty rejects even though the image loads next.
+  // Await the actual image (including lazy loading) and still require decoding.
+  await page.locator('#solutionMedia').scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>{const imgs=[...document.querySelectorAll('#solutionMedia img')];return imgs.length>0&&imgs.every(img=>img.currentSrc&&img.complete&&img.naturalWidth>0);},null,{timeout:15000});
   await page.locator('#solutionMedia img').evaluateAll(imgs=>Promise.all(imgs.map(img=>img.decode())));
   assert.equal(await page.locator('.choice-tab[data-solution][aria-selected="true"]').count(),1);
 }
@@ -78,7 +83,7 @@ async function run(width,height,reduced=false){
   assert.deepEqual(await page.locator('#solutionContent li').allTextContents(),bullets);
   assert.equal(await page.locator('.solution-case__status').innerText(),'PROJETO REAL · PUBLICADO');
   assert.equal(await page.locator('.solution-case h4').innerText(),'Armazém Ripamonti');
-  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.”');
+  assert.equal(await page.locator('.solution-case blockquote').innerText(),'“Exatamente como eu queria .trabalho perfeito estou muito satisfeito”');
   assert.equal(await page.locator('.solution-case figcaption').innerText(),'— Evandro Ripamonti');
   assert.ok(!(await page.locator('#solutionStage').innerText()).includes('Mini Mercado'));
   const primary=page.locator('#solutionContent [data-generate-lead]'),secondary=page.locator('.solution-case__link');

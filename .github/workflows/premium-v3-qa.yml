@@ -1,0 +1,62 @@
+name: OT V3 controlled review QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'assets/css/ot-premium-v3.css'
+      - 'assets/css/ot-consent.css'
+      - 'assets/js/ot-analytics*.js'
+      - 'assets/js/ot-mobile-v3.js'
+      - 'assets/js/ot-v2.js'
+      - 'assets/js/ot-project-showroom.mjs'
+      - 'assets/img/projetos/featured-v3/**'
+      - 'scripts/*premium-v3*.mjs'
+      - 'assets/css/ot-mobile-v3.css'
+      - 'assets/css/ot-footer-v4.css'
+      - '.github/workflows/premium-v3-qa.yml'
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install QA tools only
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Check generated showroom and JavaScript
+        run: |
+          node scripts/build-showroom.mjs --check
+          node --check assets/js/ot-analytics-core.js
+          node --check assets/js/ot-project-showroom.mjs
+          node --check assets/js/ot-mobile-v3.js
+          node --check assets/js/ot-v2.js
+          node --check scripts/profile-premium-v3.mjs
+          node --check scripts/verify-premium-v3-final.mjs
+      - name: Verify full home, privacy and all project controls
+        env:
+          OT_QA_OUTPUT: /tmp/ot-premium-v3-qa
+          OT_QA_REQUIRE_ENGINES: '1'
+        run: node scripts/verify-premium-v3.mjs
+      - name: Verify mobile conversion and consent against approved V3
+        env:
+          OT_V3_BEFORE_DIR: /tmp/ot-v3-before-final
+          OT_FINAL_OUTPUT: /tmp/ot-premium-v3-qa/final-mobile
+        run: |
+          git worktree add --detach "$OT_V3_BEFORE_DIR" d89b56b546d1ec26e3ea4232b8e9eef642e2a810
+          node scripts/verify-premium-v3-final.mjs
+      - name: Upload review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-v3-review-qa
+          path: /tmp/ot-premium-v3-qa
+          retention-days: 14
