@@ -36,6 +36,12 @@ const projects=JSON.parse(source.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
 assert.deepEqual(projects,JSON.parse(baselineSource.match(/const projects=(\{[\s\S]*?\n\});/)[1]),'Approved project catalog is unchanged.');
 const changed=execFileSync('git',['diff','--name-only',report.baseCommit],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
 assert.equal(initial,'kl');assert.equal(order.length,6);
+// V3 has explicit, narrower preservation contracts for its approved founder/consent/proof changes.
+// Keep every legacy runtime/interaction check below; the V2-only copy gate still applies to V2 pages.
+if(source.includes('/assets/css/ot-premium-v3.css')){
+  execFileSync(process.execPath,[resolve(root,'scripts/verify-premium-v3.mjs')],{cwd:root,env:{...process.env,OT_QA_STATIC_ONLY:'1',OT_BASELINE_COMMIT:'66db8f5169c30b0904667b56c03a8e9d7e8c3549'},stdio:'pipe'});
+  report.preservationGuard='V3 bounded copy/metadata/event guards; legacy runtime suite retained';
+}else{
 // SEO commercial home, stage 1: accept only the approved copy edits in protected sections.
 // Normalize these explicit phrases back to the approved baseline before strict markup comparison.
 // Any structural, CTA, interactive or unrelated text change must still fail this guard.
@@ -80,6 +86,7 @@ for(const obsolete of obsoleteOverrides){
   approvedV2=approvedV2.replace(obsolete,'');
 }
 assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),approvedV2,'Runtime keeps baseline behavior except removal of obsolete SEO copy overwrites');
+}
 const originalEarth=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-spin.js'],{cwd:root,encoding:'utf8'});
 const currentEarth=await readFile(resolve(root,'assets/js/ot-earth-spin.js'),'utf8');
 const originalTimeline=execFileSync('git',['show',report.baseCommit+':assets/js/ot-earth-journey.js'],{cwd:root,encoding:'utf8'});

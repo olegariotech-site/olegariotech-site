@@ -9,7 +9,6 @@ import {fileURLToPath} from 'node:url';
 import {createServer} from 'node:http';
 import {execFileSync} from 'node:child_process';
 const pw=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
-const {default:AxeBuilder}=await import(process.env.OT_AXE_MODULE||'@axe-core/playwright');
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const output=process.env.OT_QA_OUTPUT||'/tmp/ot-premium-v3-qa';await mkdir(output,{recursive:true});
 const baseline=process.env.OT_BASELINE_COMMIT||'66db8f5169c30b0904667b56c03a8e9d7e8c3549';
@@ -21,6 +20,13 @@ const seo=html=>[...html.matchAll(/<title>[\s\S]*?<\/title>|<meta\b[^>]*>|<link\
 assert.deepEqual(seo(source),seo(before),'home title, metadata and canonical unchanged');
 const section=(html,id)=>html.match(new RegExp(`<section[^>]*id="${id}"[\\s\\S]*?</section>`))[0];
 for(const id of ['inicio','solucoes','metodo','produtos','faq','contato'])assert.equal(section(source,id),section(before,id),`protected ${id} markup`);
+const baselineAbout=section(before,'sobre');
+const approvedAbout=baselineAbout.replace('<div class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" loading="lazy"></div>','<figure class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" width="1280" height="1280" loading="lazy" decoding="async"><figcaption><strong>Alexandre Olegario</strong><span>Fundador · Olegario Tech</span></figcaption></figure>').replace('<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div>','<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div><a class="btn btn-ghost about-diagnostic" href="/diagnostico-digital/">Fazer meu diagnóstico gratuito <span aria-hidden="true">↗</span></a>');
+assert.equal(section(source,'sobre'),approvedAbout,'founder section permits only the caption, image dimensions and existing diagnosis CTA');
+const originalV2=execFileSync('git',['show',`${baseline}:assets/js/ot-v2.js`],{cwd:root,encoding:'utf8'});
+const aboutStart=originalV2.indexOf('  function tuneAbout(){'),aboutEnd=originalV2.indexOf('\n  function tuneProducts()',aboutStart);
+const expectedV2=originalV2.slice(0,aboutStart)+'  // Institutional copy is owned by index.html. Do not overwrite the founder or local positioning.\n  function tuneAbout(){}\n'+originalV2.slice(aboutEnd);
+assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),expectedV2.replace("if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case'","if(key&&window.OTProjectShowroom?.open){e.preventDefault();window.OTProjectShowroom.open(key);}else if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case'"),'runtime allows only canonical founder copy and direct proof-case navigation');
 for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html','produtos/index.html','privacidade/index.html','cookies/index.html']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root,encoding:'utf8'});
  const current=await readFile(resolve(root,path),'utf8');
@@ -28,7 +34,7 @@ for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-camp
 }
 const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.includes(' src='));
 assert.deepEqual(inline(source),inline(before),'inline commercial logic and structured data unchanged');
-for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js']){
+for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
 const analyticsBefore=execFileSync('git',['show',`${baseline}:assets/js/ot-analytics-core.js`],{cwd:root,encoding:'utf8'});
@@ -36,6 +42,7 @@ const analyticsAfter=await readFile(resolve(root,'assets/js/ot-analytics-core.js
 assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  let consentReturnFocus')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function bannerTemplate()')),'consent guards, tag loaders and analytic events unchanged');
 assert.equal(analyticsAfter.slice(analyticsAfter.indexOf('  function installEcosystemSection()')),analyticsBefore.slice(analyticsBefore.indexOf('  function installEcosystemSection()')),'shared setup and boot policy unchanged');
 if(process.env.OT_QA_STATIC_ONLY==='1'){console.log('Protected copy, catalog, SEO, event guards and engine scripts: PASS');process.exit(0);}
+const {default:AxeBuilder}=await import(process.env.OT_AXE_MODULE||'@axe-core/playwright');
 const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg'};
 const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw Error('path');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
