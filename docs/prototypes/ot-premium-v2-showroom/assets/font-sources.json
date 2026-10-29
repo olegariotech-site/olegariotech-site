@@ -1,0 +1,20 @@
+[
+  {
+    "family": "Inter",
+    "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+    "file": "inter.woff2",
+    "bytes": 48256
+  },
+  {
+    "family": "Share Tech Mono",
+    "url": "https://fonts.gstatic.com/s/sharetechmono/v16/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2",
+    "file": "share-tech-mono.woff2",
+    "bytes": 13500
+  },
+  {
+    "family": "Space Grotesk",
+    "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+    "file": "space-grotesk.woff2",
+    "bytes": 22288
+  }
+]
