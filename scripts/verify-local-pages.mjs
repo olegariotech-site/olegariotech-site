@@ -14,7 +14,7 @@ const origin='http://127.0.0.1:'+port;
 const scenarios=[
   {slug:'criacao-de-sites-valinhos',city:'Valinhos',proof:'Armazém Ripamonti',other:'Campinas'},
   {slug:'criacao-de-sites-campinas',city:'Campinas',proof:'K.L Transporte Express',other:'Valinhos'},
-  {slug:'presenca-no-google',city:'Google',proof:'K.L Transporte Express',other:'Campinas',minCards:1}
+  {slug:'presenca-no-google',city:'Google',proof:'K.L Transporte Express',other:'Campinas',minCards:3}
 ];
 const viewports=[
   {width:1440,height:900,profile:'desktop'},
@@ -95,6 +95,18 @@ try{
       assert.ok(info.links.some(x=>x.href.includes(s.other==='Valinhos'?'criacao-de-sites-valinhos':'criacao-de-sites-campinas')),'Cross city navigation');
       assert.ok(info.schema[0]['@graph'].some(n=>n['@type']==='Service'),'Valid service structured data');
       assert.ok(await page.getByText(s.proof).count()>0,'Real case is present '+s.proof);
+      if(s.slug==='presenca-no-google'){
+        const portfolio=await page.locator('.lc-google-portfolio').evaluate(node=>({
+          featured:node.querySelectorAll('.lc-google-featured').length,
+          supporting:node.querySelectorAll('.lc-google-more .lc-case').length,
+          names:[...node.querySelectorAll('.lc-case h3')].map(x=>x.textContent.trim()),
+          links:[...node.querySelectorAll('.lc-case a[href]')].map(x=>x.href)
+        }));
+        assert.equal(portfolio.featured,1,'K.L is a single featured case');
+        assert.equal(portfolio.supporting,2,'Açaí and Adega are two supporting cases');
+        assert.deepEqual(portfolio.names,['K.L Transporte Express','Açaí do Dudu','Adega São Marcos']);
+        for(const url of ['https://kltransporteexpress.com.br/','https://acaidodudu.com.br/','https://adegasaomarcos.com.br/'])assert.ok(portfolio.links.includes(url),'Verified case link '+url);
+      }
       // Force lazy assets into screenshot; never change the production page.
       await page.locator('img[loading="lazy"]').evaluateAll(items=>items.forEach(img=>img.loading='eager'));
       const imgData=await page.locator('img').evaluateAll(items=>Promise.all(items.map(async img=>{
