@@ -13,7 +13,8 @@ const port=Number(process.env.OT_LOCAL_QA_PORT||4173);
 const origin='http://127.0.0.1:'+port;
 const scenarios=[
   {slug:'criacao-de-sites-valinhos',city:'Valinhos',proof:'Armazém Ripamonti',other:'Campinas'},
-  {slug:'criacao-de-sites-campinas',city:'Campinas',proof:'K.L Transporte Express',other:'Valinhos'}
+  {slug:'criacao-de-sites-campinas',city:'Campinas',proof:'K.L Transporte Express',other:'Valinhos'},
+  {slug:'presenca-no-google',city:'Google',proof:'K.L Transporte Express',other:'Campinas',minCards:1}
 ];
 const viewports=[
   {width:1440,height:900,profile:'desktop'},
@@ -79,7 +80,7 @@ try{
       assert.equal(info.h1Count,1);
       assert.ok(info.h1Text.includes(s.city),'H1 targets city');
       assert.ok(info.description.includes(s.city),'Meta description targets city');
-      assert.ok(info.cards>=2,'Real portfolio case cards exist');
+      assert.ok(info.cards>=(s.minCards||2),'Real portfolio case cards exist');
       assert.ok(info.ctaHeight>=44,'CTA touch target');
       if(info.scrollWidth>info.viewportWidth+2){
         const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(node=>{
