@@ -5,6 +5,7 @@ on:
       - 'criacao-de-sites-valinhos/**'
       - 'criacao-de-sites-campinas/**'
       - 'presenca-no-google/**'
+      - 'anuncios-google-instagram/**'
       - 'assets/css/ot-local-commercial.css'
       - 'index.html'
       - 'sitemap.xml'
