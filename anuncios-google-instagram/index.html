@@ -96,6 +96,63 @@
       body[data-page="ot-anuncios"] .ot-ads-device.social{transform:none}
       body[data-page="ot-anuncios"] .ot-ads-channel{padding:24px}
     }
+    /* V1.1: compact commercial first fold, page-local only; no changes to content/JS. */
+    body[data-page="ot-anuncios"] .lc-breadcrumb{padding-top:18px}
+    body[data-page="ot-anuncios"] .ot-ads-hero{min-height:0;align-items:start;gap:34px;padding:26px 0 44px}
+    body[data-page="ot-anuncios"] .ot-ads-hero h1{
+      font-size:clamp(2.75rem,4.35vw,4.7rem);
+      line-height:1.02;
+      letter-spacing:-.055em;
+      margin:12px 0 14px
+    }
+    body[data-page="ot-anuncios"] .ot-ads-hero .lc-intro{line-height:1.58}
+    body[data-page="ot-anuncios"] .ot-ads-hero .lc-buttons{margin-top:18px}
+    body[data-page="ot-anuncios"] .ot-ads-hero .lc-micro{margin-top:12px}
+    body[data-page="ot-anuncios"] .ot-ads-stage{min-height:370px;align-self:center}
+    body[data-page="ot-anuncios"] .lc-section{padding-top:62px;padding-bottom:62px}
+    body[data-page="ot-anuncios"] section[aria-labelledby="ads-cta"]{padding-top:42px;padding-bottom:62px}
+    /* Footer links stay in a unified row on large screens rather than orphaning Privacy. */
+    @media(min-width:1200px){
+      body[data-page="ot-anuncios"] .lc-footer-inner{
+        display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:24px
+      }
+      body[data-page="ot-anuncios"] .lc-footer-links{
+        justify-content:flex-end;flex-wrap:nowrap;gap:clamp(8px,1vw,16px);font-size:.8rem
+      }
+      body[data-page="ot-anuncios"] .lc-footer-links a{white-space:nowrap}
+    }
+    /* Keep the preference trigger accessible but away from the text-focused left column. */
+    body[data-page="ot-anuncios"] .ot-consent-settings{
+      left:auto;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));
+      min-height:44px;padding:0 13px
+    }
+    @media(max-width:980px){
+      body[data-page="ot-anuncios"] .ot-ads-hero{
+        gap:18px;padding:24px 0 40px;align-items:stretch
+      }
+      body[data-page="ot-anuncios"] .ot-ads-stage{min-height:350px;align-self:center}
+      body[data-page="ot-anuncios"] .lc-section{padding-top:56px;padding-bottom:56px}
+    }
+    @media(max-width:760px){
+      body[data-page="ot-anuncios"] .ot-ads-hero h1{
+        font-size:clamp(2.4rem,9.5vw,3.7rem);margin:14px 0 14px
+      }
+      body[data-page="ot-anuncios"] .ot-ads-hero .lc-intro{line-height:1.66}
+      body[data-page="ot-anuncios"] .ot-ads-stage{min-height:0;width:100%}
+      body[data-page="ot-anuncios"] .lc-footer-links{gap:12px 17px}
+      body[data-page="ot-anuncios"] .ot-consent-settings{
+        right:12px;left:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));
+        width:44px;max-width:44px;height:44px;min-height:44px;
+        display:flex;align-items:center;justify-content:center;
+        padding:0;border-radius:50%;font-size:0;line-height:0;
+        overflow:hidden
+      }
+      /* Original button text remains the accessible name; icon is only decorative. */
+      body[data-page="ot-anuncios"] .ot-consent-settings::after{
+        content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;
+        color:#67e8f9;pointer-events:none
+      }
+    }
   </style>
 </head>
 <body data-page="ot-anuncios">
