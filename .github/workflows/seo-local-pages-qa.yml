@@ -4,6 +4,7 @@ on:
     paths:
       - 'criacao-de-sites-valinhos/**'
       - 'criacao-de-sites-campinas/**'
+      - 'presenca-no-google/**'
       - 'assets/css/ot-local-commercial.css'
       - 'index.html'
       - 'sitemap.xml'
