@@ -19,7 +19,14 @@ const projects=catalog(source),approvedProjects=catalog(before);assert.equal(app
 const seo=html=>[...html.matchAll(/<title>[\s\S]*?<\/title>|<meta\b[^>]*>|<link\b[^>]*rel="canonical"[^>]*>/g)].map(m=>m[0]);
 assert.deepEqual(seo(source),seo(before),'home title, metadata and canonical unchanged');
 const section=(html,id)=>html.match(new RegExp(`<section[^>]*id="${id}"[\\s\\S]*?</section>`))[0];
-for(const id of ['inicio','solucoes','metodo','produtos','faq','contato'])assert.equal(section(source,id),section(before,id),`protected ${id} markup`);
+// SEO Local V2: explicitly allow only the two approved, static city links in the solutions intro.
+const localLinks='<nav class="ot-local-links" aria-label="Conheça a criação de sites por cidade"><a href="/criacao-de-sites-valinhos/">Criação de sites em Valinhos</a><a href="/criacao-de-sites-campinas/">Criação de sites em Campinas</a></nav>';
+const solutionBase=section(before,'solucoes');
+const insertionAnchor='Escolha a situação que mais combina com seu negócio.</p></div><div class="choice-tabs"';
+assert.equal(solutionBase.split(insertionAnchor).length,2,'protected solutions insertion point remains unique');
+const expectedSolutions=solutionBase.replace(insertionAnchor,'Escolha a situação que mais combina com seu negócio.</p>'+localLinks+'</div><div class="choice-tabs"');
+assert.equal(section(source,'solucoes'),expectedSolutions,'protected solucoes markup except explicitly approved internal city links');
+for(const id of ['inicio','metodo','produtos','faq','contato'])assert.equal(section(source,id),section(before,id),`protected ${id} markup`);
 const baselineAbout=section(before,'sobre');
 const approvedAbout=baselineAbout.replace('<div class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" loading="lazy"></div>','<figure class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" width="1280" height="1280" loading="lazy" decoding="async"><figcaption><strong>Alexandre Olegario</strong><span>Fundador · Olegario Tech</span></figcaption></figure>').replace('<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div>','<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div><a class="btn btn-ghost about-diagnostic" href="/diagnostico-digital/">Fazer meu diagnóstico gratuito <span aria-hidden="true">↗</span></a>');
 assert.equal(section(source,'sobre'),approvedAbout,'founder section permits only the caption, image dimensions and existing diagnosis CTA');
