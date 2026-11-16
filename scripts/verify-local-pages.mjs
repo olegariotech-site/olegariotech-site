@@ -102,6 +102,10 @@ try{
           names:[...node.querySelectorAll('.lc-case h3')].map(x=>x.textContent.trim()),
           links:[...node.querySelectorAll('.lc-case a[href]')].map(x=>x.href)
         }));
+        const featuredMedia=await page.locator('.lc-google-featured .lc-case-media').boundingBox();
+        const featuredImage=await page.locator('.lc-google-featured .lc-case-media img').boundingBox();
+        assert.ok(featuredMedia&&featuredMedia.height>=100,'K.L featured media must remain visually visible on '+engine+' '+profile);
+        assert.ok(featuredImage&&featuredImage.height>=100,'K.L image must have visible height on '+engine+' '+profile);
         assert.equal(portfolio.featured,1,'K.L is a single featured case');
         assert.equal(portfolio.supporting,2,'Açaí and Adega are two supporting cases');
         assert.deepEqual(portfolio.names,['K.L Transporte Express','Açaí do Dudu','Adega São Marcos']);
