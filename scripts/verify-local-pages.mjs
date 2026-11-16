@@ -124,7 +124,7 @@ try{
         assert.ok(ads.hasNoTrackingWithoutConsent,'Analytics consent defaults to denied');
         assert.ok(await page.locator('a[href="/presenca-no-google/"]').count()>0,'Organic SEO service link is available');
         const polish=await page.evaluate(()=>{
-          const rect=node=>{const r=node?.getBoundingClientRect();return r?{top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height}:null};
+          const rect=node=>{const r=node?.getBoundingClientRect();return r?{top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height,width:r.width}:null};
           const links=document.querySelector('.lc-footer-links');
           const items=links?[...links.querySelectorAll('a')]:[];
           const section=document.querySelector('[aria-labelledby="ads-processo"]');
@@ -143,8 +143,10 @@ try{
           assert.ok(polish.footerFirst&&polish.footerLast&&Math.abs(polish.footerFirst.top-polish.footerLast.top)<3,
             'Desktop footer links must remain on the same row');
         }
+        assert.ok(polish.privacy,'Privacy settings trigger must exist');
         if(polish.privacy){
           assert.ok(polish.privacy.height>=44,'Privacy trigger keeps a 44px minimum touch target');
+          if(profile==='mobile')assert.ok(polish.privacy.width<=48,'Mobile privacy icon stays compact');
           assert.ok(polish.privacy.right>=polish.viewport-38,'Privacy preferences remain docked right');
         }
 
@@ -177,6 +179,12 @@ try{
       const png=resolve(output,s.slug+'-'+engine+'-'+profile+'.png');
       await page.screenshot({path:png,fullPage:true,animations:'disabled'});
       screenshotPaths.push(png);
+      if(s.kind==='ads'&&profile==='mobile'){
+        const trigger=page.locator('.ot-consent-settings');
+        assert.match(await trigger.innerText(),/Privacidade/i,'Privacy icon retains accessible text');
+        await trigger.click();
+        assert.ok(await page.locator('.ot-consent.is-visible').count()>0,'Privacy panel can still be opened from compact icon');
+      }
       findings.push({city:s.city,engine,profile,viewport:width+'x'+height,title:info.title,h1:info.h1Text,canonical:info.canonical,imageCount:imgData.length,jsErrors,missing,noHorizontalOverflow:true});
       await context.close();
     }
