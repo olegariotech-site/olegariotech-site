@@ -1,0 +1,65 @@
+name: OT commercial premium candidate QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'criacao-de-sites-valinhos/**'
+      - 'criacao-de-sites-campinas/**'
+      - 'presenca-no-google/**'
+      - 'anuncios-google-instagram/**'
+      - 'diagnostico-digital/**'
+      - 'assets/css/ot-commercial-premium.css'
+      - 'assets/js/ot-commercial-context.js'
+      - 'assets/js/ot-diagnostic-v2.js'
+      - 'assets/img/brand/ot-logo-commercial.svg'
+      - 'docs/reviews/commercial-premium/**'
+      - 'scripts/*commercial*.mjs'
+      - '.github/workflows/commercial-premium-qa.yml'
+permissions:
+  contents: read
+jobs:
+  commercial:
+    name: Commercial review (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing browser QA dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Validate candidate JavaScript syntax
+        run: |
+          node --check assets/js/ot-commercial-context.js
+          node --check assets/js/ot-diagnostic-v2.js
+          node --check scripts/verify-commercial-premium.mjs
+          node --check scripts/render-commercial-kit.mjs
+      - name: Export sharing kit from original brand assets
+        if: matrix.engine == 'chromium'
+        env:
+          OT_COMMERCIAL_OUTPUT: /tmp/ot-commercial-premium
+        run: node scripts/render-commercial-kit.mjs
+      - name: Compare exact production baseline and candidate
+        env:
+          OT_COMMERCIAL_ENGINE: ${{ matrix.engine }}
+          OT_COMMERCIAL_OUTPUT: /tmp/ot-commercial-premium
+          OT_COMMERCIAL_BEFORE: /tmp/ot-commercial-before
+        run: |
+          git worktree add --detach "$OT_COMMERCIAL_BEFORE" 2d6873bffbc66aafd1ff153a0455546b507a9759
+          node scripts/verify-commercial-premium.mjs
+      - name: Upload comparison, kit and test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-commercial-premium-${{ matrix.engine }}
+          path: /tmp/ot-commercial-premium
+          retention-days: 30

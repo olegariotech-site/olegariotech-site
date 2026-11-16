@@ -1,0 +1,96 @@
+/* OT commercial continuity. Opt-in only: the immersive home does not load this file. */
+body.ot-commercial{--ot-canvas:#050008;--ot-deep:#090616;--ot-ink:#f3f4ff;--ot-secondary:#b7bed0;--ot-ice:#67e8f9;--ot-edge:rgba(255,255,255,.12);color:var(--ot-ink);background-color:var(--ot-canvas)}
+.ot-commercial :focus-visible{outline:3px solid var(--ot-ice);outline-offset:4px}
+.ot-commercial .ot-site-header{position:sticky;top:0;z-index:45;border-bottom:1px solid var(--ot-edge);background:rgba(5,0,8,.94);backdrop-filter:blur(14px);padding-top:env(safe-area-inset-top,0px)}
+.ot-commercial .ot-header-inner,.ot-commercial .ot-content-shell,.ot-commercial .ot-footer-inner{width:min(1200px,calc(100% - 48px));margin-inline:auto}
+.ot-commercial .ot-header-inner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:78px}
+.ot-commercial .ot-brand{display:inline-flex;align-items:center;gap:12px;flex-shrink:0;font:700 .93rem/1.25 "Space Grotesk",sans-serif;letter-spacing:.035em;text-decoration:none}
+.ot-commercial .ot-brand img{display:block;width:40px;height:44px;object-fit:contain;flex-shrink:0}
+.ot-commercial .ot-brand small{display:block;margin-top:4px;font:500 .65rem/1.3 Inter,sans-serif;letter-spacing:0;color:var(--ot-secondary)}
+.ot-commercial .ot-desktop-nav{display:flex;gap:18px;align-items:center;font-size:.78rem;font-weight:600}
+.ot-commercial .ot-desktop-nav a,.ot-commercial .ot-service-menu a{display:flex;align-items:center;min-height:44px}
+.ot-commercial .ot-desktop-nav [aria-current],.ot-commercial .ot-service-menu [aria-current]{color:var(--ot-ice);text-decoration:underline;text-underline-offset:7px}
+.ot-commercial .ot-desktop-nav a:hover,.ot-commercial .ot-site-footer a:hover{color:var(--ot-ice)}
+.ot-commercial .ot-service-menu{display:none;position:relative}
+.ot-commercial .ot-service-menu summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;border:1px solid var(--ot-edge);border-radius:14px;padding:10px 14px;font-size:.83rem;font-weight:700;cursor:pointer;list-style:none}
+.ot-commercial .ot-service-menu summary::-webkit-details-marker{display:none}
+.ot-commercial .ot-service-menu summary span{color:var(--ot-ice)}
+.ot-commercial .ot-service-menu[open] summary span{transform:rotate(45deg)}
+.ot-commercial .ot-service-menu nav{position:absolute;right:0;top:calc(100% + 12px);width:min(330px,calc(100vw - 32px));padding:12px;border:1px solid var(--ot-edge);border-radius:18px;background:#090616;box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.ot-commercial .ot-service-menu nav a{padding:10px 12px;border-radius:10px;font-size:.9rem}
+.ot-commercial .ot-service-menu nav a:hover{background:rgba(103,232,249,.07)}
+.ot-commercial .lc-breadcrumb,.ot-commercial .ot-breadcrumb{padding-top:20px;font-size:.78rem;line-height:1.5;color:var(--ot-secondary)}
+.ot-commercial .ot-breadcrumb{display:flex;flex-wrap:wrap;gap:10px;padding-bottom:24px}
+.ot-commercial .ot-breadcrumb a{text-decoration:underline;text-underline-offset:4px}
+body.ot-commercial .lc-hero{min-height:0;gap:40px;padding-block:36px 56px}
+body.ot-commercial .lc-hero h1{font-size:clamp(2.5rem,4vw,4.2rem);line-height:1.04;letter-spacing:-.05em;margin:16px 0 20px}
+body.ot-commercial .lc-intro{font-size:1rem;line-height:1.7;max-width:62ch}
+body.ot-commercial .lc-buttons{margin-top:24px;gap:12px}
+body.ot-commercial .lc-btn{min-height:48px;border-radius:14px;font-size:.88rem}
+body.ot-commercial .lc-btn-primary{box-shadow:0 10px 24px rgba(34,211,238,.1)}
+body.ot-commercial .lc-section{padding-block:64px}
+body.ot-commercial .lc-card,body.ot-commercial .lc-case{border-radius:22px;border-color:var(--ot-edge)}
+body.ot-commercial .lc-card{background:linear-gradient(150deg,rgba(255,255,255,.04),rgba(9,6,22,.8));box-shadow:none}
+body.ot-commercial .lc-orbit:after{box-shadow:0 0 70px 28px rgba(31,119,206,.12)}
+body.ot-commercial .lc-orbit-caption{right:0;max-width:250px;border-radius:18px}
+body.ot-commercial .lc-callout{border-radius:26px}
+.ot-commercial .ot-kicker{font:500 .72rem/1.5 "Share Tech Mono",monospace;letter-spacing:.12em;color:var(--ot-ice)}
+.ot-commercial .ot-proof{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;padding-block:40px;border-top:1px solid var(--ot-edge);align-items:start}
+.ot-commercial .ot-proof p{color:var(--ot-secondary);margin:8px 0 0;font-size:.9rem;line-height:1.65}
+.ot-commercial .ot-review{margin:0;min-width:0}
+.ot-commercial .ot-review blockquote{margin:0 0 16px;font:500 clamp(1.1rem,2vw,1.4rem)/1.55 "Space Grotesk",sans-serif}
+.ot-commercial .ot-review figcaption{display:flex;gap:8px 20px;align-items:center;flex-wrap:wrap;font-size:.8rem;line-height:1.6}
+.ot-commercial .ot-review figcaption a{display:inline-flex;align-items:center;min-height:44px;color:var(--ot-ice);text-decoration:underline;text-underline-offset:4px}
+.ot-commercial .ot-contract{padding-block:40px 64px}
+.ot-commercial .ot-contract h2,.ot-commercial .ot-infrastructure h2{font:700 clamp(1.8rem,3vw,2.6rem)/1.1 "Space Grotesk",sans-serif;letter-spacing:-.04em;margin:12px 0 24px}
+.ot-commercial .ot-contract ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;list-style:none;margin:0;padding:0}
+.ot-commercial .ot-contract li{min-width:0;padding-top:16px;border-top:1px solid var(--ot-edge)}
+.ot-commercial .ot-contract li strong{display:block;font-size:.93rem}
+.ot-commercial .ot-contract li span{display:block;margin-top:8px;font-size:.85rem;line-height:1.65;color:var(--ot-secondary)}
+.ot-commercial .ot-infrastructure{padding-block:32px 56px}
+.ot-commercial .ot-infrastructure>p{max-width:70ch;color:var(--ot-secondary);margin-bottom:24px}
+.ot-commercial .ot-site-footer{display:block;border-top:1px solid var(--ot-edge);padding:32px 0 calc(76px + env(safe-area-inset-bottom,0px));color:var(--ot-secondary)}
+body.ot-commercial .ot-site-footer .lc-footer-inner{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+body.ot-commercial .ot-site-footer .lc-footer-links{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:4px 20px;font-size:.8rem}
+.ot-commercial .ot-site-footer .lc-footer-links a{display:inline-flex;align-items:center;min-height:44px;white-space:normal}
+.ot-commercial .ot-site-footer .lc-footer-copy{font-size:.78rem;line-height:1.7;margin-top:12px;color:var(--ot-secondary)}
+.ot-commercial .ot-field-label{display:block;margin-bottom:8px;font-size:.85rem;font-weight:600}
+body.ot-commercial[data-page="ot-diagnostico"] .page{display:block;height:auto}
+body.ot-commercial[data-page="ot-diagnostico"] .main{display:block;min-height:0;height:auto;padding:0 0 32px;width:min(1200px,calc(100% - 48px))}
+body.ot-commercial[data-page="ot-diagnostico"] .diagnostic-card{min-height:0;max-height:none;border-radius:26px;box-shadow:none}
+body.ot-commercial[data-page="ot-diagnostico"] .title{font-size:clamp(2.15rem,3.4vw,3.35rem);line-height:1.04}
+body.ot-commercial[data-page="ot-diagnostico"] .eyebrow,body.ot-commercial[data-page="ot-diagnostico"] .kicker{color:var(--ot-ice)}
+body.ot-commercial[data-page="ot-diagnostico"] .brand-mark{background:none;box-shadow:none}
+body.ot-commercial[data-page="ot-diagnostico"] .live-note,body.ot-commercial[data-page="ot-diagnostico"] .micro,body.ot-commercial[data-page="ot-diagnostico"] .small{color:var(--ot-secondary)}
+body.ot-commercial[data-page="ot-diagnostico"] .quiz-head span,body.ot-commercial[data-page="ot-diagnostico"] .signal-value{color:#b7bed0}
+body.ot-commercial[data-page="ot-diagnostico"] .btn{border-radius:14px;min-height:48px}
+.ot-commercial .opt:active,.ot-commercial .lc-btn:active{transform:translateY(1px)}
+@media(max-width:1100px){.ot-commercial .ot-desktop-nav{gap:12px;font-size:.72rem}}
+@media(max-width:980px){
+ .ot-commercial .ot-desktop-nav{display:none}.ot-commercial .ot-service-menu{display:block}
+ .ot-commercial .ot-header-inner{min-height:68px}
+ body.ot-commercial .lc-hero{gap:24px;padding-block:28px 40px}
+ body.ot-commercial .lc-orbit{width:min(75%,360px)}
+ .ot-commercial .ot-contract ol{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ .ot-commercial .ot-header-inner,.ot-commercial .ot-content-shell,.ot-commercial .ot-footer-inner,body.ot-commercial[data-page="ot-diagnostico"] .main{width:calc(100% - 32px)}
+ .ot-commercial .ot-brand{font-size:.8rem;gap:10px}.ot-commercial .ot-brand small{font-size:.57rem}
+ .ot-commercial .ot-brand img{width:32px;height:36px}
+ body.ot-commercial .lc-hero h1{font-size:clamp(2.05rem,8.8vw,3.4rem);line-height:1.05;margin:12px 0 16px}
+ body.ot-commercial .lc-intro{font-size:.95rem;line-height:1.65}
+ body.ot-commercial .lc-buttons{margin-top:20px}
+ body.ot-commercial .lc-orbit{width:min(85%,340px);margin-top:20px}
+ body.ot-commercial .lc-orbit-caption{position:relative;right:auto;bottom:auto;width:100%;max-width:100%;margin-top:-28px;backdrop-filter:none}
+ body.ot-commercial .lc-section{padding-block:48px}
+ .ot-commercial .ot-proof{grid-template-columns:1fr;gap:20px;padding-block:32px}
+ .ot-commercial .ot-contract{padding-block:24px 48px}
+ body.ot-commercial[data-page="ot-diagnostico"] .diagnostic-card{padding:18px;gap:20px}
+ body.ot-commercial[data-page="ot-diagnostico"] .title{font-size:clamp(2rem,8.4vw,3rem)}
+ body.ot-commercial[data-page="ot-diagnostico"] .lead{font-size:.98rem;line-height:1.65}
+ body.ot-commercial[data-page="ot-diagnostico"] .quiz-panel{padding:18px}
+ body.ot-commercial[data-page="ot-diagnostico"] .quick-proof{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ body.ot-commercial[data-page="ot-diagnostico"] .proof span{font-size:.65rem}
+}
+@media(max-width:380px){.ot-commercial .ot-brand small{max-width:145px}.ot-commercial .ot-header-inner{gap:10px}.ot-commercial .ot-service-menu summary{gap:9px;padding-inline:10px}.ot-commercial .ot-contract ol{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ot-commercial,.ot-commercial *,.ot-commercial *::before,.ot-commercial *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
