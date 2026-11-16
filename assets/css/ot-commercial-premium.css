@@ -94,3 +94,7 @@ body.ot-commercial[data-page="ot-diagnostico"] .btn{border-radius:14px;min-heigh
 }
 @media(max-width:380px){.ot-commercial .ot-brand small{max-width:145px}.ot-commercial .ot-header-inner{gap:10px}.ot-commercial .ot-service-menu summary{gap:9px;padding-inline:10px}.ot-commercial .ot-contract ol{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.ot-commercial,.ot-commercial *,.ot-commercial *::before,.ot-commercial *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Keep decorative ellipses inside their grid cells instead of masking document overflow. */
+body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:10%;transform:rotate(-18deg) scaleX(1.02)}
+@media(max-width:760px){body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:4%;transform:none}}

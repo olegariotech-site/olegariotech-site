@@ -56,6 +56,11 @@ jobs:
         run: |
           git worktree add --detach "$OT_COMMERCIAL_BEFORE" 2d6873bffbc66aafd1ff153a0455546b507a9759
           node scripts/verify-commercial-premium.mjs
+      - name: Expose bounded public image previews for review
+        if: always() && matrix.engine == 'chromium'
+        env:
+          OT_COMMERCIAL_OUTPUT: /tmp/ot-commercial-premium
+        run: node scripts/export-commercial-review.mjs
       - name: Upload comparison, kit and test evidence
         if: always()
         uses: actions/upload-artifact@v4

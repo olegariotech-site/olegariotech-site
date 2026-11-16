@@ -26,14 +26,14 @@ await mkdir(output,{recursive:true});
 const servers=[spawn('python3',['-m','http.server','4187','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'}),spawn('python3',['-m','http.server','4188','--bind','127.0.0.1'],{cwd:before,stdio:'ignore'})];
 let browser;
 const report={engine,staticProtected:true,findings:[],errors:[],accessibility:[],performance:[],knownLimitation:'Issue #126: intent is not received conversation or qualified lead; semantics unchanged'};
-async function newContext(width,height,motion='reduce'){
+async function newContext(width,height,motion='reduce',analytics='denied',marketing='denied'){
  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion});
- await context.addInitScript(()=>{
-  localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
+ await context.addInitScript(({analytics,marketing})=>{
+  localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics,marketing}));
   window.__qaVitals={lcp:null,cls:0};
   try{new PerformanceObserver(list=>{for(const e of list.getEntries())window.__qaVitals.lcp=e.startTime}).observe({type:'largest-contentful-paint',buffered:true});}catch{}
   try{new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput)window.__qaVitals.cls+=e.value}).observe({type:'layout-shift',buffered:true});}catch{}
- });
+ },{analytics,marketing});
  // Intercept collection and offsite navigation. QA never sends production analytics.
  await context.route('**/*',route=>{
   const u=new URL(route.request().url());
@@ -83,9 +83,10 @@ try{
     assert.deepEqual(axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})),[],'Accessibility '+slug);
    }
    await page.screenshot({path:resolve(output,slug+'-'+engine+'-'+width+'-after.png'),fullPage:true,animations:'disabled'});
+   if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:resolve(output,slug+'-'+width+'-after-viewport.jpg'),quality:72,type:'jpeg'});}
    if(width===390||width===1440){
     const oldPage=await context.newPage();await oldPage.goto(baseline+'/'+slug+'/',{waitUntil:'load'});await stable(oldPage);
-    await oldPage.screenshot({path:resolve(output,slug+'-'+engine+'-'+width+'-before.png'),fullPage:true,animations:'disabled'});await oldPage.close();
+    await oldPage.screenshot({path:resolve(output,slug+'-'+engine+'-'+width+'-before.png'),fullPage:true,animations:'disabled'});await oldPage.evaluate(()=>window.scrollTo(0,0));await oldPage.screenshot({path:resolve(output,slug+'-'+width+'-before-viewport.jpg'),quality:72,type:'jpeg'});await oldPage.close();
    }
    report.findings.push({slug,width,height,...metrics});
   }catch(e){
@@ -117,6 +118,30 @@ try{
   assert.equal(await page.evaluate(()=>document.activeElement.classList.contains('skip-link')),true);
   await page.keyboard.press('Enter');assert.ok(await page.locator('#conteudo').isVisible());await context.close();
  }
+
+ // Prove consent isolation and preserve the known Issue #126 event semantics.
+ report.consent=[];
+ for(const choice of [['denied','denied'],['granted','denied'],['denied','granted']]){
+  const [analytics,marketing]=choice,context=await newContext(390,844,'reduce',analytics,marketing),page=await context.newPage();
+  await page.goto(origin+'/diagnostico-digital/?debug_analytics=1',{waitUntil:'load'});
+  await page.waitForFunction(()=>Boolean(window.OTAnalytics));
+  assert.equal(await page.locator('#ot-ga4-script').count(),analytics==='granted'?1:0);
+  assert.equal(await page.locator('#ot-meta-pixel-script').count(),marketing==='granted'?1:0);
+  await page.locator('[data-start-link]').click();
+  for(let n=0;n<5;n++){await page.locator('.step.active .opt').first().click();await page.locator('.step.active[data-step="'+(n+1)+'"]').waitFor();}
+  await page.locator('[data-finish]').click();
+  await page.locator('#waLink').evaluate(link=>link.addEventListener('click',e=>e.preventDefault()));await page.locator('#waLink').click();
+  const events=await page.evaluate(()=>({
+   ga:(window.dataLayer||[]).filter(x=>x[0]==='event').map(x=>x[1]),
+   meta:(window.fbq?.queue||[]).filter(x=>x[0]==='track').map(x=>x[1])
+  }));
+  for(const name of ['diagnostico_inicio','diagnostico_concluido','click_whatsapp','generate_lead'])assert.equal(events.ga.filter(x=>x===name).length,analytics==='granted'?1:0,'GA '+name+' / '+choice);
+  if(marketing==='denied')assert.deepEqual(events.meta,[]);
+  else for(const name of ['PageView','Contact','Lead'])assert.equal(events.meta.filter(x=>x===name).length,1,'Legacy Pixel '+name);
+  report.consent.push({analytics,marketing,events,note:'Legacy generate_lead/Lead on click remains an open measurement gate'});
+  await context.close();
+ }
+
  if(engine==='chromium')for(const slug of slugs)for(const [width,height] of [[390,844],[1440,900]]){
   const measured={slug,width,height,before:[],after:[]};
   for(let sample=0;sample<3;sample++)for(const [name,base] of [['before',baseline],['after',origin]]){
@@ -128,7 +153,7 @@ try{
   report.performance.push(measured);
  }
  report.success=report.errors.length===0;await writeFile(resolve(output,'report-'+engine+'.json'),JSON.stringify(report,null,2));
- console.log(JSON.stringify({engine,success:report.success,viewports:report.findings.length,errors:report.errors,performanceComparisons:report.performance.length,visualInspection:false}));
+ console.log(JSON.stringify({engine,success:report.success,viewports:report.findings.length,errors:report.errors,performanceComparisons:report.performance.length,performance:report.performance,consent:report.consent,visualInspection:false}));
  assert.equal(report.errors.length,0,'Review recorded failures');
 }catch(e){
  report.success=false;report.fatal=e.stack;await writeFile(resolve(output,'report-'+engine+'.json'),JSON.stringify(report,null,2));throw e;
