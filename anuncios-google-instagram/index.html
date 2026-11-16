@@ -142,7 +142,15 @@
       body[data-page="ot-anuncios"] .lc-footer-links{gap:12px 17px}
       body[data-page="ot-anuncios"] .ot-consent-settings{
         right:12px;left:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));
-        max-width:min(58vw,210px);min-height:44px
+        width:44px;max-width:44px;height:44px;min-height:44px;
+        display:flex;align-items:center;justify-content:center;
+        padding:0;border-radius:50%;font-size:0;line-height:0;
+        overflow:hidden
+      }
+      /* Original button text remains the accessible name; icon is only decorative. */
+      body[data-page="ot-anuncios"] .ot-consent-settings::after{
+        content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;
+        color:#67e8f9;pointer-events:none
       }
     }
   </style>
