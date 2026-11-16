@@ -34,6 +34,26 @@
     gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
   </script>
   <script src="/assets/js/ot-analytics.js?v=9" defer></script>
+  <style>
+    /* OT — Portfólio da página Google; escopo local para preservar home e páginas de cidades. */
+    body[data-page="seo-local-presenca-no-google"] .lc-google-cases{display:grid;gap:18px}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-featured{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);min-height:350px;align-items:stretch}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-featured .lc-case-media{min-width:0;height:100%;min-height:350px;aspect-ratio:auto}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-featured .lc-case-media img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-featured .lc-case-body{justify-content:center;padding:clamp(24px,3vw,42px)}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-featured .lc-case-body>p{flex:0 0 auto}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-proof-note{padding-top:12px;border-top:1px solid rgba(255,255,255,.1);font-size:.83rem!important;color:#abb7d1!important}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-more .lc-case-media{aspect-ratio:2.05}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-disclaimer{max-width:950px;margin:5px 0 0;color:#aab5ca;font-size:.8rem;line-height:1.6}
+    body[data-page="seo-local-presenca-no-google"] .lc-google-portfolio-link{width:max-content;max-width:100%}
+    @media(max-width:760px){
+      body[data-page="seo-local-presenca-no-google"] .lc-google-featured{grid-template-columns:1fr;min-height:0}
+      body[data-page="seo-local-presenca-no-google"] .lc-google-featured .lc-case-media{height:auto;min-height:0;aspect-ratio:1.75}
+      body[data-page="seo-local-presenca-no-google"] .lc-google-more{grid-template-columns:1fr}
+      body[data-page="seo-local-presenca-no-google"] .lc-google-more .lc-case-media{aspect-ratio:1.8}
+    }
+  </style>
 </head>
 <body data-page="seo-local-presenca-no-google">
   <a class="lc-skip" href="#conteudo">Pular para o conteúdo</a>
@@ -102,17 +122,51 @@
         </div>
       </div>
     </section>
-    <section class="lc-section lc-shell" aria-labelledby="google-case">
+    <section class="lc-section lc-shell lc-google-portfolio" aria-labelledby="google-case">
       <div class="lc-section-heading">
         <span class="lc-label">PROVA ANTES DA PROMESSA</span>
-        <h2 id="google-case">Presença local na prática: K.L Transporte Express.</h2>
-        <p>Um exemplo de projeto real em Campinas, com estruturação do site, páginas de serviços e caminhos de orçamento. O case ilustra a integração entre conteúdo local e atendimento, não uma garantia de posição no Google.</p>
+        <h2 id="google-case">Projetos reais. <span class="lc-gradient">Soluções para diferentes negócios.</span></h2>
+        <p>A K.L Transporte Express é nosso destaque nesta página: um projeto com serviços organizados, apresentação local e caminhos de contato. Açaí do Dudu e Adega São Marcos mostram como a OT também estrutura vitrines digitais para negócios de proximidade.</p>
       </div>
-      <div class="lc-cases">
-        <article class="lc-case">
-          <div class="lc-case-media"><img src="/assets/img/projetos/showroom-v2/kl-desktop.webp" alt="Captura do site da K.L Transporte Express, projeto da OT em Campinas" loading="lazy" decoding="async"></div>
-          <div class="lc-case-body"><span class="lc-label">PROJETO REAL · CAMPINAS</span><h3>K.L Transporte Express</h3><p>Site responsivo, páginas específicas para diferentes modalidades de transporte e contatos para solicitar orçamento. Conheça a execução no projeto publicado.</p><a class="lc-text-link" href="https://kltransporteexpress.com.br/" target="_blank" rel="noopener noreferrer">Conhecer o site publicado <span aria-hidden="true">↗</span></a></div>
+      <div class="lc-google-cases" aria-label="Portfólio real da Olegario Tech">
+        <article class="lc-case lc-google-featured">
+          <div class="lc-case-media">
+            <img src="/assets/img/projetos/showroom-v2/kl-desktop.webp" alt="Página inicial do site K.L Transporte Express, com os serviços de transporte e solicitação de orçamento" loading="lazy" decoding="async">
+          </div>
+          <div class="lc-case-body">
+            <span class="lc-label">CASE PRINCIPAL · TRANSPORTE · CAMPINAS</span>
+            <h3>K.L Transporte Express</h3>
+            <p>Site profissional responsivo, organização das modalidades de transporte, conteúdo específico para serviços e contato direcionado ao orçamento.</p>
+            <p class="lc-google-proof-note">Exemplo de estrutura digital com foco no atendimento local. O projeto não representa promessa de posição no Google.</p>
+            <a class="lc-text-link" href="https://kltransporteexpress.com.br/" target="_blank" rel="noopener noreferrer">Conhecer o site da K.L <span aria-hidden="true">↗</span></a>
+          </div>
         </article>
+        <div class="lc-google-more">
+          <article class="lc-case">
+            <div class="lc-case-media">
+              <img src="/assets/img/projetos/showroom-v2/acai-desktop.webp" alt="Página do Açaí do Dudu com identidade visual e vitrine digital de produtos" loading="lazy" decoding="async">
+            </div>
+            <div class="lc-case-body">
+              <span class="lc-label">PRESENÇA DIGITAL · ALIMENTAÇÃO · VALINHOS</span>
+              <h3>Açaí do Dudu</h3>
+              <p>Site com apresentação de produtos, cardápio e sabores, facilitando a consulta antes do contato pelo WhatsApp.</p>
+              <a class="lc-text-link" href="https://acaidodudu.com.br/" target="_blank" rel="noopener noreferrer">Conhecer o site do Açaí <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="lc-case">
+            <div class="lc-case-media">
+              <img src="/assets/img/projetos/showroom-v2/adega-desktop.webp" alt="Página da Adega São Marcos com apresentação de chopp e acesso ao atendimento" loading="lazy" decoding="async">
+            </div>
+            <div class="lc-case-body">
+              <span class="lc-label">PRESENÇA DIGITAL · VAREJO · VALINHOS</span>
+              <h3>Adega São Marcos</h3>
+              <p>Vitrine digital para apresentar opções de chopp e facilitar a conversa comercial e a solicitação de informações.</p>
+              <a class="lc-text-link" href="https://adegasaomarcos.com.br/" target="_blank" rel="noopener noreferrer">Conhecer o site da Adega <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+        <p class="lc-google-disclaimer">Os exemplos mostram entregas reais de sites e presença digital. Não afirmamos aumento de posicionamento orgânico, volume de vendas ou aparições em respostas de IA sem medição comprovada.</p>
+        <a class="lc-text-link lc-google-portfolio-link" href="/#projetos">Explorar outros projetos da OT <span aria-hidden="true">↗</span></a>
       </div>
     </section>
     <section class="lc-section lc-section-alt" aria-labelledby="google-faq">
