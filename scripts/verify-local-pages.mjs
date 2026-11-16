@@ -95,9 +95,9 @@ try{
           return {innerWidth,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,bodyWidth:body.scrollWidth,bodyClient:body.clientWidth,htmlStyles:styles(el),bodyStyles:styles(body),offenders,suspects};
         });
         try{await page.screenshot({path:resolve(output,s.slug+'-'+engine+'-'+profile+'-OVERFLOW.png'),fullPage:true,animations:'disabled'})}catch{}
-        console.error('Horizontal overflow diagnostics',JSON.stringify({city:s.city,profile,width,height,...detail},null,2));
+        console.error('Horizontal overflow diagnostics',JSON.stringify({slug:s.slug,city:s.city,profile,width,height,...detail},null,2));
       }
-      assert.ok(info.scrollWidth<=info.viewportWidth+2,'No horizontal overflow in '+profile+' '+s.city+' ('+info.scrollWidth+' vs '+info.viewportWidth+')');
+      assert.ok(info.scrollWidth<=info.viewportWidth+2,'No horizontal overflow in '+profile+' '+s.slug+' ('+info.scrollWidth+' vs '+info.viewportWidth+')');
       assert.ok(info.links.some(x=>x.href==='/diagnostico-digital/'),'Diagnostic CTA available');
       assert.ok(info.links.some(x=>x.href.includes('wa.me/')),'WhatsApp CTA available');
       assert.ok(info.links.some(x=>x.href.includes(s.other==='Valinhos'?'criacao-de-sites-valinhos':'criacao-de-sites-campinas')),'Cross city navigation');
