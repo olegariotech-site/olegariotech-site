@@ -183,7 +183,8 @@ try{
         const trigger=page.locator('.ot-consent-settings');
         assert.match(await trigger.innerText(),/Privacidade/i,'Privacy icon retains accessible text');
         await trigger.click();
-        assert.ok(await page.locator('.ot-consent.is-visible').count()>0,'Privacy panel can still be opened from compact icon');
+        await page.locator('.ot-consent.is-visible').waitFor({state:'visible',timeout:5000});
+        assert.ok(await page.locator('.ot-consent.is-visible').isVisible(),'Privacy panel can still be opened from compact icon');
       }
       findings.push({city:s.city,engine,profile,viewport:width+'x'+height,title:info.title,h1:info.h1Text,canonical:info.canonical,imageCount:imgData.length,jsErrors,missing,noHorizontalOverflow:true});
       await context.close();
