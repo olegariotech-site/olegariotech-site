@@ -30,10 +30,26 @@ assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),expectedV
 for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html','produtos/index.html','privacidade/index.html','cookies/index.html']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root,encoding:'utf8'});
  const current=await readFile(resolve(root,path),'utf8');
- assert.equal(current,original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=9').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=4'),`${path}: only shared asset cache versions changed`);
+ let expected=original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=9').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=4');
+ if(path==='diagnostico-digital/index.html'){
+  // PR #115: permit only 3 image URLs and 2 alt descriptions of approved V5; preserve all other V2 HTML.
+  const oldImage='ot-diagnostico-social-preview-1200x630-v4.jpg';
+  const newImage='ot-diagnostico-social-preview-1200x630-v5.jpg';
+  const oldAlt='Diagnóstico Digital gratuito da Olegario Tech';
+  const newAlt='Diagnóstico Digital Gratuito da OT: 5 perguntas para descobrir a prioridade digital do seu negócio.';
+  assert.equal(expected.split(oldImage).length-1,3,'approved V4 OG/Twitter source count');
+  assert.equal(expected.split(oldAlt).length-1,2,'approved V4 image-alt source count');
+  expected=expected.replaceAll(oldImage,newImage).replaceAll(oldAlt,newAlt);
+ }
+ assert.equal(current,expected,`${path}: only shared asset versions and approved Diagnóstico V5 social metadata changed`);
 }
 const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.slice(0,t.indexOf('>')).includes(' src='));
-assert.deepEqual(inline(source).map(script=>script.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged');
+// PR #116 only updates the LocalBusiness social identities; all other inline code and JSON-LD must stay the same.
+const officialSameAs='"sameAs":["https://www.instagram.com/olegariotech/","https://www.facebook.com/profile.php?id=61583326394905"]';
+const historicalSameAs='"sameAs":["https://www.instagram.com/alexandre.olegario.oficial/","https://www.facebook.com/alexandre.olegario.oficial/"]';
+assert.ok(source.includes(officialSameAs)||source.includes(historicalSameAs),'only approved OT social identity pairs permitted');
+const normalizedSocialSource=source.replace(officialSameAs,historicalSameAs);
+assert.deepEqual(inline(normalizedSocialSource).map(script=>script.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged except approved social links');
 for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
