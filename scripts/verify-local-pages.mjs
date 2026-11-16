@@ -14,7 +14,8 @@ const origin='http://127.0.0.1:'+port;
 const scenarios=[
   {slug:'criacao-de-sites-valinhos',city:'Valinhos',proof:'Armazém Ripamonti',other:'Campinas'},
   {slug:'criacao-de-sites-campinas',city:'Campinas',proof:'K.L Transporte Express',other:'Valinhos'},
-  {slug:'presenca-no-google',city:'Google',proof:'K.L Transporte Express',other:'Campinas',minCards:3}
+  {slug:'presenca-no-google',city:'Google',proof:'K.L Transporte Express',other:'Campinas',minCards:3},
+  {slug:'anuncios-google-instagram',city:'Valinhos',proof:null,other:'Campinas',minCards:0,kind:'ads'}
 ];
 const viewports=[
   {width:1440,height:900,profile:'desktop'},
@@ -78,9 +79,11 @@ try{
       },s);
       assert.equal(info.canonical,'https://olegariotech.com.br/'+s.slug+'/');
       assert.equal(info.h1Count,1);
-      assert.ok(info.h1Text.includes(s.city),'H1 targets city');
+      if(s.kind==='ads'){
+        assert.ok(info.h1Text.includes('Google')&&info.h1Text.includes('Instagram'),'Ads H1 names both ad channels');
+      }else assert.ok(info.h1Text.includes(s.city),'H1 targets city');
       assert.ok(info.description.includes(s.city),'Meta description targets city');
-      assert.ok(info.cards>=(s.minCards||2),'Real portfolio case cards exist');
+      assert.ok(info.cards>=(s.minCards??2),'Expected portfolio cards present');
       assert.ok(info.ctaHeight>=44,'CTA touch target');
       if(info.scrollWidth>info.viewportWidth+2){
         const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(node=>{
@@ -94,7 +97,28 @@ try{
       assert.ok(info.links.some(x=>x.href.includes('wa.me/')),'WhatsApp CTA available');
       assert.ok(info.links.some(x=>x.href.includes(s.other==='Valinhos'?'criacao-de-sites-valinhos':'criacao-de-sites-campinas')),'Cross city navigation');
       assert.ok(info.schema[0]['@graph'].some(n=>n['@type']==='Service'),'Valid service structured data');
-      assert.ok(await page.getByText(s.proof).count()>0,'Real case is present '+s.proof);
+      if(s.proof)assert.ok(await page.getByText(s.proof).count()>0,'Real case is present '+s.proof);
+      if(s.kind==='ads'){
+        const ads=await page.evaluate(()=>{
+          const stage=document.querySelector('.ot-ads-stage');
+          const preview=document.querySelector('.ot-ads-preview');
+          const box=stage?.getBoundingClientRect();
+          return {
+            stageHeight:box?.height,
+            devices:preview?.querySelectorAll('.ot-ads-device').length,
+            faq:document.querySelectorAll('.lc-faq details').length,
+            text:document.querySelector('main')?.innerText||'',
+            hasNoTrackingWithoutConsent:document.head.innerHTML.includes("analytics_storage:'denied'")
+          };
+        });
+        assert.ok(ads.stageHeight>=160,'Ad preview keeps visible height on '+engine+' '+profile);
+        assert.equal(ads.devices,2,'Both example ad formats are shown');
+        assert.ok(ads.faq>=4,'Transparent ad FAQs are available');
+        assert.ok(ads.text.includes('verba de mídia')||ads.text.includes('verba paga'),'Media budget is explained separately');
+        assert.ok(ads.text.includes('Não garantimos'),'No guaranteed sales or ad results');
+        assert.ok(ads.hasNoTrackingWithoutConsent,'Analytics consent defaults to denied');
+        assert.ok(await page.locator('a[href="/presenca-no-google/"]').count()>0,'Organic SEO service link is available');
+      }
       if(s.slug==='presenca-no-google'){
         const portfolio=await page.locator('.lc-google-portfolio').evaluate(node=>({
           featured:node.querySelectorAll('.lc-google-featured').length,
