@@ -20,6 +20,10 @@ for(const path of ['index.html','scripts/verify-premium-v3.mjs','assets/js/ot-an
 for(const slug of slugs){
  const now=await readFile(resolve(root,slug,'index.html'),'utf8'),old=await readFile(resolve(before,slug,'index.html'),'utf8');
  for(const re of [/<title>[\s\S]*?<\/title>/,/<meta name="description"[^>]*>/,/<link rel="canonical"[^>]*>/,/<h1\b[\s\S]*?<\/h1>/])assert.equal(now.match(re)?.[0],old.match(re)?.[0],slug+' preserves '+re);
+ const image=now.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+ assert.ok(image?.includes('/assets/img/commercial/'+slug+'-og.png'),'Unique page OG');
+ assert.ok(now.includes('name="twitter:image" content="'+image+'"'),'Twitter uses the same cover');
+ const png=await readFile(resolve(root,new URL(image).pathname.slice(1)));assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
  for(const schema of now.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g))JSON.parse(schema[1]);
 }
 await mkdir(output,{recursive:true});
@@ -30,9 +34,9 @@ async function newContext(width,height,motion='reduce',analytics='denied',market
  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await context.addInitScript(({analytics,marketing})=>{
   localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics,marketing}));
-  window.__qaVitals={lcp:null,cls:0};
+  window.__qaVitals={lcp:null,cls:0,shifts:[]};
   try{new PerformanceObserver(list=>{for(const e of list.getEntries())window.__qaVitals.lcp=e.startTime}).observe({type:'largest-contentful-paint',buffered:true});}catch{}
-  try{new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput)window.__qaVitals.cls+=e.value}).observe({type:'layout-shift',buffered:true});}catch{}
+  try{new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput){window.__qaVitals.cls+=e.value;window.__qaVitals.shifts.push({value:e.value,sources:(e.sources||[]).map(s=>({node:s.node?.tagName,className:String(s.node?.className||'').slice(0,120),before:s.previousRect,after:s.currentRect}))})}}).observe({type:'layout-shift',buffered:true});}catch{}
  },{analytics,marketing});
  // Intercept collection and offsite navigation. QA never sends production analytics.
  await context.route('**/*',route=>{
@@ -53,6 +57,7 @@ try{
   assert.ok(ready,'Both static servers ready');
  }
  browser=await ({chromium,webkit})[engine].launch({headless:true});
+ if(engine==='chromium'){const context=await newContext(1440,900),page=await context.newPage();await page.goto(origin+'/',{waitUntil:'load'});await stable(page);await delay(1200);await page.screenshot({path:resolve(output,'home-reference.jpg'),type:'jpeg',quality:76});await context.close();}
  for(const slug of slugs)for(const [width,height] of sizes){
   const context=await newContext(width,height),page=await context.newPage(),errors=[],missing=[];
   page.on('pageerror',e=>errors.push(e.message));
@@ -78,6 +83,10 @@ try{
     await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('open'),null);
    }
    if(width===390){
+    const trigger=page.locator('.ot-consent-settings');
+    const box=await trigger.boundingBox();assert.ok(box?.width<=48&&box.height>=44,'Privacy control is compact and reachable');
+    await trigger.click();await page.locator('.ot-consent.is-visible').waitFor();
+    await page.locator('[data-consent-reject]').click();await page.locator('.ot-consent.is-visible').waitFor({state:'hidden'});
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
     report.accessibility.push({slug,violations:axe.violations});
     assert.deepEqual(axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})),[],'Accessibility '+slug);
@@ -146,7 +155,7 @@ try{
   const measured={slug,width,height,before:[],after:[]};
   for(let sample=0;sample<3;sample++)for(const [name,base] of [['before',baseline],['after',origin]]){
    const context=await newContext(width,height),page=await context.newPage();
-   await page.goto(base+'/'+slug+'/',{waitUntil:'load'});await stable(page);await delay(600);
+   await page.goto(base+'/'+slug+'/',{waitUntil:'load'});await page.evaluate(()=>document.fonts.ready);await delay(800);
    measured[name].push(await page.evaluate(()=>({...window.__qaVitals,dom:document.querySelectorAll('*').length,localBytes:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).reduce((n,r)=>n+(r.encodedBodySize||0),0)})));
    await context.close();
   }

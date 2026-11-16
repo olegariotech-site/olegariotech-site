@@ -3,10 +3,14 @@ Data da missão: 16/11/2026, horário de São Paulo.
 Base de produção e comparação: `2d6873bffbc66aafd1ff153a0455546b507a9759`.
 **NO-GO para merge, produção e mídia paga até concluir a homologação.**
 
-## Limite da evidência nesta sessão
-A sessão oferece leitura e escrita do GitHub, mas não disponibilizou shell nem navegador de captura. Esta é uma auditoria do código e uma proposta implementada em branch; não constitui auditoria visual concluída. Nenhuma captura antiga foi usada como evidência atual. As dez fontes SVG são composições de ativos originais, não screenshots de páginas.
+## Evidência e limites
+A execução local não estava disponível. A implementação foi preparada pelo GitHub e testada em runners do CI. Capturas novas e PNGs foram devolvidos pelo próprio CI; foram inspecionadas as dez comparações de primeira dobra (cinco páginas em desktop/mobile), as cinco capas OG e as cinco prévias de Stories. Nenhuma captura antiga ou imagem gerada foi apresentada como evidência de navegação.
 
-O workflow adicional prepara capturas novas, exportação PNG, comparação da base exata e relatórios de testes. Exportação ou teste verde não substitui inspeção visual. Não declarar desempenho preservado, acessibilidade integral nem aprovação estética sem ler os resultados e examinar as capturas.
+Execução funcional verificada: [CI 43982501580](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43982501580), commit `10bc805c4792f218b1c6c2f861ea4ddd9a2102ab`. A matriz comercial passou **40 viewports por motor, 80 no total**, com axe nas cinco páginas mobile, diagnóstico completo, origem/UTMs, reinício, teclado e consentimentos separados. SEO local existente também passou em Chromium e WebKit. JSON numérico: [QA-10bc805.json](QA-10bc805.json).
+
+As capturas abaixo pertencem a esse commit, anterior ao último refinamento do ícone de privacidade. O workflow repete capturas na revisão final; o status do último HEAD e os links dos artefatos ficam no PR. A inspeção da primeira dobra não certifica todas as interações de aparelhos físicos nem conformidade integral de acessibilidade.
+
+O Gate B permanece bloqueado: `verify-premium-v3.mjs` exige igualdade histórica do HTML das landing pages. Não foi alterado, relaxado ou desligado. Esse contrato precisa de revisão própria compatível com o escopo autorizado; não liberar merge contornando-o.
 
 ## Direção visual e prioridades
 O ponto de partida é a home e o DESIGN.md já aprovado: fundo #050008, Space Grotesk, Inter, Share Tech Mono, ciano #67e8f9 e violeta #8b5cf6. As páginas de serviço já usam esses fundamentos; não precisam de outra marca nem de um novo motor 3D.
@@ -24,12 +28,12 @@ O ponto de partida é a home e o DESIGN.md já aprovado: fundo #050008, Space Gr
 | P2 | Quatro serviços usam a mesma capa OG genérica | Cinco capas específicas e cinco Stories em fontes SVG, com roteiro e exportação PNG auditáveis |
 
 ## Antes/depois proposto por página
-1. **Home de referência:** somente leitura; HTML, assets e comportamento preservados. Saúde visual: não certificada nesta sessão.
-2. **Sites Valinhos:** H1, conteúdo local, casos Armazém/Açaí e SEO preservados. Novo cabeçalho, ritmo, CTA de site, depoimento e contratação. Saúde: candidata, pendente de captura e testes.
-3. **Sites Campinas:** conteúdo próprio de serviços/logística e casos K.L/Cíntia preservados. Mesmos componentes, sem homogeneizar os textos das cidades. Saúde: candidata.
-4. **Google/SEO:** preservar case K.L em destaque, dois complementares e diferenças entre Perfil da Empresa e SEO. CTA específico e identidade comum. Saúde: candidata.
-5. **Anúncios:** preservar mockups rotulados como ilustrativos, regras de verba/gestão e ausência de garantia. Cases adicionais comprovam sites, não campanhas. Saúde: candidata.
-6. **Diagnóstico:** manter cinco perguntas, resultado e mensagem com respostas. Acrescentar label, origem pública e identidade; scroll respeita movimento reduzido. Saúde: candidata; Issue #126 permanece aberta.
+1. **Home de referência:** somente leitura; HTML, assets e comportamento preservados. Saúde: referência preservada; nenhuma alteração de código.
+2. **Sites Valinhos:** H1, conteúdo local, casos Armazém/Açaí e SEO preservados. Novo cabeçalho, ritmo, CTA de site, depoimento e contratação. Saúde: primeira dobra conferida; QA funcional verde.
+3. **Sites Campinas:** conteúdo próprio de serviços/logística e casos K.L/Cíntia preservados. Mesmos componentes, sem homogeneizar os textos das cidades. Saúde: primeira dobra conferida; QA funcional verde.
+4. **Google/SEO:** preservar case K.L em destaque, dois complementares e diferenças entre Perfil da Empresa e SEO. CTA específico e identidade comum. Saúde: primeira dobra conferida; QA funcional verde.
+5. **Anúncios:** preservar mockups rotulados como ilustrativos, regras de verba/gestão e ausência de garantia. Cases adicionais comprovam sites, não campanhas. Saúde: primeira dobra conferida; QA funcional verde.
+6. **Diagnóstico:** manter cinco perguntas, resultado e mensagem com respostas. Acrescentar label, origem pública e identidade; scroll respeita movimento reduzido. Saúde: primeira dobra e jornada conferidas; Issue #126 permanece aberta.
 
 ## Marca e ativos
 - Logo fonte: `assets/img/brand/olegario-tech-logo-oficial.webp`, SHA `679f87403eb8cdaa16b8ae0364e61551093a7727`.
@@ -49,7 +53,7 @@ O JS de diagnóstico só altera a opção de scroll sob prefers-reduced-motion. 
 `kit.json` contém links oficiais, legenda curta e CTA por página. `kit/` contém dez fontes SVG (1200×630 e 1080×1920), reaproveitando os bytes dos ativos da marca.
 Executar `node scripts/render-commercial-kit.mjs` com Playwright disponível. A exportação gera dez PNGs e manifesto no artefato `ot-commercial-premium-chromium/kit`.
 
-**Gate OG:** os metadados atuais continuam apontando para as capas existentes, para evitar URLs quebradas. Antes de aprovar merge, inspecionar os cinco PNGs OG, incorporá-los em `assets/img/commercial/`, atualizar og:image e twitter:image de cada página e validar 200, dimensões, MIME e preview do WhatsApp/Meta. Logo, a integração das capas específicas ao HTML ainda está pendente.
+**Capas OG integradas na candidata:** os cinco PNGs inspecionados estão em `assets/img/commercial/`; og:image e twitter:image de cada página apontam para o respectivo arquivo, com 1200×630 e MIME PNG. Testes validam presença e dimensões; crawler real do WhatsApp/Meta e URLs públicas só podem mostrar a nova versão depois de publicação autorizada.
 Stories devem ser revisados também com a interface real das plataformas; o SVG reserva a composição principal entre 250 e 1670px.
 
 ## QA e evidências esperadas
@@ -59,7 +63,7 @@ Workflow adicional: `OT commercial premium candidate QA`, Chromium + WebKit. Os 
 - Capturas atuais antes/depois em 1440px e 390px; depois nos demais tamanhos. Conferir arquivos antes de aceitar como prova.
 - HTTP, ausência de 404/erros JS/overflow, H1/canonical, imagens, targets de 44px, primeira dobra, menu, teclado, axe.
 - Jornada UTM → serviço → diagnóstico → cinco respostas → resultado → link WhatsApp interceptado → reinício.
-- Três amostras frias alternadas antes/depois, para cinco páginas em desktop/mobile Chromium, com LCP, CLS, bytes locais e DOM. São medições de laboratório sem emulação de rede/CPU; não são Core Web Vitals de usuários reais nem INP.
+- Três amostras frias alternadas antes/depois, para cinco páginas em desktop/mobile Chromium, com LCP, CLS, bytes locais e DOM. A primeira medição forçava lazy images para screenshot; a revisão seguinte mede o carregamento natural e atribui deslocamentos aos elementos. São medições de laboratório sem emulação de rede/CPU; não são Core Web Vitals de usuários reais nem INP.
 - A matriz WebKit cobre o motor; não certifica aparelho iPhone, Edge/Android físico ou UI de Safari.
 
 ## Critérios para GO
@@ -73,3 +77,49 @@ Workflow adicional: `OT commercial premium candidate QA`, Chromium + WebKit. Os 
 ## Governança
 PR #125 não foi alterado: sem commits na branch dele, sem modificação em index.html ou scripts/verify-premium-v3.mjs.
 Não houve merge, deploy, envio de mensagens, compra, contratação nem ativação de campanha.
+
+## Parecer de performance registrado
+No commit 10bc805, as medianas LCP de laboratório ficaram entre 140 e 256ms na candidata. Esses números refletem servidor local e não devem virar promessa comercial. Uma amostra de Campinas desktop teve CLS 0,12537; por isso não foi declarado desempenho preservado e a revisão final repete a medição com atribuição. Anúncios ganhou imagens de cases lazy; os bytes totais forçados cresceram de aproximadamente 103KB para 360KB, não equivalendo ao payload inicial natural. O último resumo numérico está no PR.
+
+## Evidências antes/depois inspecionadas
+Esquerda: base de produção; direita: candidata 10bc805. O menu mobile está com foco de teclado após teste de Escape; o anel ciano visível é o estado de foco, não uma borda permanente.
+
+### criacao-de-sites-valinhos
+
+![Antes e depois mobile](evidence/criacao-de-sites-valinhos-390-comparison.jpg)
+
+![Antes e depois desktop](evidence/criacao-de-sites-valinhos-1440-comparison.jpg)
+
+[Prévia Story](evidence/criacao-de-sites-valinhos-story-preview.jpg) · [Fonte OG](kit/criacao-de-sites-valinhos-og.svg) · [Fonte Story](kit/criacao-de-sites-valinhos-story.svg)
+
+### criacao-de-sites-campinas
+
+![Antes e depois mobile](evidence/criacao-de-sites-campinas-390-comparison.jpg)
+
+![Antes e depois desktop](evidence/criacao-de-sites-campinas-1440-comparison.jpg)
+
+[Prévia Story](evidence/criacao-de-sites-campinas-story-preview.jpg) · [Fonte OG](kit/criacao-de-sites-campinas-og.svg) · [Fonte Story](kit/criacao-de-sites-campinas-story.svg)
+
+### presenca-no-google
+
+![Antes e depois mobile](evidence/presenca-no-google-390-comparison.jpg)
+
+![Antes e depois desktop](evidence/presenca-no-google-1440-comparison.jpg)
+
+[Prévia Story](evidence/presenca-no-google-story-preview.jpg) · [Fonte OG](kit/presenca-no-google-og.svg) · [Fonte Story](kit/presenca-no-google-story.svg)
+
+### anuncios-google-instagram
+
+![Antes e depois mobile](evidence/anuncios-google-instagram-390-comparison.jpg)
+
+![Antes e depois desktop](evidence/anuncios-google-instagram-1440-comparison.jpg)
+
+[Prévia Story](evidence/anuncios-google-instagram-story-preview.jpg) · [Fonte OG](kit/anuncios-google-instagram-og.svg) · [Fonte Story](kit/anuncios-google-instagram-story.svg)
+
+### diagnostico-digital
+
+![Antes e depois mobile](evidence/diagnostico-digital-390-comparison.jpg)
+
+![Antes e depois desktop](evidence/diagnostico-digital-1440-comparison.jpg)
+
+[Prévia Story](evidence/diagnostico-digital-story-preview.jpg) · [Fonte OG](kit/diagnostico-digital-og.svg) · [Fonte Story](kit/diagnostico-digital-story.svg)

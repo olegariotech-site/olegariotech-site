@@ -48,6 +48,13 @@ jobs:
         env:
           OT_COMMERCIAL_OUTPUT: /tmp/ot-commercial-premium
         run: node scripts/render-commercial-kit.mjs
+      - name: Upload sharing PNGs separately
+        if: matrix.engine == 'chromium'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-commercial-sharing-kit
+          path: /tmp/ot-commercial-premium/kit
+          retention-days: 30
       - name: Compare exact production baseline and candidate
         env:
           OT_COMMERCIAL_ENGINE: ${{ matrix.engine }}

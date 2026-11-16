@@ -10,6 +10,7 @@ function emit(id,path,mime,bytes){
 }
 const browser=await chromium.launch({headless:true});
 try{
+ try{emit('home-reference',resolve(output,'home-reference.jpg'),'image/jpeg',await readFile(resolve(output,'home-reference.jpg')))}catch{}
  for(const item of items){
   // Public brand assets only. Bounded base64 allows review without an attached local shell.
   const ogPath=resolve(output,'kit',item.slug+'-og.png');
