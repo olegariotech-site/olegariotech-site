@@ -86,13 +86,14 @@
       body[data-page="ot-anuncios"] .ot-ads-honesty{grid-template-columns:1fr}
       body[data-page="ot-anuncios"] .ot-ads-check{grid-template-columns:1fr}
       body[data-page="ot-anuncios"] .ot-ads-stage{width:100%;min-height:0;margin-top:14px}
+      body[data-page="ot-anuncios"] .ot-ads-stage::before{inset:4%;transform:none}
     }
     @media(max-width:440px){
       body[data-page="ot-anuncios"] .ot-ads-preview{gap:9px}
       body[data-page="ot-anuncios"] .ot-ads-device{padding:13px 9px}
       body[data-page="ot-anuncios"] .ot-ads-process{grid-template-columns:1fr}
-      body[data-page="ot-anuncios"] .ot-ads-device.search{transform:rotate(-1deg)}
-      body[data-page="ot-anuncios"] .ot-ads-device.social{transform:rotate(1deg)}
+      body[data-page="ot-anuncios"] .ot-ads-device.search{transform:none}
+      body[data-page="ot-anuncios"] .ot-ads-device.social{transform:none}
       body[data-page="ot-anuncios"] .ot-ads-channel{padding:24px}
     }
   </style>
