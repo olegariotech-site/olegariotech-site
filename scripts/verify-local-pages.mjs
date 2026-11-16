@@ -86,11 +86,16 @@ try{
       assert.ok(info.cards>=(s.minCards??2),'Expected portfolio cards present');
       assert.ok(info.ctaHeight>=44,'CTA touch target');
       if(info.scrollWidth>info.viewportWidth+2){
-        const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(node=>{
-          const r=node.getBoundingClientRect();
-          return {tag:node.tagName.toLowerCase(),className:String(node.className||'').slice(0,120),left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)};
-        }).filter(x=>x.left<-3||x.right>innerWidth+3).sort((a,b)=>b.right-a.right).slice(0,15));
-        console.error('Horizontal overflow diagnostics',JSON.stringify({city:s.city,profile,width,height,offenders},null,2));
+        const detail=await page.evaluate(()=>{
+          const el=document.documentElement,body=document.body;
+          const styles=node=>{const s=getComputedStyle(node);return {overflowX:s.overflowX,width:s.width,minWidth:s.minWidth,transform:s.transform}};
+          const sized=[...document.querySelectorAll('body,body *')].map(node=>({node,rect:node.getBoundingClientRect(),client:node.clientWidth,scroll:node.scrollWidth}));
+          const offenders=sized.filter(x=>x.rect.left<-3||x.rect.right>innerWidth+3||x.scroll>x.client+2).sort((a,b)=>b.rect.right-a.rect.right).slice(0,30).map(x=>({tag:x.node.tagName.toLowerCase(),className:String(x.node.className||'').slice(0,140),left:Math.round(x.rect.left),right:Math.round(x.rect.right),client:x.client,scroll:x.scroll,styles:styles(x.node)}));
+          const suspects=[...document.querySelectorAll('.lc-orbit,.lc-hero,.lc-header,.lc-shell,.lc-nav,.lc-breadcrumb')].slice(0,16).map(node=>({tag:node.tagName,className:node.className,rect:{left:node.getBoundingClientRect().left,right:node.getBoundingClientRect().right},client:node.clientWidth,scroll:node.scrollWidth}));
+          return {innerWidth,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,bodyWidth:body.scrollWidth,bodyClient:body.clientWidth,htmlStyles:styles(el),bodyStyles:styles(body),offenders,suspects};
+        });
+        try{await page.screenshot({path:resolve(output,s.slug+'-'+engine+'-'+profile+'-OVERFLOW.png'),fullPage:true,animations:'disabled'})}catch{}
+        console.error('Horizontal overflow diagnostics',JSON.stringify({city:s.city,profile,width,height,...detail},null,2));
       }
       assert.ok(info.scrollWidth<=info.viewportWidth+2,'No horizontal overflow in '+profile+' '+s.city+' ('+info.scrollWidth+' vs '+info.viewportWidth+')');
       assert.ok(info.links.some(x=>x.href==='/diagnostico-digital/'),'Diagnostic CTA available');
