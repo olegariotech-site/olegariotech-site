@@ -46,7 +46,7 @@ try{
   const findings=[];
   const screenshotPaths=[];
   for(const s of scenarios){
-    for(const {width,height,profile} of viewports){
+    for(const {width,height,profile} of (s.kind==='ads'?[...viewports,{width:1366,height:768,profile:'notebook'}]:viewports)){
       const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
       await context.addInitScript(()=>{
         localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
@@ -123,6 +123,31 @@ try{
         assert.ok(ads.text.includes('Não garantimos'),'No guaranteed sales or ad results');
         assert.ok(ads.hasNoTrackingWithoutConsent,'Analytics consent defaults to denied');
         assert.ok(await page.locator('a[href="/presenca-no-google/"]').count()>0,'Organic SEO service link is available');
+        const polish=await page.evaluate(()=>{
+          const rect=node=>{const r=node?.getBoundingClientRect();return r?{top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height}:null};
+          const links=document.querySelector('.lc-footer-links');
+          const items=links?[...links.querySelectorAll('a')]:[];
+          const section=document.querySelector('[aria-labelledby="ads-processo"]');
+          return {
+            heroCta:rect(document.querySelector('.ot-ads-hero .lc-btn-primary')),
+            footerFirst:rect(items[0]),footerLast:rect(items.at(-1)),
+            processPadding:parseFloat(getComputedStyle(section).paddingTop),
+            privacy:rect(document.querySelector('.ot-consent-settings')),
+            viewport:innerWidth
+          };
+        });
+        assert.ok(polish.processPadding<=65,'V1.1 reduces inter-section spacing');
+        if(profile==='notebook'||profile==='desktop'){
+          assert.ok(polish.heroCta&&polish.heroCta.bottom<=height-8,
+            'Main diagnostic CTA must appear in first viewport on '+profile+' ('+(polish.heroCta?.bottom||0)+' vs '+height+')');
+          assert.ok(polish.footerFirst&&polish.footerLast&&Math.abs(polish.footerFirst.top-polish.footerLast.top)<3,
+            'Desktop footer links must remain on the same row');
+        }
+        if(polish.privacy){
+          assert.ok(polish.privacy.height>=44,'Privacy trigger keeps a 44px minimum touch target');
+          assert.ok(polish.privacy.right>=polish.viewport-38,'Privacy preferences remain docked right');
+        }
+
       }
       if(s.slug==='presenca-no-google'){
         const portfolio=await page.locator('.lc-google-portfolio').evaluate(node=>({
