@@ -8,6 +8,7 @@ import {resolve} from 'node:path';
 
 export const ISSUE_126_REVIEWED_BLOBS=Object.freeze({
   ".github/workflows/analytics-funnel-qa.yml": "c08bd540361705cea74ab14bb3cd80c63f1a1794",
+  ".github/workflows/showroom-integration-qa.yml": "f247dae215d0b609d36f423c66becad7ff83cb48",
   "assets/js/ot-analytics-core.js": "317a7379bac17b2cbc2eece3cd79dd0751e4758e",
   "assets/js/ot-analytics.js": "58eee67ebfc35a1b1a83626e9495a5bb26d252d9",
   "docs/reviews/analytics-funnel-126/README.md": "6526cb6c8b81221c6cde0b7f8c032d641814b9fe",
