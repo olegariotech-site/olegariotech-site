@@ -101,6 +101,14 @@ body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{in
 
 /* Keep the existing preference control reachable while reducing obstruction of mobile reading. */
 @media(max-width:760px){
- .ot-commercial .ot-consent-settings{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:44px;max-width:44px;height:44px;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;font-size:0;line-height:0;overflow:hidden}
- .ot-commercial .ot-consent-settings::after{content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;color:#67e8f9;pointer-events:none}
+ body.ot-commercial .ot-consent-settings{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:44px;max-width:44px;height:44px;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;font-size:0;line-height:0;overflow:hidden}
+ body.ot-commercial .ot-consent-settings::after{content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;color:#67e8f9;pointer-events:none}
+}
+
+/* Match fallback x-height and anchor the commercial copy while remote fonts resolve. */
+body.ot-commercial .lc-hero h1,body.ot-commercial .lc-orbit-caption strong{font-size-adjust:.5}
+body.ot-commercial .lc-intro,body.ot-commercial .ot-desktop-nav,body.ot-commercial .lc-orbit-caption{font-size-adjust:.54}
+@media(min-width:981px){
+ body.ot-commercial .lc-hero>div:first-child{align-self:start}
+ body.ot-commercial .ot-desktop-nav{width:610px;flex-shrink:0;justify-content:space-between;gap:12px}
 }

@@ -85,6 +85,8 @@ try{
    if(width===390){
     const trigger=page.locator('.ot-consent-settings');
     const box=await trigger.boundingBox();assert.ok(box?.width<=48&&box.height>=44,'Privacy control is compact and reachable');
+    assert.equal(await trigger.evaluate(n=>getComputedStyle(n).fontSize),'0px','No clipped preference text behind the icon');
+    assert.ok((await trigger.evaluate(n=>getComputedStyle(n,'::after').content)).includes('⚙'),'Privacy icon is visible');
     await trigger.click();await page.locator('.ot-consent.is-visible').waitFor();
     await page.locator('[data-consent-reject]').click();await page.locator('.ot-consent.is-visible').waitFor({state:'hidden'});
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
@@ -160,6 +162,8 @@ try{
    await context.close();
   }
   report.performance.push(measured);
+  const maxCLS=Math.max(...measured.after.map(x=>x.cls));
+  if(maxCLS>.1)report.errors.push({slug,width,phase:'performance',error:'CLS exceeds 0.1',cls:maxCLS});
  }
  report.success=report.errors.length===0;await writeFile(resolve(output,'report-'+engine+'.json'),JSON.stringify(report,null,2));
  console.log(JSON.stringify({engine,success:report.success,viewports:report.findings.length,errors:report.errors,performanceComparisons:report.performance.length,performance:report.performance,consent:report.consent,visualInspection:false}));
