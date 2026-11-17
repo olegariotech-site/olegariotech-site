@@ -5,6 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {isApprovedIssue126Path,assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
 
 export const TRUST_BASE='ecf7e021327a83cdfec7a2dc7450783280d9fc8e';
 const repoRoot=resolve(fileURLToPath(new URL('../',import.meta.url)));
@@ -34,7 +35,12 @@ export async function verifyApprovedTrustCopyTree(root){
  for(const path of TRUST_COPY_PATHS){
   const source=release(path);
   const actual=await readFile(resolve(root,path),'utf8');
-  assert.equal(actual,applyApprovedTrustCopy(path,source),'No unrelated code or text changed: '+path);checked++;
+  if(isApprovedIssue126Path(path)){
+   assertApprovedIssue126File(path,Buffer.from(actual));
+  }else{
+   assert.equal(actual,applyApprovedTrustCopy(path,source),'No unrelated code or text changed: '+path);
+  }
+  checked++;
   const changed=actual.replaceAll('Transmitir mais confiança aos clientes','Texto não autorizado');
   if(changed!==actual){
    assert.notEqual(changed,applyApprovedTrustCopy(path,source),'Reject option tampering: '+path);mutations++;
