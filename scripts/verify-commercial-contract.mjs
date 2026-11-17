@@ -104,7 +104,7 @@ export async function verifyCommercialTree(root){
  if(verifiedRoot===root)return;
  assert.equal(manifest.productionRef,PRODUCTION_REF);
  const historical=path=>execFileSync('git',['show',PRODUCTION_REF+':'+path],{cwd:root});
- const tree=execFileSync('git',['ls-tree','-r',PRODUCTION_REF],{cwd:root,encoding:'utf8'}).trim().split('\n');
+ const tree=execFileSync('git',['ls-tree','-r','-z',PRODUCTION_REF],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
  const objects=new Map(tree.map(line=>{const m=line.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(m,'Expected a tracked blob: '+line);return [m[2],m[1]]}));
  const allFiles=[...objects.keys()];
  const blobID=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
