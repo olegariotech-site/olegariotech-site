@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {applyApprovedTrustCopy,TRUST_COPY_PATHS,verifyApprovedTrustCopyTree} from './verify-approved-trust-copy.mjs';
+import {isApprovedIssue126Path,assertApprovedIssue126File,verifyApprovedIssue126Scope} from './verify-analytics-126-scope.mjs';
 
 export const PUBLISHED_REF='7dfb0eeaccccfa63fe6f305f19c04884dcd62c30';
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
@@ -42,7 +43,10 @@ export async function verifyPublishedHotfixScope(directory){
  for(const record of records){
   const match=record.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(match,'Expected published blob');
   const [,id,path]=match,bytes=await readFile(resolve(directory,path));
-  if(manifest.files[path]){
+  if(isApprovedIssue126Path(path)){
+   assertApprovedIssue126File(path,bytes);
+   bounded++;
+  }else if(manifest.files[path]){
    assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,source(path))),'Published visual hotfix plus only approved editorial changes: '+path);
    bounded++;
   }else if(TRUST_COPY_PATHS.includes(path)){
@@ -72,6 +76,7 @@ export async function verifyPublishedHotfixScope(directory){
   assert.throws(()=>assertPublishedHotfixFile(path,changed,source(path)),undefined,'Reject unauthorized edit: '+path);
  }
  await verifyApprovedTrustCopyTree(directory);
+ await verifyApprovedIssue126Scope(directory);
  const report={publishedRef:PUBLISHED_REF,unchangedFiles:unchanged,boundedFiles:bounded,negativeChecks:mutations.length,productionFiles:['anuncios-google-instagram/index.html','assets/css/ot-commercial-premium.css'],editorialBase:'ecf7e021327a83cdfec7a2dc7450783280d9fc8e'};
  console.log('OT_PUBLISHED_HOTFIX_CONTRACT '+JSON.stringify(report));verified=directory;return report;
 }
