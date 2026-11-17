@@ -5,6 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';
+import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -13,7 +14,7 @@ export const REVISED_ASSERTION=" if(['criacao-de-sites-valinhos/index.html','cri
 
 export function assertLegacyGuardRevision(current,production){
  assert.equal(production.split(LEGACY_ASSERTION).length-1,1,'Historical guard has exactly one authorized assertion site');
- assert.equal(current,production.replace(LEGACY_ASSERTION,REVISED_ASSERTION),'Every other legacy assertion, baseline, engine and runtime check remains literal');
+ assert.equal(current,applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION)),'Every other legacy assertion, baseline, engine and runtime check remains literal');
 }
 
 function single(html,re,label){
@@ -84,7 +85,7 @@ export function assertApprovedCommercialPage(path,current,production){
   cursor=op.line-1+op.remove.length;
  }
  expected.push(...lines.slice(cursor));
- assert.equal(current,applyApprovedVisualHotfix(path,expected.join('\n')),path+': only the enumerated authorized delta and post-publication visual hotfix are accepted');
+ assert.equal(current,applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,expected.join('\n'))),path+': only authorized landing, visual hotfix and trust-language changes accepted');
  return {path,hunks:operations.length,semantic:['title','description','canonical','H1','schema','consent/scripts','WhatsApp','regional content and all remaining markup']};
 }
 
@@ -146,12 +147,14 @@ export async function verifyCommercialTree(root){
    const previous=historical(path);
    assertLegacyGuardRevision(bytes.toString('utf8'),previous.toString('utf8'));
    assert.throws(()=>assertLegacyGuardRevision(bytes.toString('utf8').replace("const baseline=","const bypassBaseline="),previous.toString('utf8')),'Reject unrelated legacy guard mutation');
+  }else if(path==='index.html'){
+   assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,historical(path).toString('utf8')),'Home changes only the single approved trust tab label');
   }else if(path==='assets/js/ot-diagnostic-v2.js'){
    const previous=historical(path);
    const oldScroll="scrollIntoView({behavior:'smooth',block:'start'})";
    const newScroll="scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})";
    const old=previous.toString('utf8');assert.equal(old.split(oldScroll).length-1,1);
-   assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');
+   assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,old.replace(oldScroll,newScroll)),'Diagnostic runtime permits only reduced-motion behavior and approved trust label routing');
   }else if(path==='scripts/verify-local-pages.mjs'){
    assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,historical(path).toString('utf8')),'SEO QA permits only the bounded privacy presentation assertions');
   }else{
