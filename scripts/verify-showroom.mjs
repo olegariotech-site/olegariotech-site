@@ -444,10 +444,10 @@ async function tracking(browser,engine){
     const current=await count('select_project');await page.locator('button[data-kind=brand]').click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='brand');
     await page.locator('button[data-kind=website]').click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='website');
     await page.locator('[data-expand]').click();await page.locator('[data-expand]').click();assert.equal(await count('select_project'),current,'View/expand controls do not emit project selections');
-    for(const [selector,event] of [['[data-project-link]','click_projeto'],['.case-actions [data-generate-lead]','generate_lead']]){
-      const n=await count(event),waCount=await count('click_whatsapp');const [popup]=await Promise.all([page.waitForEvent('popup'),page.locator(selector).click()]);await popup.waitForLoadState();await popup.close();
+    for(const [selector,event] of [['[data-project-link]','click_projeto'],['.case-actions [data-generate-lead]','click_whatsapp']]){
+      const n=await count(event);const [popup]=await Promise.all([page.waitForEvent('popup'),page.locator(selector).click()]);await popup.waitForLoadState();await popup.close();
       assert.equal(await count(event)-n,granted?1:0,'One event per authorized click: '+event);
-      if(event==='generate_lead')assert.equal(await count('click_whatsapp')-waCount,granted?1:0);
+      assert.equal(await count('generate_lead'),0,'Clicks are not confirmed leads');
     }
     const proofCount=await count('click_proof_case'),selectionCount=await count('select_project');await page.locator('#prova [data-project=ripamonti]').click();await page.waitForFunction(()=>document.getElementById('projectStage').dataset.selectedProject==='ripamonti'&&!document.getElementById('projectStage').hasAttribute('aria-busy'));
     assert.equal(await count('click_proof_case')-proofCount,granted?1:0);assert.equal(await count('select_project')-selectionCount,granted?1:0);
@@ -460,7 +460,7 @@ async function tracking(browser,engine){
     await writeFile(`${output}/${engine}-accessible-case-${granted}.txt`,await page.locator('#projectStage').ariaSnapshot());
     await context.close();
   }
-  report.analytics=report.analytics||[];report.analytics.push({engine,denied:true,granted:true,revoked:true,uniqueLead:true,uniqueProjectClick:true,controlsEmitNoSelection:true,proofRail:true});console.log('PASS',engine+'-consent-and-analytics');
+  report.analytics=report.analytics||[];report.analytics.push({engine,denied:true,granted:true,revoked:true,noFalseLead:true,uniqueProjectClick:true,controlsEmitNoSelection:true,proofRail:true});console.log('PASS',engine+'-consent-and-analytics');
 }
 async function baselineURL(){
   if(baselineServer)return `http://127.0.0.1:${baselineServer.address().port}`;
