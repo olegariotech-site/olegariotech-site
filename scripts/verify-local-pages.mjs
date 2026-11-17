@@ -146,8 +146,8 @@ try{
         assert.ok(polish.privacy,'Privacy settings trigger must exist');
         if(polish.privacy){
           assert.ok(polish.privacy.height>=44,'Privacy trigger keeps a 44px minimum touch target');
-          if(profile==='mobile')assert.ok(polish.privacy.width<=48,'Mobile privacy icon stays compact');
-          assert.ok(polish.privacy.right>=polish.viewport-38,'Privacy preferences remain docked right');
+          assert.ok(polish.privacy.width>=44&&polish.privacy.width<=240,'Privacy pill fits its visible label');
+          assert.ok(polish.privacy.left>=12&&polish.privacy.right<=polish.viewport-12,'Privacy pill stays within the viewport gutters');
         }
 
       }

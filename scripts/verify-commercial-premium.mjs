@@ -88,13 +88,19 @@ try{
    }
    if(width===390||width===1440){
     const trigger=page.locator('.ot-consent-settings');
-    const box=await trigger.boundingBox();assert.ok(box?.width<=48&&box.height>=44,'Privacy control is compact and reachable');
-    assert.equal(await trigger.evaluate(n=>getComputedStyle(n).fontSize),'0px','No clipped preference text behind the icon');
-    assert.ok((await trigger.evaluate(n=>getComputedStyle(n,'::after').content)).includes('⚙'),'Privacy icon is visible');
-    if(width===1440){
-     const content=await page.locator('.ot-header-inner').boundingBox();
-     assert.ok(box.x>=content.x+content.width,'Floating privacy control does not obscure the desktop content column');
-    }
+    await trigger.scrollIntoViewIfNeeded();
+    const box=await trigger.boundingBox();assert.ok(box?.width>=44&&box.width<=240&&box.height>=44,'Privacy pill has a practical touch target');
+    assert.equal(await trigger.innerText(),'Privacidade e cookies','Native privacy label stays visible');
+    assert.ok(parseFloat(await trigger.evaluate(n=>getComputedStyle(n).fontSize))>=11,'Privacy label is readable');
+    assert.notEqual(await trigger.evaluate(n=>getComputedStyle(n,'::before').maskImage),'none','Privacy shield is present');
+    assert.equal(await trigger.evaluate(n=>getComputedStyle(n,'::after').content),'none','No settings gear remains');
+    const clearance=await trigger.evaluate(n=>{
+     const r=n.getBoundingClientRect(),f=document.querySelector('.ot-site-footer').getBoundingClientRect();
+     const links=[...document.querySelectorAll('.ot-site-footer a')].map(a=>a.getBoundingClientRect().bottom);
+     return {position:getComputedStyle(n).position,top:r.top,bottom:r.bottom,lastLink:Math.max(...links),footerBottom:f.bottom};
+    });
+    assert.equal(clearance.position,'relative','Privacy uses the reserved footer row below 1600px');
+    assert.ok(clearance.top>=clearance.lastLink+8&&clearance.bottom<=clearance.footerBottom-12,'Privacy pill clears footer links and stays in reserved padding');
     await trigger.click();await page.locator('.ot-consent.is-visible').waitFor();
     await page.locator('[data-consent-reject]').click();await page.locator('.ot-consent.is-visible').waitFor({state:'hidden'});
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
