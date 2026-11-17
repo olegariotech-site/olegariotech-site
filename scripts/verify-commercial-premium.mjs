@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {projectCampaignText} from './verify-kl-campaign-contract.mjs';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,7 +24,7 @@ for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analyt
 assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
 await verifyCommercialTree(root);
 for(const slug of slugs){
- const now=await readFile(resolve(root,slug,'index.html'),'utf8'),old=await readFile(resolve(before,slug,'index.html'),'utf8');
+ const now=projectCampaignText(slug+'/index.html',await readFile(resolve(root,slug,'index.html'),'utf8')),old=await readFile(resolve(before,slug,'index.html'),'utf8');
  for(const re of [/<title>[\s\S]*?<\/title>/,/<meta name="description"[^>]*>/,/<link rel="canonical"[^>]*>/,/<h1\b[\s\S]*?<\/h1>/])assert.equal(now.match(re)?.[0],old.match(re)?.[0],slug+' preserves '+re);
  const image=now.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
  assert.ok(image?.includes('/assets/img/commercial/'+slug+'-og.png'),'Unique page OG');

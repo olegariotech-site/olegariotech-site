@@ -1,6 +1,7 @@
 // PR #128: bounded authorized commercial delta, anchored to immutable production.
 // This module is a test only; it is never loaded by a public page.
 import assert from 'node:assert/strict';
+import {projectCampaignText,projectCampaignBytes} from './verify-kl-campaign-contract.mjs';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -142,7 +143,7 @@ export async function verifyCommercialTree(root){
  let protectedFiles=0,mutations=0;const verified=[];
  for(const path of allFiles){
   if(pages.includes(path))continue;
-  const bytes=await readFile(resolve(root,path));
+  const bytes=projectCampaignBytes(path,await readFile(resolve(root,path)));
   if(path==='scripts/verify-premium-v3.mjs'){
    const previous=historical(path);
    assertLegacyGuardRevision(bytes.toString('utf8'),previous.toString('utf8'));
@@ -171,7 +172,7 @@ export async function verifyCommercialTree(root){
   await context.route('**/*',route=>route.abort());
   parserPage=await context.newPage();
   for(const path of pages){
-   const current=await readFile(resolve(root,path),'utf8'),production=historical(path).toString('utf8');
+   const current=projectCampaignText(path,await readFile(resolve(root,path),'utf8')),production=historical(path).toString('utf8');
    await inventoryHTML(current);await inventoryHTML(production);
    verified.push(assertApprovedCommercialPage(path,current,production));
    mutations+=await mutationChecks(path,current,production);
@@ -182,7 +183,7 @@ export async function verifyCommercialTree(root){
  // Approved visuals/UTM implementation are separately frozen; production remains the content reference.
  assert.equal(manifest.reviewedImplementationRef,'fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9');
  for(const path of manifest.reviewedAssets){
-  const bytes=await readFile(resolve(root,path));
+  const bytes=projectCampaignBytes(path,await readFile(resolve(root,path)));
   if(path==='assets/css/ot-commercial-premium.css'){
    const approved=execFileSync('git',['show',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'});
    assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,approved),'Only the bounded privacy and ad-example CSS additions are permitted');

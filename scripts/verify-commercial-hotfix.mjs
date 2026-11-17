@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {CAMPAIGN_ASSET_PATHS,CAMPAIGN_DISCLOSURE} from './verify-kl-campaign-contract.mjs';
 import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -78,9 +79,9 @@ try{
   }
   await p.evaluate(()=>scrollTo(0,0));
   if(slug==='anuncios-google-instagram'){
-   assert.equal(await p.locator('.ot-ads-device').count(),2);assert.equal(await p.locator('.ot-ads-example a,.ot-ads-example button,.ot-ads-example input').count(),0,'Examples have no fake interactive controls');
-   assert.match(await p.locator('#ads-example-caption').innerText(),/Empresa fictícia/);assert.equal(await p.locator('.ot-ads-journey li').count(),3);
-   const text=await p.locator('.ot-ads-example').innerText();assert.ok(text.includes('Anúncio ilustrativo')&&text.includes('Patrocinado · exemplo fictício'));
+   assert.equal(await p.locator('.ot-ads-device').count(),2);assert.equal(await p.locator('.ot-ads-example a,.ot-ads-example button').count(),0,'Examples have no fake platform controls');
+   assert.ok((await p.locator('#ads-example-caption').innerText()).includes(CAMPAIGN_DISCLOSURE));assert.equal(await p.locator('.kl-channel-selector input[type=radio]').count(),2);assert.equal(await p.locator('.ot-ads-journey li').count(),3);
+   const text=await p.locator('.ot-ads-example').innerText();assert.ok(text.includes('Conceito de anúncio')&&text.includes('INSTAGRAM ADS · CONCEITO')&&!text.includes('Patrocinado'));
    const arrangement=await p.locator('.ot-ads-device').evaluateAll(items=>items.map(n=>{const r=n.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}}));
    if(width<=560)assert.ok(arrangement[1].top>=arrangement[0].bottom+16,'Small-screen cards stack at readable width');
    const cta=await p.locator('.lc-hero .lc-btn-primary').boundingBox();assert.ok(cta.y+cta.height<=height-8,'Primary CTA remains above the fold');
@@ -120,7 +121,7 @@ try{
   }
   assert.ok(Math.max(...sample.after.map(s=>s.cls))<=.1,'CLS remains below the unchanged 0.1 limit: '+slug+' '+width);
   const beforeImages=new Set(sample.before.flatMap(s=>s.resources.filter(r=>r.type==='img').map(r=>r.path)));
-  for(const r of sample.after.flatMap(s=>s.resources.filter(r=>r.type==='img')))assert.ok(beforeImages.has(r.path),'No new image transfer in the initial hotfix load');
+  for(const r of sample.after.flatMap(s=>s.resources.filter(r=>r.type==='img')))assert.ok(beforeImages.has(r.path)||CAMPAIGN_ASSET_PATHS.includes(r.path),'Only the two explicitly approved K.L assets may add image transfers');
   report.performance.push(sample);
  }
  report.success=true;

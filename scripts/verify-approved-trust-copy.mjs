@@ -1,6 +1,7 @@
 // Test-only, bounded editorial copy layer on top of the merged premium commercial site.
 // It does not execute in public pages. Baseline is the exact approved PR #129 merge.
 import assert from 'node:assert/strict';
+import {projectCampaignText,verifyCampaignTree} from './verify-kl-campaign-contract.mjs';
 import {readFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
@@ -30,10 +31,11 @@ export function applyApprovedTrustCopy(path,source){
  return expected;
 }
 export async function verifyApprovedTrustCopyTree(root){
+ await verifyCampaignTree(root);
  let checked=0,mutations=0;
  for(const path of TRUST_COPY_PATHS){
   const source=release(path);
-  const actual=await readFile(resolve(root,path),'utf8');
+  const actual=projectCampaignText(path,await readFile(resolve(root,path),'utf8'));
   assert.equal(actual,applyApprovedTrustCopy(path,source),'No unrelated code or text changed: '+path);checked++;
   const changed=actual.replaceAll('Transmitir mais confiança aos clientes','Texto não autorizado');
   if(changed!==actual){

@@ -1,5 +1,6 @@
 // Post-publication visual hotfix. Production is immutable; only enumerated edits are accepted.
 import assert from 'node:assert/strict';
+import {projectCampaignBytes,projectCampaignText,verifyCampaignTree} from './verify-kl-campaign-contract.mjs';
 import {readFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
@@ -37,11 +38,12 @@ export function assertPublishedHotfixFile(path,current,original){
 let verified;
 export async function verifyPublishedHotfixScope(directory){
  if(verified===directory)return;
+ await verifyCampaignTree(directory);
  const records=execFileSync('git',['ls-tree','-r','-z',PUBLISHED_REF],{cwd:directory,encoding:'utf8'}).split('\0').filter(Boolean);
  let unchanged=0,bounded=0;
  for(const record of records){
   const match=record.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(match,'Expected published blob');
-  const [,id,path]=match,bytes=await readFile(resolve(directory,path));
+  const [,id,path]=match,bytes=projectCampaignBytes(path,await readFile(resolve(directory,path)));
   if(manifest.files[path]){
    assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,source(path))),'Published visual hotfix plus only approved editorial changes: '+path);
    bounded++;
@@ -53,8 +55,8 @@ export async function verifyPublishedHotfixScope(directory){
    unchanged++;
   }
  }
- const ads=await readFile(resolve(directory,'anuncios-google-instagram/index.html'),'utf8');
- const css=await readFile(resolve(directory,'assets/css/ot-commercial-premium.css'),'utf8');
+ const ads=projectCampaignText('anuncios-google-instagram/index.html',await readFile(resolve(directory,'anuncios-google-instagram/index.html'),'utf8'));
+ const css=projectCampaignText('assets/css/ot-commercial-premium.css',await readFile(resolve(directory,'assets/css/ot-commercial-premium.css'),'utf8'));
  const mutations=[
   ['anuncios-google-instagram/index.html',ads.replace('<title>','<title>Changed ')],
   ['anuncios-google-instagram/index.html',ads.replace("analytics_storage:'denied'","analytics_storage:'granted'")],
