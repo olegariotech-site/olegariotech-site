@@ -60,7 +60,7 @@ try{
   await ig.focus();await p.keyboard.press('ArrowRight');assert.equal(await fb.isChecked(),true);assert.equal(await ig.isChecked(),false);
   assert.ok(await p.locator('[data-concept-channel=facebook]').isVisible());assert.equal(await p.locator('[data-concept-channel=instagram]').isVisible(),false);
   assert.equal(await p.getByRole('region',{name:'Conceito de Instagram Ads para a K.L',exact:true}).count(),0);
-  const focusStyle=await p.locator('label[for=kl-channel-facebook]').evaluate(n=>({width:parseFloat(getComputedStyle(n).outlineWidth),style:getComputedStyle(n).outlineStyle}));assert.ok(focusStyle.width>=2&&focusStyle.style!=='none','Keyboard focus is visible on the real control label');
+  const focusStyle=await p.evaluate(()=>{const input=document.activeElement,label=input?.labels?.[0],s=label&&getComputedStyle(label);return {id:input?.id,width:parseFloat(s?.outlineWidth),style:s?.outlineStyle}});assert.ok(['kl-channel-instagram','kl-channel-facebook'].includes(focusStyle.id),'Keyboard focus remains within the native radio group');assert.ok(focusStyle.width>=2&&focusStyle.style!=='none','Keyboard focus is visible on the focused radio label: '+JSON.stringify(focusStyle));
   const swapped=await p.locator('.kl-social-panels').boundingBox(),swappedHero=await p.locator('.ot-ads-hero').boundingBox();assert.ok(Math.abs(swapped.height-originalBox.height)<1&&Math.abs(swappedHero.height-heroBox.height)<1,'Channel selection does not change layout height');
   assert.equal(await p.evaluate(()=>(window.dataLayer||[]).filter(n=>n[0]==='event').length),eventCount,'Selecting a concept does not generate a new tracking event');
   if(width===390||width===1440){
