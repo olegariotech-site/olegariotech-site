@@ -15,7 +15,14 @@ export const REVISED_ASSERTION=" if(['criacao-de-sites-valinhos/index.html','cri
 
 export function assertLegacyGuardRevision(current,production){
  assert.equal(production.split(LEGACY_ASSERTION).length-1,1,'Historical guard has exactly one authorized assertion site');
- assert.equal(current,applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION)),'Every other legacy assertion, baseline, engine and runtime check remains literal');
+ const expected=applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION));
+ const priorImport="import {execFileSync} from 'node:child_process';";
+ const nextImport=priorImport+"\nimport {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';";
+ const priorAssertion="assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  let consentReturnFocus')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function bannerTemplate()')),'consent guards, tag loaders and analytic events unchanged');";
+ const nextAssertion="assertApprovedIssue126File('assets/js/ot-analytics-core.js',Buffer.from(analyticsAfter));\nassert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  function analyticsDestinationUrl(')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function linkParams(')),'unchanged GA4/Meta initialization, consent guards and prior tracking');";
+ assert.equal(expected.split(priorImport).length-1,1,'V3 import anchor is unchanged');
+ assert.equal(expected.split(priorAssertion).length-1,1,'V3 event-guard anchor is unchanged');
+ assert.equal(current,expected.replace(priorImport,nextImport).replace(priorAssertion,nextAssertion),'V3 historical guard only permits pinned Issue #126 analytics changes, preserving every other byte');
 }
 
 function single(html,re,label){
