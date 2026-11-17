@@ -30,26 +30,3 @@ jobs:
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v4
-
-      - name: Report exact CodeQL findings for this review
-        if: always()
-        run: |
-          node <<'NODE'
-          const fs=require('node:fs'),path=require('node:path');
-          let found=0;
-          for(const directory of ['results','../results']){
-            if(!fs.existsSync(directory))continue;
-            for(const file of fs.readdirSync(directory).filter(name=>name.endsWith('.sarif'))){
-              found++;
-              const data=JSON.parse(fs.readFileSync(path.join(directory,file),'utf8'));
-              for(const run of data.runs||[]){
-                console.log('OT_CODEQL_REVIEW_META '+JSON.stringify({file,results:(run.results||[]).length}));
-                for(const result of run.results||[]){
-                  const rule=(run.tool.driver.rules||[]).find(x=>x.id===result.ruleId);
-                  console.log('OT_CODEQL_REVIEW '+JSON.stringify({rule:result.ruleId,level:result.level,severity:rule?.properties?.['security-severity'],message:result.message?.text,locations:(result.locations||[]).map(x=>({file:x.physicalLocation?.artifactLocation?.uri,region:x.physicalLocation?.region}))}));
-                }
-              }
-            }
-          }
-          if(!found)throw Error('CodeQL SARIF output was not found');
-          NODE

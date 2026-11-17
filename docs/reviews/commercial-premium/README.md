@@ -5,7 +5,7 @@ Base de produção e comparação: `2d6873bffbc66aafd1ff153a0455546b507a9759`.
 
 ## Desbloqueio autorizado do Gate B
 
-A direção autorizou a revisão restrita do contrato histórico após `fb57fb8`. [Alterações, matriz de proteções, 76 testes de rejeição e método de homologação](GATE-B-CONTRACT.md). Os relatos abaixo preservam o histórico das revisões anteriores; afirmações de que o teste permanecia intacto descrevem aquelas etapas, não esta autorização posterior. O CI e o parecer atuais estão na [descrição do PR #128](https://github.com/olegariotech-site/olegariotech-site/pull/128).
+A direção autorizou a revisão restrita do contrato histórico após `fb57fb8`. [Alterações, matriz de proteções, 86 testes de rejeição e método de homologação](GATE-B-CONTRACT.md). Os relatos abaixo preservam o histórico das revisões anteriores; afirmações de que o teste permanecia intacto descrevem aquelas etapas, não esta autorização posterior. O CI e o parecer atuais estão na [descrição do PR #128](https://github.com/olegariotech-site/olegariotech-site/pull/128).
 
 
 ## Retomada e inspeção final — 16/11/2026

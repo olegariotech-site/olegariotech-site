@@ -21,10 +21,10 @@ function single(html,re,label){
  return matches[0][0];
 }
 function schemas(html){
- return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+ return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi)].map(m=>JSON.parse(m[1]));
 }
 function runtimeScripts(html){
- return [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(s=>!s.startsWith('<script type="application/ld+json">'));
+ return [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/gi)].map(m=>m[0]).filter(s=>!s.toLowerCase().startsWith('<script type="application/ld+json">'));
 }
 
 export function assertApprovedCommercialPage(path,current,production){
@@ -87,6 +87,13 @@ export function mutationChecks(path,current,production){
   ['OG path',current.replace('/assets/img/commercial/','/assets/img/missing/')],
   ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=1" defer></script>','')]
  ];
+ for(const [label,injected] of [
+  ['upper-case script',"<SCRIPT>gtag('event','unapproved');</SCRIPT>"],
+  ['mixed-case script',"<sCrIpT>gtag('event','unapproved');</sCrIpT>"]
+ ]){
+  assert.equal(runtimeScripts(injected).length,1,'Case variants of script tags must be recognized');
+  variants.push([label,current.replace('</head>',injected+'</head>')]);
+ }
  if(path==='diagnostico-digital/index.html'){
   variants.push(['diagnostic option',current.replace('Gerar mais contatos','Opção indevida')]);
   variants.push(['diagnostic label',current.replace('for="nomeNegocio"','for="outroCampo"')]);
