@@ -35,5 +35,5 @@ jobs:
           node --check scripts/verify-commercial-premium.mjs
       - name: Exercise diagnostic and consent flows with collection blocked
         env:
-          OT_ANALYTICS_${{ matrix.engine }}: ${{ matrix.engine }}
+          OT_ANALYTICS_ENGINE: ${{ matrix.engine }}
         run: node scripts/verify-analytics-funnel.mjs
