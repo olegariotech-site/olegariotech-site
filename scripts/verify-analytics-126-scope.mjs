@@ -12,6 +12,7 @@ export const ISSUE_126_REVIEWED_BLOBS=Object.freeze({
   "assets/js/ot-analytics.js": "58eee67ebfc35a1b1a83626e9495a5bb26d252d9",
   "docs/reviews/analytics-funnel-126/README.md": "6526cb6c8b81221c6cde0b7f8c032d641814b9fe",
   "scripts/verify-analytics-funnel.mjs": "f3197957ae0d5bd8c7ca3477a09923f8b8b87beb",
+  "scripts/verify-approved-trust-copy.mjs": "21bbf94a49e31b34fe0d55a7e556dd25d15192f5",
   "scripts/verify-commercial-contract.mjs": "b6c579a36c1eb4458d382ecbdb2f1f51a3581802",
   "scripts/verify-commercial-hotfix-contract.mjs": "40395cecff7cd585514a1894e6e62c2e5479f8ae",
   "scripts/verify-commercial-premium.mjs": "342892a03e336372a113fb4983e4a697344b1d72",
