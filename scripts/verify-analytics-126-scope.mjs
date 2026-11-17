@@ -13,11 +13,12 @@ export const ISSUE_126_REVIEWED_BLOBS=Object.freeze({
   "docs/reviews/analytics-funnel-126/README.md": "6526cb6c8b81221c6cde0b7f8c032d641814b9fe",
   "scripts/verify-analytics-funnel.mjs": "f3197957ae0d5bd8c7ca3477a09923f8b8b87beb",
   "scripts/verify-approved-trust-copy.mjs": "21bbf94a49e31b34fe0d55a7e556dd25d15192f5",
-  "scripts/verify-commercial-contract.mjs": "b6c579a36c1eb4458d382ecbdb2f1f51a3581802",
+  "scripts/verify-commercial-contract.mjs": "3c08c552fe53f7f6744b1e14025bbd0ac39fa122",
   "scripts/verify-commercial-hotfix-contract.mjs": "40395cecff7cd585514a1894e6e62c2e5479f8ae",
   "scripts/verify-commercial-premium.mjs": "342892a03e336372a113fb4983e4a697344b1d72",
   "scripts/verify-showroom.mjs": "8982f7032eaf0020b2d184c81b8209fdeb1a41c5",
-  "scripts/verify-solutions.mjs": "8458dd532fa3cc7bb9dccb2af80e7103fee346f1"
+  "scripts/verify-solutions.mjs": "8458dd532fa3cc7bb9dccb2af80e7103fee346f1",
+  "scripts/verify-premium-v3.mjs": "b993d8d8dec2e73db8b62416051b95b895f838c0"
 });
 
 function blobID(bytes){
