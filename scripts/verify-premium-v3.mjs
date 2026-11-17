@@ -8,6 +8,7 @@ import {resolve,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createServer} from 'node:http';
 import {execFileSync} from 'node:child_process';
+import {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
 const pw=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const output=process.env.OT_QA_OUTPUT||'/tmp/ot-premium-v3-qa';await mkdir(output,{recursive:true});
@@ -67,7 +68,8 @@ for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js',
 }
 const analyticsBefore=execFileSync('git',['show',`${baseline}:assets/js/ot-analytics-core.js`],{cwd:root,encoding:'utf8'});
 const analyticsAfter=await readFile(resolve(root,'assets/js/ot-analytics-core.js'),'utf8');
-assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  let consentReturnFocus')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function bannerTemplate()')),'consent guards, tag loaders and analytic events unchanged');
+assertApprovedIssue126File('assets/js/ot-analytics-core.js',Buffer.from(analyticsAfter));
+assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  function analyticsDestinationUrl(')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function linkParams(')),'unchanged GA4/Meta initialization, consent guards and prior tracking');
 assert.equal(analyticsAfter.slice(analyticsAfter.indexOf('  function installEcosystemSection()')),analyticsBefore.slice(analyticsBefore.indexOf('  function installEcosystemSection()')),'shared setup and boot policy unchanged');
 if(process.env.OT_QA_STATIC_ONLY==='1'){console.log('Protected copy, catalog, SEO, event guards and engine scripts: PASS');process.exit(0);}
 const {default:AxeBuilder}=await import(process.env.OT_AXE_MODULE||'@axe-core/playwright');
