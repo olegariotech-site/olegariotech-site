@@ -152,6 +152,8 @@ export async function verifyCommercialTree(root){
    const newScroll="scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})";
    const old=previous.toString('utf8');assert.equal(old.split(oldScroll).length-1,1);
    assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');
+  }else if(path==='scripts/verify-local-pages.mjs'){
+   assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,historical(path).toString('utf8')),'SEO QA permits only the bounded privacy presentation assertions');
   }else{
    assert.equal(blobID(bytes),objects.get(path),'Strict production blob identity: '+path);
    protectedFiles++;

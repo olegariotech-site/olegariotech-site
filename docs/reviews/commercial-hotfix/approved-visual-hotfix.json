@@ -43,6 +43,11 @@
         "after": " if(verifiedRoot===root)return;\n await verifyPublishedHotfixScope(root);\n"
       },
       {
+        "line": 152,
+        "before": "   assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');\n",
+        "after": "   assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');\n  }else if(path==='scripts/verify-local-pages.mjs'){\n   assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,historical(path).toString('utf8')),'SEO QA permits only the bounded privacy presentation assertions');\n"
+      },
+      {
         "line": 177,
         "before": " for(const path of manifest.reviewedAssets)assert.equal(blobID(await readFile(resolve(root,path))),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);\n",
         "after": " for(const path of manifest.reviewedAssets){\n  const bytes=await readFile(resolve(root,path));\n  if(path==='assets/css/ot-commercial-premium.css'){\n   const approved=execFileSync('git',['show',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'});\n   assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,approved),'Only the bounded privacy and ad-example CSS additions are permitted');\n  }else assert.equal(blobID(bytes),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);\n }\n"

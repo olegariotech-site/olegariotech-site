@@ -68,7 +68,7 @@ try{
    await shot(p,slug+'-'+width+'-privacy-after.png');
    const old=await c.newPage();await old.goto(beforeURL+'/'+slug+'/',{waitUntil:'load'});await ready(old);await old.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await shot(old,slug+'-'+width+'-privacy-before.png');await old.close();
    await trigger.focus();await p.keyboard.press('Enter');
-   await p.locator('.ot-consent.is-visible').waitFor();assert.equal(await p.locator('#otConsent').getAttribute('aria-hidden'),'false');
+   await p.locator('.ot-consent.is-visible').waitFor();assert.equal(await p.locator('#otConsent').getAttribute('aria-hidden'),null,'Open panel is exposed to assistive technology');
    assert.ok(await p.locator('#otConsent a[href="/privacidade/"]').isVisible());
    await shot(p,slug+'-'+width+'-consent-open.png');
    await p.locator('[data-consent-reject]').click();await p.locator('.ot-consent.is-visible').waitFor({state:'hidden'});
