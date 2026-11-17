@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium, webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
+import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const before=process.env.OT_COMMERCIAL_BEFORE;
 assert.ok(before,'Baseline checkout required; never silently compare current to itself');
@@ -14,9 +15,11 @@ const engine=process.env.OT_COMMERCIAL_ENGINE||'chromium';
 const origin='http://127.0.0.1:4187',baseline='http://127.0.0.1:4188';
 const slugs=['criacao-de-sites-valinhos','criacao-de-sites-campinas','presenca-no-google','anuncios-google-instagram','diagnostico-digital'];
 const sizes=[[1920,1080],[1440,900],[1366,768],[1024,768],[768,1024],[360,780],[390,844],[430,932]];
-for(const path of ['index.html','scripts/verify-premium-v3.mjs','assets/js/ot-analytics.js','assets/js/ot-analytics-core.js','assets/css/ot-consent.css','robots.txt','sitemap.xml']){
+for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analytics-core.js','assets/css/ot-consent.css','robots.txt','sitemap.xml']){
  assert.equal(await readFile(resolve(root,path),'utf8'),await readFile(resolve(before,path),'utf8'),'Protected file unchanged: '+path);
 }
+assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
+await verifyCommercialTree(root);
 for(const slug of slugs){
  const now=await readFile(resolve(root,slug,'index.html'),'utf8'),old=await readFile(resolve(before,slug,'index.html'),'utf8');
  for(const re of [/<title>[\s\S]*?<\/title>/,/<meta name="description"[^>]*>/,/<link rel="canonical"[^>]*>/,/<h1\b[\s\S]*?<\/h1>/])assert.equal(now.match(re)?.[0],old.match(re)?.[0],slug+' preserves '+re);
@@ -35,7 +38,7 @@ async function newContext(width,height,motion='reduce',analytics='denied',market
  await context.addInitScript(({analytics,marketing})=>{
   localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics,marketing}));
   window.__qaVitals={lcp:null,cls:0,shifts:[]};
-  try{new PerformanceObserver(list=>{for(const e of list.getEntries())window.__qaVitals.lcp=e.startTime}).observe({type:'largest-contentful-paint',buffered:true});}catch{}
+  try{new PerformanceObserver(list=>{for(const e of list.getEntries()){window.__qaVitals.lcp=e.startTime;window.__qaVitals.lcpElement={tag:e.element?.tagName,id:e.element?.id,className:String(e.element?.className||''),url:e.url,size:e.size,renderTime:e.renderTime,loadTime:e.loadTime}}}).observe({type:'largest-contentful-paint',buffered:true});}catch{}
   try{new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput){window.__qaVitals.cls+=e.value;window.__qaVitals.shifts.push({value:e.value,sources:(e.sources||[]).map(s=>({node:s.node?.tagName,className:String(s.node?.className||'').slice(0,120),before:s.previousRect,after:s.currentRect}))})}}).observe({type:'layout-shift',buffered:true});}catch{}
  },{analytics,marketing});
  // Intercept collection and offsite navigation. QA never sends production analytics.
@@ -163,7 +166,7 @@ try{
   for(let sample=0;sample<3;sample++)for(const [name,base] of [['before',baseline],['after',origin]]){
    const context=await newContext(width,height),page=await context.newPage();
    await page.goto(base+'/'+slug+'/',{waitUntil:'load'});await page.evaluate(()=>document.fonts.ready);await delay(800);
-   measured[name].push(await page.evaluate(()=>({...window.__qaVitals,dom:document.querySelectorAll('*').length,localBytes:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).reduce((n,r)=>n+(r.encodedBodySize||0),0)})));
+   measured[name].push(await page.evaluate(()=>({...window.__qaVitals,dom:document.querySelectorAll('*').length,images:[...document.images].map(i=>({src:new URL(i.currentSrc||i.src).pathname,loading:i.loading,loaded:i.complete&&i.naturalWidth>0})),localResources:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize||0,duration:r.duration,type:r.initiatorType})),localBytes:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).reduce((n,r)=>n+(r.encodedBodySize||0),0)})));
    await context.close();
   }
   report.performance.push(measured);

@@ -1,7 +1,12 @@
 # OT — unificação comercial premium (candidata)
 Data da missão: 16/11/2026, horário de São Paulo.
 Base de produção e comparação: `2d6873bffbc66aafd1ff153a0455546b507a9759`.
-**NO-GO para merge, produção e mídia paga até concluir a homologação.**
+**Homologação técnica: decisão e resultados do último HEAD no PR #128. Merge, produção e mídia paga continuam sem autorização.**
+
+## Desbloqueio autorizado do Gate B
+
+A direção autorizou a revisão restrita do contrato histórico após `fb57fb8`. [Alterações, matriz de proteções, 76 testes de rejeição e método de homologação](GATE-B-CONTRACT.md). Os relatos abaixo preservam o histórico das revisões anteriores; afirmações de que o teste permanecia intacto descrevem aquelas etapas, não esta autorização posterior. O CI e o parecer atuais estão na [descrição do PR #128](https://github.com/olegariotech-site/olegariotech-site/pull/128).
+
 
 ## Retomada e inspeção final — 16/11/2026
 Estado recuperado: PR #128 aberto e em draft; branch existente e HEAD `7d16e357b1c31da6e53a226b4f803b88a0786bfc`. Cinco commits recuperados; nenhum comentário ou thread de revisão foi retornado pelo GitHub. [Snapshot completo e métricas](REVIEW-7d16e357.json).
@@ -25,7 +30,7 @@ Execução funcional verificada: [CI 43982501580](https://github.com/olegariotec
 
 As capturas abaixo foram atualizadas para o commit 7acb792fa72ef697f2d7ca5ffcb041a82f0a4416, já com a correção de privacidade e estabilidade de fontes. O workflow repete capturas na revisão final; o status do último HEAD e os links dos artefatos ficam no PR. A inspeção da primeira dobra não certifica todas as interações de aparelhos físicos nem conformidade integral de acessibilidade.
 
-O Gate B permanece bloqueado: `verify-premium-v3.mjs` exige igualdade histórica do HTML das landing pages. Não foi alterado, relaxado ou desligado. Esse contrato precisa de revisão própria compatível com o escopo autorizado; não liberar merge contornando-o.
+Bloqueio histórico até `fb57fb8`: `verify-premium-v3.mjs` exigia igualdade integral do HTML das landing pages. A revisão agora autorizada mantém o baseline e substitui somente a asserção conflitante pelo contrato delimitado documentado em [GATE-B-CONTRACT.md](GATE-B-CONTRACT.md). Nenhum job ou tolerância é desligado.
 
 ## Direção visual e prioridades
 O ponto de partida é a home e o DESIGN.md já aprovado: fundo #050008, Space Grotesk, Inter, Share Tech Mono, ciano #67e8f9 e violeta #8b5cf6. As páginas de serviço já usam esses fundamentos; não precisam de outra marca nem de um novo motor 3D.
