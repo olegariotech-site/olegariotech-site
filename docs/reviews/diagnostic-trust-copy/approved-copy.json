@@ -1,0 +1,80 @@
+{
+  "baseRef": "ecf7e021327a83cdfec7a2dc7450783280d9fc8e",
+  "intent": "Copy-only correction: remove appearance-based professional wording and preserve diagnosis routing",
+  "files": {
+    "index.html": [
+      {
+        "before": "<strong>Minha empresa não parece profissional</strong>",
+        "after": "<strong>Quero transmitir mais confiança</strong>"
+      }
+    ],
+    "diagnostico-digital/index.html": [
+      {
+        "before": "data-value=\"Parecer mais profissional\"><span>Parecer mais profissional</span>",
+        "after": "data-value=\"Transmitir mais confiança aos clientes\"><span>Transmitir mais confiança aos clientes</span>"
+      }
+    ],
+    "assets/js/ot-diagnostic-v2.js": [
+      {
+        "before": "if(objective==='Parecer mais profissional')return routes.presenca;",
+        "after": "if(objective==='Transmitir mais confiança aos clientes')return routes.presenca;"
+      }
+    ],
+    "scripts/verify-premium-v3.mjs": [
+      {
+        "before": "for(const id of ['inicio','solucoes','metodo','produtos','faq','contato'])assert.equal(section(source,id),section(before,id),`protected ${id} markup`);",
+        "after": "// The only approved editorial change inside the protected home solution section is one trust-focused label.\nconst trustBefore='<strong>Minha empresa não parece profissional</strong>',trustAfter='<strong>Quero transmitir mais confiança</strong>';\nassert.equal(section(before,'solucoes').split(trustBefore).length-1,1,'Historical home contains exactly one trust tab label');\nfor(const id of ['inicio','solucoes','metodo','produtos','faq','contato']){\n const expected=id==='solucoes'?section(before,id).replace(trustBefore,trustAfter):section(before,id);\n assert.equal(section(source,id),expected,`protected ${id} markup; only trust-label wording permitted`);\n}"
+      }
+    ],
+    "scripts/verify-commercial-contract.mjs": [
+      {
+        "before": "import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';",
+        "after": "import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';\nimport {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';"
+      },
+      {
+        "before": "assert.equal(current,production.replace(LEGACY_ASSERTION,REVISED_ASSERTION),'Every other legacy assertion, baseline, engine and runtime check remains literal');",
+        "after": "assert.equal(current,applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION)),'Every other legacy assertion, baseline, engine and runtime check remains literal');"
+      },
+      {
+        "before": "assert.equal(current,applyApprovedVisualHotfix(path,expected.join('\\n')),path+': only the enumerated authorized delta and post-publication visual hotfix are accepted');",
+        "after": "assert.equal(current,applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,expected.join('\\n'))),path+': only authorized landing, visual hotfix and trust-language changes accepted');"
+      },
+      {
+        "before": "  }else if(path==='assets/js/ot-diagnostic-v2.js'){",
+        "after": "  }else if(path==='index.html'){\n   assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,historical(path).toString('utf8')),'Home changes only the single approved trust tab label');\n  }else if(path==='assets/js/ot-diagnostic-v2.js'){"
+      },
+      {
+        "before": "assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');",
+        "after": "assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,old.replace(oldScroll,newScroll)),'Diagnostic runtime permits only reduced-motion behavior and approved trust label routing');"
+      }
+    ],
+    "scripts/verify-commercial-premium.mjs": [
+      {
+        "before": "import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';",
+        "after": "import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';\nimport {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';"
+      },
+      {
+        "before": "assert.equal(await readFile(resolve(root,path),'utf8'),await readFile(resolve(before,path),'utf8'),'Protected file unchanged: '+path);",
+        "after": "const old=await readFile(resolve(before,path),'utf8');\n assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);"
+      },
+      {
+        "before": " {\n  const context=await newContext(390,844,'no-preference'),page=await context.newPage();\n  await page.goto(origin+'/diagnostico-digital/',{waitUntil:'load'});await page.keyboard.press('Tab');",
+        "after": " {\n  // Protect the complete trust-oriented choice: visible label, internal routing and WhatsApp objective.\n  const context=await newContext(390,844),page=await context.newPage();\n  await page.goto(origin+'/diagnostico-digital/',{waitUntil:'load'});\n  const choice=page.locator('.step.active .opt[data-value=\"Transmitir mais confiança aos clientes\"]');\n  assert.equal((await choice.innerText()).trim(),'Transmitir mais confiança aos clientes');\n  await choice.click();await page.locator('.step.active[data-step=\"1\"]').waitFor();\n  for(let i=1;i<5;i++){await page.locator('.step.active .opt').last().click();await page.locator('.step.active[data-step=\"'+(i+1)+'\"]').waitFor();}\n  await page.locator('#nomeNegocio').fill('Empresa Confiança QA');\n  await page.locator('[data-finish]').click();await page.locator('.step.active[data-step=\"6\"]').waitFor();\n  assert.equal((await page.locator('#priorityTitle').innerText()).trim(),'Fortalecer presença e confiança');\n  const wa=new URL(await page.locator('#waLink').getAttribute('href'));\n  assert.equal(wa.pathname,'/5511912459144');\n  assert.ok(wa.searchParams.get('text').includes('Objetivo: Transmitir mais confiança aos clientes'));\n  assert.ok(!wa.searchParams.get('text').includes('Parecer mais profissional'));\n  await context.close();\n }\n {\n  const context=await newContext(390,844,'no-preference'),page=await context.newPage();\n  await page.goto(origin+'/diagnostico-digital/',{waitUntil:'load'});await page.keyboard.press('Tab');"
+      }
+    ],
+    "scripts/verify-commercial-hotfix-contract.mjs": [
+      {
+        "before": "import {fileURLToPath} from 'node:url';",
+        "after": "import {fileURLToPath} from 'node:url';\nimport {applyApprovedTrustCopy,TRUST_COPY_PATHS,verifyApprovedTrustCopyTree} from './verify-approved-trust-copy.mjs';"
+      },
+      {
+        "before": "  if(manifest.files[path]){assertPublishedHotfixFile(path,bytes.toString('utf8'),source(path));bounded++;}\n  else{assert.equal(execFileSync('git',['hash-object','--no-filters','--stdin'],{cwd:directory,input:bytes,encoding:'utf8'}).trim(),id,'Published file remains byte-exact: '+path);unchanged++;}",
+        "after": "  if(manifest.files[path]){\n   assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,source(path))),'Published visual hotfix plus only approved editorial changes: '+path);\n   bounded++;\n  }else if(TRUST_COPY_PATHS.includes(path)){\n   assert.equal(bytes.toString('utf8'),applyApprovedTrustCopy(path,source(path)),'Only approved editorial change: '+path);\n   bounded++;\n  }else{\n   assert.equal(execFileSync('git',['hash-object','--no-filters','--stdin'],{cwd:directory,input:bytes,encoding:'utf8'}).trim(),id,'Published file remains byte-exact: '+path);\n   unchanged++;\n  }"
+      },
+      {
+        "before": " const report={publishedRef:PUBLISHED_REF,unchangedFiles:unchanged,boundedFiles:bounded,negativeChecks:mutations.length,productionFiles:['anuncios-google-instagram/index.html','assets/css/ot-commercial-premium.css']};",
+        "after": " await verifyApprovedTrustCopyTree(directory);\n const report={publishedRef:PUBLISHED_REF,unchangedFiles:unchanged,boundedFiles:bounded,negativeChecks:mutations.length,productionFiles:['anuncios-google-instagram/index.html','assets/css/ot-commercial-premium.css'],editorialBase:'ecf7e021327a83cdfec7a2dc7450783280d9fc8e'};"
+      }
+    ]
+  }
+}
