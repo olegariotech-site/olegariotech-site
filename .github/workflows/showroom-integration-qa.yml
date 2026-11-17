@@ -10,6 +10,10 @@ on:
       - 'scripts/build-showroom.mjs'
       - 'scripts/verify-showroom.mjs'
       - 'scripts/verify-premium-v3.mjs' # invoked as an approved-static gate by verify-showroom
+      - 'anuncios-google-instagram/**'
+      - 'scripts/*campaign*.mjs'
+      - 'scripts/verify-commercial*.mjs'
+      - 'scripts/verify-approved-trust-copy.mjs'
       - 'scripts/verify-atmosphere.mjs'
       - 'scripts/measure-atmosphere.mjs'
       - 'scripts/measure-continuum.mjs'

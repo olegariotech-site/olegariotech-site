@@ -34,7 +34,7 @@ Os novos estilos são inline e limitados à página de Anúncios. O CSS comercia
 
 Os contratos anteriores conservam seus baselines e testes de rejeição. Após validar a árvore atual contra o novo contrato exato, recebem uma projeção estrita de seus bytes publicados anteriores, apenas nos arquivos explicitamente autorizados. Não é uma normalização genérica: dados diferentes do fragmento aprovado reprovam antes de qualquer projeção. Os testes de navegador sempre servem os arquivos atuais reais; o novo QA também valida de forma independente os metadados, schemas, conversão, canais e transparência atuais.
 
-Nenhum cenário é desligado ou marcado continue-on-error. As expectativas antigas de empresa fictícia/ausência de controles são atualizadas para a declaração de conceito com cliente real e os dois radios nativos. Transferências adicionais de imagem são permitidas somente para os dois arquivos K.L congelados, não para imagens arbitrárias. CLS continua limitado a 0,1.
+Nenhum cenário é desligado ou marcado continue-on-error. As expectativas antigas de empresa fictícia/ausência de controles são atualizadas para a declaração de conceito com cliente real e os dois radios nativos. Transferências adicionais de imagem são permitidas somente para os dois arquivos K.L congelados, não para imagens arbitrárias. CLS continua limitado a 0,1. O filtro de acionamento do Gate B passa a incluir a página de anúncios e os módulos dos contratos que ele executa indiretamente; seus jobs, cenários, baselines e tolerâncias permanecem iguais.
 
 ## Homologação e evidências
 
@@ -45,3 +45,9 @@ Performance: três amostras frias alternadas antes/depois contra `c0289b5` nas c
 Artefatos guardam antes/depois e os estados Instagram/Facebook do HERO e dos cards, kit social e relatório numérico. Os resultados do HEAD final, links de workflows, capturas revisadas, riscos e parecer estarão na descrição do único PR draft. Browser de CI não certifica aparelhos físicos, interface do Safari, INP ou experiência de rede real.
 
 Os demais workflows aplicáveis devem concluir no mesmo HEAD antes de GO técnico. A publicação continua bloqueada enquanto faltar a autorização da marca e a decisão explícita da direção.
+
+## Achado da primeira execução
+
+O primeiro QA detectou uma regressão real de overflow em 1024px: largura de rolagem 1036px contra viewport de 1024px, sem elemento DOM listado fora da tela. A composição maior expôs a extensão do halo decorativo rotacionado e comprimiu os cards no grid de duas colunas do HERO. A correção limita a elipse sem rotação e empilha o HERO até 1100px, conservando os dois mockups lado a lado dentro da área visual quando há espaço. Não se mascara o documento com overflow hidden e não se altera a tolerância do teste. Os testes completos precisam confirmar a correção.
+
+O PNG OG integrado foi substituído pela exportação Chromium das fontes atualizadas; o novo QA exige igualdade com uma nova renderização, além de conferir dimensões e conteúdo coordenado. As execuções intermediárias com falha não são apresentadas como homologação do HEAD final.

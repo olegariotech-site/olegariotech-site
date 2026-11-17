@@ -163,6 +163,7 @@
   <style id="ot-kl-campaign-styles">
 /* K.L concepts: client blue/gold stays inside the examples; OT owns the surrounding interface. */
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts{--kl-navy:#021c42;--kl-blue:#032a63;--kl-gold:#e0ae2b;--kl-ink:#f7fafc}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-stage::before{transform:none}
 body.ot-commercial[data-page="ot-anuncios"] .kl-search-brand{margin:0 0 12px;padding:12px;border:1px solid rgba(224,174,43,.22);border-radius:12px;background:var(--kl-navy)}
 body.ot-commercial[data-page="ot-anuncios"] .kl-search-brand img{display:block;width:100%;max-width:180px;height:auto;aspect-ratio:100/19;object-fit:contain;object-position:left center}
 body.ot-commercial[data-page="ot-anuncios"] .kl-search-brand>span{display:block;margin-top:8px;font-size:.65rem;line-height:1.5;color:#d4dfef;overflow-wrap:anywhere}
@@ -188,6 +189,7 @@ body.ot-commercial[data-page="ot-anuncios"] .kl-creative-cta{display:flex;justif
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption strong{display:block;font:600 .74rem/1.5 Inter,sans-serif;color:#e8eef8}
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption>span{display:block;margin-top:5px}
 @media(min-width:981px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{font-size:clamp(2.5rem,3.8vw,4.2rem)}}
+@media(max-width:1100px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero{grid-template-columns:1fr}body.ot-commercial[data-page="ot-anuncios"] .ot-ads-stage{width:min(100%,560px);max-width:none;justify-self:center}}
 @media(max-width:560px){
  body.ot-commercial[data-page="ot-anuncios"] .kl-ad-creative{padding:18px;gap:12px}
  body.ot-commercial[data-page="ot-anuncios"] .kl-ad-creative>strong{font-size:1.55rem}

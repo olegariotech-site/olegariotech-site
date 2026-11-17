@@ -14,7 +14,7 @@ export const CAMPAIGN_ASSET_PATHS=['/assets/img/commercial/kl-concepts/kl-logo.w
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/kl-campaign-concepts/approved-campaign-delta.json',import.meta.url),'utf8'));
 assert.equal(manifest.publishedRef,CAMPAIGN_BASE,'The campaign base is the published PR #130 merge, never candidate HEAD');
-assert.deepEqual(Object.keys(manifest.textFiles).sort(),['anuncios-google-instagram/index.html','docs/reviews/commercial-premium/kit.json','docs/reviews/commercial-premium/kit/anuncios-google-instagram-og.svg','docs/reviews/commercial-premium/kit/anuncios-google-instagram-story.svg','scripts/verify-approved-trust-copy.mjs','scripts/verify-commercial-contract.mjs','scripts/verify-commercial-hotfix-contract.mjs','scripts/verify-commercial-hotfix.mjs','scripts/verify-commercial-premium.mjs']);
+assert.deepEqual(Object.keys(manifest.textFiles).sort(),['.github/workflows/showroom-integration-qa.yml','anuncios-google-instagram/index.html','docs/reviews/commercial-premium/kit.json','docs/reviews/commercial-premium/kit/anuncios-google-instagram-og.svg','docs/reviews/commercial-premium/kit/anuncios-google-instagram-story.svg','scripts/verify-approved-trust-copy.mjs','scripts/verify-commercial-contract.mjs','scripts/verify-commercial-hotfix-contract.mjs','scripts/verify-commercial-hotfix.mjs','scripts/verify-commercial-premium.mjs']);
 assert.deepEqual(Object.keys(manifest.binaryFiles),['assets/img/commercial/anuncios-google-instagram-og.png']);
 const released=new Map();
 function published(path){
