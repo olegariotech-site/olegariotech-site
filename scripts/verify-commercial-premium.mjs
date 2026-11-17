@@ -7,6 +7,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium, webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';
+import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const before=process.env.OT_COMMERCIAL_BEFORE;
 assert.ok(before,'Baseline checkout required; never silently compare current to itself');
@@ -16,7 +17,8 @@ const origin='http://127.0.0.1:4187',baseline='http://127.0.0.1:4188';
 const slugs=['criacao-de-sites-valinhos','criacao-de-sites-campinas','presenca-no-google','anuncios-google-instagram','diagnostico-digital'];
 const sizes=[[1920,1080],[1440,900],[1366,768],[1024,768],[768,1024],[360,780],[390,844],[430,932]];
 for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analytics-core.js','assets/css/ot-consent.css','robots.txt','sitemap.xml']){
- assert.equal(await readFile(resolve(root,path),'utf8'),await readFile(resolve(before,path),'utf8'),'Protected file unchanged: '+path);
+ const old=await readFile(resolve(before,path),'utf8');
+ assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
 }
 assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
 await verifyCommercialTree(root);
@@ -136,6 +138,23 @@ try{
   assert.ok(message.includes('Origem da página: Criação de sites em Valinhos.'));assert.ok(!message.includes('utm_'));
   await page.screenshot({path:resolve(output,'diagnostic-result-'+engine+'.png'),fullPage:true});
   await page.locator('[data-restart]').click();assert.ok(await page.locator('.step.active[data-step="0"]').isVisible());await context.close();
+ }
+ {
+  // Protect the complete trust-oriented choice: visible label, internal routing and WhatsApp objective.
+  const context=await newContext(390,844),page=await context.newPage();
+  await page.goto(origin+'/diagnostico-digital/',{waitUntil:'load'});
+  const choice=page.locator('.step.active .opt[data-value="Transmitir mais confiança aos clientes"]');
+  assert.equal((await choice.innerText()).trim(),'Transmitir mais confiança aos clientes');
+  await choice.click();await page.locator('.step.active[data-step="1"]').waitFor();
+  for(let i=1;i<5;i++){await page.locator('.step.active .opt').last().click();await page.locator('.step.active[data-step="'+(i+1)+'"]').waitFor();}
+  await page.locator('#nomeNegocio').fill('Empresa Confiança QA');
+  await page.locator('[data-finish]').click();await page.locator('.step.active[data-step="6"]').waitFor();
+  assert.equal((await page.locator('#priorityTitle').innerText()).trim(),'Fortalecer presença e confiança');
+  const wa=new URL(await page.locator('#waLink').getAttribute('href'));
+  assert.equal(wa.pathname,'/5511912459144');
+  assert.ok(wa.searchParams.get('text').includes('Objetivo: Transmitir mais confiança aos clientes'));
+  assert.ok(!wa.searchParams.get('text').includes('Parecer mais profissional'));
+  await context.close();
  }
  {
   const context=await newContext(390,844,'no-preference'),page=await context.newPage();
