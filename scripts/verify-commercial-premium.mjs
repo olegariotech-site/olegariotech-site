@@ -34,7 +34,7 @@ for(const slug of slugs){
 await mkdir(output,{recursive:true});
 const servers=[spawn('python3',['-m','http.server','4187','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'}),spawn('python3',['-m','http.server','4188','--bind','127.0.0.1'],{cwd:before,stdio:'ignore'})];
 let browser;
-const report={engine,staticProtected:true,findings:[],errors:[],accessibility:[],performance:[],knownLimitation:'Issue #126: intent is not received conversation or qualified lead; semantics unchanged'};
+const report={engine,staticProtected:true,findings:[],errors:[],accessibility:[],performance:[],knownLimitation:'Issue #126: verified conversations and qualified leads require CRM/manual registration outside this site'};
 async function newContext(width,height,motion='reduce',analytics='denied',marketing='denied'){
  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await context.addInitScript(({analytics,marketing})=>{
@@ -179,10 +179,12 @@ try{
    ga:(window.dataLayer||[]).filter(x=>x[0]==='event').map(x=>x[1]),
    meta:(window.fbq?.queue||[]).filter(x=>x[0]==='track').map(x=>x[1])
   }));
-  for(const name of ['diagnostico_inicio','diagnostico_concluido','click_whatsapp','generate_lead'])assert.equal(events.ga.filter(x=>x===name).length,analytics==='granted'?1:0,'GA '+name+' / '+choice);
+  for(const name of ['diagnostico_inicio','diagnostico_concluido','click_whatsapp'])assert.equal(events.ga.filter(x=>x===name).length,analytics==='granted'?1:0,'GA '+name+' / '+choice);
+  assert.equal(events.ga.filter(x=>x==='generate_lead').length,0,'A click is not a received lead');
   if(marketing==='denied')assert.deepEqual(events.meta,[]);
-  else for(const name of ['PageView','Contact','Lead'])assert.equal(events.meta.filter(x=>x===name).length,1,'Legacy Pixel '+name);
-  report.consent.push({analytics,marketing,events,note:'Legacy generate_lead/Lead on click remains an open measurement gate'});
+  else for(const name of ['PageView','Contact'])assert.equal(events.meta.filter(x=>x===name).length,1,'Pixel contact intent '+name);
+  assert.equal(events.meta.filter(x=>x==='Lead').length,0,'Pixel Lead requires external CRM confirmation');
+  report.consent.push({analytics,marketing,events,note:'Issue #126: click intent and received lead separated'});
   await context.close();
  }
 
