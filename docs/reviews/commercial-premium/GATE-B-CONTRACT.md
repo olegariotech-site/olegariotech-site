@@ -35,6 +35,10 @@ O congelamento anterior de verify-premium-v3 no QA comercial passa a aceitar **s
 
 O contrato testa 76 alterações indevidas nas cinco páginas, além de uma alteração indevida no restante do teste histórico. Cobertura: H1 alterado/duplicado, description, canonical, conteúdo regional, número/mensagem WhatsApp, consentimento concedido por padrão, script de tracking trocado, evento novo, destino da navegação, schema, OG, helper removido, origem do diagnóstico e opções/label. Cada teste comprova que a mutação alterou a entrada e que foi rejeitada. Os testes são executados dentro do Gate B estático e do QA comercial.
 
+## Identidade de assets sem criptografia manual
+
+A identidade exata dos blobs é obtida com `git hash-object --no-filters --stdin`, usando os bytes reais dos arquivos, e comparada aos IDs da árvore fixa de produção. A implementação delega o formato de objetos ao próprio Git. Nenhum algoritmo criptográfico manual, supressão de CodeQL ou mudança de tolerância é necessário. A leitura da árvore usa registros delimitados por NUL para preservar espaços e acentos nos caminhos; binários grandes não são enviados ao buffer de saída de `git show`.
+
 ## Execução e evidências
 
 O ambiente desta retomada não tem executor local. A validação real em Node, Chromium e WebKit é feita pelos workflows existentes do GitHub, com o código e a base exatos. A checagem preparatória em memória validou a reconstrução dos 45 fragmentos e a rejeição das 76 mutações; isso não é apresentado como execução de navegador.

@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {createHash} from 'node:crypto';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -107,7 +106,8 @@ export async function verifyCommercialTree(root){
  const tree=execFileSync('git',['ls-tree','-r','-z',PRODUCTION_REF],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
  const objects=new Map(tree.map(line=>{const m=line.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(m,'Expected a tracked blob: '+line);return [m[2],m[1]]}));
  const allFiles=[...objects.keys()];
- const blobID=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+ // Git owns its object format; compare raw content without filters or manual cryptography.
+ const blobID=bytes=>execFileSync('git',['hash-object','--no-filters','--stdin'],{cwd:root,input:bytes,encoding:'utf8'}).trim();
  const pages=Object.keys(manifest.pages);
  assert.deepEqual([...pages].sort(),['anuncios-google-instagram/index.html','criacao-de-sites-campinas/index.html','criacao-de-sites-valinhos/index.html','diagnostico-digital/index.html','presenca-no-google/index.html']);
  let protectedFiles=0,mutations=0;const verified=[];
