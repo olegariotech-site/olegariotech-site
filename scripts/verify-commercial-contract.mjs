@@ -20,11 +20,28 @@ function single(html,re,label){
  assert.equal(matches.length,1,'Exactly one '+label);
  return matches[0][0];
 }
+// Parse script elements with the browser's HTML parser, never a tag-filter regex.
+// Documents are inert, detached and offline; no page script is evaluated.
+const scriptInventory=new Map();
+let parserPage;
+async function inventoryHTML(html){
+ if(scriptInventory.has(html))return;
+ assert.ok(parserPage,'HTML parser must be initialized');
+ const scripts=await parserPage.evaluate(source=>{
+  const document=new DOMParser().parseFromString(source,'text/html');
+  return [...document.querySelectorAll('script')].map(script=>({type:script.type.toLowerCase(),text:script.textContent,markup:script.outerHTML}));
+ },html);
+ scriptInventory.set(html,scripts);
+}
+function parsedScripts(html){
+ assert.ok(scriptInventory.has(html),'All HTML must be parsed before its script inventory is checked');
+ return scriptInventory.get(html);
+}
 function schemas(html){
- return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi)].map(m=>JSON.parse(m[1]));
+ return parsedScripts(html).filter(script=>script.type==='application/ld+json').map(script=>JSON.parse(script.text));
 }
 function runtimeScripts(html){
- return [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/gi)].map(m=>m[0]).filter(s=>!s.toLowerCase().startsWith('<script type="application/ld+json">'));
+ return parsedScripts(html).filter(script=>script.type!=='application/ld+json').map(script=>script.markup);
 }
 
 export function assertApprovedCommercialPage(path,current,production){
@@ -47,7 +64,7 @@ export function assertApprovedCommercialPage(path,current,production){
   assert.equal(newSchemas[0]['@graph'][0].url,'https://olegariotech.com.br/diagnostico-digital/');
  }
  const scripts=runtimeScripts(current);
- const contextTag='<script src="/assets/js/ot-commercial-context.js?v=1" defer></script>';
+ const contextTag='<script src="/assets/js/ot-commercial-context.js?v=1" defer=""></script>';
  assert.equal(scripts.filter(x=>x===contextTag).length,1,'Exactly one non-analytics origin/UTM helper');
  assert.deepEqual(scripts.filter(x=>x!==contextTag),runtimeScripts(production),path+' inline consent, GA4, Pixel and diagnostic script tags remain exact');
  const allWA=[...current.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)].map(m=>m[1]);
@@ -70,7 +87,7 @@ export function assertApprovedCommercialPage(path,current,production){
  return {path,hunks:operations.length,semantic:['title','description','canonical','H1','schema','consent/scripts','WhatsApp','regional content and all remaining markup']};
 }
 
-export function mutationChecks(path,current,production){
+export async function mutationChecks(path,current,production){
  const variants=[
   ['H1',current.replace(/(<h1\b[^>]*>)/,'$1ALTERADO ')],
   ['duplicate H1',current.replace('</main>','<h1>Duplicado</h1></main>')],
@@ -91,6 +108,7 @@ export function mutationChecks(path,current,production){
   ['upper-case script',"<SCRIPT>gtag('event','unapproved');</SCRIPT>"],
   ['mixed-case script',"<sCrIpT>gtag('event','unapproved');</sCrIpT>"]
  ]){
+  await inventoryHTML(injected);
   assert.equal(runtimeScripts(injected).length,1,'Case variants of script tags must be recognized');
   variants.push([label,current.replace('</head>',injected+'</head>')]);
  }
@@ -100,6 +118,7 @@ export function mutationChecks(path,current,production){
  }else variants.push(['diagnostic origin',current.replace(/origem=[a-z-]+/,'origem=unapproved')]);
  for(const [label,changed] of variants){
   assert.notEqual(changed,current,'Mutation really changes '+path+' '+label);
+  await inventoryHTML(changed);
   assert.throws(()=>assertApprovedCommercialPage(path,changed,production),undefined,'Reject '+path+' '+label);
  }
  return variants.length;
@@ -136,15 +155,27 @@ export async function verifyCommercialTree(root){
    protectedFiles++;
   }
  }
- for(const path of pages){
-  const current=await readFile(resolve(root,path),'utf8'),production=historical(path).toString('utf8');
-  verified.push(assertApprovedCommercialPage(path,current,production));
-  mutations+=mutationChecks(path,current,production);
+ const pw=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
+ const engine=process.env.OT_COMMERCIAL_ENGINE||process.env.OT_QA_ENGINES?.split(',')[0]||'chromium';
+ assert.ok(['chromium','webkit','firefox'].includes(engine),'A supported installed HTML parser engine is required');
+ const parserBrowser=await pw[engine].launch({headless:true});
+ try{
+  const context=await parserBrowser.newContext({offline:true});
+  await context.route('**/*',route=>route.abort());
+  parserPage=await context.newPage();
+  for(const path of pages){
+   const current=await readFile(resolve(root,path),'utf8'),production=historical(path).toString('utf8');
+   await inventoryHTML(current);await inventoryHTML(production);
+   verified.push(assertApprovedCommercialPage(path,current,production));
+   mutations+=await mutationChecks(path,current,production);
+  }
+ }finally{
+  await parserBrowser.close();parserPage=undefined;scriptInventory.clear();
  }
  // Approved visuals/UTM implementation are separately frozen; production remains the content reference.
  assert.equal(manifest.reviewedImplementationRef,'fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9');
  for(const path of manifest.reviewedAssets)assert.equal(blobID(await readFile(resolve(root,path))),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);
- const report={productionRef:PRODUCTION_REF,reviewedAssetsRef:manifest.reviewedImplementationRef,protectedFiles,pages:verified,negativeMutationChecks:mutations,reviewedAssets:manifest.reviewedAssets.length,legacyGuard:'one exact assertion replacement; every other byte preserved'};
+ const report={productionRef:PRODUCTION_REF,reviewedAssetsRef:manifest.reviewedImplementationRef,protectedFiles,htmlParser:'Native DOMParser; inert detached documents, offline, no script execution',pages:verified,negativeMutationChecks:mutations,reviewedAssets:manifest.reviewedAssets.length,legacyGuard:'one exact assertion replacement; every other byte preserved'};
  console.log('OT_COMMERCIAL_CONTRACT '+JSON.stringify(report));
  verifiedRoot=root;
  return report;

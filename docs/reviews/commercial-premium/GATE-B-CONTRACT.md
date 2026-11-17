@@ -41,7 +41,7 @@ A identidade exata dos blobs é obtida com `git hash-object --no-filters --stdin
 
 ## Correção verificada pelo CodeQL
 
-O SARIF identificou `js/bad-tag-filter`: a expressão que enumera scripts precisava reconhecer tags HTML em maiúsculas e capitalização mista. Os matchers de script/JSON-LD passam a ser case-insensitive, com classificação consistente dos blocos JSON-LD. Dez mutações adicionais (duas por página) comprovam que `<SCRIPT>` e `<sCrIpT>` são reconhecidos e rejeitados quando introduzem código não autorizado. O contrato delimitado de conteúdo permanece estrito. A etapa temporária de leitura de SARIF foi retirada e o workflow original do CodeQL restaurado integralmente; nenhum alerta é suprimido.
+O SARIF identificou `js/bad-tag-filter`: a expressão que enumera scripts precisava reconhecer tags HTML em maiúsculas e capitalização mista. A enumeração de scripts/JSON-LD passa a usar o DOMParser nativo do navegador já instalado pelo Playwright do CI, em documentos inertes, destacados e offline, sem execução de scripts ou rede. Não é feita filtragem de tags por regex. O parser semântico complementa a preservação literal do diff autorizado. Dez mutações adicionais (duas por página) comprovam que `<SCRIPT>` e `<sCrIpT>` são reconhecidos e rejeitados quando introduzem código não autorizado. O contrato delimitado de conteúdo permanece estrito. A etapa temporária de leitura de SARIF foi retirada e o workflow original do CodeQL restaurado integralmente; nenhum alerta é suprimido.
 
 ## Execução e evidências
 
