@@ -8,6 +8,7 @@ import { chromium, webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
+import {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const before=process.env.OT_COMMERCIAL_BEFORE;
 assert.ok(before,'Baseline checkout required; never silently compare current to itself');
@@ -18,7 +19,11 @@ const slugs=['criacao-de-sites-valinhos','criacao-de-sites-campinas','presenca-n
 const sizes=[[1920,1080],[1440,900],[1366,768],[1024,768],[768,1024],[360,780],[390,844],[430,932]];
 for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analytics-core.js','assets/css/ot-consent.css','robots.txt','sitemap.xml']){
  const old=await readFile(resolve(before,path),'utf8');
- assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
+ if(['assets/js/ot-analytics.js','assets/js/ot-analytics-core.js'].includes(path)){
+  assertApprovedIssue126File(path,await readFile(resolve(root,path)));
+ }else{
+  assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
+ }
 }
 assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
 await verifyCommercialTree(root);
