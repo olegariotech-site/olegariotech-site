@@ -58,7 +58,7 @@
     }
     if(stepLabel) stepLabel.textContent=current<5?('sinal '+(current+1)+' de 5'):(current===5?'finalização':'resultado');
     if(shouldScroll&&matchMedia('(max-width:980px)').matches){
-      document.getElementById('quiz')?.scrollIntoView({behavior:'smooth',block:'start'});
+      document.getElementById('quiz')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
     }
   }
 

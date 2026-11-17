@@ -1,0 +1,503 @@
+{
+  "engine": "chromium",
+  "success": true,
+  "viewports": 40,
+  "errors": [],
+  "performanceComparisons": 10,
+  "performance": [
+    {
+      "slug": "criacao-de-sites-valinhos",
+      "width": 390,
+      "height": 844,
+      "before": [
+        {
+          "lcp": 192,
+          "cls": 0.020441664852033956,
+          "dom": 192,
+          "localBytes": 495990
+        },
+        {
+          "lcp": 184,
+          "cls": 0.009428074350914924,
+          "dom": 192,
+          "localBytes": 495990
+        },
+        {
+          "lcp": 168,
+          "cls": 0.020441664852033956,
+          "dom": 192,
+          "localBytes": 495990
+        }
+      ],
+      "after": [
+        {
+          "lcp": 140,
+          "cls": 0.020545321471025772,
+          "dom": 236,
+          "localBytes": 514356
+        },
+        {
+          "lcp": 148,
+          "cls": 0.020640947732854676,
+          "dom": 236,
+          "localBytes": 514356
+        },
+        {
+          "lcp": 144,
+          "cls": 0.014833007086399445,
+          "dom": 236,
+          "localBytes": 514356
+        }
+      ]
+    },
+    {
+      "slug": "criacao-de-sites-valinhos",
+      "width": 1440,
+      "height": 900,
+      "before": [
+        {
+          "lcp": 244,
+          "cls": 0.009593263058341907,
+          "dom": 192,
+          "localBytes": 495990
+        },
+        {
+          "lcp": 248,
+          "cls": 0.009593263058341907,
+          "dom": 192,
+          "localBytes": 495990
+        },
+        {
+          "lcp": 252,
+          "cls": 0.009593263058341907,
+          "dom": 192,
+          "localBytes": 495990
+        }
+      ],
+      "after": [
+        {
+          "lcp": 180,
+          "cls": 0.002950516747578018,
+          "dom": 236,
+          "localBytes": 514356
+        },
+        {
+          "lcp": 180,
+          "cls": 0.002950516747578018,
+          "dom": 236,
+          "localBytes": 514356
+        },
+        {
+          "lcp": 164,
+          "cls": 0.015169959257986646,
+          "dom": 236,
+          "localBytes": 514356
+        }
+      ]
+    },
+    {
+      "slug": "criacao-de-sites-campinas",
+      "width": 390,
+      "height": 844,
+      "before": [
+        {
+          "lcp": 204,
+          "cls": 0.019492863746523537,
+          "dom": 192,
+          "localBytes": 483430
+        },
+        {
+          "lcp": 204,
+          "cls": 0.0027378809801799093,
+          "dom": 192,
+          "localBytes": 483430
+        },
+        {
+          "lcp": 216,
+          "cls": 0.00728069934243794,
+          "dom": 192,
+          "localBytes": 483430
+        }
+      ],
+      "after": [
+        {
+          "lcp": 132,
+          "cls": 0.007846065305756027,
+          "dom": 236,
+          "localBytes": 501796
+        },
+        {
+          "lcp": 140,
+          "cls": 0.007846065305756027,
+          "dom": 236,
+          "localBytes": 501796
+        },
+        {
+          "lcp": 140,
+          "cls": 0.007846065305756027,
+          "dom": 236,
+          "localBytes": 501796
+        }
+      ]
+    },
+    {
+      "slug": "criacao-de-sites-campinas",
+      "width": 1440,
+      "height": 900,
+      "before": [
+        {
+          "lcp": 248,
+          "cls": 0.008530245640967934,
+          "dom": 192,
+          "localBytes": 483430
+        },
+        {
+          "lcp": 248,
+          "cls": 0.008530245640967934,
+          "dom": 192,
+          "localBytes": 483430
+        },
+        {
+          "lcp": 252,
+          "cls": 0.008530245640967934,
+          "dom": 192,
+          "localBytes": 483430
+        }
+      ],
+      "after": [
+        {
+          "lcp": 164,
+          "cls": 0.1253715274428798,
+          "dom": 236,
+          "localBytes": 501796
+        },
+        {
+          "lcp": 176,
+          "cls": 0.08726623813121571,
+          "dom": 236,
+          "localBytes": 501796
+        },
+        {
+          "lcp": 180,
+          "cls": 0.08726869333526235,
+          "dom": 236,
+          "localBytes": 501796
+        }
+      ]
+    },
+    {
+      "slug": "presenca-no-google",
+      "width": 390,
+      "height": 844,
+      "before": [
+        {
+          "lcp": 200,
+          "cls": 0.013482539809253081,
+          "dom": 206,
+          "localBytes": 578822
+        },
+        {
+          "lcp": 204,
+          "cls": 0.013482539809253081,
+          "dom": 206,
+          "localBytes": 578822
+        },
+        {
+          "lcp": 204,
+          "cls": 0.003376558971072568,
+          "dom": 206,
+          "localBytes": 578822
+        }
+      ],
+      "after": [
+        {
+          "lcp": 200,
+          "cls": 0.009677250407327226,
+          "dom": 250,
+          "localBytes": 597188
+        },
+        {
+          "lcp": 188,
+          "cls": 0.01580193141352482,
+          "dom": 250,
+          "localBytes": 597188
+        },
+        {
+          "lcp": 216,
+          "cls": 0.01580193141352482,
+          "dom": 250,
+          "localBytes": 597188
+        }
+      ]
+    },
+    {
+      "slug": "presenca-no-google",
+      "width": 1440,
+      "height": 900,
+      "before": [
+        {
+          "lcp": 180,
+          "cls": 0.012704523148817945,
+          "dom": 206,
+          "localBytes": 578822
+        },
+        {
+          "lcp": 172,
+          "cls": 0.0033662575218085565,
+          "dom": 206,
+          "localBytes": 578822
+        },
+        {
+          "lcp": 176,
+          "cls": 0.0033604568209340702,
+          "dom": 206,
+          "localBytes": 578822
+        }
+      ],
+      "after": [
+        {
+          "lcp": 240,
+          "cls": 0.013667502186883786,
+          "dom": 250,
+          "localBytes": 597188
+        },
+        {
+          "lcp": 252,
+          "cls": 0.0030863109865960437,
+          "dom": 250,
+          "localBytes": 597188
+        },
+        {
+          "lcp": 252,
+          "cls": 0.013667502186883786,
+          "dom": 250,
+          "localBytes": 597188
+        }
+      ]
+    },
+    {
+      "slug": "anuncios-google-instagram",
+      "width": 390,
+      "height": 844,
+      "before": [
+        {
+          "lcp": 140,
+          "cls": 0.018017635352522345,
+          "dom": 222,
+          "localBytes": 103096
+        },
+        {
+          "lcp": 140,
+          "cls": 0.018053298082124452,
+          "dom": 222,
+          "localBytes": 103096
+        },
+        {
+          "lcp": 128,
+          "cls": 0.017975955718408453,
+          "dom": 222,
+          "localBytes": 103096
+        }
+      ],
+      "after": [
+        {
+          "lcp": 216,
+          "cls": 0.005572473379747616,
+          "dom": 288,
+          "localBytes": 359812
+        },
+        {
+          "lcp": 204,
+          "cls": 0.005472534721802272,
+          "dom": 288,
+          "localBytes": 359812
+        },
+        {
+          "lcp": 212,
+          "cls": 0.005572473379747616,
+          "dom": 288,
+          "localBytes": 359812
+        }
+      ]
+    },
+    {
+      "slug": "anuncios-google-instagram",
+      "width": 1440,
+      "height": 900,
+      "before": [
+        {
+          "lcp": 160,
+          "cls": 0.003154885860071588,
+          "dom": 222,
+          "localBytes": 103096
+        },
+        {
+          "lcp": 168,
+          "cls": 0.003157953793456361,
+          "dom": 222,
+          "localBytes": 103096
+        },
+        {
+          "lcp": 160,
+          "cls": 0.003270356706532922,
+          "dom": 222,
+          "localBytes": 103096
+        }
+      ],
+      "after": [
+        {
+          "lcp": 276,
+          "cls": 0.0036972927601085603,
+          "dom": 288,
+          "localBytes": 359812
+        },
+        {
+          "lcp": 228,
+          "cls": 0.0036972927601085603,
+          "dom": 288,
+          "localBytes": 359812
+        },
+        {
+          "lcp": 256,
+          "cls": 0.01226822408458987,
+          "dom": 288,
+          "localBytes": 359812
+        }
+      ]
+    },
+    {
+      "slug": "diagnostico-digital",
+      "width": 390,
+      "height": 844,
+      "before": [
+        {
+          "lcp": 132,
+          "cls": 0.09274074812685629,
+          "dom": 243,
+          "localBytes": 106647
+        },
+        {
+          "lcp": 128,
+          "cls": 0.08561121054620435,
+          "dom": 243,
+          "localBytes": 106647
+        },
+        {
+          "lcp": 136,
+          "cls": 0.0866160671206587,
+          "dom": 243,
+          "localBytes": 106647
+        }
+      ],
+      "after": [
+        {
+          "lcp": 144,
+          "cls": 0.019061317046651566,
+          "dom": 307,
+          "localBytes": 125075
+        },
+        {
+          "lcp": 132,
+          "cls": 0.012936636040453971,
+          "dom": 307,
+          "localBytes": 125075
+        },
+        {
+          "lcp": 144,
+          "cls": 0.019061317046651566,
+          "dom": 307,
+          "localBytes": 125075
+        }
+      ]
+    },
+    {
+      "slug": "diagnostico-digital",
+      "width": 1440,
+      "height": 900,
+      "before": [
+        {
+          "lcp": 148,
+          "cls": 0.0037824776606304655,
+          "dom": 243,
+          "localBytes": 106647
+        },
+        {
+          "lcp": 168,
+          "cls": 0.003672516070079411,
+          "dom": 243,
+          "localBytes": 106647
+        },
+        {
+          "lcp": 156,
+          "cls": 0.0036879080313223377,
+          "dom": 243,
+          "localBytes": 106647
+        }
+      ],
+      "after": [
+        {
+          "lcp": 176,
+          "cls": 0.004704661336095572,
+          "dom": 307,
+          "localBytes": 125075
+        },
+        {
+          "lcp": 164,
+          "cls": 0.004704661336095571,
+          "dom": 307,
+          "localBytes": 125075
+        },
+        {
+          "lcp": 168,
+          "cls": 0.004704661336095572,
+          "dom": 307,
+          "localBytes": 125075
+        }
+      ]
+    }
+  ],
+  "consent": [
+    {
+      "analytics": "denied",
+      "marketing": "denied",
+      "events": {
+        "ga": [],
+        "meta": []
+      },
+      "note": "Legacy generate_lead/Lead on click remains an open measurement gate"
+    },
+    {
+      "analytics": "granted",
+      "marketing": "denied",
+      "events": {
+        "ga": [
+          "diagnostico_inicio",
+          "diagnostico_resposta",
+          "diagnostico_resposta",
+          "diagnostico_resposta",
+          "diagnostico_resposta",
+          "diagnostico_resposta",
+          "diagnostico_concluido",
+          "click_whatsapp",
+          "generate_lead"
+        ],
+        "meta": []
+      },
+      "note": "Legacy generate_lead/Lead on click remains an open measurement gate"
+    },
+    {
+      "analytics": "denied",
+      "marketing": "granted",
+      "events": {
+        "ga": [],
+        "meta": [
+          "PageView",
+          "Contact",
+          "Lead"
+        ]
+      },
+      "note": "Legacy generate_lead/Lead on click remains an open measurement gate"
+    }
+  ],
+  "visualInspection": false
+}

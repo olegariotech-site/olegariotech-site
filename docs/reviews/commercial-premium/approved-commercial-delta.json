@@ -1,0 +1,574 @@
+{
+  "productionRef": "2d6873bffbc66aafd1ff153a0455546b507a9759",
+  "authorization": "OT PR #128 approved visual scope, confirmed by direction; exact bounded transformations from production, never a candidate HTML snapshot baseline.",
+  "reviewedImplementationRef": "fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9",
+  "reviewedAssets": [
+    "assets/css/ot-commercial-premium.css",
+    "assets/img/brand/ot-logo-commercial.svg",
+    "assets/img/commercial/anuncios-google-instagram-og.png",
+    "assets/img/commercial/criacao-de-sites-campinas-og.png",
+    "assets/img/commercial/criacao-de-sites-valinhos-og.png",
+    "assets/img/commercial/diagnostico-digital-og.png",
+    "assets/img/commercial/presenca-no-google-og.png",
+    "assets/js/ot-commercial-context.js",
+    "docs/reviews/commercial-premium/kit.json",
+    "docs/reviews/commercial-premium/kit/anuncios-google-instagram-og.svg",
+    "docs/reviews/commercial-premium/kit/anuncios-google-instagram-story.svg",
+    "docs/reviews/commercial-premium/kit/criacao-de-sites-campinas-og.svg",
+    "docs/reviews/commercial-premium/kit/criacao-de-sites-campinas-story.svg",
+    "docs/reviews/commercial-premium/kit/criacao-de-sites-valinhos-og.svg",
+    "docs/reviews/commercial-premium/kit/criacao-de-sites-valinhos-story.svg",
+    "docs/reviews/commercial-premium/kit/diagnostico-digital-og.svg",
+    "docs/reviews/commercial-premium/kit/diagnostico-digital-story.svg",
+    "docs/reviews/commercial-premium/kit/presenca-no-google-og.svg",
+    "docs/reviews/commercial-premium/kit/presenca-no-google-story.svg"
+  ],
+  "pages": {
+    "anuncios-google-instagram/index.html": [
+      {
+        "category": "page-social-image",
+        "line": 19,
+        "remove": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/commercial/anuncios-google-instagram-og.png\">",
+          "  <meta property=\"og:image:width\" content=\"1200\">",
+          "  <meta property=\"og:image:height\" content=\"630\">",
+          "  <meta property=\"og:image:type\" content=\"image/png\">",
+          "  <meta property=\"og:image:alt\" content=\"GOOGLE ADS · INSTAGRAM — Anúncios com estratégia comercial.\">"
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 23,
+        "remove": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/commercial/anuncios-google-instagram-og.png\">"
+        ]
+      },
+      {
+        "category": "opt-in-commercial-assets",
+        "line": 157,
+        "remove": [],
+        "add": [
+          "  <link rel=\"stylesheet\" href=\"/assets/css/ot-commercial-premium.css?v=1\">",
+          "  <script src=\"/assets/js/ot-commercial-context.js?v=1\" defer></script>"
+        ]
+      },
+      {
+        "category": "opt-in-body",
+        "line": 158,
+        "remove": [
+          "<body data-page=\"ot-anuncios\">"
+        ],
+        "add": [
+          "<body data-page=\"ot-anuncios\" class=\"ot-commercial\">"
+        ]
+      },
+      {
+        "category": "shared-navigation",
+        "line": 160,
+        "remove": [
+          "  <header class=\"lc-header\">",
+          "    <div class=\"lc-shell lc-nav\">",
+          "      <a class=\"lc-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a>",
+          "      <nav class=\"lc-navlinks\" aria-label=\"Navegação de serviços\">",
+          "        <a href=\"/\">Início</a>",
+          "        <a href=\"/presenca-no-google/\">Google e SEO local</a>",
+          "        <a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a>",
+          "        <a class=\"lc-navcta\" href=\"/diagnostico-digital/\">Diagnóstico gratuito</a>",
+          "      </nav>",
+          "    </div>",
+          "  </header>"
+        ],
+        "add": [
+          "  <header class=\"ot-site-header\"><div class=\"ot-header-inner\"><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><nav class=\"ot-desktop-nav\" aria-label=\"Navegação de serviços\"><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\" aria-current=\"page\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav><details class=\"ot-service-menu\"><summary>Serviços <span aria-hidden=\"true\">+</span></summary><nav aria-label=\"Serviços no celular\"><a href=\"/\">Início</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\" aria-current=\"page\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav></details></div></header>"
+        ]
+      },
+      {
+        "category": "service-specific-cta",
+        "line": 179,
+        "remove": [
+          "          <div class=\"lc-buttons\">",
+          "            <a class=\"lc-btn lc-btn-primary\" href=\"/diagnostico-digital/\">Fazer diagnóstico gratuito <span aria-hidden=\"true\">↗</span></a>",
+          "            <a class=\"lc-btn lc-btn-secondary\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20An%C3%BAncios%20Google%20e%20Instagram%20e%20quero%20conversar%20sobre%20campanhas%20para%20minha%20empresa.\" target=\"_blank\" rel=\"noopener noreferrer\">Conversar com a OT</a>",
+          "          </div>"
+        ],
+        "add": [
+          "          <div class=\"lc-buttons\"><a class=\"lc-btn lc-btn-primary\" data-ot-cta=\"service\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20An%C3%BAncios%20Google%20e%20Instagram%20e%20quero%20conversar%20sobre%20campanhas%20para%20minha%20empresa.\" target=\"_blank\" rel=\"noopener noreferrer\">Planejar minha campanha <span aria-hidden=\"true\">↗</span></a><a class=\"lc-btn lc-btn-secondary\" href=\"/diagnostico-digital/?origem=anuncios\">Fazer diagnóstico gratuito</a></div>"
+        ]
+      },
+      {
+        "category": "approved-proof-and-contract",
+        "line": 293,
+        "remove": [],
+        "add": [
+          "  <section class=\"ot-content-shell ot-infrastructure\" aria-labelledby=\"ot-ads-proof\"><span class=\"ot-kicker\">PROJETOS REAIS DA OT</span><h2 id=\"ot-ads-proof\">Uma base para receber o interesse.</h2><p>Exemplos de sites criados pela OT. São referências de estrutura digital; não apresentam campanhas nem resultados de mídia paga.</p><div class=\"lc-cases\"><article class=\"lc-case\"><div class=\"lc-case-media\"><img src=\"/assets/img/projetos/ripamonti/armazem-ripamonti-site-desktop-v1.webp\" alt=\"Captura do site oficial do Armazém Ripamonti com comunicação de varejo\" loading=\"lazy\" decoding=\"async\"></div><div class=\"lc-case-body\"><span class=\"lc-label\">VAREJO DE PROXIMIDADE · CASE REAL</span><h3>Armazém Ripamonti</h3><p>A apresentação do armazém une identidade, categorias e acesso prático ao WhatsApp. Exemplo de como um comércio local pode organizar sua vitrine digital sem perder a própria personalidade.</p><a class=\"lc-text-link\" href=\"https://armazemripamonti.com.br/\" target=\"_blank\" rel=\"noopener noreferrer\">Conhecer o site publicado <span aria-hidden=\"true\">↗</span></a></div></article><article class=\"lc-case\"><div class=\"lc-case-media\"><img src=\"/assets/img/projetos/showroom-v2/acai-desktop.webp\" alt=\"Captura real do site Açaí do Dudu com catálogo de sabores e produtos\" loading=\"lazy\" decoding=\"async\"></div><div class=\"lc-case-body\"><span class=\"lc-label\">ALIMENTAÇÃO · CASE REAL</span><h3>Açaí do Dudu</h3><p>Cardápio, catálogo de sabores e identidade visual em uma navegação que ajuda o cliente a entender as opções antes de pedir. O site funciona como uma vitrine consultável pelo celular.</p><a class=\"lc-text-link\" href=\"https://acaidodudu.com.br/\" target=\"_blank\" rel=\"noopener noreferrer\">Conhecer o site publicado <span aria-hidden=\"true\">↗</span></a></div></article></div></section><aside class=\"ot-proof ot-content-shell\" aria-label=\"Avaliação de cliente já publicada pela Olegario Tech\"><div><span class=\"ot-kicker\">QUEM JÁ CONSTRUIU COM A OT</span><p>Experiência de um cliente com seu site.</p></div><figure class=\"ot-review\"><blockquote>“O resultado ficou acima das minhas expectativas: um site moderno, bonito, rápido e funcional.”</blockquote><figcaption><strong>Lucas Mazett</strong><a href=\"https://www.google.com/maps/place/Olegario+Tech/@-22.9061482,-47.0678946,11z/data=!4m8!3m7!1s0x28032760cff0408f:0xa87dec9ab458397a!8m2!3d-22.9061482!4d-47.0678946!9m1!1b1!16s%2Fg%2F11zh8p6y8y?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Ver listagem geral de avaliações da Olegario Tech no Google — Lucas Mazett\">Avaliações da OT no Google ↗</a></figcaption></figure></aside><section class=\"ot-contract ot-content-shell\" aria-labelledby=\"ot-contract-title\"><div><span class=\"ot-kicker\">COMO CONTRATAR</span><h2 id=\"ot-contract-title\">Clareza antes do investimento.</h2></div><ol><li><strong>1. Conte seu objetivo</strong><span>Diagnóstico ou conversa para entender o negócio.</span></li><li><strong>2. Receba o escopo</strong><span>Entregas, investimento e prazo definidos na proposta.</span></li><li><strong>3. Revise com a OT</strong><span>Conteúdo e experiência apresentados para sua aprovação.</span></li><li><strong>4. Autorize a publicação</strong><span>Entrega e acompanhamento conforme o que foi contratado.</span></li></ol></section>"
+        ]
+      },
+      {
+        "category": "shared-footer",
+        "line": 294,
+        "remove": [
+          "  <footer class=\"lc-footer\">",
+          "    <div class=\"lc-shell lc-footer-inner\">",
+          "      <div><a class=\"lc-brand\" href=\"/\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a>",
+          "      <div class=\"lc-footer-copy\">Construindo presença digital para negócios que querem crescer. © 2026 Olegario Tech</div></div>",
+          "      <nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav>",
+          "    </div>",
+          "  </footer>"
+        ],
+        "add": [
+          "  <footer class=\"lc-footer ot-site-footer\"><div class=\"lc-footer-inner ot-footer-inner\"><div><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><p class=\"lc-footer-copy\">Conhecimento que vira ação. © 2026 Olegario Tech.<br>Valinhos · Campinas · região</p></div><nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\" aria-current=\"page\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div></footer>"
+        ]
+      }
+    ],
+    "criacao-de-sites-campinas/index.html": [
+      {
+        "category": "page-social-image",
+        "line": 19,
+        "remove": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/commercial/criacao-de-sites-campinas-og.png\">",
+          "  <meta property=\"og:image:width\" content=\"1200\">",
+          "  <meta property=\"og:image:height\" content=\"630\">",
+          "  <meta property=\"og:image:type\" content=\"image/png\">",
+          "  <meta property=\"og:image:alt\" content=\"SITES EM CAMPINAS — Sites em Campinas. Clareza para vender.\">"
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 23,
+        "remove": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/commercial/criacao-de-sites-campinas-og.png\">"
+        ]
+      },
+      {
+        "category": "opt-in-commercial-assets",
+        "line": 37,
+        "remove": [],
+        "add": [
+          "  <link rel=\"stylesheet\" href=\"/assets/css/ot-commercial-premium.css?v=1\">",
+          "  <script src=\"/assets/js/ot-commercial-context.js?v=1\" defer></script>"
+        ]
+      },
+      {
+        "category": "opt-in-body",
+        "line": 38,
+        "remove": [
+          "<body data-page=\"seo-local-criacao-de-sites-campinas\">"
+        ],
+        "add": [
+          "<body data-page=\"seo-local-criacao-de-sites-campinas\" class=\"ot-commercial\">"
+        ]
+      },
+      {
+        "category": "shared-navigation",
+        "line": 40,
+        "remove": [
+          "  <header class=\"lc-header\">",
+          "    <div class=\"lc-shell lc-nav\">",
+          "      <a class=\"lc-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a>",
+          "      <nav class=\"lc-navlinks\" aria-label=\"Navegação de serviços locais\">",
+          "        <a href=\"/\">Início</a>",
+          "        <a href=\"/criacao-de-sites-valinhos/\" >Valinhos</a>",
+          "        <a href=\"/criacao-de-sites-campinas/\" aria-current=\"page\">Campinas</a>",
+          "        <a class=\"lc-navcta\" href=\"/diagnostico-digital/\">Diagnóstico gratuito</a>",
+          "      </nav>",
+          "    </div>",
+          "  </header>"
+        ],
+        "add": [
+          "  <header class=\"ot-site-header\"><div class=\"ot-header-inner\"><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><nav class=\"ot-desktop-nav\" aria-label=\"Navegação de serviços\"><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\" aria-current=\"page\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav><details class=\"ot-service-menu\"><summary>Serviços <span aria-hidden=\"true\">+</span></summary><nav aria-label=\"Serviços no celular\"><a href=\"/\">Início</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\" aria-current=\"page\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav></details></div></header>"
+        ]
+      },
+      {
+        "category": "service-specific-cta",
+        "line": 59,
+        "remove": [
+          "          <div class=\"lc-buttons\">",
+          "            <a class=\"lc-btn lc-btn-primary\" href=\"/diagnostico-digital/\">Fazer diagnóstico gratuito <span aria-hidden=\"true\">↗</span></a>",
+          "            <a class=\"lc-btn lc-btn-secondary\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20de%20cria%C3%A7%C3%A3o%20de%20sites%20em%20Campinas%20e%20quero%20conversar%20sobre%20o%20site%20da%20minha%20empresa.\" target=\"_blank\" rel=\"noopener noreferrer\">Falar com a OT pelo WhatsApp</a>",
+          "          </div>"
+        ],
+        "add": [
+          "          <div class=\"lc-buttons\"><a class=\"lc-btn lc-btn-primary\" data-ot-cta=\"service\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20de%20cria%C3%A7%C3%A3o%20de%20sites%20em%20Campinas%20e%20quero%20conversar%20sobre%20o%20site%20da%20minha%20empresa.\" target=\"_blank\" rel=\"noopener noreferrer\">Conversar sobre meu site <span aria-hidden=\"true\">↗</span></a><a class=\"lc-btn lc-btn-secondary\" href=\"/diagnostico-digital/?origem=sites-campinas\">Fazer diagnóstico gratuito</a></div>"
+        ]
+      },
+      {
+        "category": "approved-proof-and-contract",
+        "line": 103,
+        "remove": [],
+        "add": [
+          "  <aside class=\"ot-proof ot-content-shell\" aria-label=\"Avaliação de cliente já publicada pela Olegario Tech\"><div><span class=\"ot-kicker\">QUEM JÁ CONSTRUIU COM A OT</span><p>Experiência de um cliente com seu site.</p></div><figure class=\"ot-review\"><blockquote>“O site ficou profissional, elegante e, ao mesmo tempo, com a identidade que eu queria para o meu trabalho.”</blockquote><figcaption><strong>Cíntia Pereira Almeida Gomes</strong><a href=\"https://www.google.com/maps/place/Olegario+Tech/@-22.9061482,-47.0678946,11z/data=!4m8!3m7!1s0x28032760cff0408f:0xa87dec9ab458397a!8m2!3d-22.9061482!4d-47.0678946!9m1!1b1!16s%2Fg%2F11zh8p6y8y?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Ver listagem geral de avaliações da Olegario Tech no Google — Cíntia Pereira Almeida Gomes\">Avaliações da OT no Google ↗</a></figcaption></figure></aside><section class=\"ot-contract ot-content-shell\" aria-labelledby=\"ot-contract-title\"><div><span class=\"ot-kicker\">COMO CONTRATAR</span><h2 id=\"ot-contract-title\">Clareza antes do investimento.</h2></div><ol><li><strong>1. Conte seu objetivo</strong><span>Diagnóstico ou conversa para entender o negócio.</span></li><li><strong>2. Receba o escopo</strong><span>Entregas, investimento e prazo definidos na proposta.</span></li><li><strong>3. Revise com a OT</strong><span>Conteúdo e experiência apresentados para sua aprovação.</span></li><li><strong>4. Autorize a publicação</strong><span>Entrega e acompanhamento conforme o que foi contratado.</span></li></ol></section>"
+        ]
+      },
+      {
+        "category": "shared-footer",
+        "line": 104,
+        "remove": [
+          "  <footer class=\"lc-footer\">",
+          "    <div class=\"lc-shell lc-footer-inner\"><div><a class=\"lc-brand\" href=\"/\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a><div class=\"lc-footer-copy\">Criação de sites com visão comercial · © 2026 Olegario Tech</div></div>",
+          "      <nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div>",
+          "  </footer>"
+        ],
+        "add": [
+          "  <footer class=\"lc-footer ot-site-footer\"><div class=\"lc-footer-inner ot-footer-inner\"><div><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><p class=\"lc-footer-copy\">Conhecimento que vira ação. © 2026 Olegario Tech.<br>Valinhos · Campinas · região</p></div><nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\" aria-current=\"page\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div></footer>"
+        ]
+      }
+    ],
+    "criacao-de-sites-valinhos/index.html": [
+      {
+        "category": "page-social-image",
+        "line": 19,
+        "remove": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/commercial/criacao-de-sites-valinhos-og.png\">",
+          "  <meta property=\"og:image:width\" content=\"1200\">",
+          "  <meta property=\"og:image:height\" content=\"630\">",
+          "  <meta property=\"og:image:type\" content=\"image/png\">",
+          "  <meta property=\"og:image:alt\" content=\"SITES EM VALINHOS — Sites em Valinhos. Presença com intenção.\">"
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 23,
+        "remove": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/commercial/criacao-de-sites-valinhos-og.png\">"
+        ]
+      },
+      {
+        "category": "opt-in-commercial-assets",
+        "line": 37,
+        "remove": [],
+        "add": [
+          "  <link rel=\"stylesheet\" href=\"/assets/css/ot-commercial-premium.css?v=1\">",
+          "  <script src=\"/assets/js/ot-commercial-context.js?v=1\" defer></script>"
+        ]
+      },
+      {
+        "category": "opt-in-body",
+        "line": 38,
+        "remove": [
+          "<body data-page=\"seo-local-criacao-de-sites-valinhos\">"
+        ],
+        "add": [
+          "<body data-page=\"seo-local-criacao-de-sites-valinhos\" class=\"ot-commercial\">"
+        ]
+      },
+      {
+        "category": "shared-navigation",
+        "line": 40,
+        "remove": [
+          "  <header class=\"lc-header\">",
+          "    <div class=\"lc-shell lc-nav\">",
+          "      <a class=\"lc-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a>",
+          "      <nav class=\"lc-navlinks\" aria-label=\"Navegação de serviços locais\">",
+          "        <a href=\"/\">Início</a>",
+          "        <a href=\"/criacao-de-sites-valinhos/\" aria-current=\"page\">Valinhos</a>",
+          "        <a href=\"/criacao-de-sites-campinas/\" >Campinas</a>",
+          "        <a class=\"lc-navcta\" href=\"/diagnostico-digital/\">Diagnóstico gratuito</a>",
+          "      </nav>",
+          "    </div>",
+          "  </header>"
+        ],
+        "add": [
+          "  <header class=\"ot-site-header\"><div class=\"ot-header-inner\"><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><nav class=\"ot-desktop-nav\" aria-label=\"Navegação de serviços\"><a href=\"/criacao-de-sites-valinhos/\" aria-current=\"page\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav><details class=\"ot-service-menu\"><summary>Serviços <span aria-hidden=\"true\">+</span></summary><nav aria-label=\"Serviços no celular\"><a href=\"/\">Início</a><a href=\"/criacao-de-sites-valinhos/\" aria-current=\"page\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav></details></div></header>"
+        ]
+      },
+      {
+        "category": "service-specific-cta",
+        "line": 59,
+        "remove": [
+          "          <div class=\"lc-buttons\">",
+          "            <a class=\"lc-btn lc-btn-primary\" href=\"/diagnostico-digital/\">Fazer diagnóstico gratuito <span aria-hidden=\"true\">↗</span></a>",
+          "            <a class=\"lc-btn lc-btn-secondary\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20de%20cria%C3%A7%C3%A3o%20de%20sites%20em%20Valinhos%20e%20gostaria%20de%20conversar%20sobre%20um%20site%20para%20meu%20neg%C3%B3cio.\" target=\"_blank\" rel=\"noopener noreferrer\">Falar com a OT pelo WhatsApp</a>",
+          "          </div>"
+        ],
+        "add": [
+          "          <div class=\"lc-buttons\"><a class=\"lc-btn lc-btn-primary\" data-ot-cta=\"service\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20de%20cria%C3%A7%C3%A3o%20de%20sites%20em%20Valinhos%20e%20gostaria%20de%20conversar%20sobre%20um%20site%20para%20meu%20neg%C3%B3cio.\" target=\"_blank\" rel=\"noopener noreferrer\">Conversar sobre meu site <span aria-hidden=\"true\">↗</span></a><a class=\"lc-btn lc-btn-secondary\" href=\"/diagnostico-digital/?origem=sites-valinhos\">Fazer diagnóstico gratuito</a></div>"
+        ]
+      },
+      {
+        "category": "approved-proof-and-contract",
+        "line": 103,
+        "remove": [],
+        "add": [
+          "  <aside class=\"ot-proof ot-content-shell\" aria-label=\"Avaliação de cliente já publicada pela Olegario Tech\"><div><span class=\"ot-kicker\">QUEM JÁ CONSTRUIU COM A OT</span><p>Experiência de um cliente com seu site.</p></div><figure class=\"ot-review\"><blockquote>“O resultado ficou acima das minhas expectativas: um site moderno, bonito, rápido e funcional.”</blockquote><figcaption><strong>Lucas Mazett</strong><a href=\"https://www.google.com/maps/place/Olegario+Tech/@-22.9061482,-47.0678946,11z/data=!4m8!3m7!1s0x28032760cff0408f:0xa87dec9ab458397a!8m2!3d-22.9061482!4d-47.0678946!9m1!1b1!16s%2Fg%2F11zh8p6y8y?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Ver listagem geral de avaliações da Olegario Tech no Google — Lucas Mazett\">Avaliações da OT no Google ↗</a></figcaption></figure></aside><section class=\"ot-contract ot-content-shell\" aria-labelledby=\"ot-contract-title\"><div><span class=\"ot-kicker\">COMO CONTRATAR</span><h2 id=\"ot-contract-title\">Clareza antes do investimento.</h2></div><ol><li><strong>1. Conte seu objetivo</strong><span>Diagnóstico ou conversa para entender o negócio.</span></li><li><strong>2. Receba o escopo</strong><span>Entregas, investimento e prazo definidos na proposta.</span></li><li><strong>3. Revise com a OT</strong><span>Conteúdo e experiência apresentados para sua aprovação.</span></li><li><strong>4. Autorize a publicação</strong><span>Entrega e acompanhamento conforme o que foi contratado.</span></li></ol></section>"
+        ]
+      },
+      {
+        "category": "shared-footer",
+        "line": 104,
+        "remove": [
+          "  <footer class=\"lc-footer\">",
+          "    <div class=\"lc-shell lc-footer-inner\"><div><a class=\"lc-brand\" href=\"/\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a><div class=\"lc-footer-copy\">Criação de sites com visão comercial · © 2026 Olegario Tech</div></div>",
+          "      <nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div>",
+          "  </footer>"
+        ],
+        "add": [
+          "  <footer class=\"lc-footer ot-site-footer\"><div class=\"lc-footer-inner ot-footer-inner\"><div><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><p class=\"lc-footer-copy\">Conhecimento que vira ação. © 2026 Olegario Tech.<br>Valinhos · Campinas · região</p></div><nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\" aria-current=\"page\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div></footer>"
+        ]
+      }
+    ],
+    "diagnostico-digital/index.html": [
+      {
+        "category": "safe-viewport",
+        "line": 5,
+        "remove": [
+          "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+        ],
+        "add": [
+          "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">"
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 14,
+        "remove": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/ot-diagnostico-social-preview-1200x630-v5.jpg\">",
+          "  <meta property=\"og:image:secure_url\" content=\"https://olegariotech.com.br/assets/img/ot-diagnostico-social-preview-1200x630-v5.jpg\">",
+          "  <meta property=\"og:image:type\" content=\"image/jpeg\">"
+        ],
+        "add": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/commercial/diagnostico-digital-og.png\">",
+          "  <meta property=\"og:image:secure_url\" content=\"https://olegariotech.com.br/assets/img/commercial/diagnostico-digital-og.png\">",
+          "  <meta property=\"og:image:type\" content=\"image/png\">"
+        ]
+      },
+      {
+        "category": "diagnostic-spacing",
+        "line": 22,
+        "remove": [],
+        "add": [
+          "  "
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 25,
+        "remove": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/ot-diagnostico-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/commercial/diagnostico-digital-og.png\">"
+        ]
+      },
+      {
+        "category": "opt-in-commercial-assets",
+        "line": 59,
+        "remove": [],
+        "add": [
+          "  <script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https://olegariotech.com.br/diagnostico-digital/#webpage\",\"url\":\"https://olegariotech.com.br/diagnostico-digital/\",\"name\":\"Diagnóstico Digital Gratuito | Olegario Tech\",\"inLanguage\":\"pt-BR\",\"isPartOf\":{\"@id\":\"https://olegariotech.com.br/#website\"}},{\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Olegario Tech\",\"item\":\"https://olegariotech.com.br/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Diagnóstico Digital\",\"item\":\"https://olegariotech.com.br/diagnostico-digital/\"}]}]}</script>",
+          "  <link rel=\"stylesheet\" href=\"/assets/css/ot-commercial-premium.css?v=1\">",
+          "  <script src=\"/assets/js/ot-commercial-context.js?v=1\" defer></script>"
+        ]
+      },
+      {
+        "category": "opt-in-body",
+        "line": 60,
+        "remove": [
+          "<body>"
+        ],
+        "add": [
+          "<body class=\"ot-commercial\" data-page=\"ot-diagnostico\">"
+        ]
+      },
+      {
+        "category": "shared-navigation",
+        "line": 63,
+        "remove": [
+          "    <header class=\"top\" aria-label=\"Topo\">",
+          "      <a class=\"brand\" href=\"/\" aria-label=\"Olegario Tech\">",
+          "        <span class=\"brand-mark\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" alt=\"Olegario Tech\" onerror=\"this.style.display='none'\"></span>",
+          "        <span>OLEGARIO TECH</span>",
+          "      </a>",
+          "      <a class=\"back\" href=\"/\">Ver site oficial</a>",
+          "    </header>"
+        ],
+        "add": [
+          "    <header class=\"ot-site-header\"><div class=\"ot-header-inner\"><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><nav class=\"ot-desktop-nav\" aria-label=\"Navegação de serviços\"><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\" aria-current=\"page\">Diagnóstico</a></nav><details class=\"ot-service-menu\"><summary>Serviços <span aria-hidden=\"true\">+</span></summary><nav aria-label=\"Serviços no celular\"><a href=\"/\">Início</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\" aria-current=\"page\">Diagnóstico</a></nav></details></div></header>"
+        ]
+      },
+      {
+        "category": "diagnostic-landmark",
+        "line": 72,
+        "remove": [
+          "      <section class=\"diagnostic-card\">"
+        ],
+        "add": [
+          "      <nav class=\"ot-breadcrumb\" aria-label=\"Caminho de navegação\"><a href=\"/\">Olegario Tech</a><span aria-hidden=\"true\">/</span><span aria-current=\"page\">Diagnóstico Digital</span></nav>",
+          "      <section class=\"diagnostic-card\" aria-labelledby=\"diagnostic-title\">"
+        ]
+      },
+      {
+        "category": "diagnostic-start-position",
+        "line": 78,
+        "remove": [],
+        "add": [
+          "            <div class=\"copy-actions\">",
+          "              <a class=\"btn b-ice\" href=\"#quiz\" data-start-link>Começar diagnóstico →</a>",
+          "              <a class=\"btn b-wa\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conheci%20a%20Olegario%20Tech%20pelo%20diagn%C3%B3stico%20digital%20gratuito%20e%20quero%20entender%20o%20que%20posso%20melhorar%20no%20meu%20neg%C3%B3cio.\" target=\"_blank\" rel=\"noopener noreferrer\">Fale com a OT</a>",
+          "            </div>"
+        ]
+      },
+      {
+        "category": "diagnostic-start-position",
+        "line": 109,
+        "remove": [
+          "            <div class=\"copy-actions\">",
+          "              <a class=\"btn b-ice\" href=\"#quiz\" data-start-link>Começar diagnóstico →</a>",
+          "              <a class=\"btn b-wa\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Conheci%20a%20Olegario%20Tech%20pelo%20diagn%C3%B3stico%20digital%20gratuito%20e%20quero%20entender%20o%20que%20posso%20melhorar%20no%20meu%20neg%C3%B3cio.\" target=\"_blank\" rel=\"noopener noreferrer\">Fale com a OT</a>",
+          "            </div>"
+        ],
+        "add": [
+          ""
+        ]
+      },
+      {
+        "category": "diagnostic-label",
+        "line": 190,
+        "remove": [],
+        "add": [
+          "            <label class=\"ot-field-label\" for=\"nomeNegocio\">Nome do negócio (opcional)</label>"
+        ]
+      },
+      {
+        "category": "approved-proof-and-contract",
+        "line": 211,
+        "remove": [
+          "    </main>"
+        ],
+        "add": [
+          "    </main><aside class=\"ot-proof ot-content-shell\" aria-label=\"Avaliação de cliente da OT\"><div><span class=\"ot-kicker\">PROJETOS REAIS</span><p><a href=\"/#projetos\">Conheça os sites que a OT já criou ↗</a></p></div><figure class=\"ot-review\"><blockquote>“O resultado ficou acima das minhas expectativas: um site moderno, bonito, rápido e funcional.”</blockquote><figcaption><strong>Lucas Mazett</strong><a href=\"https://www.google.com/maps/place/Olegario+Tech/@-22.9061482,-47.0678946,11z/data=!4m8!3m7!1s0x28032760cff0408f:0xa87dec9ab458397a!8m2!3d-22.9061482!4d-47.0678946!9m1!1b1!16s%2Fg%2F11zh8p6y8y?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Ver listagem geral de avaliações da Olegario Tech no Google — Lucas Mazett\">Avaliações da OT no Google ↗</a></figcaption></figure></aside><section class=\"ot-contract ot-content-shell\" aria-labelledby=\"ot-contract-title\"><div><span class=\"ot-kicker\">COMO CONTRATAR</span><h2 id=\"ot-contract-title\">Clareza antes do investimento.</h2></div><ol><li><strong>1. Conte seu objetivo</strong><span>Diagnóstico ou conversa para entender o negócio.</span></li><li><strong>2. Receba o escopo</strong><span>Entregas, investimento e prazo definidos na proposta.</span></li><li><strong>3. Revise com a OT</strong><span>Conteúdo e experiência apresentados para sua aprovação.</span></li><li><strong>4. Autorize a publicação</strong><span>Entrega e acompanhamento conforme o que foi contratado.</span></li></ol></section>"
+        ]
+      },
+      {
+        "category": "shared-footer",
+        "line": 213,
+        "remove": [
+          "    <footer class=\"foot\">",
+          "      <span>© 2026 Olegario Tech. Valinhos, Campinas e região.</span>",
+          "      <span>Sites, landing pages e WhatsApp comercial.</span>",
+          "      <a href=\"/privacidade/\">Privacidade</a>",
+          "    </footer>"
+        ],
+        "add": [
+          "    <footer class=\"lc-footer ot-site-footer\"><div class=\"lc-footer-inner ot-footer-inner\"><div><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><p class=\"lc-footer-copy\">Conhecimento que vira ação. © 2026 Olegario Tech.<br>Valinhos · Campinas · região</p></div><nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\" aria-current=\"page\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div></footer>"
+        ]
+      }
+    ],
+    "presenca-no-google/index.html": [
+      {
+        "category": "page-social-image",
+        "line": 19,
+        "remove": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta property=\"og:image\" content=\"https://olegariotech.com.br/assets/img/commercial/presenca-no-google-og.png\">",
+          "  <meta property=\"og:image:width\" content=\"1200\">",
+          "  <meta property=\"og:image:height\" content=\"630\">",
+          "  <meta property=\"og:image:type\" content=\"image/png\">",
+          "  <meta property=\"og:image:alt\" content=\"GOOGLE E SEO LOCAL — Seu cliente procura. Ele encontra você?\">"
+        ]
+      },
+      {
+        "category": "page-social-image",
+        "line": 23,
+        "remove": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/ot-social-preview-1200x630-v5.jpg\">"
+        ],
+        "add": [
+          "  <meta name=\"twitter:image\" content=\"https://olegariotech.com.br/assets/img/commercial/presenca-no-google-og.png\">"
+        ]
+      },
+      {
+        "category": "opt-in-commercial-assets",
+        "line": 58,
+        "remove": [],
+        "add": [
+          "  <link rel=\"stylesheet\" href=\"/assets/css/ot-commercial-premium.css?v=1\">",
+          "  <script src=\"/assets/js/ot-commercial-context.js?v=1\" defer></script>"
+        ]
+      },
+      {
+        "category": "opt-in-body",
+        "line": 59,
+        "remove": [
+          "<body data-page=\"seo-local-presenca-no-google\">"
+        ],
+        "add": [
+          "<body data-page=\"seo-local-presenca-no-google\" class=\"ot-commercial\">"
+        ]
+      },
+      {
+        "category": "shared-navigation",
+        "line": 61,
+        "remove": [
+          "  <header class=\"lc-header\">",
+          "    <div class=\"lc-shell lc-nav\">",
+          "      <a class=\"lc-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a>",
+          "      <nav class=\"lc-navlinks\" aria-label=\"Navegação de serviços\">",
+          "        <a href=\"/\">Início</a>",
+          "        <a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a>",
+          "        <a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a>",
+          "        <a class=\"lc-navcta\" href=\"/diagnostico-digital/\">Diagnóstico gratuito</a>",
+          "      </nav>",
+          "    </div>",
+          "  </header>"
+        ],
+        "add": [
+          "  <header class=\"ot-site-header\"><div class=\"ot-header-inner\"><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><nav class=\"ot-desktop-nav\" aria-label=\"Navegação de serviços\"><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\" aria-current=\"page\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav><details class=\"ot-service-menu\"><summary>Serviços <span aria-hidden=\"true\">+</span></summary><nav aria-label=\"Serviços no celular\"><a href=\"/\">Início</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\" aria-current=\"page\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a></nav></details></div></header>"
+        ]
+      },
+      {
+        "category": "service-specific-cta",
+        "line": 80,
+        "remove": [
+          "          <div class=\"lc-buttons\">",
+          "            <a class=\"lc-btn lc-btn-primary\" href=\"/diagnostico-digital/\">Fazer diagnóstico gratuito <span aria-hidden=\"true\">↗</span></a>",
+          "            <a class=\"lc-btn lc-btn-secondary\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20Presen%C3%A7a%20no%20Google%20e%20quero%20avaliar%20como%20minha%20empresa%20aparece%20nas%20buscas%20locais.\" target=\"_blank\" rel=\"noopener noreferrer\">Conversar com a OT</a>",
+          "          </div>"
+        ],
+        "add": [
+          "          <div class=\"lc-buttons\"><a class=\"lc-btn lc-btn-primary\" data-ot-cta=\"service\" href=\"https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20Presen%C3%A7a%20no%20Google%20e%20quero%20avaliar%20como%20minha%20empresa%20aparece%20nas%20buscas%20locais.\" target=\"_blank\" rel=\"noopener noreferrer\">Organizar minha presença no Google <span aria-hidden=\"true\">↗</span></a><a class=\"lc-btn lc-btn-secondary\" href=\"/diagnostico-digital/?origem=google-local\">Fazer diagnóstico gratuito</a></div>"
+        ]
+      },
+      {
+        "category": "approved-proof-and-contract",
+        "line": 186,
+        "remove": [],
+        "add": [
+          "  <aside class=\"ot-proof ot-content-shell\" aria-label=\"Avaliação de cliente já publicada pela Olegario Tech\"><div><span class=\"ot-kicker\">QUEM JÁ CONSTRUIU COM A OT</span><p>Experiência de um cliente com seu site.</p></div><figure class=\"ot-review\"><blockquote>“O resultado ficou acima das minhas expectativas: um site moderno, bonito, rápido e funcional.”</blockquote><figcaption><strong>Lucas Mazett</strong><a href=\"https://www.google.com/maps/place/Olegario+Tech/@-22.9061482,-47.0678946,11z/data=!4m8!3m7!1s0x28032760cff0408f:0xa87dec9ab458397a!8m2!3d-22.9061482!4d-47.0678946!9m1!1b1!16s%2Fg%2F11zh8p6y8y?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Ver listagem geral de avaliações da Olegario Tech no Google — Lucas Mazett\">Avaliações da OT no Google ↗</a></figcaption></figure></aside><section class=\"ot-contract ot-content-shell\" aria-labelledby=\"ot-contract-title\"><div><span class=\"ot-kicker\">COMO CONTRATAR</span><h2 id=\"ot-contract-title\">Clareza antes do investimento.</h2></div><ol><li><strong>1. Conte seu objetivo</strong><span>Diagnóstico ou conversa para entender o negócio.</span></li><li><strong>2. Receba o escopo</strong><span>Entregas, investimento e prazo definidos na proposta.</span></li><li><strong>3. Revise com a OT</strong><span>Conteúdo e experiência apresentados para sua aprovação.</span></li><li><strong>4. Autorize a publicação</strong><span>Entrega e acompanhamento conforme o que foi contratado.</span></li></ol></section>"
+        ]
+      },
+      {
+        "category": "shared-footer",
+        "line": 187,
+        "remove": [
+          "  <footer class=\"lc-footer\">",
+          "    <div class=\"lc-shell lc-footer-inner\"><div><a class=\"lc-brand\" href=\"/\"><img src=\"/assets/img/brand/olegario-tech-logo-oficial.webp\" width=\"38\" height=\"42\" alt=\"\"><span>Olegario Tech</span></a><div class=\"lc-footer-copy\">Construindo presença digital para negócios que querem crescer. © 2026 Olegario Tech</div></div>",
+          "      <nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div>",
+          "  </footer>"
+        ],
+        "add": [
+          "  <footer class=\"lc-footer ot-site-footer\"><div class=\"lc-footer-inner ot-footer-inner\"><div><a class=\"ot-brand\" href=\"/\" aria-label=\"Olegario Tech, página inicial\"><img src=\"/assets/img/brand/ot-logo-commercial.svg\" width=\"40\" height=\"44\" alt=\"\"><span>OLEGARIO TECH<small>Soluções Digitais para Negócios</small></span></a><p class=\"lc-footer-copy\">Conhecimento que vira ação. © 2026 Olegario Tech.<br>Valinhos · Campinas · região</p></div><nav class=\"lc-footer-links\" aria-label=\"Links do rodapé\"><a href=\"/\">Site principal</a><a href=\"/criacao-de-sites-valinhos/\">Sites em Valinhos</a><a href=\"/criacao-de-sites-campinas/\">Sites em Campinas</a><a href=\"/presenca-no-google/\" aria-current=\"page\">Google e SEO local</a><a href=\"/anuncios-google-instagram/\">Anúncios</a><a href=\"/diagnostico-digital/\">Diagnóstico</a><a href=\"/privacidade/\">Privacidade</a></nav></div></footer>"
+        ]
+      }
+    ]
+  }
+}

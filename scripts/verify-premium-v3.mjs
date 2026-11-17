@@ -41,7 +41,13 @@ for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-camp
   assert.equal(expected.split(oldAlt).length-1,2,'approved V4 image-alt source count');
   expected=expected.replaceAll(oldImage,newImage).replaceAll(oldAlt,newAlt);
  }
+ if(['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html'].includes(path)){
+  const {verifyCommercialTree,PRODUCTION_REF}=await import('./verify-commercial-contract.mjs');
+  assert.equal(expected,execFileSync('git',['show',PRODUCTION_REF+':'+path],{cwd:root,encoding:'utf8'}),path+': historical contract still resolves to the fixed production reference');
+  await verifyCommercialTree(root);
+ }else{
  assert.equal(current,expected,`${path}: only shared asset versions and approved Diagnóstico V5 social metadata changed`);
+ }
 }
 const inline=s=>[...s.matchAll(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/g)].map(m=>m[0]).filter(t=>!t.slice(0,t.indexOf('>')).includes(' src='));
 // PR #116 only updates the LocalBusiness social identities; all other inline code and JSON-LD must stay the same.
