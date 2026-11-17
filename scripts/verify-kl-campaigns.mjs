@@ -19,9 +19,9 @@ async function serve(dir){const s=createServer(async(req,res)=>{try{let p=resolv
 async function context(width,height,motion='reduce'){
  const c=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await c.addInitScript(()=>{
-  localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));window.__campaignVitals={lcp:null,cls:0};
+  localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));window.__campaignVitals={lcp:null,cls:0,shifts:[]};
   try{new PerformanceObserver(l=>{for(const e of l.getEntries()){window.__campaignVitals.lcp=e.startTime;window.__campaignVitals.lcpElement={tag:e.element?.tagName,url:e.url}}}).observe({type:'largest-contentful-paint',buffered:true})}catch{}
-  try{new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput)window.__campaignVitals.cls+=e.value}).observe({type:'layout-shift',buffered:true})}catch{}
+  try{new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput){window.__campaignVitals.cls+=e.value;window.__campaignVitals.shifts.push({value:e.value,time:e.startTime,sources:e.sources?.map(s=>({tag:s.node?.tagName,id:s.node?.id,className:s.node?.className,previous:s.previousRect.toJSON(),current:s.currentRect.toJSON()}))})}}).observe({type:'layout-shift',buffered:true})}catch{}
  });
  await c.route('**/*',r=>{const u=new URL(r.request().url());if(['127.0.0.1','fonts.googleapis.com','fonts.gstatic.com'].includes(u.hostname))return r.continue();return r.fulfill({status:200,contentType:'application/javascript',body:'/* QA: collectors and offsite navigation intercepted */'})});return c;
 }
