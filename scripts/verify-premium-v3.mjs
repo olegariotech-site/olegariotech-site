@@ -19,7 +19,13 @@ const projects=catalog(source),approvedProjects=catalog(before);assert.equal(app
 const seo=html=>[...html.matchAll(/<title>[\s\S]*?<\/title>|<meta\b[^>]*>|<link\b[^>]*rel="canonical"[^>]*>/g)].map(m=>m[0]);
 assert.deepEqual(seo(source),seo(before),'home title, metadata and canonical unchanged');
 const section=(html,id)=>html.match(new RegExp(`<section[^>]*id="${id}"[\\s\\S]*?</section>`))[0];
-for(const id of ['inicio','solucoes','metodo','produtos','faq','contato'])assert.equal(section(source,id),section(before,id),`protected ${id} markup`);
+// The only approved editorial change inside the protected home solution section is one trust-focused label.
+const trustBefore='<strong>Minha empresa não parece profissional</strong>',trustAfter='<strong>Quero transmitir mais confiança</strong>';
+assert.equal(section(before,'solucoes').split(trustBefore).length-1,1,'Historical home contains exactly one trust tab label');
+for(const id of ['inicio','solucoes','metodo','produtos','faq','contato']){
+ const expected=id==='solucoes'?section(before,id).replace(trustBefore,trustAfter):section(before,id);
+ assert.equal(section(source,id),expected,`protected ${id} markup; only trust-label wording permitted`);
+}
 const baselineAbout=section(before,'sobre');
 const approvedAbout=baselineAbout.replace('<div class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" loading="lazy"></div>','<figure class="about-photo"><img src="/assets/img/alexandre-olegario.jpeg" alt="Alexandre Olegario, fundador da Olegario Tech" width="1280" height="1280" loading="lazy" decoding="async"><figcaption><strong>Alexandre Olegario</strong><span>Fundador · Olegario Tech</span></figcaption></figure>').replace('<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div>','<div class="about-stats"><span>30+ anos em vendas</span><span>Valinhos e Campinas</span><span>Design + visão comercial</span></div><a class="btn btn-ghost about-diagnostic" href="/diagnostico-digital/">Fazer meu diagnóstico gratuito <span aria-hidden="true">↗</span></a>');
 assert.equal(section(source,'sobre'),approvedAbout,'founder section permits only the caption, image dimensions and existing diagnosis CTA');
