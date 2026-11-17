@@ -41,3 +41,19 @@ O workflow guarda capturas antes/depois de privacidade em 390/1440/1920px, paine
 Preparação local: verificação de escopo e sintaxe executadas. A tentativa de Chromium local foi bloqueada na inicialização por restrição de socket do runtime; não conta como navegador aprovado. A homologação real usa os motores instalados nos runners existentes do GitHub. Medições locais de CI não certificam dispositivos físicos, UI do Safari, INP ou Core Web Vitals de usuários reais.
 
 Manter o PR em draft. Homologação técnica não autoriza merge, produção, campanha, contratação ou custo.
+
+## Capturas reais para revisão da direção
+
+Fonte: artefato `14340553692`, workflow `44112314064`, runtime da candidata `54b1984` comparado à publicação `7dfb0ee`. Os dois arquivos de produção dessas capturas são byte a byte iguais aos do commit final; commits posteriores apenas finalizam teste/documentação. A falha desse snapshot ocorreu na espera de um frame de abertura do painel no teste de movimento e não invalida as imagens capturadas; não é apresentado como QA integral aprovado. Os relatórios do HEAD final ficam na descrição do PR.
+
+As comparações apenas juntam capturas reais e acrescentam uma legenda fora delas, sem alterar conteúdo. Os recortes são comprimidos em WebP sem perda, com igualdade dos pixels decodificados verificada. O HERO mobile é um recorte vertical de 1700px que inclui toda a composição; os PNGs integrais permanecem no artefato.
+
+![HERO desktop antes e depois](evidence/ads-desktop-before-after.webp)
+
+![HERO mobile antes e depois](evidence/ads-mobile-before-after.webp)
+
+![Privacidade desktop antes e depois](evidence/privacy-1440-before-after.webp)
+
+![Privacidade mobile antes e depois](evidence/privacy-390-before-after.webp)
+
+[Painel desktop](evidence/consent-desktop.webp) · [Painel mobile](evidence/consent-mobile.webp) · [Detalhe dos exemplos](evidence/ads-cards-desktop.webp)

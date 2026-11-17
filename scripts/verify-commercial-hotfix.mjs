@@ -109,7 +109,7 @@ try{
  for(const motion of ['reduce','no-preference']){
   const c=await context(390,844,motion),p=await c.newPage();await p.goto(afterURL+'/anuncios-google-instagram/');await ready(p);
   if(motion==='reduce')assert.equal(await p.locator('#otConsentSettings').evaluate(n=>getComputedStyle(n).transitionDuration),'0s');
-  await p.locator('#otConsentSettings').focus();await p.keyboard.press('Enter');assert.ok(await p.locator('.ot-consent.is-visible').isVisible());await c.close();
+  await p.locator('#otConsentSettings').focus();await p.keyboard.press('Enter');await p.locator('.ot-consent.is-visible').waitFor({state:'visible'});assert.ok(await p.locator('.ot-consent.is-visible').isVisible());await c.close();
  }
  if(engine==='chromium')for(const slug of slugs)for(const [width,height] of [[390,844],[1440,900]]){
   const sample={slug,width,height,before:[],after:[]};
