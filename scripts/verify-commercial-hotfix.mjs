@@ -15,7 +15,7 @@ assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:before,encoding:'utf8'
 const engine=process.env.OT_HOTFIX_ENGINE||'chromium';assert.ok(['chromium','webkit'].includes(engine));
 const out=process.env.OT_HOTFIX_OUTPUT||'/tmp/ot-commercial-hotfix';await mkdir(out,{recursive:true});
 const report={engine,publishedRef:PUBLISHED_REF,scope:await verifyPublishedHotfixScope(root),views:[],accessibility:[],consent:[],performance:[],images:[],limitations:['Linux browser engines, not physical devices.','Local cold samples without CPU/network throttling; no field CWV or INP certification.','External collectors and WhatsApp intercepted; no production event or message sent.']};
-const servers=[];let browser;
+const servers=[];let browser,currentPage;
 const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp3':'audio/mpeg'};
 async function serve(dir){
  const server=createServer(async(req,res)=>{try{let path=resolve(dir,'.'+decodeURIComponent(new URL(req.url,'http://local').pathname));assert.ok(path===dir||path.startsWith(dir+'/'));if((await stat(path)).isDirectory())path+='/index.html';res.setHeader('content-type',types[extname(path)]||'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404);res.end()}});
@@ -45,12 +45,13 @@ try{
  browser=await ({chromium,webkit})[engine].launch(launch);report.browserVersion=browser.version();
  for(const slug of slugs)for(const [width,height] of [[360,780],[390,844],[1440,900],[1920,1080],...(slug==='anuncios-google-instagram'?[[768,1024],[1024,768],[1366,612],[430,932]]:[])]){
   const c=await context(width,height),p=await c.newPage(),errors=[],missing=[];
+  currentPage=p;
   p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400&&r.url().startsWith(afterURL))missing.push(r.url())});
   await p.goto(afterURL+'/'+slug+'/',{waitUntil:'load'});await ready(p);
   assert.equal(await p.locator('h1').count(),1);assert.ok(await p.locator('a[href*="wa.me/5511912459144"]').count()>0);
   assert.equal(await p.locator('#ot-ga4-script,#ot-meta-pixel-script').count(),0,'No tags without consent');
   const trigger=p.getByRole('button',{name:'Reabrir preferências de privacidade e cookies'});
-  assert.equal(await trigger.innerText(),'Privacidade e cookies');
+  assert.equal(await trigger.innerText(),width<=900?'Privacidade':'Privacidade e cookies');
   await trigger.scrollIntoViewIfNeeded();
   const geometry=await trigger.evaluate(n=>{
    const r=n.getBoundingClientRect(),f=document.querySelector('.ot-site-footer').getBoundingClientRect(),shell=document.querySelector('.ot-footer-inner').getBoundingClientRect();
@@ -123,7 +124,7 @@ try{
   report.performance.push(sample);
  }
  report.success=true;
-}catch(e){report.success=false;report.error=e.stack;throw e;}
+}catch(e){report.success=false;report.error=e.stack;if(currentPage&&!currentPage.isClosed())await shot(currentPage,'failure-'+engine+'.png',{fullPage:true}).catch(()=>{});throw e;}
 finally{
  await writeFile(resolve(out,'report-'+engine+'.json'),JSON.stringify(report,null,2));
  console.log(JSON.stringify({engine,success:report.success,browserVersion:report.browserVersion,views:report.views.length,accessibility:report.accessibility.length,consent:report.consent.length,performance:report.performance.length,error:report.error}));

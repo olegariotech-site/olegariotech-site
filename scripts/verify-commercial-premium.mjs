@@ -90,7 +90,7 @@ try{
     const trigger=page.locator('.ot-consent-settings');
     await trigger.scrollIntoViewIfNeeded();
     const box=await trigger.boundingBox();assert.ok(box?.width>=44&&box.width<=240&&box.height>=44,'Privacy pill has a practical touch target');
-    assert.equal(await trigger.innerText(),'Privacidade e cookies','Native privacy label stays visible');
+    assert.equal(await trigger.innerText(),width<=900?'Privacidade':'Privacidade e cookies','Native responsive privacy label stays visible');
     assert.ok(parseFloat(await trigger.evaluate(n=>getComputedStyle(n).fontSize))>=11,'Privacy label is readable');
     assert.notEqual(await trigger.evaluate(n=>getComputedStyle(n,'::before').maskImage),'none','Privacy shield is present');
     assert.equal(await trigger.evaluate(n=>getComputedStyle(n,'::after').content),'none','No settings gear remains');
