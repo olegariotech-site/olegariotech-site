@@ -204,11 +204,23 @@
     openPreferences: openBanner
   };
 
+  function analyticsDestinationUrl(href) {
+    // Query parameters can carry names, WhatsApp drafts, or other personal data.
+    // Analytics only needs the destination origin and pathname, never the message.
+    try {
+      const url = new URL(href, location.href);
+      return (url.protocol === 'https:' || url.protocol === 'http:')
+        ? (url.origin + url.pathname).slice(0, 500) : '';
+    } catch (error) {
+      return '';
+    }
+  }
+
   function linkParams(link) {
     return {
       cta_text: safeText(link.getAttribute('aria-label') || link.textContent),
       cta_location: sectionName(link),
-      destination_url: (link.href || '').slice(0, 500)
+      destination_url: analyticsDestinationUrl(link.href || '')
     };
   }
 
@@ -299,14 +311,14 @@
             social_network: safeText(link.dataset.socialNetwork),
             cta_text: safeText(link.textContent),
             cta_location: sectionName(link),
-            destination_url: (link.href || '').slice(0, 500)
+            destination_url: analyticsDestinationUrl(link.href || '')
           });
         }
         if (link.hasAttribute('data-google-review')) {
           track('click_google_review', {
             cta_text: safeText(link.textContent),
             cta_location: sectionName(link),
-            destination_url: (link.href || '').slice(0, 500)
+            destination_url: analyticsDestinationUrl(link.href || '')
           });
         }
       }
