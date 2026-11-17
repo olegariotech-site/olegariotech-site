@@ -101,7 +101,7 @@
     const weakest=[...known].sort((a,b)=>a[1]-b[1])[0];
     if(weakest[1]<=3)return routes[weakest[0]]||routes.ecossistema;
     const objective=answers.objetivo||'';
-    if(objective==='Parecer mais profissional')return routes.presenca;
+    if(objective==='Transmitir mais confiança aos clientes')return routes.presenca;
     if(objective==='Gerar mais contatos'||objective==='Vender produto ou serviço')return scores.site<4?routes.site:routes.whatsapp;
     return routes.ecossistema;
   }
