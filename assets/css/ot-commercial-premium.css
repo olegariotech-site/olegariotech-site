@@ -99,9 +99,13 @@ body.ot-commercial[data-page="ot-diagnostico"] .btn{border-radius:14px;min-heigh
 body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:10%;transform:rotate(-18deg) scaleX(1.02)}
 @media(max-width:760px){body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:4%;transform:none}}
 
-/* Keep preferences reachable without a wide floating label obscuring commercial copy. */
- body.ot-commercial .ot-consent-settings{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:44px;max-width:44px;height:44px;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;font-size:0;line-height:0;overflow:hidden}
- body.ot-commercial .ot-consent-settings::after{content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;color:#67e8f9;pointer-events:none}
+/* Commercial privacy utility: native label and behavior; reserved footer space on small screens. */
+body.ot-commercial .ot-consent-settings{position:relative;left:auto;right:auto;bottom:auto;display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:calc(100% - 32px);height:auto;min-height:44px;padding:0 14px;margin:calc(-64px - env(safe-area-inset-bottom,0px)) max(16px,calc((100% - 1200px)/2)) calc(20px + env(safe-area-inset-bottom,0px)) auto;border:1px solid rgba(103,232,249,.32);border-radius:999px;background:#090616;color:#dbe5ef;font:600 .72rem/1.3 Inter,system-ui,sans-serif;overflow:visible;white-space:normal;box-shadow:none;backdrop-filter:none;opacity:1;transition:color .18s ease,border-color .18s ease,background-color .18s ease}
+body.ot-commercial .ot-consent-settings::before{content:"";display:block;flex:0 0 17px;width:17px;height:19px;background:#67e8f9;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M12 3 4.5 6v5.5c0 4.2 3 7.5 7.5 9.5 4.5-2 7.5-5.3 7.5-9.5V6L12 3Zm-3 9 2 2 4-4'/%3E%3C/svg%3E") center/contain no-repeat}
+body.ot-commercial .ot-consent-settings::after{content:none}
+body.ot-commercial .ot-consent-settings:hover{background:#101225;color:#67e8f9;border-color:#67e8f9}
+body.ot-commercial .ot-consent-settings:active{background:#161a30}
+@media(min-width:1600px){body.ot-commercial .ot-consent-settings{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));margin:0}}
 
 /* Match fallback x-height and anchor the commercial copy while remote fonts resolve. */
 body.ot-commercial .lc-hero h1,body.ot-commercial .lc-orbit-caption strong{font-size-adjust:.5}
@@ -113,3 +117,52 @@ body.ot-commercial .lc-intro,body.ot-commercial .ot-desktop-nav,body.ot-commerci
 
 /* Compact navigation is clearer before the desktop row has to squeeze. */
 @media(max-width:1100px){.ot-commercial .ot-desktop-nav{display:none}.ot-commercial .ot-service-menu{display:block}}
+
+/* Two concrete examples, one fictional local business. No platform chrome or live controls. */
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-example{margin:0;min-width:0}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-preview{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device{padding:18px 16px;border-radius:20px;background:linear-gradient(155deg,#14152c,#090b1b);box-shadow:0 18px 44px rgba(0,0,0,.22);overflow:visible}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device.search{transform:translateY(-10px) rotate(-1deg)}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device.social{transform:translateY(10px) rotate(1deg)}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device-tag{font-size:.62rem;letter-spacing:.035em;line-height:1.5}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-searchbox{display:flex;gap:8px;align-items:center;margin:16px 0;padding:11px 10px;font-size:.75rem;line-height:1.5;border-radius:12px;background:#090b1b;color:#e0e6f4}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-searchbox>span{font-size:1.1rem;color:#67e8f9}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-badge{font-size:.66rem;margin-bottom:14px;font-weight:600}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-advertiser,
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-brand{display:flex;align-items:center;gap:8px;font:700 .73rem/1.5 "Space Grotesk",sans-serif;letter-spacing:.06em}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-monogram{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid rgba(103,232,249,.35);border-radius:9px;color:#67e8f9;background:#101e30;font:700 .95rem/1 "Space Grotesk",sans-serif}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-advertiser small,
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-brand small{display:block;color:#b7bed0;font:400 .625rem/1.5 Inter,sans-serif;letter-spacing:0}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-search-title{margin-top:16px;color:#b9caff;font-size:clamp(1.05rem,1.55vw,1.35rem);line-height:1.2}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device p{font-size:.75rem;line-height:1.6;color:#c5ccdd}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-services{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:14px;color:#a9ecf6;font-size:.69rem;line-height:1.5}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-example-action{display:flex;justify-content:space-between;gap:8px;border-top:1px solid rgba(255,255,255,.12);margin-top:16px;padding-top:12px;font-size:.73rem;font-weight:600;color:#ecf1ff}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post{position:relative;isolation:isolate;min-height:250px;aspect-ratio:auto;justify-content:flex-start;margin:14px -4px 0;padding:18px 14px 12px;overflow:hidden;border:1px solid rgba(154,199,255,.12);border-radius:13px;background:radial-gradient(ellipse at 85% 60%,rgba(103,232,249,.16),transparent 60%),linear-gradient(145deg,#152c43,#21143c)}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post .ot-ads-post-label{font:500 .6rem/1.5 "Share Tech Mono",monospace;letter-spacing:.12em;color:#99f3fa}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post strong{font-size:clamp(1.25rem,2vw,1.65rem);line-height:1.05;margin-top:9px;letter-spacing:-.04em}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-van{display:block;flex:1 0 80px;min-height:0;width:100%;height:auto;margin:4px 0 0}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post .ot-ads-post-offer{font-size:.68rem;line-height:1.45;color:#e3edf7}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-action{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;margin-top:10px;padding:8px 10px;border-radius:9px;background:#67e8f9;color:#06151d;font-size:.72rem;font-weight:700}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-journey{display:flex;justify-content:center;align-items:center;gap:10px;margin:30px 0 0;padding:0;list-style:none;font-size:.69rem;line-height:1.5;color:#c1cadd}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-journey li+li::before{content:"→";margin-right:10px;color:#67e8f9}
+body.ot-commercial[data-page="ot-anuncios"] .ot-ads-mock-caption{font-size:.68rem;line-height:1.6;color:#b7bed0;margin:12px auto 0;max-width:52ch}
+@media(max-width:560px){
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-preview{grid-template-columns:1fr;gap:18px;max-width:400px;margin-inline:auto}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device.search,
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device.social{transform:none;padding:20px}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device-tag{font-size:.7rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-searchbox{font-size:.85rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-search-title{font-size:1.35rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-advertiser,
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-brand{font-size:.8rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-advertiser small,
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-brand small{font-size:.7rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-device p{font-size:.85rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post{min-height:280px;padding:20px}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post strong{font-size:1.8rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-van{max-height:132px}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-post .ot-ads-post-offer,
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-social-action{font-size:.8rem}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-journey{gap:7px;font-size:.67rem;margin-top:22px}
+ body.ot-commercial[data-page="ot-anuncios"] .ot-ads-journey li+li::before{margin-right:7px}
+}

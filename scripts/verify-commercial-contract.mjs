@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -83,7 +84,7 @@ export function assertApprovedCommercialPage(path,current,production){
   cursor=op.line-1+op.remove.length;
  }
  expected.push(...lines.slice(cursor));
- assert.equal(current,expected.join('\n'),path+': only the enumerated authorized delta is accepted');
+ assert.equal(current,applyApprovedVisualHotfix(path,expected.join('\n')),path+': only the enumerated authorized delta and post-publication visual hotfix are accepted');
  return {path,hunks:operations.length,semantic:['title','description','canonical','H1','schema','consent/scripts','WhatsApp','regional content and all remaining markup']};
 }
 
@@ -127,6 +128,7 @@ export async function mutationChecks(path,current,production){
 let verifiedRoot;
 export async function verifyCommercialTree(root){
  if(verifiedRoot===root)return;
+ await verifyPublishedHotfixScope(root);
  assert.equal(manifest.productionRef,PRODUCTION_REF);
  const historical=path=>execFileSync('git',['show',PRODUCTION_REF+':'+path],{cwd:root});
  const tree=execFileSync('git',['ls-tree','-r','-z',PRODUCTION_REF],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
@@ -150,6 +152,8 @@ export async function verifyCommercialTree(root){
    const newScroll="scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})";
    const old=previous.toString('utf8');assert.equal(old.split(oldScroll).length-1,1);
    assert.equal(bytes.toString('utf8'),old.replace(oldScroll,newScroll),'Diagnostic runtime permits only approved reduced-motion behavior');
+  }else if(path==='scripts/verify-local-pages.mjs'){
+   assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,historical(path).toString('utf8')),'SEO QA permits only the bounded privacy presentation assertions');
   }else{
    assert.equal(blobID(bytes),objects.get(path),'Strict production blob identity: '+path);
    protectedFiles++;
@@ -174,7 +178,13 @@ export async function verifyCommercialTree(root){
  }
  // Approved visuals/UTM implementation are separately frozen; production remains the content reference.
  assert.equal(manifest.reviewedImplementationRef,'fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9');
- for(const path of manifest.reviewedAssets)assert.equal(blobID(await readFile(resolve(root,path))),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);
+ for(const path of manifest.reviewedAssets){
+  const bytes=await readFile(resolve(root,path));
+  if(path==='assets/css/ot-commercial-premium.css'){
+   const approved=execFileSync('git',['show',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'});
+   assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,approved),'Only the bounded privacy and ad-example CSS additions are permitted');
+  }else assert.equal(blobID(bytes),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);
+ }
  const report={productionRef:PRODUCTION_REF,reviewedAssetsRef:manifest.reviewedImplementationRef,protectedFiles,htmlParser:'Native DOMParser; inert detached documents, offline, no script execution',pages:verified,negativeMutationChecks:mutations,reviewedAssets:manifest.reviewedAssets.length,legacyGuard:'one exact assertion replacement; every other byte preserved'};
  console.log('OT_COMMERCIAL_CONTRACT '+JSON.stringify(report));
  verifiedRoot=root;

@@ -1,0 +1,49 @@
+name: OT published commercial hotfix QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'anuncios-google-instagram/**'
+      - 'assets/css/ot-commercial-premium.css'
+      - 'scripts/*commercial*.mjs'
+      - 'docs/reviews/commercial-hotfix/**'
+      - '.github/workflows/commercial-hotfix-qa.yml'
+permissions:
+  contents: read
+jobs:
+  hotfix:
+    name: Published hotfix (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install QA tools only
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Verify published base, privacy, ad examples, accessibility and performance
+        env:
+          OT_HOTFIX_ENGINE: ${{ matrix.engine }}
+          OT_HOTFIX_BEFORE: /tmp/ot-hotfix-published
+          OT_HOTFIX_OUTPUT: /tmp/ot-hotfix-evidence
+        run: |
+          node --check scripts/verify-commercial-hotfix.mjs
+          node --check scripts/verify-commercial-hotfix-contract.mjs
+          git worktree add --detach "$OT_HOTFIX_BEFORE" 7dfb0eeaccccfa63fe6f305f19c04884dcd62c30
+          node scripts/verify-commercial-hotfix.mjs
+      - name: Upload real before-after captures and numeric report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-published-hotfix-${{ matrix.engine }}
+          path: /tmp/ot-hotfix-evidence
+          retention-days: 30
