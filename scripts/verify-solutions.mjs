@@ -146,9 +146,17 @@ try{
     const popup=await popupPromise;await popup.waitForLoadState();
     assert.equal(new URL(popup.url()).searchParams.get('text'),message);
     await popup.close();
-    const events=await page.evaluate(()=>({leads:dataLayer.filter(e=>e[0]==='event'&&e[1]==='generate_lead').map(e=>e[2]),clicks:dataLayer.filter(e=>e[0]==='event'&&e[1]==='click_whatsapp').length,meta:fbq.queue.filter(e=>e[0]==='track'&&e[1]==='Lead').length}));
-    assert.equal(events.leads.length,click);assert.equal(events.clicks,click);assert.equal(events.meta,click);
-    assert.equal(events.leads.at(-1).cta_location,'solucoes');
+    const events=await page.evaluate(()=>({
+      leads:dataLayer.filter(e=>e[0]==='event'&&e[1]==='generate_lead').length,
+      clicks:dataLayer.filter(e=>e[0]==='event'&&e[1]==='click_whatsapp').map(e=>e[2]),
+      metaLeads:fbq.queue.filter(e=>e[0]==='track'&&e[1]==='Lead').length,
+      metaContacts:fbq.queue.filter(e=>e[0]==='track'&&e[1]==='Contact').length
+    }));
+    assert.equal(events.leads,0,'WhatsApp intent must never impersonate a received lead');
+    assert.equal(events.clicks.length,click);
+    assert.equal(events.metaLeads,0,'Meta Lead requires confirmed lead outside the site');
+    assert.equal(events.metaContacts,click,'Pixel Contact measures click intent only');
+    assert.equal(events.clicks.at(-1).cta_location,'solucoes');
     report.push({analyticsClick:click,events});
   }
   const external=page.waitForEvent('popup');await page.locator('.solution-case__link').click();

@@ -204,11 +204,23 @@
     openPreferences: openBanner
   };
 
+  function analyticsDestinationUrl(href) {
+    // Query parameters can carry names, WhatsApp drafts, or other personal data.
+    // Analytics only needs the destination origin and pathname, never the message.
+    try {
+      const url = new URL(href, location.href);
+      return (url.protocol === 'https:' || url.protocol === 'http:')
+        ? (url.origin + url.pathname).slice(0, 500) : '';
+    } catch (error) {
+      return '';
+    }
+  }
+
   function linkParams(link) {
     return {
       cta_text: safeText(link.getAttribute('aria-label') || link.textContent),
       cta_location: sectionName(link),
-      destination_url: (link.href || '').slice(0, 500)
+      destination_url: analyticsDestinationUrl(link.href || '')
     };
   }
 
@@ -225,19 +237,8 @@
         content_location: params.cta_location
       });
 
-      const diagnosticLead = link.id === 'waLink' || link.classList.contains('wa-big');
-      const commercialLead = link.hasAttribute('data-generate-lead');
-      if (diagnosticLead || commercialLead) {
-        track('generate_lead', Object.assign({}, params, {
-          lead_source: diagnosticLead ? 'diagnostico_digital' : 'site_olegario_tech',
-          method: 'whatsapp'
-        }));
-        metaTrack('Lead', {
-          content_name: diagnosticLead ? 'Diagnóstico digital' : params.cta_text,
-          content_category: 'whatsapp',
-          content_location: params.cta_location
-        });
-      }
+      // WhatsApp clicks represent contact intent, NOT received messages or qualified leads.
+      // generate_lead / Meta Lead must only come from a verified CRM/offline conversion.
       return;
     }
 
@@ -296,6 +297,11 @@
   }
 
   function installClickTracking() {
+    // Session-local diagnostic progress. Nothing is persisted or sent with personal data.
+    const diagnosticAnswers = new Set();
+    const expectedAnswers = ['objetivo', 'estrutura', 'google', 'whatsapp', 'dados'];
+    let diagnosticStarted = false;
+    let diagnosticCompleted = false;
     document.addEventListener('click', function (event) {
       const link = event.target.closest('a[href]');
       if (link) {
@@ -305,14 +311,14 @@
             social_network: safeText(link.dataset.socialNetwork),
             cta_text: safeText(link.textContent),
             cta_location: sectionName(link),
-            destination_url: (link.href || '').slice(0, 500)
+            destination_url: analyticsDestinationUrl(link.href || '')
           });
         }
         if (link.hasAttribute('data-google-review')) {
           track('click_google_review', {
             cta_text: safeText(link.textContent),
             cta_location: sectionName(link),
-            destination_url: (link.href || '').slice(0, 500)
+            destination_url: analyticsDestinationUrl(link.href || '')
           });
         }
       }
@@ -343,32 +349,49 @@
         }, 0);
       }
 
-      const start = event.target.closest('[data-start-link]');
-      if (start) {
-        track('diagnostico_inicio', { cta_location: sectionName(start) });
-      }
-
+      // The optional start anchor is navigation, not a reliably measured start.
+      // A genuine start is the first valid answer, even without that anchor.
       const option = event.target.closest('.opt[data-value]');
       if (option) {
-        const group = option.closest('.opts');
-        const step = option.closest('.step');
-        track('diagnostico_resposta', {
-          question_name: safeText(group?.dataset.name),
-          answer_category: safeText(option.dataset.value),
-          step_number: Number(step?.dataset.step || 0) + 1
-        });
+        const group = option.closest('.opts[data-name]');
+        const step = option.closest('.step[data-step]');
+        const name = group?.dataset.name;
+        const active = step?.classList.contains('active');
+        if (active && group && step.querySelector('.opts') === group &&
+            expectedAnswers.includes(name) && option.dataset.value) {
+          if (!diagnosticStarted) {
+            diagnosticStarted = true;
+            track('diagnostico_inicio', { cta_location: 'diagnostico' });
+          }
+          diagnosticAnswers.add(name);
+          track('diagnostico_resposta', {
+            question_name: safeText(name),
+            answer_category: safeText(option.dataset.value),
+            step_number: Number(step.dataset.step) + 1
+          });
+        }
       }
 
       const finish = event.target.closest('[data-finish]');
-      if (finish) {
-        track('diagnostico_concluido', {
-          completed_steps: 5,
-          cta_location: 'diagnostico'
+      if (finish && !diagnosticCompleted) {
+        const complete = expectedAnswers.every(function (name) {
+          const group = document.querySelector('.opts[data-name="' + name + '"]');
+          return diagnosticAnswers.has(name) && Boolean(group?.querySelector('.opt.selected[data-value]'));
         });
+        if (complete) {
+          diagnosticCompleted = true;
+          track('diagnostico_concluido', {
+            completed_steps: expectedAnswers.length,
+            cta_location: 'diagnostico'
+          });
+        }
       }
 
       const restart = event.target.closest('[data-restart]');
       if (restart) {
+        diagnosticAnswers.clear();
+        diagnosticStarted = false;
+        diagnosticCompleted = false;
         track('diagnostico_reiniciado', { cta_location: 'resultado_diagnostico' });
       }
     }, true);

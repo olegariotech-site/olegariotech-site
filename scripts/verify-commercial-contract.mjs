@@ -6,6 +6,7 @@ import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
+import {isApprovedIssue126Path,assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -14,7 +15,14 @@ export const REVISED_ASSERTION=" if(['criacao-de-sites-valinhos/index.html','cri
 
 export function assertLegacyGuardRevision(current,production){
  assert.equal(production.split(LEGACY_ASSERTION).length-1,1,'Historical guard has exactly one authorized assertion site');
- assert.equal(current,applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION)),'Every other legacy assertion, baseline, engine and runtime check remains literal');
+ const expected=applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION));
+ const priorImport="import {execFileSync} from 'node:child_process';";
+ const nextImport=priorImport+"\nimport {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';";
+ const priorAssertion="assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  let consentReturnFocus')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function bannerTemplate()')),'consent guards, tag loaders and analytic events unchanged');";
+ const nextAssertion="assertApprovedIssue126File('assets/js/ot-analytics-core.js',Buffer.from(analyticsAfter));\nassert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  function analyticsDestinationUrl(')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function linkParams(')),'unchanged GA4/Meta initialization, consent guards and prior tracking');";
+ assert.equal(expected.split(priorImport).length-1,1,'V3 import anchor is unchanged');
+ assert.equal(expected.split(priorAssertion).length-1,1,'V3 event-guard anchor is unchanged');
+ assert.equal(current,expected.replace(priorImport,nextImport).replace(priorAssertion,nextAssertion),'V3 historical guard only permits pinned Issue #126 analytics changes, preserving every other byte');
 }
 
 function single(html,re,label){
@@ -143,7 +151,10 @@ export async function verifyCommercialTree(root){
  for(const path of allFiles){
   if(pages.includes(path))continue;
   const bytes=await readFile(resolve(root,path));
-  if(path==='scripts/verify-premium-v3.mjs'){
+  if(isApprovedIssue126Path(path)){
+   assertApprovedIssue126File(path,bytes);
+   protectedFiles++;
+  }else if(path==='scripts/verify-premium-v3.mjs'){
    const previous=historical(path);
    assertLegacyGuardRevision(bytes.toString('utf8'),previous.toString('utf8'));
    assert.throws(()=>assertLegacyGuardRevision(bytes.toString('utf8').replace("const baseline=","const bypassBaseline="),previous.toString('utf8')),'Reject unrelated legacy guard mutation');

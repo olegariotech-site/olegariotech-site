@@ -8,6 +8,7 @@ import { chromium, webkit } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
+import {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const before=process.env.OT_COMMERCIAL_BEFORE;
 assert.ok(before,'Baseline checkout required; never silently compare current to itself');
@@ -18,7 +19,11 @@ const slugs=['criacao-de-sites-valinhos','criacao-de-sites-campinas','presenca-n
 const sizes=[[1920,1080],[1440,900],[1366,768],[1024,768],[768,1024],[360,780],[390,844],[430,932]];
 for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analytics-core.js','assets/css/ot-consent.css','robots.txt','sitemap.xml']){
  const old=await readFile(resolve(before,path),'utf8');
- assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
+ if(['assets/js/ot-analytics.js','assets/js/ot-analytics-core.js'].includes(path)){
+  assertApprovedIssue126File(path,await readFile(resolve(root,path)));
+ }else{
+  assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
+ }
 }
 assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
 await verifyCommercialTree(root);
@@ -34,7 +39,7 @@ for(const slug of slugs){
 await mkdir(output,{recursive:true});
 const servers=[spawn('python3',['-m','http.server','4187','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'}),spawn('python3',['-m','http.server','4188','--bind','127.0.0.1'],{cwd:before,stdio:'ignore'})];
 let browser;
-const report={engine,staticProtected:true,findings:[],errors:[],accessibility:[],performance:[],knownLimitation:'Issue #126: intent is not received conversation or qualified lead; semantics unchanged'};
+const report={engine,staticProtected:true,findings:[],errors:[],accessibility:[],performance:[],knownLimitation:'Issue #126: verified conversations and qualified leads require CRM/manual registration outside this site'};
 async function newContext(width,height,motion='reduce',analytics='denied',marketing='denied'){
  const context=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await context.addInitScript(({analytics,marketing})=>{
@@ -179,10 +184,12 @@ try{
    ga:(window.dataLayer||[]).filter(x=>x[0]==='event').map(x=>x[1]),
    meta:(window.fbq?.queue||[]).filter(x=>x[0]==='track').map(x=>x[1])
   }));
-  for(const name of ['diagnostico_inicio','diagnostico_concluido','click_whatsapp','generate_lead'])assert.equal(events.ga.filter(x=>x===name).length,analytics==='granted'?1:0,'GA '+name+' / '+choice);
+  for(const name of ['diagnostico_inicio','diagnostico_concluido','click_whatsapp'])assert.equal(events.ga.filter(x=>x===name).length,analytics==='granted'?1:0,'GA '+name+' / '+choice);
+  assert.equal(events.ga.filter(x=>x==='generate_lead').length,0,'A click is not a received lead');
   if(marketing==='denied')assert.deepEqual(events.meta,[]);
-  else for(const name of ['PageView','Contact','Lead'])assert.equal(events.meta.filter(x=>x===name).length,1,'Legacy Pixel '+name);
-  report.consent.push({analytics,marketing,events,note:'Legacy generate_lead/Lead on click remains an open measurement gate'});
+  else for(const name of ['PageView','Contact'])assert.equal(events.meta.filter(x=>x===name).length,1,'Pixel contact intent '+name);
+  assert.equal(events.meta.filter(x=>x==='Lead').length,0,'Pixel Lead requires external CRM confirmation');
+  report.consent.push({analytics,marketing,events,note:'Issue #126: click intent and received lead separated'});
   await context.close();
  }
 

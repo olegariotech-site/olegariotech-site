@@ -84,7 +84,8 @@ jobs:
 
   complete-home:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Full Chromium baseline + visual journeys require >25m; keep every gate active.
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
