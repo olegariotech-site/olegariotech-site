@@ -188,9 +188,10 @@ body.ot-commercial[data-page="ot-anuncios"] .kl-creative-copy{display:block;font
 body.ot-commercial[data-page="ot-anuncios"] .kl-creative-cta{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;padding:8px 10px;margin-top:auto;border-radius:9px;background:var(--kl-gold);color:#06172b;font-size:.71rem;line-height:1.4;font-weight:700}
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption strong{display:block;font:600 .74rem/1.5 Inter,sans-serif;color:#e8eef8}
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption>span{display:block;margin-top:5px}
-@media(min-width:981px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{font-size:clamp(2.5rem,3.8vw,4.2rem)}}
-/* Reserve the four-line campaign heading while the brand font resolves. */
-@media(max-width:560px),(min-width:1101px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{min-block-size:4lh}}
+@media(min-width:981px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{font-size:clamp(2.5rem,3.8vw,3.8rem)}}
+/* Keep phrase breaks stable while the brand font resolves; tablets retain natural wrapping. */
+body.ot-commercial[data-page="ot-anuncios"] .kl-title-break{display:none}
+@media(max-width:560px),(min-width:1101px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{min-block-size:4lh}body.ot-commercial[data-page="ot-anuncios"] .kl-title-break{display:initial}}
 @media(max-width:1100px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero{grid-template-columns:1fr}body.ot-commercial[data-page="ot-anuncios"] .ot-ads-stage{width:min(100%,560px);max-width:none;justify-self:center}}
 @media(max-width:560px){
  body.ot-commercial[data-page="ot-anuncios"] .kl-ad-creative{padding:18px;gap:12px}
@@ -213,7 +214,7 @@ body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-c
       <section class="lc-hero ot-ads-hero" aria-labelledby="ads-h1">
         <div>
           <div class="lc-eyebrow">GOOGLE · INSTAGRAM · FACEBOOK · VALINHOS E CAMPINAS</div>
-          <h1 id="ads-h1">Anúncios no Google, Instagram e Facebook <span class="lc-gradient">com estratégia comercial.</span></h1>
+          <h1 id="ads-h1">Anúncios no Google,<br class="kl-title-break"> Instagram e Facebook<br class="kl-title-break"> <span class="lc-gradient">com estratégia<br class="kl-title-break"> comercial.</span></h1>
           <p class="lc-intro">Uma pessoa pesquisa um serviço. Outra descobre uma marca no Instagram ou no Facebook. A OT ajuda sua empresa a planejar campanhas para alcançar públicos relevantes e transformar interesse em oportunidades de conversa.</p>
           <div class="lc-buttons"><a class="lc-btn lc-btn-primary" data-ot-cta="service" href="https://wa.me/5511912459144?text=Ol%C3%A1%2C%20OT!%20Vim%20da%20p%C3%A1gina%20An%C3%BAncios%20Google%20e%20Instagram%20e%20quero%20conversar%20sobre%20campanhas%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer">Planejar minha campanha <span aria-hidden="true">↗</span></a><a class="lc-btn lc-btn-secondary" href="/diagnostico-digital/?origem=anuncios">Fazer diagnóstico gratuito</a></div>
           <div class="lc-micro"><span>Planejamento por objetivo</span><span>Campanhas e criativos</span><span>Mensuração responsável</span></div>

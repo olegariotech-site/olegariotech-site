@@ -77,10 +77,10 @@ try{
    const c=await context(width,height,'no-preference'),p=await c.newPage();await p.goto(url+'/'+slug+'/',{waitUntil:'load'});await p.evaluate(()=>document.fonts.ready);await delay(800);
    sample[version].push(await p.evaluate(()=>({...window.__campaignVitals,fonts:{inter:document.fonts.check('16px Inter'),space:document.fonts.check('16px "Space Grotesk"')},documentBytes:performance.getEntriesByType('navigation')[0]?.encodedBodySize||0,resources:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).map(r=>({path:new URL(r.name).pathname,bytes:r.encodedBodySize,type:r.initiatorType})),images:[...document.images].map(i=>({path:new URL(i.currentSrc||i.src).pathname,loading:i.loading,loaded:i.complete&&i.naturalWidth>0}))})));await c.close();
   }
+  report.performance.push(sample);
   const clsLimit=slug==='anuncios-google-instagram'?.02:.1;assert.ok(Math.max(...sample.after.map(s=>s.cls))<=clsLimit,'CLS budget '+clsLimit+': '+slug+' '+width);
   const oldImages=new Set(sample.before.flatMap(s=>s.resources.filter(r=>r.type==='img').map(r=>r.path)));
   for(const r of sample.after.flatMap(s=>s.resources.filter(r=>r.type==='img')))assert.ok(oldImages.has(r.path)||CAMPAIGN_ASSET_PATHS.includes(r.path),'Only the two approved brand assets may add image transfers');
-  report.performance.push(sample);
  }
  if(engine==='chromium'){
   const kit=process.env.OT_KL_KIT_OUTPUT;assert.ok(kit,'Fresh browser-rendered sharing kit required');
