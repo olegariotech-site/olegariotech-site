@@ -189,6 +189,8 @@ body.ot-commercial[data-page="ot-anuncios"] .kl-creative-cta{display:flex;justif
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption strong{display:block;font:600 .74rem/1.5 Inter,sans-serif;color:#e8eef8}
 body.ot-commercial[data-page="ot-anuncios"] .kl-campaign-concepts .ot-ads-mock-caption>span{display:block;margin-top:5px}
 @media(min-width:981px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{font-size:clamp(2.5rem,3.8vw,4.2rem)}}
+/* Reserve the four-line campaign heading while the brand font resolves. */
+@media(max-width:560px),(min-width:1101px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero h1{min-block-size:4lh}}
 @media(max-width:1100px){body.ot-commercial[data-page="ot-anuncios"] .ot-ads-hero{grid-template-columns:1fr}body.ot-commercial[data-page="ot-anuncios"] .ot-ads-stage{width:min(100%,560px);max-width:none;justify-self:center}}
 @media(max-width:560px){
  body.ot-commercial[data-page="ot-anuncios"] .kl-ad-creative{padding:18px;gap:12px}

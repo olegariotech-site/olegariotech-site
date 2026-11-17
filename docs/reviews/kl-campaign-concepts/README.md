@@ -34,7 +34,7 @@ Os novos estilos são inline e limitados à página de Anúncios. O CSS comercia
 
 Os contratos anteriores conservam seus baselines e testes de rejeição. Após validar a árvore atual contra o novo contrato exato, recebem uma projeção estrita de seus bytes publicados anteriores, apenas nos arquivos explicitamente autorizados. Não é uma normalização genérica: dados diferentes do fragmento aprovado reprovam antes de qualquer projeção. Os testes de navegador sempre servem os arquivos atuais reais; o novo QA também valida de forma independente os metadados, schemas, conversão, canais e transparência atuais.
 
-Nenhum cenário é desligado ou marcado continue-on-error. As expectativas antigas de empresa fictícia/ausência de controles são atualizadas para a declaração de conceito com cliente real e os dois radios nativos. Transferências adicionais de imagem são permitidas somente para os dois arquivos K.L congelados, não para imagens arbitrárias. CLS continua limitado a 0,1. O filtro de acionamento do Gate B passa a incluir a página de anúncios e os módulos dos contratos que ele executa indiretamente; seus jobs, cenários, baselines e tolerâncias permanecem iguais.
+Nenhum cenário é desligado ou marcado continue-on-error. As expectativas antigas de empresa fictícia/ausência de controles são atualizadas para a declaração de conceito com cliente real e os dois radios nativos. Transferências adicionais de imagem são permitidas somente para os dois arquivos K.L congelados, não para imagens arbitrárias. CLS é limitado a 0,02 na página de Anúncios; permanece em 0,1 nas demais páginas. O filtro de acionamento do Gate B passa a incluir a página de anúncios e os módulos dos contratos que ele executa indiretamente; seus jobs, cenários, baselines e tolerâncias permanecem iguais.
 
 ## Homologação e evidências
 
@@ -51,3 +51,15 @@ Os demais workflows aplicáveis devem concluir no mesmo HEAD antes de GO técnic
 O primeiro QA detectou uma regressão real de overflow em 1024px: largura de rolagem 1036px contra viewport de 1024px, sem elemento DOM listado fora da tela. A composição maior expôs a extensão do halo decorativo rotacionado e comprimiu os cards no grid de duas colunas do HERO. A correção limita a elipse sem rotação e empilha o HERO até 1100px, conservando os dois mockups lado a lado dentro da área visual quando há espaço. Não se mascara o documento com overflow hidden e não se altera a tolerância do teste. Os testes completos precisam confirmar a correção.
 
 O PNG OG integrado foi substituído pela exportação Chromium das fontes atualizadas; o novo QA exige igualdade com uma nova renderização, além de conferir dimensões e conteúdo coordenado. As execuções intermediárias com falha não são apresentadas como homologação do HEAD final.
+
+## Foco entre motores
+
+A execução WebKit do primeiro ajuste de layout revelou ausência do contorno no radio nativo após a troca por seta, apesar de a seleção mudar corretamente. O controle visual passa a usar `:focus + label`, de modo que todo foco no input recortado tenha um contorno visível no rótulo, inclusive no WebKit. O teste exige que o foco permaneça no grupo nativo e mede o contorno do rótulo do input efetivamente focado; mantém separadas e estritas as verificações de seleção, painel ativo e exclusão do inativo. Não depende de heurística de `:focus-visible` após foco programático.
+
+A execução `4f734e6` passou nos dois motores: 16 combinações de viewport/motor, dois canais em cada combinação e oito análises axe sem violações. O commit `e9886c6` acrescenta somente diagnóstico de fontes de layout shift ao QA. Os arquivos públicos são os mesmos entre esses dois commits. A homologação completa do HEAD final permanece vinculada aos workflows indicados na descrição do PR.
+
+## Investigação de CLS
+
+A instrumentação do commit `e9886c6` atribuiu a regressão à quebra adicional do H1 durante a troca de fonte: deslocamento do apoio/CTAs de aproximadamente 34px no celular e 56px no desktop. Não foi causado pelo carregamento da imagem do veículo. O CLS máximo medido foi 0,0339 em 390px e 0,0820 em 1440px, contra 0,0067 e 0,0034 na base. Mesmo dentro do antigo limite 0,1, a diferença motivou correção.
+
+O H1 passa a reservar quatro linhas nas faixas estreita e de duas colunas, sem aumentar a fonte ou limitar a altura do conteúdo. O layout empilhado de tablet mantém a altura natural. O QA de Anúncios fica mais rigoroso, com teto de CLS 0,02 nas amostras frias; os demais orçamentos não são ampliados. Capturas e métricas anteriores à correção não serão apresentadas como resultado final.
