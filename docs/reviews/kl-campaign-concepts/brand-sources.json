@@ -1,0 +1,34 @@
+{
+  "client": "K.L Transporte Express",
+  "sourceDate": "2026-11-17",
+  "website": "https://kltransporteexpress.com.br/",
+  "colors": {
+    "blue": "#032a63",
+    "navy": "#021c42",
+    "gold": "#e0ae2b",
+    "lightGold": "#f2c94c"
+  },
+  "authorizationStatus": "not-confirmed",
+  "assets": [
+    {
+      "source": "https://kltransporteexpress.com.br/assets/images/branding/identidade-oficial/06_kl_logo_horizontal_web.png",
+      "sourceSHA256": "dafb1203420e8290a9e4149364c21446ed0df8c7bd8aabd30cde2a4a12659163",
+      "file": "assets/img/commercial/kl-concepts/kl-logo.webp",
+      "width": 400,
+      "height": 76,
+      "bytes": 18906,
+      "transformation": "Proportional resize and web encoding only; no logo redraw or invented vehicle",
+      "authorization": "Pending confirmation before publication"
+    },
+    {
+      "source": "https://kltransporteexpress.com.br/assets/images/frota/identidade-oficial/01_kl_van_renault_logo_oficial.png",
+      "sourceSHA256": "a86c903811ca63436a1e313e852ced77fec82432d79ce21eccdf9cf324c4a87a",
+      "file": "assets/img/commercial/kl-concepts/kl-vehicle.webp",
+      "width": 512,
+      "height": 384,
+      "bytes": 33530,
+      "transformation": "Proportional resize and web encoding only; no logo redraw or invented vehicle",
+      "authorization": "Pending confirmation before publication"
+    }
+  ]
+}

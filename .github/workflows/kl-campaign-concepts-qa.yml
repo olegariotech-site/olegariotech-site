@@ -1,0 +1,57 @@
+name: OT real-client campaign concepts QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'anuncios-google-instagram/**'
+      - 'assets/img/commercial/**'
+      - 'docs/reviews/kl-campaign-concepts/**'
+      - 'docs/reviews/commercial-premium/kit*'
+      - 'docs/reviews/commercial-premium/kit/**'
+      - 'scripts/*campaign*.mjs'
+      - '.github/workflows/kl-campaign-concepts-qa.yml'
+permissions:
+  contents: read
+jobs:
+  concepts:
+    name: Real-client concepts (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install QA-only dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Render coordinated three-channel sharing sources
+        if: matrix.engine == 'chromium'
+        env:
+          OT_COMMERCIAL_OUTPUT: /tmp/ot-kl-campaigns
+        run: node scripts/render-commercial-kit.mjs
+      - name: Verify identity, channels, SEO, accessibility, conversion protections and performance
+        env:
+          OT_KL_ENGINE: ${{ matrix.engine }}
+          OT_KL_BEFORE: /tmp/ot-kl-published
+          OT_KL_OUTPUT: /tmp/ot-kl-campaigns
+          OT_KL_KIT_OUTPUT: /tmp/ot-kl-campaigns
+        run: |
+          node --check scripts/verify-kl-campaigns.mjs
+          node --check scripts/verify-kl-campaign-contract.mjs
+          git worktree add --detach "$OT_KL_BEFORE" c0289b5b2bfd58dc0b7b3d84f579f6014b83c0f9
+          node scripts/verify-kl-campaigns.mjs
+      - name: Upload exact-head comparative captures, sharing exports and numeric report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-kl-campaigns-${{ matrix.engine }}
+          path: /tmp/ot-kl-campaigns
+          retention-days: 30
