@@ -83,11 +83,15 @@ try{
     assert.ok(await menu.locator('nav').isVisible());assert.equal(await menu.locator('a').count(),6);
     await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('open'),null);
    }
-   if(width===390){
+   if(width===390||width===1440){
     const trigger=page.locator('.ot-consent-settings');
     const box=await trigger.boundingBox();assert.ok(box?.width<=48&&box.height>=44,'Privacy control is compact and reachable');
     assert.equal(await trigger.evaluate(n=>getComputedStyle(n).fontSize),'0px','No clipped preference text behind the icon');
     assert.ok((await trigger.evaluate(n=>getComputedStyle(n,'::after').content)).includes('⚙'),'Privacy icon is visible');
+    if(width===1440){
+     const content=await page.locator('.ot-header-inner').boundingBox();
+     assert.ok(box.x>=content.x+content.width,'Floating privacy control does not obscure the desktop content column');
+    }
     await trigger.click();await page.locator('.ot-consent.is-visible').waitFor();
     await page.locator('[data-consent-reject]').click();await page.locator('.ot-consent.is-visible').waitFor({state:'hidden'});
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();

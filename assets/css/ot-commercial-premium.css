@@ -99,11 +99,9 @@ body.ot-commercial[data-page="ot-diagnostico"] .btn{border-radius:14px;min-heigh
 body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:10%;transform:rotate(-18deg) scaleX(1.02)}
 @media(max-width:760px){body.ot-commercial .lc-orbit::before,body.ot-commercial .ot-ads-stage::before{inset:4%;transform:none}}
 
-/* Keep the existing preference control reachable while reducing obstruction of mobile reading. */
-@media(max-width:760px){
+/* Keep preferences reachable without a wide floating label obscuring commercial copy. */
  body.ot-commercial .ot-consent-settings{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:44px;max-width:44px;height:44px;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;font-size:0;line-height:0;overflow:hidden}
  body.ot-commercial .ot-consent-settings::after{content:"⚙";font:700 22px/1 Inter,system-ui,sans-serif;color:#67e8f9;pointer-events:none}
-}
 
 /* Match fallback x-height and anchor the commercial copy while remote fonts resolve. */
 body.ot-commercial .lc-hero h1,body.ot-commercial .lc-orbit-caption strong{font-size-adjust:.5}

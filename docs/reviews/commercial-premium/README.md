@@ -3,6 +3,21 @@ Data da missão: 16/11/2026, horário de São Paulo.
 Base de produção e comparação: `2d6873bffbc66aafd1ff153a0455546b507a9759`.
 **NO-GO para merge, produção e mídia paga até concluir a homologação.**
 
+## Retomada e inspeção final — 16/11/2026
+Estado recuperado: PR #128 aberto e em draft; branch existente e HEAD `7d16e357b1c31da6e53a226b4f803b88a0786bfc`. Cinco commits recuperados; nenhum comentário ou thread de revisão foi retornado pelo GitHub. [Snapshot completo e métricas](REVIEW-7d16e357.json).
+
+Todos os checks desse HEAD terminaram: **12 aprovados e 3 com falha**. [QA comercial](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634751), [SEO local](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634711), [CodeQL](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634706) e [Immersive Home QA](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634734) aprovados. [Gate B](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868) reprovado: complete-home em ambos os motores e earth-rotation no WebKit. Não há CI pendente nesse snapshot.
+
+Foram baixados os artefatos Chromium `14285157526` e WebKit `14284972615`, ambos associados pelo GitHub ao HEAD acima. Inspecionadas as dez comparações de primeira dobra, as vinte capturas completas em 390/1440px (cinco páginas, dois motores), as cinco capas OG e os cinco Stories. Os demais tamanhos têm verificação automática; não foram todos inspecionados manualmente. Conteúdo, cases, rodapés, identidade e CTAs estão coerentes nas capturas, com um achado pontual: o botão largo de privacidade desktop sobrepõe o início de títulos na segunda seção.
+
+**Correção desta retomada:** estender o controle compacto já aprovado no mobile às cinco páginas em desktop, sem alterar consentimento ou o nome acessível. O QA passa a abrir/rejeitar o painel e executar axe também em 1440px; exige que o botão fique fora da coluna de conteúdo desktop. As evidências abaixo continuam históricas e não comprovam essa correção. Capturas e resultado do novo commit devem ser consultados nos artefatos do último CI vinculados no PR. A tentativa de navegador local foi bloqueada pelo runtime antes de abrir página; não é contada como teste aprovado.
+
+**Bloqueios preservados:** complete-home aborta no contrato histórico de igualdade de `verify-premium-v3.mjs`, incompatível com a mudança autorizada das landing pages. A falha WebKit da Terra é distinta: a prova registrou três frames em 1,106s numa janela de continuidade; o teste exige mais de três. O HTML da home e seus motores não mudaram neste PR. Isso não demonstra que a falha seja intermitente ou preexistente: é necessário reproduzir com controle na base antes de atribuir causa. Não houve ajuste de tolerância, bypass ou alteração desses gates.
+
+**Performance do HEAD recuperado:** CLS máximo da candidata **0,07814**, abaixo de 0,1 nas dez condições. LCP mediano variou de 168 a 328ms em servidor local. Há aumentos em Google desktop (240→320ms), Anúncios mobile (168→268ms) e desktop (236→328ms), Diagnóstico mobile (164→184ms) e desktop (212→236ms). Não declarar “sem regressões”. Payload local natural cresceu cerca de 19,6KB por condição. São três amostras sem rede/CPU limitadas; não medem experiência real em rede móvel. [Dados por página](REVIEW-7d16e357.json).
+
+**Parecer:** revisão visual concluída com a correção pontual submetida; **NO-GO para merge e publicação** enquanto os gates não estiverem resolvidos. Mídia paga continua condicionada à semântica de mensuração da Issue #126. Home, PR #125, analytics, consentimento, sitemap, robots e teste protegido permanecem intactos.
+
 ## Evidência e limites
 A execução local não estava disponível. A implementação foi preparada pelo GitHub e testada em runners do CI. Capturas novas e PNGs foram devolvidos pelo próprio CI; foram inspecionadas as dez comparações de primeira dobra (cinco páginas em desktop/mobile), as cinco capas OG e as cinco prévias de Stories. Nenhuma captura antiga ou imagem gerada foi apresentada como evidência de navegação.
 

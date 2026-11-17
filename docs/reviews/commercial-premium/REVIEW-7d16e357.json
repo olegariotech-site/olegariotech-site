@@ -1,0 +1,229 @@
+{
+  "reviewedCommit": "7d16e357b1c31da6e53a226b4f803b88a0786bfc",
+  "baseline": "2d6873bffbc66aafd1ff153a0455546b507a9759",
+  "dateSaoPaulo": "2026-11-16",
+  "checks": [
+    {
+      "name": "CodeQL",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/runs/133713350113"
+    },
+    {
+      "name": "continuum-performance (canvas2d)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712939124"
+    },
+    {
+      "name": "earth-rotation (chromium)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712939123"
+    },
+    {
+      "name": "complete-home (webkit)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712939039"
+    },
+    {
+      "name": "continuum-performance (webgl)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712939028"
+    },
+    {
+      "name": "earth-rotation (webkit)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712939003"
+    },
+    {
+      "name": "mobile-parity (chromium)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712938997"
+    },
+    {
+      "name": "mobile-parity (webkit)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712938986"
+    },
+    {
+      "name": "complete-home (chromium)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634868/job/133712938739"
+    },
+    {
+      "name": "Commercial review (chromium)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634751/job/133712938435"
+    },
+    {
+      "name": "Commercial review (webkit)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634751/job/133712938338"
+    },
+    {
+      "name": "Analyze JavaScript",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634706/job/133712938070"
+    },
+    {
+      "name": "visual-and-functional",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634734/job/133712938036"
+    },
+    {
+      "name": "Visual and SEO local pages (webkit)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634711/job/133712938014"
+    },
+    {
+      "name": "Visual and SEO local pages (chromium)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/olegariotech-site/olegariotech-site/actions/runs/43985634711/job/133712937770"
+    }
+  ],
+  "ciCommercial": {
+    "run": 43985634751,
+    "chromiumArtifact": 14285157526,
+    "webkitArtifact": 14284972615,
+    "viewportsPerEngine": 40,
+    "errors": 0,
+    "axeMobileViolations": 0
+  },
+  "visualReview": {
+    "firstFoldComparisons": 10,
+    "fullPageCaptures": 20,
+    "fullPageWidths": [
+      390,
+      1440
+    ],
+    "engines": [
+      "chromium",
+      "webkit"
+    ],
+    "ogExports": 5,
+    "storyExports": 5,
+    "scope": "Manual inspection of captures; eight viewport widths automatically checked. Not physical-device certification.",
+    "finding": "Wide desktop privacy button covers the start of section headings at 1440x900; corrected in the accompanying follow-up, requiring fresh CI captures."
+  },
+  "performance": [
+    {
+      "slug": "criacao-de-sites-valinhos",
+      "width": 390,
+      "lcpMedianMsBefore": 224,
+      "lcpMedianMsAfter": 168,
+      "clsMaxBefore": 0.020441664852033956,
+      "clsMaxAfter": 0.005959257977112789,
+      "localBytesMedianBefore": 257640,
+      "localBytesMedianAfter": 277261
+    },
+    {
+      "slug": "criacao-de-sites-valinhos",
+      "width": 1440,
+      "lcpMedianMsBefore": 336,
+      "lcpMedianMsAfter": 228,
+      "clsMaxBefore": 0.009593263058341907,
+      "clsMaxAfter": 0.005036775146819272,
+      "localBytesMedianBefore": 495990,
+      "localBytesMedianAfter": 515611
+    },
+    {
+      "slug": "criacao-de-sites-campinas",
+      "width": 390,
+      "lcpMedianMsBefore": 256,
+      "lcpMedianMsAfter": 168,
+      "clsMaxBefore": 0.019492863746523537,
+      "clsMaxAfter": 0.0023678217800487695,
+      "localBytesMedianBefore": 257640,
+      "localBytesMedianAfter": 277261
+    },
+    {
+      "slug": "criacao-de-sites-campinas",
+      "width": 1440,
+      "lcpMedianMsBefore": 332,
+      "lcpMedianMsAfter": 220,
+      "clsMaxBefore": 0.008530245640967934,
+      "clsMaxAfter": 0.07813774286801269,
+      "localBytesMedianBefore": 483430,
+      "localBytesMedianAfter": 503051
+    },
+    {
+      "slug": "presenca-no-google",
+      "width": 390,
+      "lcpMedianMsBefore": 260,
+      "lcpMedianMsAfter": 244,
+      "clsMaxBefore": 0.013482539809253081,
+      "clsMaxAfter": 0.019113007307053023,
+      "localBytesMedianBefore": 257640,
+      "localBytesMedianAfter": 277261
+    },
+    {
+      "slug": "presenca-no-google",
+      "width": 1440,
+      "lcpMedianMsBefore": 240,
+      "lcpMedianMsAfter": 320,
+      "clsMaxBefore": 0.012754399035627785,
+      "clsMaxAfter": 0.00805088940530157,
+      "localBytesMedianBefore": 578822,
+      "localBytesMedianAfter": 598443
+    },
+    {
+      "slug": "anuncios-google-instagram",
+      "width": 390,
+      "lcpMedianMsBefore": 168,
+      "lcpMedianMsAfter": 268,
+      "clsMaxBefore": 0.023522440660115596,
+      "clsMaxAfter": 0.011391533263490896,
+      "localBytesMedianBefore": 103096,
+      "localBytesMedianAfter": 122717
+    },
+    {
+      "slug": "anuncios-google-instagram",
+      "width": 1440,
+      "lcpMedianMsBefore": 236,
+      "lcpMedianMsAfter": 328,
+      "clsMaxBefore": 0.010741043957368827,
+      "clsMaxAfter": 0.0043783599476755405,
+      "localBytesMedianBefore": 103096,
+      "localBytesMedianAfter": 122717
+    },
+    {
+      "slug": "diagnostico-digital",
+      "width": 390,
+      "lcpMedianMsBefore": 164,
+      "lcpMedianMsAfter": 184,
+      "clsMaxBefore": 0.09274074812685629,
+      "clsMaxAfter": 0.013559321765074562,
+      "localBytesMedianBefore": 106647,
+      "localBytesMedianAfter": 126330
+    },
+    {
+      "slug": "diagnostico-digital",
+      "width": 1440,
+      "lcpMedianMsBefore": 212,
+      "lcpMedianMsAfter": 236,
+      "clsMaxBefore": 0.0035015960484048136,
+      "clsMaxAfter": 0.0036688026627068326,
+      "localBytesMedianBefore": 106647,
+      "localBytesMedianAfter": 126330
+    }
+  ],
+  "performanceLimits": "Three samples per condition, local static server, no network/CPU throttling; not field Core Web Vitals or Lighthouse. Small increases must not be described as no regression.",
+  "gateB": {
+    "completeHome": "Historical strict equality contract rejects authorized commercial page changes. Protected test remains unchanged.",
+    "earthWebkit": "Continuous surface frames: only three renders during 1.106 seconds in a continuum window; assertion requires more than three. Home and Earth runtime unchanged versus PR base. Cause not established; runner timing vs runtime behavior needs controlled baseline reproduction."
+  },
+  "decision": "NO-GO for merge/publication; paid media also blocked by Issue #126."
+}
