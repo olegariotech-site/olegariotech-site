@@ -72,12 +72,13 @@ try{
     primary:(()=>{const r=document.querySelector('.lc-hero .lc-btn-primary,.copy-actions .b-ice')?.getBoundingClientRect();return r?{top:r.top,bottom:r.bottom,height:r.height}:null})()
    }));
    assert.equal(metrics.h1,1);assert.equal(metrics.canonical,'https://olegariotech.com.br/'+slug+'/');
+   if(metrics.scroll>metrics.client+2)metrics.overflow=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(n=>({tag:n.tagName,className:String(n.className||''),left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right})).filter(n=>n.right>document.documentElement.clientWidth+2||n.left< -2).slice(0,20));
    assert.ok(metrics.scroll<=metrics.client+2,'No document overflow '+JSON.stringify(metrics));
    assert.deepEqual(metrics.images,[]);assert.deepEqual(missing,[]);assert.deepEqual(errors,[]);
    assert.equal(metrics.defaultConsent?.analytics_storage,'denied');assert.equal(metrics.defaultConsent?.ad_storage,'denied');
    assert.ok(metrics.primary?.height>=44,'Main action touch target');
    if(width>=1366||width<=430)assert.ok(metrics.primary.bottom<=height-8,'Main action visible in first viewport: '+JSON.stringify(metrics.primary));
-   if(width<=980){
+   if(width<=1100){
     const menu=page.locator('.ot-service-menu');await menu.locator('summary').click();
     assert.ok(await menu.locator('nav').isVisible());assert.equal(await menu.locator('a').count(),6);
     await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('open'),null);

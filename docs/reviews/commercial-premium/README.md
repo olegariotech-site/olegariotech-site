@@ -8,7 +8,7 @@ A execução local não estava disponível. A implementação foi preparada pelo
 
 Execução funcional verificada: [CI 43982501580](https://github.com/olegariotech-site/olegariotech-site/actions/runs/43982501580), commit `10bc805c4792f218b1c6c2f861ea4ddd9a2102ab`. A matriz comercial passou **40 viewports por motor, 80 no total**, com axe nas cinco páginas mobile, diagnóstico completo, origem/UTMs, reinício, teclado e consentimentos separados. SEO local existente também passou em Chromium e WebKit. JSON numérico: [QA-10bc805.json](QA-10bc805.json).
 
-As capturas abaixo pertencem a esse commit, anterior ao último refinamento do ícone de privacidade. O workflow repete capturas na revisão final; o status do último HEAD e os links dos artefatos ficam no PR. A inspeção da primeira dobra não certifica todas as interações de aparelhos físicos nem conformidade integral de acessibilidade.
+As capturas abaixo foram atualizadas para o commit 7acb792fa72ef697f2d7ca5ffcb041a82f0a4416, já com a correção de privacidade e estabilidade de fontes. O workflow repete capturas na revisão final; o status do último HEAD e os links dos artefatos ficam no PR. A inspeção da primeira dobra não certifica todas as interações de aparelhos físicos nem conformidade integral de acessibilidade.
 
 O Gate B permanece bloqueado: `verify-premium-v3.mjs` exige igualdade histórica do HTML das landing pages. Não foi alterado, relaxado ou desligado. Esse contrato precisa de revisão própria compatível com o escopo autorizado; não liberar merge contornando-o.
 
@@ -82,7 +82,7 @@ Não houve merge, deploy, envio de mensagens, compra, contratação nem ativaç�
 No commit 10bc805, as medianas LCP de laboratório ficaram entre 140 e 256ms na candidata. Esses números refletem servidor local e não devem virar promessa comercial. Uma amostra de Campinas desktop teve CLS 0,12537; por isso não foi declarado desempenho preservado e a revisão final repete a medição com atribuição. Anúncios ganhou imagens de cases lazy; os bytes totais forçados cresceram de aproximadamente 103KB para 360KB, não equivalendo ao payload inicial natural. O último resumo numérico está no PR.
 
 ## Evidências antes/depois inspecionadas
-Esquerda: base de produção; direita: candidata 10bc805. O menu mobile está com foco de teclado após teste de Escape; o anel ciano visível é o estado de foco, não uma borda permanente.
+Esquerda: base de produção; direita: candidata 7acb792. O botão de privacidade continua nativo, com o nome acessível preservado; no mobile, a engrenagem tem alvo de 44px e foi testada com abertura real do painel.
 
 ### criacao-de-sites-valinhos
 
@@ -123,3 +123,14 @@ Esquerda: base de produção; direita: candidata 10bc805. O menu mobile está co
 ![Antes e depois desktop](evidence/diagnostico-digital-1440-comparison.jpg)
 
 [Prévia Story](evidence/diagnostico-digital-story-preview.jpg) · [Fonte OG](kit/diagnostico-digital-og.svg) · [Fonte Story](kit/diagnostico-digital-story.svg)
+
+## Correções após a primeira medição
+- Aros decorativos contidos no próprio grid, corrigindo overflow em 1024 e 1366px.
+- Botão de privacidade: prioridade de CSS corrigida para mostrar a engrenagem, sem texto cortado; nome acessível e painel preservados.
+- Métricas de x-height e alinhamento do HERO estabilizados; Campinas desktop passou de CLS 0,12537 para **0,07814** no commit 7acb792. Todas as dez condições medidas ficaram abaixo de 0,1 nessa revisão. O teste agora bloqueia CLS acima de 0,1.
+- A mesma revisão identificou um overflow residual do cabeçalho do Diagnóstico em 1024px. A candidata passa a abrir o menu compacto até 1100px; a matriz é repetida no último HEAD. Consulte o resultado final no PR, sem confundir o JSON histórico com o status atual.
+- Evidência numérica histórica dessa revisão: [QA-7acb792.json](QA-7acb792.json).
+
+## Referência visual atual da home (somente leitura)
+
+![Home de referência capturada no CI](evidence/home-reference.jpg)

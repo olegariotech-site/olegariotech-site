@@ -112,3 +112,6 @@ body.ot-commercial .lc-intro,body.ot-commercial .ot-desktop-nav,body.ot-commerci
  body.ot-commercial .lc-hero>div:first-child{align-self:start}
  body.ot-commercial .ot-desktop-nav{width:610px;flex-shrink:0;justify-content:space-between;gap:12px}
 }
+
+/* Compact navigation is clearer before the desktop row has to squeeze. */
+@media(max-width:1100px){.ot-commercial .ot-desktop-nav{display:none}.ot-commercial .ot-service-menu{display:block}}
