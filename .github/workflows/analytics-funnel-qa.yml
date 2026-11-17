@@ -1,0 +1,39 @@
+name: OT analytics funnel QA (Issue 126)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/js/ot-analytics-core.js'
+      - 'scripts/verify-analytics-funnel.mjs'
+      - '.github/workflows/analytics-funnel-qa.yml'
+permissions:
+  contents: read
+jobs:
+  analytics-funnel:
+    name: Analytics/consent (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser QA dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Verify JavaScript syntax
+        run: |
+          node --check assets/js/ot-analytics-core.js
+          node --check scripts/verify-analytics-funnel.mjs
+          node --check scripts/verify-solutions.mjs
+          node --check scripts/verify-showroom.mjs
+          node --check scripts/verify-commercial-premium.mjs
+      - name: Exercise diagnostic and consent flows with collection blocked
+        env:
+          OT_ANALYTICS_${{ matrix.engine }}: ${{ matrix.engine }}
+        run: node scripts/verify-analytics-funnel.mjs
