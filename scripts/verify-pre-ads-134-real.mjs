@@ -1,0 +1,72 @@
+import assert from 'node:assert/strict';
+import {resolve} from 'node:path';
+import {mkdir} from 'node:fs/promises';
+import {launch,replay,ready,answer,waClick,preferences,snapshot,collections,settled,save,engine,out,FIXTURE,pw,ORIGIN} from './qa-pre-ads-134-lib.mjs';
+const report={issue:134,engine,phase:'initial',checks:[],network:[],libraries:[],errors:[],noProductionWrites:true};
+let browser;
+try{
+ browser=await launch();report.browser=browser.version();
+ const profile=engine==='webkit'?pw.devices['iPhone 13']:engine==='chromium'?pw.devices['Pixel 7']:{viewport:{width:390,height:844}};
+ const context=await browser.newContext({...profile,reducedMotion:'reduce',serviceWorkers:'block'});
+ await replay(context,{real:true,report});const page=await context.newPage();page.on('pageerror',error=>report.errors.push(error.message));
+ report.console=[];page.on('console',message=>{if(['warning','error'].includes(message.type()))report.console.push({type:message.type(),text:message.text()});});
+ await ready(page,'/diagnostico-digital/?origem=sites-valinhos&utm_source=google&utm_medium=cpc&utm_campaign=ot_auditoria&debug_analytics=1');
+ await settled(report,500);assert.equal(report.libraries.length,0,'No optional SDK before consent');assert.equal(collections(report).length,0);
+ report.checks.push('Fresh choice: no optional SDK or collection');
+ report.phase='marketing-only';await preferences(page,false,true);
+ await page.waitForFunction(()=>typeof window.fbq?.callMethod==='function',null,{timeout:45000});
+ await answer(page);report.draft=await waClick(page);await settled(report,8000);
+ const marketing=collections(report);report.metaState=await page.evaluate(()=>({consent:window.OTAnalytics.getConsent(),state:window.fbq.getState?.(),queue:(window.fbq.queue||[]).map(x=>[...x])}));assert.ok(report.draft.includes(FIXTURE));assert.ok(report.draft.includes('OT-GADS-SITES-VALINHOS'));assert.ok(report.draft.includes('Origem da página: Criação de sites em Valinhos'));
+ assert.ok(marketing.some(x=>x.host.endsWith('facebook.com')&&x.events.includes('Contact')),'Real Meta SDK still emits the safe explicit Contact');
+ assert.ok(!marketing.some(x=>x.containsFixture||x.containsWhatsAppDraft),'Real SDK must never collect the draft or fixture');
+ assert.ok(!marketing.some(x=>x.events.includes('SubscribedButtonClick')),'No automatic button listener event');
+ assert.equal((await snapshot(page)).ga.length,0,'Independent analysis refusal');
+ report.checks.push('Real Meta: only explicit safe events, no draft/auto button collection');
+ await mkdir(out,{recursive:true});await page.screenshot({path:resolve(out,'diagnostic-result.png'),animations:'disabled'});
+
+ report.phase='open-marketing-preferences';await page.locator('#otConsentSettings').click();await settled(report,3000);
+ report.phase='revoke-marketing';await page.locator('[data-consent-reject]').click();await settled(report,5000);
+ await waClick(page);await page.evaluate(()=>{scrollTo(0,0);scrollTo(0,document.body.scrollHeight)});await page.locator('[data-restart]').click();await page.locator('.step.active .opt').first().click();await page.locator('.step.active[data-step="1"]').waitFor();await settled(report,4000);
+ report.revokedMarketing=await snapshot(page);
+ assert.equal(report.revokedMarketing.googleFrames,0);
+ assert.deepEqual(report.revokedMarketing.consent,{analytics:'denied',marketing:'denied'});
+ assert.equal(collections(report).filter(x=>x.phase==='revoke-marketing').length,0,'No optional requests after revocation, including loaded SDK auto listeners');
+ report.checks.push('Loaded Meta revocation: no requests for new click/scroll/answer');
+ report.phase='denied-reload';await page.reload();await page.waitForFunction(()=>Boolean(window.OTAnalytics));await settled(report,500);
+ assert.equal((await snapshot(page)).googleFrames,0);
+ assert.equal((await snapshot(page)).scripts.filter(x=>/gtag\/js|fbevents/.test(x)).length,0);assert.equal(collections(report).filter(x=>x.phase==='denied-reload').length,0);
+ report.checks.push('Refusal persists after reload; no optional SDK');
+
+ report.phase='analytics-only';await preferences(page,true,false);await answer(page);await waClick(page);await settled(report,8000);
+ const analytics=collections(report).filter(x=>x.phase==='analytics-only');
+ assert.ok(analytics.some(x=>x.host.endsWith('google-analytics.com')&&x.events.includes('click_whatsapp')),'Real Google SDK emits the explicit intent event');
+ assert.ok(!analytics.some(x=>x.containsFixture||x.containsWhatsAppDraft),'No diagnostic PII in real GA payloads');
+ assert.ok(analytics.filter(x=>x.host.endsWith('google-analytics.com')).every(x=>x.pagePath==='/diagnostico-digital/'),'GA measures the real parent page, never the transport asset');
+ report.googleCookieNames=(await context.cookies(ORIGIN)).map(x=>x.name).filter(x=>x==='_ga'||x.startsWith('_ga_'));
+ assert.ok(report.googleCookieNames.includes('_ga'),'Same-origin first-party GA session cookie still works');
+ assert.ok(!analytics.some(x=>x.host.endsWith('facebook.com')),'Marketing remains denied');
+ report.checks.push('Real Google: intended event, safe payload; independent marketing refusal');
+ report.phase='open-analytics-preferences';await page.locator('#otConsentSettings').click();await settled(report,3000);
+ report.phase='revoke-analytics';await page.locator('[data-consent-reject]').click();await settled(report,3000);
+ await waClick(page);await page.evaluate(()=>{scrollTo(0,0);scrollTo(0,document.body.scrollHeight)});await settled(report,5000);report.revokedAnalytics=await snapshot(page);
+ assert.equal(report.revokedAnalytics.gaDisabled,true);
+ assert.equal(report.revokedAnalytics.googleFrames,0,'The loaded SDK document has been removed');
+ assert.equal((await context.cookies(ORIGIN)).filter(x=>x.name==='_ga'||x.name.startsWith('_ga_')).length,0,'Analytics cookies removed after refusal');
+ assert.equal(collections(report).filter(x=>x.phase==='revoke-analytics').length,0,'No cookieless pings or automatic GA collections after refusal');
+ report.checks.push('Loaded Google revocation: no automatic or explicit requests');
+
+ report.phase='reauthorized';await page.locator('#otConsentSettings').click();await page.locator('[data-consent-accept]').click();
+ await page.waitForFunction(()=>typeof window.fbq?.callMethod==='function',null,{timeout:45000});await waClick(page);await settled(report,8000);report.reauthorized=await snapshot(page);
+ assert.equal(report.reauthorized.configs,1,'No duplicate Google configuration on reauthorization');
+ assert.deepEqual(report.reauthorized.consent,{analytics:'granted',marketing:'granted'});
+ assert.ok(collections(report).some(x=>x.phase==='reauthorized'&&x.events.includes('Contact')),'Meta Contact restored');
+ assert.ok(collections(report).some(x=>x.phase==='reauthorized'&&x.events.includes('click_whatsapp')),'GA intent restored');
+ assert.ok(!collections(report).some(x=>x.containsFixture||x.containsWhatsAppDraft),'No leak on reauthorization');
+ assert.equal(report.reauthorized.ga.filter(x=>x.event==='generate_lead').length,0);
+ report.checks.push('Reauthorize safely without duplicate GA config or false received lead');
+ assert.ok(report.libraries.some(x=>x.url.includes('fbevents.js')&&x.status===200&&x.bytes>10000),'Real Meta bytes loaded');
+ assert.ok(report.libraries.some(x=>x.url.includes('/gtag/js')&&x.status===200&&x.bytes>10000),'Real Google bytes loaded');
+ assert.deepEqual(report.errors,[]);report.status='PASS';report.completedAt=new Date().toISOString();
+ console.log(JSON.stringify({status:report.status,engine,checks:report.checks,libraries:report.libraries,blockedCollections:collections(report).length},null,2));
+}catch(error){report.status='FAIL';report.failure=error.stack;console.error(error);process.exitCode=1;}
+finally{await save('real-sdk.json',report);await browser?.close();}

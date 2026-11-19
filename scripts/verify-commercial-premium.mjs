@@ -9,6 +9,7 @@ import AxeBuilder from '@axe-core/playwright';
 import {verifyCommercialTree,assertLegacyGuardRevision} from './verify-commercial-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
 import {assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
+import {projectApproved134} from './verify-pre-ads-134-scope.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const before=process.env.OT_COMMERCIAL_BEFORE;
 assert.ok(before,'Baseline checkout required; never silently compare current to itself');
@@ -22,7 +23,7 @@ for(const path of ['index.html','assets/js/ot-analytics.js','assets/js/ot-analyt
  if(['assets/js/ot-analytics.js','assets/js/ot-analytics-core.js'].includes(path)){
   assertApprovedIssue126File(path,await readFile(resolve(root,path)));
  }else{
-  assert.equal(await readFile(resolve(root,path),'utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
+  assert.equal(projectApproved134(path,await readFile(resolve(root,path))).toString('utf8'),path==='index.html'?applyApprovedTrustCopy(path,old):old,'Protected file unchanged except one approved trust label: '+path);
  }
 }
 assertLegacyGuardRevision(await readFile(resolve(root,'scripts/verify-premium-v3.mjs'),'utf8'),await readFile(resolve(before,'scripts/verify-premium-v3.mjs'),'utf8'));
@@ -174,7 +175,7 @@ try{
   const [analytics,marketing]=choice,context=await newContext(390,844,'reduce',analytics,marketing),page=await context.newPage();
   await page.goto(origin+'/diagnostico-digital/?debug_analytics=1',{waitUntil:'load'});
   await page.waitForFunction(()=>Boolean(window.OTAnalytics));
-  assert.equal(await page.locator('#ot-ga4-script').count(),analytics==='granted'?1:0);
+  assert.equal(await page.locator('#ot-ga4-frame').count(),analytics==='granted'?1:0);
   assert.equal(await page.locator('#ot-meta-pixel-script').count(),marketing==='granted'?1:0);
   await page.locator('[data-start-link]').click();
   for(let n=0;n<5;n++){await page.locator('.step.active .opt').first().click();await page.locator('.step.active[data-step="'+(n+1)+'"]').waitFor();}

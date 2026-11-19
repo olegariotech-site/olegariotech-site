@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // OT V3 regression suite. Self-contained local server; never deploys or sends analytics.
 // npm install --no-save --package-lock=false playwright@1.56.1 @axe-core/playwright@4.10.2
 // npx playwright install --with-deps chromium firefox webkit
@@ -13,7 +14,8 @@ const pw=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const output=process.env.OT_QA_OUTPUT||'/tmp/ot-premium-v3-qa';await mkdir(output,{recursive:true});
 const baseline=process.env.OT_BASELINE_COMMIT||'66db8f5169c30b0904667b56c03a8e9d7e8c3549';
-const source=await readFile(resolve(root,'index.html'),'utf8');
+verifyApproved134Scope(root);
+const source=projectApproved134('index.html',await readFile(resolve(root,'index.html'))).toString('utf8');
 const before=execFileSync('git',['show',`${baseline}:index.html`],{cwd:root,encoding:'utf8'});
 const catalog=s=>JSON.parse(s.match(/const projects=(\{[\s\S]*?\n\});/)[1]);
 const projects=catalog(source),approvedProjects=catalog(before);assert.equal(approvedProjects.ripamonti.testimonial.quote,'Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.');approvedProjects.ripamonti.testimonial.quote='Exatamente como eu queria .trabalho perfeito estou muito satisfeito';assert.deepEqual(projects,approvedProjects,'catalog unchanged except verified literal Ripamonti punctuation correction');
@@ -36,7 +38,7 @@ const expectedV2=originalV2.slice(0,aboutStart)+'  // Institutional copy is owne
 assert.equal(await readFile(resolve(root,'assets/js/ot-v2.js'),'utf8'),expectedV2.replace("if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case'","if(key&&window.OTProjectShowroom?.open){e.preventDefault();window.OTProjectShowroom.open(key);}else if(key&&typeof renderProject==='function')renderProject(key);safeTrack('click_proof_case'"),'runtime allows only canonical founder copy and direct proof-case navigation');
 for(const path of ['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html','produtos/index.html','privacidade/index.html','cookies/index.html']){
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root,encoding:'utf8'});
- const current=await readFile(resolve(root,path),'utf8');
+ const current=projectApproved134(path,await readFile(resolve(root,path))).toString('utf8');
  let expected=original.replace(/ot-analytics\.js\?v=\d+/g,'ot-analytics.js?v=9').replace(/ot-consent\.css\?v=\d+/g,'ot-consent.css?v=4');
  if(path==='diagnostico-digital/index.html'){
   // PR #115: permit only 3 image URLs and 2 alt descriptions of approved V5; preserve all other V2 HTML.
@@ -67,7 +69,7 @@ for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js',
  const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
 const analyticsBefore=execFileSync('git',['show',`${baseline}:assets/js/ot-analytics-core.js`],{cwd:root,encoding:'utf8'});
-const analyticsAfter=await readFile(resolve(root,'assets/js/ot-analytics-core.js'),'utf8');
+const analyticsAfter=projectApproved134('assets/js/ot-analytics-core.js',await readFile(resolve(root,'assets/js/ot-analytics-core.js'))).toString('utf8');
 assertApprovedIssue126File('assets/js/ot-analytics-core.js',Buffer.from(analyticsAfter));
 assert.equal(analyticsAfter.slice(0,analyticsAfter.indexOf('  function analyticsDestinationUrl(')),analyticsBefore.slice(0,analyticsBefore.indexOf('  function linkParams(')),'unchanged GA4/Meta initialization, consent guards and prior tracking');
 assert.equal(analyticsAfter.slice(analyticsAfter.indexOf('  function installEcosystemSection()')),analyticsBefore.slice(analyticsBefore.indexOf('  function installEcosystemSection()')),'shared setup and boot policy unchanged');

@@ -5,12 +5,18 @@
   const META_PIXEL_ID = window.OT_META_PIXEL_ID || '1822005305910193';
   const STORAGE_KEY = 'ot_consent_preferences_v2';
   const LEGACY_STORAGE_KEY = 'ot_analytics_consent_v1';
-  const GA_SCRIPT_ID = 'ot-ga4-script';
   const META_SCRIPT_ID = 'ot-meta-pixel-script';
   const MAX_LABEL = 100;
   let googleConfigured = false;
   let metaConfigured = false;
   let metaPageViewSent = false;
+  // Keep this page's decision authoritative even when localStorage is unavailable.
+  let currentPreferences;
+  window['ga-disable-' + GA_ID] = true;
+  let googleFrame = null;
+  let googleFrameReady = false;
+  let googlePageViewSent = false;
+  const pendingGoogleEvents = [];
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () {
@@ -29,6 +35,7 @@
   }
 
   function readConsent() {
+    if (currentPreferences !== undefined) return currentPreferences;
     try {
       const current = localStorage.getItem(STORAGE_KEY);
       if (!current) return null;
@@ -47,6 +54,7 @@
   }
 
   function saveConsent(preferences) {
+    currentPreferences = preferences;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
       localStorage.removeItem(LEGACY_STORAGE_KEY);
@@ -99,15 +107,8 @@
   function loadGoogleTag() {
     if (!hasConsent('analytics')) return;
 
+    window['ga-disable-' + GA_ID] = false;
     updateGoogleConsent('granted');
-
-    if (!document.getElementById(GA_SCRIPT_ID)) {
-      const script = document.createElement('script');
-      script.id = GA_SCRIPT_ID;
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
-      document.head.appendChild(script);
-    }
 
     if (!googleConfigured) {
       googleConfigured = true;
@@ -118,6 +119,53 @@
         send_page_view: true,
         debug_mode: new URLSearchParams(location.search).get('debug_analytics') === '1'
       });
+    }
+    if (!googleFrame) {
+      // A loaded Google SDK can flush its own old event queue after opt-out.
+      // Its separate, same-origin document is destroyed immediately on refusal.
+      const frame = document.createElement('iframe');
+      frame.id = 'ot-ga4-frame';
+      frame.hidden = true;
+      frame.tabIndex = -1;
+      frame.title = 'Medição opcional autorizada';
+      frame.setAttribute('aria-hidden', 'true');
+      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      frame.src = '/assets/ot-google-measurement.html?v=1';
+      googleFrame = frame;
+      frame.addEventListener('load', function () {
+        if (googleFrame !== frame || !hasConsent('analytics')) return;
+        frame.contentWindow.postMessage({
+          type: 'ot-google-start', id: GA_ID, pageLocation: location.href,
+          pageTitle: document.title, pageReferrer: document.referrer,
+          sendPageView: !googlePageViewSent,
+          debug: new URLSearchParams(location.search).get('debug_analytics') === '1'
+        }, location.origin);
+        googlePageViewSent = true;
+        googleFrameReady = true;
+        pendingGoogleEvents.splice(0).forEach(sendGoogleEvent);
+      });
+      document.body.appendChild(frame);
+    }
+  }
+
+  function sendGoogleEvent(event) {
+    if (!hasConsent('analytics') || !googleFrame) return;
+    if (!googleFrameReady) { pendingGoogleEvents.push(event); return; }
+    googleFrame.contentWindow.postMessage({ type: 'ot-google-event', event: event }, location.origin);
+  }
+
+  function revokeGoogleTag() {
+    window['ga-disable-' + GA_ID] = true;
+    pendingGoogleEvents.length = 0;
+    googleFrameReady = false;
+    const frame = googleFrame;
+    googleFrame = null;
+    if (frame) {
+      try {
+        frame.contentWindow['ga-disable-' + GA_ID] = true;
+        frame.contentWindow.OTGoogleMeasurement?.stop();
+      } catch (error) { /* Frame may still be loading. */ }
+      frame.remove();
     }
   }
 
@@ -145,17 +193,21 @@
 
     ensureMetaQueue();
 
+    if (!metaConfigured) {
+      // The remote SDK must never inspect the visitor's buttons, forms or WA draft.
+      window.fbq('consent', 'revoke');
+      window.fbq('set', 'autoConfig', false, META_PIXEL_ID);
+      window.fbq('init', META_PIXEL_ID);
+      metaConfigured = true;
+    }
+    window.fbq('consent', 'grant');
+
     if (!document.getElementById(META_SCRIPT_ID)) {
       const script = document.createElement('script');
       script.id = META_SCRIPT_ID;
       script.async = true;
       script.src = 'https://connect.facebook.net/en_US/fbevents.js';
       document.head.appendChild(script);
-    }
-
-    if (!metaConfigured) {
-      window.fbq('init', META_PIXEL_ID);
-      metaConfigured = true;
     }
 
     if (!metaPageViewSent) {
@@ -188,6 +240,7 @@
       page_title: document.title
     }, params || {});
     window.gtag('event', eventName, payload);
+    sendGoogleEvent({ name: eventName, params: payload });
   }
 
   function metaTrack(eventName, params) {
@@ -297,6 +350,15 @@
   }
 
   function installClickTracking() {
+    // Preserve the useful 90%-scroll signal without a provider watching the UI.
+    let scrollTracked = false;
+    window.addEventListener('scroll', function () {
+      if (!scrollTracked && hasConsent('analytics') && googleConfigured && scrollY > 0 &&
+          (scrollY + innerHeight) / document.documentElement.scrollHeight >= 0.9) {
+        scrollTracked = true;
+        track('scroll', { percent_scrolled: 90 });
+      }
+    }, { passive: true });
     // Session-local diagnostic progress. Nothing is persisted or sent with personal data.
     const diagnosticAnswers = new Set();
     const expectedAnswers = ['objetivo', 'estrutura', 'google', 'whatsapp', 'dados'];
@@ -487,6 +549,8 @@
     if (normalized.analytics === 'granted') {
       loadGoogleTag();
     } else {
+      // Consent Mode alone can still emit cookieless pings from a loaded tag.
+      revokeGoogleTag();
       updateGoogleConsent('denied');
       clearAnalyticsCookies();
     }
@@ -494,11 +558,31 @@
     if (normalized.marketing === 'granted') {
       loadMetaPixel();
     } else {
+      if (typeof window.fbq === 'function') window.fbq('consent', 'revoke');
       clearMetaCookies();
     }
 
     closeBanner();
   }
+
+  // A choice changed in another tab must stop this tab's already loaded SDKs too.
+  window.addEventListener('storage', function (event) {
+    if (event.key !== STORAGE_KEY) return;
+    let preferences = null;
+    try { preferences = normalizePreferences(JSON.parse(event.newValue)); } catch (error) { /* Deny safely. */ }
+    currentPreferences = preferences || { analytics: 'denied', marketing: 'denied' };
+    if (currentPreferences.analytics === 'granted') loadGoogleTag();
+    else {
+      revokeGoogleTag();
+      updateGoogleConsent('denied');
+      clearAnalyticsCookies();
+    }
+    if (currentPreferences.marketing === 'granted') loadMetaPixel();
+    else {
+      if (typeof window.fbq === 'function') window.fbq('consent', 'revoke');
+      clearMetaCookies();
+    }
+  });
 
   function syncBannerChoices(banner) {
     const current = readConsent();

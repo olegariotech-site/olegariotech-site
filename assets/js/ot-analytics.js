@@ -14,7 +14,7 @@
   document.head.appendChild(footerCss);
 
   var core=document.createElement('script');
-  core.src='/assets/js/ot-analytics-core.js?v=8';core.async=false;
+  core.src='/assets/js/ot-analytics-core.js?v=9';core.async=false;
   core.onload=function(){
     var v2=document.createElement('script');
     v2.src='/assets/js/ot-v2.js?v=9';v2.async=false;

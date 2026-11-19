@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // PR #128: bounded authorized commercial delta, anchored to immutable production.
 // This module is a test only; it is never loaded by a public page.
 import assert from 'node:assert/strict';
@@ -15,6 +16,7 @@ export const LEGACY_ASSERTION=" assert.equal(current,expected,`${path}: only sha
 export const REVISED_ASSERTION=" if(['criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html'].includes(path)){\n  const {verifyCommercialTree,PRODUCTION_REF}=await import('./verify-commercial-contract.mjs');\n  assert.equal(expected,execFileSync('git',['show',PRODUCTION_REF+':'+path],{cwd:root,encoding:'utf8'}),path+': historical contract still resolves to the fixed production reference');\n  await verifyCommercialTree(root);\n }else{\n assert.equal(current,expected,`${path}: only shared asset versions and approved Diagnóstico V5 social metadata changed`);\n }";
 
 export function assertLegacyGuardRevision(current,production){
+ current=projectApproved134('scripts/verify-premium-v3.mjs',current).toString('utf8');
  assert.equal(production.split(LEGACY_ASSERTION).length-1,1,'Historical guard has exactly one authorized assertion site');
  const expected=applyApprovedTrustCopy('scripts/verify-premium-v3.mjs',production.replace(LEGACY_ASSERTION,REVISED_ASSERTION));
  const priorImport="import {execFileSync} from 'node:child_process';";
@@ -56,6 +58,7 @@ function runtimeScripts(html){
 }
 
 export function assertApprovedCommercialPage(path,current,production){
+ current=projectApproved134(path,current).toString('utf8');
  assert.equal(manifest.productionRef,PRODUCTION_REF,'The production reference is fixed, never HEAD');
  const operations=manifest.pages[path];
  assert.ok(operations?.length,'Only the five authorized commercial pages have deltas');
@@ -108,12 +111,12 @@ export async function mutationChecks(path,current,production){
   ['WhatsApp number',current.replaceAll('wa.me/5511912459144','wa.me/5511000000000')],
   ['WhatsApp message',current.replace('text=Ol%C3%A1','text=MensagemALTERADA')],
   ['tracking default',current.replace("analytics_storage:'denied'","analytics_storage:'granted'")],
-  ['tracking script',current.replace('/assets/js/ot-analytics.js?v=9','/assets/js/unapproved-tracker.js')],
+  ['tracking script',current.replace('/assets/js/ot-analytics.js?v=10','/assets/js/unapproved-tracker.js')],
   ['new event',current.replace('</head>',"<script>gtag('event','unapproved');</script></head>")],
   ['navigation',current.replace('href="/criacao-de-sites-valinhos/"','href="/destino-incorreto/"')],
   ['schema',current.replace('"@type":"WebPage"','"@type":"FAQPage"')],
   ['OG path',current.replace('/assets/img/commercial/','/assets/img/missing/')],
-  ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=2" defer></script>','')]
+  ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=3" defer></script>','')]
  ];
  for(const [label,injected] of [
   ['upper-case script',"<SCRIPT>gtag('event','unapproved');</SCRIPT>"],
@@ -138,6 +141,7 @@ export async function mutationChecks(path,current,production){
 let verifiedRoot;
 export async function verifyCommercialTree(root){
  if(verifiedRoot===root)return;
+ verifyApproved134Scope(root);
  await verifyPublishedHotfixScope(root);
  assert.equal(manifest.productionRef,PRODUCTION_REF);
  const historical=path=>execFileSync('git',['show',PRODUCTION_REF+':'+path],{cwd:root});
@@ -151,7 +155,7 @@ export async function verifyCommercialTree(root){
  let protectedFiles=0,mutations=0;const verified=[];
  for(const path of allFiles){
   if(pages.includes(path))continue;
-  const bytes=await readFile(resolve(root,path));
+  const bytes=projectApproved134(path,await readFile(resolve(root,path)));
   if(path===ADS_ORIGIN_PATH){
    assertApprovedAdsOriginFile(path,bytes);
    protectedFiles++;
@@ -187,7 +191,7 @@ export async function verifyCommercialTree(root){
   parserPage=await context.newPage();
   for(const path of pages){
    const current=await readFile(resolve(root,path),'utf8'),production=historical(path).toString('utf8');
-   await inventoryHTML(current);await inventoryHTML(production);
+   await inventoryHTML(current);await inventoryHTML(projectApproved134(path,current).toString('utf8'));await inventoryHTML(production);
    verified.push(assertApprovedCommercialPage(path,current,production));
    mutations+=await mutationChecks(path,current,production);
   }
@@ -197,7 +201,7 @@ export async function verifyCommercialTree(root){
  // Approved visuals/UTM implementation are separately frozen; production remains the content reference.
  assert.equal(manifest.reviewedImplementationRef,'fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9');
  for(const path of manifest.reviewedAssets){
-  const bytes=await readFile(resolve(root,path));
+  const bytes=projectApproved134(path,await readFile(resolve(root,path)));
   if(path==='assets/css/ot-commercial-premium.css'){
    const approved=execFileSync('git',['show',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'});
    assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,approved),'Only the bounded privacy and ad-example CSS additions are permitted');
