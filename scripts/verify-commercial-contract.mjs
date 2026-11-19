@@ -7,6 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
 import {isApprovedIssue126Path,assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
+import {ADS_ORIGIN_PATH,assertApprovedAdsOriginFile,verifyApprovedAdsOriginScope} from './verify-ads-whatsapp-origin-scope.mjs';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -151,7 +152,10 @@ export async function verifyCommercialTree(root){
  for(const path of allFiles){
   if(pages.includes(path))continue;
   const bytes=await readFile(resolve(root,path));
-  if(isApprovedIssue126Path(path)){
+  if(path===ADS_ORIGIN_PATH){
+   assertApprovedAdsOriginFile(path,bytes);
+   protectedFiles++;
+  }else if(isApprovedIssue126Path(path)){
    assertApprovedIssue126File(path,bytes);
    protectedFiles++;
   }else if(path==='scripts/verify-premium-v3.mjs'){
@@ -197,8 +201,11 @@ export async function verifyCommercialTree(root){
   if(path==='assets/css/ot-commercial-premium.css'){
    const approved=execFileSync('git',['show',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'});
    assert.equal(bytes.toString('utf8'),applyApprovedVisualHotfix(path,approved),'Only the bounded privacy and ad-example CSS additions are permitted');
+  }else if(path===ADS_ORIGIN_PATH){
+   assertApprovedAdsOriginFile(path,bytes);
   }else assert.equal(blobID(bytes),execFileSync('git',['rev-parse',manifest.reviewedImplementationRef+':'+path],{cwd:root,encoding:'utf8'}).trim(),'Previously approved visual asset blob: '+path);
  }
+ await verifyApprovedAdsOriginScope(root);
  const report={productionRef:PRODUCTION_REF,reviewedAssetsRef:manifest.reviewedImplementationRef,protectedFiles,htmlParser:'Native DOMParser; inert detached documents, offline, no script execution',pages:verified,negativeMutationChecks:mutations,reviewedAssets:manifest.reviewedAssets.length,legacyGuard:'one exact assertion replacement; every other byte preserved'};
  console.log('OT_COMMERCIAL_CONTRACT '+JSON.stringify(report));
  verifiedRoot=root;
