@@ -6,6 +6,7 @@ import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {applyApprovedTrustCopy,TRUST_COPY_PATHS,verifyApprovedTrustCopyTree} from './verify-approved-trust-copy.mjs';
 import {isApprovedIssue126Path,assertApprovedIssue126File,verifyApprovedIssue126Scope} from './verify-analytics-126-scope.mjs';
+import {ADS_ORIGIN_PATH,ADS_ORIGIN_PAGES,assertApprovedAdsOriginFile,assertApprovedAdsOriginPage,verifyApprovedAdsOriginScope} from './verify-ads-whatsapp-origin-scope.mjs';
 
 export const PUBLISHED_REF='7dfb0eeaccccfa63fe6f305f19c04884dcd62c30';
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
@@ -43,7 +44,18 @@ export async function verifyPublishedHotfixScope(directory){
  for(const record of records){
   const match=record.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(match,'Expected published blob');
   const [,id,path]=match,bytes=await readFile(resolve(directory,path));
-  if(isApprovedIssue126Path(path)){
+  if(path===ADS_ORIGIN_PATH){
+   assertApprovedAdsOriginFile(path,bytes);
+   bounded++;
+  }else if(ADS_ORIGIN_PAGES.includes(path)){
+   const expected=manifest.files[path]
+    ? applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,source(path)))
+    : TRUST_COPY_PATHS.includes(path)
+     ? applyApprovedTrustCopy(path,source(path))
+     : source(path);
+   assertApprovedAdsOriginPage(path,bytes.toString('utf8'),expected);
+   bounded++;
+  }else if(isApprovedIssue126Path(path)){
    assertApprovedIssue126File(path,bytes);
    bounded++;
   }else if(manifest.files[path]){
@@ -77,6 +89,7 @@ export async function verifyPublishedHotfixScope(directory){
  }
  await verifyApprovedTrustCopyTree(directory);
  await verifyApprovedIssue126Scope(directory);
+ await verifyApprovedAdsOriginScope(directory);
  const report={publishedRef:PUBLISHED_REF,unchangedFiles:unchanged,boundedFiles:bounded,negativeChecks:mutations.length,productionFiles:['anuncios-google-instagram/index.html','assets/css/ot-commercial-premium.css'],editorialBase:'ecf7e021327a83cdfec7a2dc7450783280d9fc8e'};
  console.log('OT_PUBLISHED_HOTFIX_CONTRACT '+JSON.stringify(report));verified=directory;return report;
 }

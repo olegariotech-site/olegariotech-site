@@ -13,6 +13,17 @@
  const incoming=new URL(location.href);
  const known=Object.values(sources).find(source=>source[0]===incoming.searchParams.get('origem'));
  const utms=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+ // A fixed service marker is attribution context, not proof of a received lead.
+ // It is enabled only by Google paid-search UTMs; never copy gclid or free-text UTMs into a message.
+ const adsByService=Object.freeze({
+  'sites-valinhos':'OT-GADS-SITES-VALINHOS',
+  'sites-campinas':'OT-GADS-SITES-CAMPINAS'
+ });
+ const paidGoogle=incoming.searchParams.get('utm_source')?.toLowerCase()==='google' &&
+  ['cpc','ppc'].includes(incoming.searchParams.get('utm_medium')?.toLowerCase());
+ const serviceContext=current[0]==='diagnostico'&&known?known[0]:current[0];
+ const adsReference=paidGoogle?adsByService[serviceContext]:null;
+
  function decorateInternal(link){
   if(link.closest('.ot-site-footer'))return;
   const original=link.getAttribute('href');
@@ -34,10 +45,19 @@
    decorateInternal(link);
    // Read the final href at click time so the diagnostic's answer summary is retained.
    const url=new URL(link.href,location.href);
-   if(current[0]!=='diagnostico'||!known||url.hostname!=='wa.me'||url.pathname!=='/5511912459144')return;
+   if(url.protocol!=='https:'||url.hostname!=='wa.me'||url.pathname!=='/5511912459144')return;
    const text=url.searchParams.get('text');
-   if(!text||text.includes('\nOrigem da página: '))return;
-   url.searchParams.set('text',text+'\nOrigem da página: '+known[1]+'.');
+   if(!text)return;
+   const notes=[];
+   if(current[0]==='diagnostico'&&known&&!text.includes('\nOrigem da página: ')){
+    notes.push('Origem da página: '+known[1]+'.');
+   }
+   if(adsReference&&!text.includes('\nReferência OT: ')){
+    notes.push('Referência OT: '+adsReference);
+   }
+   if(!notes.length)return;
+   // Keep the visitor's exact WhatsApp draft; append only fixed, non-personal context.
+   url.searchParams.set('text',text+'\n'+notes.join('\n'));
    link.href=url.href;
   }catch{}
  },true);

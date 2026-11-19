@@ -1,0 +1,27 @@
+name: OT Google Search WhatsApp attribution QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/js/ot-commercial-context.js'
+      - 'scripts/verify-ads-whatsapp-origin.mjs'
+      - '.github/workflows/ads-whatsapp-origin-qa.yml'
+permissions:
+  contents: read
+jobs:
+  attribution:
+    name: Offline attribution and privacy checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check runtime and test syntax
+        run: |
+          node --check assets/js/ot-commercial-context.js
+          node --check scripts/verify-ads-whatsapp-origin.mjs
+          node --check scripts/verify-ads-whatsapp-origin-scope.mjs
+      - name: Verify WhatsApp origin with no network or sends
+        run: node scripts/verify-ads-whatsapp-origin.mjs
