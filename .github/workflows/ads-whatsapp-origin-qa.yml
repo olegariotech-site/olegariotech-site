@@ -22,5 +22,6 @@ jobs:
         run: |
           node --check assets/js/ot-commercial-context.js
           node --check scripts/verify-ads-whatsapp-origin.mjs
+          node --check scripts/verify-ads-whatsapp-origin-scope.mjs
       - name: Verify WhatsApp origin with no network or sends
         run: node scripts/verify-ads-whatsapp-origin.mjs
