@@ -40,7 +40,7 @@ try{
    for(const value of [FIXTURE,'Objetivo:','Estrutura atual:','Google:','WhatsApp:','Dados:','Origem da página: Criação de sites em '+(city==='valinhos'?'Valinhos':'Campinas'),'Referência OT: OT-GADS-SITES-'+city.toUpperCase()])assert.ok(row.draft.includes(value),value);
    assert.equal((row.draft.match(/Referência OT:/g)||[]).length,1);assert.ok(!row.draft.includes('DO_NOT_FORWARD_134'));assert.deepEqual((await snapshot(page)).ga,[]);
    row.capture='journey-'+city+'-'+route+'-'+width+'.png';await page.screenshot({path:resolve(out,row.capture),animations:'disabled'});
-  }catch(error){row.status='FAIL';row.failure=error.message;throw error;}finally{report.journeys.push(row);await c.close();await save('journeys.json',report);}
+  }catch(error){row.status='FAIL';row.failure=error.message;row.failedState=await page.locator('.step.active').evaluateAll(xs=>xs.map(x=>({step:x.dataset.step,text:x.textContent})));await page.screenshot({path:resolve(out,'failed-'+city+'-'+route+'-'+width+'.png')});throw error;}finally{report.journeys.push(row);await c.close();await save('journeys.json',report);}
  }
  for(const source of ['google','chatgpt.com'])for(const city of ['valinhos','campinas']){
   const c=await context(390),page=await c.newPage(),row={city,source,route:'negative-paid-claim',status:'PASS'};

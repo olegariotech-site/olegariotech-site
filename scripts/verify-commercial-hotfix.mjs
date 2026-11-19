@@ -24,6 +24,7 @@ async function serve(dir){
 async function context(width,height,motion='reduce'){
  const c=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await c.addInitScript(()=>{
+  if(window.top!==window)return; // The fixture must not reset consent from the optional measurement child.
   localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
   window.__hotfixVitals={lcp:null,cls:0,shifts:[]};
   try{new PerformanceObserver(l=>{for(const e of l.getEntries())window.__hotfixVitals.lcp=e.startTime}).observe({type:'largest-contentful-paint',buffered:true})}catch{}

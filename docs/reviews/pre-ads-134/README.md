@@ -21,7 +21,7 @@ P2 permanece fora do escopo. Não trocar ROTA 019 por K.L., não recolocar links
 
 ## Ciclo de vida do Google e preservações
 
-O documento `assets/ot-google-measurement.html` não é uma landing nem uma interface nova: fica oculto, fora da navegação/acessibilidade, semindexação, e não carrega SDK quando aberto diretamente. O bootstrap recebe mensagens somente do seu próprio pai e origem. Usa o mesmo ID GA4 e mantém primeira parte/cookies da mesma origem; a URL/título/referrer da página comercial são passados explicitamente. A coleta real é validada com o caminho do diagnóstico e presença/limpeza dos cookies GA, sem gravar seus identificadores nos relatórios.
+O documento `assets/ot-google-measurement.html` não é uma landing nem uma interface nova: fica oculto, fora da navegação/acessibilidade, sem indexação, e não carrega SDK quando aberto diretamente. O bootstrap recebe mensagens somente do seu próprio pai e origem. Usa o mesmo ID GA4 e mantém primeira parte/cookies da mesma origem; a URL/título/referrer da página comercial são passados explicitamente. A coleta real é validada com o caminho do diagnóstico e presença/limpeza dos cookies GA, sem gravar seus identificadores nos relatórios.
 
 O SDK não consome o `dataLayer` da interface principal. Esse registro continua disponível para os eventos próprios e os verificadores existentes; eventos permitidos são encaminhados à biblioteca real no documento de medição. A fila do pai é descartada na recusa, e a fila do fornecedor não pode escapar pelo unload porque o gate do seu transporte já está fechado. Reautorizar cria um contexto novo, sem repetir o `page_view` no mesmo documento principal.
 
@@ -49,11 +49,17 @@ O teste exige: nenhuma coleta antes da escolha; Meta Contact explícito funciona
 
 Jornadas: duas cidades, 390/1366 px, CTA direto, rodapé, regional > home > diagnóstico e header do diagnóstico; orgânico e chatgpt.com sem alegação Google; home sem cidade não inventa referência regional; origens inválidas; gclid não encaminhado; resumo e marcador sem duplicação. Tabela testada com teclado/axe em 360/390. Comparação geométrica e capturas antes/depois das seis páginas críticas na base imutável e candidato.
 
-Os workflows históricos, incluindo os oito jobs Gate B, permanecem ativos. O novo workflow adiciona testes reais e de jornadas nos três motores; não substitui a proteção anterior.
+Os workflows históricos, incluindo os oito jobs Gate B, permanecem ativos. O job offline de atribuição passa a buscar o histórico completo, necessário à comparação com a base imutável; nenhuma afirmação é removida. O novo workflow adiciona testes reais e de jornadas nos três motores; não substitui a proteção anterior.
 
 ### Compatibilidade com contratos históricos
 
 O gate independente `verify-pre-ads-134-scope.mjs` verifica os arquivos reais: edições HTML são substituições literais delimitadas da base; runtime e adaptadores de teste têm blobs exatos enumerados; os dois assets novos também estão congelados. O candidato precisa conter a correção (reverter para a base não passa o gate). Só depois disso as comparações históricas recebem sua projeção conhecida, mantendo todas as verificações antigas. Navegadores sempre recebem os arquivos reais, nunca a projeção. Os controles negativos rejeitam mudanças em H1, foco, coleta automática, flags, referências, transporte no unload e origem das mensagens. A exceção README reconhece somente os bytes já publicados em #135; não muda documentação da marca.
+
+## Evidência local para inspeção
+
+[Comparação mobile antes/depois](evidence/mobile-before-after.jpg) e [prova dos SDKs/rede interceptada](evidence/local-sdk-proof.json). A folha foi inspecionada visualmente: home, Valinhos, diagnóstico e resultado preservam a identidade aprovada; o contorno ciano mostra o foco da tabela. O CI contém as capturas individuais e demais larguras.
+
+Compatibilidade adicional de QA: o teste de entregas verifica a mesma rota do diagnóstico e agora exige a origem `home`; a fixture do teste de consentimento roda somente no documento principal para não sobrescrever a escolha do usuário a partir do iframe. O teste V3 final aguarda a requisição real do SDK após salvar, mantendo a afirmação original de carregamento. Sem remoção de cenários ou redução de tolerâncias.
 
 ## Riscos e limites para revisão
 
