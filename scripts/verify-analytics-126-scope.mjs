@@ -11,6 +11,7 @@ export const ISSUE_126_REVIEWED_BLOBS=Object.freeze({
   ".github/workflows/showroom-integration-qa.yml": "f247dae215d0b609d36f423c66becad7ff83cb48",
   "assets/js/ot-analytics-core.js": "317a7379bac17b2cbc2eece3cd79dd0751e4758e",
   "assets/js/ot-analytics.js": "58eee67ebfc35a1b1a83626e9495a5bb26d252d9",
+  "scripts/verify-ads-whatsapp-origin-scope.mjs": "372d0ec97fca107b22f5e687679d8d321b75c26b",
   "docs/reviews/analytics-funnel-126/README.md": "6526cb6c8b81221c6cde0b7f8c032d641814b9fe",
   "scripts/verify-analytics-funnel.mjs": "f3197957ae0d5bd8c7ca3477a09923f8b8b87beb",
   "scripts/verify-approved-trust-copy.mjs": "deae990bb3a18da62a885544f29d17ce36225d61",
