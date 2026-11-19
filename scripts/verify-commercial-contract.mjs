@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {applyApprovedVisualHotfix,verifyPublishedHotfixScope} from './verify-commercial-hotfix-contract.mjs';
 import {applyApprovedTrustCopy} from './verify-approved-trust-copy.mjs';
 import {isApprovedIssue126Path,assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
-import {ADS_ORIGIN_PATH,assertApprovedAdsOriginFile,verifyApprovedAdsOriginScope} from './verify-ads-whatsapp-origin-scope.mjs';
+import {ADS_ORIGIN_PATH,assertApprovedAdsOriginFile,assertApprovedAdsOriginPage,verifyApprovedAdsOriginScope} from './verify-ads-whatsapp-origin-scope.mjs';
 
 export const PRODUCTION_REF='2d6873bffbc66aafd1ff153a0455546b507a9759';
 const manifest=JSON.parse(await readFile(new URL('../docs/reviews/commercial-premium/approved-commercial-delta.json',import.meta.url),'utf8'));
@@ -75,7 +75,7 @@ export function assertApprovedCommercialPage(path,current,production){
   assert.equal(newSchemas[0]['@graph'][0].url,'https://olegariotech.com.br/diagnostico-digital/');
  }
  const scripts=runtimeScripts(current);
- const contextTag='<script src="/assets/js/ot-commercial-context.js?v=1" defer=""></script>';
+ const contextTag='<script src="/assets/js/ot-commercial-context.js?v=2" defer=""></script>';
  assert.equal(scripts.filter(x=>x===contextTag).length,1,'Exactly one non-analytics origin/UTM helper');
  assert.deepEqual(scripts.filter(x=>x!==contextTag),runtimeScripts(production),path+' inline consent, GA4, Pixel and diagnostic script tags remain exact');
  const allWA=[...current.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)].map(m=>m[1]);
@@ -94,7 +94,7 @@ export function assertApprovedCommercialPage(path,current,production){
   cursor=op.line-1+op.remove.length;
  }
  expected.push(...lines.slice(cursor));
- assert.equal(current,applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,expected.join('\n'))),path+': only authorized landing, visual hotfix and trust-language changes accepted');
+ assertApprovedAdsOriginPage(path,current,applyApprovedTrustCopy(path,applyApprovedVisualHotfix(path,expected.join('\n'))));
  return {path,hunks:operations.length,semantic:['title','description','canonical','H1','schema','consent/scripts','WhatsApp','regional content and all remaining markup']};
 }
 
@@ -113,7 +113,7 @@ export async function mutationChecks(path,current,production){
   ['navigation',current.replace('href="/criacao-de-sites-valinhos/"','href="/destino-incorreto/"')],
   ['schema',current.replace('"@type":"WebPage"','"@type":"FAQPage"')],
   ['OG path',current.replace('/assets/img/commercial/','/assets/img/missing/')],
-  ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=1" defer></script>','')]
+  ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=2" defer></script>','')]
  ];
  for(const [label,injected] of [
   ['upper-case script',"<SCRIPT>gtag('event','unapproved');</SCRIPT>"],
