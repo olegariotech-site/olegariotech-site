@@ -40,6 +40,12 @@ export async function verifyApprovedAdsOriginScope(root){
  const source=await readFile(resolve(root,ADS_ORIGIN_PATH));
  assertApprovedAdsOriginFile(ADS_ORIGIN_PATH,source);
  const content=source.toString('utf8');
+ for(const path of ADS_ORIGIN_PAGES){
+  const page=await readFile(resolve(root,path),'utf8');
+  assert.equal(page.split(loaderV2).length,2,'Exactly one v2 attribution loader: '+path);
+  assert.ok(!page.includes(loaderV1),'No stale v1 loader: '+path);
+ }
+
  const mutations=[
   content.replace('wa.me','evil.example'),
   content.replace('OT-GADS-SITES-VALINHOS','CUSTOMER-NAME'),
