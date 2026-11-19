@@ -6,6 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {isApprovedIssue126Path,assertApprovedIssue126File} from './verify-analytics-126-scope.mjs';
+import {assertApprovedAdsOriginPage} from './verify-ads-whatsapp-origin-scope.mjs';
 
 export const TRUST_BASE='ecf7e021327a83cdfec7a2dc7450783280d9fc8e';
 const repoRoot=resolve(fileURLToPath(new URL('../',import.meta.url)));
@@ -37,6 +38,8 @@ export async function verifyApprovedTrustCopyTree(root){
   const actual=await readFile(resolve(root,path),'utf8');
   if(isApprovedIssue126Path(path)){
    assertApprovedIssue126File(path,Buffer.from(actual));
+  }else if(path==='diagnostico-digital/index.html'){
+   assertApprovedAdsOriginPage(path,actual,applyApprovedTrustCopy(path,source));
   }else{
    assert.equal(actual,applyApprovedTrustCopy(path,source),'No unrelated code or text changed: '+path);
   }
