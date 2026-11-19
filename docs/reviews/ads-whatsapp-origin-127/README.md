@@ -32,7 +32,7 @@ Cenários: caminhos regionais, paid/organic, duplicação, resumo gerado no diag
 ## Bloqueios antes de merge e ativação
 
 - [ ] CI total, inclusive contratos históricos de preservação: adaptar por **exceção estrita revisada**, não desabilitar guards.
-- [ ] Atualizar `?v=1` de `ot-commercial-context.js` nas páginas comerciais, com QA dos contratos estáticos e cache; a branch atual **não** muda HTML.
+- [x] Atualizar o carregamento de `ot-commercial-context.js?v=1` para `v=2` nas cinco páginas comerciais, mantendo título, mensagens WhatsApp, SEO, consentimento e elementos visuais intactos; verificadores de mudança exata revisados (execução do CI completo ainda é gate).
 - [ ] QA em navegador mobile/desktop, com cliques interceptados e consentimento concedido/negado, sem disparo de mensagens reais; confirmar que os CTAs dinâmicos continuam funcionais.
 - [ ] Smoke e homologação em URL de produção **após** autorização de publicação.
 - [ ] Revisar no GA4 o `generate_lead` histórico e conversões primárias/secundárias no Google Ads.
