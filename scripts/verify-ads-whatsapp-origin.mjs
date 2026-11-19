@@ -3,7 +3,10 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {runInNewContext} from 'node:vm';
+import {fileURLToPath} from 'node:url';
+import {verifyApprovedAdsOriginScope} from './verify-ads-whatsapp-origin-scope.mjs';
 
+await verifyApprovedAdsOriginScope(fileURLToPath(new URL('../',import.meta.url)));
 const helper=await readFile(new URL('../assets/js/ot-commercial-context.js',import.meta.url),'utf8');
 let passed=0;
 
