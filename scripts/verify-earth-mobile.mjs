@@ -79,7 +79,7 @@ try{for(const engine of (process.env.OT_QA_ENGINES||'chromium,webkit').split(','
     await p.setViewportSize({width:412,height:915});await hero(p);await motion(p,1100);
     assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     await p.locator('.mobile-audio-toggle').tap();await p.waitForFunction(()=>!document.querySelector('#backgroundAudio').paused);await p.locator('.mobile-audio-toggle').tap();assert.equal(await p.locator('.mobile-audio-toggle').getAttribute('aria-pressed'),'false');
-    await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.locator('#inicio a[href="/diagnostico-digital/"]').tap();await p.waitForURL('**/diagnostico-digital/');assert.ok(await p.locator('h1').innerText(),'Approved diagnosis CTA opens its actual destination');
+    await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await p.locator('#inicio a[href*="/diagnostico-digital/"]').tap();await p.waitForURL(u=>u.pathname==='/diagnostico-digital/'&&u.searchParams.get('origem')==='home');assert.ok(await p.locator('h1').innerText(),'Approved diagnosis CTA opens its actual destination');
     if(profile.name==='canvas-4gb')assert.equal(evidence.first.field.intensity,'static','4 GiB atmosphere protection is unchanged');
    }
    if(profile.name==='high'){

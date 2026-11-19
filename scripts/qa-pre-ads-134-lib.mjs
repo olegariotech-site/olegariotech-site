@@ -43,14 +43,14 @@ function attempt(request,phase){
   blockedBeforeCollection:true};
 }
 export async function replay(context,{real=false,report,base=root}={}){
- report.network??=[];report.libraries??=[];report.vendorFailures??=[];report.pendingBodies??=[];
+ report.network??=[];report.libraries??=[];report.vendorFailures??=[];report.pendingBodies??=[];report.optionalRequests??=[];
  await context.route('**/*',async route=>{
   const request=route.request(),url=new URL(request.url());
   if(url.origin===ORIGIN){
    try{let file=resolve(base,'.'+decodeURIComponent(url.pathname));if(file!==base&&!file.startsWith(base+'/'))throw Error('Path escape');if((await stat(file)).isDirectory())file=resolve(file,'index.html');return route.fulfill({status:200,contentType:mime[extname(file)]||'application/octet-stream',body:await readFile(file)});}
    catch{return route.fulfill({status:404,body:'Not found'});}
   }
-  if(real&&vendor(url))return route.continue();
+  if(real&&vendor(url)){report.optionalRequests.push({phase:report.phase||'initial',url:url.origin+url.pathname});return route.continue();}
   // Fonts are read-only assets; all other external destinations fail closed.
   if(['fonts.googleapis.com','fonts.gstatic.com'].includes(url.hostname))return route.continue();
   const row=attempt(request,report.phase||'initial');

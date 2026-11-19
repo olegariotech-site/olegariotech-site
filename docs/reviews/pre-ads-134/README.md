@@ -59,7 +59,7 @@ O gate independente `verify-pre-ads-134-scope.mjs` verifica os arquivos reais: e
 
 [Comparação mobile antes/depois](evidence/mobile-before-after.jpg) e [prova dos SDKs/rede interceptada](evidence/local-sdk-proof.json). A folha foi inspecionada visualmente: home, Valinhos, diagnóstico e resultado preservam a identidade aprovada; o contorno ciano mostra o foco da tabela. O CI contém as capturas individuais e demais larguras.
 
-Compatibilidade adicional de QA: o teste de entregas verifica a mesma rota do diagnóstico e agora exige a origem `home`; a fixture do teste de consentimento roda somente no documento principal para não sobrescrever a escolha do usuário a partir do iframe. O teste V3 final aguarda a requisição real do SDK após salvar, mantendo a afirmação original de carregamento. Sem remoção de cenários ou redução de tolerâncias.
+Compatibilidade adicional de QA: o teste de entregas verifica a mesma rota do diagnóstico e agora exige a origem `home`; a fixture do teste de consentimento roda somente no documento principal para não sobrescrever a escolha do usuário a partir do iframe. O teste de rotação também abre o mesmo CTA e exige caminho do diagnóstico mais origem `home`, em vez da URL antiga sem parâmetros. O teste V3 final aguarda a requisição real do SDK após salvar, mantendo a afirmação original de carregamento. Sem remoção de cenários ou redução de tolerâncias.
 
 ## Riscos e limites para revisão
 

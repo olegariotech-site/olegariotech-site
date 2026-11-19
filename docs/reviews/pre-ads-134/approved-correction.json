@@ -17,6 +17,7 @@
     "scripts/verify-commercial-premium.mjs": "060915ebdd60c18f5d1c6f5c0d421f0256850f7c",
     "scripts/verify-commercial-hotfix.mjs": "7a066f52180951964e3d1468e2bcae59a1b94bf9",
     "scripts/verify-showroom.mjs": "985e2010790e3fe75d7a4e0f2071918708ec6ade",
-    "scripts/verify-premium-v3-final.mjs": "8bf2b2d0f17f51df66473e387ed1c37c67ec5097"
+    "scripts/verify-premium-v3-final.mjs": "8bf2b2d0f17f51df66473e387ed1c37c67ec5097",
+    "scripts/verify-earth-mobile.mjs": "e1ea6f2c4989721d984a4da338c756c07796438e"
   }
 }

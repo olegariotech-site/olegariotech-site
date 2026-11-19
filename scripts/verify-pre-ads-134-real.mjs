@@ -30,7 +30,7 @@ try{
  report.revokedMarketing=await snapshot(page);
  assert.equal(report.revokedMarketing.googleFrames,0);
  assert.deepEqual(report.revokedMarketing.consent,{analytics:'denied',marketing:'denied'});
- assert.equal(collections(report).filter(x=>x.phase==='revoke-marketing').length,0,'No optional requests after revocation, including loaded SDK auto listeners');
+ assert.equal(report.network.filter(x=>x.phase==='revoke-marketing').length+report.optionalRequests.filter(x=>x.phase==='revoke-marketing').length,0,'No optional requests after revocation, including loaded SDK auto listeners');
  report.checks.push('Loaded Meta revocation: no requests for new click/scroll/answer');
  report.phase='denied-reload';await page.reload();await page.waitForFunction(()=>Boolean(window.OTAnalytics));await settled(report,500);
  assert.equal((await snapshot(page)).googleFrames,0);
@@ -52,7 +52,7 @@ try{
  assert.equal(report.revokedAnalytics.gaDisabled,true);
  assert.equal(report.revokedAnalytics.googleFrames,0,'The loaded SDK document has been removed');
  assert.equal((await context.cookies(ORIGIN)).filter(x=>x.name==='_ga'||x.name.startsWith('_ga_')).length,0,'Analytics cookies removed after refusal');
- assert.equal(collections(report).filter(x=>x.phase==='revoke-analytics').length,0,'No cookieless pings or automatic GA collections after refusal');
+ assert.equal(report.network.filter(x=>x.phase==='revoke-analytics').length+report.optionalRequests.filter(x=>x.phase==='revoke-analytics').length,0,'No cookieless pings or automatic GA collections after refusal');
  report.checks.push('Loaded Google revocation: no automatic or explicit requests');
 
  report.phase='reauthorized';await page.locator('#otConsentSettings').click();await page.locator('[data-consent-accept]').click();
