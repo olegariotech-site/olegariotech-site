@@ -1,0 +1,32 @@
+name: OT PR 137 recording load diagnosis
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/**', 'docs/reviews/pre-ads-134/**', '.github/workflows/render-load-137.yml']
+permissions:
+  contents: read
+jobs:
+  recording-load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Same Gate B engine, renderer and environment
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps webkit
+      - name: Controlled diagnostic on/off/off/on recording load, not qualification
+        env:
+          OT_137_RENDER_OUTPUT: /tmp/ot-earth-load-137
+        run: node scripts/diagnose-earth-load-137.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-earth-recording-load-137
+          path: /tmp/ot-earth-load-137
+          retention-days: 30

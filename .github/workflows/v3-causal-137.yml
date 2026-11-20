@@ -1,0 +1,40 @@
+name: OT PR 137 V3 causal ablations
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/**', 'docs/reviews/pre-ads-134/**', '.github/workflows/v3-causal-137.yml']
+permissions:
+  contents: read
+jobs:
+  ablation:
+    name: Diagnostic only (${{ matrix.component }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        component: [consent, context, styles, combined]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the unchanged historical V3 engine and native stack debugger
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps chromium firefox webkit
+          command -v gdb || (sudo apt-get update && sudo apt-get install -y gdb)
+          git fetch origin fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9
+      - name: Counterbalanced base/candidate/component ablation, never a qualification run
+        env:
+          OT_137_STACKS: '1'
+          OT_137_ABLATION_OUTPUT: /tmp/ot-v3-ablation-137
+        run: node scripts/diagnose-v3-137.mjs ${{ matrix.component }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-v3-causal-137-${{ matrix.component }}
+          path: /tmp/ot-v3-ablation-137
+          retention-days: 30

@@ -1,0 +1,61 @@
+name: OT PR 137 same-runner investigation
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/js/**'
+      - 'scripts/**'
+      - 'docs/reviews/pre-ads-134/**'
+      - '.github/workflows/**'
+permissions:
+  contents: read
+jobs:
+  compare:
+    name: Published base and candidate (${{ matrix.kind }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - kind: earth
+            runner: ubuntu-latest
+            playwright: 1.62.1
+          - kind: layout
+            runner: ubuntu-latest
+            playwright: 1.62.1
+          - kind: v3
+            runner: ubuntu-24.04
+            playwright: 1.56.1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the exact engine version used by the failing historical gate
+        run: |
+          npm install --no-save --package-lock=false playwright@${{ matrix.playwright }} @axe-core/playwright@4.10.2 acorn@8.19.0
+          npx playwright install --with-deps chromium firefox webkit
+          git fetch origin fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9
+      - name: Compare immutable base and candidate sequentially on this same runner
+        env:
+          OT_137_BASE: /tmp/ot-137-published
+          OT_137_OUTPUT: /tmp/ot-pr137-comparison
+        run: |
+          mkdir -p "$OT_137_OUTPUT"
+          git worktree add --detach "$OT_137_BASE" 70ae38a45831f03ea5e52e5bf45e7d61e1c2b942
+          OT_ASSERTION_PROOF="$OT_137_OUTPUT/assertion-preservation.json" node scripts/verify-assertion-preservation-137.mjs
+          if [ '${{ matrix.kind }}' = 'layout' ]; then
+            OT_134_ENGINE=webkit OT_134_BEFORE="$OT_137_BASE" OT_137_LAYOUT_OUTPUT="$OT_137_OUTPUT/layout" node scripts/diagnose-layout-137.mjs
+          else
+            node scripts/compare-pr137.mjs ${{ matrix.kind }}
+          fi
+      - name: Upload process samples, crash stderr, body hashes and before/after videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-pr137-comparison-${{ matrix.kind }}
+          path: /tmp/ot-pr137-comparison
+          retention-days: 30

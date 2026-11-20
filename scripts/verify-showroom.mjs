@@ -105,6 +105,7 @@ assert.equal(stripRenderer(mainScript(source).replace('Exatamente como eu queria
 const fonts=new Map();
 async function configure(context,{baseline=false}={}){
   await context.addInitScript(()=>{
+    if(window.top!==window)return; // Fixture belongs to the UI, never the optional measurement child.
     localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
     window.__qaMetrics={lcp:0,cls:0,interactionDuration:0,layoutShifts:[]};
     let clsSessionStart=0,lastShift=0,clsSessionValue=0;
@@ -244,7 +245,8 @@ async function scenario(browser,engine,width,height,{reduced=false}={}){
   assert.match(await deliverables.innerText(),/sitemap/);
   assert.match(await deliverables.innerText(),/escopo contratado/);
   assert.equal(await deliverables.locator('.delivery-actions a').count(),1,'One diagnosis action in deliverables');
-  assert.equal(await deliverables.locator('.delivery-actions a').getAttribute('href'),'/diagnostico-digital/');
+  const diagnosisURL=new URL(await deliverables.locator('.delivery-actions a').getAttribute('href'),page.url());
+  assert.equal(diagnosisURL.origin,new URL(page.url()).origin);assert.equal(diagnosisURL.pathname,'/diagnostico-digital/');assert.equal(diagnosisURL.searchParams.get('origem'),'home');
   assert.ok((await deliverables.locator('.delivery-actions a').boundingBox()).height>=44,'Diagnosis CTA has a touch-friendly target');
   assert.ok(await deliverables.locator('.delivery-item').evaluateAll(items=>items.every(el=>el.scrollHeight<=el.clientHeight+2)),'All deliverable copy fits inside each panel');
   await overflow(page);
@@ -436,7 +438,7 @@ async function globalRegression(page,width,reduced){
 async function tracking(browser,engine){
   for(const granted of [false,true]){
     const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await configure(context);
-    if(granted)await context.addInitScript(()=>localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'granted',marketing:'granted'})));
+    if(granted)await context.addInitScript(()=>window.top===window&&localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'granted',marketing:'granted'})));
     await context.route(/https:\/\/(www\.googletagmanager\.com|connect\.facebook\.net)\//,route=>route.fulfill({contentType:'text/javascript',body:''}));
     const page=await context.newPage();await page.goto(preview);await ready(page);
     const count=name=>page.evaluate(name=>(window.dataLayer||[]).filter(e=>e[0]==='event'&&e[1]===name).length,name);

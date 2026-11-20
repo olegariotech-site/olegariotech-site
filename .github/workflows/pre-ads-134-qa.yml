@@ -1,0 +1,96 @@
+name: OT pre-Ads controlled corrections 134
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'assets/js/ot-analytics*.js'
+      - 'assets/js/ot-commercial-context.js'
+      - 'assets/js/ot-google-measurement.js'
+      - 'assets/ot-google-measurement.html'
+      - 'criacao-de-sites-*/**'
+      - 'diagnostico-digital/**'
+      - 'cookies/**'
+      - 'privacidade/**'
+      - 'produtos/**'
+      - 'presenca-no-google/**'
+      - 'anuncios-google-instagram/**'
+      - 'scripts/*134*'
+      - 'scripts/*137*'
+      - 'scripts/qa-hostname.mjs'
+      - 'scripts/qa-runtime-evidence.mjs'
+      - 'scripts/verify-qa-hostname.mjs'
+      - 'scripts/verify-runtime-provenance.mjs'
+      - 'scripts/verify-analytics-126-scope.mjs'
+      - 'docs/reviews/pre-ads-134/**'
+      - '.github/workflows/pre-ads-134-qa.yml'
+permissions:
+  contents: read
+jobs:
+  controlled-regression:
+    name: Real SDK, consent and journeys (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit, firefox]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install QA tools only
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Fetch immutable reviewed visual assets
+        run: git fetch origin fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9
+      - name: Verify exact authorized scope and historical protections
+        env:
+          OT_COMMERCIAL_ENGINE: ${{ matrix.engine }}
+          OT_QA_STATIC_ONLY: '1'
+        run: |
+          node --check assets/js/ot-analytics-core.js
+          node --check assets/js/ot-google-measurement.js
+          node --check assets/js/ot-commercial-context.js
+          node scripts/verify-qa-hostname.mjs
+          node scripts/verify-runtime-provenance.mjs
+          node scripts/build-showroom.mjs --check
+          node scripts/verify-ads-whatsapp-origin.mjs
+          node scripts/verify-premium-v3.mjs
+      - name: Verify real vendor libraries with every collection intercepted
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-pre-ads-134
+        run: node scripts/verify-pre-ads-134-real.mjs
+      - name: Verify GA4 across documents, tabs, revocation and reauthorization
+        if: ${{ !cancelled() }}
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-pre-ads-134
+        run: node scripts/verify-ga4-consent-137.mjs
+      - name: Prove late SDK script and storage-race gates against the exact pre-fix control
+        if: ${{ !cancelled() }}
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-pre-ads-134
+        run: node scripts/verify-ga4-resource-gate-controls-137.mjs
+      - name: Compare approved layout and all paid/organic journeys
+        if: ${{ !cancelled() }}
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-pre-ads-134
+          OT_134_BEFORE: /tmp/ot-pre-ads-134-before
+        run: |
+          git worktree add --detach "$OT_134_BEFORE" 70ae38a45831f03ea5e52e5bf45e7d61e1c2b942
+          node scripts/verify-pre-ads-134-journeys.mjs
+      - name: Upload SDK hashes, blocked network, captures and assertions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-pre-ads-134-${{ matrix.engine }}
+          path: /tmp/ot-pre-ads-134
+          retention-days: 30

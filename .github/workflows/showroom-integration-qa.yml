@@ -43,7 +43,9 @@ jobs:
           OT_QA_ENGINES: ${{ matrix.engine }}
           OT_EARTH_VIDEO: '1'
           OT_EARTH_OUTPUT: /tmp/ot-v261-earth
-        run: node scripts/verify-earth-mobile.mjs
+        run: |
+          mkdir -p "$OT_EARTH_OUTPUT"
+          DEBUG=pw:browser node scripts/verify-earth-mobile.mjs 2> >(tee "$OT_EARTH_OUTPUT/browser-stderr.log" >&2)
       - name: Upload Earth motion videos, frames and numeric proof
         if: always()
         uses: actions/upload-artifact@v4

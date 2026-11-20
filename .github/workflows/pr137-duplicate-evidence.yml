@@ -1,0 +1,30 @@
+name: OT PR 137 duplicate event evidence
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/inspect-ga4-duplicate-137.mjs', '.github/workflows/pr137-duplicate-evidence.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44805212019
+          path: /tmp/ot137-duplicate
+      - name: Inspect failed native event counts without reclassifying the gate
+        run: node scripts/inspect-ga4-duplicate-137.mjs /tmp/ot137-duplicate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-pr137-duplicate-inspection
+          path: /tmp/ot137-duplicate/duplicate-inspection.json
+          retention-days: 30

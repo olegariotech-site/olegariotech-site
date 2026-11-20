@@ -29,7 +29,7 @@ function scenario(pageUrl,items){
    assert.equal(type,'click');assert.equal(capture,true);handlers[type]=fn;
   }
  };
- runInNewContext(helper,{URL,location:{href:loc.href,origin:loc.origin,pathname:loc.pathname},document});
+ runInNewContext(helper,{URL,MutationObserver:class{observe(){}},location:{href:loc.href,origin:loc.origin,pathname:loc.pathname},document});
  assert.equal(typeof handlers.click,'function');
  return {
   links,
@@ -113,9 +113,10 @@ check('Unrelated or non-HTTPS WhatsApp URLs are never changed',()=>{
  assert.equal(badProtocol.click(0),'http://wa.me/5511912459144?text=Teste');
 });
 
-check('Footer navigation does not receive propagated campaign UTMs',()=>{
+check('Footer navigation preserves paid campaign and regional context',()=>{
  const page=scenario(url('/criacao-de-sites-valinhos/','?utm_source=google&utm_medium=cpc'),[{href:'/diagnostico-digital/',footer:true}]);
- assert.equal(new URL(page.links[0].href).searchParams.size,0);
+ assert.equal(new URL(page.links[0].href).searchParams.get('utm_source'),'google');
+ assert.equal(new URL(page.links[0].href).searchParams.get('origem'),'sites-valinhos');
 });
 
 console.log('OT_ADS_WHATSAPP_ORIGIN_QA '+JSON.stringify({passed,externalRequests:0,analyticsEvents:0,whatsappMessagesSent:0}));

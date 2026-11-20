@@ -21,7 +21,8 @@ jobs:
   regression:
     # Playwright 1.56.1 requires a supported Linux image; ubuntu-latest moved to Ubuntu 26.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # Setup and artifact transfer share this infrastructure budget; browser assertions/limits are unchanged.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,8 +47,11 @@ jobs:
         env:
           OT_QA_OUTPUT: /tmp/ot-premium-v3-qa
           OT_QA_REQUIRE_ENGINES: '1'
-        run: node scripts/verify-premium-v3.mjs
+        run: |
+          mkdir -p "$OT_QA_OUTPUT"
+          DEBUG=pw:browser node scripts/verify-premium-v3.mjs 2> >(tee "$OT_QA_OUTPUT/browser-stderr.log" >&2)
       - name: Verify mobile conversion and consent against approved V3
+        if: ${{ !cancelled() }}
         env:
           OT_V3_BEFORE_DIR: /tmp/ot-v3-before-final
           OT_FINAL_OUTPUT: /tmp/ot-premium-v3-qa/final-mobile

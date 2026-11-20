@@ -24,6 +24,7 @@ async function serve(dir){
 async function context(width,height,motion='reduce'){
  const c=await browser.newContext({viewport:{width,height},reducedMotion:motion});
  await c.addInitScript(()=>{
+  if(window.top!==window)return; // The fixture must not reset consent from the optional measurement child.
   localStorage.setItem('ot_consent_preferences_v2',JSON.stringify({analytics:'denied',marketing:'denied'}));
   window.__hotfixVitals={lcp:null,cls:0,shifts:[]};
   try{new PerformanceObserver(l=>{for(const e of l.getEntries())window.__hotfixVitals.lcp=e.startTime}).observe({type:'largest-contentful-paint',buffered:true})}catch{}
@@ -49,7 +50,7 @@ try{
   p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400&&r.url().startsWith(afterURL))missing.push(r.url())});
   await p.goto(afterURL+'/'+slug+'/',{waitUntil:'load'});await ready(p);
   assert.equal(await p.locator('h1').count(),1);assert.ok(await p.locator('a[href*="wa.me/5511912459144"]').count()>0);
-  assert.equal(await p.locator('#ot-ga4-script,#ot-meta-pixel-script').count(),0,'No tags without consent');
+  assert.equal(await p.locator('#ot-ga4-frame,#ot-meta-pixel-script').count(),0,'No tags without consent');
   const trigger=p.getByRole('button',{name:'Reabrir preferências de privacidade e cookies'});
   assert.equal(await trigger.innerText(),width<=900?'Privacidade':'Privacidade e cookies');
   await trigger.scrollIntoViewIfNeeded();
@@ -100,7 +101,7 @@ try{
   await p.locator('[data-consent-analytics]').setChecked(analytics);await p.locator('[data-consent-marketing]').setChecked(marketing);await p.locator('[data-consent-save]').click();
   const pref=await p.evaluate(()=>JSON.parse(localStorage.getItem('ot_consent_preferences_v2')));
   assert.equal(pref.analytics,analytics?'granted':'denied');assert.equal(pref.marketing,marketing?'granted':'denied');
-  assert.equal(await p.locator('#ot-ga4-script').count(),analytics?1:0);assert.equal(await p.locator('#ot-meta-pixel-script').count(),marketing?1:0);
+  assert.equal(await p.locator('#ot-ga4-frame').count(),analytics?1:0);assert.equal(await p.locator('#ot-meta-pixel-script').count(),marketing?1:0);
   await p.locator('#otConsentSettings').click();await p.locator('[data-consent-customize]').click();
   assert.equal(await p.locator('[data-consent-analytics]').isChecked(),analytics);assert.equal(await p.locator('[data-consent-marketing]').isChecked(),marketing);
   await p.locator('[data-consent-reject]').click();assert.equal(await p.evaluate(()=>document.activeElement.id),'otConsentSettings');

@@ -98,7 +98,7 @@ try{
         console.error('Horizontal overflow diagnostics',JSON.stringify({slug:s.slug,city:s.city,profile,width,height,...detail},null,2));
       }
       assert.ok(info.scrollWidth<=info.viewportWidth+2,'No horizontal overflow in '+profile+' '+s.slug+' ('+info.scrollWidth+' vs '+info.viewportWidth+')');
-      assert.ok(info.links.some(x=>x.href==='/diagnostico-digital/'),'Diagnostic CTA available');
+      assert.ok(info.links.some(x=>{const u=new URL(x.href,origin);return u.origin===origin&&u.pathname==='/diagnostico-digital/';}),'Diagnostic CTA available');
       assert.ok(info.links.some(x=>x.href.includes('wa.me/')),'WhatsApp CTA available');
       assert.ok(info.links.some(x=>x.href.includes(s.other==='Valinhos'?'criacao-de-sites-valinhos':'criacao-de-sites-campinas')),'Cross city navigation');
       assert.ok(info.schema[0]['@graph'].some(n=>n['@type']==='Service'),'Valid service structured data');
