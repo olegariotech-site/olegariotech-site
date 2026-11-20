@@ -67,7 +67,7 @@ assert.ok(source.includes(officialSameAs)||source.includes(historicalSameAs),'on
 const normalizedSocialSource=source.replace(officialSameAs,historicalSameAs);
 assert.deepEqual(inline(normalizedSocialSource).map(script=>script.replace('Exatamente como eu queria .trabalho perfeito estou muito satisfeito','Exatamente como eu queria. Trabalho perfeito, estou muito satisfeito.')),inline(before),'inline commercial logic and structured data unchanged except approved social links');
 for(const path of ['assets/js/ot-earth-journey.js','assets/js/ot-earth-spin.js','assets/js/ot-cosmic-scene.js','assets/js/ot-solution-configurator.js','assets/js/ot-experience-polish.js','assets/js/ot-digital-pulse.js','assets/js/ot-mobile-v3.js','assets/css/ot-solution-case.css','DESIGN.md']){
- const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(projectApproved134(path,await readFile(resolve(root,path))),original,`protected ${path}`);
+ const original=execFileSync('git',['show',`${baseline}:${path}`],{cwd:root});assert.deepEqual(await readFile(resolve(root,path)),original,`protected ${path}`);
 }
 const analyticsBefore=execFileSync('git',['show',`${baseline}:assets/js/ot-analytics-core.js`],{cwd:root,encoding:'utf8'});
 const analyticsAfter=projectApproved134('assets/js/ot-analytics-core.js',await readFile(resolve(root,'assets/js/ot-analytics-core.js'))).toString('utf8');

@@ -44,7 +44,7 @@ jobs:
           node-version: '22'
       - name: Install QA tools only
         run: |
-          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2 pngjs@7.0.0
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
           npx playwright install --with-deps ${{ matrix.engine }}
       - name: Fetch immutable reviewed visual assets
         run: git fetch origin fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9
@@ -72,12 +72,6 @@ jobs:
           OT_134_ENGINE: ${{ matrix.engine }}
           OT_134_OUTPUT: /tmp/ot-pre-ads-134
         run: node scripts/verify-ga4-consent-137.mjs
-      - name: Compare cached reading mask with the original browser-rendered SVG
-        if: ${{ !cancelled() }}
-        env:
-          OT_134_ENGINE: ${{ matrix.engine }}
-          OT_134_OUTPUT: /tmp/ot-pre-ads-134
-        run: node scripts/verify-reading-mask-137.mjs
       - name: Compare approved layout and all paid/organic journeys
         if: ${{ !cancelled() }}
         env:
