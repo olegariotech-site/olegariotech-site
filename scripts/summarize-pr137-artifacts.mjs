@@ -7,11 +7,15 @@ async function* walk(dir){for(const entry of await readdir(dir,{withFileTypes:tr
 const results=[];
 for await(const path of walk(root)){
  const name=basename(path),file=relative(root,path);
- if(/native-(failure|stalls)/.test(file)&&name.endsWith('.json')){try{const native=JSON.parse(await readFile(path,'utf8'));console.log(JSON.stringify({file,kind:'native-stack',processes:native.processes,gdb:native.gdb?{pid:native.gdb.pid,error:native.gdb.error,stdout:native.gdb.stdout?.slice(0,18000),stderr:native.gdb.stderr}:null}));}catch{}continue;}
- if(!['real-sdk.json','ga4-consent-137.json','ga4-resource-gates-137.json','control-summary.json','results.json','earth-report.json','summary.json','comparison.json','navigation-timeline.json','mobile.json'].includes(name))continue;
+ if(/native-(failure|stalls)/.test(file)&&name.endsWith('.json')){try{const native=JSON.parse(await readFile(path,'utf8'));console.log(JSON.stringify({file,kind:'native-stack',processes:native.processes,gdb:native.gdb?{pid:native.gdb.pid,error:native.gdb.error,stdout:native.gdb.stdout?(native.gdb.stdout.length>20000?native.gdb.stdout.slice(0,2000)+'\n[intermediate worker threads omitted here; full stack in artifact]\n'+native.gdb.stdout.slice(-18000):native.gdb.stdout):null,stderr:native.gdb.stderr}:null}));}catch{}continue;}
+ if(!['real-sdk.json','ga4-consent-137.json','ga4-resource-gates-137.json','control-summary.json','results.json','earth-report.json','summary.json','comparison.json','navigation-timeline.json','mobile.json','journeys.json'].includes(name))continue;
  let data;try{data=JSON.parse(await readFile(path,'utf8'));}catch{continue;}
  const row={file};
- if(name==='ga4-resource-gates-137.json'){
+ if(name==='journeys.json'){
+  const p=data.visualPending,deltas=[];
+  if(p)for(let i=0;i<Math.min(p.before.info.rects.length,p.after.info.rects.length);i++){const b=p.before.info.rects[i],a=p.after.info.rects[i];for(const axis of ['x','y','width','height'])if(Math.abs(b[axis]-a[axis])>1)deltas.push({index:i,tag:a.tag,id:a.id,cls:a.cls,axis,before:b[axis],after:a[axis],delta:a[axis]-b[axis]});}
+  Object.assign(row,{kind:'journeys',engine:data.engine,status:data.status,failure:data.failure,journeys:data.journeys.length,accessibility:data.accessibility.length,visual:data.visual.length,pending:p?{url:p.url,width:p.width,before:p.before.capture,after:p.after.capture,deltas}:null});
+ }else if(name==='ga4-resource-gates-137.json'){
   Object.assign(row,{kind:'resource-gates',status:data.status,failure:data.failure,reauthorization:data.reauthorization,modes:data.modes,libraries:data.libraries,vendorFailures:data.vendorFailures,requests:data.consentTimeline?.requests?.map(r=>({id:r.id,phase:r.phase,endpoint:r.endpoint,status:r.status,native:r.native,frameId:r.frameId})),events:data.consentTimeline?.events?.filter(e=>/decision|storage|document-init|script-insert/.test(e.type))});
  }else if(data.consentTimeline&&!data.fixtureOnly){
   const causal=analyzeConsentTimeline(data),suspects=causal.requests.filter(r=>/revoke|refusal/.test(r.phase)||r.finding!=='allowed');

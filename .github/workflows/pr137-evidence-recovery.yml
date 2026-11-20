@@ -85,6 +85,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44799569386
           path: /tmp/ot137-recovered/run-44799569386
+      - name: Read supplementary prior journeys and resource timing
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44801920097
+          path: /tmp/ot137-recovered/run-44801920097
       - name: Summarize actual chronology and failures without changing old verdicts
         run: node scripts/summarize-pr137-artifacts.mjs /tmp/ot137-recovered /tmp/ot137-recovery-analysis
       - uses: actions/upload-artifact@v4
