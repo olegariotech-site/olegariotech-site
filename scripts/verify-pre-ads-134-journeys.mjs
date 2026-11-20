@@ -16,9 +16,14 @@ async function go(page,selector){
  await link.click();await page.waitForLoadState('load');await page.waitForFunction(()=>Boolean(window.OTAnalytics));
 }
 async function geometry(page){
+ const styleReadinessBefore=await page.evaluate(()=>['ot-v2-css','ot-mobile-v3-css','ot-footer-v4-css'].map(id=>{const link=document.getElementById(id);try{return {id,present:!!link,loaded:!!link?.sheet,rules:link?.sheet?.cssRules.length||0};}catch{return {id,present:!!link,loaded:false,rules:0};}}));
+ // The approved loader appends these sheets dynamically. A footer marker or
+ // FontFaceSet.ready alone does not prove that their rules have been applied.
+ await page.waitForFunction(()=>['ot-v2-css','ot-mobile-v3-css','ot-footer-v4-css'].every(id=>{const link=document.getElementById(id);try{return Boolean(link?.sheet&&link.sheet.cssRules.length);}catch{return false;}}));
  await page.evaluate(()=>document.fonts.ready);
  if(await page.locator('body[data-page="home"]').count())await page.locator('footer[data-ot-footer-v4="1"]').waitFor();
- return page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector('h1')?.textContent,rects:[...document.querySelectorAll('h1,main h2,.hero-actions,.lc-hero,.ot-hero,.diagnostic-card,header,footer,.top-nav a')].map(x=>{const r=x.getBoundingClientRect();return {tag:x.tagName,id:x.id,cls:x.className,x:r.x,y:r.y,width:r.width,height:r.height}})}));
+ const final=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector('h1')?.textContent,rects:[...document.querySelectorAll('h1,main h2,.hero-actions,.lc-hero,.ot-hero,.diagnostic-card,header,footer,.top-nav a')].map(x=>{const r=x.getBoundingClientRect();return {tag:x.tagName,id:x.id,cls:x.className,x:r.x,y:r.y,width:r.width,height:r.height}})}));
+ return {...final,styleReadinessBefore,styleReadinessFinal:await page.evaluate(()=>['ot-v2-css','ot-mobile-v3-css','ot-footer-v4-css'].map(id=>({id,rules:document.getElementById(id).sheet.cssRules.length})))};
 }
 try{
  browser=await launch();await mkdir(out,{recursive:true});
