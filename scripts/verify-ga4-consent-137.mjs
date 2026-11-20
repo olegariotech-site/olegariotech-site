@@ -1,3 +1,4 @@
+import {assertConsentTimeline} from './analyze-consent-timeline-137.mjs';
 import assert from 'node:assert/strict';
 import {resolve} from 'node:path';
 import {mkdir} from 'node:fs/promises';
@@ -81,6 +82,6 @@ try{
   assert.deepEqual(report.errors,[]);
   report.checks.push('Second revocation and reload remain denied; no PII, false lead or marketing collection');
   await mkdir(out,{recursive:true});await b.screenshot({path:resolve(out,'ga4-denied-reload-137.png'),animations:'disabled'});
-  report.events=events();report.auxiliaryConversionAttempts=report.network.filter(x=>hostWithin(x.host,'googlesyndication.com')&&x.path==='/measurement/conversion').map(x=>({phase:x.phase,document:x.documentLabel,events:x.events,blocked:x.blockedBeforeCollection}));report.status='PASS';console.log(JSON.stringify({status:'PASS',engine,checks:report.checks,eventCounts:report.eventCounts},null,2));
+  report.events=events();report.auxiliaryConversionAttempts=report.network.filter(x=>hostWithin(x.host,'googlesyndication.com')&&x.path==='/measurement/conversion').map(x=>({phase:x.phase,document:x.documentLabel,events:x.events,blocked:x.blockedBeforeCollection}));assertConsentTimeline(report);report.status='PASS';console.log(JSON.stringify({status:'PASS',engine,checks:report.checks,eventCounts:report.eventCounts},null,2));
 }catch(error){report.status='FAIL';report.failure=error.stack;console.error(error);process.exitCode=1;}
 finally{await save('ga4-consent-137.json',report);await browser?.close();}

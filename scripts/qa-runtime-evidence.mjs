@@ -55,6 +55,11 @@ async function memoryEvents() {
   const names=['memory.events','memory.current','memory.peak','memory.max','cpu.stat'];
   const result={};
   for(const name of names)result[name]=await readFile('/sys/fs/cgroup/'+name,'utf8').catch(()=>null);
+  result.memoryV1=await readFile('/sys/fs/cgroup/memory/memory.oom_control','utf8').catch(()=>null);
+  result.memoryFailCountV1=await readFile('/sys/fs/cgroup/memory/memory.failcnt','utf8').catch(()=>null);
+  result.cpuPressure=await readFile('/proc/pressure/cpu','utf8').catch(()=>null);
+  result.memoryPressure=await readFile('/proc/pressure/memory','utf8').catch(()=>null);
+  result.cpuStat=await readFile('/proc/stat','utf8').catch(()=>null);
   return result;
 }
 export async function processEvidence(output,label) {

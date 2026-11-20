@@ -33,7 +33,7 @@ jobs:
           node-version: '22'
       - name: Install the exact engine version used by the failing historical gate
         run: |
-          npm install --no-save --package-lock=false playwright@${{ matrix.playwright }} @axe-core/playwright@4.10.2
+          npm install --no-save --package-lock=false playwright@${{ matrix.playwright }} @axe-core/playwright@4.10.2 acorn@8.19.0
           npx playwright install --with-deps chromium firefox webkit
           git fetch origin fb57fb8c73d3cc6b9f5bce13797cac33a7d7cfc9
       - name: Compare immutable base and candidate sequentially on this same runner
@@ -41,7 +41,9 @@ jobs:
           OT_137_BASE: /tmp/ot-137-published
           OT_137_OUTPUT: /tmp/ot-pr137-comparison
         run: |
+          mkdir -p "$OT_137_OUTPUT"
           git worktree add --detach "$OT_137_BASE" 70ae38a45831f03ea5e52e5bf45e7d61e1c2b942
+          OT_ASSERTION_PROOF="$OT_137_OUTPUT/assertion-preservation.json" node scripts/verify-assertion-preservation-137.mjs
           node scripts/compare-pr137.mjs ${{ matrix.kind }}
       - name: Upload process samples, crash stderr, body hashes and before/after videos
         if: always()

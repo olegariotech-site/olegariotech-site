@@ -22,14 +22,14 @@ export async function consentTimeline(context,report){
     }
   });
   await context.addInitScript(()=>{
-    const key='ot_consent_preferences_v2';let sequence=0;
+    const key='ot_consent_preferences_v2',documentId=crypto.randomUUID();let sequence=0;
     const now=()=>performance.timeOrigin+performance.now();
     const choice=value=>{try{const x=JSON.parse(value);return x&&['granted','denied'].includes(x.analytics)&&['granted','denied'].includes(x.marketing)?{analytics:x.analytics,marketing:x.marketing}:null;}catch{return null;}};
     const stored=()=>{try{return choice(localStorage.getItem(key));}catch{return null;}};
     const effective=()=>{try{return (window.OTAnalytics||window.parent.OTAnalytics)?.getConsent()??null;}catch{return null;}};
     const optional=value=>{try{const u=new URL(value,location.href);return /^https?:$/.test(u.protocol)&&u.origin!==location.origin&&!['fonts.googleapis.com','fonts.gstatic.com'].includes(u.hostname);}catch{return false;}};
     function emit(type,details={}){
-      const event={type,epoch:now(),wallEpoch:Date.now(),sequence:++sequence,documentPath:location.pathname,topFrame:window.parent===window,frameElementId:window.frameElement?.id||null,stored:stored(),effective:effective(),...details};
+      const event={type,epoch:now(),wallEpoch:Date.now(),documentId,sequence:++sequence,documentPath:location.pathname,topFrame:window.parent===window,frameElementId:window.frameElement?.id||null,stored:stored(),effective:effective(),...details};
       window.__otQaConsentTrace137(event).catch(()=>{window.__otQaConsentTraceErrors137=(window.__otQaConsentTraceErrors137||0)+1;});
     }
     const callsite=()=>String(new Error().stack||'').split('\n').slice(2,6).map(line=>line.replace(/https?:\/\/[^\s)]+/g,value=>{try{const u=new URL(value);return u.origin+u.pathname;}catch{return '[source]';}})).join('\n').slice(0,600);

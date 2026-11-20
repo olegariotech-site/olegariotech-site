@@ -11,8 +11,8 @@ const base=process.env.OT_137_BASE;assert.ok(base,'Immutable published checkout 
 const output=resolve(process.env.OT_137_OUTPUT||'/tmp/ot-pr137-comparison',kind);
 await mkdir(output,{recursive:true});
 const results=[];
-for(const version of ['base','candidate']){
-  const folder=resolve(output,version);await mkdir(folder,{recursive:true});
+for(const [index,version] of ['base','candidate','candidate','base'].entries()){
+  const folder=resolve(output,String(index+1).padStart(2,'0')+'-'+version);await mkdir(folder,{recursive:true});
   const env={...process.env,DEBUG:'pw:browser',OT_QA_RUN_LABEL:version};
   if(version==='base')env.OT_QA_COMPARE_ROOT=base;else delete env.OT_QA_COMPARE_ROOT;
   if(kind==='earth')Object.assign(env,{OT_QA_ENGINES:'webkit',OT_EARTH_PROFILES:'high,intermediate-4gb,canvas-4gb',OT_EARTH_VIDEO:'1',OT_EARTH_OUTPUT:folder});
@@ -26,10 +26,10 @@ for(const version of ['base','candidate']){
   await Promise.all([finished(stdout),finished(stderr)]);
   const reportFile=resolve(folder,kind==='earth'?'earth-report.json':'results.json');
   const report=await readFile(reportFile,'utf8').then(JSON.parse).catch(error=>({failure:error.message}));
-  results.push({version,code,signal,passed:code===0&&report.passed===true,reportFile,runtime:report.runtime||report.runtimeSources, failure:report.failure||null});
+  results.push({index:index+1,version,code,signal,passed:code===0&&report.passed===true,reportFile,runtime:report.runtime||report.runtimeSources, failure:report.failure||null});
   await writeFile(resolve(output,'comparison.json'),JSON.stringify({kind,results},null,2));
   console.log(JSON.stringify({kind,version,code,signal,passed:results.at(-1).passed}));
 }
 // A known failing historical base is evidence, not a failing candidate.
 // Candidate failures always fail this job as well as the unfiltered required gate.
-assert.equal(results.find(r=>r.version==='candidate').passed,true,'Candidate must pass the unchanged comparison assertions');
+assert.ok(results.filter(r=>r.version==='candidate').every(r=>r.passed),'Every candidate trial must pass the unchanged comparison assertions in both orders');

@@ -1,3 +1,4 @@
+import {assertConsentTimeline} from './analyze-consent-timeline-137.mjs';
 import assert from 'node:assert/strict';
 import {hostWithin} from './qa-hostname.mjs';
 import {resolve} from 'node:path';
@@ -73,7 +74,7 @@ try{
  report.checks.push('Reauthorize safely without duplicate GA config or false received lead');
  assert.ok(report.libraries.some(x=>x.url.includes('fbevents.js')&&x.status===200&&x.bytes>10000),'Real Meta bytes loaded');
  assert.ok(report.libraries.some(x=>x.url.includes('/gtag/js')&&x.status===200&&x.bytes>10000),'Real Google bytes loaded');
- assert.deepEqual(report.errors,[]);report.status='PASS';report.completedAt=new Date().toISOString();
+ assert.deepEqual(report.errors,[]);assertConsentTimeline(report);report.status='PASS';report.completedAt=new Date().toISOString();
  console.log(JSON.stringify({status:report.status,engine,checks:report.checks,libraries:report.libraries,blockedCollections:collections(report).length},null,2));
 }catch(error){report.status='FAIL';report.failure=error.stack;console.error(error);process.exitCode=1;}
 finally{await save('real-sdk.json',report);await browser?.close();}

@@ -1,3 +1,4 @@
+import {v3Probe} from './qa-v3-diagnostics-137.mjs';
 import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // OT V3 regression suite. Self-contained local server; never deploys or sends analytics.
 // npm install --no-save --package-lock=false playwright@1.56.1 @axe-core/playwright@4.10.2
@@ -99,14 +100,15 @@ try{
   let probeTimer;
   try{const probe=await Promise.race([browser.newPage(),new Promise((_,reject)=>{probeTimer=setTimeout(()=>reject(new Error('Browser content process unavailable after 15s')),15000)})]);clearTimeout(probeTimer);await probe.setContent('<h1>OT engine probe</h1>');assert.equal(await probe.locator('h1').innerText(),'OT engine probe');await probe.close();}
   catch(error){clearTimeout(probeTimer);report.engines[name]={unavailable:error.message};await browser.close();continue;}
-  const runs=[],processEvents=[];let expectedClose=false;report.engines[name]={version:browser.version(),runs,processEvents};
+  const runs=[],processEvents=[];let expectedClose=false,activeProbe=null;report.engines[name]={version:browser.version(),runs,processEvents};
   browser.on('disconnected',()=>processEvents.push({event:'browser-disconnected',expected:expectedClose,at:new Date().toISOString()}));
   try{
    for(const width of (process.env.OT_QA_WIDTHS||'360,390,430,768,1366,1440,1920').split(',').map(Number)){
     const height=width<768?844:width===768?1024:900;const context=await browser.newContext({viewport:{width,height},hasTouch:width<=768,isMobile:name!=='firefox'&&width<768});await transport(context);const page=await context.newPage();
-    page.on('crash',()=>processEvents.push({event:'page-crash',width,at:new Date().toISOString()}));
+    activeProbe=v3Probe(page,report,name,width,output);
+    page.on('crash',()=>processEvents.push({event:'page-crash',width,expectedClose,stage:activeProbe?.stage(),at:new Date().toISOString()}));
     const errors=[],missing=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))missing.push(r.url());});
-    await ready(page);const panel=await page.locator('#otConsent').boundingBox();
+    activeProbe.mark('ready');await ready(page);const panel=await page.locator('#otConsent').boundingBox();
     if(width<=780){const cta=await page.locator('#inicio .btn-primary').boundingBox();assert.ok(panel.y>=cta.y+cta.height,'consent does not cover the main diagnosis CTA');assert.equal(await page.locator('#otConsent').getAttribute('role'),'region');}assert.ok(panel.height<height*.42,'compact initial consent');
     assert.equal(await page.locator('#otConsentPreferences').isVisible(),false);assert.equal(await page.locator('[data-consent-analytics]').isChecked(),false);assert.equal(await page.locator('[data-consent-marketing]').isChecked(),false);
     if([390,1440].includes(width))await page.screenshot({path:`${output}/${name}-cookies-${width}.png`});
@@ -119,7 +121,7 @@ try{
     await page.locator('[data-featured-project=advocacia]').focus();await page.keyboard.press('Enter');await selected(page,'advocacia');assert.equal(await page.locator('#projectStage').evaluate(el=>el===document.activeElement),true);
     const featureRect=await page.locator('#projectStage').boundingBox();const headerBottom=await page.locator(width<=900?'.mobile-header':'.topbar').evaluate(e=>e.getBoundingClientRect().bottom);assert.ok(featureRect.y>=headerBottom-2,`stage focus below fixed header: ${JSON.stringify({width,featureRect,headerBottom,scroll:await page.evaluate(()=>({y:scrollY,padding:getComputedStyle(document.documentElement).scrollPaddingTop,margin:getComputedStyle(document.querySelector('#projectStage')).scrollMarginTop}))})}`);
     for(const key of ['acai','kl','adega','advocacia','ripamonti','navalha']){
-     await page.locator(`#project-tab-${key}`).click();await selected(page,key);assert.equal(await page.locator('#projectStage h3').innerText(),projects[key].title);
+     activeProbe.mark('project-tab');await page.locator(`#project-tab-${key}`).click();await selected(page,key);assert.equal(await page.locator('#projectStage h3').innerText(),projects[key].title);
      assert.equal(await page.locator(`#project-tab-${key}`).getAttribute('aria-selected'),'true');
      if(projects[key].testimonial){assert.equal(await page.locator('.case-testimonial blockquote').innerText(),`“${projects[key].testimonial.quote}”`);}
     }
@@ -127,10 +129,10 @@ try{
     for(const key of ['acai','advocacia','ripamonti']){
      const card=page.locator(`.featured-project:has([data-featured-project=${key}])`);assert.equal(await card.locator('blockquote').innerText(),`“${projects[key].testimonial.quote}”`);assert.equal(await card.locator('figcaption strong').innerText(),projects[key].testimonial.author);assert.equal(await card.locator('figcaption a').getAttribute('href'),projects[key].testimonial.source);assert.match(await card.locator('figcaption a').getAttribute('aria-label'),/listagem geral/);
     }
-    await page.locator('#project-tab-kl').click();await selected(page,'kl');await page.locator('#projectStage').getByRole('button',{name:'Identidade',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='brand');await page.locator('#projectStage').getByRole('button',{name:'Website',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='website');
+    activeProbe.mark('kl-tab');await page.locator('#project-tab-kl').click();await selected(page,'kl');await page.locator('#projectStage').getByRole('button',{name:'Identidade',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='brand');await page.locator('#projectStage').getByRole('button',{name:'Website',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.kind==='website');
     if(width>600){await page.getByRole('button',{name:'Mobile',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.view==='mobile');await page.getByRole('button',{name:'Desktop',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.case-screen').dataset.view==='desktop');}
     else{await page.locator('[data-expand]').click();assert.equal(await page.locator('[data-expand]').getAttribute('aria-expanded'),'true');await page.locator('[data-expand]').click();assert.equal(await page.locator('[data-expand]').getAttribute('aria-expanded'),'false');}
-    await sweep(page);
+    activeProbe.mark('sweep');await sweep(page);
     const layout=await page.evaluate(()=>({width:document.documentElement.clientWidth,scrollWidth:document.documentElement.scrollWidth,broken:[...document.images].filter(i=>i.getBoundingClientRect().width>0&&i.complete&&!i.naturalWidth).map(i=>i.src),fonts:[...document.fonts].filter(f=>f.status==='error').map(f=>f.family)}));assert.equal(layout.scrollWidth,layout.width,'no horizontal overflow');assert.deepEqual(layout.broken,[],'all rendered images loaded');assert.deepEqual(layout.fonts,[]);
     const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();const violations=axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)}));
     assert.deepEqual(violations,[],'no automatic WCAG A/AA violations in exercised state');
@@ -140,10 +142,10 @@ try{
      await page.locator('#caseCapture img').scrollIntoViewIfNeeded();await page.locator('#caseCapture img').evaluate(img=>img.decode());await page.waitForTimeout(350);await page.screenshot({path:`${output}/${name}-stage-${width}.png`});
      await page.locator('#sobre .about-photo').scrollIntoViewIfNeeded();await page.waitForTimeout(350);await page.screenshot({path:`${output}/${name}-founder-${width}.png`});
     }
-    await page.locator('[data-footer-cookie-settings]').click();await page.getByRole('button',{name:'Personalizar',exact:true}).click();assert.equal(await page.locator('[data-consent-analytics]').evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Escape');assert.equal(await page.locator('#otConsentPreferences').isVisible(),false);assert.equal(await page.getByRole('button',{name:'Personalizar',exact:true}).evaluate(e=>e===document.activeElement),true);await reject(page);assert.equal(await page.locator('[data-footer-cookie-settings]').evaluate(e=>e===document.activeElement),true);
+    activeProbe.mark('footer-consent');await page.locator('[data-footer-cookie-settings]').click();await page.getByRole('button',{name:'Personalizar',exact:true}).click();assert.equal(await page.locator('[data-consent-analytics]').evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Escape');assert.equal(await page.locator('#otConsentPreferences').isVisible(),false);assert.equal(await page.getByRole('button',{name:'Personalizar',exact:true}).evaluate(e=>e===document.activeElement),true);await reject(page);assert.equal(await page.locator('[data-footer-cookie-settings]').evaluate(e=>e===document.activeElement),true);
     await page.keyboard.press('Tab');await page.locator('[data-footer-cookie-settings]').focus();const focus=await page.locator('[data-footer-cookie-settings]').evaluate(e=>({style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));assert.notEqual(focus.style,'none');
     const environmentWarnings=errors.filter(e=>name==='firefox'&&/Cookie ._(fbp|fbc). has been rejected for invalid domain/.test(e));
-    assert.deepEqual(errors.filter(e=>!environmentWarnings.includes(e)),[],`${name}/${width} relevant console`);assert.deepEqual(missing,[],`${name}/${width} missing files`);runs.push({width,height,layout,consentHeight:panel.height,violations,errors,environmentWarnings,missing});await context.close();await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));console.log(`${name} ${width}: PASS`);
+    assert.deepEqual(errors.filter(e=>!environmentWarnings.includes(e)),[],`${name}/${width} relevant console`);assert.deepEqual(missing,[],`${name}/${width} missing files`);runs.push({width,height,layout,consentHeight:panel.height,violations,errors,environmentWarnings,missing});await activeProbe.complete();activeProbe.close();await context.close();await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));console.log(`${name} ${width}: PASS`);
    }
    // Short mobile viewport: expanded choices scroll inside the panel and focused input stays visible.
    const short=await browser.newContext({viewport:{width:360,height:640}});await transport(short);const sp=await short.newPage();await ready(sp);await sp.locator('[data-consent-customize]').click();
@@ -152,7 +154,7 @@ try{
    await sp.locator('[data-consent-save]').click();await short.close();
    // Reduced motion changes at runtime must cancel the showroom animation.
    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await transport(context);const page=await context.newPage();await ready(page);await reject(page);await page.locator('#project-tab-acai').click();await selected(page,'acai');assert.equal(await page.locator('#projectStage').evaluate(e=>e.getAnimations().length),0);assert.equal(await page.locator('.earth-journey__canvas').evaluate(e=>getComputedStyle(e).display),'none');await context.close();
-  }finally{expectedClose=true;await browser.close();}
+  }catch(error){processEvents.push({event:'engine-failure-before-cleanup',at:new Date().toISOString(),error:error.message});await activeProbe?.failed(error);throw error;}finally{activeProbe?.close();processEvents.push({event:'cleanup-start',at:new Date().toISOString()});expectedClose=true;await browser.close();processEvents.push({event:'cleanup-end',at:new Date().toISOString()});}
  }
  const browser=await pw.chromium.launch();try{
   const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});await transport(nojs);const fallback=await nojs.newPage();await fallback.goto(base,{waitUntil:'networkidle'});assert.equal(await fallback.locator('.featured-project').count(),3);assert.equal(await fallback.locator('#projectStage h3').innerText(),projects.kl.title);assert.equal(await fallback.locator('[data-featured-project=acai]').getAttribute('href'),projects.acai.link);await nojs.close();

@@ -2,12 +2,13 @@
 import {hostWithin} from './qa-hostname.mjs';
 import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
 
 export function analyzeConsentTimeline(report){
  const trace=report.consentTimeline;if(!trace)throw Error('Causal trace required');
  const events=[...trace.events].sort((a,b)=>a.epoch-b.epoch||a.sequence-b.sequence);
  const writes=events.filter(e=>e.type==='decision-write-start'&&e.next);
- const decisions=writes.map(start=>({start:start.epoch,commit:events.find(e=>e.type==='decision-effective'&&e.frameId===start.frameId&&e.sequence===start.sequence+1)?.epoch??null,next:start.next,frameId:start.frameId}));
+ const decisions=writes.map(start=>{const commit=events.find(e=>e.type==='decision-effective'&&e.frameId===start.frameId&&e.documentId===start.documentId&&e.sequence===start.sequence+1);return {start:start.epoch,commit:commit?.epoch??null,startSequence:start.sequence,commitSequence:commit?.sequence??null,next:start.next,frameId:start.frameId,documentId:start.documentId};});
  const usedInitiators=new Set();
  const result={clock:trace.clock,resolutionGuardMs:2,decisions,requests:[],violations:[],inconclusive:[]};
  for(const request of trace.requests){
@@ -26,6 +27,11 @@ export function analyzeConsentTimeline(report){
    const denial=decisions[i];if(denial.next[category]!=='denied')continue;
    const grant=decisions.slice(i+1).find(e=>e.next[category]==='granted');
    if(last<denial.start-2||grant&&grant.commit!==null&&first>grant.commit+2)continue;
+   // Resolve quantized equal-millisecond reauthorization using same-document
+   // program order, never the request's status. Other denial intervals are
+   // still checked, including decisions coming from another tab.
+   const sameDocument=grant&&initiation&&(grant.documentId&&initiation.documentId?grant.documentId===initiation.documentId:!events.some(e=>e.type==='document-init'&&e.frameId===initiation.frameId&&e.epoch>=grant.start-2&&e.epoch<=initiation.epoch+2));
+   if(grant&&initiation&&sameDocument&&grant.start<=initiation.epoch&&grant.frameId===initiation.frameId&&grant.commitSequence!==null&&grant.commitSequence<initiation.sequence&&initiation.stored?.[category]==='granted'&&initiation.effective?.[category]==='granted')continue;
    if(denial.commit!==null&&first>denial.commit+2&&(!grant||last<grant.start-2)){
     finding='violation';reason='New optional initiation while consent is effectively denied';break;
    }
@@ -42,6 +48,12 @@ export function analyzeConsentTimeline(report){
   result.requests.push(row);if(finding==='violation')result.violations.push(row);if(finding==='inconclusive')result.inconclusive.push(row);
  }
  result.status=result.violations.length?'FAIL':result.inconclusive.length?'INCONCLUSIVE':'PASS';return result;
+}
+export function assertConsentTimeline(report){
+ const result=analyzeConsentTimeline(report);report.causalConsent=result;
+ assert.deepEqual(result.violations,[],'Zero new optional initiations during effective refusal, including cancelled requests');
+ assert.deepEqual(result.inconclusive,[],'Every optional request has a resolved causal position');
+ return result;
 }
 if(process.argv[1]===fileURLToPath(import.meta.url)){
  const report=JSON.parse(await readFile(process.argv[2],'utf8')),result=analyzeConsentTimeline(report);
