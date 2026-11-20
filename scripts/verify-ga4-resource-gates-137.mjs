@@ -58,6 +58,24 @@ try{
    assertConsentTimeline(report);
    assert.equal(pv(),beforePV,'Reauthorization does not duplicate page_view');
    assert.equal(await page.locator('#ot-ga4-frame').count(),1);
+   report.phase='guard-analytics-only-policy';
+   const forbidden=await page.locator('#ot-ga4-frame').evaluate(async frame=>{
+    const w=frame.contentWindow,d=frame.contentDocument,urls=[
+     'https://pagead2.googlesyndication.com/measurement/conversion?ot_qa_policy=fetch',
+     'https://www.googleadservices.com/pagead/conversion/1/?ot_qa_policy=beacon',
+     'https://stats.g.doubleclick.net/g/collect?ot_qa_policy=xhr',
+     'https://www.google-analytics.com.evil.example/g/collect?ot_qa_policy=lookalike',
+     'https://www.googletagmanager.com.evil.example/gtag/js?ot_qa_policy=script'
+    ];
+    await w.fetch(urls[0],{method:'POST',body:'fixture'});w.navigator.sendBeacon(urls[1],'fixture');
+    const xhr=new w.XMLHttpRequest();xhr.open('POST',urls[2]);xhr.send('fixture');
+    const image=new w.Image();image.src=urls[3];
+    const script=d.createElement('script');script.src=urls[4];d.head.appendChild(script);return urls;
+   });
+   await settled(report,1000);
+   const forbiddenHashes=new Set(forbidden.map(sha));
+   report.policyAttempts=report.consentTimeline.requests.filter(r=>forbiddenHashes.has(r.endpoint.urlHash));
+   assert.deepEqual(report.policyAttempts,[],'Analytics consent never authorizes advertising collectors or lookalike domains');
   }
   report.checks.push(mode+': 13 late resource/transport probes blocked before any native request');
   await context.close();

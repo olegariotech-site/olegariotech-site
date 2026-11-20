@@ -15,7 +15,7 @@ for(const [index,version] of ['base','candidate','candidate','base'].entries()){
   const folder=resolve(output,String(index+1).padStart(2,'0')+'-'+version);await mkdir(folder,{recursive:true});
   const env={...process.env,DEBUG:'pw:browser',OT_QA_RUN_LABEL:version};
   if(version==='base')env.OT_QA_COMPARE_ROOT=base;else delete env.OT_QA_COMPARE_ROOT;
-  if(kind==='earth')Object.assign(env,{OT_QA_ENGINES:'webkit',OT_EARTH_PROFILES:'high,intermediate-4gb,canvas-4gb',OT_EARTH_VIDEO:'1',OT_EARTH_OUTPUT:folder});
+  if(kind==='earth')Object.assign(env,{OT_QA_ENGINES:'webkit',OT_EARTH_PROFILES:'high,intermediate-4gb,canvas-4gb',OT_EARTH_VIDEO:'1',OT_EARTH_OUTPUT:folder,OT_QA_PROFILE_RAF:'1'});
   else Object.assign(env,{OT_QA_ENGINES:'webkit',OT_QA_OUTPUT:folder});
   delete env.OT_QA_REQUIRE_ENGINES; // This supplemental comparison targets WebKit; the required V3 retains all three engines.
   const script=kind==='earth'?'scripts/verify-earth-mobile.mjs':'scripts/verify-premium-v3.mjs';

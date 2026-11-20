@@ -14,29 +14,47 @@
   if(raw===null)return true; // The parent still supports an in-memory choice.
   try{return JSON.parse(raw)?.analytics==='granted';}catch{return false;}
  }
- const beacon=navigator.sendBeacon.bind(navigator);
+ // This document has analytics consent only. Google can also emit an automatic
+ // advertising conversion for a key event, even with ad_storage denied.
+ // Stop that extra destination before the browser starts a request.
+ function endpointAllowed(value){
+  try{
+   if(value===undefined||value===null)return false;
+   const url=new URL(value,location.href),host=url.hostname;
+   if(url.origin===location.origin)return true;
+   if(url.protocol!=='https:')return false;
+   const analytics=domain=>host===domain||host.endsWith('.'+domain);
+   const library=host==='www.googletagmanager.com'&&(url.pathname==='/gtag/js'||url.pathname==='/gtag/destination'&&/^G-[A-Z0-9]+$/.test(url.searchParams.get('id')||''));
+   return library||analytics('google-analytics.com')||analytics('analytics.google.com');
+  }catch{return false;}
+ }
+ const nativeBeacon=navigator.sendBeacon.bind(navigator);
+ const beacon=(url,...args)=>endpointAllowed(url)?nativeBeacon(url,...args):false;
  navigator.sendBeacon=function(...args){return permitted()?beacon(...args):false;};
- const fetch=window.fetch.bind(window);
+ const nativeFetch=window.fetch.bind(window);
+ const fetch=(input,...args)=>endpointAllowed(input&&typeof input==='object'&&typeof input.url==='string'?input.url:input)?nativeFetch(input,...args):Promise.resolve(new Response(null,{status:204}));
  window.fetch=function(...args){return permitted()?fetch(...args):Promise.resolve(new Response(null,{status:204}));};
- const send=XMLHttpRequest.prototype.send;
- XMLHttpRequest.prototype.send=function(...args){if(permitted())return send.apply(this,args);};
+ const open=XMLHttpRequest.prototype.open,send=XMLHttpRequest.prototype.send,requestURLs=new WeakMap();
+ XMLHttpRequest.prototype.open=function(method,url,...args){requestURLs.set(this,url);return open.call(this,method,url,...args);};
+ XMLHttpRequest.prototype.send=function(...args){if(permitted()&&endpointAllowed(requestURLs.get(this)))return send.apply(this,args);};
  for(const Ctor of [HTMLImageElement,HTMLScriptElement]){
   const src=Object.getOwnPropertyDescriptor(Ctor.prototype,'src');
-  Object.defineProperty(Ctor.prototype,'src',{...src,set(value){if(permitted())src.set.call(this,value);}});
+  Object.defineProperty(Ctor.prototype,'src',{...src,set(value){if(permitted()&&endpointAllowed(value))src.set.call(this,value);}});
   const setAttribute=Ctor.prototype.setAttribute,setAttributeNS=Ctor.prototype.setAttributeNS;
-  Ctor.prototype.setAttribute=function(name,value){if(permitted()||String(name).toLowerCase()!=='src')return setAttribute.call(this,name,value);};
-  Ctor.prototype.setAttributeNS=function(namespace,name,value){if(permitted()||String(name).toLowerCase().split(':').at(-1)!=='src')return setAttributeNS.call(this,namespace,name,value);};
+  Ctor.prototype.setAttribute=function(name,value){if(String(name).toLowerCase()!=='src'||permitted()&&endpointAllowed(value))return setAttribute.call(this,name,value);};
+  Ctor.prototype.setAttributeNS=function(namespace,name,value){if(String(name).toLowerCase().split(':').at(-1)!=='src'||permitted()&&endpointAllowed(value))return setAttributeNS.call(this,namespace,name,value);};
  }
  // A real Google SDK inserts another gtag/js through insertBefore during
  // revocation. Transport gates alone do not cover this resource-initiation path.
  const containsScript=node=>node instanceof HTMLScriptElement||Boolean(node?.querySelector?.('script'));
+ const scriptEndpointsAllowed=node=>(node instanceof HTMLScriptElement?[node]:[...(node?.querySelectorAll?.('script')||[])]).every(script=>endpointAllowed(script.src||location.href));
  for(const name of ['appendChild','insertBefore','replaceChild']){
   const original=Node.prototype[name];
-  Node.prototype[name]=function(node,...args){if(containsScript(node)&&!permitted())return node;return original.call(this,node,...args);};
+  Node.prototype[name]=function(node,...args){if(containsScript(node)&&!permitted())return node;if(!scriptEndpointsAllowed(node))return node;return original.call(this,node,...args);};
  }
  for(const name of ['append','prepend','replaceChildren']){
   const original=Element.prototype[name];
-  Element.prototype[name]=function(...nodes){if(!permitted()&&nodes.some(containsScript))return;return original.apply(this,nodes);};
+  Element.prototype[name]=function(...nodes){if(!permitted()&&nodes.some(containsScript))return;if(!nodes.every(scriptEndpointsAllowed))return;return original.apply(this,nodes);};
  }
  Object.defineProperty(window,'OTGoogleMeasurement',{value:Object.freeze({stop(){revoked=true;active=false;}})});
  const names=new Set(['page_path','page_title','cta_text','cta_location','destination_url','plan_name','plan_tier','project_name','product_name','social_network','solution_name','audio_state','question_name','answer_category','step_number','completed_steps','section_name','percent','percent_scrolled','estrutura','objetivo','utm_source','utm_medium','utm_campaign','utm_content','utm_term']);

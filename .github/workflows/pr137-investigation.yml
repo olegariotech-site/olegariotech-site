@@ -21,6 +21,9 @@ jobs:
           - kind: earth
             runner: ubuntu-latest
             playwright: 1.62.1
+          - kind: layout
+            runner: ubuntu-latest
+            playwright: 1.62.1
           - kind: v3
             runner: ubuntu-24.04
             playwright: 1.56.1
@@ -44,7 +47,11 @@ jobs:
           mkdir -p "$OT_137_OUTPUT"
           git worktree add --detach "$OT_137_BASE" 70ae38a45831f03ea5e52e5bf45e7d61e1c2b942
           OT_ASSERTION_PROOF="$OT_137_OUTPUT/assertion-preservation.json" node scripts/verify-assertion-preservation-137.mjs
-          node scripts/compare-pr137.mjs ${{ matrix.kind }}
+          if [ '${{ matrix.kind }}' = 'layout' ]; then
+            OT_134_ENGINE=webkit OT_134_BEFORE="$OT_137_BASE" OT_137_LAYOUT_OUTPUT="$OT_137_OUTPUT/layout" node scripts/diagnose-layout-137.mjs
+          else
+            node scripts/compare-pr137.mjs ${{ matrix.kind }}
+          fi
       - name: Upload process samples, crash stderr, body hashes and before/after videos
         if: always()
         uses: actions/upload-artifact@v4
