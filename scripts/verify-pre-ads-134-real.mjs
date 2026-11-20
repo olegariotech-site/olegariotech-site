@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {hostWithin} from './qa-hostname.mjs';
 import {resolve} from 'node:path';
 import {mkdir} from 'node:fs/promises';
 import {launch,replay,ready,answer,waClick,preferences,snapshot,collections,settled,save,engine,out,FIXTURE,pw,ORIGIN} from './qa-pre-ads-134-lib.mjs';
@@ -13,11 +14,17 @@ try{
  await ready(page,'/diagnostico-digital/?origem=sites-valinhos&utm_source=google&utm_medium=cpc&utm_campaign=ot_auditoria&debug_analytics=1');
  await settled(report,500);assert.equal(report.libraries.length,0,'No optional SDK before consent');assert.equal(collections(report).length,0);
  report.checks.push('Fresh choice: no optional SDK or collection');
+ report.phase='hostname-negative';
+ const lookalikes=['notfacebook.com','www.notfacebook.com','notgoogle-analytics.com','google-analytics.com.evil.test'];
+ await page.evaluate(async hosts=>{for(const host of hosts)await fetch('https://'+host+'/collect?en=click_whatsapp&ev=Contact',{mode:'no-cors'});},lookalikes);
+ assert.equal(report.network.filter(x=>x.phase==='hostname-negative').length,lookalikes.length,'Every fake host is intercepted, never sent');
+ assert.equal(collections(report).length,0,'Lookalike host cannot satisfy a real-vendor event assertion');
+ report.checks.push('Intercepted lookalikes never count as vendor collection');
  report.phase='marketing-only';await preferences(page,false,true);
  await page.waitForFunction(()=>typeof window.fbq?.callMethod==='function',null,{timeout:45000});
  await answer(page);report.draft=await waClick(page);await settled(report,8000);
  const marketing=collections(report);report.metaState=await page.evaluate(()=>({consent:window.OTAnalytics.getConsent(),state:window.fbq.getState?.(),queue:(window.fbq.queue||[]).map(x=>[...x])}));assert.ok(report.draft.includes(FIXTURE));assert.ok(report.draft.includes('OT-GADS-SITES-VALINHOS'));assert.ok(report.draft.includes('Origem da página: Criação de sites em Valinhos'));
- assert.ok(marketing.some(x=>x.host.endsWith('facebook.com')&&x.events.includes('Contact')),'Real Meta SDK still emits the safe explicit Contact');
+ assert.ok(marketing.some(x=>hostWithin(x.host,'facebook.com')&&x.events.includes('Contact')),'Real Meta SDK still emits the safe explicit Contact');
  assert.ok(!marketing.some(x=>x.containsFixture||x.containsWhatsAppDraft),'Real SDK must never collect the draft or fixture');
  assert.ok(!marketing.some(x=>x.events.includes('SubscribedButtonClick')),'No automatic button listener event');
  assert.equal((await snapshot(page)).ga.length,0,'Independent analysis refusal');
@@ -39,12 +46,12 @@ try{
 
  report.phase='analytics-only';await preferences(page,true,false);await answer(page);await waClick(page);await settled(report,8000);
  const analytics=collections(report).filter(x=>x.phase==='analytics-only');
- assert.ok(analytics.some(x=>x.host.endsWith('google-analytics.com')&&x.events.includes('click_whatsapp')),'Real Google SDK emits the explicit intent event');
+ assert.ok(analytics.some(x=>hostWithin(x.host,'google-analytics.com')&&x.events.includes('click_whatsapp')),'Real Google SDK emits the explicit intent event');
  assert.ok(!analytics.some(x=>x.containsFixture||x.containsWhatsAppDraft),'No diagnostic PII in real GA payloads');
- assert.ok(analytics.filter(x=>x.host.endsWith('google-analytics.com')).every(x=>x.pagePath==='/diagnostico-digital/'),'GA measures the real parent page, never the transport asset');
+ assert.ok(analytics.filter(x=>hostWithin(x.host,'google-analytics.com')).every(x=>x.pagePath==='/diagnostico-digital/'),'GA measures the real parent page, never the transport asset');
  report.googleCookieNames=(await context.cookies(ORIGIN)).map(x=>x.name).filter(x=>x==='_ga'||x.startsWith('_ga_'));
  assert.ok(report.googleCookieNames.includes('_ga'),'Same-origin first-party GA session cookie still works');
- assert.ok(!analytics.some(x=>x.host.endsWith('facebook.com')),'Marketing remains denied');
+ assert.ok(!analytics.some(x=>hostWithin(x.host,'facebook.com')),'Marketing remains denied');
  report.checks.push('Real Google: intended event, safe payload; independent marketing refusal');
  report.phase='open-analytics-preferences';await page.locator('#otConsentSettings').click();await settled(report,3000);
  report.phase='revoke-analytics';await page.locator('[data-consent-reject]').click();await settled(report,3000);

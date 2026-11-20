@@ -4,6 +4,7 @@ import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-sc
 // npx playwright install --with-deps chromium firefox webkit
 // node scripts/verify-premium-v3.mjs
 import assert from 'node:assert/strict';
+import {comparisonRoot,runtimeEvidence,processEvidence} from './qa-runtime-evidence.mjs';
 import {readFile,writeFile,mkdir,stat} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -76,11 +77,15 @@ assert.equal(analyticsAfter.slice(analyticsAfter.indexOf('  function installEcos
 if(process.env.OT_QA_STATIC_ONLY==='1'){console.log('Protected copy, catalog, SEO, event guards and engine scripts: PASS');process.exit(0);}
 const {default:AxeBuilder}=await import(process.env.OT_AXE_MODULE||'@axe-core/playwright');
 const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg'};
-const server=createServer(async(req,res)=>{try{let file=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==root&&!file.startsWith(root+'/'))throw Error('path');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end();}});
+const servedRoot=comparisonRoot(root),runtimeRecord={},proof=runtimeEvidence(servedRoot,runtimeRecord);
+const monitor=await processEvidence(output,'v3-'+(process.env.OT_QA_RUN_LABEL||'candidate'));
+const server=createServer(async(req,res)=>{try{let file=resolve(servedRoot,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(file!==servedRoot&&!file.startsWith(servedRoot+'/'))throw Error('path');if((await stat(file)).isDirectory())file+='/index.html';res.setHeader('Content-Type',types[extname(file)]||'application/octet-stream');const bytes=await readFile(file);proof.serve(file,bytes,res);res.end(bytes);}catch{res.writeHead(404);res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
-const report={baseline,browserPath:'Browser plugin not available; Playwright',engines:{},privacy:[],pages:[],limitations:['Linux engine simulations; no physical iPhone/Android, Safari chrome or real audio-output certification.','Automatic contrast checks cover exercised states; manual accessibility review is still required.','GA/Meta tag destinations intercepted; no real events sent.']};
+const report={runtime:runtimeRecord.runtime,baseline,browserPath:'Browser plugin not available; Playwright',engines:{},privacy:[],pages:[],limitations:['Linux engine simulations; no physical iPhone/Android, Safari chrome or real audio-output certification.','Automatic contrast checks cover exercised states; manual accessibility review is still required.','GA/Meta tag destinations intercepted; no real events sent.']};
 const fonts=new Map();
 async function transport(context){
+ context.on('page',page=>proof.page(page));
+ await context.route('**/*',route=>{const u=new URL(route.request().url());if(u.hostname==='127.0.0.1'||['fonts.googleapis.com','fonts.gstatic.com'].includes(u.hostname))return route.continue();return route.fulfill({status:200,contentType:'application/javascript',body:'/* every collector intercepted */'});});
  if(process.env.OT_QA_PROXY_FONTS==='1')await context.route(/^https:\/\/fonts\.(googleapis|gstatic)\.com\//,async route=>{const url=route.request().url();try{if(!fonts.has(url)){const response=await fetch(url,{signal:AbortSignal.timeout(20000)});assert.ok(response.ok);fonts.set(url,{body:Buffer.from(await response.arrayBuffer()),contentType:response.headers.get('content-type')});}await route.fulfill(fonts.get(url));}catch(e){fonts.delete(url);await route.abort();}});
  await context.route(/https:\/\/(www\.googletagmanager\.com|connect\.facebook\.net)\//,route=>route.fulfill({contentType:'application/javascript',body:'/* OT QA: external tag intercepted */'}));
 }
@@ -161,4 +166,4 @@ try{
  }finally{await browser.close();}
  for(const name of (process.env.OT_QA_ENGINES||'chromium,firefox,webkit').split(','))if(!report.engines[name]?.unavailable)assert.equal(report.engines[name]?.runs?.length,(process.env.OT_QA_WIDTHS?.split(',').length||7));if(process.env.OT_QA_REQUIRE_ENGINES==='1')for(const name of ['firefox','webkit'])assert.ok(report.engines[name]?.runs?.length===7,`${name} required`);
  report.passed=true;
-}catch(e){report.passed=false;report.failure=e.stack;report.cgroupMemoryEvents=await readFile('/sys/fs/cgroup/memory.events','utf8').catch(()=>null);throw e;}finally{await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));server.close();}
+}catch(e){report.passed=false;report.failure=e.stack;report.cgroupMemoryEvents=await readFile('/sys/fs/cgroup/memory.events','utf8').catch(()=>null);throw e;}finally{await monitor.stop();try{await proof.flush();}catch(error){report.provenanceFailure=error.stack;report.passed=false;process.exitCode=1;}await writeFile(`${output}/results.json`,JSON.stringify(report,null,2));server.close();}

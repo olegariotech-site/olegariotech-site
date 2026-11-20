@@ -1,6 +1,6 @@
 {
   "baseRef": "70ae38a45831f03ea5e52e5bf45e7d61e1c2b942",
-  "authorization": "Issue #134 direction authorization comment 7024434451; no merge, no production, no external account changes.",
+  "authorization": "Issue #134 direction authorization comment 7024434451; no merge, no production, no external account changes. PR #137 direction review 7040192378 authorizes same-runner comparison, diagnostics, CodeQL and consent regressions.",
   "reviewedBlobs": {
     "assets/js/ot-analytics-core.js": "eaafc8fb9378b85b2ac4e240260d60d8254b8851",
     "assets/js/ot-commercial-context.js": "459f153a85b8c0bcd74fd72e7cbed649d826437d",
@@ -9,7 +9,7 @@
     "scripts/verify-commercial-contract.mjs": "49924c09249af927e5f1fae9b43c0ac15d39c5c5",
     "scripts/verify-commercial-hotfix-contract.mjs": "8dcf15e7739f7424b4e7e6a549720e1aa0cd157b",
     "scripts/verify-approved-trust-copy.mjs": "ac8f35fbe3d374bc5af89d4bb653d5ec5a059e91",
-    "scripts/verify-premium-v3.mjs": "807243f113a96b7e8c8a3f20af96b98b797dd08b",
+    "scripts/verify-premium-v3.mjs": "31c296e37fb756faf98fad26f6cd36e72c92fbd7",
     "scripts/verify-ads-whatsapp-origin.mjs": "5fdc1fe213c93819804aa4f9efe212e48f8dead3",
     "scripts/verify-local-pages.mjs": "c5613e1da90f526eb92b244d6dca35c0eb417f77",
     "assets/ot-google-measurement.html": "7f5f6f5d688407cd7c7e0d80978ac7b7056b5cfb",
@@ -18,6 +18,9 @@
     "scripts/verify-commercial-hotfix.mjs": "7a066f52180951964e3d1468e2bcae59a1b94bf9",
     "scripts/verify-showroom.mjs": "985e2010790e3fe75d7a4e0f2071918708ec6ade",
     "scripts/verify-premium-v3-final.mjs": "8bf2b2d0f17f51df66473e387ed1c37c67ec5097",
-    "scripts/verify-earth-mobile.mjs": "e1ea6f2c4989721d984a4da338c756c07796438e"
+    "scripts/verify-earth-mobile.mjs": "1d0c1eed9b6cccc7f7aeea1a82513c7cae198bc7",
+    ".github/workflows/premium-v3-qa.yml": "4c45be61ac73b91a3e981cfc811a85910ec21cab",
+    ".github/workflows/showroom-integration-qa.yml": "d6e09557f5881f3590d731a459ce8dcf9f788fe8",
+    ".github/workflows/codeql.yml": "ae5363c23e967f898c65f622b007241d5191fd51"
   }
 }

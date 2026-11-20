@@ -3,6 +3,7 @@ import {readFile,stat,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
+import {isCollectorHost} from './qa-hostname.mjs';
 import {setTimeout as delay} from 'node:timers/promises';
 export const ORIGIN='https://olegariotech.com.br';
 export const FIXTURE='AUDITORIA_OT_134_FICTICIO';
@@ -64,7 +65,7 @@ export async function replay(context,{real=false,report,base=root}={}){
  context.on('requestfailed',request=>{if(vendor(new URL(request.url())))report.vendorFailures.push({url:request.url().split('?')[0],error:request.failure()?.errorText});});
 }
 export async function settled(report,ms=2500){await delay(ms);await Promise.allSettled(report.pendingBodies||[]);}
-export const collections=report=>report.network.filter(x=>/google-analytics\.com$|facebook\.com$|googlesyndication\.com$|doubleclick\.net$|googleadservices\.com$/.test(x.host));
+export const collections=report=>report.network.filter(x=>isCollectorHost(x.host));
 export async function ready(page,path){await page.goto(path.startsWith('https:')?path:ORIGIN+path,{waitUntil:'load'});await page.waitForFunction(()=>Boolean(window.OTAnalytics));}
 export async function answer(page){for(let i=0;i<5;i++){await page.locator('.step.active .opt').first().click();await page.locator('.step.active[data-step="'+(i+1)+'"]').waitFor();}await page.locator('#nomeNegocio').fill(FIXTURE);await page.locator('[data-finish]').click();await page.locator('.step.active[data-step="6"]').waitFor();}
 export async function waClick(page,selector='#waLink'){
