@@ -72,6 +72,12 @@ jobs:
           OT_134_ENGINE: ${{ matrix.engine }}
           OT_134_OUTPUT: /tmp/ot-pre-ads-134
         run: node scripts/verify-ga4-consent-137.mjs
+      - name: Prove late SDK script and storage-race gates against the exact pre-fix control
+        if: ${{ !cancelled() }}
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-pre-ads-134
+        run: node scripts/verify-ga4-resource-gate-controls-137.mjs
       - name: Compare approved layout and all paid/organic journeys
         if: ${{ !cancelled() }}
         env:

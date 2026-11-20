@@ -5,17 +5,39 @@
  let started=false;
  let active=false,revoked=false;
  // This gate belongs only to this disposable, empty measurement document.
- // In particular, GA's pagehide/unload flush must not escape on frame removal.
+ // Recheck the shared choice at the native API boundary: another tab's storage
+ // notification and this frame's removal can arrive after the effective denial.
+ function permitted(){
+  if(!active||revoked)return false;
+  try{if(window.parent.OTAnalytics.getConsent()?.analytics!=='granted')return false;}catch{return false;}
+  let raw;try{raw=localStorage.getItem('ot_consent_preferences_v2');}catch{return true;}
+  if(raw===null)return true; // The parent still supports an in-memory choice.
+  try{return JSON.parse(raw)?.analytics==='granted';}catch{return false;}
+ }
  const beacon=navigator.sendBeacon.bind(navigator);
- navigator.sendBeacon=function(...args){return active?beacon(...args):false;};
+ navigator.sendBeacon=function(...args){return permitted()?beacon(...args):false;};
  const fetch=window.fetch.bind(window);
- window.fetch=function(...args){return active?fetch(...args):Promise.resolve(new Response(null,{status:204}));};
+ window.fetch=function(...args){return permitted()?fetch(...args):Promise.resolve(new Response(null,{status:204}));};
  const send=XMLHttpRequest.prototype.send;
- XMLHttpRequest.prototype.send=function(...args){if(active)return send.apply(this,args);};
- const src=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
- Object.defineProperty(HTMLImageElement.prototype,'src',{...src,set(value){if(active)src.set.call(this,value);}});
- const setAttribute=HTMLImageElement.prototype.setAttribute;
- HTMLImageElement.prototype.setAttribute=function(name,value){if(active||String(name).toLowerCase()!=='src')return setAttribute.call(this,name,value);};
+ XMLHttpRequest.prototype.send=function(...args){if(permitted())return send.apply(this,args);};
+ for(const Ctor of [HTMLImageElement,HTMLScriptElement]){
+  const src=Object.getOwnPropertyDescriptor(Ctor.prototype,'src');
+  Object.defineProperty(Ctor.prototype,'src',{...src,set(value){if(permitted())src.set.call(this,value);}});
+  const setAttribute=Ctor.prototype.setAttribute,setAttributeNS=Ctor.prototype.setAttributeNS;
+  Ctor.prototype.setAttribute=function(name,value){if(permitted()||String(name).toLowerCase()!=='src')return setAttribute.call(this,name,value);};
+  Ctor.prototype.setAttributeNS=function(namespace,name,value){if(permitted()||String(name).toLowerCase().split(':').at(-1)!=='src')return setAttributeNS.call(this,namespace,name,value);};
+ }
+ // A real Google SDK inserts another gtag/js through insertBefore during
+ // revocation. Transport gates alone do not cover this resource-initiation path.
+ const containsScript=node=>node instanceof HTMLScriptElement||Boolean(node?.querySelector?.('script'));
+ for(const name of ['appendChild','insertBefore','replaceChild']){
+  const original=Node.prototype[name];
+  Node.prototype[name]=function(node,...args){if(containsScript(node)&&!permitted())return node;return original.call(this,node,...args);};
+ }
+ for(const name of ['append','prepend','replaceChildren']){
+  const original=Element.prototype[name];
+  Element.prototype[name]=function(...nodes){if(!permitted()&&nodes.some(containsScript))return;return original.apply(this,nodes);};
+ }
  Object.defineProperty(window,'OTGoogleMeasurement',{value:Object.freeze({stop(){revoked=true;active=false;}})});
  const names=new Set(['page_path','page_title','cta_text','cta_location','destination_url','plan_name','plan_tier','project_name','product_name','social_network','solution_name','audio_state','question_name','answer_category','step_number','completed_steps','section_name','percent','percent_scrolled','estrutura','objetivo','utm_source','utm_medium','utm_campaign','utm_content','utm_term']);
  function pageURL(value){
@@ -37,8 +59,9 @@
    if(typeof data.id!=='string'||!/^G-[A-Z0-9]+$/.test(data.id))return;
    let pageLocation,pageReferrer='';
    try{pageLocation=pageURL(data.pageLocation);if(data.pageReferrer){const u=new URL(data.pageReferrer);if(/^https?:$/.test(u.protocol))pageReferrer=u.origin+u.pathname;}}catch{return;}
-   started=true;
    active=true;
+   if(!permitted()){active=false;return;}
+   started=true;
    // Same-origin first-party cookies/session remain available to the real SDK.
    history.replaceState(null,'',pageLocation);
    document.title=String(data.pageTitle||'').slice(0,250);
@@ -48,7 +71,7 @@
    window.gtag('js',new Date());
    window.gtag('config',data.id,{page_location:pageLocation,page_referrer:pageReferrer,page_title:document.title,allow_google_signals:false,allow_ad_personalization_signals:false,send_page_view:data.sendPageView===true,debug_mode:data.debug===true});
    const script=document.createElement('script');script.id='ot-ga4-script';script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(data.id);document.head.appendChild(script);
-  }else if(data.type==='ot-google-event'&&started&&active){
+  }else if(data.type==='ot-google-event'&&started&&permitted()){
    const value=data.event;
    if(!value||typeof value.name!=='string'||!/^\w{1,40}$/.test(value.name))return;
    const params={};
