@@ -1,0 +1,69 @@
+name: OT PR 137 prior evidence recovery
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/summarize-pr137-artifacts.mjs', '.github/workflows/pr137-evidence-recovery.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read immutable evidence from run 44794127833
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794127833
+          path: /tmp/ot137-recovered/run-44794127833
+      - name: Read immutable evidence from run 44794127888
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794127888
+          path: /tmp/ot137-recovered/run-44794127888
+      - name: Read immutable evidence from run 44794128133
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794128133
+          path: /tmp/ot137-recovered/run-44794128133
+      - name: Read immutable evidence from run 44794128124
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794128124
+          path: /tmp/ot137-recovered/run-44794128124
+      - name: Read immutable evidence from run 44794128014
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794128014
+          path: /tmp/ot137-recovered/run-44794128014
+      - name: Read immutable evidence from run 44794127847
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794127847
+          path: /tmp/ot137-recovered/run-44794127847
+      - name: Read immutable evidence from run 44794128160
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44794128160
+          path: /tmp/ot137-recovered/run-44794128160
+      - name: Summarize actual chronology and failures without changing old verdicts
+        run: node scripts/summarize-pr137-artifacts.mjs /tmp/ot137-recovered /tmp/ot137-recovery-analysis
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-pr137-recovered-evidence
+          path: |
+            /tmp/ot137-recovered
+            /tmp/ot137-recovery-analysis
+          retention-days: 30

@@ -1,6 +1,6 @@
 {
   "baseRef": "70ae38a45831f03ea5e52e5bf45e7d61e1c2b942",
-  "authorization": "Issue #134 direction authorization comment 7024434451; no merge, no production, no external account changes. PR #137 direction review 7040192378 authorizes same-runner comparison, diagnostics, CodeQL and consent regressions.",
+  "authorization": "Issue #134 direction authorization comment 7024434451; no merge, no production, no external account changes. PR #137 direction review 7040192378 authorizes same-runner comparison, diagnostics, CodeQL and consent regressions. Direction review 7046488546 authorizes causal telemetry and controlled continuation; all legacy assertions remain literal.",
   "reviewedBlobs": {
     "assets/js/ot-analytics-core.js": "eaafc8fb9378b85b2ac4e240260d60d8254b8851",
     "assets/js/ot-commercial-context.js": "459f153a85b8c0bcd74fd72e7cbed649d826437d",
@@ -17,7 +17,7 @@
     "scripts/verify-commercial-premium.mjs": "060915ebdd60c18f5d1c6f5c0d421f0256850f7c",
     "scripts/verify-commercial-hotfix.mjs": "7a066f52180951964e3d1468e2bcae59a1b94bf9",
     "scripts/verify-showroom.mjs": "985e2010790e3fe75d7a4e0f2071918708ec6ade",
-    "scripts/verify-premium-v3-final.mjs": "8bf2b2d0f17f51df66473e387ed1c37c67ec5097",
+    "scripts/verify-premium-v3-final.mjs": "7a408fe69fcdd34bdc8fc282184a7023fb1169d6",
     "scripts/verify-earth-mobile.mjs": "16eec00302b3d4a7843bbb31c844324105ca33e9",
     ".github/workflows/premium-v3-qa.yml": "4c45be61ac73b91a3e981cfc811a85910ec21cab",
     ".github/workflows/showroom-integration-qa.yml": "d6e09557f5881f3590d731a459ce8dcf9f788fe8",

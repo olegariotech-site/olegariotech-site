@@ -17,6 +17,6 @@ for(let trial=1;trial<=3;trial++)for(const [script,file] of [['verify-pre-ads-13
  const [code,signal]=await new Promise(r=>child.once('close',(code,signal)=>r([code,signal])));await Promise.all([finished(stdout),finished(stderr)]);
  const report=JSON.parse(await readFile(resolve(folder,engine,file),'utf8'));const causal=analyzeConsentTimeline(report);await writeFile(resolve(folder,'causal.json'),JSON.stringify(causal,null,2));
  summary.trials.push({trial,script,code,signal,status:report.status,causalStatus:causal.status,phaseRequests:causal.requests.filter(x=>x.phase.includes('revoke')),report:resolve(folder,engine,file)});
- await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({trial,script,code,causal:causal.status,phaseRequests:summary.trials.at(-1).phaseRequests}));
+ await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({trial,script,code,causal:causal.status,failure:report.failure||null,eventCounts:report.eventCounts||null,decisions:causal.decisions,phaseRequests:summary.trials.at(-1).phaseRequests}));
 }
 assert.ok(summary.trials.every(x=>x.code===0&&x.causalStatus==='PASS'),'Every original assertion and causal invariant must pass; all failures stay recorded');

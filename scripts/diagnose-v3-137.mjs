@@ -35,7 +35,7 @@ try{
   const stdout=createWriteStream(resolve(folder,'stdout.log')),stderr=createWriteStream(resolve(folder,'stderr.log'));const child=spawn(process.execPath,[script],{cwd:root,env,stdio:['ignore','pipe','pipe']});child.stdout.pipe(stdout);child.stderr.pipe(stderr);
   const [code,signal]=await new Promise(r=>child.once('close',(code,signal)=>r([code,signal])));await Promise.all([finished(stdout),finished(stderr)]);
   const report=JSON.parse(await readFile(resolve(folder,'results.json'),'utf8').catch(()=>'{"failure":"Harness ended before report"}'));
-  summary.trials.push({index:index+1,label,code,signal,reportProduced:!!report.runtime,passed:code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null}));
+  summary.trials.push({index:index+1,label,code,signal,reportProduced:!!report.runtime,passed:code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null,...(!report.runtime?{setupStderr:(await readFile(resolve(folder,'stderr.log'),'utf8')).slice(-5000)}:{})}));
  }
  // A complete diagnostic dataset is not a candidate PASS. Failures are kept in
  // summary; qualification is solely the untouched full Gate B/V3 workflows.
