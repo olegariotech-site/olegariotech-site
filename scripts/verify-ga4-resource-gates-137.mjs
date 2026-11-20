@@ -48,6 +48,7 @@ try{
    await page.waitForFunction(()=>!document.querySelector('#ot-ga4-frame'));
    assertConsentTimeline(report);
    report.phase='guard-reauthorize';const libraries=report.libraries.length;await preferences(page,true,false);await settled(report,8000);
+   report.reauthorization={librariesBefore:libraries,librariesAfter:report.libraries.length,vendorFailures:report.vendorFailures,optionalRequests:report.optionalRequests,frames:await page.locator('#ot-ga4-frame').count(),state:await page.evaluate(()=>{const f=document.querySelector('#ot-ga4-frame');return {choice:window.OTAnalytics.getConsent(),stored:localStorage.getItem('ot_consent_preferences_v2'),frameURL:f?.contentWindow.location.href,ready:f?.contentDocument.readyState,googleGlobals:Object.keys(f?.contentWindow.google_tag_manager||{})};})};
    assert.ok(report.libraries.length>libraries,'A new authorization loads the real SDK again');
    assert.equal(pv(),beforePV,'Reauthorization does not duplicate page_view');
    assert.equal(await page.locator('#ot-ga4-frame').count(),1);

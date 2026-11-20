@@ -69,8 +69,10 @@ export function verifyApproved134Scope(directory=root){
   ['assets/js/ot-analytics-core.js',readFileSync(resolve(directory,'assets/js/ot-analytics-core.js'),'utf8').replace("'autoConfig', false","'autoConfig', true")],
   ['assets/js/ot-analytics-core.js',readFileSync(resolve(directory,'assets/js/ot-analytics-core.js'),'utf8').replace("window['ga-disable-' + GA_ID] = true;","window['ga-disable-' + GA_ID] = false;")],
   ['assets/js/ot-commercial-context.js',readFileSync(resolve(directory,'assets/js/ot-commercial-context.js'),'utf8').replace('OT-GADS-SITES-VALINHOS','UNAPPROVED-MARKER')],
-  ['assets/js/ot-google-measurement.js',readFileSync(resolve(directory,'assets/js/ot-google-measurement.js'),'utf8').replace('active?beacon','true?beacon')],
+  ['assets/js/ot-google-measurement.js',readFileSync(resolve(directory,'assets/js/ot-google-measurement.js'),'utf8').replace('permitted()?beacon','true?beacon')],
   ['assets/js/ot-google-measurement.js',readFileSync(resolve(directory,'assets/js/ot-google-measurement.js'),'utf8').replace('event.origin!==location.origin','false')],
+  ['assets/js/ot-google-measurement.js',readFileSync(resolve(directory,'assets/js/ot-google-measurement.js'),'utf8').replace('if(containsScript(node)&&!permitted())return node;','')],
+  ['assets/js/ot-google-measurement.js',readFileSync(resolve(directory,'assets/js/ot-google-measurement.js'),'utf8').replace("return JSON.parse(raw)?.analytics==='granted'","return true")],
   ['assets/js/ot-analytics-core.js',readFileSync(resolve(directory,'assets/js/ot-analytics-core.js'),'utf8').replace('frame.contentWindow.OTGoogleMeasurement?.stop();','')]
  ];
  for(const [path,text] of negative){assert.notEqual(text,readFileSync(resolve(directory,path),'utf8'),'Mutation changes a real target');assert.throws(()=>projectApproved134(path,Buffer.from(text)),undefined,'Reject unrelated or unsafe #134 change: '+path);}

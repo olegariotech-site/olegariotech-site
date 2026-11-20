@@ -73,7 +73,7 @@ export async function replay(context,{real=false,report,base=root}={}){
 export async function settled(report,ms=2500){await delay(ms);await Promise.allSettled(report.pendingBodies||[]);}
 export const collections=report=>report.network.filter(x=>isCollectorHost(x.host));
 export async function ready(page,path){await page.goto(path.startsWith('https:')?path:ORIGIN+path,{waitUntil:'load'});await page.waitForFunction(()=>Boolean(window.OTAnalytics));}
-export async function answer(page){for(let i=0;i<5;i++){await page.locator('.step.active[data-step="'+i+'"] .opt').first().click();await page.locator('.step[data-step="'+i+'"] .opt.selected').waitFor();await page.locator('.step.active[data-step="'+(i+1)+'"]').waitFor();}await page.locator('#nomeNegocio').fill(FIXTURE);await page.locator('[data-finish]').click();await page.locator('.step.active[data-step="6"]').waitFor();}
+export async function answer(page){for(let i=0;i<5;i++){await page.locator('.step.active[data-step="'+i+'"] .opt').first().click();await page.locator('.step[data-step="'+i+'"] .opt.selected').waitFor({state:'attached'});await page.locator('.step.active[data-step="'+(i+1)+'"]').waitFor();}await page.locator('#nomeNegocio').fill(FIXTURE);await page.locator('[data-finish]').click();await page.locator('.step.active[data-step="6"]').waitFor();}
 export async function waClick(page,selector='#waLink'){
  const link=page.locator(selector).first();
  await link.evaluate(el=>{if(!el.dataset.otQaPreventNavigation){el.dataset.otQaPreventNavigation='1';el.addEventListener('click',event=>event.preventDefault());}});

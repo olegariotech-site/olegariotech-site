@@ -33,9 +33,10 @@ try{
   const folder=resolve(output,String(index+1).padStart(2,'0')+'-'+label);await mkdir(folder,{recursive:true});
   const env={...process.env,DEBUG:'pw:browser',OT_QA_ENGINES:'webkit',OT_QA_OUTPUT:folder,OT_QA_RUN_LABEL:label,OT_137_V3_DIAGNOSTIC:'1',OT_137_DIAGNOSTIC_DOCUMENT_ROOT:label==='published'?baseline:label==='ablation'?variant:root};delete env.OT_QA_REQUIRE_ENGINES;delete env.OT_QA_COMPARE_ROOT;
   const stdout=createWriteStream(resolve(folder,'stdout.log')),stderr=createWriteStream(resolve(folder,'stderr.log'));const child=spawn(process.execPath,[script],{cwd:root,env,stdio:['ignore','pipe','pipe']});child.stdout.pipe(stdout);child.stderr.pipe(stderr);
-  const [code,signal]=await new Promise(r=>child.once('close',(code,signal)=>r([code,signal])));await Promise.all([finished(stdout),finished(stderr)]);
+  let operationalTimeout=false;const watchdog=setTimeout(()=>{operationalTimeout=true;child.kill('SIGTERM');setTimeout(()=>child.kill('SIGKILL'),5000).unref();},8*60*1000);watchdog.unref();
+  const [code,signal]=await new Promise(r=>child.once('close',(code,signal)=>r([code,signal])));clearTimeout(watchdog);await Promise.all([finished(stdout),finished(stderr)]);
   const report=JSON.parse(await readFile(resolve(folder,'results.json'),'utf8').catch(()=>'{"failure":"Harness ended before report"}'));
-  summary.trials.push({index:index+1,label,code,signal,reportProduced:!!report.runtime,passed:code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null,...(!report.runtime?{setupStderr:(await readFile(resolve(folder,'stderr.log'),'utf8')).slice(-5000)}:{})}));
+  summary.trials.push({index:index+1,label,code,signal,operationalTimeout,reportProduced:!!report.runtime,passed:!operationalTimeout&&code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null,...(!report.runtime?{setupStderr:(await readFile(resolve(folder,'stderr.log'),'utf8')).slice(-5000)}:{})}));
  }
  // A complete diagnostic dataset is not a candidate PASS. Failures are kept in
  // summary; qualification is solely the untouched full Gate B/V3 workflows.

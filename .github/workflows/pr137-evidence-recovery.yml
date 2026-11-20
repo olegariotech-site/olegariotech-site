@@ -57,6 +57,34 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794128160
           path: /tmp/ot137-recovered/run-44794128160
+      - name: Read later causal evidence from run 44800958287
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44800958287
+          path: /tmp/ot137-recovered/run-44800958287
+      - name: Read later causal evidence from run 44799569434
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44799569434
+          path: /tmp/ot137-recovered/run-44799569434
+      - name: Read later causal evidence from run 44799569379
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44799569379
+          path: /tmp/ot137-recovered/run-44799569379
+      - name: Read later causal evidence from run 44799569386
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 44799569386
+          path: /tmp/ot137-recovered/run-44799569386
       - name: Summarize actual chronology and failures without changing old verdicts
         run: node scripts/summarize-pr137-artifacts.mjs /tmp/ot137-recovered /tmp/ot137-recovery-analysis
       - uses: actions/upload-artifact@v4
