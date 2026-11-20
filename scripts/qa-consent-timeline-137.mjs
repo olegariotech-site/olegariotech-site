@@ -11,10 +11,15 @@ function endpoint(value){
 export async function consentTimeline(context,report){
   const frames=new WeakMap(),requests=new WeakMap();let frameSeq=0,requestSeq=0;
   const frameId=frame=>{if(!frame)return null;if(!frames.has(frame))frames.set(frame,'frame-'+(++frameSeq));return frames.get(frame);};
-  const timeline=report.consentTimeline={version:1,clock:'Unix epoch milliseconds: performance.timeOrigin + performance.now; native Playwright timing.startTime uses Unix epoch ms',events:[],requests:[],notes:['Node observation is an upper bound, not a browser initiation time.','Cancelled requests remain in the evidence; cancellation is never an exemption.','Zero/negative native startTime means unavailable; use a matched browser initiation or fail inconclusive.']};
-  await context.exposeBinding('__otQaConsentTrace137',(source,event)=>{
+  const timeline=report.consentTimeline={version:1,clock:'Unix epoch milliseconds: performance.timeOrigin + performance.now; native Playwright timing.startTime uses Unix epoch ms',events:[],requests:[],clockCalibration:[],notes:['Node observation is an upper bound, not a browser initiation time.','Cancelled requests remain in the evidence; cancellation is never an exemption.','Zero/negative native startTime means unavailable; use a matched browser initiation or fail inconclusive.']};
+  await context.exposeBinding('__otQaConsentTrace137',async(source,event)=>{
     const {rawURL,...safe}=event;
-    timeline.events.push({...safe,...(rawURL?{endpoint:endpoint(rawURL)}:{}),frameId:frameId(source.frame),parentFrameId:frameId(source.frame.parentFrame()),observedEpoch:clock(),phase:report.phase||'initial'});
+    timeline.events.push({...safe,...(rawURL?{endpoint:endpoint(rawURL)}:{}),frameId:frameId(source.frame),parentFrameId:frameId(source.frame?.parentFrame()),observedEpoch:clock(),phase:report.phase||'initial'});
+    if(event.type==='document-init')for(let i=0;i<3;i++){
+      const hostBefore=clock();
+      try{const browser=await source.frame.evaluate(()=>({epoch:performance.timeOrigin+performance.now(),wall:Date.now(),origin:performance.timeOrigin}));const hostAfter=clock();timeline.clockCalibration.push({frameId:frameId(source.frame),hostBefore,hostAfter,...browser,minimumHostOffset:hostBefore-browser.epoch,maximumHostOffset:hostAfter-browser.epoch});}
+      catch(error){timeline.clockCalibration.push({frameId:frameId(source.frame),unavailable:error.message});break;}
+    }
   });
   await context.addInitScript(()=>{
     const key='ot_consent_preferences_v2';let sequence=0;
@@ -28,7 +33,7 @@ export async function consentTimeline(context,report){
       window.__otQaConsentTrace137(event).catch(()=>{window.__otQaConsentTraceErrors137=(window.__otQaConsentTraceErrors137||0)+1;});
     }
     const callsite=()=>String(new Error().stack||'').split('\n').slice(2,6).map(line=>line.replace(/https?:\/\/[^\s)]+/g,value=>{try{const u=new URL(value);return u.origin+u.pathname;}catch{return '[source]';}})).join('\n').slice(0,600);
-    const start=(type,url,details={})=>{if(optional(url))emit(type,{rawURL:new URL(url,location.href).href,stack:callsite(),...details});};
+    const start=(type,url,details={})=>{if(optional(url))emit(type,{rawURL:new URL(url,location.href).href,stack:callsite(),initiates:true,...details});};
     emit('document-init');
     document.addEventListener('click',event=>{
       const target=event.target.closest?.('[data-consent-reject],[data-consent-save],[data-consent-accept]');
