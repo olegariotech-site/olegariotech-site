@@ -18,7 +18,7 @@ async function go(page,selector){
 async function geometry(page){
  await page.evaluate(()=>document.fonts.ready);
  if(await page.locator('body[data-page="home"]').count())await page.locator('footer[data-ot-footer-v4="1"]').waitFor();
- return page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector('h1')?.textContent,rects:[...document.querySelectorAll('h1,main h2,.hero-actions,.lc-hero,.ot-hero,.diagnostic-card,header,footer')].map(x=>{const r=x.getBoundingClientRect();return {tag:x.tagName,id:x.id,cls:x.className,x:r.x,y:r.y,width:r.width,height:r.height}})}));
+ return page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector('h1')?.textContent,rects:[...document.querySelectorAll('h1,main h2,.hero-actions,.lc-hero,.ot-hero,.diagnostic-card,header,footer,.top-nav a')].map(x=>{const r=x.getBoundingClientRect();return {tag:x.tagName,id:x.id,cls:x.className,x:r.x,y:r.y,width:r.width,height:r.height}})}));
 }
 try{
  browser=await launch();await mkdir(out,{recursive:true});
@@ -70,12 +70,13 @@ try{
    const c=await context(width,undefined,base),page=await c.newPage();await ready(page,url);const info=await geometry(page);
    const capture='visual-'+(url==='/'?'home':url.replaceAll('/',''))+'-'+width+'-'+name+'.png';await page.screenshot({path:resolve(out,capture),animations:'disabled'});pair.push({info,capture});await c.close();
   }
+  report.visualPending={url,width,before:pair[0],after:pair[1]};await save('journeys.json',report);
   assert.equal(pair[0].info.h1,pair[1].info.h1);
   assert.ok(pair[1].info.scroll<=width+2,'No horizontal overflow');
   // Same content/font/layout, including all headings and commercial actions.
   assert.equal(pair[0].info.rects.length,pair[1].info.rects.length);
   for(let i=0;i<pair[0].info.rects.length;i++)for(const axis of ['x','y','width','height'])assert.ok(Math.abs(pair[0].info.rects[i][axis]-pair[1].info.rects[i][axis])<=1,'No geometric redesign '+url+' '+axis);
-  report.visual.push({url,width,status:'PASS',before:pair[0],after:pair[1]});await save('journeys.json',report);
+  report.visual.push({url,width,status:'PASS',before:pair[0],after:pair[1]});delete report.visualPending;await save('journeys.json',report);
  }
  report.status='PASS';console.log(JSON.stringify({status:'PASS',engine,journeys:report.journeys.length,accessibility:report.accessibility.length,visual:report.visual.length}));
 }catch(error){report.status='FAIL';report.failure=error.stack;console.error(error);process.exitCode=1;}

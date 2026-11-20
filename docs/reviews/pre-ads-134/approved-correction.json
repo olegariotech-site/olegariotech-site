@@ -23,6 +23,7 @@
     ".github/workflows/showroom-integration-qa.yml": "d6e09557f5881f3590d731a459ce8dcf9f788fe8",
     ".github/workflows/codeql.yml": "ae5363c23e967f898c65f622b007241d5191fd51",
     ".github/workflows/commercial-premium-qa.yml": "3c14a24f9b6b337c3305a4136775b274c4446245",
-    ".github/workflows/seo-local-pages-qa.yml": "974da7a95da26caa429e53d892aa895940cb7661"
+    ".github/workflows/seo-local-pages-qa.yml": "974da7a95da26caa429e53d892aa895940cb7661",
+    "assets/css/ot-cosmic-showcase.css": "50c201ed998354745ed4936e65494e6c1970426a"
   }
 }

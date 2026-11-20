@@ -12,7 +12,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const manifest=JSON.parse(readFileSync(new URL('../docs/reviews/pre-ads-134/approved-correction.json',import.meta.url),'utf8'));
 assert.equal(manifest.baseRef,CORRECTION_BASE,'Authorization starts from the actual immutable main');
 export const CORRECTION_HTML=Object.freeze(['index.html','anuncios-google-instagram/index.html','criacao-de-sites-campinas/index.html','criacao-de-sites-valinhos/index.html','diagnostico-digital/index.html','presenca-no-google/index.html','cookies/index.html','privacidade/index.html','produtos/index.html']);
-export const CORRECTION_PINNED=Object.freeze(['assets/js/ot-analytics-core.js','assets/js/ot-commercial-context.js','scripts/verify-analytics-126-scope.mjs','scripts/verify-ads-whatsapp-origin-scope.mjs','scripts/verify-commercial-contract.mjs','scripts/verify-commercial-hotfix-contract.mjs','scripts/verify-approved-trust-copy.mjs','scripts/verify-premium-v3.mjs','scripts/verify-ads-whatsapp-origin.mjs','scripts/verify-local-pages.mjs','scripts/verify-commercial-premium.mjs','scripts/verify-commercial-hotfix.mjs','scripts/verify-showroom.mjs','scripts/verify-premium-v3-final.mjs','scripts/verify-earth-mobile.mjs','.github/workflows/premium-v3-qa.yml','.github/workflows/showroom-integration-qa.yml','.github/workflows/codeql.yml','.github/workflows/commercial-premium-qa.yml','.github/workflows/seo-local-pages-qa.yml']);
+export const CORRECTION_PINNED=Object.freeze(['assets/js/ot-analytics-core.js','assets/js/ot-commercial-context.js','scripts/verify-analytics-126-scope.mjs','scripts/verify-ads-whatsapp-origin-scope.mjs','scripts/verify-commercial-contract.mjs','scripts/verify-commercial-hotfix-contract.mjs','scripts/verify-approved-trust-copy.mjs','scripts/verify-premium-v3.mjs','scripts/verify-ads-whatsapp-origin.mjs','scripts/verify-local-pages.mjs','scripts/verify-commercial-premium.mjs','scripts/verify-commercial-hotfix.mjs','scripts/verify-showroom.mjs','scripts/verify-premium-v3-final.mjs','scripts/verify-earth-mobile.mjs','.github/workflows/premium-v3-qa.yml','.github/workflows/showroom-integration-qa.yml','.github/workflows/codeql.yml','.github/workflows/commercial-premium-qa.yml','.github/workflows/seo-local-pages-qa.yml','assets/css/ot-cosmic-showcase.css']);
 export const CORRECTION_NEW_RUNTIME=Object.freeze(['assets/ot-google-measurement.html','assets/js/ot-google-measurement.js']);
 assert.deepEqual(Object.keys(manifest.reviewedBlobs).sort(),[...CORRECTION_PINNED,...CORRECTION_NEW_RUNTIME].sort(),'No filename-only or unlisted runtime/guard exception');
 const cache=new Map();
@@ -22,7 +22,7 @@ function replaceOnce(text,before,after,path){assert.equal(text.split(before).len
 export function approved134HTML(path){
  assert.ok(CORRECTION_HTML.includes(path));let text=base(path).toString('utf8');
  text=replaceOnce(text,'/assets/js/ot-analytics.js?v=9','/assets/js/ot-analytics.js?v=10',path);
- if(path==='index.html'){text=replaceOnce(text,'<script src="/assets/js/ot-analytics.js?v=10" defer></script>','<script src="/assets/js/ot-analytics.js?v=10" defer></script>\n  <script src="/assets/js/ot-commercial-context.js?v=3" defer></script>',path);}
+ if(path==='index.html'){text=replaceOnce(text,'/assets/css/ot-cosmic-showcase.css?v=5','/assets/css/ot-cosmic-showcase.css?v=6',path);text=replaceOnce(text,'<script src="/assets/js/ot-analytics.js?v=10" defer></script>','<script src="/assets/js/ot-analytics.js?v=10" defer></script>\n  <script src="/assets/js/ot-commercial-context.js?v=3" defer></script>',path);}
  else if(text.includes('/assets/js/ot-commercial-context.js?v=2'))text=replaceOnce(text,'/assets/js/ot-commercial-context.js?v=2','/assets/js/ot-commercial-context.js?v=3',path);
  if(path==='cookies/index.html'){
   text=replaceOnce(text,'<div class="table-wrap">','<div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de tecnologias e cookies utilizados">',path);
@@ -40,6 +40,11 @@ export function projectApproved134(path,input){
  if(path==='assets/js/ot-analytics.js'){
   const expected=replaceOnce(base(path).toString('utf8'),'ot-analytics-core.js?v=8','ot-analytics-core.js?v=9',path);
   assert.equal(bytes.toString('utf8'),expected,'Only the core cache version is changed in the visual loader');return base(path);
+ }
+ if(path==='assets/css/ot-cosmic-showcase.css'){
+  assert.equal(blob(bytes),manifest.reviewedBlobs[path],'Exact header context selector correction');
+  const expected=replaceOnce(base(path).toString('utf8'),".top-nav a[href='/diagnostico-digital/']",".top-nav a[href*='/diagnostico-digital/']",path);
+  assert.equal(bytes.toString('utf8'),expected,'Only the diagnosis-link selector changes; every visual declaration stays literal');return base(path);
  }
  if(CORRECTION_PINNED.includes(path)){assert.equal(blob(bytes),manifest.reviewedBlobs[path],'Exact reviewed #134 blob: '+path);return base(path);}
  if(path==='README.md'){
@@ -69,5 +74,5 @@ export function verifyApproved134Scope(directory=root){
   ['assets/js/ot-analytics-core.js',readFileSync(resolve(directory,'assets/js/ot-analytics-core.js'),'utf8').replace('frame.contentWindow.OTGoogleMeasurement?.stop();','')]
  ];
  for(const [path,text] of negative){assert.notEqual(text,readFileSync(resolve(directory,path),'utf8'),'Mutation changes a real target');assert.throws(()=>projectApproved134(path,Buffer.from(text)),undefined,'Reject unrelated or unsafe #134 change: '+path);}
- console.log('OT_PRE_ADS_134_SCOPE '+JSON.stringify({base:CORRECTION_BASE,html:CORRECTION_HTML.length,pinned:CORRECTION_PINNED.length,negativeChecks:negative.length,visualAssetsChanged:0}));
+ console.log('OT_PRE_ADS_134_SCOPE '+JSON.stringify({base:CORRECTION_BASE,html:CORRECTION_HTML.length,pinned:CORRECTION_PINNED.length,negativeChecks:negative.length,visualAssetsChanged:1}));
 }
