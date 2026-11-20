@@ -24,3 +24,15 @@ Os quatro alertas de comparação incompleta de hostname são corrigidos por dom
 A regressão existente com SDKs reais continua obrigatória, com todos os coletores interceptados. Esta rodada também precisa comprovar os quatro eventos GA4 solicitados em múltiplos documentos, navegação, abas, recusa/reautorização e remoção do iframe. Métricas auxiliares, Tag Assistant/DebugView e aparelhos físicos permanecem gates explicitamente pendentes quando não puderem ser comprovados no ambiente disponível.
 
 HTTPS permanece somente [plano](HTTPS-PLAN.md). Não há merge, publicação, edição de Ads/GA4/GTM/Meta, domínio/hospedagem ou utilização dos R$ 140.
+
+## Candidata de cache — em validação, ainda NO-GO
+
+A primeira comparação no mesmo runner mostrou a base publicada com 2,68 frames/s no primeiro trecho de continuidade (falha) e a candidata anterior com 3,60 frames/s (passa nesse job, mas falha no Gate B obrigatório). rAF e frames do globo caem juntos, sem long tasks de JavaScript na janela; a pose continua com `animate=true`. Isso restringe a investigação ao custo de renderização/composição, sem comprovar uma causa única ou atribuir o resultado ao ambiente.
+
+A candidata agora mantém o SVG original como fallback e rasteriza sua máscara de leitura somente após a geometria estabilizar, no DPR nativo. Blur, retângulos, opacidade, shaders, textura, órbita, quantidade de partículas, frame budget e proteções de dispositivo ficam iguais. Há controle de geração para descartar decodificações antigas. O teste adicional compara o SVG e o PNG realmente renderizados pelo navegador com uma superfície neutra para isolar o alfa. A versão do recurso muda para evitar cache antigo. A exceção estática é limitada ao bloco da máscara e a seu argumento; as demais fórmulas permanecem comparadas literalmente.
+
+Localmente, WebKit passou nos dois perfis de 4 GiB, retomadas, duas janelas de continuidade e orientação. A comparação de alfa em 390/768 px teve diferença zero. Um ensaio anterior com três suítes concorrentes falhou; ele permanece evidência e não vale como aprovação. É obrigatório confirmar o novo HEAD no CI e em comparação controlada antes de aceitar esta proposta.
+
+A regressão GA4 adicional usa a biblioteca real, quatro documentos em duas abas e bloqueia todos os coletores. Exige 4 `page_view`, 3 `click_whatsapp`, 2 `diagnostico_inicio` e 2 `diagnostico_concluido`, sem repetir eventos após reautorização. A recusa entre abas deve remover iframes, cookies e impedir novas tentativas. Pings auxiliares de conversão observados durante análise autorizada são registrados separadamente, todos interceptados; não representam entrega no Ads nem validação de configuração de conta.
+
+Foi corrigida uma corrida do helper de QA: a interface inicial aparece no próximo rAF; antes ele podia procurar o botão de reabertura antes de existir uma escolha. O helper espera a interface visível e continua operando cliques reais. Não são removidas assertions. Os prazos operacionais de instalação/execução/upload de Comercial, SEO e #134 passam a 40 minutos: houve cancelamento durante download de dependências, sem modificar prazos de interação nem limites de desempenho.

@@ -10,6 +10,8 @@ export const FIXTURE='AUDITORIA_OT_134_FICTICIO';
 export const root=resolve(process.env.OT_134_ROOT||fileURLToPath(new URL('../',import.meta.url)));
 export const engine=process.env.OT_134_ENGINE||'chromium';
 export const out=resolve(process.env.OT_134_OUTPUT||'/tmp/ot-pre-ads-134',engine);
+const pageLabels=new WeakMap();
+export const labelPage=(page,label)=>pageLabels.set(page,label);
 export const pw=await import(process.env.OT_PLAYWRIGHT_MODULE||'playwright');
 export async function launch(){
  const options={headless:true};
@@ -34,8 +36,10 @@ function attempt(request,phase){
  if(boundary)for(const part of body.split('--'+boundary)){const match=part.match(/name="([^"]+)"\r\n\r\n([\s\S]*?)\r\n$/);if(match)multi[match[1]]=match[2];}
  const rows=body.split('\n').map(line=>new URLSearchParams(url.search.slice(1)+'&'+line));
  const text=decode(url.href+' '+body);
+ let documentLabel=null;try{documentLabel=pageLabels.get(request.frame().page())||null;}catch{}
+ const eventRecords=rows.flatMap(p=>p.getAll('en').map(name=>{let pagePath=null;try{pagePath=new URL(p.get('dl')||'').pathname;}catch{}const id=p.get('tid');return {name,pagePath,measurementId:id&&/^G-[A-Z0-9]+$/.test(id)?id:null};}));
  let pagePath=null;try{pagePath=new URL(rows[0].get('dl')||'').pathname;}catch{ /* Non-GA request. */ }
- return {phase,time:new Date().toISOString(),host:url.hostname,path:url.pathname,method:request.method(),
+ return {phase,documentLabel,eventRecords,time:new Date().toISOString(),host:url.hostname,path:url.pathname,method:request.method(),
   events:multi.ev?[multi.ev]:[...new Set(rows.flatMap(p=>[...p.getAll('en'),...p.getAll('ev')]))],
   keys:boundary?Object.keys(multi):[...new Set(rows.flatMap(p=>[...p.keys()]))],
   googleConsent:rows[0].get('gcs'),
@@ -44,11 +48,11 @@ function attempt(request,phase){
   blockedBeforeCollection:true};
 }
 export async function replay(context,{real=false,report,base=root}={}){
- report.network??=[];report.libraries??=[];report.vendorFailures??=[];report.pendingBodies??=[];report.optionalRequests??=[];
+ report.sourceFiles??=[];report.network??=[];report.libraries??=[];report.vendorFailures??=[];report.pendingBodies??=[];report.optionalRequests??=[];
  await context.route('**/*',async route=>{
   const request=route.request(),url=new URL(request.url());
   if(url.origin===ORIGIN){
-   try{let file=resolve(base,'.'+decodeURIComponent(url.pathname));if(file!==base&&!file.startsWith(base+'/'))throw Error('Path escape');if((await stat(file)).isDirectory())file=resolve(file,'index.html');return route.fulfill({status:200,contentType:mime[extname(file)]||'application/octet-stream',body:await readFile(file)});}
+   try{let file=resolve(base,'.'+decodeURIComponent(url.pathname));if(file!==base&&!file.startsWith(base+'/'))throw Error('Path escape');if((await stat(file)).isDirectory())file=resolve(file,'index.html');const bytes=await readFile(file);if(/\.(html|js|mjs|css)$/.test(file)&&!report.sourceFiles.some(x=>x.path===file.slice(base.length+1)))report.sourceFiles.push({path:file.slice(base.length+1),bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});return route.fulfill({status:200,contentType:mime[extname(file)]||'application/octet-stream',body:bytes});}
    catch{return route.fulfill({status:404,body:'Not found'});}
   }
   if(real&&vendor(url)){report.optionalRequests.push({phase:report.phase||'initial',url:url.origin+url.pathname});return route.continue();}
@@ -74,7 +78,13 @@ export async function waClick(page,selector='#waLink'){
  await link.click();return new URL(await link.getAttribute('href'),ORIGIN).searchParams.get('text');
 }
 export async function preferences(page,analytics,marketing){
- if(!await page.locator('#otConsent').isVisible())await page.locator('#otConsentSettings').click();
+ // The initial banner is revealed on the next animation frame. A missing
+ // visible banner during that frame is not a saved decision or a settings link.
+ if(await page.evaluate(()=>window.OTAnalytics.getConsent()===null))await page.locator('#otConsent.is-visible').waitFor();
+ else if(!await page.locator('#otConsent').isVisible()){
+  const footer=page.locator('[data-footer-cookie-settings]').filter({visible:true});
+  if(await footer.count())await footer.first().click();else await page.locator('#otConsentSettings').click();
+ }
  await page.locator('[data-consent-customize]').click();
  await page.locator('[data-consent-analytics]').setChecked(analytics);
  await page.locator('[data-consent-marketing]').setChecked(marketing);

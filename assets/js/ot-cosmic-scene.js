@@ -180,10 +180,12 @@
   }
   let continuationKey='';
   let readingMaskKey='';
-  function protectMobileReading(active){
-    const key=compact.matches&&active?[width,height,scrollY,reading.map(r=>[r.left,r.right,r.top,r.bottom].join(',')).join(';')].join(':'):'';
+  let readingMaskTimer=0,readingMaskGeneration=0;
+  function protectMobileReading(active,rotating){
+    const key=compact.matches&&active?[width,height,scrollY,reading.map(r=>[r.left,r.right,r.top,r.bottom].join(',')).join(';'),!!rotating].join(':'):'';
     if(key===readingMaskKey)return;readingMaskKey=key;
-    if(!key){earth.style.removeProperty('mask-image');earth.style.removeProperty('-webkit-mask-image');return;}
+    clearTimeout(readingMaskTimer);const generation=++readingMaskGeneration;
+    if(!key){earth.style.removeProperty('mask-image');earth.style.removeProperty('-webkit-mask-image');earth.style.removeProperty('mask-size');earth.style.removeProperty('-webkit-mask-size');delete earth.dataset.readingMask;return;}
     // The original renderer has its own canvas. The atmospheric reading veil
     // alone cannot dim it, so mobile continuation shares those cached read zones.
     // Rebuild only on scroll/layout changes, never on globe rotation.
@@ -191,6 +193,33 @@
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><defs><filter id="soft"><feGaussianBlur stdDeviation="14"/></filter><mask id="read" maskUnits="userSpaceOnUse" x="0" y="0" width="${width}" height="${height}"><rect width="100%" height="100%" fill="white"/><g fill="black" opacity=".97" filter="url(#soft)">${rectangles}</g></mask></defs><rect width="100%" height="100%" fill="white" mask="url(#read)"/></svg>`;
     const mask=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
     earth.style.setProperty('mask-image',mask);earth.style.setProperty('-webkit-mask-image',mask);
+    earth.style.removeProperty('mask-size');earth.style.removeProperty('-webkit-mask-size');
+    earth.dataset.readingMask='svg';
+    if(!rotating)return;
+    // Preserve the exact SVG/blur/opacity at native DPR. Once scrolling settles,
+    // rasterize it once instead of asking WebKit to filter a moving GL layer on
+    // every frame. The SVG remains the fallback and protects copy during decode.
+    const screenWidth=width,screenHeight=height,ratio=Math.max(1,devicePixelRatio||1);
+    readingMaskTimer=setTimeout(()=>{
+      const image=new Image();
+      image.onload=()=>{
+        if(generation!==readingMaskGeneration)return;
+        const bitmap=document.createElement('canvas');
+        try{
+          bitmap.width=Math.round(screenWidth*ratio);bitmap.height=Math.round(screenHeight*ratio);
+          const g=bitmap.getContext('2d');if(!g)return;
+          g.drawImage(image,0,0,bitmap.width,bitmap.height);
+          const cached=`url("${bitmap.toDataURL('image/png')}")`;
+          if(generation!==readingMaskGeneration)return;
+          earth.style.setProperty('mask-image',cached);earth.style.setProperty('-webkit-mask-image',cached);
+          const size=`${screenWidth}px ${screenHeight}px`;
+          earth.style.setProperty('mask-size',size);earth.style.setProperty('-webkit-mask-size',size);
+          earth.dataset.readingMask='bitmap';
+        }catch{ /* Keep the original SVG if rasterization is unavailable. */ }
+        finally{bitmap.width=bitmap.height=0;}
+      };
+      image.src='data:image/svg+xml,'+encodeURIComponent(svg);
+    },120);
   }
   function setEarth(pose){
     const key=pose?[pose.x.toFixed(1),pose.y.toFixed(1),pose.diameter.toFixed(1),pose.opacity.toFixed(3),pose.animate].join(','):'none';
@@ -212,7 +241,7 @@
     }
     // The original hero always wins. Only one terrestrial image/renderer is visible.
     if(Number(earth.dataset.opacity)>.005)pose=null;
-    protectMobileReading(!!pose);
+    protectMobileReading(!!pose,!!pose?.animate);
     layer.dataset.earth=pose?JSON.stringify(pose):'';
     if(pose&&earthStill){setEarth(null);globe(pose.x,pose.y,pose.diameter,pose.opacity);}
     else setEarth(pose);
