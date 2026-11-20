@@ -73,8 +73,11 @@ try{
  if(before)for(const url of ['/','/criacao-de-sites-valinhos/','/criacao-de-sites-campinas/','/presenca-no-google/','/anuncios-google-instagram/','/diagnostico-digital/'])for(const width of [390,1366]){
   const pair=[];
   for(const [name,base] of [['before',resolve(before)],['after',root]]){
-   const c=await context(width,undefined,base),page=await c.newPage();await ready(page,url);const info=await geometry(page);
-   const capture='visual-'+(url==='/'?'home':url.replaceAll('/',''))+'-'+width+'-'+name+'.png';await page.screenshot({path:resolve(out,capture),animations:'disabled'});pair.push({info,capture});await c.close();
+   const c=await context(width,undefined,base),page=await c.newPage();await ready(page,url);const beforeCapture=await geometry(page);
+   // Compare the geometry represented by the required screenshot. WebKit exposes
+   // parsed CSSOM/FontFaceSet.ready before its first committed rendering update;
+   // same-source ABBA evidence records different cold rects but identical pixels.
+   const capture='visual-'+(url==='/'?'home':url.replaceAll('/',''))+'-'+width+'-'+name+'.png';await page.screenshot({path:resolve(out,capture),animations:'disabled'});const info=await geometry(page);pair.push({info,beforeCapture,capture});await c.close();
   }
   report.visualPending={url,width,before:pair[0],after:pair[1]};await save('journeys.json',report);
   assert.equal(pair[0].info.h1,pair[1].info.h1);

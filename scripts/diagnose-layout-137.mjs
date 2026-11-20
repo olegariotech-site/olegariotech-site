@@ -25,6 +25,13 @@ try{for(const [index,version] of ['base','candidate','candidate','base'].entries
  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
  report.samples.push({phase:'two-animation-frames',...(await sample(page))});
  // CSSOM can be present before a rendering update; this diagnostic records both states.
+ // A real layout regression remains observable after the rendering barrier.
+ const stableH1=report.samples.at(-1).elements.find(e=>e.selector==='h1').rect.height;
+ await page.locator('h1').evaluate(el=>el.style.setProperty('padding-bottom','2px','important'));
+ await page.screenshot({path:resolve(out,index+'-'+version+'-negative.png'),animations:'disabled'});
+ const mutation=await sample(page),mutatedH1=mutation.elements.find(e=>e.selector==='h1').rect.height;
+ report.negativeControl={stableH1,mutatedH1,delta:mutatedH1-stableH1,originalTolerancePx:1,rejected:Math.abs(mutatedH1-stableH1)>1};
+ assert.equal(report.negativeControl.rejected,true,'The original 1px comparator rejects an actual 2px regression after capture');
  rows.push(report);await writeFile(resolve(out,'layout.json'),JSON.stringify({engine,rows},null,2));
  console.log(JSON.stringify({version,index,samples:report.samples.map(s=>({phase:s.phase,at:s.at,fonts:s.fonts.status,elements:s.elements}))}));
  await context.close();
