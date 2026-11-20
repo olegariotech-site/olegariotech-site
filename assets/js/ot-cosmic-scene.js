@@ -200,6 +200,9 @@
     // rasterize it once instead of asking WebKit to filter a moving GL layer on
     // every frame. The SVG remains the fallback and protects copy during decode.
     const screenWidth=width,screenHeight=height,ratio=Math.max(1,devicePixelRatio||1);
+    // Fractional device pixels can resample SVG filters differently from an
+    // image mask. Preserve the original SVG rather than changing its alpha.
+    if(!Number.isInteger(ratio))return;
     readingMaskTimer=setTimeout(()=>{
       const image=new Image();
       image.onload=()=>{
@@ -208,11 +211,12 @@
         try{
           bitmap.width=Math.round(screenWidth*ratio);bitmap.height=Math.round(screenHeight*ratio);
           const g=bitmap.getContext('2d');if(!g)return;
-          g.drawImage(image,0,0,bitmap.width,bitmap.height);
+          g.setTransform(ratio,0,0,ratio,0,0);
+          g.drawImage(image,0,0,screenWidth,screenHeight);
           const cached=`url("${bitmap.toDataURL('image/png')}")`;
           if(generation!==readingMaskGeneration)return;
           earth.style.setProperty('mask-image',cached);earth.style.setProperty('-webkit-mask-image',cached);
-          const size=`${screenWidth}px ${screenHeight}px`;
+          const size=`${bitmap.width/ratio}px ${bitmap.height/ratio}px`;
           earth.style.setProperty('mask-size',size);earth.style.setProperty('-webkit-mask-size',size);
           earth.dataset.readingMask='bitmap';
         }catch{ /* Keep the original SVG if rasterization is unavailable. */ }
