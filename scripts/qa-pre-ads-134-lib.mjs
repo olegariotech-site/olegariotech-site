@@ -4,6 +4,7 @@ import {resolve,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {isCollectorHost} from './qa-hostname.mjs';
+import {consentTimeline} from './qa-consent-timeline-137.mjs';
 import {setTimeout as delay} from 'node:timers/promises';
 export const ORIGIN='https://olegariotech.com.br';
 export const FIXTURE='AUDITORIA_OT_134_FICTICIO';
@@ -48,6 +49,7 @@ function attempt(request,phase){
   blockedBeforeCollection:true};
 }
 export async function replay(context,{real=false,report,base=root}={}){
+ const causal=real?await consentTimeline(context,report):null;
  report.sourceFiles??=[];report.network??=[];report.libraries??=[];report.vendorFailures??=[];report.pendingBodies??=[];report.optionalRequests??=[];
  await context.route('**/*',async route=>{
   const request=route.request(),url=new URL(request.url());
@@ -55,11 +57,11 @@ export async function replay(context,{real=false,report,base=root}={}){
    try{let file=resolve(base,'.'+decodeURIComponent(url.pathname));if(file!==base&&!file.startsWith(base+'/'))throw Error('Path escape');if((await stat(file)).isDirectory())file=resolve(file,'index.html');const bytes=await readFile(file);if(/\.(html|js|mjs|css)$/.test(file)&&!report.sourceFiles.some(x=>x.path===file.slice(base.length+1)))report.sourceFiles.push({path:file.slice(base.length+1),bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});return route.fulfill({status:200,contentType:mime[extname(file)]||'application/octet-stream',body:bytes});}
    catch{return route.fulfill({status:404,body:'Not found'});}
   }
-  if(real&&vendor(url)){report.optionalRequests.push({phase:report.phase||'initial',url:url.origin+url.pathname});return route.continue();}
+  if(real&&vendor(url)){report.optionalRequests.push({phase:report.phase||'initial',url:url.origin+url.pathname,requestId:causal?.requestId(request)});return route.continue();}
   // Fonts are read-only assets; all other external destinations fail closed.
   if(['fonts.googleapis.com','fonts.gstatic.com'].includes(url.hostname))return route.continue();
   const row=attempt(request,report.phase||'initial');
-  report.network.push(row);
+  row.requestId=causal?.requestId(request);report.network.push(row);
   return route.fulfill({status:200,contentType:'application/javascript',body:''});
  });
  context.on('response',response=>{
