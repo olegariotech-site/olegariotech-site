@@ -24,6 +24,8 @@ try{
  // Only module resolution and the document root are adapted. Assertions, loops
  // and action timeouts remain byte-for-byte the same as the required harness.
  harness=harness.replace(/from '(\.\/[^']+)'/g,(_,name)=>'from '+JSON.stringify(pathToFileURL(resolve(root,'scripts',name)).href));
+ harness=harness.replace(/import\('(\.\/[^']+)'\)/g,(_,name)=>'import('+JSON.stringify(pathToFileURL(resolve(root,'scripts',name)).href)+')');
+ assert.doesNotMatch(harness,/(?:from\s+|import\()['"]\.\//,'Every static/dynamic relative module must resolve from the real scripts directory');
  const rootLine="const root=resolve(fileURLToPath(new URL('../',import.meta.url)));";assert.equal(harness.split(rootLine).length-1,1);harness=harness.replace(rootLine,'const root='+JSON.stringify(root)+';');
  const served="const servedRoot=comparisonRoot(root),runtimeRecord={},proof=runtimeEvidence(servedRoot,runtimeRecord);";assert.equal(harness.split(served).length-1,1);harness=harness.replace(served,'const servedRoot=process.env.OT_137_DIAGNOSTIC_DOCUMENT_ROOT,runtimeRecord={},proof=runtimeEvidence(servedRoot,runtimeRecord);');
  const script=resolve(temp,'diagnostic-harness.mjs');await writeFile(script,harness);summary.harness={originalSha256:hash(original),generatedSha256:hash(harness),adaptations:['absolute imports','original static-check root','explicit diagnostic document root']};
@@ -33,9 +35,9 @@ try{
   const stdout=createWriteStream(resolve(folder,'stdout.log')),stderr=createWriteStream(resolve(folder,'stderr.log'));const child=spawn(process.execPath,[script],{cwd:root,env,stdio:['ignore','pipe','pipe']});child.stdout.pipe(stdout);child.stderr.pipe(stderr);
   const [code,signal]=await new Promise(r=>child.once('close',(code,signal)=>r([code,signal])));await Promise.all([finished(stdout),finished(stderr)]);
   const report=JSON.parse(await readFile(resolve(folder,'results.json'),'utf8').catch(()=>'{"failure":"Harness ended before report"}'));
-  summary.trials.push({index:index+1,label,code,signal,passed:code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null}));
+  summary.trials.push({index:index+1,label,code,signal,reportProduced:!!report.runtime,passed:code===0&&report.passed===true,failure:report.failure||null,source:report.runtime});await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));console.log(JSON.stringify({index:index+1,label,code,signal,passed:summary.trials.at(-1).passed,failure:report.failure||null}));
  }
  // A complete diagnostic dataset is not a candidate PASS. Failures are kept in
  // summary; qualification is solely the untouched full Gate B/V3 workflows.
- summary.completed=true;await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));
+ summary.completed=summary.trials.every(t=>t.reportProduced);await writeFile(resolve(output,'summary.json'),JSON.stringify(summary,null,2));assert.ok(summary.completed,'Every diagnostic trial must produce an actual browser report; setup failures never complete a dataset');
 }finally{for(const path of [baseline,variant])try{execFileSync('git',['worktree','remove','--force',path],{cwd:root});}catch{}}
