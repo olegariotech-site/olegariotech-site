@@ -20,7 +20,7 @@
   .top-nav a { font: 400 .78rem/1.4 'Inter',sans-serif; text-transform: none; letter-spacing: 0; }
   .top-nav a.is-active { position: relative; color: var(--ice); }
   .top-nav a.is-active::after { content: ''; position: absolute; inset: auto 0 -10px; height: 2px; background: var(--ice); }
-  .top-nav a[href='/diagnostico-digital/'] { margin-left: auto; }
+  .top-nav a[href*='/diagnostico-digital/'] { margin-left: auto; }
   .top-nav .top-contact { min-height: 36px; padding-inline: 14px; font-size: .73rem; }
 }
 #inicio {

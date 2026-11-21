@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // Test-only, bounded editorial copy layer on top of the merged premium commercial site.
 // It does not execute in public pages. Baseline is the exact approved PR #129 merge.
 import assert from 'node:assert/strict';
@@ -35,7 +36,7 @@ export async function verifyApprovedTrustCopyTree(root){
  let checked=0,mutations=0;
  for(const path of TRUST_COPY_PATHS){
   const source=release(path);
-  const actual=await readFile(resolve(root,path),'utf8');
+  const actual=projectApproved134(path,await readFile(resolve(root,path))).toString('utf8');
   if(isApprovedIssue126Path(path)){
    assertApprovedIssue126File(path,Buffer.from(actual));
   }else if(path==='diagnostico-digital/index.html'){

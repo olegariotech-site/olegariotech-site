@@ -1,0 +1,44 @@
+name: OT PR 137 causal consent proof
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/**', 'assets/js/ot-analytics*.js', 'assets/js/ot-google-measurement.js', '.github/workflows/consent-causal-137.yml']
+permissions:
+  contents: read
+jobs:
+  causal:
+    name: Causal timeline (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the exact real-SDK test engine
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Negative chronology controls
+        run: node scripts/verify-consent-timeline-137.mjs
+      - name: Real-browser prior and post-refusal cancellation controls
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_134_OUTPUT: /tmp/ot-consent-causal-137/controls
+        run: node scripts/verify-consent-temporal-controls-137.mjs
+      - name: Three bounded repetitions with all original assertions intact
+        if: ${{ !cancelled() }}
+        env:
+          OT_134_ENGINE: ${{ matrix.engine }}
+          OT_137_CONSENT_OUTPUT: /tmp/ot-consent-causal-137/trials
+        run: node scripts/diagnose-consent-137.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-consent-causal-137-${{ matrix.engine }}
+          path: /tmp/ot-consent-causal-137
+          retention-days: 30

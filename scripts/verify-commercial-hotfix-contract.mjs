@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // Post-publication visual hotfix. Production is immutable; only enumerated edits are accepted.
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -39,11 +40,12 @@ export function assertPublishedHotfixFile(path,current,original){
 let verified;
 export async function verifyPublishedHotfixScope(directory){
  if(verified===directory)return;
+ verifyApproved134Scope(directory);
  const records=execFileSync('git',['ls-tree','-r','-z',PUBLISHED_REF],{cwd:directory,encoding:'utf8'}).split('\0').filter(Boolean);
  let unchanged=0,bounded=0;
  for(const record of records){
   const match=record.match(/^\d+ blob ([a-f0-9]{40})\t(.+)$/);assert.ok(match,'Expected published blob');
-  const [,id,path]=match,bytes=await readFile(resolve(directory,path));
+  const [,id,path]=match,bytes=projectApproved134(path,await readFile(resolve(directory,path)));
   if(path===ADS_ORIGIN_PATH){
    assertApprovedAdsOriginFile(path,bytes);
    bounded++;

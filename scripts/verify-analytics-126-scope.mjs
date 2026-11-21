@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // Issue #126 — explicit, SHA-pinned exception for the analytics conversion correction.
 // The historic visual/SEO/privacy guards stay active for every other path.
 // A file name alone is NOT authorization; its full Git blob must match the reviewed digest.
@@ -31,6 +32,7 @@ export function isApprovedIssue126Path(path){
  return Object.hasOwn(ISSUE_126_REVIEWED_BLOBS,path);
 }
 export function assertApprovedIssue126File(path,bytes){
+ bytes=projectApproved134(path,bytes);
  assert.ok(isApprovedIssue126Path(path),'Issue #126 never authorizes an unlisted path: '+path);
  assert.equal(blobID(bytes),ISSUE_126_REVIEWED_BLOBS[path],'Issue #126 exact reviewed Git blob: '+path);
  return true;
@@ -39,6 +41,7 @@ export function assertApprovedIssue126File(path,bytes){
 let lastVerified;
 export async function verifyApprovedIssue126Scope(root){
  if(lastVerified===root)return;
+ verifyApproved134Scope(root);
  for(const path of Object.keys(ISSUE_126_REVIEWED_BLOBS)){
   const bytes=await readFile(resolve(root,path));
   assertApprovedIssue126File(path,bytes);
@@ -48,7 +51,7 @@ export async function verifyApprovedIssue126Scope(root){
  const bad=[
   ['assets/js/ot-analytics-core.js',core.replace('url.origin + url.pathname','url.href')],
   ['assets/js/ot-analytics-core.js',core.replace("track('click_whatsapp'","track('generate_lead'")],
-  ['assets/js/ot-analytics.js',loader.replace("ot-analytics-core.js?v=8","ot-analytics-core.js?v=7")]
+  ['assets/js/ot-analytics.js',loader.replace("ot-analytics-core.js?v=9","ot-analytics-core.js?v=7")]
  ];
  for(const [path,mutated] of bad){
   const original=path.endsWith('ot-analytics.js')?loader:core;

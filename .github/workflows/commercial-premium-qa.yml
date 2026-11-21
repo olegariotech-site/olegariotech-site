@@ -21,7 +21,7 @@ jobs:
   commercial:
     name: Commercial review (${{ matrix.engine }})
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:

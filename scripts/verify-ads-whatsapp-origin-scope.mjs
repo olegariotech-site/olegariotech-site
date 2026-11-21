@@ -1,3 +1,4 @@
+import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
 // Issue #127: exact reviewed WhatsApp-attribution runtime blob.
 // Never relax editorial, consent, URL, destination-number or analytics guards.
 import assert from 'node:assert/strict';
@@ -17,6 +18,7 @@ export const ADS_ORIGIN_PAGES=Object.freeze([
 const loaderV1='<script src="/assets/js/ot-commercial-context.js?v=1" defer></script>';
 const loaderV2='<script src="/assets/js/ot-commercial-context.js?v=2" defer></script>';
 export function assertApprovedAdsOriginPage(path,current,approvedBefore){
+ current=projectApproved134(path,current).toString('utf8');
  assert.ok(ADS_ORIGIN_PAGES.includes(path),'Only five commercial pages may update attribution loader');
  assert.equal(approvedBefore.split(loaderV1).length,2,'Exactly one approved original attribution loader');
  assert.equal(current,approvedBefore.replace(loaderV1,loaderV2),
@@ -30,6 +32,7 @@ function gitBlob(bytes){
  return createHash('sha1').update('blob '+data.length+'\0').update(data).digest('hex');
 }
 export function assertApprovedAdsOriginFile(path,bytes){
+ bytes=projectApproved134(path,bytes);
  assert.equal(path,ADS_ORIGIN_PATH,'Ads attribution exception is path-specific');
  assert.equal(gitBlob(bytes),ADS_ORIGIN_BLOB,'Reviewed attribution Git blob must remain exact');
  return true;
@@ -37,11 +40,12 @@ export function assertApprovedAdsOriginFile(path,bytes){
 let verified;
 export async function verifyApprovedAdsOriginScope(root){
  if(verified===root)return;
+ verifyApproved134Scope(root);
  const source=await readFile(resolve(root,ADS_ORIGIN_PATH));
  assertApprovedAdsOriginFile(ADS_ORIGIN_PATH,source);
  const content=source.toString('utf8');
  for(const path of ADS_ORIGIN_PAGES){
-  const page=await readFile(resolve(root,path),'utf8');
+  const page=projectApproved134(path,await readFile(resolve(root,path))).toString('utf8');
   assert.equal(page.split(loaderV2).length,2,'Exactly one v2 attribution loader: '+path);
   assert.ok(!page.includes(loaderV1),'No stale v1 loader: '+path);
  }

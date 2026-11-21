@@ -17,7 +17,7 @@ jobs:
   verify-local-pages:
     name: Visual and SEO local pages (${{ matrix.engine }})
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:

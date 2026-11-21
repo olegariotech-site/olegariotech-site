@@ -30,3 +30,16 @@ jobs:
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          output: /tmp/ot-codeql-137
+
+      - name: Verify actual SARIF finding counts for the four reviewed alerts
+        run: node scripts/verify-codeql-137.mjs /tmp/ot-codeql-137
+
+      - name: Preserve SARIF and per-rule counts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ot-codeql-137-results
+          path: /tmp/ot-codeql-137
+          retention-days: 30
