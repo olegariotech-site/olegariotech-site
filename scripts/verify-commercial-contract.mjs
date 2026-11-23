@@ -116,7 +116,7 @@ export async function mutationChecks(path,current,production){
   ['navigation',current.replace('href="/criacao-de-sites-valinhos/"','href="/destino-incorreto/"')],
   ['schema',current.replace('"@type":"WebPage"','"@type":"FAQPage"')],
   ['OG path',current.replace('/assets/img/commercial/','/assets/img/missing/')],
-  ['origin helper removed',current.replace('<script src="/assets/js/ot-commercial-context.js?v=3" defer></script>','')]
+  ['origin helper removed',current.replace(/<script src="\/assets\/js\/ot-commercial-context\.js\?v=\d+" defer><\/script>/,'')]
  ];
  for(const [label,injected] of [
   ['upper-case script',"<SCRIPT>gtag('event','unapproved');</SCRIPT>"],

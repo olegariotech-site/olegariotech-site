@@ -17,6 +17,6 @@
     "assets/js/ot-analytics.js": "691ac01149e5a05d1679d7b19353869c0b317651",
     "assets/ot-google-measurement.html": "fe0ffdfde0120880971705b9136873c943ad33ec",
     "scripts/verify-analytics-126-scope.mjs": "182cb3a3c20da405648026ac51ac3738fac523b2",
-    "scripts/verify-commercial-contract.mjs": "bdb9a806710415e95b712a03ae3aab761cfa1beb"
+    "scripts/verify-commercial-contract.mjs": "20e7272da349b3bb6ef79963a1768be60be6429c"
   }
 }

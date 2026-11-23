@@ -40,6 +40,17 @@ function measurement(source,debug){
 }
 async function offline(){
  verifyApproved138Scope();
+ // Exercise every existing cache-sensitive commercial mutation against actual
+ // candidate HTML before a browser is needed. A stale anchor must fail here.
+ const contract=await current('scripts/verify-commercial-contract.mjs');
+ const mutationStart=contract.indexOf(' const variants=[',contract.indexOf('export async function mutationChecks'));
+ const mutationEnd=contract.indexOf('\n ];',mutationStart);
+ assert.ok(mutationStart>0&&mutationEnd>mutationStart);
+ for(const path of ['anuncios-google-instagram/index.html','criacao-de-sites-valinhos/index.html','criacao-de-sites-campinas/index.html','diagnostico-digital/index.html','presenca-no-google/index.html']){
+  const html=await current(path),variants=runInNewContext(contract.slice(mutationStart,mutationEnd+4)+'\nvariants;',{current:html});
+  for(const [name,changed] of variants)assert.notEqual(changed,html,'Historical negative control changes actual candidate: '+path+' / '+name);
+ }
+ report.checks.push('All 14 historical commercial mutations change each of the five actual candidate pages, including both revised cache keys');
  const helper=await current('assets/js/ot-commercial-context.js');
  const start='https://olegariotech.com.br/?debug_analytics=1&utm_source=google&utm_medium=cpc&utm_campaign=ot_138';
  const hrefs=['/diagnostico-digital/','/criacao-de-sites-valinhos/','/criacao-de-sites-campinas/','https://wa.me/5511912459144?text=Mensagem%20original','https://external.example/diagnostico-digital/','/privacidade/'];
