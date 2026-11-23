@@ -111,7 +111,7 @@ export async function mutationChecks(path,current,production){
   ['WhatsApp number',current.replaceAll('wa.me/5511912459144','wa.me/5511000000000')],
   ['WhatsApp message',current.replace('text=Ol%C3%A1','text=MensagemALTERADA')],
   ['tracking default',current.replace("analytics_storage:'denied'","analytics_storage:'granted'")],
-  ['tracking script',current.replace('/assets/js/ot-analytics.js?v=10','/assets/js/unapproved-tracker.js')],
+  ['tracking script',current.replace(/\/assets\/js\/ot-analytics\.js\?v=\d+/,'/assets/js/unapproved-tracker.js')],
   ['new event',current.replace('</head>',"<script>gtag('event','unapproved');</script></head>")],
   ['navigation',current.replace('href="/criacao-de-sites-valinhos/"','href="/destino-incorreto/"')],
   ['schema',current.replace('"@type":"WebPage"','"@type":"FAQPage"')],

@@ -12,7 +12,7 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const manifest=JSON.parse(readFileSync(new URL('../docs/reviews/issue-138/approved-delta.json',import.meta.url)));
 assert.equal(manifest.baseRef,BASE138);
 const html=['index.html','anuncios-google-instagram/index.html','criacao-de-sites-campinas/index.html','criacao-de-sites-valinhos/index.html','diagnostico-digital/index.html','presenca-no-google/index.html','cookies/index.html','privacidade/index.html','produtos/index.html'];
-const files=[...html,'assets/js/ot-analytics-core.js','assets/js/ot-commercial-context.js','assets/js/ot-google-measurement.js','assets/js/ot-analytics.js','assets/ot-google-measurement.html','scripts/verify-analytics-126-scope.mjs'];
+const files=[...html,'assets/js/ot-analytics-core.js','assets/js/ot-commercial-context.js','assets/js/ot-google-measurement.js','assets/js/ot-analytics.js','assets/ot-google-measurement.html','scripts/verify-analytics-126-scope.mjs','scripts/verify-commercial-contract.mjs'];
 assert.deepEqual(Object.keys(manifest.reviewedBlobs).sort(),files.toSorted(),'No filename-only runtime exception');
 const cache=new Map();
 function base(path){if(!cache.has(path))cache.set(path,execFileSync('git',['show',BASE138+':'+path],{cwd:root}));return cache.get(path);}

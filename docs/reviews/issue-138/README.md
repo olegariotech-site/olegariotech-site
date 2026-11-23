@@ -13,9 +13,9 @@ As nove páginas mudam apenas versões de cache dos scripts. As versões do núc
 
 ## Preservação dos controles históricos
 
-`approved-delta.json` fixa o hash Git de cada um dos 15 arquivos revistos. `verify-issue-138-scope.mjs` exige esses bytes, limita HTML a versões de cache, preserva literalmente as assertivas do gate #134 e acrescenta nove controles negativos. A projeção para os bytes antigos existe somente nas comparações históricas. Navegadores sempre executam o candidato real.
+`approved-delta.json` fixa o hash Git de cada um dos 16 arquivos revistos. `verify-issue-138-scope.mjs` exige esses bytes, limita HTML a versões de cache, preserva literalmente as assertivas do gate #134 e acrescenta nove controles negativos. A projeção para os bytes antigos existe somente nas comparações históricas. Navegadores sempre executam o candidato real.
 
-O gate #134 recebe três chamadas de integração do novo gate, sem remover ou afrouxar suas comparações ou controles. O controle de cache #126 usa a projeção exata #138 para continuar atacando sua versão histórica; sua mutação negativa permanece ativa. O gate WhatsApp #127 e os manifestos históricos continuam intactos.
+O gate #134 recebe três chamadas de integração do novo gate, sem remover ou afrouxar suas comparações ou controles. O controle negativo de script comercial ataca o loader pela rota e sua versão numérica atual, mantendo a exigência de mutação real e rejeição. O controle de cache #126 usa a projeção exata #138 para continuar atacando sua versão histórica; sua mutação negativa permanece ativa. O gate WhatsApp #127 e os manifestos históricos continuam intactos.
 
 ## Evidência de contas e seus limites
 
