@@ -69,7 +69,7 @@ async function offline(){
 }
 async function browserTest(){
  const {launch,replay,ready,answer,waClick,preferences,snapshot,settled,labelPage,engine,FIXTURE}=await import('./qa-pre-ads-134-lib.mjs');
- const samples=[],raws=[];let browser;
+ const samples=[];let browser;
  report.engine=engine;
  try{
   browser=await launch();report.browser=browser.version();
@@ -77,7 +77,6 @@ async function browserTest(){
   await replay(context,{real:true,report});
   context.on('request',request=>{
    const u=new URL(request.url());if(!/(^|\.)google-analytics\.com$/.test(u.hostname)||u.pathname!=='/g/collect')return;
-   const text=u.search.slice(1)+'&'+(request.postData()||'');raws.push(text);
    for(const line of (request.postData()||'').split('\n')){const p=new URLSearchParams(u.search.slice(1)+'&'+line);for(const name of p.getAll('en'))samples.push({name,debug:p.get('_dbg')==='1'||p.get('ep.debug_mode')==='true'||p.get('ep.debug_mode')==='1',answerKeys:[...p.keys()].some(k=>/answer_category|^ep\.(estrutura|objetivo)$/.test(k))});}
   });
   const page=await context.newPage();labelPage(page,'138-qa-home');
@@ -85,6 +84,11 @@ async function browserTest(){
   assert.equal(report.network.length,0);assert.equal(report.optionalRequests.length,0);
   report.phase='qa-grant';await preferences(page,true,false);
   await page.locator('#ot-ga4-frame').waitFor({state:'attached'});
+  // Observe the real home hit before leaving its disposable SDK document.
+  // An attached iframe alone is not evidence that the external library loaded.
+  const homeDeadline=Date.now()+45000;
+  while(!samples.some(x=>x.name==='page_view')&&Date.now()<homeDeadline)await settled(report,250);
+  assert.equal(samples.filter(x=>x.name==='page_view').length,1,'Home emits exactly one real page_view before navigation');
   await page.locator('#inicio .btn-primary').click();await page.waitForURL(u=>u.pathname==='/diagnostico-digital/');
   assert.equal(new URL(page.url()).searchParams.get('debug_analytics'),'1');assert.equal(new URL(page.url()).searchParams.get('utm_campaign'),'ot_138_qa');
   await page.waitForFunction(()=>Boolean(window.OTAnalytics));labelPage(page,'138-qa-diagnostic');
