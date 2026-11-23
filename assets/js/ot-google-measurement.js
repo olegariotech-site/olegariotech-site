@@ -57,7 +57,7 @@
   Element.prototype[name]=function(...nodes){if(!permitted()&&nodes.some(containsScript))return;if(!nodes.every(scriptEndpointsAllowed))return;return original.apply(this,nodes);};
  }
  Object.defineProperty(window,'OTGoogleMeasurement',{value:Object.freeze({stop(){revoked=true;active=false;}})});
- const names=new Set(['page_path','page_title','cta_text','cta_location','destination_url','plan_name','plan_tier','project_name','product_name','social_network','solution_name','audio_state','question_name','answer_category','step_number','completed_steps','section_name','percent','percent_scrolled','estrutura','objetivo','utm_source','utm_medium','utm_campaign','utm_content','utm_term']);
+ const names=new Set(['page_path','page_title','cta_text','cta_location','destination_url','plan_name','plan_tier','project_name','product_name','social_network','solution_name','audio_state','question_name','step_number','completed_steps','section_name','percent','percent_scrolled','utm_source','utm_medium','utm_campaign','utm_content','utm_term']);
  function pageURL(value){
   const input=new URL(value),url=new URL(location.origin);
   if(input.origin!==location.origin)throw Error('Unexpected measurement origin');
@@ -87,7 +87,9 @@
    window.gtag=function(){window.dataLayer.push(arguments);};
    window.gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
    window.gtag('js',new Date());
-   window.gtag('config',data.id,{page_location:pageLocation,page_referrer:pageReferrer,page_title:document.title,allow_google_signals:false,allow_ad_personalization_signals:false,send_page_view:data.sendPageView===true,debug_mode:data.debug===true});
+   const config={page_location:pageLocation,page_referrer:pageReferrer,page_title:document.title,allow_google_signals:false,allow_ad_personalization_signals:false,send_page_view:data.sendPageView===true};
+   if(data.debug===true)config.debug_mode=true;
+   window.gtag('config',data.id,config);
    const script=document.createElement('script');script.id='ot-ga4-script';script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(data.id);document.head.appendChild(script);
   }else if(data.type==='ot-google-event'&&started&&permitted()){
    const value=data.event;

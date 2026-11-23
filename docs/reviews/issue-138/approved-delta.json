@@ -1,0 +1,22 @@
+{
+  "baseRef": "a09087d4aaf33b590ea3cc77e3357ef92d8b33bd",
+  "purpose": "Issue 138 only: explicit QA navigation, no answer payloads, omitted normal debug, cache keys and preserved negative controls. Historical projection is test-only; browsers always execute candidate bytes.",
+  "reviewedBlobs": {
+    "index.html": "92459d0b41c1807551611fb2b5026ba146396715",
+    "anuncios-google-instagram/index.html": "dfaa912984c6d9ee3d7fe1deb71364565cdf8734",
+    "criacao-de-sites-campinas/index.html": "a6edb51f324a5b6b026ced90fecb45238ff620d3",
+    "criacao-de-sites-valinhos/index.html": "d11d1c425440e68848a82cfce7a29bcea9ca70a2",
+    "diagnostico-digital/index.html": "1a32f42a73a9f055272027458e71f2e26adc6a19",
+    "presenca-no-google/index.html": "13117e16c73feb4e888ca6391c130e7c6a7f23b1",
+    "cookies/index.html": "9ebac31e19a418c3e91334a389edd52651297f48",
+    "privacidade/index.html": "ba5939581fe80d6c3b7d986426fbe956e249328e",
+    "produtos/index.html": "09ce0b5271a0f66e53ebae1ea195e1e81323c05c",
+    "assets/js/ot-analytics-core.js": "ae6de710e755747b197522598dfae88ae32e74a9",
+    "assets/js/ot-commercial-context.js": "357b32d44f510c41047a0df93e82b516486abd84",
+    "assets/js/ot-google-measurement.js": "fe7c99daa91baa8f6a42fb2f5a3aa28da067007e",
+    "assets/js/ot-analytics.js": "691ac01149e5a05d1679d7b19353869c0b317651",
+    "assets/ot-google-measurement.html": "fe0ffdfde0120880971705b9136873c943ad33ec",
+    "scripts/verify-analytics-126-scope.mjs": "182cb3a3c20da405648026ac51ac3738fac523b2",
+    "scripts/verify-commercial-contract.mjs": "20e7272da349b3bb6ef79963a1768be60be6429c"
+  }
+}
