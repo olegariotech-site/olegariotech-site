@@ -113,12 +113,13 @@
     if (!googleConfigured) {
       googleConfigured = true;
       window.gtag('js', new Date());
-      window.gtag('config', GA_ID, {
+      const config = {
         allow_google_signals: false,
         allow_ad_personalization_signals: false,
-        send_page_view: true,
-        debug_mode: new URLSearchParams(location.search).get('debug_analytics') === '1'
-      });
+        send_page_view: true
+      };
+      if (new URLSearchParams(location.search).get('debug_analytics') === '1') config.debug_mode = true;
+      window.gtag('config', GA_ID, config);
     }
     if (!googleFrame) {
       // A loaded Google SDK can flush its own old event queue after opt-out.
@@ -130,7 +131,7 @@
       frame.title = 'Medição opcional autorizada';
       frame.setAttribute('aria-hidden', 'true');
       frame.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-      frame.src = '/assets/ot-google-measurement.html?v=1';
+      frame.src = '/assets/ot-google-measurement.html?v=2';
       googleFrame = frame;
       frame.addEventListener('load', function () {
         if (googleFrame !== frame || !hasConsent('analytics')) return;
@@ -428,7 +429,6 @@
           diagnosticAnswers.add(name);
           track('diagnostico_resposta', {
             question_name: safeText(name),
-            answer_category: safeText(option.dataset.value),
             step_number: Number(step.dataset.step) + 1
           });
         }

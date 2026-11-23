@@ -1,6 +1,7 @@
 // Issue #134 authorization: bounded cache/accessibility edits and frozen runtime deltas.
 // Historical assertions see their own approved bytes ONLY after this independent gate.
 // Browser tests always serve the actual candidate files, never this test-only projection.
+import {projectApproved138,verifyApproved138Scope} from './verify-issue-138-scope.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -31,6 +32,7 @@ export function approved134HTML(path){
  return text;
 }
 export function projectApproved134(path,input){
+ input=projectApproved138(path,input);
  const bytes=Buffer.isBuffer(input)?input:Buffer.from(input);
  if(CORRECTION_NEW_RUNTIME.includes(path)){assert.equal(blob(bytes),manifest.reviewedBlobs[path],'Exact new SDK-lifecycle asset: '+path);return bytes;}
  // Idempotent composition of the historical layers. The entry gate below requires
@@ -56,6 +58,7 @@ export function projectApproved134(path,input){
  return bytes;
 }
 export function verifyApproved134Scope(directory=root){
+ verifyApproved138Scope(directory);
  for(const path of CORRECTION_NEW_RUNTIME)projectApproved134(path,readFileSync(resolve(directory,path)));
  for(const path of [...CORRECTION_HTML,...CORRECTION_PINNED,'assets/js/ot-analytics.js']){
   const bytes=readFileSync(resolve(directory,path));

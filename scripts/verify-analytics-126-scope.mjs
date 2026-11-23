@@ -1,4 +1,5 @@
 import {projectApproved134,verifyApproved134Scope} from './verify-pre-ads-134-scope.mjs';
+import {projectApproved138} from './verify-issue-138-scope.mjs';
 // Issue #126 — explicit, SHA-pinned exception for the analytics conversion correction.
 // The historic visual/SEO/privacy guards stay active for every other path.
 // A file name alone is NOT authorization; its full Git blob must match the reviewed digest.
@@ -47,7 +48,7 @@ export async function verifyApprovedIssue126Scope(root){
   assertApprovedIssue126File(path,bytes);
  }
  const core=(await readFile(resolve(root,'assets/js/ot-analytics-core.js'))).toString('utf8');
- const loader=(await readFile(resolve(root,'assets/js/ot-analytics.js'))).toString('utf8');
+ const loader=projectApproved138('assets/js/ot-analytics.js',await readFile(resolve(root,'assets/js/ot-analytics.js'))).toString('utf8');
  const bad=[
   ['assets/js/ot-analytics-core.js',core.replace('url.origin + url.pathname','url.href')],
   ['assets/js/ot-analytics-core.js',core.replace("track('click_whatsapp'","track('generate_lead'")],

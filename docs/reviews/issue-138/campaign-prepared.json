@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "prepared_only": true,
+  "account_id": "234-607-3384",
+  "campaign": "OT | Search | Criação de Sites | Valinhos + Campinas | V1",
+  "status": "PAUSED",
+  "type": "SEARCH",
+  "networks": {
+    "google_search": true,
+    "search_partners": false,
+    "display": false
+  },
+  "locations": [
+    "Valinhos, São Paulo, Brasil",
+    "Campinas, São Paulo, Brasil"
+  ],
+  "location_option": "PRESENCE",
+  "language": "pt",
+  "budget": {
+    "type": "CAMPAIGN_TOTAL",
+    "amount_brl": 140,
+    "duration_days": 7,
+    "start_date": null,
+    "end_date": null,
+    "fallback": "Se o orçamento total não aparecer na conta, interromper a criação para revisar um limite rígido. Não substituir silenciosamente por orçamento diário."
+  },
+  "bidding": {
+    "strategy": "MAXIMIZE_CLICKS",
+    "max_cpc_brl": 3,
+    "cpc_is_unvalidated_starting_hypothesis": true
+  },
+  "conversion_goal": "Cliques de intenção e diagnóstico em observação; nenhum lance automático por lead até homologação",
+  "final_url_suffix": "utm_source=google&utm_medium=cpc&utm_campaign=ot_search_sites_v1&utm_content={adgroupid}-{creative}",
+  "auto_tagging": "Verificar e habilitar somente após autorização. Não inventar GCLID nem copiá-lo para WhatsApp.",
+  "schedule": "08:00–20:00 America/Sao_Paulo, todos os dias; proposta a revisar com disponibilidade de atendimento",
+  "ad_groups": [
+    {
+      "name": "Sites Valinhos",
+      "status": "PAUSED",
+      "final_url": "https://olegariotech.com.br/criacao-de-sites-valinhos/",
+      "keywords": [
+        {
+          "text": "criação de sites valinhos",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criação de sites valinhos",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criar site valinhos",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criar site valinhos",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        },
+        {
+          "text": "empresa de sites valinhos",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "empresa de sites valinhos",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        }
+      ],
+      "rsa": {
+        "status": "PAUSED",
+        "headlines": [
+          "Criação de Sites em Valinhos",
+          "Sites Profissionais | Valinhos",
+          "Olegario Tech",
+          "Site com WhatsApp Integrado",
+          "Conheça Nossos Projetos",
+          "Seu Negócio Bem Apresentado",
+          "Fale Direto com a OT",
+          "Site para Seu Negócio"
+        ],
+        "descriptions": [
+          "Apresente seus serviços e facilite pedidos no WhatsApp. Conheça projetos reais da OT.",
+          "Site para sua empresa em Valinhos. Fale com a OT e receba uma proposta.",
+          "Estrutura clara, apresentação profissional e atendimento direto. Veja como a OT trabalha."
+        ],
+        "path1": "sites",
+        "path2": "valinhos"
+      }
+    },
+    {
+      "name": "Sites Campinas",
+      "status": "PAUSED",
+      "final_url": "https://olegariotech.com.br/criacao-de-sites-campinas/",
+      "keywords": [
+        {
+          "text": "criação de sites campinas",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criação de sites campinas",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criar site campinas",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "criar site campinas",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        },
+        {
+          "text": "empresa de sites campinas",
+          "match_type": "EXACT",
+          "status": "PAUSED"
+        },
+        {
+          "text": "empresa de sites campinas",
+          "match_type": "PHRASE",
+          "status": "PAUSED"
+        }
+      ],
+      "rsa": {
+        "status": "PAUSED",
+        "headlines": [
+          "Criação de Sites em Campinas",
+          "Sites Profissionais | Campinas",
+          "Olegario Tech",
+          "Site com WhatsApp Integrado",
+          "Conheça Nossos Projetos",
+          "Seu Negócio Bem Apresentado",
+          "Fale Direto com a OT",
+          "Site para Seu Negócio"
+        ],
+        "descriptions": [
+          "Apresente seus serviços e facilite pedidos no WhatsApp. Conheça projetos reais da OT.",
+          "Site para sua empresa em Campinas. Fale com a OT e receba uma proposta.",
+          "Estrutura clara, apresentação profissional e atendimento direto. Veja como a OT trabalha."
+        ],
+        "path1": "sites",
+        "path2": "campinas"
+      }
+    }
+  ],
+  "negative_phrase": [
+    "curso",
+    "cursos",
+    "emprego",
+    "vaga",
+    "salário",
+    "tutorial",
+    "como fazer",
+    "criar site grátis",
+    "site gratuito",
+    "template",
+    "modelo pronto"
+  ],
+  "launch_requires": [
+    "PR aprovado e publicado em etapa posterior",
+    "QA real da propriedade e conversões homologadas",
+    "Vínculo da propriedade correta e auto-tagging confirmados",
+    "Consentimento para uso publicitário decidido e testado",
+    "Ações existentes revisadas para evitar duplicação",
+    "Datas e teto total confirmados; conta continua pausada até ordem explícita"
+  ]
+}

@@ -37,6 +37,8 @@
    const value=incoming.searchParams.get(key);
    if(value&&/^[a-z0-9._~-]{1,100}$/i.test(value)&&!url.searchParams.has(key))url.searchParams.set(key,value);
   }
+  // Explicit QA is URL-local: no storage and no signal on external/WhatsApp links.
+  if(incoming.searchParams.get('debug_analytics')==='1')url.searchParams.set('debug_analytics','1');
   if(url.href!==new URL(original,location.href).href)link.href=url.href;
  }
  function decorateTree(node){
