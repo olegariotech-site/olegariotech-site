@@ -16,78 +16,78 @@ jobs:
         with:
           node-version: '22'
       - name: Read immutable evidence from run 44794127833
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794127833
           path: /tmp/ot137-recovered/run-44794127833
       - name: Read immutable evidence from run 44794127888
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794127888
           path: /tmp/ot137-recovered/run-44794127888
       - name: Read immutable evidence from run 44794128133
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794128133
           path: /tmp/ot137-recovered/run-44794128133
       - name: Read immutable evidence from run 44794128124
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794128124
           path: /tmp/ot137-recovered/run-44794128124
       - name: Read immutable evidence from run 44794128014
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794128014
           path: /tmp/ot137-recovered/run-44794128014
       - name: Read immutable evidence from run 44794127847
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794127847
           path: /tmp/ot137-recovered/run-44794127847
       - name: Read immutable evidence from run 44794128160
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44794128160
           path: /tmp/ot137-recovered/run-44794128160
       - name: Read later causal evidence from run 44800958287
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44800958287
           path: /tmp/ot137-recovered/run-44800958287
       - name: Read later causal evidence from run 44799569434
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44799569434
           path: /tmp/ot137-recovered/run-44799569434
       - name: Read later causal evidence from run 44799569379
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44799569379
           path: /tmp/ot137-recovered/run-44799569379
       - name: Read later causal evidence from run 44799569386
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44799569386
           path: /tmp/ot137-recovered/run-44799569386
       - name: Read supplementary prior journeys and resource timing
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44801920097
