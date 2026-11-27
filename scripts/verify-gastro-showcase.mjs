@@ -34,7 +34,7 @@ try{
   const direct=section.locator('.ot-gastro__primary'),wa=section.locator('.ot-gastro__secondary'),qr=section.locator('.ot-gastro__qr img');
   assert.equal(await direct.getAttribute('href'),dest);assert.equal(await direct.getAttribute('target'),'_blank');assert.equal(await direct.getAttribute('rel'),'noopener noreferrer');
   assert.equal(new URL(await wa.getAttribute('href')).pathname,'/5511912459144');assert.match(new URL(await wa.getAttribute('href')).searchParams.get('text'),/Cardápio 3D/);
-  const png=PNG.sync.read(await qr.screenshot());const decoded=jsQR(new Uint8ClampedArray(png.data),png.width,png.height);assert.equal(decoded?.data,dest,'Actual rendered QR decodes');
+  await qr.evaluate(e=>e.scrollIntoView({block:'center',inline:'center',behavior:'instant'}));await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const qrBytes=await qr.screenshot({animations:'disabled'});await writeFile(resolve(out,'qr-'+width+'.png'),qrBytes);const png=PNG.sync.read(qrBytes);const decoded=jsQR(new Uint8ClampedArray(png.data),png.width,png.height);assert.equal(decoded?.data,dest,'Actual rendered QR decodes');
   await section.locator('[data-gastro-copy]').click();assert.equal(await page.evaluate(()=>window.__gastroCopied),dest);
   await section.locator('[data-gastro-share]').click();assert.equal(await page.evaluate(()=>window.__gastroShared.url),dest);
   await page.evaluate(()=>{Object.defineProperty(navigator,'share',{configurable:true,value:undefined});window.__gastroCopied='';});await section.locator('[data-gastro-share]').click();assert.equal(await page.evaluate(()=>window.__gastroCopied),dest);

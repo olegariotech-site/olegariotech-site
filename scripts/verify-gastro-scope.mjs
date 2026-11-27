@@ -22,7 +22,7 @@ function stripHome(bytes){
  const remove=pattern=>{const matches=[...s.matchAll(pattern)];assert.equal(matches.length,1,'Exactly one bounded Gastro insertion: '+pattern);s=s.replace(pattern,'');};
  remove(/\n<p class="ot-gastro__jump">[^\n]*<\/p>\n/g);
  remove(/\n    <!-- OT GASTRO LAB SHOWCASE START -->[\s\S]*?    <!-- OT GASTRO LAB SHOWCASE END -->/g);
- remove(/  <link rel="stylesheet" href="\/assets\/css\/ot-gastro-showcase\.css\?v=2">\n  <script src="\/assets\/js\/ot-gastro-showcase\.js\?v=1" defer><\/script>\n/g);
+ remove(/  <link rel="stylesheet" href="\/assets\/css\/ot-gastro-showcase\.css\?v=3">\n  <script src="\/assets\/js\/ot-gastro-showcase\.js\?v=1" defer><\/script>\n/g);
  return Buffer.from(s);
 }
 export function assertGastroBlob(path,input){

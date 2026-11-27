@@ -77,15 +77,14 @@ try{
    let gastroActual=null;
    if(url==='/'&&name==='after'){
     const showcase=page.locator('#cardapio-3d'),jump=page.locator('.ot-gastro__jump');
-    assert.equal(await showcase.count(),1,'Exactly one approved showcase');assert.equal(await jump.count(),1);
-    const actual=await geometry(page);assert.ok(actual.scroll<=width+2,'Full candidate has no horizontal overflow');
+    if(await showcase.count()!==1||await jump.count()!==1)throw Error('Exactly one approved showcase and jump required');
+    const actual=await geometry(page);if(actual.scroll>width+2)throw Error('Full candidate has horizontal overflow');
     const fullCapture='visual-home-'+width+'-after-full-gastro.png';await page.screenshot({path:resolve(out,fullCapture),animations:'disabled'});
     const actualStable=await geometry(page);
-    const box=await showcase.boundingBox();assert.ok(box&&box.width>0&&box.height>0);
-    assert.ok(await showcase.locator('h2').isVisible());assert.ok(await showcase.locator('.ot-gastro__primary').isVisible());
+    const box=await showcase.boundingBox();if(!box||box.width<=0||box.height<=0||!await showcase.locator('h2').isVisible()||!await showcase.locator('.ot-gastro__primary').isVisible())throw Error('Full candidate showcase or CTA not visible');
     // Historical geometry control only: remove the two exact approved additions
     // in this comparison page after capturing the real candidate. No served bytes change.
-    await page.evaluate(()=>{document.querySelector('#cardapio-3d').style.setProperty('display','none','important');document.querySelector('.ot-gastro__jump').style.setProperty('display','none','important');});
+    await page.evaluate(()=>{document.querySelector('#cardapio-3d').remove();document.querySelector('.ot-gastro__jump').remove();});
     await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
     gastroActual={fullCapture,actual:actualStable,showcaseBox:box};
    }
