@@ -2,6 +2,7 @@
 // Historical assertions receive their previously reviewed bytes only AFTER this
 // gate validates every actual candidate. Browser tests never use that projection.
 import assert from 'node:assert/strict';
+import {projectApprovedGastro,verifyApprovedGastroScope,isApprovedGastroPath} from './verify-gastro-scope.mjs';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
@@ -18,19 +19,20 @@ const cache=new Map();
 function base(path){if(!cache.has(path))cache.set(path,execFileSync('git',['show',BASE138+':'+path],{cwd:root}));return cache.get(path);}
 const blob=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
 export function assertCandidate138(path,input){
- const bytes=Buffer.isBuffer(input)?input:Buffer.from(input);
+ const bytes=projectApprovedGastro(path,input);
  assert.ok(files.includes(path),'Only the reviewed delta has a projection');
  assert.equal(blob(bytes),manifest.reviewedBlobs[path],'Exact reviewed Issue 138 bytes: '+path);
  return true;
 }
 export function projectApproved138(path,input){
- const bytes=Buffer.isBuffer(input)?input:Buffer.from(input);
+ const bytes=projectApprovedGastro(path,input);
  if(files.includes(path)&&blob(bytes)===manifest.reviewedBlobs[path])return base(path);
  // No blanket exception: all other bytes continue to the unchanged historical
  // comparisons and negative controls, where unauthorized variants must fail.
  return bytes;
 }
 export function verifyApproved138Scope(directory=root){
+ verifyApprovedGastroScope(directory);
  for(const path of files)assertCandidate138(path,readFileSync(resolve(directory,path)));
  const guard='scripts/verify-pre-ads-134-scope.mjs';
  let expected=base(guard).toString();
@@ -40,7 +42,7 @@ export function verifyApproved138Scope(directory=root){
  assert.equal(readFileSync(resolve(directory,guard),'utf8'),expected,'Only the new gate hooks may change the historical guard; every prior assertion stays literal');
  for(const path of html){
   let expected=base(path).toString().replace('/assets/js/ot-analytics.js?v=10','/assets/js/ot-analytics.js?v=11').replace('/assets/js/ot-commercial-context.js?v=3','/assets/js/ot-commercial-context.js?v=4');
-  assert.equal(readFileSync(resolve(directory,path),'utf8'),expected,'HTML changes are cache keys only: '+path);
+  assert.equal(projectApprovedGastro(path,readFileSync(resolve(directory,path))).toString('utf8'),expected,'HTML changes are cache keys only: '+path);
  }
  const negative=[
   ['assets/js/ot-commercial-context.js',"if(url.origin!==location.origin||!sources[url.pathname])return;","if(false)return;"],
@@ -56,7 +58,7 @@ export function verifyApproved138Scope(directory=root){
  for(const [path,before,after] of negative){const source=readFileSync(resolve(directory,path),'utf8'),mutated=source.replace(before,after);assert.notEqual(mutated,source,'Negative control changes real bytes: '+path);assert.throws(()=>assertCandidate138(path,mutated));}
  const changed=execFileSync('git',['diff','--name-only',BASE138,'--'],{cwd:directory,encoding:'utf8'}).trim().split('\n').filter(Boolean);
  const allowed=new Set([...files,guard]);
- for(const path of changed)assert.ok(allowed.has(path)||path.startsWith('docs/reviews/issue-138/')||path==='scripts/verify-issue-138-scope.mjs'||path==='scripts/verify-issue-138.mjs'||path==='.github/workflows/issue-138-qa.yml','No unrelated tracked change: '+path);
+ for(const path of changed)assert.ok(allowed.has(path)||path.startsWith('docs/reviews/issue-138/')||path==='scripts/verify-issue-138-scope.mjs'||path==='scripts/verify-issue-138.mjs'||path==='.github/workflows/issue-138-qa.yml'||isApprovedGastroPath(path),'No unrelated tracked change: '+path);
  return {status:'PASS',base:BASE138,pinnedFiles:files.length,negativeControls:negative.length,historicalAssertions:'preserved'};
 }
 if(process.argv[1]===fileURLToPath(import.meta.url))console.log(JSON.stringify(verifyApproved138Scope()));

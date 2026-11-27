@@ -1,0 +1,6 @@
+/* OT Gastro Lab: progressively enhanced link controls; no network or telemetry. */
+(()=>{"use strict";const root=document.getElementById("cardapio-3d");if(!root)return;
+const input=root.querySelector("[data-gastro-url]"),copy=root.querySelector("[data-gastro-copy]"),share=root.querySelector("[data-gastro-share]"),feedback=root.querySelector("[data-gastro-feedback]");if(!input||!copy||!share||!feedback)return;
+const say=text=>{feedback.textContent=text};
+async function copyLink(){try{if(!navigator.clipboard?.writeText)throw new Error("Clipboard unavailable");await navigator.clipboard.writeText(input.value);say("Link copiado!");}catch{input.focus();input.select();try{if(document.execCommand("copy")){say("Link copiado!");return}}catch{}say("Link selecionado. Copie pelo menu do aparelho.");}}
+copy.hidden=false;share.hidden=false;copy.addEventListener("click",copyLink);share.addEventListener("click",async()=>{if(typeof navigator.share==="function"){try{await navigator.share({title:"OT Cardápio 3D",text:"Experimente o OT Gastro Lab",url:input.value});say("");return}catch(error){if(error.name==="AbortError")return}}await copyLink()});input.addEventListener("focus",()=>input.select());})();

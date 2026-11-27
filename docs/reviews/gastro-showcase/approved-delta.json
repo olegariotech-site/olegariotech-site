@@ -1,0 +1,17 @@
+{
+  "baseRef": "660037e53e8a87dcc91a3167d6390d34b5bc3883",
+  "review": "PR #141 Gastro Lab Premium V2; direction approved continued implementation and narrowly scoped QA evolution; no publication until actual regressions pass",
+  "reviewedBlobs": {
+    "assets/css/ot-gastro-showcase.css": "20fbfc8ce42ace2a4b545285166c11cd23722b72",
+    "assets/img/gastro/bolo-chocolate-morangos-v03.webp": "b1c761c1910065ccd939a7ce037b004b6eb4e095",
+    "assets/img/gastro/cardapio-qr.svg": "f265c145b850f9c7fd1a0e508adae01201619be7",
+    "assets/img/gastro/hamburguer.webp": "bc409b4a528338f362eb6488c804a96a87ade8ce",
+    "assets/img/gastro/pizza-especial-v03.webp": "d1ec3a109021818c8cff7f9a6f33babe2b6a210e",
+    "assets/js/ot-gastro-showcase.js": "704f98804fe49101ca47995525b3e28c266090e7",
+    "index.html": "c3abcac1504959d787ef3a92e86cc402e2f29fe8",
+    "scripts/verify-issue-138-scope.mjs": "0e00254d7c194780ec518863e970f0983fe8aaec",
+    "scripts/verify-pre-ads-134-journeys.mjs": "4a2a531b612810bdf1914a53d419a083ad4491db",
+    "scripts/verify-gastro-showcase.mjs": "a8ad717e54783041fa91f686bbf4fe5164524e79",
+    ".github/workflows/gastro-showcase-qa.yml": "cbca03450df62d7574c435a11c103dd515e063a1"
+  }
+}
