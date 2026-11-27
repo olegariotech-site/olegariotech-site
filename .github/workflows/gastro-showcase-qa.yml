@@ -1,0 +1,44 @@
+name: OT Gastro Lab showcase
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'assets/**/ot-gastro*'
+      - 'assets/img/gastro/**'
+      - 'scripts/*gastro*'
+      - 'scripts/verify-issue-138-scope.mjs'
+      - 'scripts/verify-pre-ads-134-journeys.mjs'
+      - 'docs/reviews/gastro-showcase/**'
+      - '.github/workflows/gastro-showcase-qa.yml'
+permissions:
+  contents: read
+jobs:
+  showcase:
+    name: Gastro showcase (${{ matrix.engine }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit, firefox]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.10.2 pngjs@7.0.0 jsqr@1.4.0
+      - run: npx playwright install --with-deps ${{ matrix.engine }}
+      - run: node scripts/build-showroom.mjs --check
+      - run: node scripts/verify-issue-138-scope.mjs
+      - run: node scripts/verify-gastro-showcase.mjs
+        env:
+          OT_GASTRO_ENGINE: ${{ matrix.engine }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ot-gastro-showcase-${{ matrix.engine }}
+          path: /tmp/ot-gastro-qa
+          retention-days: 30

@@ -73,11 +73,27 @@ try{
  if(before)for(const url of ['/','/criacao-de-sites-valinhos/','/criacao-de-sites-campinas/','/presenca-no-google/','/anuncios-google-instagram/','/diagnostico-digital/'])for(const width of [390,1366]){
   const pair=[];
   for(const [name,base] of [['before',resolve(before)],['after',root]]){
-   const c=await context(width,undefined,base),page=await c.newPage();await ready(page,url);const beforeCapture=await geometry(page);
+   const c=await context(width,undefined,base),page=await c.newPage();await ready(page,url);
+   let gastroActual=null;
+   if(url==='/'&&name==='after'){
+    const showcase=page.locator('#cardapio-3d'),jump=page.locator('.ot-gastro__jump');
+    assert.equal(await showcase.count(),1,'Exactly one approved showcase');assert.equal(await jump.count(),1);
+    const actual=await geometry(page);assert.ok(actual.scroll<=width+2,'Full candidate has no horizontal overflow');
+    const fullCapture='visual-home-'+width+'-after-full-gastro.png';await page.screenshot({path:resolve(out,fullCapture),animations:'disabled'});
+    const actualStable=await geometry(page);
+    const box=await showcase.boundingBox();assert.ok(box&&box.width>0&&box.height>0);
+    assert.ok(await showcase.locator('h2').isVisible());assert.ok(await showcase.locator('.ot-gastro__primary').isVisible());
+    // Historical geometry control only: remove the two exact approved additions
+    // in this comparison page after capturing the real candidate. No served bytes change.
+    await page.evaluate(()=>{document.querySelector('#cardapio-3d').style.setProperty('display','none','important');document.querySelector('.ot-gastro__jump').style.setProperty('display','none','important');});
+    await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+    gastroActual={fullCapture,actual:actualStable,showcaseBox:box};
+   }
+   const beforeCapture=await geometry(page);
    // Compare the geometry represented by the required screenshot. WebKit exposes
    // parsed CSSOM/FontFaceSet.ready before its first committed rendering update;
    // same-source ABBA evidence records different cold rects but identical pixels.
-   const capture='visual-'+(url==='/'?'home':url.replaceAll('/',''))+'-'+width+'-'+name+'.png';await page.screenshot({path:resolve(out,capture),animations:'disabled'});const info=await geometry(page);pair.push({info,beforeCapture,capture});await c.close();
+   const capture='visual-'+(url==='/'?'home':url.replaceAll('/',''))+'-'+width+'-'+name+'.png';await page.screenshot({path:resolve(out,capture),animations:'disabled'});const info=await geometry(page);pair.push({info,beforeCapture,capture,gastroActual});await c.close();
   }
   report.visualPending={url,width,before:pair[0],after:pair[1]};await save('journeys.json',report);
   assert.equal(pair[0].info.h1,pair[1].info.h1);
